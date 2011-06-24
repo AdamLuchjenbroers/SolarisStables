@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-1 -*-
 from django.conf.urls.defaults import *
 
 # Uncomment the next two lines to enable the admin:
@@ -6,7 +7,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
     # Example:
-    # (r'^solaris/', include('solaris.foo.urls')),
+    (r'^$', 'solaris.view.Main.index'),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
