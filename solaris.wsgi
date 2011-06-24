@@ -1,5 +1,5 @@
 import os, sys
-sys.path.append('/var/www/solaris')
+sys.path.append('/usr/local/django')
 sys.path.append('/usr/local/python')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'solaris.settings'
 
