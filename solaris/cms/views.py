@@ -2,9 +2,12 @@
 from django.http import HttpResponse
 from django_genshi import loader
 from genshi import Markup
-from solaris.urls import navigation_options
+from solaris.cms.models import StaticContent
 
-def static_content(request, selected='>', content=''):
+def static_content(request, selected='>'):
+    navigation_options = [(page.title,page.url) for page in StaticContent.objects.filter(toplevel=True).order_by('order')]
+    content = (StaticContent.objects.get(url='/%s' % selected)).content
+  
     template = loader.get_template('basic.tmpl')
     
     body = Markup(content)   

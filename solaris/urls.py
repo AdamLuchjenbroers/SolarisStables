@@ -6,19 +6,16 @@ from solaris.cms.models import StaticContent
 
 admin.autodiscover()
 
-navigation_options = [(page.title,page.url) for page in StaticContent.objects.filter(toplevel=True).order_by('order')]
-
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
+    
 )
 
-for page in StaticContent.objects.all():
-  urlpatterns += patterns('',
-    (r'^%s$' % page.url[1:], 'solaris.cms.views.static_content',{'selected': page.url, 'content': page.content }),    
-)
-
-# Make static content work using the Django dev server.
-# On the Apache server, this is done using an aliased directory
 if settings.USE_DJANGO_STATIC:
     from django.conf.urls.static import static
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+ 
+# Add this entry last - if it isn't matched to a specific app, see if we have it as static content.
+urlpatterns += patterns('',
+    (r'^(?P<selected>.*)$', 'solaris.cms.views.static_content')
+)
