@@ -2,21 +2,19 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from solaris import settings
+from solaris.cms.models import StaticContent
 
 admin.autodiscover()
 
-navigation_options = [
-  ('Main','/'),
-  ('Mech Lists','/mechs'),
-  ('Rules','/rules')
-]
+navigation_options = [(page.title,page.url) for page in StaticContent.objects.all()]
 
 urlpatterns = patterns('',
-    # Example:
-    (r'^$', 'solaris.view.StaticPage.render',{'selected': '/', 'content': 'Coming Soon' }),
-    (r'^mechs/$', 'solaris.view.StaticPage.render',{'selected': '/mechs', 'content': 'Mechs!' }),
-    (r'^rules/$', 'solaris.view.StaticPage.render',{'selected': '/rules', 'content': 'Rules!' }),
     (r'^admin/', include(admin.site.urls)),
+)
+
+for page in StaticContent.objects.all():
+  urlpatterns += patterns('',
+    (r'^%s$' % page.url[1:], 'solaris.cms.views.static_content',{'selected': page.url, 'content': page.content }),    
 )
 
 # Make static content work using the Django dev server.
