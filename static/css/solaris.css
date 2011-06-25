@@ -39,9 +39,9 @@ img#logo {
 div.toolbar {
   position: absolute;
   top: 250px;
-  left: 0px;
+  left: 60px;
   width: 100%;
-  
+    
   border-top-width: 4px;
   border-top-style: solid;
   border-top-color: #444444;  
@@ -49,27 +49,28 @@ div.toolbar {
   border-bottom-width: 4px;
   border-bottom-style: solid;
   border-bottom-color: #444444;
-  
-  background-color: #BBBBBB;
 }
 
 div.toolbar span {
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 6px;
-  padding-right: 6px;
+  padding-right:6px;
   
-  margin:0px;
+  margin: 0px;
+
 
   border-right-width: 4px;
   border-right-style: solid;
   border-right-color: #444444; 
+  
+  background-color: #BBBBBB;
 }
 
 div.toolbar span#selected {
   margin:0px;
  
-  background-color: #444488;
+  background-color: #660000;
   color: #FFFFFF;  
 }
 
