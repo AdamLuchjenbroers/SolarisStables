@@ -7,3 +7,6 @@ class StaticContent(models.Model):
   content = models.TextField()
   toplevel = models.BooleanField()
   order = models.IntegerField()
+  
+  def __unicode__(self):
+        return '%s (%s)' % (self.title, self.url)
