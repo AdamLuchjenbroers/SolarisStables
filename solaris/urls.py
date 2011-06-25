@@ -6,7 +6,7 @@ from solaris.cms.models import StaticContent
 
 admin.autodiscover()
 
-navigation_options = [(page.title,page.url) for page in StaticContent.objects.all()]
+navigation_options = [(page.title,page.url) for page in StaticContent.objects.filter(toplevel=True).order_by('order')]
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
