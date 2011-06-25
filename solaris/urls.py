@@ -1,6 +1,5 @@
 # -*- coding: iso-8859-1 -*-
 from django.conf.urls.defaults import *
-from django.conf.urls.static import static
 from django.contrib import admin
 from solaris import settings
 
@@ -16,4 +15,7 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 )
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# On the Apache server, this is done using an aliased directory
+if settings.USE_DJANGO_STATIC:
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
