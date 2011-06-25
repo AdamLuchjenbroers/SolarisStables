@@ -16,3 +16,15 @@ class Mech(models.Model):
   
   def move_run():
     return ceil(move_walk * 1.5)
+    
+class Stable(models.Model):
+  StableName = models.CharField(max_length=200)
+  login = models.CharField(max_length=20)
+  Reputation = models.IntegerField()
+  
+class StableMech(models.Model):
+  owner_stable = models.ForeignKey(solaris.model.Stable)
+  mech_type = models.ForeignKey(solaris.model.Mech)
+  value = models.IntegerField
+  
+  

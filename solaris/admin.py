@@ -1,6 +1,6 @@
 from django.contrib import admin
-from solaris.model import *
+from solaris import model
 
-admin.site.register(Mech)
-admin.site.register(Stable)
-admin.site.register(StaticContent)
+admin.site.register(model.Mech)
+admin.site.register(model.Stable)
+admin.site.register(model.StaticContent)
