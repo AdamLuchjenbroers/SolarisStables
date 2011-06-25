@@ -12,10 +12,17 @@
     </div>
 
     <div class="toolbar">
-      <span id="selected">Main</span>
-      <span>Rules</span>
-      <span>Mech Lists</span>
-    </div>
+      <py:for each="(page, path) in menu">
+        <py:choose test="selected">
+          <py:when test="path">
+            <span id="selected">$page</span>
+          </py:when>
+          <py:otherwise> 
+            <span><a href="$path">$page</a></span>
+          </py:otherwise>
+        </py:choose>
+      </py:for>    
+    </div>  
 
     <div class="body">$body</div>
   </body>
