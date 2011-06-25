@@ -11,18 +11,15 @@ navigation_options = [
   ('Rules','/rules')
 ]
 
-
 urlpatterns = patterns('',
     # Example:
     (r'^$', 'solaris.view.StaticPage.render',{'selected': '/', 'content': 'Coming Soon' }),
-    (r'^admin/', include(admin.site.urls)),
     (r'^mechs/$', 'solaris.view.StaticPage.render',{'selected': '/mechs', 'content': 'Mechs!' }),
     (r'^rules/$', 'solaris.view.StaticPage.render',{'selected': '/rules', 'content': 'Rules!' }),
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
-    # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^admin/', include(admin.site.urls)),
 )
 
+# Make static content work using the Django dev server.
 # On the Apache server, this is done using an aliased directory
 if settings.USE_DJANGO_STATIC:
     from django.conf.urls.static import static
