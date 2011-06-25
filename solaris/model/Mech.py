@@ -5,6 +5,8 @@ class Mech(models.Model):
   value = models.IntegerField
   tonnage = models.IntegerField
   move_walk = models.IntegerField
+  mech_name = models.CharField(max_length=25)
+  mech_code = models.CharField(max_length=10)
   
   def engine_rating():
     return move_walk * tonnage
