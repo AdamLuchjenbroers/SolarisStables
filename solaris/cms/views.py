@@ -3,10 +3,12 @@ from django.http import HttpResponse
 from django_genshi import loader
 from genshi import Markup
 from solaris.cms.models import StaticContent
+from django.shortcuts import get_object_or_404
+
 
 def static_content(request, selected='>'):
     navigation_options = [(page.title,page.url) for page in StaticContent.objects.filter(toplevel=True).order_by('order')]
-    content = (StaticContent.objects.get(url='/%s' % selected)).content
+    content = get_object_or_404(StaticContent, url='/%s' % selected).content
   
     template = loader.get_template('basic.tmpl')
     
