@@ -9,7 +9,7 @@ class Technology(models.Model):
   show = models.BooleanField()
   
   def __unicode__(self):
-    return self.name
+    return self.sname
 
 class TechnologyRoleModifier(models.Model):
   technology = models.ForeignKey(Technology)

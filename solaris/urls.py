@@ -8,7 +8,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
-    
+    (r'^techtree/$', 'solaris.warbook.views.list_technologies', {'selected': '/techtree/'}),
+    (r'^techtree/(?P<technology>[^/]+)/', 'solaris.warbook.views.display_technology', {'selected': '/techtree/'}),
 )
 
 if settings.USE_DJANGO_STATIC:
