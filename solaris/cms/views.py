@@ -13,6 +13,6 @@ def static_content(request, selected='>'):
     template = loader.get_template('basic.tmpl')
     
     body = Markup(content)   
-    output = template.generate(body=body, selected=selected, menu=navigation_options).render('html', doctype='html')
+    output = template.generate(body=body, selected='/%s' %selected, menu=navigation_options).render('html', doctype='html')
     return HttpResponse(output)
         
