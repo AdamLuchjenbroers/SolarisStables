@@ -6,14 +6,14 @@ from solaris.warbook import models
 from solaris.cms.models import StaticContent
 
 def list_technologies(request, selected='>'):
-    navigation_options = [(page.title,page.url) for page in StaticContent.objects.filter(toplevel=True).order_by('order')]
+    navigation_options = StaticContent.objects.filter(toplevel=True).order_by('order')
     template = loader.get_template('basic.tmpl')
     
     output = template.generate(body='Not Operational', selected=selected, menu=navigation_options).render('html', doctype='html')
     return HttpResponse(output)  
   
 def display_technology(request, technology='', selected=''):
-    navigation_options = [(page.title,page.url) for page in StaticContent.objects.filter(toplevel=True).order_by('order')]
+    navigation_options = StaticContent.objects.filter(toplevel=True).order_by('order')
     techdata = get_object_or_404(models.Technology, urlname=technology)
   
     template = loader.get_template('basic.tmpl')

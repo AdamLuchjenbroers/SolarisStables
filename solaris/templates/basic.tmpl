@@ -12,13 +12,13 @@
     </div>
 
     <div class="toolbar">
-      <py:for each="(page, path) in menu">
+      <py:for each="item in menu">
         <py:choose test="selected">
-          <py:when test="path">
-            <span id="selected">$page</span>
+          <py:when test="item.url">
+            <span id="selected">$item.title</span>
           </py:when>
           <py:otherwise> 
-            <span><a href="$path">$page</a></span>
+            <span><a href="$item.url">$item.title</a></span>
           </py:otherwise>
         </py:choose>
       </py:for>    

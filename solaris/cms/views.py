@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 
 
 def static_content(request, selected='>'):
-    navigation_options = [(page.title,page.url) for page in StaticContent.objects.filter(toplevel=True).order_by('order')]
+    navigation_options = StaticContent.objects.filter(toplevel=True).order_by('order')
     content = get_object_or_404(StaticContent, url='/%s' % selected).content
   
     template = loader.get_template('basic.tmpl')
