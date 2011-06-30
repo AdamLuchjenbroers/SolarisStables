@@ -12,7 +12,7 @@ class Technology(models.Model):
   def __unicode__(self):
     return self.name
 
-class TechnologyRoleModifier(models.Model):
+class TechnologyRollModifier(models.Model):
   technology = models.ForeignKey(Technology)
   modifier   = models.IntegerField(default=2)
   condition  = models.CharField(max_length=120)
