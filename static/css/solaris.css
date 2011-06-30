@@ -129,3 +129,8 @@ div.body {
 .tech_tier3 div, .tech_tier3 span {
    background-color: #F08888;
 }
+
+div.tech span.roll {
+  float: right;
+  margin: 0px 5px;
+}

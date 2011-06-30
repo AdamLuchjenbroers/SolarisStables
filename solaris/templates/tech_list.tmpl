@@ -8,7 +8,7 @@
           <py:for each="tech in tier[1]">
              <div class="tech">
                <span><a href="$tech.urlname/">$tech.name</a></span>
-               <span class="roll">$tech.base_difficulty</span>
+               <span class="roll">${tech.base_difficulty}+</span>
              </div>
           </py:for>
         </div>
