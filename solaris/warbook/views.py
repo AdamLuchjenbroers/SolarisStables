@@ -7,9 +7,19 @@ from solaris.cms.models import StaticContent
 
 def list_technologies(request, selected='>'):
     navigation_options = StaticContent.objects.filter(toplevel=True).order_by('order')
-    template = loader.get_template('basic.tmpl')
     
-    output = template.generate(body='Not Operational', selected=selected, menu=navigation_options).render('html', doctype='html')
+    tech_list = []   
+    
+    for (code, name) in models.Technology.categories:
+        tech_list.append(
+             ( name, [(tier, models.Technology.objects.filter(category=code, tier=tier)) for tier in range(0,4)] )
+        )
+                
+    tmpl_page = loader.get_template('basic.tmpl')
+    tmpl_tech = loader.get_template('tech_list.tmpl')
+    
+    techtree = Markup(tmpl_tech.generate(techtree=tech_list))
+    output = tmpl_page.generate(body=techtree, selected=selected, menu=navigation_options).render('html', doctype='html')
     return HttpResponse(output)  
   
 def display_technology(request, technology='', selected=''):
