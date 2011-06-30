@@ -1,4 +1,5 @@
 from django.db import models
+from genshi import Markup
 
 class Technology(models.Model):
   name = models.CharField(max_length=40)
@@ -7,9 +8,9 @@ class Technology(models.Model):
   base_difficulty = models.IntegerField()
   tier = models.IntegerField()
   show = models.BooleanField()
-  
+ 
   def __unicode__(self):
-    return self.sname
+    return self.name
 
 class TechnologyRoleModifier(models.Model):
   technology = models.ForeignKey(Technology)

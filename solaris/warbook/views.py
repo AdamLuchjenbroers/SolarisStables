@@ -15,9 +15,12 @@ def list_technologies(request, selected='>'):
 def display_technology(request, technology='', selected=''):
     navigation_options = StaticContent.objects.filter(toplevel=True).order_by('order')
     techdata = get_object_or_404(models.Technology, urlname=technology)
+    modifiers = models.TechnologyRoleModifier.objects.filter(technology=techdata)
   
-    template = loader.get_template('basic.tmpl')
+    tmpl_page = loader.get_template('basic.tmpl')
+    tmpl_tech = loader.get_template('tech_detail.tmpl')
+    description = Markup(techdata.description)
     
-    body = Markup(techdata.description)   
-    output = template.generate(body=body, selected=selected, menu=navigation_options).render('html', doctype='html')
+    body = Markup(tmpl_tech.generate(description=description, tech=techdata, modifiers=modifiers))
+    output = tmpl_page.generate(body=body, selected=selected, menu=navigation_options).render('html', doctype='html')
     return HttpResponse(output)
