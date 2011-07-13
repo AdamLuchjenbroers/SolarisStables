@@ -15,10 +15,13 @@ class Technology(models.Model):
   description = models.TextField()
   base_difficulty = models.IntegerField()
   tier = models.IntegerField()
-  show = models.BooleanField()
+  show = models.BooleanField(default=True)
  
   def __unicode__(self):
-    return self.name
+    if self.show:
+      return self.name
+    else:
+      return '%s (Hidden)' % self.name
 
 class TechnologyRollModifier(models.Model):
   technology = models.ForeignKey(Technology)
