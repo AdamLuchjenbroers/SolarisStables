@@ -12,7 +12,7 @@ def list_technologies(request, selected='>'):
     
     for (code, name) in models.Technology.categories:
         tech_list.append(
-             ( name, [(tier, models.Technology.objects.filter(category=code, tier=tier)) for tier in range(0,4)] )
+             ( name, [(tier, models.Technology.objects.filter(category=code, tier=tier, show=True)) for tier in range(1,4)] )
         )
                 
     tmpl_page = loader.get_template('basic.tmpl')
