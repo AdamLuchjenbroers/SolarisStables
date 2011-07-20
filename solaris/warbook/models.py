@@ -22,6 +22,9 @@ class Technology(models.Model):
       return self.name
     else:
       return '%s (Hidden)' % self.name
+   
+  class Meta:
+    verbose_name_plural = 'Technologies'
 
 class TechnologyRollModifier(models.Model):
   technology = models.ForeignKey(Technology)
