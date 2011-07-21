@@ -8,13 +8,20 @@ class Technology(models.Model):
      ('cons' , 'Construction'),
      ('ammo' , 'Ammunition'),
    )
+   
+  tiers = (
+    ( 0 , 'Base Technology'),
+    ( 1 , 'Star-League'),
+    ( 2 , 'Advanced'),
+    ( 3 , 'Experimental'),
+  )
   
   name = models.CharField(max_length=40)
   category = models.CharField(max_length=8, choices=categories)
   urlname = models.CharField(max_length=20)
   description = models.TextField()
   base_difficulty = models.IntegerField()
-  tier = models.IntegerField()
+  tier = models.IntegerField(choices=tiers)
   show = models.BooleanField(default=True)
  
   def __unicode__(self):
