@@ -11,7 +11,7 @@ from django.http import HttpResponse
 def render_page(body='', selected=''):
     # Get Navigation Menu / Templates 
     navigation_options = StaticContent.objects.filter(toplevel=True).order_by('order')
-    template = loader.get_template('basic.tmpl')
+    template = loader.get_template('layout.tmpl')
     
     output = template.generate(body=body, selected='/%s' % selected, menu=navigation_options).render('html', doctype='html')
     return HttpResponse(output)
