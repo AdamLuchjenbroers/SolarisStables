@@ -138,3 +138,44 @@ div.tech span.roll {
   float: right;
   margin: 0px 5px;
 }
+
+span.login_failed {
+  border-width: 1px;
+  border-style: solid;
+  padding: 4px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+    
+  font-weight: bold;
+  background-color: #F08888;  
+}
+
+div.news {
+  position: relative;
+  left: 40px;
+  right: 40px;
+  margin: 20px 20px 20px 20px;
+  padding: 10px 10px 10px 10px;
+  width: 80%;
+  background-color: #888888;
+}
+
+div.news div.header {
+  padding: 5px 5px 5px 5px;
+  margin: 0px 10px 10px 10px;
+  background-color: #CCCCCC;
+}
+
+div.news div.header span.title {
+  font-weight: bold;
+}
+
+div.news div.header span.byline {
+  float: right;
+}
+
+div.news div.content {
+  padding: 5px 5px 5px 5px;
+  margin: 0px 10px 10px 10px;
+  background-color: #F0F0F0;
+}

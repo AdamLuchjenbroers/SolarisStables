@@ -2,7 +2,7 @@
 from genshi import Markup
 from solaris.cms.models import StaticContent, NewsPost
 from solaris.core import render_page
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django_genshi import loader
 
 
@@ -23,3 +23,11 @@ def news_page(request, selected=None):
     
     return render_page(body=newspage, selected=selected, request=request)
         
+     
+def post_news_page(request, selected=None):
+    if request.user.has_perm('cms.post_news'):
+        body = Markup('<P>This will be the News Posting page</P>')
+        return render_page(body=body, selected=None, request=request)
+    else:
+        return redirect('/')
+     
