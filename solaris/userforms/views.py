@@ -2,7 +2,7 @@
 from genshi import Markup
 from django_genshi import loader
 from solaris.core import render_page
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 
 def login_page(request):
@@ -15,7 +15,7 @@ def login_page(request):
         )
         if user is not None:
 	    login(request, user)
-	    redirect('/')
+	    return redirect('/')
 	else:
             failed = True
               
@@ -28,3 +28,7 @@ def login_page(request):
 def registration_page(request):
     body = Markup('<P>This will be the Registration page</P>')
     return render_page(body=body, selected=None, request=request)
+    
+def logout_user(request):
+    logout(request)
+    return redirect('/')
