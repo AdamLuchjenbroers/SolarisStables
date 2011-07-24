@@ -24,8 +24,10 @@ def news_page(request, selected=None):
     return render_page(body=newspage, selected=selected, request=request)
      
 def news_form(request, selected):
-    body = Markup('<P>This will be the News Posting page</P>')
-    return render_page(body=body, selected=None, request=request)
+    tmpl_news = loader.get_template('news_form.tmpl')    
+    newsform = Markup(tmpl_news.generate())
+    
+    return render_page(body=newsform, selected=None, request=request)
 
 def post_news(request):
     return redirect('/')
