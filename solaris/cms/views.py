@@ -34,8 +34,7 @@ def post_news(request):
       poster = request.user
     , title = request.POST['title']
     , content = request.POST['content']
-    )
-    
+    )    
     post.save()
     
     return redirect('/')
