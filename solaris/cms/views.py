@@ -22,12 +22,20 @@ def news_page(request, selected=None):
     newspage = Markup(tmpl_news.generate(news=posts))
     
     return render_page(body=newspage, selected=selected, request=request)
-        
+     
+def news_form(request, selected):
+    body = Markup('<P>This will be the News Posting page</P>')
+    return render_page(body=body, selected=None, request=request)
+
+def post_news(request):
+    return redirect('/')
      
 def post_news_page(request, selected=None):
     if request.user.has_perm('cms.post_news'):
-        body = Markup('<P>This will be the News Posting page</P>')
-        return render_page(body=body, selected=None, request=request)
+        if request.method == 'GET':
+	    return news_form(request, selected)
+	else:
+	    return post_news(request)
     else:
         return redirect('/')
      
