@@ -10,3 +10,7 @@ class StaticContent(models.Model):
   
   def __unicode__(self):
         return '%s (%s)' % (self.title, self.url)
+        
+  class Meta:
+    verbose_name = 'Static Content'
+    verbose_name_plural = 'Static Content'
