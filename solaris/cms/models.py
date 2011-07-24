@@ -1,5 +1,8 @@
 from django.db import models
 from math import ceil
+from django.contrib.auth.models import User
+from genshi import Markup
+
 
 class StaticContent(models.Model):
   title = models.CharField(max_length=20)
@@ -14,3 +17,25 @@ class StaticContent(models.Model):
   class Meta:
     verbose_name = 'Static Content'
     verbose_name_plural = 'Static Content'
+    
+    
+class NewsPost(models.Model):
+  title = models.CharField(max_length=120)
+  poster = models.ForeignKey(User)
+  content = models.TextField()
+  post_date = models.DateField(auto_now_add=True)
+  
+  markup_content = None
+  
+  class Meta:
+    verbose_name = 'News Post'
+    verbose_name_plural = 'News Posts'
+    permissions = (
+      ('post_news', 'Post News Items'),
+    )
+  
+  def __unicode__(self):
+    return self.title
+
+  def prepare(self):
+    self.markup_content = Markup(self.content)
