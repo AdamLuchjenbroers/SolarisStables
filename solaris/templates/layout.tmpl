@@ -21,7 +21,14 @@
             <span><a href="$item.url">$item.title</a></span>
           </py:otherwise>
         </py:choose>
-      </py:for>    
+      </py:for>  
+  
+      <span class='login'>
+         <py:choose test="authenticated">
+           <py:when test="True">Welcome, ${username}</py:when>
+           <py:otherwise>Please login</py:otherwise>
+         </py:choose>
+      </span>
     </div>  
 
     <div class="body">$body</div>

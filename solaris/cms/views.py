@@ -10,5 +10,5 @@ def static_content(request, selected='>'):
     content = get_object_or_404(StaticContent, url='/%s' % selected).content
     body = Markup(content)
     
-    return render_page(body=body, selected=selected)
+    return render_page(body=body, selected=selected, request=request)
         

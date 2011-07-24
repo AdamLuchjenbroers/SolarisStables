@@ -40,7 +40,7 @@ div.toolbar {
   position: absolute;
   top: 250px;
   left: 60px;
-  width: 100%;
+  right: 60px;
     
   border-top-width: 4px;
   border-top-style: solid;
@@ -72,6 +72,10 @@ div.toolbar span#selected {
  
   background-color: #660000;
   color: #FFFFFF;  
+}
+
+div.toolbar span.login {
+  float: right;
 }
 
 div.body {

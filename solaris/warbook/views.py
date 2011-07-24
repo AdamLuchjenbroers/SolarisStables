@@ -19,7 +19,7 @@ def list_technologies(request, selected='>'):
     tmpl_tech = loader.get_template('tech_list.tmpl')    
     techtree = Markup(tmpl_tech.generate(techtree=tech_list))
 
-    return render_page(body=techtree, selected=selected) 
+    return render_page(body=techtree, selected=selected, request=request) 
   
 def display_technology(request, technology='', selected=''):
 
@@ -32,4 +32,4 @@ def display_technology(request, technology='', selected=''):
     description = Markup(techdata.description)
     
     body = Markup(tmpl_tech.generate(description=description, tech=techdata, modifiers=modifiers))
-    return render_page(body=body, selected=selected) 
+    return render_page(body=body, selected=selected, request=request) 
