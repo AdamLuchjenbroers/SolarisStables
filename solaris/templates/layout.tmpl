@@ -26,7 +26,9 @@
       <span class='login'>
          <py:choose test="authenticated">
            <py:when test="True">Welcome, ${username}</py:when>
-           <py:otherwise>Please login</py:otherwise>
+           <py:otherwise>
+             <a href="/login">Login</a> / <a href="/register">Register</a>
+           </py:otherwise>
          </py:choose>
       </span>
     </div>  
