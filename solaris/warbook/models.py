@@ -46,6 +46,9 @@ class PilotDiscipline(models.Model):
   class Meta:
     verbose_name_plural = 'Pilot Disciplines'
     verbose_name = 'Pilot Discipline'
+
+  def __unicode__(self):
+    return self.name
   
 class PilotAbility(models.Model):
   bv_modifiers = (
@@ -57,7 +60,8 @@ class PilotAbility(models.Model):
   name  = models.CharField(max_length=40)
   description = models.TextField()
   discipline = models.ForeignKey(PilotDiscipline)
-  bv_mod = models.DecimalField(max_digits=4 ,decimal_places=2 ,choices=bv_modifiers)
+  bv_mod = models.DecimalField(max_digits=6 ,decimal_places=3 ,choices=bv_modifiers)
   
-  
+  def __unicode__(self):
+    return self.name
  
