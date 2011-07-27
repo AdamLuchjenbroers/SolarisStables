@@ -1,0 +1,18 @@
+<div xmlns:py="http://genshi.edgewall.org/">
+  <py:choose test="adminbar">
+    <py:when test="True">
+      <div class="adminbar"><a href="/postnews">Post News</a></div>
+      <br/>
+    </py:when>
+    <py:otherwise></py:otherwise>
+  </py:choose>
+  <py:for each="post in news"><div class="news">
+    <div class="header">
+      <span class="title">${post.title}</span>
+      <span class="byline">Posted by ${post.poster.username} on ${post.post_date}</span>
+    </div>
+    <div class="content">
+      ${post.markup_content}
+    </div>
+  </div></py:for>
+</div>
