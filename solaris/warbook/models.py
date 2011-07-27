@@ -42,6 +42,7 @@ class TechnologyRollModifier(models.Model):
 class PilotDiscipline(models.Model):
   name  = models.CharField(max_length=40)
   blurb = models.TextField()  
+  urlname = models.CharField(max_length=20)
   
   class Meta:
     verbose_name_plural = 'Pilot Disciplines'
@@ -52,9 +53,9 @@ class PilotDiscipline(models.Model):
   
 class PilotAbility(models.Model):
   bv_modifiers = (
-    (0,    'No Modifier'),
-    (0.05, 'Piloting Skill'),
-    (0.20, 'Gunnery Skill'),
+    (0.00, 'No Modifier'    ),
+    (0.05, 'Piloting Skill' ),
+    (0.20, 'Gunnery Skill'  ),
   )
     
   name  = models.CharField(max_length=40)
