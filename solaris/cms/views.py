@@ -30,12 +30,11 @@ def news_form(request, selected):
     return render_page(body=newsform, selected=None, request=request)
 
 def post_news(request):
-    post = NewsPost(
-      poster = request.user
-    , title = request.POST['title']
-    , content = request.POST['content']
-    )    
-    post.save()
+    if ((len(request.POST['title']) > 0) and (len(request.POST['content']) > 0)):
+        post = NewsPost(poster = request.user, title = request.POST['title'], content = request.POST['content'])    
+        post.save()
+    else:
+        pass
     
     return redirect('/')
      
