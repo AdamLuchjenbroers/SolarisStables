@@ -1,5 +1,7 @@
 <div xmlns:py="http://genshi.edgewall.org/" class="news_form">
   <script type="text/javascript">
+     bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+
      function validateForm() {
        var title = document.forms["news"]["title"].value;
        var content = document.forms["news"]["content"].value;
@@ -16,7 +18,7 @@
 
      }
   </script>
-  <form action="/postnews" name="news" method="POST" onsubmit="return validateForm();">
+  <form action="/postnews" name="news" method="POST" onsubmit="return validateForm();" id="newsform">
     <div>Title: <input type="text" width="120" class="title" name="title"/></div>
     <div>
        <textarea name="content" class="richedit" cols="120" rows="10">Post text goes here, use the preview function to check before posting.</textarea>
