@@ -37,3 +37,27 @@ class TechnologyRollModifier(models.Model):
   technology = models.ForeignKey(Technology)
   modifier   = models.IntegerField(default=2)
   condition  = models.CharField(max_length=120)
+  
+  
+class PilotDiscipline(models.Model):
+  name  = models.CharField(max_length=40)
+  blurb = models.TextField()  
+  
+  class Meta:
+    verbose_name_plural = 'Pilot Disciplines'
+    verbose_name = 'Pilot Discipline'
+  
+class PilotAbility(models.Model):
+  bv_modifiers = (
+    (0,    'No Modifier'),
+    (0.05, 'Piloting Skill'),
+    (0.20, 'Gunnery Skill'),
+  )
+    
+  name  = models.CharField(max_length=40)
+  description = models.TextField()
+  discipline = models.ForeignKey(PilotDiscipline)
+  bv_mod = models.DecimalField(max_digits=4 ,decimal_places=2 ,choices=bv_modifiers)
+  
+  
+ 
