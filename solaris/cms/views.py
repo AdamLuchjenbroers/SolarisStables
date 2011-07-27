@@ -14,7 +14,7 @@ def static_content(request, selected=None):
     return render_page(body=body, selected=selected, request=request)
     
 def news_page(request, selected=None):
-    posts = NewsPost.objects.order_by('post_date')[0:5]
+    posts = NewsPost.objects.order_by('post_date').reverse()[0:5]
     for p in posts:
       p.prepare()
     
