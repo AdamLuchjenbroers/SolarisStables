@@ -180,6 +180,20 @@ div.news div.content {
   background-color: #F0F0F0;
 }
 
+div.adminbar {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+      
+  background-color: #888888;
+  text-align: right;
+  font-size: small;
+  
+  margin: 0px;
+  padding: 2px;
+}
+
 form.login label {
   width: 6em;
   margin-right: 0.5em;

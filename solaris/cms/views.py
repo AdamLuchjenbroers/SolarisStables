@@ -19,7 +19,7 @@ def news_page(request, selected=None):
       p.prepare()
     
     tmpl_news = loader.get_template('news_posts.tmpl')    
-    newspage = Markup(tmpl_news.generate(news=posts))
+    newspage = Markup(tmpl_news.generate(news=posts, adminbar=request.user.has_perm('cms.post_news')))
     
     return render_page(body=newspage, selected=selected, request=request)
      
