@@ -179,3 +179,20 @@ div.news div.content {
   margin: 0px 10px 10px 10px;
   background-color: #F0F0F0;
 }
+
+form.login label {
+  width: 6em;
+  margin-right: 0.5em;
+  float: left;
+  text-align: right;
+  display: block;
+}
+
+form.login input {
+  margin-left: 0.5em;
+  border: 1px solid;
+}
+
+form.login input.submit {
+  border: 2px outset;
+}
