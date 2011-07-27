@@ -194,6 +194,13 @@ div.adminbar {
   padding: 2px;
 }
 
+div.news_form input {
+  margin-left: 0.5em;
+  margin-bottom: 0.5em;
+  border: 1px solid;
+  width: 36em;
+}
+
 form.login label {
   width: 6em;
   margin-right: 0.5em;
