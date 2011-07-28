@@ -7,6 +7,7 @@ class Technology(models.Model):
      ('equip', 'Equipment'),
      ('cons' , 'Construction'),
      ('ammo' , 'Ammunition'),
+     ('phys' , 'Physical Weapons'),
    )
    
   tiers = (
