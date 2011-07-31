@@ -1,4 +1,3 @@
-from types import ModuleType
 from django.db.models.base import ModelBase
 from sys import modules
 
