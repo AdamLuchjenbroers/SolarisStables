@@ -8,3 +8,5 @@ class TechnologyRollModifierInline(admin.StackedInline):
 class TechnologyAdmin(admin.ModelAdmin):
   fields = ['name', 'urlname', 'description', 'tier', 'category', 'base_difficulty', 'show']
   inlines = [TechnologyRollModifierInline,]
+  
+admin.site.register(models.Technology, TechnologyAdmin)
