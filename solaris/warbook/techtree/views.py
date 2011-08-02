@@ -3,7 +3,6 @@ from django_genshi import loader
 from genshi import Markup
 from django.shortcuts import get_object_or_404
 from solaris.warbook.techtree import models
-from solaris.cms.models import StaticContent
 from solaris.core import render_page
 
 def list_technologies(request, selected='>'):
