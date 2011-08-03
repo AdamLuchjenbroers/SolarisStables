@@ -15,7 +15,7 @@ def list_technologies(request, selected='>'):
         )
     
     # Render Technologies List
-    tmpl_tech = loader.get_template('tech_list.tmpl')    
+    tmpl_tech = loader.get_template('warbook/techtree/tech_list.tmpl')    
     techtree = Markup(tmpl_tech.generate(techtree=tech_list))
 
     return render_page(body=techtree, selected=selected, request=request) 
@@ -27,7 +27,7 @@ def display_technology(request, technology='', selected=''):
     modifiers = models.TechnologyRollModifier.objects.filter(technology=techdata)
 
     # Render Technology Detail
-    tmpl_tech = loader.get_template('tech_detail.tmpl')
+    tmpl_tech = loader.get_template('warbook/techtree/tech_detail.tmpl')
     description = Markup(techdata.description)
     
     body = Markup(tmpl_tech.generate(description=description, tech=techdata, modifiers=modifiers))

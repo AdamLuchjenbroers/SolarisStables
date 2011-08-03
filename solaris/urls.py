@@ -2,7 +2,6 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from solaris import settings
-from solaris.cms.models import StaticContent
 
 admin.autodiscover()
 

@@ -18,13 +18,13 @@ def news_page(request, selected=None):
     for p in posts:
       p.prepare()
     
-    tmpl_news = loader.get_template('news_posts.tmpl')    
+    tmpl_news = loader.get_template('cms/news_posts.tmpl')    
     newspage = Markup(tmpl_news.generate(news=posts, adminbar=request.user.has_perm('cms.post_news')))
     
     return render_page(body=newspage, selected=selected, request=request)
      
 def news_form(request, selected):
-    tmpl_news = loader.get_template('news_form.tmpl')    
+    tmpl_news = loader.get_template('cms/news_form.tmpl')    
     newsform = Markup(tmpl_news.generate())
     
     return render_page(body=newsform, selected=None, request=request)

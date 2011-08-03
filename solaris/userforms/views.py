@@ -19,7 +19,7 @@ def login_page(request):
 	else:
             failed = True
               
-    login_form = loader.get_template('login_form.tmpl')
+    login_form = loader.get_template('userforms/login_form.tmpl')
     body = Markup(login_form.generate(failed=failed))  
 
     return render_page(body=body, selected=None, request=request)
