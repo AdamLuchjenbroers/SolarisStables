@@ -34,6 +34,7 @@ class Technology(models.Model):
   class Meta:
     verbose_name_plural = 'Technologies'
     db_table = 'warbook_technology'
+    app_label = 'warbook'
 
 
 class TechnologyRollModifier(models.Model):

@@ -7,8 +7,3 @@ class PilotAbilityInline(admin.StackedInline):
   
 class PilotDisciplineAdmin(admin.ModelAdmin):
   inlines = [PilotAbilityInline,]
-
-
-admin.site.register(models.PilotDiscipline, PilotDisciplineAdmin)
-
-

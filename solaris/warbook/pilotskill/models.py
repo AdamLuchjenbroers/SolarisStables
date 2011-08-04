@@ -15,6 +15,7 @@ class PilotDiscipline(models.Model):
     verbose_name_plural = 'Pilot Disciplines'
     verbose_name = 'Pilot Discipline'
     db_table = 'warbook_pilotdiscipline'
+    app_label = 'warbook'
 
   def __unicode__(self):
     return self.name
