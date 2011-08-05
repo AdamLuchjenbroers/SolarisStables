@@ -37,6 +37,9 @@ def post_news(request):
         pass
     
     return redirect('/')
+    
+def util_redirect(request, path='/'):
+  return redirect(path)
      
 def post_news_page(request, selected=None):
     if request.user.has_perm('cms.post_news'):
