@@ -1,0 +1,9 @@
+<div xmlns:py="http://genshi.edgewall.org/">
+  <h1>Technologies</h1>
+  <py:for each="disc in disciplines">
+     <div class="discipline">
+      <h2><a href="${disc.urlname}">${disc.name}</a></h2>
+      <p>${disc.markup_blurb}</p>       
+    </div>
+  </py:for>  
+</div>

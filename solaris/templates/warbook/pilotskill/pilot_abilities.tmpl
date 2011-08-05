@@ -1,0 +1,9 @@
+<div xmlns:py="http://genshi.edgewall.org/">
+  <h1>Technologies</h1>
+  <py:for each="abil in abilities">
+     <div class="discipline">
+      <h2>${abil.name}</h2>
+      <p>${abil.markup_blurb}</p>       
+    </div>
+  </py:for>  
+</div>
