@@ -25,7 +25,10 @@ class NewsPost(models.Model):
   content = models.TextField()
   post_date = models.DateField(auto_now_add=True)
   
-  markup_content = None
+  def get_markup_content(self):
+    return Markup(self.content)
+  
+  markup_content = property(get_markup_content, None)
   
   class Meta:
     verbose_name = 'News Post'
@@ -38,4 +41,4 @@ class NewsPost(models.Model):
     return self.title
 
   def prepare(self):
-    self.markup_content = Markup(self.content)
+    pass
