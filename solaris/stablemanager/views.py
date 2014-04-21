@@ -1,11 +1,21 @@
 from genshi import Markup
 from solaris.core import render_page
+from solaris.stablemanager import models
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
+@login_required(login_url='/login')
 def stable_main(request):
+    
+    stableList = models.Stable.objects.filter(Owner = request.user)
+    
+    if len(stableList) <> 1:
+        return redirect('/stable/register')
+            
     body = Markup('<P>Stable Management will go here</P>')
     return render_page(body=body, selected=None, request=request)
 
-
+@login_required(login_url='/login')
 def stable_registration(request):
     body = Markup('<P>This will become a Stable Registration Page</P>')
     return render_page(body=body, selected=None, request=request)
