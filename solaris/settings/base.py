@@ -30,10 +30,6 @@ GENSHI_TEMPLATE_LOADERS = (
      'django_genshi.loaders.filesystem.load_template',
 )
 
-GENSHI_TEMPLATE_DIRS = (
-     '/home/notavi/Programming/git/SolarisStables/solaris/templates/'                   
-#    '/usr/local/django/solaris/templates/'
-)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
