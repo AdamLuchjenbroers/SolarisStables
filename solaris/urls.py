@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-1 -*-
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from django.contrib import admin
-from solaris import settings
+from django.conf import settings
 
 admin.autodiscover()
 
