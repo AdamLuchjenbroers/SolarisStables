@@ -16,7 +16,7 @@ def static_content(request, selected=None):
 def news_page(request, selected=None):
     posts = NewsPost.objects.order_by('post_date').reverse()[0:5]
     for p in posts:
-      p.prepare()
+        p.prepare()
     
     tmpl_news = loader.get_template('cms/news_posts.tmpl')    
     newspage = Markup(tmpl_news.generate(news=posts, adminbar=request.user.has_perm('cms.post_news')))
@@ -39,14 +39,14 @@ def post_news(request):
     return redirect('/')
     
 def util_redirect(request, path='/'):
-  return redirect(path)
+    return redirect(path)
      
 def post_news_page(request, selected=None):
     if request.user.has_perm('cms.post_news'):
         if request.method == 'GET':
-	    return news_form(request, selected)
-	else:
-	    return post_news(request)
+            return news_form(request, selected)
+        else:
+            return post_news(request)
     else:
         return redirect('/')
      
