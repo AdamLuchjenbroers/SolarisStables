@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-1 -*-
-from django.conf.urls import *
+from django.conf.urls import patterns, include
 from django.contrib import admin
 from django.conf import settings
 
