@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     (r'^logout/?$', 'solaris.userforms.views.logout_user'),
     (r'^register/?$', 'solaris.userforms.views.registration_page'),
     (r'^reference/', include('solaris.warbook.urls')),
-    (r'^stable/', include('solaris.stablemanager.urls')),
+    (r'^stable/?', include('solaris.stablemanager.urls')),
 )
 
 if settings.USE_DJANGO_STATIC:
