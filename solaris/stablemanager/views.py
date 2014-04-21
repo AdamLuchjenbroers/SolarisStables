@@ -12,7 +12,9 @@ def stable_main(request):
     if len(stableList) <> 1:
         return redirect('/stable/register')
             
-    body = Markup('<P>Stable Management will go here</P>')
+    stable = stableList[0]
+            
+    body = Markup('<P>Stable Management for the %s will go here</P>' % stable.StableName )
     return render_page(body=body, selected=None, request=request)
 
 @login_required(login_url='/login')
