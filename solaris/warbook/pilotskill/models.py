@@ -1,5 +1,6 @@
 from django.db import models
 from genshi import Markup
+from decimal import Decimal
   
 class PilotDiscipline(models.Model):
     name  = models.CharField(max_length=40)
@@ -24,9 +25,9 @@ class PilotDiscipline(models.Model):
   
 class PilotAbility(models.Model):
     bv_modifiers = (
-                    (0.00, 'No Modifier'    ),
-                    (0.05, 'Piloting Skill' ),
-                    (0.20, 'Gunnery Skill'  ),
+                    (Decimal('0.000'), 'No Modifier'    ),
+                    (Decimal('0.050'), 'Piloting Skill' ),
+                    (Decimal('0.200'), 'Gunnery Skill'  ),
                     )
     
     name  = models.CharField(max_length=40)
