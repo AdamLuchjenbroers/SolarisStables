@@ -6,7 +6,6 @@
 from django.http import HttpResponse
 from django_genshi import loader
 from solaris.cms.models import StaticContent
-from django.http import HttpResponse
 
 def render_page(body='', selected='', adminbar=False, request=None):
     # Get Navigation Menu / Templates 
