@@ -28,6 +28,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'solaris.urls'
@@ -41,4 +42,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'solaris.cms',
     'solaris.warbook',
+    'solaris.warbook.techtree',
+    'solaris.warbook.pilotskill',
 )
