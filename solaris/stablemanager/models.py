@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from math import ceil
 
 '''
@@ -21,7 +22,7 @@ class Mech(models.Model):
   
 class Stable(models.Model):
     StableName = models.CharField(max_length=200)
-    login = models.CharField(max_length=20)
+    Owner = models.OneToOneField(User)
     Reputation = models.IntegerField()
 
 '''  
