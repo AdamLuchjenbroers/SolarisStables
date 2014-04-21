@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+#from django.http import HttpResponse
 from django_genshi import loader
 from genshi import Markup
 from django.shortcuts import get_object_or_404
