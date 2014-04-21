@@ -6,7 +6,7 @@ from solaris.core import render_page
 def list_disciplines(request):
     disciplines = models.PilotDiscipline.objects.all()
   
-      # Render Technology Detail
+    # Render Technology Detail
     tmpl_tech = loader.get_template('warbook/pilotskill/pilot_disciplines.tmpl')
     
     body = Markup(tmpl_tech.generate(disciplines=disciplines))
