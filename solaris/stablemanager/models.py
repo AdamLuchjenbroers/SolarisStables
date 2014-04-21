@@ -9,13 +9,13 @@ class Mech(models.Model):
     move_walk = models.IntegerField()
   
     def engine_rating(self):
-        return move_walk * tonnage
+        return self.move_walk * self.tonnage
   
     def gyro_tonnage(self):
-        return ceil(engine_rating / 100) 
+        return ceil(self.engine_rating / 100) 
   
     def move_run(self):
-        return ceil(move_walk * 1.5)
+        return ceil(self.move_walk * 1.5)
   
 class Stable(models.Model):
     StableName = models.CharField(max_length=200)
@@ -26,5 +26,3 @@ class StableMech(models.Model):
     owner_stable = models.ForeignKey(Stable)
     mech_type = models.ForeignKey(Mech)
     value = models.IntegerField()
-  
-  
