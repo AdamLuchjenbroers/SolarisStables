@@ -1,11 +1,10 @@
 #!/bin/sh
 
 # Script to perform SVN export and set permissions correctly
-svn export http://192.168.7.50/svn/solaris ./ --force
-svn export http://192.168.7.50/svn/solaris/static /var/www/static/ --force
+git pull
 
-rm -rf static
-chown wwwrun:www * /var/www/static -R
+#rm -rf static
+chown apache:apache * /var/www/static -R
 
 chmod ug+x solaris.wsgi
 chmod ug+x deploy.sh
