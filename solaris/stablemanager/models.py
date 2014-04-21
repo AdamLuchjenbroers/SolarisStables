@@ -24,6 +24,9 @@ class Stable(models.Model):
     StableName = models.CharField(max_length=200)
     Owner = models.OneToOneField(User)
     Reputation = models.IntegerField()
+    
+    def __unicode__(self):
+        return self.StableName
 
 '''  
 class StableMech(models.Model):
