@@ -5,7 +5,7 @@ from decimal import Decimal
 class PilotDiscipline(models.Model):
     name  = models.CharField(max_length=40)
     blurb = models.TextField()  
-    urlname = models.CharField(max_length=20)
+    urlname = models.CharField(max_length=20, unique=True)
   
     def get_markup_blurb(self):
         return Markup(self.blurb)
