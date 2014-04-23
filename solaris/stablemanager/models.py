@@ -10,9 +10,3 @@ class Stable(models.Model):
     def __unicode__(self):
         return self.StableName
 
-'''  
-class StableMech(models.Model):
-    owner_stable = models.ForeignKey(Stable)
-    mech_type = models.ForeignKey(Mech)
-    value = models.IntegerField()
-'''

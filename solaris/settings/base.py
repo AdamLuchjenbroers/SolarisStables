@@ -46,5 +46,6 @@ INSTALLED_APPS = (
     'solaris.warbook.pilotskill',
     'solaris.warbook.mech',
     'solaris.stablemanager',
+    'solaris.stablemanager.assets',
     'south',
 )
