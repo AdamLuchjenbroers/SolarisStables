@@ -44,5 +44,6 @@ INSTALLED_APPS = (
     'solaris.warbook',
     'solaris.warbook.techtree',
     'solaris.warbook.pilotskill',
+    'solaris.warbook.mech',
     'solaris.stablemanager',
 )
