@@ -5,7 +5,7 @@ from math import ceil
 class MechDesign(models.Model):
     mech_name = models.CharField(max_length=25)
     mech_code = models.CharField(max_length=10)
-    stock_design = models.BooleanField()
+    stock_design = models.BooleanField(default=True)
     value = models.IntegerField()
     tonnage = models.IntegerField()
     move_walk = models.IntegerField()
@@ -21,3 +21,10 @@ class MechDesign(models.Model):
 
     class Meta:
         unique_together = (('mech_name', 'mech_code'),)
+        verbose_name_plural = 'Mech Designs'
+        verbose_name = 'Mech Design'
+        db_table = 'warbook_mechdesign'
+        app_label = 'warbook'
+        
+    def __unicode__(self):
+        return '%s %s' % (self.mech_name, self.mech_code)
