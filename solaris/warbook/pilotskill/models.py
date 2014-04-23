@@ -35,6 +35,10 @@ class PilotAbility(models.Model):
     discipline = models.ForeignKey(PilotDiscipline)
     bv_mod = models.DecimalField(max_digits=6 ,decimal_places=3 ,choices=bv_modifiers)
     
+    def bv_text(self):
+        bv_description = self.get_bv_mod_display()
+        return '%s (%0.2f)' % (bv_description, self.bv_mod)
+    
     def __unicode__(self):
         return self.name
     

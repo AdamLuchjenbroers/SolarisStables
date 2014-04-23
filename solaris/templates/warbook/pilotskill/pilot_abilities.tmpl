@@ -2,9 +2,10 @@
   <h1>${discipline.name}</h1>
   <p>${discipline.blurb}</p>
   <py:for each="abil in abilities">
-     <div class="discipline">
+     <div class="ability">
       <h2>${abil.name}</h2>
-      <p>${abil.description}</p>       
+      <p class="abilityText">${abil.description}</p>
+      <p class="bv">${abil.bv_text()}</p>       
     </div>
   </py:for>  
 </div>
