@@ -14,7 +14,7 @@ def stable_main(request):
             
     stable = stableList[0]
             
-    body = Markup('<P>Stable Management for the %s will go here</P>' % stable.StableName )
+    body = Markup('<P>Stable Management for the %s will go here</P>' % stable.stable_name )
     return render_page(body=body, selected=None, request=request)
 
 @login_required(login_url='/login')
