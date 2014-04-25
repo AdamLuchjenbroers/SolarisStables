@@ -6,7 +6,8 @@ class MechDesign(models.Model):
     mech_name = models.CharField(max_length=25)
     mech_code = models.CharField(max_length=10)
     stock_design = models.BooleanField(default=True)
-    value = models.IntegerField()
+    credit_value = models.IntegerField()
+    bv_value = models.IntegerField()
     tonnage = models.IntegerField()
     move_walk = models.IntegerField()
  
