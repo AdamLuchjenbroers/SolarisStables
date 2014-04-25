@@ -16,7 +16,7 @@ class StableLoginTests(TestCase):
         User.objects.create_user(username='has-stable', email='lotsa_mechs@nowhere.com', password='pass')
         
         stable_user = User.objects.get(username='has-stable')
-        Stable.objects.create(stable_name='Test Stable', Owner=stable_user, reputation=0)
+        Stable.objects.create(stable_name='Test Stable', owner=stable_user, reputation=0)
     
     def test_redirectNotLoggedIn(self):
         response = self.client.get('/stable/')
