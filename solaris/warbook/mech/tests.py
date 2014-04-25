@@ -2,7 +2,6 @@ from django.test import TestCase
 from .models import MechDesign
 
 class MechMathsTest(TestCase):
-    test_mech = MechDesign()
     
     def setUp(self):
         MechDesign.objects.create(mech_name='Wolverine', mech_code='WVR-7D', tonnage=55, move_walk=5, credit_value=11214457, bv_value=1314 )
