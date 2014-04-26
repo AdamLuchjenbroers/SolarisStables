@@ -4,6 +4,7 @@ import re
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'solaris.settings.dev_local'
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.utils import IntegrityError
 from solaris.warbook.mech.models import MechDesign
 
 
@@ -21,8 +22,7 @@ def recursiveScanAll(path, relative_path='.'):
             recursiveScanAll(fullpath, relative_path=relative_path)
             
         if os.path.isfile(fullpath) and sswPattern.match(file):
-            relative_path = relative_path + '/' + file
-            loadMechDesign(fullpath, relative_path)
+            loadMechDesign(fullpath, relative_path  + '/' + file)
             
 
 def loadMechDesign(sswFileName, sswRelName):
@@ -51,7 +51,10 @@ def loadMechDesign(sswFileName, sswRelName):
     mechDB.move_walk = sswData.getWalkingMP()
     mechDB.is_omni = sswData.isOmni()
     
-    mechDB.save()
+    try:
+        mechDB.save()
+    except IntegrityError:
+        print 'Unable to import %s %s (File: %s). Already loaded from another file.' % (sswData.getName(), sswData.getCode(), sswRelName)
     
 if __name__ == '__main__':
     
