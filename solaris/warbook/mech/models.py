@@ -11,6 +11,7 @@ class MechDesign(models.Model):
     tonnage = models.IntegerField()
     move_walk = models.IntegerField()
     is_omni = models.BooleanField(default=False)
+    ssw_filename = models.CharField(max_length=255, blank=True, null=True)
  
     def engine_rating(self):
         return self.move_walk * self.tonnage
