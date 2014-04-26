@@ -12,8 +12,11 @@ class SSWFile:
         return floor( float (costInfo[0].getContent()))        
     
     def getBV(self):
-        costInfo = self.xpathContext.xpathEval('/mech/battle_value')
-        return int (costInfo[0].getContent())
+        if self.isOmni():
+            return 0 # Omnimechs do not store BV values for the base chassis
+        else:
+            costInfo = self.xpathContext.xpathEval('/mech/battle_value')
+            return int (costInfo[0].getContent())
         
     def getType(self):
         typeInfo = self.xpathContext.xpathEval('/mech/mech_type')
