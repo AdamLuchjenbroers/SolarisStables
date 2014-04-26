@@ -41,3 +41,7 @@ class SSWFile:
 
     def getWalkingMP(self):
         return floor ( self.getEngineRating() / self.getTonnage())
+    
+    def isOmni(self): 
+        mechInfo = self.xpathContext.xpathEval('/mech/@omnimech')
+        return mechInfo[0].getContent == "TRUE"
