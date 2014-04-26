@@ -3,6 +3,7 @@ import re
 
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'solaris.settings.dev_local'
+from django.core.exceptions import ObjectDoesNotExist
 from solaris.warbook.mech.models import MechDesign
 
 
@@ -34,16 +35,23 @@ def loadMechDesign(sswFileName, sswRelName):
         return    
     
     print "Importing %s ( %s / %s )" % (sswRelName, sswData.getName(), sswData.getCode())
-    MechDesign.objects.create(
-                                mech_name = sswData.getName()
-                              , mech_code = sswData.getCode()
-                              , credit_value = sswData.getCost()
-                              , bv_value = sswData.getBV()
-                              , tonnage = sswData.getTonnage()
-                              , move_walk = sswData.getWalkingMP()
-                              , is_omni = sswData.isOmni()
-                              , ssw_filename = sswRelName
-                              )
+    # Try to retrieve the existing mech entry, but if not found then 
+    # create a new one.
+    try:
+        mechDB = MechDesign.objects.get(ssw_filename=sswRelName)
+    except ObjectDoesNotExist:
+        mechDB = MechDesign()
+        mechDB.ssw_filename = sswRelName
+        
+    mechDB.mech_name = sswData.getName()
+    mechDB.mech_code = sswData.getCode()
+    mechDB.credit_value = sswData.getCost()
+    mechDB.bv_value = sswData.getBV()
+    mechDB.tonnage = sswData.getTonnage()
+    mechDB.move_walk = sswData.getWalkingMP()
+    mechDB.is_omni = sswData.isOmni()
+    
+    mechDB.save()
     
 if __name__ == '__main__':
     
