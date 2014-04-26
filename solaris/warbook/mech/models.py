@@ -3,15 +3,15 @@ from math import ceil
 
 
 class MechDesign(models.Model):
-    mech_name = models.CharField(max_length=50)
-    mech_code = models.CharField(max_length=20)
+    mech_name = models.CharField(max_length=100)
+    mech_code = models.CharField(max_length=50)
     stock_design = models.BooleanField(default=True)
     credit_value = models.IntegerField()
     bv_value = models.IntegerField()
     tonnage = models.IntegerField()
     move_walk = models.IntegerField()
     is_omni = models.BooleanField(default=False)
-    ssw_filename = models.CharField(max_length=255, blank=True, null=True)
+    ssw_filename = models.CharField(max_length=255, blank=True, null=True, unique=True)
  
     def engine_rating(self):
         return self.move_walk * self.tonnage
