@@ -2,6 +2,7 @@ from django.db import models
 from solaris.stablemanager.models import Stable
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.pilotskill.models import PilotAbility
+from solaris.warbook.models import House
 
 
 class Pilot(models.Model):
@@ -20,6 +21,7 @@ class Pilot(models.Model):
     skill_pilotting = models.IntegerField()
     exp_character_points = models.IntegerField(default=0)
     exp_wounds = models.IntegerField()
+    affiliation = models.ForeignKey(House)
     skill = models.ManyToManyField(PilotAbility, blank=True, through='PilotTraining')
     
     def isDead(self):
