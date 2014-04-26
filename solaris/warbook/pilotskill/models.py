@@ -1,7 +1,7 @@
 from django.db import models
 from genshi import Markup
 from decimal import Decimal
-  
+
 class PilotDiscipline(models.Model):
     name  = models.CharField(max_length=40)
     blurb = models.TextField()  
@@ -21,9 +21,15 @@ class PilotDiscipline(models.Model):
     def __unicode__(self):
         return self.name
     
+ 
+class PilotTrait(models.Model):
     
-  
-class PilotAbility(models.Model):
+    trait_list = (
+                     ('T', 'Trainng')
+                   , ('I', 'Issues') # Ego problems, family issues, etc
+                   , ('O', 'Other') # Subdermal armour or other odd traits
+                   )
+    
     bv_modifiers = (
                     (Decimal('0.000'), 'No Modifier'    ),
                     (Decimal('0.050'), 'Piloting Skill' ),
@@ -32,8 +38,18 @@ class PilotAbility(models.Model):
     
     name  = models.CharField(max_length=40)
     description = models.TextField()
-    discipline = models.ForeignKey(PilotDiscipline)
+    discipline = models.ForeignKey(PilotDiscipline, null=True)
     bv_mod = models.DecimalField(max_digits=6 ,decimal_places=3 ,choices=bv_modifiers)
+    trait_type = models.CharField(max_length=1, choices=trait_list)
+      
+    class Meta:
+        verbose_name_plural = 'Pilot Traits'
+        verbose_name = 'Pilot Trait'
+        db_table = 'warbook_pilotability'
+        app_label = 'warbook'
+   
+  
+class PilotAbility(PilotTrait):
     
     def bv_text(self):
         bv_description = self.get_bv_mod_display()
@@ -43,4 +59,6 @@ class PilotAbility(models.Model):
         return self.name
     
     class Meta:
-        db_table = 'warbook_pilotability'
+        verbose_name_plural = 'Pilot Abilities'
+        verbose_name = 'Pilot Ability'
+        proxy = True
