@@ -8,20 +8,57 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'PilotTraining'
+        db.create_table('stablemanager_pilottraining', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('pilot', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.Pilot'])),
+            ('training', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['pilotskill.PilotAbility'])),
+            ('notes', self.gf('django.db.models.fields.CharField')(max_length=50, blank=True)),
+        ))
+        db.send_create_signal('stablemanager', ['PilotTraining'])
+
 
         # Changing field 'Mech.signature_of'
         db.alter_column('stablemanager_mech', 'signature_of_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.Pilot'], null=True))
 
         # Changing field 'Mech.stable'
         db.alter_column('stablemanager_mech', 'stable_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.Stable'], null=True))
+        # Removing M2M table for field skill on 'Pilot'
+        db.delete_table('stablemanager_pilot_skill')
+
+        # Deleting field 'Stable.Owner'
+        db.delete_column('stablemanager_stable', 'Owner_id')
+
+        # Adding field 'Stable.owner'
+        db.add_column('stablemanager_stable', 'owner',
+                      self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, null=True),
+                      keep_default=False)
+
 
     def backwards(self, orm):
+        # Deleting model 'PilotTraining'
+        db.delete_table('stablemanager_pilottraining')
+
 
         # User chose to not deal with backwards NULL issues for 'Mech.signature_of'
         raise RuntimeError("Cannot reverse this migration. 'Mech.signature_of' and its values cannot be restored.")
 
         # User chose to not deal with backwards NULL issues for 'Mech.stable'
         raise RuntimeError("Cannot reverse this migration. 'Mech.stable' and its values cannot be restored.")
+        # Adding M2M table for field skill on 'Pilot'
+        db.create_table('stablemanager_pilot_skill', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('pilot', models.ForeignKey(orm['stablemanager.pilot'], null=False)),
+            ('pilotability', models.ForeignKey(orm['pilotskill.pilotability'], null=False))
+        ))
+        db.create_unique('stablemanager_pilot_skill', ['pilot_id', 'pilotability_id'])
+
+
+        # User chose to not deal with backwards NULL issues for 'Stable.Owner'
+        raise RuntimeError("Cannot reverse this migration. 'Stable.Owner' and its values cannot be restored.")
+        # Deleting field 'Stable.owner'
+        db.delete_column('stablemanager_stable', 'owner_id')
+
 
     models = {
         'auth.group': {
