@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 @login_required(login_url='/login')
 def stable_main(request):
     
-    stableList = models.Stable.objects.filter(Owner = request.user)
+    stableList = models.Stable.objects.filter(owner = request.user)
     
     if len(stableList) <> 1:
         return redirect('/stable/register')
