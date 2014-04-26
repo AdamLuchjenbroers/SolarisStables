@@ -49,7 +49,16 @@ class RegistrationForm(ModelForm):
      
 
 def registration_page(request):
-    form = RegistrationForm()
+    if (request.method == 'POST'):
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            if 'redirect' in request.POST:
+                return redirect(request.POST['redirect'])
+            else:
+                return redirect('/login')
+    else:
+        form = RegistrationForm()
            
     return render_page(body=form.render(), selected=None, request=request)
     
