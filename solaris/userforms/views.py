@@ -15,12 +15,21 @@ def login_page(request):
         )
         if user is not None:
             login(request, user)
-            return redirect('/')
+            
+            if 'redirect' in request.POST:
+                return redirect(request.POST['redirect'])
+            else:
+                return redirect('/')
         else:
             failed = True
+            
+    if 'next' in request.GET:
+        redirectURL = request.GET['next']
+    else:
+        redirectURL = None
               
     login_form = loader.get_template('userforms/login_form.tmpl')
-    body = Markup(login_form.generate(failed=failed))  
+    body = Markup(login_form.generate(failed=failed, redirect=redirectURL))  
 
     return render_page(body=body, selected=None, request=request)
 
