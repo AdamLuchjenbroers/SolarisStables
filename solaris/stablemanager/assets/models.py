@@ -5,13 +5,26 @@ from solaris.warbook.pilotskill.models import PilotAbility
 
 
 class Pilot(models.Model):
+    pilot_validRanks = (
+                   ('R', 'Rookie')    ,
+                   ('C', 'Contender') ,
+                   ('S', 'Star')      ,
+                   ('X', 'Champion')  ,
+                   )
+    
     stable = models.ForeignKey(Stable, blank=True)
     pilot_name = models.CharField(max_length=50, blank=True)
     pilot_callsign = models.CharField(max_length=20)
+    pilot_rank = models.CharField(max_length=1, choices=pilot_validRanks)
     skill_gunnery = models.IntegerField()
     skill_pilotting = models.IntegerField()
+    exp_character_points = models.IntegerField(default=0)
+    exp_wounds = models.IntegerField()
     skill = models.ManyToManyField(PilotAbility, blank=True, through='PilotTraining')
     
+    def isDead(self):
+        return (self.exp_wounds >= 6)
+        
     class Meta:
         verbose_name_plural = 'Pilots'
         verbose_name = 'Pilot'
