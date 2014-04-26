@@ -3,8 +3,8 @@ from math import ceil
 
 
 class MechDesign(models.Model):
-    mech_name = models.CharField(max_length=25)
-    mech_code = models.CharField(max_length=10)
+    mech_name = models.CharField(max_length=50)
+    mech_code = models.CharField(max_length=20)
     stock_design = models.BooleanField(default=True)
     credit_value = models.IntegerField()
     bv_value = models.IntegerField()
