@@ -1,16 +1,26 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
+from django.test import TestCase, Client
+from django.contrib.auth.models import User
 
-Replace this with more appropriate tests for your application.
-"""
+class LoginRedirectTest(TestCase):
+    
+    def setUp(self):
+        self.client = Client()
+        User.objects.create_user(username='login-test', email='login-test@nowhere.com', password='pass')
+    
+    def test_NoRedirect(self):
+        response = self.client.get('/login/')
+        self.assertNotContains(response, '<input type="hidden" name="redirect"', 200)
 
-from django.test import TestCase
-
-
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+    def test_WithRedirect(self):
+        response = self.client.get('/login?next=/stable/')
+        self.assertContains(response, '<input type="hidden" name="redirect"', 200)
+        
+    def test_loginNoRedirect(self):
+        response = self.client.post('/login/', {'login' : 'login-test', 'pass' : 'pass'})
+        self.assertEqual(response.status_code, 302, 'Failed redirect after login (HTTP %s)' % response.status_code)
+        self.assertEqual(response.get('Location'), 'http://testserver/', 'Redirected to incorrect page: %s ' % response.get('Location') )
+        
+    def test_loginWithRedirect(self):
+        response = self.client.post('/login/', {'login' : 'login-test', 'pass' : 'pass', 'redirect' : '/stable'})
+        self.assertEqual(response.status_code, 302, 'Failed redirect after login (HTTP %s)' % response.status_code)
+        self.assertEqual(response.get('Location'), 'http://testserver/stable', 'Redirected to incorrect page: %s ' % response.get('Location') )
