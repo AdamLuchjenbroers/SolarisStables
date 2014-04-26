@@ -1,7 +1,7 @@
 from django.db import models
 from solaris.stablemanager.models import Stable
 from solaris.warbook.mech.models import MechDesign
-from solaris.warbook.pilotskill.models import PilotAbility
+from solaris.warbook.pilotskill.models import PilotTrait
 from solaris.warbook.models import House
 
 
@@ -22,7 +22,7 @@ class Pilot(models.Model):
     exp_character_points = models.IntegerField(default=0)
     exp_wounds = models.IntegerField()
     affiliation = models.ForeignKey(House)
-    skill = models.ManyToManyField(PilotAbility, blank=True, through='PilotTraining')
+    skill = models.ManyToManyField(PilotTrait, blank=True, through='PilotTraining')
     
     def isDead(self):
         return (self.exp_wounds >= 6)
@@ -38,7 +38,7 @@ class Pilot(models.Model):
     
 class PilotTraining(models.Model):
     pilot = models.ForeignKey(Pilot)
-    training = models.ForeignKey(PilotAbility)
+    training = models.ForeignKey(PilotTrait)
     notes = models.CharField(max_length=50, blank=True)
     
     class Meta:
