@@ -15,8 +15,8 @@ def login_page(request):
         )
         if user is not None:
             login(request, user)
-        return redirect('/')
-    else:
+            return redirect('/')
+        else:
             failed = True
               
     login_form = loader.get_template('userforms/login_form.tmpl')
