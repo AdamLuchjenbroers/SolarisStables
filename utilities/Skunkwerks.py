@@ -47,4 +47,4 @@ class SSWFile:
     
     def isOmni(self): 
         mechInfo = self.xpathContext.xpathEval('/mech/@omnimech')
-        return mechInfo[0].getContent == "TRUE"
+        return mechInfo[0].getContent() == "TRUE"
