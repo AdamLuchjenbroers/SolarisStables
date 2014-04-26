@@ -5,7 +5,7 @@ from genshi import Markup
 
 class StaticContent(models.Model):
     title = models.CharField(max_length=20)
-    url = models.CharField(max_length=20)
+    url = models.CharField(max_length=150)
     content = models.TextField()
     toplevel = models.BooleanField()
     order = models.IntegerField()
