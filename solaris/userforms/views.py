@@ -3,6 +3,8 @@ from genshi import Markup
 from django_genshi import loader
 from solaris.core import render_page
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.forms import ModelForm
 from django.shortcuts import redirect
 
 def login_page(request):
@@ -34,9 +36,22 @@ def login_page(request):
     return render_page(body=body, selected=None, request=request)
 
 
+class RegistrationForm(ModelForm):
+    
+    class Meta:
+        model = User
+        fields = ('username', 'password', 'email', 'first_name', 'last_name',)
+        
+    def render(self):
+        form_template = loader.get_template('userforms/register.tmpl')
+
+        return form_template.generate(form_items=Markup(self.as_p()),redirect=None)
+     
+
 def registration_page(request):
-    body = Markup('<P>This will be the Registration page</P>')
-    return render_page(body=body, selected=None, request=request)
+    form = RegistrationForm()
+           
+    return render_page(body=form.render(), selected=None, request=request)
     
 def logout_user(request):
     logout(request)
