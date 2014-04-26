@@ -10,6 +10,7 @@ class MechDesign(models.Model):
     bv_value = models.IntegerField()
     tonnage = models.IntegerField()
     move_walk = models.IntegerField()
+    is_omni = models.BooleanField(default=False)
  
     def engine_rating(self):
         return self.move_walk * self.tonnage
