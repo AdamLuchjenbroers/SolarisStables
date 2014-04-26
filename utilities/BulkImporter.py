@@ -1,7 +1,6 @@
 import os
 import re
 
-
 os.environ['DJANGO_SETTINGS_MODULE'] = 'solaris.settings.dev_local'
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
