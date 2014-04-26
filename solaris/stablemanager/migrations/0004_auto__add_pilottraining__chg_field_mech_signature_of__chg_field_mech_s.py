@@ -18,11 +18,11 @@ class Migration(SchemaMigration):
         db.send_create_signal('stablemanager', ['PilotTraining'])
 
 
-        # Changing field 'Mech.signature_of'
-        db.alter_column('stablemanager_mech', 'signature_of_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.Pilot'], null=True))
+        # Changing field 'Mech.signature_of' (Change already in production
+        #db.alter_column('stablemanager_mech', 'signature_of_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.Pilot'], null=True))
 
         # Changing field 'Mech.stable'
-        db.alter_column('stablemanager_mech', 'stable_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.Stable'], null=True))
+        #db.alter_column('stablemanager_mech', 'stable_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.Stable'], null=True))
         # Removing M2M table for field skill on 'Pilot'
         db.delete_table('stablemanager_pilot_skill')
 
