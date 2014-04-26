@@ -4,7 +4,8 @@ import re
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'solaris.settings.dev_local'
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.utils import IntegrityError
+from django.db import transaction
+from django.db.utils import IntegrityError, DatabaseError
 from solaris.warbook.mech.models import MechDesign
 
 
@@ -14,24 +15,25 @@ from utilities.Skunkwerks import SSWFile
 
 
 def recursiveScanAll(path, relative_path='.'):
-    for file in os.listdir(path):
-        fullpath = path + '/' + file
-        
+    
+    for fileName in os.listdir(path):
+        fullpath = path + '/' + fileName    
         if os.path.isdir(fullpath):
-            relative_path = relative_path + '/' + file
-            recursiveScanAll(fullpath, relative_path=relative_path)
+            recursiveScanAll(fullpath, relative_path=relative_path + '/' + fileName)
             
-        if os.path.isfile(fullpath) and sswPattern.match(file):
-            loadMechDesign(fullpath, relative_path  + '/' + file)
-            
+        if os.path.isfile(fullpath) and sswPattern.match(fileName):
+            loadMechDesign(fullpath, relative_path  + '/' + fileName)
 
+@transaction.commit_manually           
 def loadMechDesign(sswFileName, sswRelName):
     sswData = SSWFile(sswFileName)
     
     if sswData.getTechBase() != 'Inner Sphere':
+        transaction.rollback() # Roll it back even though nothing has happened to fix errors regarding uncommitted transactions.
         return
     
     if sswData.getType() != 'BattleMech':
+        transaction.rollback() # Roll it back even though nothing has happened to fix errors regarding uncommitted transactions.
         return    
     
     print "Importing %s ( %s / %s )" % (sswRelName, sswData.getName(), sswData.getCode())
@@ -42,6 +44,11 @@ def loadMechDesign(sswFileName, sswRelName):
     except ObjectDoesNotExist:
         mechDB = MechDesign()
         mechDB.ssw_filename = sswRelName
+    except DatabaseError as e:
+        print 'Error encountered reading from database: %s' % e.message
+        transaction.rollback()
+        return
+    
         
     mechDB.mech_name = sswData.getName()
     mechDB.mech_code = sswData.getCode()
@@ -53,8 +60,14 @@ def loadMechDesign(sswFileName, sswRelName):
     
     try:
         mechDB.save()
+        transaction.commit()
     except IntegrityError:
         print 'Unable to import %s %s (File: %s). Already loaded from another file.' % (sswData.getName(), sswData.getCode(), sswRelName)
+        transaction.rollback()
+    except DatabaseError as e:
+        print 'Error encountered updating database: %s' % e.message
+        transaction.rollback()
+        raise
     
 if __name__ == '__main__':
     
