@@ -14,7 +14,7 @@ class RegistrationForm(SolarisModelForm):
         self.fields['username'].help_text = None
         self.fields['email'].label = 'E-Mail'
         self.fields['password'].widget = PasswordInput()
-    
+           
     def clean(self):
         super(RegistrationForm,self).clean()
         
