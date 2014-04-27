@@ -2,61 +2,60 @@
 from django.forms import ModelForm
 from django.utils.html import conditional_escape
 from django.utils.encoding import force_unicode
+from django_genshi import loader
+from genshi import Markup
+
+def escape_unicode(string):
+    return conditional_escape(force_unicode(string))
 
 class SolarisModelForm(ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(SolarisModelForm, self).__init__(*args, **kwargs)
-        if 'field_format' in kwargs:
-            self.field_format = kwargs['field_format']
+        if 'template' in kwargs:
+            self.template = loader.get_template(kwargs['template'])
         else:
-            self.field_format = '<p id="{label}"><label for="id_{label}">{label}:</label> {field} {errors}</p>'
-            
-        if 'error_format' in kwargs:
-            self.error_format = kwargs['error_format']
-        else:
-            self.error_format = '<span class="fielderror">{error}</span>'
+            self.template = loader.get_template('solaris_form.tmpl')
 
-    def renderErrors(self, fieldName):
-        outputHTML = ''
+        
+    def getErrors(self, fieldName):
+        errorList=[]
         
         if fieldName in self.errors:
             for fieldError in self.errors[fieldName]:
-                print 'E: %s' % conditional_escape(force_unicode(fieldError))  
-                outputHTML += self.error_format.format(error=conditional_escape(force_unicode(fieldError)))
-        
-        return outputHTML
-                      
-    def renderField(self, fieldName):
-        
-        fieldObj  = self[fieldName]
-        fieldLabel = fieldObj.label
-                
-        if fieldLabel is None:
-            fieldLabel = fieldName
-            
-        fieldLabel = conditional_escape(force_unicode(fieldLabel))
-                
-        if fieldName in self.errors:
-            fieldError = self.renderErrors(fieldName)
+                errorList.append(escape_unicode(fieldError))
         else:
-            fieldError = ''
+            return None
+        
+        return errorList
+
+    def getField(self, fieldName):
+        fieldData={}
+        
+        fieldData['object'] = self[fieldName]
+        fieldData['markup'] = Markup(fieldData['object'])
+        
+        if fieldData['object'].label is None:
+            fieldData['label'] = escape_unicode(fieldName)
+        else:
+            fieldData['label'] = escape_unicode(fieldData['object'].label)
             
-        return self.field_format.format(label=fieldLabel, field=fieldObj, errors=fieldError)
+        fieldData['errors'] = self.getErrors(fieldName)
+        return fieldData
     
     def as_p(self):
-        pageHTML = ''
         
         if '__all__' in self.errors:
-            pageHTML += '<span class=form_error><p>Unable to process form</p>%s</span>' % self.errors['__all__']
+            formErrors = self.errors['__all__']
+        else:
+            formErrors = None
             
+        fieldSet = []    
         for fieldName in self.fields.keys():
-            pageHTML += self.renderField(fieldName)
-            
-        #pageHTML += ModelForm.as_p(self)
-        # if self.errors
-        # errorHeader =
-        return pageHTML
+            fieldSet.append(self.getField(fieldName))
+        
+        return self.template.generate(formErrors=formErrors, form=fieldSet)
+
 
             
         

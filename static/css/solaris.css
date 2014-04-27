@@ -152,11 +152,11 @@ span.login_failed {
   background-color: #F08888;  
 }
 
-span.form_error {
+div.form_error, span.field_error {
   border-width: 1px;
   border-style: solid;
   padding: 4px;
-  margin-top: 8px;
+  margin-top: 4px;
   margin-bottom: 4px;
     
   font-weight: bold;
