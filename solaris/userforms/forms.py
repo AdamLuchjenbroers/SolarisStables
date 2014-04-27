@@ -1,9 +1,10 @@
 from genshi import Markup
 from django_genshi import loader
 from django.contrib.auth.models import User
-from django.forms import ModelForm, CharField, PasswordInput, ValidationError
+from django.forms import CharField, PasswordInput, ValidationError
+from solaris.forms import SolarisModelForm
 
-class RegistrationForm(ModelForm):
+class RegistrationForm(SolarisModelForm):
     
     passwordrepeat = CharField(widget=PasswordInput, label='Repeat')
     password = CharField(widget=PasswordInput)
