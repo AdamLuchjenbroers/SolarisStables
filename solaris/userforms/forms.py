@@ -7,10 +7,13 @@ from solaris.forms import SolarisModelForm
 class RegistrationForm(SolarisModelForm):
     
     passwordrepeat = CharField(widget=PasswordInput, label='Repeat')
-    password = CharField(widget=PasswordInput)
-    # Eliminate the blurb about valid user names
-    username = CharField()
-    email=CharField(label='E-Mail')
+    
+    def __init__(self, *args, **kwargs):
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        
+        self.fields['username'].help_text = None
+        self.fields['email'].label = 'E-Mail'
+        self.fields['password'].widget = PasswordInput()
     
     def clean(self):
         super(RegistrationForm,self).clean()
