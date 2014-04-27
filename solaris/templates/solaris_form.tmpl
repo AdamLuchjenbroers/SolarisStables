@@ -18,4 +18,7 @@
   </py:if>
   </p>
 </py:for>
+<py:if test="redirect">
+  <input type="hidden" name="redirect" value="${redirect}"/>
+</py:if>
 </div>

@@ -14,6 +14,11 @@ class SolarisFormMixin():
             self.template = loader.get_template(kwargs['template'])
         else:
             self.template = loader.get_template('solaris_form.tmpl')
+            
+        if 'redirect' in kwargs:
+            self.redirectURL = kwargs['redirect']
+        else:
+            self.redirectURL = None
 
         
     def getErrors(self, fieldName):
@@ -52,7 +57,7 @@ class SolarisFormMixin():
         for fieldName in self.fields.keys():
             fieldSet.append(self.getField(fieldName))
         
-        return self.template.generate(formErrors=formErrors, form=fieldSet)
+        return self.template.generate(formErrors=formErrors, form=fieldSet, redirect=self.redirectURL)
 
 
 class SolarisModelForm(SolarisFormMixin, ModelForm):
