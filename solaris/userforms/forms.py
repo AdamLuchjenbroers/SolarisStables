@@ -19,7 +19,6 @@ class RegistrationForm(SolarisModelForm):
         super(RegistrationForm,self).clean()
         
         if self.cleaned_data["password"] != self.cleaned_data["passwordrepeat"]:
-            print self.cleaned_data
             raise ValidationError('Passwords entered do not match')
        
         return self.cleaned_data
