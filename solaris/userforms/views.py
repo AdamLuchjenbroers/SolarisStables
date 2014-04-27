@@ -37,10 +37,8 @@ def login_page(request):
 
 def registration_page(request):
     if (request.method == 'POST'):
-        print 'Form Received'
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            print 'Form Validated'
             form.save()
             if 'redirect' in request.POST:
                 return redirect(request.POST['redirect'])
