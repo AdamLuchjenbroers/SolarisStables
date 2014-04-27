@@ -8,10 +8,8 @@ from genshi import Markup
 def escape_unicode(string):
     return conditional_escape(force_unicode(string))
 
-class SolarisModelForm(ModelForm):
-    
+class SolarisFormMixin():    
     def __init__(self, *args, **kwargs):
-        super(SolarisModelForm, self).__init__(*args, **kwargs)
         if 'template' in kwargs:
             self.template = loader.get_template(kwargs['template'])
         else:
@@ -56,6 +54,12 @@ class SolarisModelForm(ModelForm):
         
         return self.template.generate(formErrors=formErrors, form=fieldSet)
 
+
+class SolarisModelForm(SolarisFormMixin, ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        SolarisFormMixin.__init__(self, *args, **kwargs)
+        ModelForm.__init__(self,*args, **kwargs)
 
             
         
