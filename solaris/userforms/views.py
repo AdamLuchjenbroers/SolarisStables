@@ -4,7 +4,7 @@ from django_genshi import loader
 from solaris.core import render_page
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.forms import ModelForm
+from django.forms import ModelForm, CharField, PasswordInput, ValidationError
 from django.shortcuts import redirect
 
 def login_page(request):
@@ -37,16 +37,34 @@ def login_page(request):
 
 
 class RegistrationForm(ModelForm):
+    password = CharField(widget=PasswordInput)
+    passwordrepeat = CharField(widget=PasswordInput, label='Repeat Password')
+    
+    def clean_password(self):
+        if self.cleaned_data.get('password') != self.cleaned_data.get('passwordrepeat'):
+            raise ValidationError('Passwords entered do not match')
+        
+        
+    def is_valid(self):
+        if not super(RegistrationForm,self).is_valid():
+            return False
+        
+        if self.password != self.passwordrepeat:
+            self.add_error('password','Passwords entered do not match')
+            return False
+        
+        return True        
+        
     
     class Meta:
         model = User
-        fields = ('username', 'password', 'email', 'first_name', 'last_name',)
+        fields = ('username', 'email', 'first_name', 'last_name', 'password', 'passwordrepeat' )
         
     def render(self):
         form_template = loader.get_template('userforms/register.tmpl')
 
         return form_template.generate(form_items=Markup(self.as_p()),redirect=None)
-     
+    
 
 def registration_page(request):
     if (request.method == 'POST'):
