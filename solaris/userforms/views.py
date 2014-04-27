@@ -44,8 +44,6 @@ def registration_page(request):
                 return redirect(request.POST['redirect'])
             else:
                 return redirect('/login')
-        else:
-            print form.errors
         
     else:
         form = RegistrationForm()
