@@ -5,8 +5,8 @@ from django.forms import CharField, PasswordInput, ValidationError
 from solaris.forms import SolarisModelForm, SolarisForm
 
 class LoginForm(SolarisForm):
-    username = CharField(label='Username')
-    password = CharField(label='Password', widget=PasswordInput)
+    username = CharField(label='Username', required=True)
+    password = CharField(label='Password', widget=PasswordInput, required=True)
     
     def clean(self):
         super(RegistrationForm,self).clean()
