@@ -1,5 +1,5 @@
 
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
 from django.utils.html import conditional_escape
 from django.utils.encoding import force_unicode
 from django_genshi import loader
@@ -61,7 +61,12 @@ class SolarisModelForm(SolarisFormMixin, ModelForm):
         SolarisFormMixin.__init__(self, *args, **kwargs)
         ModelForm.__init__(self,*args, **kwargs)
 
-            
+class SolarisForm(SolarisFormMixin, Form):
+
+    def __init__(self, *args, **kwargs):
+        SolarisFormMixin.__init__(self, *args, **kwargs)
+        Form.__init__(self,*args, **kwargs)
+           
         
              
         
