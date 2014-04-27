@@ -2,7 +2,15 @@ from genshi import Markup
 from django_genshi import loader
 from django.contrib.auth.models import User
 from django.forms import CharField, PasswordInput, ValidationError
-from solaris.forms import SolarisModelForm
+from solaris.forms import SolarisModelForm, SolarisForm
+
+class LoginForm(SolarisForm):
+    username = CharField(label='Username')
+    password = CharField(label='Password', widget=PasswordInput)
+    
+    def clean(self):
+        super(RegistrationForm,self).clean()
+    
 
 class RegistrationForm(SolarisModelForm):
     
