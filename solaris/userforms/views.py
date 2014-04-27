@@ -50,23 +50,16 @@ class RegistrationForm(ModelForm):
         if self.cleaned_data.get('password') != self.cleaned_data.get('passwordrepeat'):
             print self.cleaned_data
             raise ValidationError('Passwords entered do not match')
-        
-        self.cleaned_data.set('password') = 
-        
+       
         return self.cleaned_data
               
         
-    '''    
-    def is_valid(self):
-        if not super(RegistrationForm,self).is_valid():
-            return False
-        
-        #if self.password != self.passwordrepeat:
-        #    self.add_error('password','Passwords entered do not match')
-        #    return False
-        
-        return True        
-    '''    
+    def save(self, commit=True):
+        user = super(RegistrationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user  
     
     class Meta:
         model = User
