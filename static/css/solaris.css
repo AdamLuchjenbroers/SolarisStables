@@ -152,6 +152,17 @@ span.login_failed {
   background-color: #F08888;  
 }
 
+span.form_error {
+  border-width: 1px;
+  border-style: solid;
+  padding: 4px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+    
+  font-weight: bold;
+  background-color: #F08888;  
+}
+
 div.news {
   position: relative;
   left: 40px;
