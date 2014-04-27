@@ -37,24 +37,36 @@ def login_page(request):
 
 
 class RegistrationForm(ModelForm):
-    password = CharField(widget=PasswordInput)
-    passwordrepeat = CharField(widget=PasswordInput, label='Repeat Password')
     
-    def clean_password(self):
+    passwordrepeat = CharField(widget=PasswordInput, label='Repeat')
+    password = CharField(widget=PasswordInput)
+    # Eliminate the blurb about valid user names
+    username = CharField()
+    email=CharField(label='E-Mail')
+    
+    def clean(self):
+        super(RegistrationForm,self).clean()
+        
         if self.cleaned_data.get('password') != self.cleaned_data.get('passwordrepeat'):
+            print self.cleaned_data
             raise ValidationError('Passwords entered do not match')
         
+        self.cleaned_data.set('password') = 
         
+        return self.cleaned_data
+              
+        
+    '''    
     def is_valid(self):
         if not super(RegistrationForm,self).is_valid():
             return False
         
-        if self.password != self.passwordrepeat:
-            self.add_error('password','Passwords entered do not match')
-            return False
+        #if self.password != self.passwordrepeat:
+        #    self.add_error('password','Passwords entered do not match')
+        #    return False
         
         return True        
-        
+    '''    
     
     class Meta:
         model = User
@@ -68,13 +80,18 @@ class RegistrationForm(ModelForm):
 
 def registration_page(request):
     if (request.method == 'POST'):
+        print 'Form Received'
         form = RegistrationForm(request.POST)
         if form.is_valid():
+            print 'Form Validated'
             form.save()
             if 'redirect' in request.POST:
                 return redirect(request.POST['redirect'])
             else:
                 return redirect('/login')
+        else:
+            print form.errors
+        
     else:
         form = RegistrationForm()
            
