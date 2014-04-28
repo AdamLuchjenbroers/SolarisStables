@@ -39,3 +39,9 @@ class MechLocation(models.Model):
     location = models.CharField(max_length=3, unique=True, choices=locations_all)
     criticals = models.IntegerField()
     rear_of = models.ForeignKeyField(MechLocation, null=True)
+    
+class MechDesignLocation(models.Model):
+    mech = models.ForeignKeyField(MechDesign)
+    location = models.ForeignKeyField(MechLocation)
+    armor = models.IntegerField()
+    structure = models.IntegerField(null=True)
