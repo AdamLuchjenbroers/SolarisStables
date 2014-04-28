@@ -1,6 +1,8 @@
 from django.db import models
 from math import ceil
 
+from .refdata import locations_all
+
 
 class MechDesign(models.Model):
     mech_name = models.CharField(max_length=100)
@@ -34,6 +36,6 @@ class MechDesign(models.Model):
         return '%s %s' % (self.mech_name, self.mech_code)
 
 class MechLocation(models.Model):
-    location = models.CharField(max_length=3, unique=True)
+    location = models.CharField(max_length=3, unique=True, choices=locations_all)
     criticals = models.IntegerField()
     rear_of = models.ForeignKeyField(MechLocation, null=True)
