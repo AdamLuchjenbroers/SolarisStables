@@ -40,8 +40,21 @@ class MechLocation(models.Model):
     criticals = models.IntegerField()
     rear_of = models.ForeignKeyField(MechLocation, null=True)
     
+    class Meta:
+        verbose_name_plural = 'Mech Locations'
+        verbose_name = 'Mech Location'
+        db_table = 'warbook_mechlocation'
+        app_label = 'warbook'
+    
 class MechDesignLocation(models.Model):
     mech = models.ForeignKeyField(MechDesign)
     location = models.ForeignKeyField(MechLocation)
     armor = models.IntegerField()
     structure = models.IntegerField(null=True)
+
+    class Meta:
+        unique_together = (('mech','location'),)
+        verbose_name_plural = 'Mech Design Locations'
+        verbose_name = 'Mech Design Location'
+        db_table = 'warbook_mechdesignlocation'
+        app_label = 'warbook'
