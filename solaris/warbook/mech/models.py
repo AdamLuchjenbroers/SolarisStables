@@ -11,6 +11,7 @@ class MechDesign(models.Model):
     tonnage = models.IntegerField()
     move_walk = models.IntegerField()
     is_omni = models.BooleanField(default=False)
+    omni_basechassis = models.ForeignKeyField(MechDesign, null=True)
     ssw_filename = models.CharField(max_length=1024, blank=True, null=True, unique=True)
  
     def engine_rating(self):
@@ -31,3 +32,8 @@ class MechDesign(models.Model):
         
     def __unicode__(self):
         return '%s %s' % (self.mech_name, self.mech_code)
+
+class MechLocation(models.Model):
+    location = models.CharField(max_length=3, unique=True)
+    criticals = models.IntegerField()
+    rear_of = models.ForeignKeyField(MechLocation, null=True)
