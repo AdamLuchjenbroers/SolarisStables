@@ -2,8 +2,5 @@
   <form action="/register" method="POST" class="login">
     ${form_items}
     <p><input type="submit" Value="Register" class="submit"/></p>
-    <py:if test="redirect">
-      <input type="hidden" name="redirect" value="${redirect}"/>
-    </py:if>
   </form>
 </div>

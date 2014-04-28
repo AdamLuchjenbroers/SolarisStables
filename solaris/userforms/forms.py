@@ -46,5 +46,5 @@ class RegistrationForm(SolarisModelForm):
     def render(self):
         form_template = loader.get_template('userforms/register.tmpl')
 
-        return form_template.generate(form_items=Markup(self.as_p()),redirect=None)
+        return form_template.generate(form_items=Markup(self.as_p()))
     
