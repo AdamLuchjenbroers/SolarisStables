@@ -16,12 +16,12 @@ class LoginRedirectTest(TestCase):
         self.assertContains(response, '<input type="hidden" name="redirect"', 200)
         
     def test_loginNoRedirect(self):
-        response = self.client.post('/login/', {'login' : 'login-test', 'pass' : 'pass'})
+        response = self.client.post('/login/', {'id_username' : 'login-test', 'id_password' : 'pass'})
         self.assertEqual(response.status_code, 302, 'Failed redirect after login (HTTP %s)' % response.status_code)
         self.assertEqual(response.get('Location'), 'http://testserver/', 'Redirected to incorrect page: %s ' % response.get('Location') )
         
     def test_loginWithRedirect(self):
-        response = self.client.post('/login/', {'login' : 'login-test', 'pass' : 'pass', 'redirect' : '/stable'})
+        response = self.client.post('/login/', {'id_username' : 'login-test', 'id_password' : 'pass', 'redirect' : '/stable'})
         self.assertEqual(response.status_code, 302, 'Failed redirect after login (HTTP %s)' % response.status_code)
         self.assertEqual(response.get('Location'), 'http://testserver/stable', 'Redirected to incorrect page: %s ' % response.get('Location') )
 
@@ -37,5 +37,5 @@ class LoginErrorTest(TestCase):
         self.assertNotContains(response, '<span class="login_failed">Invalid Username or Password</span>', 200)
         
     def test_loginWithError(self):
-        response = self.client.post('/login/', {'login' : 'login-test', 'pass' : 'wrongpass'})
+        response = self.client.post('/login/', {'id_username' : 'login-test', 'id_password' : 'wrongpass'})
         self.assertContains(response, '<span class="login_failed">Invalid Username or Password</span>', 200)
