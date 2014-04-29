@@ -8,6 +8,14 @@ class Ledger(models.Model):
     week = models.ForeignKeyField(BroadcastWeek)
     opening_balance = models.IntegerField()
     
+    def closing_balance(self):
+        balance = self.opening_balance
+        
+        for item in self.ledgeritem_set:
+            balance += item.get_cost()
+            
+        return balance
+    
     class Meta:
         verbose_name_plural = 'Ledgers'
         verbose_name = 'Ledger'
@@ -28,6 +36,10 @@ class LedgerItem(models.Model)
     description = models.CharField(max_length=40)
     cost = models.IntegerField()
     type = model.CharField(max_length=1, choices=item_types)
+    
+    def get_cost(self):
+        #Use a method for this so implementing repairbills / winnings will be smoother in future.
+        return self.cost
     
     class Meta:
         verbose_name_plural = 'Ledger Items'
