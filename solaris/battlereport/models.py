@@ -3,7 +3,7 @@ from django.db import models
 class Zodiac(models.Model):
     sign = models.CharField(max_length = 20)
     rules = models.TextField()
-    next = models.ForeignKey('Zodiac', related_name='prev')
+    next = models.OneToOneField('Zodiac', related_name='prev')
     
     def __unicode__(self):
         return self.sign
