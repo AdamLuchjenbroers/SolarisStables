@@ -13,7 +13,7 @@ class MechDesign(models.Model):
     tonnage = models.IntegerField()
     move_walk = models.IntegerField()
     is_omni = models.BooleanField(default=False)
-    omni_basechassis = models.ForeignKeyField(MechDesign, null=True)
+    omni_basechassis = models.ForeignKey(MechDesign, null=True)
     ssw_filename = models.CharField(max_length=1024, blank=True, null=True, unique=True)
  
     def engine_rating(self):
@@ -38,7 +38,7 @@ class MechDesign(models.Model):
 class MechLocation(models.Model):
     location = models.CharField(max_length=3, unique=True, choices=locations_all)
     criticals = models.IntegerField()
-    rear_of = models.ForeignKeyField(MechLocation, null=True)
+    rear_of = models.ForeignKey('MechLocation', null=True)
     
     class Meta:
         verbose_name_plural = 'Mech Locations'
@@ -47,8 +47,8 @@ class MechLocation(models.Model):
         app_label = 'warbook'
     
 class MechDesignLocation(models.Model):
-    mech = models.ForeignKeyField(MechDesign)
-    location = models.ForeignKeyField(MechLocation)
+    mech = models.ForeignKey(MechDesign)
+    location = models.ForeignKey(MechLocation)
     armor = models.IntegerField()
     structure = models.IntegerField(null=True)
 
