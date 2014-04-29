@@ -8,6 +8,12 @@ class Ledger(models.Model):
     week = models.ForeignKeyField(BroadcastWeek)
     opening_balance = models.IntegerField()
     
+    class Meta:
+        verbose_name_plural = 'Ledgers'
+        verbose_name = 'Ledger'
+        db_table = 'stablemanager_ledger'
+        app_label = 'stablemanager'
+    
 
 class LedgerItem(models.Model)
     
@@ -22,5 +28,11 @@ class LedgerItem(models.Model)
     description = models.CharField(max_length=40)
     cost = models.IntegerField()
     type = model.CharField(max_length=1, choices=item_types)
+    
+    class Meta:
+        verbose_name_plural = 'Ledger Items'
+        verbose_name = 'Ledger Item'
+        db_table = 'stablemanager_ledgeritem'
+        app_label = 'stablemanager'
 
     
