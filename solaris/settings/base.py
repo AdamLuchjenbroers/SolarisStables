@@ -47,5 +47,6 @@ INSTALLED_APPS = (
     'solaris.warbook.mech',
     'solaris.stablemanager',
     'solaris.stablemanager.assets',
+    'solaris.battlereport',
     'south',
 )
