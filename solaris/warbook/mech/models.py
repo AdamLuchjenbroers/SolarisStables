@@ -13,7 +13,7 @@ class MechDesign(models.Model):
     tonnage = models.IntegerField()
     move_walk = models.IntegerField()
     is_omni = models.BooleanField(default=False)
-    omni_basechassis = models.ForeignKey(MechDesign, null=True)
+    omni_basechassis = models.ForeignKey('MechDesign', null=True)
     ssw_filename = models.CharField(max_length=1024, blank=True, null=True, unique=True)
  
     def engine_rating(self):
