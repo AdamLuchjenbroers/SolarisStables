@@ -4,10 +4,10 @@ from solaris.stablemanager.models import Stable
 
 
 class Ledger(models.Model):
-    stable = models.ForeignKeyField(Stable)
-    week = models.ForeignKeyField(BroadcastWeek)
+    stable = models.ForeignKey(Stable)
+    week = models.ForeignKey(BroadcastWeek)
     opening_balance = models.IntegerField()
-    next_ledger = models.ForeignKeyField(Ledger, null=True)
+    next_ledger = models.ForeignKey('Ledger', null=True, related_name='prev_ledger')
     
     def closing_balance(self):
         balance = self.opening_balance
@@ -24,19 +24,18 @@ class Ledger(models.Model):
         app_label = 'stablemanager'
     
 
-class LedgerItem(models.Model)
-    
+class LedgerItem(models.Model):    
     item_types = (
                    ('R', 'Repair Bill')
-                 , ('P'. 'Purchase')
+                 , ('P', 'Purchase')
                  , ('W', 'Winnings')
-                 , ('M'. 'Misc')
+                 , ('M', 'Misc')
                  ,)
     
-    ledger = models.ForeignKeyField(Ledger, related_name='entries')
+    ledger = models.ForeignKey(Ledger, related_name='entries')
     description = models.CharField(max_length=40)
     cost = models.IntegerField()
-    type = model.CharField(max_length=1, choices=item_types)
+    type = models.CharField(max_length=1, choices=item_types)
     
     def get_cost(self):
         #Use a method for this so implementing repairbills / winnings will be smoother in future.
