@@ -7,6 +7,7 @@ class Ledger(models.Model):
     stable = models.ForeignKeyField(Stable)
     week = models.ForeignKeyField(BroadcastWeek)
     opening_balance = models.IntegerField()
+    next_ledger = models.ForeignKeyField(Ledger, null=True)
     
     def closing_balance(self):
         balance = self.opening_balance
