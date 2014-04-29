@@ -2,35 +2,31 @@
 from genshi import Markup
 from django_genshi import loader
 from solaris.core import render_page
-from .forms import RegistrationForm
-from django.contrib.auth import authenticate, login, logout
+from .forms import RegistrationForm, LoginForm
+from django.contrib.auth import login, logout
 from django.shortcuts import redirect
 
 def login_page(request):
-    failed = False
     
     if (request.method == 'POST'):
-        user = authenticate(
-            username = request.POST['login'],
-            password = request.POST['pass']
-        )
-        if user is not None:
-            login(request, user)
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            login(request, form.user)
             
             if 'redirect' in request.POST:
                 return redirect(request.POST['redirect'])
             else:
                 return redirect('/')
-        else:
-            failed = True
-            
-    if 'next' in request.GET:
-        redirectURL = request.GET['next']
     else:
-        redirectURL = None
+        if 'next' in request.GET:
+            redirectURL = request.GET['next']
+        else:
+            redirectURL = None
+        form = LoginForm()
+        form.redirect = redirectURL   
               
     login_form = loader.get_template('userforms/login_form.tmpl')
-    body = Markup(login_form.generate(failed=failed, redirect=redirectURL))  
+    body = Markup(login_form.generate(form_items=Markup(form.as_p())))  
 
     return render_page(body=body, selected=None, request=request)
 

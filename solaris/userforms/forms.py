@@ -1,5 +1,6 @@
 from genshi import Markup
 from django_genshi import loader
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.forms import CharField, PasswordInput, ValidationError
 from solaris.forms import SolarisModelForm, SolarisForm
@@ -7,11 +8,27 @@ from solaris.forms import SolarisModelForm, SolarisForm
 class LoginForm(SolarisForm):
     username = CharField(label='Username', required=True)
     password = CharField(label='Password', widget=PasswordInput, required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+    
     
     def clean(self):
-        super(RegistrationForm,self).clean()
-    
-
+        super(LoginForm,self).clean()
+        
+        if not ('username' in self.cleaned_data and 'password' in self.cleaned_data):
+            # A validation error will have already been raised for this
+            # so we don't need to raise another
+            return
+        
+        self.user = authenticate(
+            username = self.cleaned_data['username'],
+            password = self.cleaned_data['password']
+        )
+                
+        if self.user == None:
+            raise ValidationError('Invalid Username or Password')
+        
 class RegistrationForm(SolarisModelForm):
     
     passwordrepeat = CharField(widget=PasswordInput, label='Repeat')
