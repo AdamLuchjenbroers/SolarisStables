@@ -3,6 +3,8 @@ from django.conf.urls import patterns, include
 from django.contrib import admin
 from django.conf import settings
 
+from .views import SolarisView
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -16,6 +18,7 @@ urlpatterns = patterns('',
     (r'^register/?$', 'solaris.userforms.views.registration_page'),
     (r'^reference/', include('solaris.warbook.urls')),
     (r'^stable/?', include('solaris.stablemanager.urls')),
+    (r'^viewtest/?', SolarisView.as_view() )
 )
 
 if settings.USE_DJANGO_STATIC:

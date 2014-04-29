@@ -2,29 +2,13 @@
 # ------------------------------------------------------------
 # Common functions that are useful in many places
 # ------------------------------------------------------------
-  
-from django.http import HttpResponse
-from django_genshi import loader
-from solaris.cms.models import StaticContent
 
-def get_arg(argument, kwargs, default=None):
-    if argument in kwargs:
-        return kwargs[argument]
-    else:
-        return default 
+from .views import SolarisView
 
 def render_page(body='', selected='', adminbar=False, request=None):
-    # Get Navigation Menu / Templates 
-    navigation_options = StaticContent.objects.filter(toplevel=True).order_by('order')
-    template = loader.get_template('layout.tmpl')
+    # Use SolarisView to perform rendering
+    # Slightly clunky, but it consolidates the code
+    view = SolarisView(body=body, selected=selected)
     
-    output = template.generate(
-      body=body
-    , selected='/%s' % selected
-    , menu=navigation_options
-    , authenticated = request.user.is_authenticated()
-    , username = request.user.username
-    ).render('html', doctype='html')
-    
-    return HttpResponse(output)
+    return view.get(request)
   

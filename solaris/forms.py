@@ -4,7 +4,7 @@ from django.utils.html import conditional_escape
 from django.utils.encoding import force_unicode
 from django_genshi import loader
 from genshi import Markup
-from .core import get_arg
+from .utils import get_arg
 
 def escape_unicode(string):
     return conditional_escape(force_unicode(string))
