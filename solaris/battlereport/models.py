@@ -6,8 +6,7 @@ class Zodiac(models.Model):
 
 class BroadcastWeek(models.Model):
     week_number = models.IntegerField()
-    sign = models.ForeignKeyField(Zodiac)
-    prev_week = models.ForeignKeyField(BroadcastWeek, null=True)
-    next_week = models.ForeignKeyField(BroadcastWeek, null=True)
+    sign = models.ForeignKey(Zodiac)
+    prev_week = models.ForeignKey('BroadcastWeek', null=True, related_name='next_week')
     
     
