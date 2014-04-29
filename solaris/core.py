@@ -7,6 +7,12 @@ from django.http import HttpResponse
 from django_genshi import loader
 from solaris.cms.models import StaticContent
 
+def get_arg(argument, kwargs, default=None):
+    if argument in kwargs:
+        return kwargs[argument]
+    else:
+        return default 
+
 def render_page(body='', selected='', adminbar=False, request=None):
     # Get Navigation Menu / Templates 
     navigation_options = StaticContent.objects.filter(toplevel=True).order_by('order')

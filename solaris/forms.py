@@ -4,23 +4,18 @@ from django.utils.html import conditional_escape
 from django.utils.encoding import force_unicode
 from django_genshi import loader
 from genshi import Markup
+from .core import get_arg
 
 def escape_unicode(string):
     return conditional_escape(force_unicode(string))
 
 class SolarisFormMixin():    
     def __init__(self, *args, **kwargs):
-        if 'template' in kwargs:
-            self.template = loader.get_template(kwargs['template'])
-        else:
-            self.template = loader.get_template('solaris_form.tmpl')
-            
-        if 'redirect' in kwargs:
-            self.redirectURL = kwargs['redirect']
-        else:
-            self.redirectURL = None
-
+        templateName = get_arg('template', kwargs, default='solaris_form.tmpl')
+        self.template = loader.get_template(templateName)
         
+        self.redirectURL = get_arg('redirect', kwargs)
+
     def getErrors(self, fieldName):
         errorList=[]
         
