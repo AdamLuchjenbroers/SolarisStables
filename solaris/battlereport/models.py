@@ -11,7 +11,7 @@ class Zodiac(models.Model):
 class BroadcastWeek(models.Model):
     week_number = models.IntegerField()
     sign = models.ForeignKey(Zodiac)
-    prev_week = models.ForeignKey('BroadcastWeek', null=True, related_name='next_week')
+    prev_week = models.OneToOneField('BroadcastWeek', null=True, related_name='next_week')
     
     def __unicode__(self):
         return 'Week %i' % self.week_number
