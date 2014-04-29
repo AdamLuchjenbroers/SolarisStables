@@ -12,7 +12,7 @@ class Ledger(models.Model):
     def closing_balance(self):
         balance = self.opening_balance
         
-        for item in self.ledgeritem_set:
+        for item in self.entries.all():
             balance += item.get_cost()
             
         return balance
@@ -33,7 +33,7 @@ class LedgerItem(models.Model)
                  , ('M'. 'Misc')
                  ,)
     
-    ledger = models.ForeignKeyField(Ledger)
+    ledger = models.ForeignKeyField(Ledger, related_name='entries')
     description = models.CharField(max_length=40)
     cost = models.IntegerField()
     type = model.CharField(max_length=1, choices=item_types)
