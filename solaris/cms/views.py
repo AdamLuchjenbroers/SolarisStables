@@ -4,6 +4,7 @@ from solaris.cms.models import StaticContent, NewsPost
 from solaris.core import render_page
 from django.shortcuts import get_object_or_404, redirect
 from django_genshi import loader
+from django.contrib.auth.decorators import permission_required
 
 
 def static_content(request, selected=None):
@@ -29,6 +30,7 @@ def news_form(request, selected):
     
     return render_page(body=newsform, selected=None, request=request)
 
+@permission_required('cms.post_news')
 def post_news(request):
     if ((len(request.POST['title']) > 0) and (len(request.POST['content']) > 0)):
         post = NewsPost(poster = request.user, title = request.POST['title'], content = request.POST['content'])    
