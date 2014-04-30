@@ -16,4 +16,13 @@ class Stable(models.Model):
     
     def __unicode__(self):
         return self.stable_name
+        
+    def remaining_tasks(self):
+        #STUB: Will return a list of incomplete data (e.g. missing repair
+        #bills, unspent training points, etc).
+        return None
+        
+    def week_complete(self):
+        return (self.remaining_tasks == None and self.current_week.next_week != None)
+     
 
