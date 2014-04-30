@@ -7,21 +7,15 @@ from django.http import HttpResponse
 
 from solaris.views import SolarisView
 from solaris.core import render_page
-from solaris.stablemanager.models import Stable
+from .models import Stable
+from .utils import stable_required
 
 
 from .forms import StableRegistrationForm
 
-@login_required(login_url='/login')
-def stable_main(request):
-    
-    stableList = Stable.objects.filter(owner = request.user)
-    
-    if len(stableList) <> 1:
-        return redirect('/stable/register')
-            
-    stable = stableList[0]
-            
+@stable_required(add_stable=True)
+def stable_main(request, stable=None):
+           
     body = Markup('<P>Stable Management for the %s will go here</P>' % stable.stable_name )
     return render_page(body=body, selected=None, request=request)
 
