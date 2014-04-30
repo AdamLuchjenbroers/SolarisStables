@@ -15,5 +15,15 @@ class BroadcastWeek(models.Model):
     
     def __unicode__(self):
         return 'Week %i' % self.week_number
-    
+        
+    def advance(self):
+        if self.next_week == None
+            return self.next_week
+            
+            self.next_week = objects.create(
+                week_number = self.week_number + 1
+              , sign = self.sign.next
+            )
+        
+        return self.next_week
     
