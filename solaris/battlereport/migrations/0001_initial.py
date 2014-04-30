@@ -13,6 +13,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('sign', self.gf('django.db.models.fields.CharField')(max_length=20)),
             ('rules', self.gf('django.db.models.fields.TextField')()),
+            ('next', self.gf('django.db.models.fields.related.OneToOneField')(related_name='prev', unique=True, null=True, to=orm['battlereport.Zodiac'])),
         ))
         db.send_create_signal('battlereport', ['Zodiac'])
 
@@ -21,7 +22,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('week_number', self.gf('django.db.models.fields.IntegerField')()),
             ('sign', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['battlereport.Zodiac'])),
-            ('prev_week', self.gf('django.db.models.fields.related.ForeignKey')(related_name='next_week', null=True, to=orm['battlereport.BroadcastWeek'])),
+            ('next_week', self.gf('django.db.models.fields.related.OneToOneField')(blank=True, related_name='prev_week', unique=True, null=True, to=orm['battlereport.BroadcastWeek'])),
         ))
         db.send_create_signal('battlereport', ['BroadcastWeek'])
 
@@ -38,13 +39,14 @@ class Migration(SchemaMigration):
         'battlereport.broadcastweek': {
             'Meta': {'object_name': 'BroadcastWeek'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'prev_week': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'next_week'", 'null': 'True', 'to': "orm['battlereport.BroadcastWeek']"}),
+            'next_week': ('django.db.models.fields.related.OneToOneField', [], {'blank': 'True', 'related_name': "'prev_week'", 'unique': 'True', 'null': 'True', 'to': "orm['battlereport.BroadcastWeek']"}),
             'sign': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['battlereport.Zodiac']"}),
             'week_number': ('django.db.models.fields.IntegerField', [], {})
         },
         'battlereport.zodiac': {
             'Meta': {'object_name': 'Zodiac'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'next': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'prev'", 'unique': 'True', 'null': 'True', 'to': "orm['battlereport.Zodiac']"}),
             'rules': ('django.db.models.fields.TextField', [], {}),
             'sign': ('django.db.models.fields.CharField', [], {'max_length': '20'})
         }
