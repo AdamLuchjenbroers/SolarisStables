@@ -1,13 +1,10 @@
 from genshi import Markup
 from django_genshi import loader
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 from django.http import HttpResponse
 
 
 from solaris.views import SolarisView
 from solaris.core import render_page
-from .models import Stable
 from .utils import stable_required
 
 
