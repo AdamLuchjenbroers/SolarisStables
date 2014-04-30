@@ -5,6 +5,7 @@ from .models import BroadcastWeek, Zodiac
 Runs a suite of tests to confirm that the BroadcastWeek model correctly implements the following behavior
   * Generates a new Broadcast Week if Advance is called and there is no next week present
   * Returns the next week if advance() is called and there is already a next week
+Additionally, confirm Zodiac sign has rotated correctly.
 '''
 class BroadcastWeekTests(TestCase):
     
@@ -23,6 +24,7 @@ class BroadcastWeekTests(TestCase):
         
         self.assertEqual(new_week.week_number, 3, 'Unexpected Week Number: %i' % new_week.week_number)
         self.assertEqual(check_count, 1, 'Duplicate Weeks found in Database')
+        self.assertEqual(new_week.sign.sign, 'Black', 'Incorrect Zodiac Sign: %s', new_week.sign.sign)
                 
     def test_advanceOldWeek(self):
         new_week = self.week_past.advance()
@@ -31,4 +33,5 @@ class BroadcastWeekTests(TestCase):
         
         self.assertEqual(new_week.week_number, 2, 'Unexpected Week Number: %i' % new_week.week_number)
         self.assertEqual(check_count, 1, 'Duplicate Weeks found in Database')
+        self.assertEqual(new_week.sign.sign, 'White', 'Incorrect Zodiac Sign: %s', new_week.sign.sign)
         
