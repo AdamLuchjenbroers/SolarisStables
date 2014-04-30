@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.db.models import Count
 from .models import BroadcastWeek, Zodiac
 '''
 Runs a suite of tests to confirm that the BroadcastWeek model correctly implements the following behavior
@@ -10,8 +9,8 @@ Additionally, confirm Zodiac sign has rotated correctly.
 class BroadcastWeekTests(TestCase):
     
     def setUp(self):
-        z_black = Zodiac.object.create(sign='Black', rules='Test')
-        z_white = Zodiac.object.create(sign='White', rules='Test', next=z_black)
+        z_black = Zodiac.objects.create(sign='Black', rules='Test')
+        z_white = Zodiac.objects.create(sign='White', rules='Test', next=z_black)
         z_black.next = z_white
         
         self.week_now = BroadcastWeek.objects.create(week_number=2, sign=z_white)
