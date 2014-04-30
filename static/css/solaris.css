@@ -36,38 +36,60 @@ img#logo {
   padding: 0px 4px 4px 0px
 }
 
-div.toolbar {
+ul.menu, div.toolbar {
   position: absolute;
   top: 250px;
   left: 60px;
   right: 60px;
     
-  border-top-width: 4px;
-  border-top-style: solid;
-  border-top-color: #444444;  
+  border-width: 4px;
+  border-style: solid;
+  border-color: #666666;  
+  list-style-type:none;
   
-  border-bottom-width: 4px;
-  border-bottom-style: solid;
-  border-bottom-color: #444444;
+  background-color: #666666;
+  
+  padding: 0px;
+  margin: 0px;
 }
 
-div.toolbar span {
-  padding-top: 2px;
+div.toolbar span, ul.menu li {
+  float: left;
+  text-align: center;
+  vertical-align: middle;
+
+  padding-top: 5px;
   padding-bottom: 2px;
-  padding-left: 6px;
-  padding-right:6px;
+  padding-left: 0px;
+  padding-right:0px;
   
   margin: 0px;
-
+  padding: 0px;
 
   border-right-width: 4px;
   border-right-style: solid;
-  border-right-color: #444444; 
+  border-right-color: #666666;
   
+  border-left-width: 0px;
+  border-right-style: solid;
+  border-right-color: #666666;
+    
   background-color: #BBBBBB;
 }
 
-div.toolbar span#selected {
+ul.menu li.login {
+  float: right;
+}
+
+ul.menu li a {  
+  display:block;
+  vertical-align: middle;
+
+  width: 160px; 
+  height: 20px;
+}
+
+div.toolbar span#selected, ul.menu li#selected {
   margin:0px;
  
   background-color: #660000;
@@ -82,7 +104,7 @@ div.body {
   position: absolute;
   left: 60px;
   right: 60px;
-  top: 280px;
+  top: 290px;
   padding: 8px;
   
   
