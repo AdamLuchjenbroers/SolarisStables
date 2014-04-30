@@ -89,11 +89,14 @@ ul.menu li a {
   height: 20px;
 }
 
-div.toolbar span#selected, ul.menu li#selected {
-  margin:0px;
- 
+div.toolbar span#selected, ul.menu li#selected { 
   background-color: #660000;
   color: #FFFFFF;  
+  display:block;
+  vertical-align: middle;
+
+  width: 160px; 
+  height: 20px;
 }
 
 div.toolbar span.login {
