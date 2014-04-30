@@ -18,10 +18,11 @@ class BroadcastWeek(models.Model):
         
     def advance(self):
         if self.next_week == None:            
-            self.next_week = objects.create(
+            self.next_week = BroadcastWeek(
                 week_number = self.week_number + 1
               , sign = self.sign.next
             )
+            self.next_week.save()
         
         return self.next_week
     

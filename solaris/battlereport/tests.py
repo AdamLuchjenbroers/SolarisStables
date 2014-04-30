@@ -23,7 +23,7 @@ class BroadcastWeekTests(TestCase):
         
         self.assertEqual(new_week.week_number, 3, 'Unexpected Week Number: %i' % new_week.week_number)
         self.assertEqual(check_count, 1, 'Duplicate Weeks found in Database')
-        self.assertEqual(new_week.sign.sign, 'Black', 'Incorrect Zodiac Sign: %s', new_week.sign.sign)
+        self.assertEqual(new_week.sign.sign, 'Black', 'Incorrect Zodiac Sign: %s' % new_week.sign.sign)
                 
     def test_advanceOldWeek(self):
         new_week = self.week_past.advance()
@@ -32,5 +32,5 @@ class BroadcastWeekTests(TestCase):
         
         self.assertEqual(new_week.week_number, 2, 'Unexpected Week Number: %i' % new_week.week_number)
         self.assertEqual(check_count, 1, 'Duplicate Weeks found in Database')
-        self.assertEqual(new_week.sign.sign, 'White', 'Incorrect Zodiac Sign: %s', new_week.sign.sign)
+        self.assertEqual(new_week.sign.sign, 'White', 'Incorrect Zodiac Sign: %s' % new_week.sign.sign)
         
