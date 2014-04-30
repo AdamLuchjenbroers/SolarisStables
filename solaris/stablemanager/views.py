@@ -1,10 +1,12 @@
 from genshi import Markup
 from django_genshi import loader
 from django.http import HttpResponse
+from django.shortcuts import redirect
 
 from solaris.views import SolarisView
 from solaris.core import render_page
 from .utils import stable_required
+
 
 
 from .forms import StableRegistrationForm
@@ -39,7 +41,7 @@ class StableRegistrationView(SolarisView):
     def create_stable(self, form, request):
         form.register_stable(request.user)       
             
-        return HttpResponse(self.in_layout('<p>Valid Form</p>', request))
+        return redirect('/stable')
     
     def get(self, request):
         form = StableRegistrationForm()
