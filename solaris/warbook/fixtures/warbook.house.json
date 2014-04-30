@@ -1,1 +1,93 @@
-[{"pk": 1, "model": "warbook.house", "fields": {"house": "House Davion", "blurb": "House Davion rules the Federated Suns, one of the five great powers of the Inner Sphere", "house_disciplines": [4, 5, 6]}}, {"pk": 2, "model": "warbook.house", "fields": {"house": "House Kurita", "blurb": "The Draconis Combine, rules by House Kurita, is known both for their prowess on the battlefield and for their intrigues off it.", "house_disciplines": [2, 3, 7]}}, {"pk": 3, "model": "warbook.house", "fields": {"house": "House Liao", "blurb": "Often engaged in skirmishes with both the Free Worlds League and the Federated Suns, the Capellan Confederation (ruled by House Liao) are experienced at defending their own.", "house_disciplines": [1, 8, 7]}}, {"pk": 4, "model": "warbook.house", "fields": {"house": "House Marik", "blurb": "The Mariks rule the Free Worlds League, with a Marik holding the post of Captain-General for many centuries. Fractious and individualistic, they are nevertheless a formidible force on the battlefield.", "house_disciplines": [7, 5, 6]}}, {"pk": 5, "model": "warbook.house", "fields": {"house": "House Steiner", "blurb": "The Lyran Commonwealth, ruled by House Steiner, is one of the five powerhouses of the Inner Sphere. ", "house_disciplines": [1, 5, 6]}}, {"pk": 6, "model": "warbook.house", "fields": {"house": "ComStar", "blurb": "Originally the maintainers of the galactic communications HPG network, ComStar also maintains a sizeable fleet of mechs. They use these mechs to protect the independence of galactic communications throughout the Inner Sphere", "house_disciplines": [2, 4, 8]}}, {"pk": 7, "model": "warbook.house", "fields": {"house": "Word of Blake", "blurb": "The Word of Blake is a splinter group that broke away from Comstar, who became a force to be reckoned with when they successfully captured Terra in 3057. They revere technology as mythical and divine, and stop at nothing to spread their Jihad.", "house_disciplines": [3, 4, 8]}}]
+[
+    {
+        "pk": 1, 
+        "model": "warbook.house", 
+        "fields": {
+            "house": "House Davion", 
+            "blurb": "House Davion rules the Federated Suns, one of the five great powers of the Inner Sphere", 
+            "house_disciplines": [
+                4, 
+                5, 
+                6
+            ]
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "warbook.house", 
+        "fields": {
+            "house": "House Kurita", 
+            "blurb": "The Draconis Combine, rules by House Kurita, is known both for their prowess on the battlefield and for their intrigues off it.", 
+            "house_disciplines": [
+                2, 
+                3, 
+                7
+            ]
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "warbook.house", 
+        "fields": {
+            "house": "House Liao", 
+            "blurb": "Often engaged in skirmishes with both the Free Worlds League and the Federated Suns, the Capellan Confederation (ruled by House Liao) are experienced at defending their own.", 
+            "house_disciplines": [
+                1, 
+                8, 
+                7
+            ]
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "warbook.house", 
+        "fields": {
+            "house": "House Marik", 
+            "blurb": "The Mariks rule the Free Worlds League, with a Marik holding the post of Captain-General for many centuries. Fractious and individualistic, they are nevertheless a formidible force on the battlefield.", 
+            "house_disciplines": [
+                7, 
+                5, 
+                6
+            ]
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "warbook.house", 
+        "fields": {
+            "house": "House Steiner", 
+            "blurb": "The Lyran Commonwealth, ruled by House Steiner, is one of the five powerhouses of the Inner Sphere. ", 
+            "house_disciplines": [
+                1, 
+                5, 
+                6
+            ]
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "warbook.house", 
+        "fields": {
+            "house": "ComStar", 
+            "blurb": "Originally the maintainers of the galactic communications HPG network, ComStar also maintains a sizeable fleet of mechs. They use these mechs to protect the independence of galactic communications throughout the Inner Sphere", 
+            "house_disciplines": [
+                2, 
+                4, 
+                8
+            ]
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "warbook.house", 
+        "fields": {
+            "house": "Word of Blake", 
+            "blurb": "The Word of Blake is a splinter group that broke away from Comstar, who became a force to be reckoned with when they successfully captured Terra in 3057. They revere technology as mythical and divine, and stop at nothing to spread their Jihad.", 
+            "house_disciplines": [
+                3, 
+                4, 
+                8
+            ]
+        }
+    }
+]
