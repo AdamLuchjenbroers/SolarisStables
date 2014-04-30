@@ -35,6 +35,15 @@
       </span>
     </ul>  
 
+    <py:if test="submenu">
+      <ul class="submenu">
+       <py:for each="item in submenu">
+         <li><a href="${item['url']}">${item['title']}</a></li>
+       </py:for>
+      </ul>
+    </py:if>
+    
+
     <div class="body">$body</div>
   </body>
 </html>

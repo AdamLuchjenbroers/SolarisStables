@@ -20,6 +20,9 @@ class SolarisView(View):
     def get_menu(self):
         return StaticContent.objects.filter(toplevel=True).order_by('order')
     
+    def get_submenu(self):
+        return None
+    
     def in_layout(self, body, request):
         
         url_firstterm = re.compile('^(/[^/]*).*$')
@@ -27,13 +30,13 @@ class SolarisView(View):
         if url_match:
             selected = url_match.group(1)
         else:
-            selected = None
-            
+            selected = None            
         
         return self.base_layout.generate(
             body=body
           , selected=selected
           , menu=self.get_menu()
+          , submenu = self.get_submenu()
           , authenticated = request.user.is_authenticated()
           , username = request.user.username
         ).render(self.doctype, doctype=self.doctype)

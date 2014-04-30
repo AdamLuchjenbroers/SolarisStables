@@ -51,6 +51,9 @@ ul.menu, div.toolbar {
   
   padding: 0px;
   margin: 0px;
+  
+  font-family: arial,sans-serif;
+  font-size: 12;
 }
 
 div.toolbar span, ul.menu li {
@@ -58,13 +61,12 @@ div.toolbar span, ul.menu li {
   text-align: center;
   vertical-align: middle;
 
-  padding-top: 5px;
+  padding-top: 1px;
   padding-bottom: 2px;
   padding-left: 0px;
-  padding-right:0px;
+  padding-right: 0px;
   
   margin: 0px;
-  padding: 0px;
 
   border-right-width: 4px;
   border-right-style: solid;
@@ -86,7 +88,7 @@ ul.menu li a {
   vertical-align: middle;
 
   width: 160px; 
-  height: 20px;
+  height: 18px;
 }
 
 div.toolbar span#selected, ul.menu li#selected { 
@@ -96,7 +98,58 @@ div.toolbar span#selected, ul.menu li#selected {
   vertical-align: middle;
 
   width: 160px; 
-  height: 20px;
+  height: 18px;
+}
+
+ul.submenu {
+  position: absolute;
+  top: 280px;
+  left: 120px;
+  right: 120px;
+    
+  border-width: 4px;
+  border-style: solid;
+  border-color: #888888;  
+  list-style-type:none;
+  
+  background-color: #888888;
+  
+  padding: 0px;
+  margin: 0px;
+  
+  font-family: arial,sans-serif;
+  font-size: small;
+}
+
+ul.submenu li {
+  float: left;
+  text-align: center;
+  vertical-align: middle;
+
+  padding-top: 1px;
+  padding-bottom: 2px;
+  padding-left: 0px;
+  padding-right: 0px;
+  
+  margin: 0px;
+
+  border-right-width: 4px;
+  border-right-style: solid;
+  border-right-color: #888888;
+  
+  border-left-width: 0px;
+  border-right-style: solid;
+  border-right-color: #888888;
+    
+  background-color: #BBBBBB;
+}
+
+ul.submenu li a {  
+  display:block;
+  vertical-align: middle;
+
+  width: 120px; 
+  height: 13px;
 }
 
 div.toolbar span.login {
@@ -107,7 +160,7 @@ div.body {
   position: absolute;
   left: 60px;
   right: 60px;
-  top: 290px;
+  top: 310px;
   padding: 8px;
   
   
