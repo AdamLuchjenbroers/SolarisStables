@@ -8,6 +8,16 @@ from django.http import HttpResponse
 from genshi import Markup
 
 class SolarisView(View):
+    
+    def get_styles(self):
+        return [
+            '/static/css/solaris.css'
+        ]
+    
+    def get_scripts(self):
+        return [
+            '/static/nicEdit/nicEdit.js'
+        ]
         
     def __init__(self, *args, **kwargs):         
         master_template = get_arg('master_template', kwargs, 'layout.tmpl')
@@ -36,9 +46,12 @@ class SolarisView(View):
             body=body
           , selected=selected
           , menu=self.get_menu()
+          , sub_selected=None
           , submenu = self.get_submenu()
           , authenticated = request.user.is_authenticated()
           , username = request.user.username
+          , styles = self.get_styles()
+          , scripts = self.get_scripts()
         ).render(self.doctype, doctype=self.doctype)
     
     def get(self, request):   

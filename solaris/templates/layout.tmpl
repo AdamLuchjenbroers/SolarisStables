@@ -1,8 +1,12 @@
 <html xmlns:py="http://genshi.edgewall.org/">
   <head>
     <title>Solaris StableManager</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/solaris.css" />
-    <script type="text/javascript" src="/static/nicEdit/nicEdit.js"></script>
+    <py:if test="styles"><py:for sheet in styles>
+      <link rel="stylesheet" type="text/css" href="${sheet}" />
+    </py:for></py:if>
+    <py:if test="scripts"><py:for js in scripts>      
+      <script type="text/javascript" src="${js}"></script>
+    </py:for></py:if>
   </head>
   
   <body>
