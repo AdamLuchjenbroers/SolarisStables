@@ -20,7 +20,7 @@ class TechnologyListView(ReferenceView):
     
         # Render Technologies List
         tmpl_tech = loader.get_template('warbook/techtree/tech_list.tmpl')    
-        techtree = Markup(tmpl_tech.generate(techtree=tech_list))
+        techtree = Markup(tmpl_tech.generate(techtree=tech_list, baseURL=request.get_full_path()))
 
         return HttpResponse(self.in_layout(techtree, request))
 
