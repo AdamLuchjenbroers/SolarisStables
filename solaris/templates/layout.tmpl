@@ -1,10 +1,10 @@
 <html xmlns:py="http://genshi.edgewall.org/">
   <head>
     <title>Solaris StableManager</title>
-    <py:if test="styles"><py:for sheet in styles>
+    <py:if test="styles"><py:for each="sheet in styles">
       <link rel="stylesheet" type="text/css" href="${sheet}" />
     </py:for></py:if>
-    <py:if test="scripts"><py:for js in scripts>      
+    <py:if test="scripts"><py:for each="js in scripts">      
       <script type="text/javascript" src="${js}"></script>
     </py:for></py:if>
   </head>

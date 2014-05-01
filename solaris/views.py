@@ -10,14 +10,10 @@ from genshi import Markup
 class SolarisView(View):
     
     def get_styles(self):
-        return [
-            '/static/css/solaris.css'
-        ]
+        return ['/static/css/solaris.css',]
     
     def get_scripts(self):
-        return [
-            '/static/nicEdit/nicEdit.js'
-        ]
+        return ['/static/nicEdit/nicEdit.js',]
         
     def __init__(self, *args, **kwargs):         
         master_template = get_arg('master_template', kwargs, 'layout.tmpl')
