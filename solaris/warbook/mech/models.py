@@ -5,8 +5,9 @@ from .refdata import locations_all
 
 
 class MechDesign(models.Model):
-    mech_name = models.CharField(max_length=100)
+    mech_name = models.CharField(max_length=50)
     mech_code = models.CharField(max_length=50)
+    mech_key = models.CharField(max_length=100, unique=True)
     stock_design = models.BooleanField(default=True)
     credit_value = models.IntegerField()
     bv_value = models.IntegerField()
@@ -20,6 +21,7 @@ class MechDesign(models.Model):
         return self.move_walk * self.tonnage
   
     def gyro_tonnage(self):
+        #FIXME: Should be handled by equipment, as this varies by gyro type
         return ceil(self.engine_rating / 100) 
   
     def move_run(self):
