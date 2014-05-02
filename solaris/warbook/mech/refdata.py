@@ -6,7 +6,7 @@ locations_allmechs = (
 , ( 'CT', 'Center Torso' )
 , ( 'RLT', 'Left Torso (Rear)' )
 , ( 'RRT', 'Right Torso (Rear)' )
-, ( 'RCT', 'Right Center Torso (Rear)' )
+, ( 'RCT', 'Center Torso (Rear)' )
 , ( '--', 'No Location' )
 )
 
