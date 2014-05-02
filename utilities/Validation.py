@@ -26,4 +26,4 @@ def expect_alphastring(function):
     return expect_regex(function, '^[a-zA-Z ]+$')
     
 def expect_basicstring(function):
-    return expect_regex(function, '^[a-zA-Z \(\)\-\']+$')
+    return expect_regex(function, '^[a-zA-Z0-9 \(\)\-\']+$')
