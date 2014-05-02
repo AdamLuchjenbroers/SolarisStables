@@ -7,6 +7,7 @@ locations_allmechs = (
 , ( 'RLT', 'Left Torso (Rear)' )
 , ( 'RRT', 'Right Torso (Rear)' )
 , ( 'RCT', 'Right Center Torso (Rear)' )
+, ( '--', 'No Location' )
 )
 
 locations_bipedonly = (
