@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'solaris.cms',
+    'solaris.battlereport',
     'solaris.warbook',
     'solaris.warbook.techtree',
     'solaris.warbook.pilotskill',
@@ -48,6 +49,5 @@ INSTALLED_APPS = (
     'solaris.stablemanager',
     'solaris.stablemanager.assets',
     'solaris.stablemanager.ledger',
-    'solaris.battlereport',
     'south',
 )

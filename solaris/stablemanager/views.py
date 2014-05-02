@@ -1,30 +1,35 @@
 from genshi import Markup
 from django_genshi import loader
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 from django.http import HttpResponse
-
+from django.shortcuts import redirect
 
 from solaris.views import SolarisView
 from solaris.core import render_page
-from solaris.stablemanager.models import Stable
+from .utils import stable_required
+
 
 
 from .forms import StableRegistrationForm
 
-@login_required(login_url='/login')
-def stable_main(request):
+class StableView(SolarisView):
+    def get_submenu(self):
+        return [
+          {'title' : 'Ledger', 'url' : '/stable/ledger'},
+          {'title' : 'Assets', 'url' : '/stable'},
+          {'title' : 'Actions', 'url' : '/stable/actions'},
+          {'title' : 'Training', 'url' : '/stable/training'},          
+        ]
     
-    stableList = Stable.objects.filter(owner = request.user)
-    
-    if len(stableList) <> 1:
-        return redirect('/stable/register')
-            
-    stable = stableList[0]
-            
-    body = Markup('<P>Stable Management for the %s will go here</P>' % stable.stable_name )
-    return render_page(body=body, selected=None, request=request)
+    @stable_required(add_stable=True)
+    def dispatch(self, request, *args, **kwargs):
+        self.stable = kwargs['stable']
+        return super(StableView, self).dispatch(request, *args, **kwargs)
 
+class StableOverview(StableView):    
+    def get(self, request, stable=None):
+        body = Markup('<P>Stable Management for the %s will go here</P>' % stable.stable_name)
+        return HttpResponse(self.in_layout(body, request))
+    
 
 class StableRegistrationView(SolarisView):
     
@@ -36,7 +41,7 @@ class StableRegistrationView(SolarisView):
     def create_stable(self, form, request):
         form.register_stable(request.user)       
             
-        return HttpResponse(self.in_layout('<p>Valid Form</p>', request))
+        return redirect('/stable')
     
     def get(self, request):
         form = StableRegistrationForm()

@@ -1,8 +1,12 @@
 <html xmlns:py="http://genshi.edgewall.org/">
   <head>
     <title>Solaris StableManager</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/solaris.css" />
-    <script type="text/javascript" src="/static/nicEdit/nicEdit.js"></script>
+    <py:if test="styles"><py:for each="sheet in styles">
+      <link rel="stylesheet" type="text/css" href="${sheet}" />
+    </py:for></py:if>
+    <py:if test="scripts"><py:for each="js in scripts">      
+      <script type="text/javascript" src="${js}"></script>
+    </py:for></py:if>
   </head>
   
   <body>
@@ -12,27 +16,37 @@
       <h2>Work in progress</h2>
     </div>
 
-    <div class="toolbar">
+    <ul class="menu">
       <py:for each="item in menu">
         <py:choose test="selected">
           <py:when test="item.url">
-            <span id="selected">$item.title</span>
+            <li id="selected">$item.title</li>
           </py:when>
           <py:otherwise> 
-            <span><a href="$item.url">$item.title</a></span>
+            <li><a href="$item.url">$item.title</a></li>
           </py:otherwise>
         </py:choose>
-      </py:for>  
-  
+      </py:for>
+      
       <span class='login'>
          <py:choose test="authenticated">
-           <py:when test="True">Welcome, ${username} (<a href="/logout">Logout</a>)</py:when>
+           <py:when test="True"><li class="login"><a href="/logout">Logout</a></li></py:when>
            <py:otherwise>
-             <a href="/login">Login</a> / <a href="/register">Register</a>
+             <li class="login"><a href="/login">Login</a></li>
+             <li class="login"><a href="/register">Register</a></li>
            </py:otherwise>
          </py:choose>
       </span>
-    </div>  
+    </ul>  
+
+    <py:if test="submenu">
+      <ul class="submenu">
+       <py:for each="item in submenu">
+         <li><a href="${item['url']}">${item['title']}</a></li>
+       </py:for>
+      </ul>
+    </py:if>
+    
 
     <div class="body">$body</div>
   </body>

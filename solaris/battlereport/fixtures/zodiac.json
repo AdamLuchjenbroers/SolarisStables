@@ -1,0 +1,110 @@
+[[
+    {
+        "pk": 12, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 11, 
+            "sign": "Rat"
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 10, 
+            "sign": "Ox"
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 9, 
+            "sign": "Tiger"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 8, 
+            "sign": "Rabbit"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 6, 
+            "sign": "Snake"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 7, 
+            "sign": "Dragon"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 5, 
+            "sign": "Horse"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 4, 
+            "sign": "Sheep"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 3, 
+            "sign": "Monkey"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 2, 
+            "sign": "Rooster"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 1, 
+            "sign": "Dog"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "battlereport.zodiac", 
+        "fields": {
+            "rules": "TBA", 
+            "next": 12, 
+            "sign": "Pig"
+        }
+    }
+]

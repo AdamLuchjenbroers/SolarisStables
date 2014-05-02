@@ -1,10 +1,17 @@
 from django.conf.urls import patterns
 
+from .views import ReferenceView
+from solaris.warbook.techtree.views import TechnologyListView, TechnologyDetailView
+from solaris.warbook.pilotskill.views import DisciplineListView, DisciplineDetailView
+from solaris.warbook.mech.views import MechListView, MechDetailView, MechSearchView 
+
 urlpatterns = patterns('',
-    (r'^techtree$', 'solaris.cms.views.util_redirect', {'path': '/reference/techtree/'}),
-    (r'^techtree/$',  'solaris.warbook.techtree.views.list_technologies', {'selected': '/techtree/'}),
-    (r'^techtree/(?P<technology>[^/]+)/?$', 'solaris.warbook.techtree.views.display_technology', {'selected': '/techtree/'}),
-    (r'^pilotskills$', 'solaris.cms.views.util_redirect', {'path': '/reference/pilotskills/'}),
-    (r'^pilotskills/$', 'solaris.warbook.pilotskill.views.list_disciplines'),
-    (r'^pilotskills/(?P<discipline>[^/]+)/?$', 'solaris.warbook.pilotskill.views.show_discipline')
+    (r'^/?$', ReferenceView.as_view() ), 
+    (r'^techtree/?$',  TechnologyListView.as_view() ),
+    (r'^techtree/(?P<technology>[^/]+)/?$', TechnologyDetailView.as_view() ),
+    (r'^pilotskills/?$', DisciplineListView.as_view() ),
+    (r'^pilotskills/(?P<discipline>[^/]+)/?$', DisciplineDetailView.as_view() ),
+    (r'^mechs/?$', MechSearchView.as_view()) ,
+    (r'^mechs/(?P<name>[^/]+)/?$', MechListView.as_view()) ,
+    (r'^mechs/(?P<name>[^/]+)/(?P<code>[^/]+)?$', MechDetailView.as_view()) ,    
 )
