@@ -60,3 +60,17 @@ class MechDesignLocation(models.Model):
         verbose_name = 'Mech Design Location'
         db_table = 'warbook_mechdesignlocation'
         app_label = 'warbook'
+
+class Equipment(models.Model):
+    name = models.CharField(max_length=100)
+    ssw_name = models.CharField(max_length=100, unique=True)
+    
+
+class Mounting(models.Model):
+    location = models.ForeignKey(MechDesignLocation)
+    equipment = models.ForeignKey(Equipment)
+    # Slot allocations will be stored as a list (e.g. '2,3,4' for slots 2, 3 and 4)
+    slots = models.CharField(max_length=30)
+    
+    def get_slots(self):
+        return self.slots.split(',')
