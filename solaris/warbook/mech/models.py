@@ -70,7 +70,10 @@ class Mounting(models.Model):
     location = models.ForeignKey(MechDesignLocation)
     equipment = models.ForeignKey(Equipment)
     # Slot allocations will be stored as a list (e.g. '2,3,4' for slots 2, 3 and 4)
-    slots = models.CharField(max_length=30)
+    slots = models.CharField(max_length=30, blank=True)
     
     def get_slots(self):
         return self.slots.split(',')
+        
+    def set_slots(self, slots):
+        self.slots = ','.join(slots)
