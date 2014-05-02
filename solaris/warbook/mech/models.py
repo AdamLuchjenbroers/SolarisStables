@@ -8,6 +8,7 @@ class MechDesign(models.Model):
     mech_name = models.CharField(max_length=50)
     mech_code = models.CharField(max_length=50)
     mech_key = models.CharField(max_length=100, unique=True)
+    omni_loadout = models.CharField(max_length=30, default='N/A'
     stock_design = models.BooleanField(default=True)
     credit_value = models.IntegerField(null=True)
     bv_value = models.IntegerField(null=True)
@@ -15,7 +16,7 @@ class MechDesign(models.Model):
     move_walk = models.IntegerField()
     is_omni = models.BooleanField(default=False)
     omni_basechassis = models.ForeignKey('MechDesign', null=True)
-    ssw_filename = models.CharField(max_length=1024, blank=True, null=True, unique=True)
+    ssw_filename = models.CharField(max_length=1024, blank=True, null=True)
  
     def engine_rating(self):
         return self.move_walk * self.tonnage
@@ -28,7 +29,7 @@ class MechDesign(models.Model):
         return ceil(self.move_walk * 1.5)
 
     class Meta:
-        unique_together = (('mech_name', 'mech_code'),)
+        unique_together = (('mech_name', 'mech_code', 'omni_loadout'), ('ssw_filename', 'omni_loadout'),)
         verbose_name_plural = 'Mech Designs'
         verbose_name = 'Mech Design'
         db_table = 'warbook_mechdesign'
