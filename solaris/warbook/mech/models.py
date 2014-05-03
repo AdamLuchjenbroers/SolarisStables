@@ -61,6 +61,13 @@ class MechDesignLocation(models.Model):
         verbose_name = 'Mech Design Location'
         db_table = 'warbook_mechdesignlocation'
         app_label = 'warbook'
+        
+    def get_criticals(self):
+        crit_table = []
+        for item in self.criticals:
+            for slot in item.get_slots()
+                crit_table[slot] = item
+        return crit_table
 
 class Equipment(models.Model):
     name = models.CharField(max_length=100)
@@ -68,7 +75,7 @@ class Equipment(models.Model):
     
 
 class Mounting(models.Model):
-    location = models.ForeignKey(MechDesignLocation)
+    location = models.ForeignKey(MechDesignLocation, related_name='criticals')
     equipment = models.ForeignKey(Equipment)
     # Slot allocations will be stored as a list (e.g. '2,3,4' for slots 2, 3 and 4)
     slots = models.CharField(max_length=30, blank=True)
