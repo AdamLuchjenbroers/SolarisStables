@@ -2,6 +2,7 @@ from django.db import models
 from math import ceil
 
 from .refdata import locations_all
+import .tonnage
 
 
 class MechDesign(models.Model):
@@ -72,7 +73,13 @@ class MechDesignLocation(models.Model):
 class Equipment(models.Model):
     name = models.CharField(max_length=100)
     ssw_name = models.CharField(max_length=100, unique=True)
+    tonnage_func = models.CharField(max_length=40, choices=tonnage.tonnage_funcs)
+    tonnage_factor = models.DecimalField(max_digits=4, decimal_places=1)
     
+    def __init__(self, *args, **kwargs):
+        super(Equipment, self).__init__(*args, **kwargs)
+        self.tonnage = MethodType(getattr(tonnage, self.tonnage_func), self)
+        
 
 class Mounting(models.Model):
     location = models.ForeignKey(MechDesignLocation, related_name='criticals')
