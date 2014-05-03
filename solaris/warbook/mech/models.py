@@ -3,7 +3,7 @@ from math import ceil
 
 from .refdata import locations_all
 import .tonnage
-
+import .critical
 
 class MechDesign(models.Model):
     mech_name = models.CharField(max_length=50)
@@ -73,12 +73,18 @@ class MechDesignLocation(models.Model):
 class Equipment(models.Model):
     name = models.CharField(max_length=100)
     ssw_name = models.CharField(max_length=100, unique=True)
-    tonnage_func = models.CharField(max_length=40, choices=tonnage.tonnage_funcs)
-    tonnage_factor = models.DecimalField(max_digits=4, decimal_places=1)
+    tonnage_func = models.CharField(max_length=40, choices=tonnage.tonnage_funcs, null=True)
+    tonnage_factor = models.DecimalField(max_digits=4, decimal_places=1, null=True)
+    critical_func = models.CharField(max_length=40, choices=criticals.critical_funcs, null=True)
+    critical_factor = models.DecimalField(max_digits=4, decimal_places=1, null=True)
     
     def __init__(self, *args, **kwargs):
         super(Equipment, self).__init__(*args, **kwargs)
-        self.tonnage = MethodType(getattr(tonnage, self.tonnage_func), self)
+        if self.tonnage_func != None:
+            self.tonnage = MethodType(getattr(tonnage, self.tonnage_func), self)
+        
+        if self.critical_func != None:
+            self.criticals = MethodType(getattr(criticals, self.critical_func), self)
         
 
 class Mounting(models.Model):
