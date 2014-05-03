@@ -4,6 +4,7 @@ from math import ceil
 from .refdata import locations_all
 import .tonnage
 import .critical
+import .cost
 
 class MechDesign(models.Model):
     mech_name = models.CharField(max_length=50)
@@ -77,6 +78,8 @@ class Equipment(models.Model):
     tonnage_factor = models.DecimalField(max_digits=4, decimal_places=1, null=True)
     critical_func = models.CharField(max_length=40, choices=criticals.critical_funcs, null=True)
     critical_factor = models.DecimalField(max_digits=4, decimal_places=1, null=True)
+    cost_func = models.CharField(max_length=40, choices=cost.cost_funcs, null=True)
+    cost_factor = models.DecimalField(max_digits=12, decimal_places=1, null=True)
     
     def __init__(self, *args, **kwargs):
         super(Equipment, self).__init__(*args, **kwargs)
