@@ -10,3 +10,6 @@ def fixed(self, mech):
     
 def masc(self, mech):
     return ceil( mech.tonnage * 0.05f )
+
+def melee(self, mech):
+    return ceil( mech.tonnage / self.critical_factor )

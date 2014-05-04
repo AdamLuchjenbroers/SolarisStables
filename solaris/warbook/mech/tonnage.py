@@ -1,8 +1,10 @@
+from math import ceil
 
 tonnage_funcs = (
 	('Fixed Tonnage', 'fixed'),
 	('Jumpjet', 'jumpjet'),
-	('MASC', 'masc')
+	('MASC', 'masc'),
+	('Melee Weapon', 'melee'),
 )
 
 def fixed(self, mech):
@@ -19,3 +21,6 @@ def jumpjet(self, mech):
     
 def masc(self, mech):
     return ceil( mech.tonnage * 0.05f )
+
+def melee(self, mech):
+    return ceil( mech.tonnage / self.tonnage_factor )
