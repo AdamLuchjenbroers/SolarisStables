@@ -22,7 +22,7 @@ class Pilot(models.Model):
     exp_character_points = models.IntegerField(default=0)
     exp_wounds = models.IntegerField()
     affiliation = models.ForeignKey(House)
-    skill = models.ManyToManyField(PilotTrait, blank=True, through='PilotTraining')
+    skill = models.ManyToManyField(PilotTrait, blank=True, null=True, through='PilotTraining')
     
     def isDead(self):
         return (self.exp_wounds >= 6)

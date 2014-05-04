@@ -115,11 +115,17 @@ class Equipment(models.Model):
         
         if self.cost_func != None:
             self.cost = MethodType(getattr(cost, self.cost_func), self)
+            
+    class Meta:
+        verbose_name_plural = 'Equipment'
+        verbose_name = 'Equipment'
+        db_table = 'warbook_equipment'
+        app_label = 'warbook'
         
 
 class Mounting(models.Model):
     location = models.ForeignKey(MechDesignLocation, related_name='criticals')
-    equipment = models.ForeignKey(Equipment)
+    equipment = models.ForeignKey(Equipment) 
     # Slot allocations will be stored as a list (e.g. '2,3,4' for slots 2, 3 and 4)
     slots = models.CharField(max_length=30, blank=True)
     
@@ -128,3 +134,9 @@ class Mounting(models.Model):
         
     def set_slots(self, slots):
         self.slots = ','.join(slots)
+        
+    class Meta:
+        verbose_name_plural = 'Mounting'
+        verbose_name = 'Mounting'
+        db_table = 'warbook_mechmounting'
+        app_label = 'warbook'
