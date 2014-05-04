@@ -60,21 +60,26 @@ class Migration(SchemaMigration):
         # Adding model 'MechDesign'
         db.create_table('warbook_mechdesign', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('mech_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('mech_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('mech_code', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('mech_key', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
+            ('omni_loadout', self.gf('django.db.models.fields.CharField')(default='N/A', max_length=30)),
             ('stock_design', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('credit_value', self.gf('django.db.models.fields.IntegerField')()),
-            ('bv_value', self.gf('django.db.models.fields.IntegerField')()),
+            ('credit_value', self.gf('django.db.models.fields.IntegerField')(null=True)),
+            ('bv_value', self.gf('django.db.models.fields.IntegerField')(null=True)),
             ('tonnage', self.gf('django.db.models.fields.IntegerField')()),
-            ('move_walk', self.gf('django.db.models.fields.IntegerField')()),
+            ('engine_rating', self.gf('django.db.models.fields.IntegerField')()),
             ('is_omni', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('omni_basechassis', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['warbook.MechDesign'], null=True)),
-            ('ssw_filename', self.gf('django.db.models.fields.CharField')(max_length=1024, unique=True, null=True, blank=True)),
+            ('ssw_filename', self.gf('django.db.models.fields.CharField')(max_length=1024, null=True, blank=True)),
         ))
         db.send_create_signal('warbook', ['MechDesign'])
 
-        # Adding unique constraint on 'MechDesign', fields ['mech_name', 'mech_code']
-        db.create_unique('warbook_mechdesign', ['mech_name', 'mech_code'])
+        # Adding unique constraint on 'MechDesign', fields ['mech_name', 'mech_code', 'omni_loadout']
+        db.create_unique('warbook_mechdesign', ['mech_name', 'mech_code', 'omni_loadout'])
+
+        # Adding unique constraint on 'MechDesign', fields ['ssw_filename', 'omni_loadout']
+        db.create_unique('warbook_mechdesign', ['ssw_filename', 'omni_loadout'])
 
         # Adding model 'MechLocation'
         db.create_table('warbook_mechlocation', (
@@ -88,7 +93,7 @@ class Migration(SchemaMigration):
         # Adding model 'MechDesignLocation'
         db.create_table('warbook_mechdesignlocation', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('mech', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['warbook.MechDesign'])),
+            ('mech', self.gf('django.db.models.fields.related.ForeignKey')(related_name='locations', to=orm['warbook.MechDesign'])),
             ('location', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['warbook.MechLocation'])),
             ('armor', self.gf('django.db.models.fields.IntegerField')()),
             ('structure', self.gf('django.db.models.fields.IntegerField')(null=True)),
@@ -103,8 +108,11 @@ class Migration(SchemaMigration):
         # Removing unique constraint on 'MechDesignLocation', fields ['mech', 'location']
         db.delete_unique('warbook_mechdesignlocation', ['mech_id', 'location_id'])
 
-        # Removing unique constraint on 'MechDesign', fields ['mech_name', 'mech_code']
-        db.delete_unique('warbook_mechdesign', ['mech_name', 'mech_code'])
+        # Removing unique constraint on 'MechDesign', fields ['ssw_filename', 'omni_loadout']
+        db.delete_unique('warbook_mechdesign', ['ssw_filename', 'omni_loadout'])
+
+        # Removing unique constraint on 'MechDesign', fields ['mech_name', 'mech_code', 'omni_loadout']
+        db.delete_unique('warbook_mechdesign', ['mech_name', 'mech_code', 'omni_loadout'])
 
         # Deleting model 'PilotDiscipline'
         db.delete_table('warbook_pilotdiscipline')
@@ -140,16 +148,18 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
         'warbook.mechdesign': {
-            'Meta': {'unique_together': "(('mech_name', 'mech_code'),)", 'object_name': 'MechDesign'},
-            'bv_value': ('django.db.models.fields.IntegerField', [], {}),
-            'credit_value': ('django.db.models.fields.IntegerField', [], {}),
+            'Meta': {'unique_together': "(('mech_name', 'mech_code', 'omni_loadout'), ('ssw_filename', 'omni_loadout'))", 'object_name': 'MechDesign'},
+            'bv_value': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
+            'credit_value': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
+            'engine_rating': ('django.db.models.fields.IntegerField', [], {}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_omni': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'mech_code': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'mech_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'move_walk': ('django.db.models.fields.IntegerField', [], {}),
+            'mech_key': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
+            'mech_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'omni_basechassis': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['warbook.MechDesign']", 'null': 'True'}),
-            'ssw_filename': ('django.db.models.fields.CharField', [], {'max_length': '1024', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
+            'omni_loadout': ('django.db.models.fields.CharField', [], {'default': "'N/A'", 'max_length': '30'}),
+            'ssw_filename': ('django.db.models.fields.CharField', [], {'max_length': '1024', 'null': 'True', 'blank': 'True'}),
             'stock_design': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'tonnage': ('django.db.models.fields.IntegerField', [], {})
         },
@@ -158,7 +168,7 @@ class Migration(SchemaMigration):
             'armor': ('django.db.models.fields.IntegerField', [], {}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'location': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['warbook.MechLocation']"}),
-            'mech': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['warbook.MechDesign']"}),
+            'mech': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'locations'", 'to': "orm['warbook.MechDesign']"}),
             'structure': ('django.db.models.fields.IntegerField', [], {'null': 'True'})
         },
         'warbook.mechlocation': {

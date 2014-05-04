@@ -7,14 +7,14 @@ class MechDesign(models.Model):
     mech_name = models.CharField(max_length=50)
     mech_code = models.CharField(max_length=50)
     mech_key = models.CharField(max_length=100, unique=True)
-    omni_loadout = models.CharField(max_length=30, default='N/A')
+    omni_loadout = models.CharField(max_length=30, default='N/A', blank=True)
     stock_design = models.BooleanField(default=True)
     credit_value = models.IntegerField(null=True)
     bv_value = models.IntegerField(null=True)
     tonnage = models.IntegerField()
     engine_rating = models.IntegerField()
     is_omni = models.BooleanField(default=False)
-    omni_basechassis = models.ForeignKey('MechDesign', null=True)
+    omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True)
     ssw_filename = models.CharField(max_length=1024, blank=True, null=True)
   
     def gyro_tonnage(self):
@@ -84,8 +84,3 @@ class MechDesignLocation(models.Model):
         verbose_name = 'Mech Design Location'
         db_table = 'warbook_mechdesignlocation'
         app_label = 'warbook'
-    
-
-
-
-
