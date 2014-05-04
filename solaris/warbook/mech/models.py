@@ -22,10 +22,16 @@ class MechDesign(models.Model):
         return ceil(self.engine_rating / 100) 
         
     def move_walk(self):
-        return ceil(self.engine_rating / self.tonnage)
-  
+        return int(ceil(self.engine_rating / self.tonnage))
+      
     def move_run(self):
-        return ceil(self.move_walk() * 1.5)
+        return int(ceil(self.move_walk() * 1.5))
+    
+    def move_jump(self):
+        # Unimplemented
+        return 'X'
+    '''
+    Awaiting implementation of equipment loading
         
     def move_jump(self):
         jump_mp = 0
@@ -43,6 +49,7 @@ class MechDesign(models.Model):
             if item.is_directfire():
                 tons += item.tonnage()
         return tons
+    '''
     
     class Meta:
         unique_together = (('mech_name', 'mech_code', 'omni_loadout'), ('ssw_filename', 'omni_loadout'),)
