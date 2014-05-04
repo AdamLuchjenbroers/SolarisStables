@@ -1,10 +1,10 @@
-from solaris.stablemanager.views import StableView
-from solaris.stablemanager.ledger.models import Ledger, LedgerItem
 from genshi import Markup
 from django.http import HttpResponse, Http404
 from django.core.exceptions import DoesNotExist
-
 #from django_genshi import loader
+
+from solaris.stablemanager.views import StableView
+from solaris.stablemanager.ledger.models import Ledger, LedgerItem
 
 class StableLedgerView(StableView):
 
