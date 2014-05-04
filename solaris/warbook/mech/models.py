@@ -102,7 +102,8 @@ class Equipment(models.Model):
     	   ('Armour / Structure', 'A'),
     	   ('Unclassified', '?'),
     )
-    def equipment_class = models.CharField(max_length=1, choices=equipment_classes, default='?')   
+    def equipment_class = models.CharField(max_length=1, choices=equipment_classes, default='?')
+    
     
     def __init__(self, *args, **kwargs):
         super(Equipment, self).__init__(*args, **kwargs)
@@ -111,6 +112,9 @@ class Equipment(models.Model):
         
         if self.critical_func != None:
             self.criticals = MethodType(getattr(criticals, self.critical_func), self)
+        
+        if self.cost_func != None:
+            self.cost = MethodType(getattr(cost, self.cost_func), self)
         
 
 class Mounting(models.Model):
