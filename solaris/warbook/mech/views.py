@@ -1,7 +1,7 @@
 #from django.http import HttpResponse
 from django_genshi import loader
 from genshi import Markup
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 
 from solaris.warbook.views import ReferenceView
@@ -18,7 +18,10 @@ class MechDetailView(ReferenceView):
 
 class MechListView(ReferenceView):
     def get(self, request, name=''):
-        body = Markup('<p>List of all %s variants to go here</p>' % name)
+        mech_list = get_list_or_404(MechDesign, mech_name=name)
+        
+        tmpl_mech = loader.get_template('warbook/mechs/mech_listing.tmpl')
+        body = Markup(tmpl_mech.generate(mech_name=name, mech_list=mech_list))
         
         return HttpResponse(self.in_layout(body, request))
         
