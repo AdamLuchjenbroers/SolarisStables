@@ -13,5 +13,5 @@ urlpatterns = patterns('',
     (r'^pilotskills/(?P<discipline>[^/]+)/?$', DisciplineDetailView.as_view() ),
     (r'^mechs/?$', MechSearchView.as_view()) ,
     (r'^mechs/(?P<name>[^/]+)/?$', MechListView.as_view()) ,
-    (r'^mechs/(?P<name>[^/]+)/(?P<code>[^/]+)?$', MechDetailView.as_view()) ,    
+    (r'^mechs/(?P<name>[^/]+)/(?P<code>[^/]+)/?$', MechDetailView.as_view()) ,    
 )

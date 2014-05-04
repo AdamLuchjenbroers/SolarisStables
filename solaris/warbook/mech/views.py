@@ -8,7 +8,7 @@ from solaris.warbook.views import ReferenceView
 from solaris.warbook.mech.models import MechDesign
 
 class MechDetailView(ReferenceView):
-    def get(self, request, name='', code=''):
+    def get(self, request, name='', code=''):        
         mech = get_object_or_404(MechDesign, mech_name__iexact=name, mech_code__iexact=code)
         
         tmpl_mech = loader.get_template('warbook/mechs/mech_detail.tmpl')
