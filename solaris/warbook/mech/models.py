@@ -30,6 +30,16 @@ class MechDesign(models.Model):
     def move_run(self):
         return ceil(self.move_walk * 1.5)
         
+    def move_jump(self):
+        jump_mp = 0
+        if not self.loadout
+            return 0
+        
+        for item in self.loadout.all():
+            if item.equipment.equipment_class == 'J':
+                jump_mp++
+        return jump_mp
+        
     def directfire_tonnage(self)
         tons = 0
         for item in self.equipment.all():
