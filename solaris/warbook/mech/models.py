@@ -15,20 +15,20 @@ class MechDesign(models.Model):
     credit_value = models.IntegerField(null=True)
     bv_value = models.IntegerField(null=True)
     tonnage = models.IntegerField()
-    move_walk = models.IntegerField()
+    engine_rating = models.IntegerField()
     is_omni = models.BooleanField(default=False)
     omni_basechassis = models.ForeignKey('MechDesign', null=True)
     ssw_filename = models.CharField(max_length=1024, blank=True, null=True)
- 
-    def engine_rating(self):
-        return self.move_walk * self.tonnage
   
     def gyro_tonnage(self):
         #FIXME: Should be handled by equipment, as this varies by gyro type
         return ceil(self.engine_rating / 100) 
+        
+    def move_walk(self):
+        return ceil(self.engine_rating / self.tonnage)
   
     def move_run(self):
-        return ceil(self.move_walk * 1.5)
+        return ceil(self.move_walk() * 1.5)
         
     def move_jump(self):
         jump_mp = 0
