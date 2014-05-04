@@ -57,6 +57,7 @@ class MechDesign(models.Model):
         verbose_name = 'Mech Design'
         db_table = 'warbook_mechdesign'
         app_label = 'warbook'
+        ordering = ['tonnage', 'mech_name', 'mech_code', 'omni_loadout']
         
     def __unicode__(self):
         return '%s %s' % (self.mech_name, self.mech_code)

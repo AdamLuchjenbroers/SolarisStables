@@ -6,6 +6,7 @@ from django.http import HttpResponse
 
 from solaris.warbook.views import ReferenceView
 from solaris.warbook.mech.models import MechDesign
+from solaris.warbook.mech.forms import MechSearchForm
 
 class MechDetailView(ReferenceView):
     def get(self, request, name='', code=''):        
@@ -28,21 +29,25 @@ class MechListView(ReferenceView):
 
 class MechSearchResultsView(ReferenceView):
     translate_terms = {
-        'mech_name' : 'mech_name__iexact',
-        'mech_code' : 'mech_code__iexact',
-        'tonnage_low' : 'tonnage__gte',
-        'tonnage_high' : 'tonnage__lte',
-        'cost_low' : 'credit_value__gte',
-        'cost_high' : 'credit_value__lte',
-        'bv_low' : 'bv_value__gte',
-        'bv_high' : 'bv_value__lte',
+        u'mech_name' : 'mech_name__iexact',
+        u'mech_code' : 'mech_code__iexact',
+        u'tonnage_low' : 'tonnage__gte',
+        u'tonnage_high' : 'tonnage__lte',
+        u'cost_low' : 'credit_value__gte',
+        u'cost_high' : 'credit_value__lte',
+        u'bv_low' : 'bv_value__gte',
+        u'bv_high' : 'bv_value__lte',
     }
     
     def search(self, fields):
         search = dict()
-        for (term, qterm) in MechSearchResultsView.translate_terms:
-            if term in fields[term] and fields[term] != None:
+        
+        print fields['tonnage_low']
+        for (term, qterm) in MechSearchResultsView.translate_terms.items() :
+            if term in fields and fields[term] != '':
+                print '  %s: %s' % (qterm, fields[term])
                 search[qterm] = fields[term]
+        print search
         
         return get_list_or_404(MechDesign, **search)
     
@@ -60,7 +65,10 @@ class MechSearchResultsView(ReferenceView):
 
 class MechSearchView(ReferenceView):
     def get(self, request):
-        body = Markup('<p>Search form for Mech Database to go here</p>')
+        form = MechSearchForm()
+        
+        search_form = loader.get_template('solaris_form_outer.tmpl')
+        body = Markup(search_form.generate(form_items=Markup(form.as_p()), formclass='mechsearch', post_url='/reference/mechs/search/', submit='Search')) 
         
         return HttpResponse(self.in_layout(body, request))
         

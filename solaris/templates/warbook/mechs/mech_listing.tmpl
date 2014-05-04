@@ -2,7 +2,7 @@
   <h1>${mech_name}</h1>
   <py:for each="mech in mech_list">
     <p class="mechlist">
-      <span class="name"><em><a href="${mech.mech_name}/${mech.mech_code}/">${mech.mech_name} ${mech.mech_code}</a>:</em></span>
+      <span class="name"><em><a href="/reference/mechs/${mech.mech_name}/${mech.mech_code}/">${mech.mech_name} ${mech.mech_code}</a>:</em></span>
       <span class="profile">${mech.tonnage} Tons, ${mech.move_walk()}/${mech.move_run()}/${mech.move_jump()}</span>
       <span class="cost">BV: ${mech.bv_value}, Cost:${mech.credit_value}</span>
     </p>
