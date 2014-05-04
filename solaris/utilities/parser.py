@@ -6,6 +6,7 @@ from solaris.utilities.validation import expect_integer, expect_alphastring
 class SSWFile:
     def __init__(self, sswFileName=None):
         fd = open(sswFileName)
+        self.file_name = sswFileName
         
         self.xmlFile = etree.parse(fd)
     

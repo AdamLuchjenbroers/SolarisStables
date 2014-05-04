@@ -11,3 +11,7 @@ class MechSearchForm(SolarisForm):
     cost_high = IntegerField(label='Max Cost', required=False)
     bv_low = IntegerField(label='Min BV', required=False)
     bv_high = IntegerField(label='Max BV', required=False)
+    
+    @staticmethod
+    def load_from_xml(xmldoc):
+        

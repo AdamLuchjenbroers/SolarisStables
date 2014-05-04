@@ -2,13 +2,9 @@ import os
 import re
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'solaris.settings.dev_local'
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.utils import DatabaseError
-from django.forms.models import model_to_dict
 
-from solaris.warbook.mech.models import MechDesign
-from solaris.warbook.mech.forms import MechValidationForm
+from solaris.utilities.forms import MechValidationForm
 
 
 sswPattern = re.compile('.*\.ssw$')
@@ -66,35 +62,15 @@ def loadMechDesign(sswFileName, sswRelName):
     print "Importing %s ( %s / %s )" % (sswRelName, sswData.getName(), sswData.getCode())
     # Try to retrieve the existing mech entry, but if not found then 
     # create a new one.
-    try:
-        mech_object = MechDesign.objects.get(ssw_filename=sswRelName)
-        mech_dict = model_to_dict(mech_object)
-    except ObjectDoesNotExist:
-        mech_object = MechDesign()
-        mech_dict = {}
-        mech_dict['ssw_filename'] = sswRelName
-    except DatabaseError as e:
-        print 'Error encountered reading from database: %s' % e.message
-        transaction.rollback()
-        return
-    
-        
-    mech_dict['mech_name'] = sswData.getName()
-    mech_dict['mech_code'] = sswData.getCode()
-    mech_dict['credit_value'] = sswData.getCost()
-    mech_dict['bv_value'] = sswData.getBV()
-    mech_dict['tonnage'] = sswData.getTonnage()
-    mech_dict['engine_rating'] = sswData.getEngineRating()
-    mech_dict['is_omni'] = sswData.isOmni()
-    
-    mech = MechValidationForm(mech_dict, instance=mech_object)
+     
+    mech = MechValidationForm.load_from_xml(sswFileName, sswRelName)
     
     if mech.is_valid():
         mech.save()
         transaction.commit()
     else:
         transaction.rollback()
-        print 'Unable to save %s %s (file: %s)' % (mech_dict['mech_name'], mech_dict['mech_code'], mech_dict['ssw_filename'])
+        print 'Import failed from file: %s' % (sswRelName)
         for (field, error) in mech.errors.items():
             print '\t* %s: %s' % (field, error)
     
