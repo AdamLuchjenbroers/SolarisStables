@@ -85,6 +85,7 @@ class Equipment(models.Model):
     splittable = models.BooleanField(default=False)
     # Can this equipment take critical hits
     crittable = models.BooleanField(default=True)
+    weapon_properties = models.CharField(max_length=20, null=True)
     
     equipment_classes = (
     	   ('Engine', 'E'),
@@ -98,6 +99,18 @@ class Equipment(models.Model):
     	   ('Unclassified', '?'),
     )
     def equipment_class = models.CharField(max_length=1, choices=equipment_classes, default='?')
+    
+    def has_weapon_property(self, w_property):
+        if self.weapon_properties == None:
+            return False
+        
+        if self.equipment_class != 'W':
+            return False
+        
+        return w_property in self.weapon_properties.split(',')
+        
+    def is_directfire(self):
+        return (self.has_weapon_property('DB') or self.has_weapon_property('DE'))
     
     
     def __init__(self, *args, **kwargs):
