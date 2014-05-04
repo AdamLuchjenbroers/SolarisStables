@@ -6,7 +6,8 @@ locations_allmechs = (
 , ( 'CT', 'Center Torso' )
 , ( 'RLT', 'Left Torso (Rear)' )
 , ( 'RRT', 'Right Torso (Rear)' )
-, ( 'RCT', 'Right Center Torso (Rear)' )
+, ( 'RCT', 'Center Torso (Rear)' )
+, ( '--', 'No Location' )
 )
 
 locations_bipedonly = (
@@ -28,3 +29,18 @@ locations_quadonly = (
 locations_quad = locations_allmechs + locations_quadonly
 
 locations_all = locations_allmechs + locations_quadonly + locations_bipedonly
+
+def is_leg(location):
+    return location in ('LL', 'RL', 'RFL', 'LFL', 'RRL', 'LRL')
+
+def is_arm(location):
+    return location in ('LA', 'RA')
+
+def is_sidetorso(location):
+    return location in ('RT', 'LT')
+
+def is_centertorso(location):
+    return location == 'CT'
+
+def is_head(location):
+    return location == 'HD'
