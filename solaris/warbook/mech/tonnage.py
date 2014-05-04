@@ -2,6 +2,7 @@
 tonnage_funcs = (
 	('Fixed Tonnage', 'fixed'),
 	('Jumpjet', 'jumpjet'),
+	('MASC', 'masc')
 )
 
 def fixed(self, mech):
@@ -15,3 +16,6 @@ def jumpjet(self, mech):
     else:
         #90+ Tons
         return 2.0f * self.tonnage_factor 
+    
+def masc(self, mech):
+    return ceil( mech.tonnage * 0.05f )

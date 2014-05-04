@@ -52,7 +52,7 @@ class MechLocation(models.Model):
         app_label = 'warbook'
     
 class MechDesignLocation(models.Model):
-    mech = models.ForeignKey(MechDesign)
+    mech = models.ForeignKey(MechDesign, related_name=locations)
     location = models.ForeignKey(MechLocation)
     armor = models.IntegerField()
     structure = models.IntegerField(null=True)
