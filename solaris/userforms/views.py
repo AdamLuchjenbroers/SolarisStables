@@ -25,8 +25,8 @@ def login_page(request):
         form = LoginForm()
         form.redirect = redirectURL   
               
-    login_form = loader.get_template('userforms/login_form.tmpl')
-    body = Markup(login_form.generate(form_items=Markup(form.as_p())))  
+    login_form = loader.get_template('solaris_form_outer.tmpl')
+    body = Markup(login_form.generate(form_items=Markup(form.as_p()), formclass='login', post_url='/login', submit='Login')) 
 
     return render_page(body=body, selected=None, request=request)
 
