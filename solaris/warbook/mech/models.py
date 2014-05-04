@@ -29,6 +29,13 @@ class MechDesign(models.Model):
   
     def move_run(self):
         return ceil(self.move_walk * 1.5)
+        
+    def directfire_tonnage(self)
+        tons = 0
+        for item in self.equipment.all():
+            if item.is_directfire():
+                tons += item.tonnage()
+        return tons
 
     class Meta:
         unique_together = (('mech_name', 'mech_code', 'omni_loadout'), ('ssw_filename', 'omni_loadout'),)
@@ -132,6 +139,7 @@ class Equipment(models.Model):
         
 
 class MechEquipment(models.Model):
+    mech = models.ForeignKey(MechDesign, related_name='loadout')
     equipment = models.ForeignKey(Equipment)
     
     def criticals(self):
@@ -141,6 +149,12 @@ class MechEquipment(models.Model):
                crit_count += location.num_slots()
         
         return crit_count
+        
+    def is_directfire(self):
+        return self.equipment.is_directfire()
+        
+    def tonnage(self):
+        return self.equipment.tonnage()
         
     class Meta:
         verbose_name_plural = 'Mech Equipment'
