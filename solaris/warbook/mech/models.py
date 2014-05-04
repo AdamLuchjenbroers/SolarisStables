@@ -137,10 +137,16 @@ class MechEquipment(models.Model):
     def criticals(self):
         crit_count = 0
         if self.mountings:
-            for location in self.mountings:
+            for location in self.mountings.all():
                crit_count += location.num_slots()
         
         return crit_count
+        
+    class Meta:
+        verbose_name_plural = 'Mech Equipment'
+        verbose_name = 'Mech Equipment'
+        db_table = 'warbook_mechequipment'
+        app_label = 'warbook'
 
 class Mounting(models.Model):
     location = models.ForeignKey(MechDesignLocation, related_name='criticals')
