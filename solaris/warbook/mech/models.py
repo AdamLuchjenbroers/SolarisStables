@@ -164,7 +164,10 @@ class MechEquipment(models.Model):
         return self.equipment.is_directfire()
         
     def tonnage(self):
-        return self.equipment.tonnage()
+        return self.equipment.tonnage(self.mech)
+        
+    def cost(self):
+        return self.equipment.cost(self.mech)
         
     class Meta:
         verbose_name_plural = 'Mech Equipment'
