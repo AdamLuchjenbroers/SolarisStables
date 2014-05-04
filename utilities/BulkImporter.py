@@ -4,7 +4,7 @@ import re
 os.environ['DJANGO_SETTINGS_MODULE'] = 'solaris.settings.dev_local'
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.utils import IntegrityError, DatabaseError
+from django.db.utils import DatabaseError
 from django.forms.models import model_to_dict
 
 from solaris.warbook.mech.models import MechDesign
@@ -93,10 +93,10 @@ def loadMechDesign(sswFileName, sswRelName):
         mech.save()
         transaction.commit()
     else:
-        print 'Unable to save %s %s (file: %s)' % (mech_dict['mech_name'], mech_dict['mech_code'], mech_dict['ssw_filename'])
-        for err in mech.errors:
-            print '\t* %s' % err.message
         transaction.rollback()
+        print 'Unable to save %s %s (file: %s)' % (mech_dict['mech_name'], mech_dict['mech_code'], mech_dict['ssw_filename'])
+        for (field, error) in mech.errors.items():
+            print '\t* %s: %s' % (field, error)
     
 if __name__ == '__main__':
     

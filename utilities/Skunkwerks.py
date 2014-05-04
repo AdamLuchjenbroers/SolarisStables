@@ -37,12 +37,10 @@ class SSWFile:
         mechInfo = self.xpathContext.xpathEval('/mech/@tons')
         return int(mechInfo[0].getContent())
     
-    @expect_basicstring
     def getName(self):
         mechInfo = self.xpathContext.xpathEval('/mech/@name')
         return mechInfo[0].getContent()
     
-    @expect_basicstring
     def getCode(self):
         mechInfo = self.xpathContext.xpathEval('/mech/@model')
         return mechInfo[0].getContent()
