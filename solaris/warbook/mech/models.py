@@ -141,6 +141,9 @@ class Equipment(models.Model):
         if self.cost_func != None:
             self.cost = MethodType(getattr(cost, self.cost_func), self)
             
+    def repair_cost(self, mech, hits):
+        return self.cost(mech) * (hits / self.criticals(mech))
+            
     class Meta:
         verbose_name_plural = 'Equipment'
         verbose_name = 'Equipment'
