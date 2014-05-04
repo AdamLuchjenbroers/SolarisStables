@@ -6,6 +6,7 @@ from solaris.utilities.validation import expect_integer, expect_alphastring
 class SSWEquipment:
     def __init__(self, xmlnode):
         self.equipment_name = xmlnode.text
+        self.type = xmlnode.tag
         
         locations = xmlnode.xpath('./location')
         
@@ -22,6 +23,18 @@ class SSWEquipment:
        if len(self.mountings) == 0
            self.mountings['--'] = None
          
+class SSWArmour(SSWEquipment):
+    def __init__(self, xmlnode):
+        super(SSWArmour,self).__init__(xmlnode)
+    
+        armorInfo = xmlnode.xpath('./*[not(self::type|self::location)]')
+        self.armor = {}
+        for location in armorInfo:
+            armor[location.tag] = int(location.text)
+            
+        typenode = xmlnode.xpath('./type')
+        self.equipment_name = typenode[0].text
+    
         
 
 class SSWFile:
@@ -79,33 +92,11 @@ class SSWFile:
 
     def getWalkingMP(self):
         return floor ( self.getEngineRating() / self.getTonnage())
-    
-    def getArmorType(self):
-        armourInfo = self.xmlFile.xpath('/mech/armor/type')
-        return armourInfo[0].text
-    
-    def getArmorLocations(self):
-        armorInfo = self.xmlFile.xpath('/mech/armor/*[not(self::type|self::location)]')
-        armor = {}
-        for location in armorInfo:
-            armor[location.tag] = int(location.text)
-            
-        return armor
-    
-    def getArmorMountings(self):
-        armorInfo = self.xmlFile.xpath('/mech/armor/location')
-        mountings = {}
-        for location in armorInfo:
-            if location.text in mountings:
-                mountings[location.text].append(int(location.get('index')))
-            else:
-                mountings[location.text] = [int(location.get('index'))]
-                
-        for key in mountings:
-            mountings[key].sort()
-            
-        return mountings
-    
+        
+    def get_armour(self):
+        armour_node = self.xmlFile.xpath('/mech/armor')[0]
+        return SSWArmour(armour_node)
+        
     def isOmni(self): 
         mechInfo = self.xmlFile.xpath('/mech/@omnimech')
         return mechInfo[0] == "TRUE"
