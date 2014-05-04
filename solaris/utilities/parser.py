@@ -79,6 +79,10 @@ class SSWFile:
                 mountings[location.text].append(int(location.get('index')))
             else:
                 mountings[location.text] = [int(location.get('index'))]
+                
+        for key in mountings:
+            mountings[key].sort()
+            
         return mountings
     
     def isOmni(self): 
