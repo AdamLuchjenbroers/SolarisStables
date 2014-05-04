@@ -81,6 +81,21 @@ class Equipment(models.Model):
     cost_func = models.CharField(max_length=40, choices=cost.cost_funcs, null=True)
     cost_factor = models.DecimalField(max_digits=12, decimal_places=1, null=True)
     
+    # Can this item be split across multiple locations
+    splittable = models.BooleanField(default=False)
+    
+    equipment_classes = (
+    	   ('Engine', 'E'),
+    	   ('Gyro', 'G'),
+    	   ('Cockpit & Systems', 'C'),
+    	   ('Weapon', 'W'),
+    	   ('Heatsink', 'H').
+    	   ('Jumpjet', 'J'),
+    	   ('Equipment', 'X'),
+    	   ('Unclassified', '?'),
+    )
+    def equipment_class = models.CharField(max_length=1, choices=equipment_classes, default='?')   
+    
     def __init__(self, *args, **kwargs):
         super(Equipment, self).__init__(*args, **kwargs)
         if self.tonnage_func != None:
