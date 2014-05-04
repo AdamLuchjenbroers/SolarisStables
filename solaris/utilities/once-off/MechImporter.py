@@ -5,11 +5,10 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'solaris.settings.dev_local'
 from django.db import transaction
 
 from solaris.utilities.forms import MechValidationForm
-
+from solaris.utilities.parser import SSWFile
+from solaris.warbook.mech import ref_data
 
 sswPattern = re.compile('.*\.ssw$')
-
-from solaris.utilities.parser import SSWFile
 
 locations_all = {
 	'hd': 'HD',
