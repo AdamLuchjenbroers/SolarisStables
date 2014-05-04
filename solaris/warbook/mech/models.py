@@ -81,15 +81,10 @@ class Equipment(models.Model):
     cost_func = models.CharField(max_length=40, choices=cost.cost_funcs, null=True)
     cost_factor = models.DecimalField(max_digits=12, decimal_places=1, null=True)
     
-    cost_typecodes = (
-        ('Criticals', 'C'),
-        ('Units', 'U'),
-        ('Ammo', 'A'),
-    )
-    cost_type = models.CharField(max_length=1, choices=cost_typecodes, default='C')
-    
     # Can this item be split across multiple locations
     splittable = models.BooleanField(default=False)
+    # Can this equipment take critical hits
+    crittable = models.BooleanField(default=True)
     
     equipment_classes = (
     	   ('Engine', 'E'),
