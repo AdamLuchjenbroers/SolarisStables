@@ -13,7 +13,7 @@ from solaris.warbook.mech.forms import MechValidationForm
 
 sswPattern = re.compile('.*\.ssw$')
 
-from utilities.Skunkwerks import SSWFile
+from solaris.utilities.parser import SSWFile
 
 locations_all = {
 	'hd': 'HD',
