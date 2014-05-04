@@ -45,12 +45,12 @@ class SSWFile:
         self.xmlFile = etree.parse(fd)
     
     @expect_integer        
-    def getCost(self):
+    def get_cost(self):
         costInfo = self.xmlFile.xpath('/mech/cost')
         return floor( float (costInfo[0].text))        
     
     @expect_integer
-    def getBV(self):
+    def get_cost(self):
         if self.isOmni():
             return 0 # Omnimechs do not store BV values for the base chassis
         else:
@@ -58,12 +58,12 @@ class SSWFile:
             return costInfo[0].text
         
     @expect_alphastring
-    def getType(self):
+    def get_type(self):
         typeInfo = self.xmlFile.xpath('/mech/mech_type')
         return typeInfo[0].text
     
     @expect_alphastring
-    def getTechBase(self):
+    def get_techbase(self):
         typeInfo = self.xmlFile.xpath('/mech/techbase')
         return typeInfo[0].text
         
@@ -73,30 +73,28 @@ class SSWFile:
         return mtNodes[0].text
     
     @expect_integer
-    def getTonnage(self):
+    def get_tonnage(self):
         mechInfo = self.xmlFile.xpath('/mech/@tons')
         return int(mechInfo[0])
     
-    def getName(self):
+    def get_name(self):
         mechInfo = self.xmlFile.xpath('/mech/@name')
         return mechInfo[0]
     
-    def getCode(self):
+    def get_code(self):
         mechInfo = self.xmlFile.xpath('/mech/@model')
         return mechInfo[0]
     
     @expect_integer 
-    def getEngineRating(self):
+    def get_enginerating(self):
         mechInfo = self.xmlFile.xpath('/mech/engine/@rating')
         return int(mechInfo[0])
 
-    def getWalkingMP(self):
-        return floor ( self.getEngineRating() / self.getTonnage())
         
     def get_armour(self):
         armour_node = self.xmlFile.xpath('/mech/armor')[0]
         return SSWArmour(armour_node)
         
-    def isOmni(self): 
+    def is_omni(self): 
         mechInfo = self.xmlFile.xpath('/mech/@omnimech')
         return mechInfo[0] == "TRUE"
