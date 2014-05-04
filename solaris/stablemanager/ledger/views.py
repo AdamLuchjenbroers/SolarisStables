@@ -1,6 +1,5 @@
 from genshi import Markup
 from django.http import HttpResponse, Http404
-from django.core.exceptions import DoesNotExist
 #from django_genshi import loader
 
 from solaris.stablemanager.views import StableView
@@ -23,7 +22,7 @@ class StableLedgerView(StableView):
             
         try:
             ledger = Ledger.objects.get(stable=stable, week=week)
-        except DoesNotExist:
+        except Ledger.DoesNotExist:
             if current_week:
                 self.create_ledger(stable, week)
             else:
@@ -31,4 +30,3 @@ class StableLedgerView(StableView):
                
         body = Markup('<P>Stable Ledgers and Finance for the %s will go here</P><P>The Selected Broadcast Week is: %s</P>' % (stable.stable_name, week))
         return HttpResponse(self.in_layout(body, request))
-         

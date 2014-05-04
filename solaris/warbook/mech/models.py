@@ -1,16 +1,15 @@
 from django.db import models
 from math import ceil
+from types import MethodType
 
 from .refdata import locations_all
-import .tonnage
-import .critical
-import .cost
+from solaris.warbook.mech import tonnage, criticals, cost
 
 class MechDesign(models.Model):
     mech_name = models.CharField(max_length=50)
     mech_code = models.CharField(max_length=50)
     mech_key = models.CharField(max_length=100, unique=True)
-    omni_loadout = models.CharField(max_length=30, default='N/A'
+    omni_loadout = models.CharField(max_length=30, default='N/A')
     stock_design = models.BooleanField(default=True)
     credit_value = models.IntegerField(null=True)
     bv_value = models.IntegerField(null=True)
@@ -32,21 +31,21 @@ class MechDesign(models.Model):
         
     def move_jump(self):
         jump_mp = 0
-        if not self.loadout
+        if not self.loadout:
             return 0
         
         for item in self.loadout.all():
             if item.equipment.equipment_class == 'J':
-                jump_mp++
+                jump_mp += 1
         return jump_mp
         
-    def directfire_tonnage(self)
+    def directfire_tonnage(self):
         tons = 0
         for item in self.loadout.all():
             if item.is_directfire():
                 tons += item.tonnage()
         return tons
-
+    
     class Meta:
         unique_together = (('mech_name', 'mech_code', 'omni_loadout'), ('ssw_filename', 'omni_loadout'),)
         verbose_name_plural = 'Mech Designs'
@@ -69,24 +68,26 @@ class MechLocation(models.Model):
         app_label = 'warbook'
     
 class MechDesignLocation(models.Model):
-    mech = models.ForeignKey(MechDesign, related_name=locations)
+    mech = models.ForeignKey(MechDesign, related_name='locations')
     location = models.ForeignKey(MechLocation)
     armor = models.IntegerField()
     structure = models.IntegerField(null=True)
-
+    
+    def get_criticals(self):
+        crit_table = [None] * self.location.criticals
+        for item in self.criticals:
+            for slot in item.get_slots():
+                crit_table[slot-1] = item
+        return crit_table
+    
     class Meta:
         unique_together = (('mech','location'),)
         verbose_name_plural = 'Mech Design Locations'
         verbose_name = 'Mech Design Location'
         db_table = 'warbook_mechdesignlocation'
         app_label = 'warbook'
-        
-    def get_criticals(self):
-        crit_table = []
-        for item in self.criticals:
-            for slot in item.get_slots()
-                crit_table[slot] = item
-        return crit_table
+    
+
 
 class Equipment(models.Model):
     name = models.CharField(max_length=100)
@@ -109,13 +110,13 @@ class Equipment(models.Model):
     	   ('Gyro', 'G'),
     	   ('Cockpit & Systems', 'C'),
     	   ('Weapon', 'W'),
-    	   ('Heatsink', 'H').
+    	   ('Heatsink', 'H'),
     	   ('Jumpjet', 'J'),
     	   ('Equipment', 'X'),
     	   ('Armour / Structure', 'A'),
     	   ('Unclassified', '?'),
     )
-    def equipment_class = models.CharField(max_length=1, choices=equipment_classes, default='?')
+    equipment_class = models.CharField(max_length=1, choices=equipment_classes, default='?')
     
     def has_weapon_property(self, w_property):
         if self.weapon_properties == None:
@@ -159,7 +160,7 @@ class MechEquipment(models.Model):
         crit_count = 0
         if self.mountings:
             for location in self.mountings.all():
-               crit_count += location.num_slots()
+                crit_count += location.num_slots()
         
         return crit_count
         
