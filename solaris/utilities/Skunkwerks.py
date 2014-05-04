@@ -1,7 +1,7 @@
 from math import floor
 from lxml import etree
 
-from Validation import expect_integer, expect_alphastring
+from solaris.utilities.validation import expect_integer, expect_alphastring
 
 class SSWFile:
     def __init__(self, sswFileName=None):
