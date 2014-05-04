@@ -32,6 +32,11 @@ class SSWFile:
     def getTechBase(self):
         typeInfo = self.xmlFile.xpath('/mech/techbase')
         return typeInfo[0].text
+        
+    @expect_alphastring
+    def get_motive_type(self):
+        mtNodes = self.xmlFile.xpath('/mech/motive_type')
+        return mtNodes[0].text
     
     @expect_integer
     def getTonnage(self):
@@ -71,9 +76,9 @@ class SSWFile:
         mountings = {}
         for location in armorInfo:
             if location.text in mountings:
-                mountings[location.text] += ',%i' % int(location.get('index'))
+                mountings[location.text].append(int(location.get('index')))
             else:
-                mountings[location.text] = int(location.get('index'))
+                mountings[location.text] = [int(location.get('index'))]
         return mountings
     
     def isOmni(self): 
