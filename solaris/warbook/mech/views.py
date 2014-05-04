@@ -1,7 +1,7 @@
 #from django.http import HttpResponse
 from django_genshi import loader
 from genshi import Markup
-from django.shortcuts import get_object_or_404, get_list_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404, redirect
 from django.http import HttpResponse
 
 from solaris.warbook.views import ReferenceView
@@ -24,7 +24,39 @@ class MechListView(ReferenceView):
         body = Markup(tmpl_mech.generate(mech_name=name.title(), mech_list=mech_list))
         
         return HttpResponse(self.in_layout(body, request))
+
+
+class MechSearchResultsView(ReferenceView):
+    translate_terms = {
+        'mech_name' : 'mech_name__iexact',
+        'mech_code' : 'mech_code__iexact',
+        'tonnage_low' : 'tonnage__gte',
+        'tonnage_high' : 'tonnage__lte',
+        'cost_low' : 'credit_value__gte',
+        'cost_high' : 'credit_value__lte',
+        'bv_low' : 'bv_value__gte',
+        'bv_high' : 'bv_value__lte',
+    }
+    
+    def search(self, fields):
+        search = dict()
+        for (term, qterm) in MechSearchResultsView.translate_terms:
+            if term in fields[term] and fields[term] != None:
+                search[qterm] = fields[term]
         
+        return get_list_or_404(MechDesign, **search)
+    
+    def post(self, request):
+        tmpl_mech = loader.get_template('warbook/mechs/mech_listing.tmpl')
+        
+        mech_list = self.search(request.POST)
+        body = Markup(tmpl_mech.generate(mech_name='Search Results', mech_list=mech_list))
+        
+        return HttpResponse(self.in_layout(body, request))
+    
+    def get(self, request):
+        return redirect('/reference/mechs')
+            
 
 class MechSearchView(ReferenceView):
     def get(self, request):
