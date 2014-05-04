@@ -3,6 +3,27 @@ from lxml import etree
 
 from solaris.utilities.validation import expect_integer, expect_alphastring
 
+class SSWEquipment:
+    def __init__(self, xmlnode):
+        self.equipment_name = xmlnode.text
+        
+        locations = xmlnode.xpath('./location')
+        
+        self.mountings = {}
+        for loc in locations:
+            if loc.text in self.mountings:
+                self.mountings[loc.text].append(int(location.get('index')))
+            else:
+                self.mountings[loc.text] = [int(location.get('index'))]
+                
+       for key in self.mountings:
+            self.mountings[key].sort()
+            
+       if len(self.mountings) == 0
+           self.mountings['--'] = None
+         
+        
+
 class SSWFile:
     def __init__(self, sswFileName=None):
         fd = open(sswFileName)
