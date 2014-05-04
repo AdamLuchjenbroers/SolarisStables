@@ -84,7 +84,7 @@ def loadMechDesign(sswFileName, sswRelName):
     mech_dict['credit_value'] = sswData.getCost()
     mech_dict['bv_value'] = sswData.getBV()
     mech_dict['tonnage'] = sswData.getTonnage()
-    mech_dict['move_walk'] = sswData.getWalkingMP()
+    mech_dict['engine_rating'] = sswData.getEngineRating()
     mech_dict['is_omni'] = sswData.isOmni()
     
     mech = MechValidationForm(mech_dict, instance=mech_object)
