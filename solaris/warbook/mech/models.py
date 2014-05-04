@@ -131,9 +131,20 @@ class Equipment(models.Model):
         app_label = 'warbook'
         
 
+class MechEquipment(models.Model):
+    equipment = models.ForeignKey(Equipment)
+    
+    def criticals(self):
+        crit_count = 0
+        if self.mountings:
+            for location in self.mountings:
+               crit_count += location.num_slots()
+        
+        return crit_count
+
 class Mounting(models.Model):
     location = models.ForeignKey(MechDesignLocation, related_name='criticals')
-    equipment = models.ForeignKey(Equipment) 
+    equipment = models.ForeignKey(MechEquipment, related_name='mountings') 
     # Slot allocations will be stored as a list (e.g. '2,3,4' for slots 2, 3 and 4)
     slots = models.CharField(max_length=30, blank=True)
     
@@ -143,8 +154,13 @@ class Mounting(models.Model):
     def set_slots(self, slots):
         self.slots = ','.join(slots)
         
+    def num_slots(self):
+        return len(self.get_slots())
+    
+        
     class Meta:
         verbose_name_plural = 'Mounting'
         verbose_name = 'Mounting'
         db_table = 'warbook_mechmounting'
         app_label = 'warbook'
+
