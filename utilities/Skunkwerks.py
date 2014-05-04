@@ -54,7 +54,26 @@ class SSWFile:
         return floor ( self.getEngineRating() / self.getTonnage())
     
     def getArmorType(self):
-        pass
+        armourInfo = self.xmlFile.xpath('/mech/armor/type')
+        return armourInfo[0].text
+    
+    def getArmorLocations(self):
+        armorInfo = self.xmlFile.xpath('/mech/armor/*[not(self::type|self::location)]')
+        armor = {}
+        for location in armorInfo:
+            armor[location.tag] = int(location.text)
+            
+        return armor
+    
+    def getArmorMountings(self):
+        armorInfo = self.xmlFile.xpath('/mech/armor/location')
+        mountings = {}
+        for location in armorInfo:
+            if location.text in mountings:
+                mountings[location.text] += ',%i' % int(location.get('index'))
+            else:
+                mountings[location.text] = int(location.get('index'))
+        return mountings
     
     def isOmni(self): 
         mechInfo = self.xmlFile.xpath('/mech/@omnimech')
