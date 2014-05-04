@@ -42,7 +42,7 @@ class MechDesign(models.Model):
         
     def directfire_tonnage(self)
         tons = 0
-        for item in self.equipment.all():
+        for item in self.loadout.all():
             if item.is_directfire():
                 tons += item.tonnage()
         return tons
