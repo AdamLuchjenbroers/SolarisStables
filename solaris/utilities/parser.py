@@ -49,9 +49,13 @@ class SSWMech:
         self.is_omni = ( xmlnode.get('omni') == 'TRUE' )
                
         self.credit_cost = int(floor(xmlnode.xpath('./cost')[0]))
-        self.bv_cost = int(floor(xmlnode.xpath('./battle_value')[0]))
         
-        self.engine = SSWEngine( xmlnode.xpath('./ engine')[0] )
+        if self.is_omni:
+            0
+        else:
+            self.bv_cost = int(floor(xmlnode.xpath('./battle_value')[0]))
+        
+        self.engine = SSWEngine( xmlnode.xpath('./engine')[0] )
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
         
 
@@ -61,19 +65,15 @@ class SSWFile:
         self.file_name = sswFileName
         
         self.xmlFile = etree.parse(fd)
+        self.mech = SSWMech( xmlFile.xpath('/mech')[0] )
     
     @expect_integer        
     def get_cost(self):
-        costInfo = self.xmlFile.xpath('/mech/cost')
-        return floor( float (costInfo[0].text))        
+        return self.mech.credit_cost        
     
     @expect_integer
     def get_bv(self):
-        if self.isOmni():
-            return 0 # Omnimechs do not store BV values for the base chassis
-        else:
-            costInfo = self.xmlFile.xpath('/mech/battle_value')
-            return costInfo[0].text
+        return self.mech.bv_cost
         
     @expect_alphastring
     def get_type(self):
