@@ -5,7 +5,7 @@ from solaris.utilities.validation import expect_integer, expect_alphastring
 
 class SSWEquipment:
     def __init__(self, xmlnode):
-        self.equipment_name = xmlnode.text
+        self.equipment_name = xmlnode.xpath[./'name[1]'].text
         self.type = xmlnode.tag
         
         locations = xmlnode.xpath('./location')
@@ -57,6 +57,11 @@ class SSWMech:
         
         self.engine = SSWEngine( xmlnode.xpath('./engine')[0] )
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
+        
+        self.equipment = []
+        for node in xmlnode.xpath('./baselayout/*/equipment'):
+            self.equipment.add( SSWEquipment(node) )
+           
         
 
 class SSWFile:
