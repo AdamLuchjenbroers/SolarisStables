@@ -18,23 +18,23 @@ class SSWEquipment(dict):
         self.mountings = {}
         for loc in locations:
             if loc.tag == 'location':
-                index = [int(location.get('index'))]
+                index = [int(locations.get('index'))+1]
             if loc.tag == 'splitlocation':
-                count = int(location.get('number'))
-                start = int(location.get('index'))
+                count = int(locations.get('number'))
+                start = int(locations.get('index'))
                 #TODO - Check if SSW counts forward or backward from the assigned index
-                index = range(start, count+start)
+                index = range(start+1, count+start+1)
             
             if loc.text in self.mountings:
                 self.mountings[loc.text] += index
             else:
                 self.mountings[loc.text] = index
                 
-       for key in self.mountings:
+        for key in self.mountings:
             self.mountings[key].sort()
             
-       if len(self.mountings) == 0
-           self.mountings['--'] = None
+        if len(self.mountings) == 0:
+            self.mountings['--'] = None
          
 class SSWArmour(SSWEquipment):
     def __init__(self, xmlnode):
@@ -43,7 +43,7 @@ class SSWArmour(SSWEquipment):
         armorInfo = xmlnode.xpath('./*[not(self::type|self::location)]')
         self.armor = {}
         for location in armorInfo:
-            armor[location.tag] = int(location.text)
+            self.armor[location.tag] = int(location.text)
             
         typenode = xmlnode.xpath('./type')
         self.equipment_name = typenode[0].text
@@ -54,7 +54,7 @@ class SSWEngine(SSWEquipment):
         self.rating = xmlnode.get('rating')
     
 class SSWMech:
-    def __init__(self, xmlnode)
+    def __init__(self, xmlnode):
         self.tonnage = xmlnode.get('tons')
         self.mech_name = xmlnode.get('name')
         self.mech_code = xmlnode.get('model')
@@ -83,7 +83,7 @@ class SSWFile:
         self.file_name = sswFileName
         
         self.xmlFile = etree.parse(fd)
-        self.mech = SSWMech( xmlFile.xpath('/mech')[0] )
+        self.mech = SSWMech( self.xmlFile.xpath('/mech')[0] )
     
     @expect_integer        
     def get_cost(self):
