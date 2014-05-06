@@ -4,13 +4,19 @@ from django_genshi import loader
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect
 from urlparse import urlparse
+from django.http import HttpResponse
 
 from .forms import RegistrationForm, LoginForm
 from solaris.core import render_page
+from solaris.views import SolarisView
 
-def login_page(request):
+class SolarisLoginView(SolarisView):
     
-    if (request.method == 'POST'):
+    def __init__(self, *args, **kwargs):
+        super(SolarisLoginView, self).__init__(*args, **kwargs)
+        self.template = loader.get_template('solaris_form_outer.tmpl')
+    
+    def post(self, request, **kwargs):
         form = LoginForm(request.POST)
         if form.is_valid():
             login(request, form.user)
@@ -20,18 +26,22 @@ def login_page(request):
                 return redirect(url.path)
             else:
                 return redirect('/')
-    else:
+            
+        body = Markup(self.template.generate(form_items=Markup(form.as_p()), formclass='login', post_url='/login', submit='Login'))         
+        return HttpResponse(self.in_layout(body, request))
+            
+    def get(self, request, **kwargs):
         if 'next' in request.GET:
-            redirectURL = request.GET['next']
+            url = urlparse(request.GET['next'])
+            redirectURL = url.path
         else:
             redirectURL = None
         form = LoginForm()
-        form.redirect = redirectURL   
-              
-    login_form = loader.get_template('solaris_form_outer.tmpl')
-    body = Markup(login_form.generate(form_items=Markup(form.as_p()), formclass='login', post_url='/login', submit='Login')) 
+        form.redirect = redirectURL  
+        
+        body = Markup(self.template.generate(form_items=Markup(form.as_p()), formclass='login', post_url='/login', submit='Login'))         
+        return HttpResponse(self.in_layout(body, request))
 
-    return render_page(body=body, selected=None, request=request)
 
 
 def registration_page(request):
