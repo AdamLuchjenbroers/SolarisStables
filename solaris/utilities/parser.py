@@ -3,19 +3,32 @@ from lxml import etree
 
 from solaris.utilities.validation import expect_integer, expect_alphastring
 
-class SSWEquipment:
+class SSWEquipment(dict):
     def __init__(self, xmlnode):
-        self.equipment_name = xmlnode.xpath[./'name[1]'].text
-        self.type = xmlnode.tag
+        self.name = xmlnode.xpath['./name[1]'].text
+        self.node_type = xmlnode.tag
+        self.ssw_name = '%s - %s' % (self.node_type, self.name)
         
-        locations = xmlnode.xpath('./location')
+        locations = xmlnode.xpath('./location|./splitlocation')
+        
+        #Most entries only record a single slot, and require that we 
+        #extrapolate from there.
+        self.extrapolated = False
         
         self.mountings = {}
         for loc in locations:
+            if loc.tag == 'location':
+                index = [int(location.get('index'))]
+            if loc.tag == 'splitlocation':
+                count = int(location.get('number'))
+                start = int(location.get('index'))
+                #TODO - Check if SSW counts forward or backward from the assigned index
+                index = range(start, count+start)
+            
             if loc.text in self.mountings:
-                self.mountings[loc.text].append(int(location.get('index')))
+                self.mountings[loc.text] += index
             else:
-                self.mountings[loc.text] = [int(location.get('index'))]
+                self.mountings[loc.text] = index
                 
        for key in self.mountings:
             self.mountings[key].sort()
