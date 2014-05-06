@@ -219,7 +219,7 @@ div.tech span.roll {
   margin: 0px 5px;
 }
 
-span.login_failed {
+form p.field_error {
   border-width: 1px;
   border-style: solid;
   padding: 4px;
@@ -230,10 +230,10 @@ span.login_failed {
   background-color: #F08888;  
 }
 
-div.form_error, span.field_error {
+div.form_error, p.field_error {
   border-width: 1px;
   border-style: solid;
-  padding: 4px;
+  padding: 6px;
   margin-top: 4px;
   margin-bottom: 4px;
     
