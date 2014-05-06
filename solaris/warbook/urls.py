@@ -1,4 +1,4 @@
-from django.conf.urls import patterns
+from django.conf.urls import patterns, include
 
 from .views import ReferenceView
 from solaris.warbook.techtree.views import TechnologyListView, TechnologyDetailView
@@ -14,5 +14,6 @@ urlpatterns = patterns('',
     (r'^mechs/?$', MechSearchView.as_view()) ,
     (r'^mechs/search/?$', MechSearchResultsView.as_view()),
     (r'^mechs/(?P<name>[^/]+)/?$', MechListView.as_view()) ,
-    (r'^mechs/(?P<name>[^/]+)/(?P<code>[^/]+)/?$', MechDetailView.as_view()) ,    
+    (r'^mechs/(?P<name>[^/]+)/(?P<code>[^/]+)/?$', MechDetailView.as_view()) ,
+    (r'^ajax/?', include('solaris.warbook.ajax_urls'))    
 )
