@@ -50,11 +50,11 @@ def recursiveScanAll(path, relative_path='.'):
 def loadMechDesign(sswFileName, sswRelName):
     sswData = SSWFile(sswFileName)
     
-    if sswData.getTechBase() != 'Inner Sphere':
+    if sswData.get_techbase() != 'Inner Sphere':
         transaction.rollback() # Roll it back even though nothing has happened to fix errors regarding uncommitted transactions.
         return
     
-    if sswData.getType() != 'BattleMech':
+    if sswData.get_type() != 'BattleMech':
         transaction.rollback() # Roll it back even though nothing has happened to fix errors regarding uncommitted transactions.
         return    
     
@@ -72,6 +72,8 @@ def loadMechDesign(sswFileName, sswRelName):
         print 'Import failed from file: %s' % (sswRelName)
         for (field, error) in mech.errors.items():
             print '\t* %s: %s' % (field, error)
+            
+    
     
 if __name__ == '__main__':
     
