@@ -39,6 +39,15 @@ class SolarisFormMixin():
             fieldData['label'] = escape_unicode(fieldData['object'].label)
             
         fieldData['errors'] = self.getErrors(fieldName)
+        fieldData['info'] = None
+        
+        if fieldData['errors']:
+            fieldData['state'] = 'error'
+        elif fieldData['info']:
+            fieldData['state'] = 'info'
+        else:
+            fieldData['state'] = 'basic'
+        
         return fieldData
     
     def as_p(self):
