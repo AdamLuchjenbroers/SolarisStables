@@ -6,7 +6,6 @@ from .refdata import locations_all
 class MechDesign(models.Model):
     mech_name = models.CharField(max_length=50)
     mech_code = models.CharField(max_length=50)
-    mech_key = models.CharField(max_length=100, unique=True)
     omni_loadout = models.CharField(max_length=30, default='N/A', blank=True)
     stock_design = models.BooleanField(default=True)
     credit_value = models.IntegerField(null=True)
@@ -16,7 +15,15 @@ class MechDesign(models.Model):
     is_omni = models.BooleanField(default=False)
     omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True)
     ssw_filename = models.CharField(max_length=1024, blank=True, null=True)
+    
+    techbase_options = (
+        ('Inner Sphere', 'I'),
+        ('Clan', 'C'),
+        ('Mixed', 'M')
+    )
   
+    tech_base = models.CharField(max_length=1, choices=techbase_options)
+    
     def gyro_tonnage(self):
         #FIXME: Should be handled by equipment, as this varies by gyro type
         return ceil(self.engine_rating / 100) 
