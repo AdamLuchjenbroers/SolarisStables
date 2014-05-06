@@ -42,10 +42,13 @@ class SolarisLoginView(SolarisView):
         body = Markup(self.template.generate(form_items=Markup(form.as_p()), formclass='login', post_url='/login', submit='Login'))         
         return HttpResponse(self.in_layout(body, request))
 
-
-
-def registration_page(request):
-    if (request.method == 'POST'):
+class SolarisRegistrationView(SolarisView):
+    
+    def __init__(self, *args, **kwargs):
+        super(SolarisRegistrationView, self).__init__(*args, **kwargs)
+        self.template = loader.get_template('solaris_form_outer.tmpl')
+    
+    def post(self, request, **kwargs):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -54,12 +57,14 @@ def registration_page(request):
                 return redirect(url.path)
             else:
                 return redirect('/login')
-        
-    else:
+            
+    
+    def get(self, request, **kwargs):
         form = RegistrationForm()
            
-    return render_page(body=form.render(), selected=None, request=request)
-    
+        body = Markup(self.template.generate(form_items=Markup(form.as_p()), formclass='registration', post_url='/register', submit='Register'))         
+        return HttpResponse(self.in_layout(body, request))
+            
 def logout_user(request):
     logout(request)
     return redirect('/')
