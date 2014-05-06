@@ -32,13 +32,13 @@ class MechValidationForm(ModelForm):
             mech_dict['ssw_filename'] = xmlrelativename
         
             
-        mech_dict['mech_name'] = sswData.getName()
-        mech_dict['mech_code'] = sswData.getCode()
-        mech_dict['credit_value'] = sswData.getCost()
-        mech_dict['bv_value'] = sswData.getBV()
-        mech_dict['tonnage'] = sswData.getTonnage()
-        mech_dict['engine_rating'] = sswData.getEngineRating()
-        mech_dict['is_omni'] = sswData.isOmni()
+        mech_dict['mech_name'] = sswData.get_name()
+        mech_dict['mech_code'] = sswData.get_code()
+        mech_dict['credit_value'] = sswData.get_cost()
+        mech_dict['bv_value'] = sswData.get_bv()
+        mech_dict['tonnage'] = sswData.get_tonnage()
+        mech_dict['engine_rating'] = sswData.get_enginerating()
+        mech_dict['is_omni'] = sswData.is_omni()
         
         return MechValidationForm(mech_dict, instance=mech_object)
         

@@ -1,10 +1,12 @@
 # Create your views here.
 from genshi import Markup
 from django_genshi import loader
-from solaris.core import render_page
-from .forms import RegistrationForm, LoginForm
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect
+from urlparse import urlparse
+
+from .forms import RegistrationForm, LoginForm
+from solaris.core import render_page
 
 def login_page(request):
     
@@ -14,7 +16,8 @@ def login_page(request):
             login(request, form.user)
             
             if 'redirect' in request.POST:
-                return redirect(request.POST['redirect'])
+                url = urlparse(request.POST['redirect'])
+                return redirect(url.path)
             else:
                 return redirect('/')
     else:
@@ -37,7 +40,8 @@ def registration_page(request):
         if form.is_valid():
             form.save()
             if 'redirect' in request.POST:
-                return redirect(request.POST['redirect'])
+                url = urlparse(request.POST['redirect'])
+                return redirect(url.path)
             else:
                 return redirect('/login')
         
