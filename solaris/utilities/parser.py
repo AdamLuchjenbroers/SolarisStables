@@ -39,6 +39,10 @@ class SSWEquipment(dict):
 class SSWArmour(SSWEquipment):
     def __init__(self, xmlnode):
         super(SSWArmour,self).__init__(xmlnode)
+        
+        #Armour is stored as multiple single-slot assignments, so we can consider
+        #it extrapolated already
+        self.extrapolated = true
     
         armorInfo = xmlnode.xpath('./*[not(self::type|self::location)]')
         self.armor = {}
