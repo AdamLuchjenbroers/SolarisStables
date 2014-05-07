@@ -219,18 +219,12 @@ div.tech span.roll {
   margin: 0px 5px;
 }
 
-form p.field_error {
-  border-width: 1px;
-  border-style: solid;
-  padding: 4px;
-  margin-top: 8px;
-  margin-bottom: 4px;
-    
-  font-weight: bold;
-  background-color: #F08888;  
+form div {
+    height:100%;
+    overflow:hidden
 }
 
-div.form_error, p.field_error {
+div.form_error, div.field_error {
   border-width: 1px;
   border-style: solid;
   padding: 6px;
@@ -238,10 +232,10 @@ div.form_error, p.field_error {
   margin-bottom: 4px;
     
   font-weight: bold;
-  background-color: #F08888;  
+  background-color: #F08888;
 }
 
-div.form_info, p.field_info {
+div.form_info, div.field_info {
   border-width: 1px;
   border-style: solid;
   padding: 6px;
@@ -249,23 +243,37 @@ div.form_info, p.field_info {
   margin-bottom: 4px;
     
   font-weight: bold;
-  background-color: #8888F0;  
+  background-color: #8888F0;
 }
 
+div.field_basic {
+  border-width: 0px;
+  padding: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  
+  
+  height:100%;
+  overflow:hidden;
+  
+  position: relative;  
+}
 
 .field_label {
-  float : left;
-  width : 180px;
+  float: left;
+  display: inline-block;
+  width: 120px;
 }
 
 .field_input {
-  float : left;
-  width : 120px;
+  float: left;
+  display: inline-block;
+  width: 260px;
 }
 
 .field_message {
-  float : left;
-  width: 180px;
+  float: left;
+  display: inline-block;
 }
 
 div.news {
