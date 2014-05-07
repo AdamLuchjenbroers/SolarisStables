@@ -230,6 +230,16 @@ span.login_failed {
   background-color: #F08888;  
 }
 
+div.field_label {
+  float : left;
+  width : 180px;
+}
+
+div.field_input {
+  float : left;
+  width : 120px;
+}
+
 div.form_error, span.field_error {
   border-width: 1px;
   border-style: solid;
@@ -240,6 +250,8 @@ div.form_error, span.field_error {
   font-weight: bold;
   background-color: #F08888;  
 }
+
+
 
 div.news {
   position: relative;
