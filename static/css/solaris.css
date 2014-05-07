@@ -265,7 +265,7 @@ div.form_info, p.field_info {
 
 .field_message {
   float : left;
-  display: block;
+  width: 180px;
 }
 
 div.news {
