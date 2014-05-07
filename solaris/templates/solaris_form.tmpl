@@ -10,16 +10,13 @@
   </div>
 </py:if>
 <py:for each="field in form">
-  <p id="${field['label']}" class="field_${field['state']}"><label for="id_${field['label']}">${field['label']}:</label> ${field['markup']}
-  <span id="${field['label']}_message" class="field_message">
+  <p id="${field['label']}"><div class="field_label"><label for="id_${field['label']}">${field['label']}:</label></div>
+  <div class="field_input"> ${field['markup']} </div>
   <py:if test="field['errors']">
-    <ul>
     <py:for each="errorText in field['errors']">
-      <li>${errorText}</li>
-    </py:for>
-    </ul>    
+      <div class="field_error">${errorText}</div>
+    </py:for>    
   </py:if>
-  </span>
   </p>
 </py:for>
 <py:if test="redirect">

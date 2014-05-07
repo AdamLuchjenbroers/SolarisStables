@@ -252,6 +252,22 @@ div.form_info, p.field_info {
   background-color: #8888F0;  
 }
 
+
+.field_label {
+  float : left;
+  width : 180px;
+}
+
+.field_input {
+  float : left;
+  width : 120px;
+}
+
+.field_message {
+  float : left;
+  display: block;
+}
+
 div.news {
   position: relative;
   left: 40px;
