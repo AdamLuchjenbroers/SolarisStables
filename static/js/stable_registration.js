@@ -28,7 +28,6 @@ function SelectList(selector) {
   
   this.render = function(selected) {
 	  var output = '';
-	  console.log('render(' + selected + ')');
 	  
 	  $.each(this.options, function(i, option) {
 		  option['element'].selected = (
@@ -53,27 +52,7 @@ function SelectList(selector) {
 $( document ).ready(function() {
   var select_list = SelectList('#id_discipline_1 option');  
   var house_disciplines = [];
-  
-  console.log(select_list);
-  
-  function get_selected_disciplines() {
-    selected = [];
-  
-    $.each( ['#id_discipline_1', '#id_discipline_2'], function(i, id) {
-       val = $(id + ' option:selected');
-         
-       if (val.attr('value') != '') {
-         selected[id] = {
-           field : id,
-           id : val.attr('value'),
-           title : val.text()
-         };
-       };                 
-     });
-     
-     return selected;
-  }
-  
+    
   /*
    If Discipline 2 has a value and Discipline 1
    is blank, move the selection from Discipline 2
@@ -81,7 +60,6 @@ $( document ).ready(function() {
   */
   function rotate_selected_disciplines() {
     if ($('#id_discipline_1 option:selected').attr('value') != '') {
-      console.log('V:[' + $('#id_discipline_1 option:selected').attr('value') + ']')
       return;
     }
     
@@ -94,9 +72,6 @@ $( document ).ready(function() {
   }
   
   function update_disciplines() {
-    console.log('update_disciplines()');
-    
-    selected = get_selected_disciplines();
     
     select_list.reset();
      
@@ -110,16 +85,18 @@ $( document ).ready(function() {
     		  $(id).prop('selectedIndex', 0);
     	  };
       });       
-    });  
+    });
+    
+    if( $('#id_discipline_1 option:selected').attr('value') == $('#id_discipline_2 option:selected').attr('value') ) {
+    	// If both have the same value, clear the second one.
+    	$('#id_discipline_2').prop('selectedIndex', 0);
+    }
     
     // Move up the disciplines so empty entries are at the bottom of the list;
     rotate_selected_disciplines();
     
     $.each( ['#id_discipline_1', '#id_discipline_2'], function(i, id) {
         val = $(id + ' option:selected');
-         
-        console.log(id + ' Selected:' + val.attr('value'));
-        console.log(val);
         
         if (val.attr('value') != '') {
           select_list.hide(val.attr('value'));
