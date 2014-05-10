@@ -1,9 +1,6 @@
-import re
-
 from django.views.generic.edit import View
 from django_genshi import loader
 from .utils import get_arg
-from solaris.cms.models import StaticContent
 from django.http import HttpResponse
 from genshi import Markup
 
@@ -11,7 +8,11 @@ class SolarisView(View):
     
     styles_list = ['/static/css/solaris.css',]
     scripts_list = ['/static/nicEdit/nicEdit.js',] 
-    menu = None
+    base_menu = [
+          {'title' : 'News', 'url' : '/'},
+          {'title' : 'Wiki', 'url' : '/wiki/'},
+          {'title' : 'Reference', 'url' : '/reference/'},       
+        ]
     menu_selected = None
     submenu = None
     submenu_selected = None
@@ -24,23 +25,16 @@ class SolarisView(View):
         
         self.body_content = get_arg('body', kwargs, Markup('<p>Body Goes Here</p>'))
         
-    def get_menu(self):
-        return StaticContent.objects.filter(toplevel=True).order_by('order')
+    def get_menu(self, user):
+        # TODO : Add Stable / Admin based on logged in users / privileges
+        return self.__class__.base_menu
     
-    def in_layout(self, body, request):
-        
-        url_firstterm = re.compile('^(/[^/]*).*$')
-        url_match = url_firstterm.match(request.get_full_path())
-        if url_match:
-            selected = url_match.group(1)
-        else:
-            selected = None            
+    def in_layout(self, body, request):   
         
         return self.base_layout.generate(
             body=body
-          , selected=selected
-          , menu=self.get_menu()
-          , sub_selected=None
+          , selected=self.__class__.menu_selected
+          , menu=self.get_menu(request.user)
           , submenu = self.__class__.submenu
           , submenu_selected = self.__class__.submenu
           , authenticated = request.user.is_authenticated()

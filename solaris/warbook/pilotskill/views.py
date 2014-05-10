@@ -6,7 +6,11 @@ from django.http import HttpResponse
 from solaris.warbook.views import ReferenceView
 from solaris.warbook.pilotskill import models
 
-class DisciplineListView(ReferenceView):
+class DisciplineView(ReferenceView):
+    submenu_selected = 'Pilot Skills'
+
+class DisciplineListView(DisciplineView):
+    
     def get(self, request, **kwargs):
         disciplines = models.PilotDiscipline.objects.all()
       
@@ -17,7 +21,7 @@ class DisciplineListView(ReferenceView):
         return HttpResponse(self.in_layout(body, request))
 
 
-class DisciplineDetailView(ReferenceView):
+class DisciplineDetailView(DisciplineView):
     def get(self, request, discipline='', **kwargs):
     
         disciplineObject = get_object_or_404(models.PilotDiscipline, urlname=discipline)

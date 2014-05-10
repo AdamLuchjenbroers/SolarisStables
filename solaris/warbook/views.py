@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from solaris.views import SolarisView
 
 class ReferenceView(SolarisView):
+    menu_selected = 'Reference'
+    
     submenu = [
           {'title' : 'TechTree', 'url' : '/reference/techtree'},
           {'title' : 'Pilot Skills', 'url' : '/reference/pilotskills'},

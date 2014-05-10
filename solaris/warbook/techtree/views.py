@@ -7,7 +7,10 @@ from django.http import HttpResponse
 from solaris.warbook.techtree import models
 from solaris.warbook.views import ReferenceView
 
-class TechnologyListView(ReferenceView):
+class TechnologyView(ReferenceView):
+    submenu_selected = 'TechTree'
+
+class TechnologyListView(TechnologyView):
     def get(self, request, **kwargs):
         
         # Construct Technologies list
@@ -24,7 +27,7 @@ class TechnologyListView(ReferenceView):
 
         return HttpResponse(self.in_layout(techtree, request))
 
-class TechnologyDetailView(ReferenceView):
+class TechnologyDetailView(TechnologyView):
     def get(self, request, technology='', **kwargs):
         # Get Technology Information
         techdata = get_object_or_404(models.Technology, urlname=technology)

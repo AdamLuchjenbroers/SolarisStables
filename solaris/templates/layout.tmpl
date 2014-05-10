@@ -19,11 +19,11 @@
     <ul class="menu">
       <py:for each="item in menu">
         <py:choose test="selected">
-          <py:when test="item.url">
-            <li id="selected">$item.title</li>
+          <py:when test="item['title']">
+            <li id="selected">${item['title']}</li>
           </py:when>
           <py:otherwise> 
-            <li><a href="$item.url">$item.title</a></li>
+            <li><a href="${item['url']}">${item['title']}</a></li>
           </py:otherwise>
         </py:choose>
       </py:for>
@@ -42,7 +42,14 @@
     <py:if test="submenu">
       <ul class="submenu">
        <py:for each="item in submenu">
-         <li><a href="${item['url']}">${item['title']}</a></li>
+         <py:choose test="submenu_selected">
+           <py:when test="item['title']">
+             <li id="selected">${item['title']}</li>
+           </py:when>
+           <py:otherwise>
+              <li><a href="${item['url']}">${item['title']}</a></li>
+           </py:otherwise>
+         </py:choose>
        </py:for>
       </ul>
     </py:if>
