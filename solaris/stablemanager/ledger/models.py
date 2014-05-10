@@ -24,18 +24,25 @@ class Ledger(models.Model):
         app_label = 'stablemanager'
     
 
-class LedgerItem(models.Model):    
+class LedgerItem(models.Model):
+    """ A LedgerItem stores a single income or expenditure line item as part of a Ledger """    
     item_types = (
                    ('R', 'Repair Bill')
                  , ('P', 'Purchase')
+                 , ('E', 'Other Expenses')
                  , ('W', 'Winnings')
-                 , ('M', 'Misc')
+                 , ('I', 'Other Income')
                  ,)
     
     ledger = models.ForeignKey(Ledger, related_name='entries')
     description = models.CharField(max_length=40)
     cost = models.IntegerField()
     type = models.CharField(max_length=1, choices=item_types)
+    
+    """ A tied LedgerItem derives its cost from a linked event or item (e.g. a repair bill) and cannot be edited directly. """
+    tied = models.BooleanField(default=False)
+    
+    
     
     def get_cost(self):
         #Use a method for this so implementing repairbills / winnings will be smoother in future.
