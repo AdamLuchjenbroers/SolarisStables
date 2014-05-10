@@ -9,12 +9,13 @@ from genshi import Markup
 
 class SolarisView(View):
     
-    def get_styles(self):
-        return ['/static/css/solaris.css',]
-    
-    def get_scripts(self):
-        return ['/static/nicEdit/nicEdit.js',]
-        
+    styles_list = ['/static/css/solaris.css',]
+    scripts_list = ['/static/nicEdit/nicEdit.js',] 
+    menu = None
+    menu_selected = None
+    submenu = None
+    submenu_selected = None
+
     def __init__(self, *args, **kwargs):         
         master_template = get_arg('master_template', kwargs, 'layout.tmpl')
         self.base_layout = loader.get_template(master_template)
@@ -25,9 +26,6 @@ class SolarisView(View):
         
     def get_menu(self):
         return StaticContent.objects.filter(toplevel=True).order_by('order')
-    
-    def get_submenu(self):
-        return None
     
     def in_layout(self, body, request):
         
@@ -43,11 +41,12 @@ class SolarisView(View):
           , selected=selected
           , menu=self.get_menu()
           , sub_selected=None
-          , submenu = self.get_submenu()
+          , submenu = self.__class__.submenu
+          , submenu_selected = self.__class__.submenu
           , authenticated = request.user.is_authenticated()
           , username = request.user.username
-          , styles = self.get_styles()
-          , scripts = self.get_scripts()
+          , styles = self.__class__.styles_list
+          , scripts = self.__class__.scripts_list
         ).render(self.doctype, doctype=self.doctype)
     
     def get(self, request):   

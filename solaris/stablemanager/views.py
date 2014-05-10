@@ -7,13 +7,10 @@ from solaris.views import SolarisView
 from solaris.core import render_page
 from .utils import stable_required
 
-
-
 from .forms import StableRegistrationForm
 
 class StableView(SolarisView):
-    def get_submenu(self):
-        return [
+    submenu = [
           {'title' : 'Ledger', 'url' : '/stable/ledger'},
           {'title' : 'Assets', 'url' : '/stable'},
           {'title' : 'Actions', 'url' : '/stable/actions'},
@@ -32,6 +29,8 @@ class StableOverview(StableView):
     
 
 class StableRegistrationView(SolarisView):
+    
+    scripts_list = ['/static/js/jquery-1.11.1.js', '/static/js/stable_registration.js']
     
     def __init__(self, *args, **kwargs):
         super(StableRegistrationView, self).__init__(*args, **kwargs)
