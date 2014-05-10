@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     (r'^login/?$', SolarisLoginView.as_view()),
     (r'^logout/?$', 'solaris.userforms.views.logout_user'),
     (r'^register/?$', SolarisRegistrationView.as_view()),
-    (r'^reference/', include('solaris.warbook.urls')),
+    (r'^reference/?', include('solaris.warbook.urls')),
     (r'^stable/?', include('solaris.stablemanager.urls')),
     (r'^viewtest/?', SolarisView.as_view() )
 )
