@@ -42,7 +42,7 @@ class StableLedgerView(StableView):
         for (code, description) in LedgerItem.item_types:
             ledger_items[code] = dict()
             ledger_items[code]['description'] = description
-            ledger_items[code]['items'] = LedgerItem.objects.filter(ledger=ledger, type=code)
+            ledger_items[code]['items'] = Ledger.entries.filter(type=code)
             ledger_items[code]['form'] = None #TODO
         
         body = Markup('<P>Stable Ledgers and Finance for the %s will go here</P><P>The Selected Broadcast Week is: %s</P>' % (stable.stable_name, week_model.week_number))
