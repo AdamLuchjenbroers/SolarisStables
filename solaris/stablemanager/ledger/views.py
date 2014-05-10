@@ -1,5 +1,6 @@
 from genshi import Markup
 from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404
 #from django_genshi import loader
 
 from solaris.stablemanager.views import StableView
@@ -10,6 +11,11 @@ class StableLedgerView(StableView):
     submenu_selected = 'Ledger'
 
     def create_ledger(self, stable, week):
+        return Ledger.objects.create(
+            stable = stable
+        ,   week = week        
+        ,   opening_balance = 1000000
+        )
         #TODO: Create the ledger, deriving opening balance from
         # previous entries if available (otherwise default to 10,000,000 credits
         # - the starting balance for a new stable).
@@ -17,19 +23,19 @@ class StableLedgerView(StableView):
     
     def get(self, request, stable=None, week=None):
         if week == None:
-            week = stable.current_week
+            week_model = stable.current_week
             current_week = True
         else:
-            week = 
+            week_model = get_object_or_404(BroadcastWeek, week_number = week)
             current_week = False
             
         try:
-            ledger = Ledger.objects.get(stable=stable, week=week)
+            ledger = Ledger.objects.get(stable=stable, week=week_model)
         except Ledger.DoesNotExist:
             if current_week:
-                self.create_ledger(stable, week)
+                self.create_ledger(stable, week_model)
             else:
                 raise Http404
                
-        body = Markup('<P>Stable Ledgers and Finance for the %s will go here</P><P>The Selected Broadcast Week is: %s</P>' % (stable.stable_name, week))
+        body = Markup('<P>Stable Ledgers and Finance for the %s will go here</P><P>The Selected Broadcast Week is: %s</P>' % (stable.stable_name, week_model.week_number))
         return HttpResponse(self.in_layout(body, request))
