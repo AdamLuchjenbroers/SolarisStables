@@ -50,7 +50,7 @@ class SolarisView(View):
           , selected=self.__class__.menu_selected
           , menu=self.get_menu(request.user)
           , submenu = self.__class__.submenu
-          , submenu_selected = self.__class__.submenu
+          , submenu_selected = self.__class__.submenu_selected
           , authenticated = request.user.is_authenticated()
           , username = request.user.username
           , styles = self.__class__.styles_list

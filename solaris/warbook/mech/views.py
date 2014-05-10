@@ -8,7 +8,10 @@ from solaris.warbook.views import ReferenceView
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.mech.forms import MechSearchForm
 
-class MechDetailView(ReferenceView):
+class MechView(ReferenceView):
+    submenu_selected = 'Mechs'
+
+class MechDetailView(MechView):
     def get(self, request, name='', code=''):        
         mech = get_object_or_404(MechDesign, mech_name__iexact=name, mech_code__iexact=code)
         
@@ -17,7 +20,7 @@ class MechDetailView(ReferenceView):
         return HttpResponse(self.in_layout(body, request))
 
 
-class MechListView(ReferenceView):
+class MechListView(MechView):
     def get(self, request, name=''):
         mech_list = get_list_or_404(MechDesign, mech_name__iexact=name)
         
@@ -27,7 +30,7 @@ class MechListView(ReferenceView):
         return HttpResponse(self.in_layout(body, request))
 
 
-class MechSearchResultsView(ReferenceView):
+class MechSearchResultsView(MechView):
     translate_terms = {
         u'mech_name' : 'mech_name__iexact',
         u'mech_code' : 'mech_code__iexact',

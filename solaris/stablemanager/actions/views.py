@@ -5,6 +5,7 @@ from django.http import HttpResponse
 #from django_genshi import loader
 
 class StableActionView(StableView):
+    submenu_selected = 'Actions'
     
     def get(self, request, stable=None, week=None):
         body = Markup('<P>The Actions Ledger for the %s will go here</P><P>The Selected Broadcast Week is: %s</P>' % (stable.stable_name, week))

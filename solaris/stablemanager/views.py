@@ -23,14 +23,15 @@ class StableView(SolarisView):
         self.stable = kwargs['stable']
         return super(StableView, self).dispatch(request, *args, **kwargs)
 
-class StableOverview(StableView):    
+class StableOverview(StableView):       
+    submenu_selected = 'Assets'
+    
     def get(self, request, stable=None):
         body = Markup('<P>Stable Management for the %s will go here</P>' % stable.stable_name)
         return HttpResponse(self.in_layout(body, request))
     
 
-class StableRegistrationView(SolarisView):
-    
+class StableRegistrationView(SolarisView):    
     scripts_list = ['/static/js/jquery-1.11.1.js', '/static/js/stable_registration.js']
     
     def __init__(self, *args, **kwargs):

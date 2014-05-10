@@ -152,6 +152,16 @@ ul.submenu li a {
   height: 13px;
 }
 
+ul.submenu li#selected {  
+  background-color: #660000;
+  color: #FFFFFF;  
+  display:block;
+  vertical-align: middle;
+  
+  width: 120px; 
+  height: 13px;
+}
+
 div.toolbar span.login {
   float: right;
 }

@@ -4,8 +4,10 @@ from django.http import HttpResponse, Http404
 
 from solaris.stablemanager.views import StableView
 from solaris.stablemanager.ledger.models import Ledger, LedgerItem
+from solaris.battlereport.models import BroadcastWeek
 
 class StableLedgerView(StableView):
+    submenu_selected = 'Ledger'
 
     def create_ledger(self, stable, week):
         #TODO: Create the ledger, deriving opening balance from
@@ -18,6 +20,7 @@ class StableLedgerView(StableView):
             week = stable.current_week
             current_week = True
         else:
+            week = 
             current_week = False
             
         try:
