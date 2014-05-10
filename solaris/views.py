@@ -1,8 +1,11 @@
+from copy import deepcopy
+
 from django.views.generic.edit import View
 from django_genshi import loader
-from .utils import get_arg
 from django.http import HttpResponse
 from genshi import Markup
+
+from .utils import get_arg
 
 class SolarisView(View):
     
@@ -26,8 +29,19 @@ class SolarisView(View):
         self.body_content = get_arg('body', kwargs, Markup('<p>Body Goes Here</p>'))
         
     def get_menu(self, user):
-        # TODO : Add Stable / Admin based on logged in users / privileges
-        return self.__class__.base_menu
+        if user.is_authenticated():
+            menu = deepcopy(self.__class__.base_menu)
+            
+            menu.append( {'title' : 'Stable', 'url' : '/stable'} )
+            
+            if user.is_staff:            
+                menu.append({'title' : 'Admin', 'url' : '/admin'})
+                
+            return menu
+        else:
+            return self.__class__.base_menu
+                        
+        
     
     def in_layout(self, body, request):   
         

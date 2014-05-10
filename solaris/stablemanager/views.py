@@ -16,6 +16,7 @@ class StableView(SolarisView):
           {'title' : 'Actions', 'url' : '/stable/actions'},
           {'title' : 'Training', 'url' : '/stable/training'},          
         ]
+    menu_selected = 'Stable'
     
     @stable_required(add_stable=True)
     def dispatch(self, request, *args, **kwargs):
