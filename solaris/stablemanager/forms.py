@@ -1,9 +1,11 @@
 from solaris.forms import SolarisForm
 from django.forms import CharField, ModelChoiceField
 from django.db.models import Max
+
 from solaris.warbook.models import House
 from solaris.warbook.pilotskill.models import PilotDiscipline
 from solaris.stablemanager.models import Stable
+from solaris.stablemanager.ledger.models import Ledger
 from solaris.battlereport.models import BroadcastWeek
 
 
@@ -27,6 +29,12 @@ class StableRegistrationForm(SolarisForm):
                         
         stable.stable_disciplines.add( PilotDiscipline.objects.get(name=self.cleaned_data['discipline_1']) )
         stable.stable_disciplines.add( PilotDiscipline.objects.get(name=self.cleaned_data['discipline_2']) )
+        
+        Ledger.objects.create(
+            stable = stable
+        ,   week = self.week
+        ,   opening_balance = 10000000
+        )
         
         stable.save()    
     
