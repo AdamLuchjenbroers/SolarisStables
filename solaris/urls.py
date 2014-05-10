@@ -5,13 +5,14 @@ from django.conf import settings
 
 from .views import SolarisView
 from solaris.userforms.views import SolarisLoginView, SolarisRegistrationView
+from solaris.cms.views import NewsListView, NewsPostFormView
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^/?$', 'solaris.cms.views.news_page', {'selected': '/'}),
+    (r'^/?$', NewsListView.as_view()),
     (r'^admin/', include(admin.site.urls)),
-    (r'^postnews/?$', 'solaris.cms.views.post_news_page'),
+    (r'^postnews/?$', NewsPostFormView.as_view()),
     (r'^login/?$', SolarisLoginView.as_view()),
     (r'^logout/?$', 'solaris.userforms.views.logout_user'),
     (r'^register/?$', SolarisRegistrationView.as_view()),

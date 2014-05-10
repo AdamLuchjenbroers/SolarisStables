@@ -1,54 +1,43 @@
 # -*- coding: iso-8859-1 -*-
 from genshi import Markup
-from solaris.cms.models import StaticContent, NewsPost
-from solaris.core import render_page
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django_genshi import loader
 from django.contrib.auth.decorators import permission_required
+from django.http import HttpResponse
 
+from solaris.views import SolarisView
+from solaris.cms.models import NewsPost
 
-def static_content(request, selected=None):
-    # Derive body text
-    content = get_object_or_404(StaticContent, url='/%s' % selected).content
-    body = Markup(content)
+class NewsView(SolarisView):
+    menu_selected = 'News'
     
-    return render_page(body=body, selected=selected, request=request)
+class NewsListView(NewsView):
+    def get(self, request):
+        posts = NewsPost.objects.order_by('post_date').reverse()[0:5]
+        for p in posts:
+            p.prepare()
+        
+        tmpl_news = loader.get_template('cms/news_posts.tmpl')    
+        newspage = Markup(tmpl_news.generate(news=posts, adminbar=request.user.has_perm('cms.post_news')))
+        
+        return HttpResponse(self.in_layout(newspage, request))
     
-def news_page(request, selected=None):
-    posts = NewsPost.objects.order_by('post_date').reverse()[0:5]
-    for p in posts:
-        p.prepare()
-    
-    tmpl_news = loader.get_template('cms/news_posts.tmpl')    
-    newspage = Markup(tmpl_news.generate(news=posts, adminbar=request.user.has_perm('cms.post_news')))
-    
-    return render_page(body=newspage, selected=selected, request=request)
-     
-def news_form(request, selected):
-    tmpl_news = loader.get_template('cms/news_form.tmpl')    
-    newsform = Markup(tmpl_news.generate())
-    
-    return render_page(body=newsform, selected=None, request=request)
+class NewsPostFormView(NewsView):
 
-@permission_required('cms.post_news')
-def post_news(request):
-    if ((len(request.POST['title']) > 0) and (len(request.POST['content']) > 0)):
-        post = NewsPost(poster = request.user, title = request.POST['title'], content = request.POST['content'])    
-        post.save()
-    else:
-        pass
+    @permission_required('cms.post_news')    
+    def dispatch(self, *args, **kwargs):
+        super(NewsPostFormView, self).dispatch(*args, **kwargs)
+        
+    def get(self, request):
+        tmpl_news = loader.get_template('cms/news_form.tmpl')    
+        newsform = Markup(tmpl_news.generate())
     
-    return redirect('/')
+        return HttpResponse(self.in_layout(newsform, request))
     
-def util_redirect(request, path='/'):
-    return redirect(path)
-     
-def post_news_page(request, selected=None):
-    if request.user.has_perm('cms.post_news'):
-        if request.method == 'GET':
-            return news_form(request, selected)
+    def post(self, request):
+        if ((len(request.POST['title']) > 0) and (len(request.POST['content']) > 0)):
+            post = NewsPost(poster = request.user, title = request.POST['title'], content = request.POST['content'])    
+            post.save()
+            return redirect('/')
         else:
-            return post_news(request)
-    else:
-        return redirect('/')
-     
+            return self.get(request)
