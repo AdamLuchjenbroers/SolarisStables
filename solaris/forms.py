@@ -58,7 +58,7 @@ class SolarisFormMixin():
         for fieldName in self.fields.keys():
             fieldSet.append(self.getField(fieldName))
         
-        return FieldSet
+        return fieldSet
     
     def as_p(self):
         
@@ -74,6 +74,8 @@ class SolarisFixedFormMixin(SolarisFormMixin):
     Variant of SolarisFormMixin that passes the list of fields to the template as a dictionary, so that the field placement
     can be more tightly controlled / customized
     """
+    inner_form_template = None #This mixin expects a bespoke template for each form, so just fail if this hasn't been set
+    
     def getAllFields(self):        
         fieldSet = dict()    
         for fieldName in self.fields.keys():
