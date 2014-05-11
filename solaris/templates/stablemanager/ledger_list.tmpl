@@ -1,0 +1,6 @@
+<div xmlns:py="http://genshi.edgewall.org/" class="stable_ledger">
+  <h1>${stable_name} Finances, Week ${week}</h1>
+  <py:for each="group in ledger_items">
+    <h2>${group['description']}</h2>
+  </py:for>
+</div>
