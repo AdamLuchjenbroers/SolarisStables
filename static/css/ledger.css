@@ -21,7 +21,6 @@ div.balance {
 
 div.subheader {
 	display: block;
-	left: 20px;
 	float: none;
 	height: 38px;
 	
@@ -34,11 +33,10 @@ div.subheader {
 
 div.lineitem {
 	display: block;
-	left: 40px;
 	float: none;
 	height: 32px;
 	
-	margin-left: 20px;
+	margin-left: 40px;
 	
 	margin-top: 4px;
 	margin-bottom: 4px;
@@ -78,7 +76,7 @@ div.lineitem div.ledger_desc, div.lineitem div.ledger_value {
 }
 
 
-div h1, div h2, div h3 {
+div h1, div h2, div h3, div p {
 	margin: auto;
 	
 	padding: 0px;
