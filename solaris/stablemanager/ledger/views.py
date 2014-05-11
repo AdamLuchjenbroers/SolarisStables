@@ -2,6 +2,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from django_genshi import loader
 
+from solaris.utils import deepcopy_append
 from solaris.stablemanager.views import StableView
 from solaris.stablemanager.ledger.models import Ledger, LedgerItem
 from solaris.stablemanager.utils import stable_required
@@ -9,6 +10,8 @@ from solaris.battlereport.models import BroadcastWeek
 
 class StableLedgerView(StableView):
     submenu_selected = 'Ledger'
+    
+    styles_list = deepcopy_append(StableView.styles_list, ['/static/css/ledger.css'])
     
     def __init__(self, *args, **kwargs):
         self.template = loader.get_template('stablemanager/ledger_list.tmpl')

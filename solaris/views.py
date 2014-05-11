@@ -39,8 +39,7 @@ class SolarisView(View):
                 
             return menu
         else:
-            return self.__class__.base_menu
-                        
+            return self.__class__.base_menu                       
         
     
     def in_layout(self, body, request):   
