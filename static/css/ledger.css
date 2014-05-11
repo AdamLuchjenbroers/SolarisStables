@@ -31,7 +31,7 @@ div.subheader {
 	
 }
 
-div.lineitem {
+div.lineitem, form.lineitem {
 	display: block;
 	float: none;
 	height: 32px;
@@ -59,6 +59,18 @@ div.ledger_value {
 	vertical-align: middle;
 }
 
+div.ledger_add {
+	position: relative;
+	float: left;
+	height: 100%;
+	vertical-align: middle;	
+}
+
+div.ledger_value input {
+	align: middle;
+	width: 90%;
+}
+
 
 div.balance div.ledger_desc, div.balance div.ledger_value {
 	background-color : #AAAAAA;
@@ -70,7 +82,8 @@ div.subheader div.ledger_desc, div.subheader div.ledger_value {
 	line-height: 38px;
 }
 
-div.lineitem div.ledger_desc, div.lineitem div.ledger_value {
+div.lineitem div.ledger_desc, div.lineitem div.ledger_value,
+form.lineitem div.ledger_desc, form.lineitem div.ledger_value, form.lineitem div.ledger_add  {
 	background-color : #CCCCCC;
 	line-height: 32px;
 }

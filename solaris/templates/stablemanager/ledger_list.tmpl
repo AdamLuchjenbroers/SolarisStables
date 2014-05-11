@@ -19,6 +19,10 @@
         </div>
       </py:for>
     </py:if>
+    
+    <py:if test="group['form']">
+      ${group['form'].as_p()}
+    </py:if>
   </py:for>
   
   <div class="balance">

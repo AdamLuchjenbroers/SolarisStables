@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from django_genshi import loader
@@ -7,6 +9,8 @@ from solaris.stablemanager.views import StableView
 from solaris.stablemanager.ledger.models import Ledger, LedgerItem
 from solaris.stablemanager.utils import stable_required
 from solaris.battlereport.models import BroadcastWeek
+
+from .forms import LedgerItemForm
 
 class StableLedgerView(StableView):
     submenu_selected = 'Ledger'
@@ -57,7 +61,7 @@ class StableLedgerView(StableView):
                 'code' : code
             ,   'description' : description
             ,   'entries' : ledger.entries.filter(type=code)
-            ,   'form'    : None
+            ,   'form'    : LedgerItemForm( initial={ 'type' : code } )
         } )
             
         body = self.template.generate(
@@ -68,3 +72,15 @@ class StableLedgerView(StableView):
         ,   closing_balance = ledger.closing_balance()
         )
         return HttpResponse(self.in_layout(body, request))
+    
+    def post(self, request, stable=None, week=None, ledger=None):
+        form_values = deepcopy(request.POST)
+        form_values['ledger'] = ledger.id
+        form_values['tied'] = False
+        
+        form = LedgerItemForm(form_values)
+        if form.is_valid():
+            form.save()
+        
+        return self.get(request, stable=stable, week=week, ledger=ledger)
+        
