@@ -4,17 +4,14 @@ from lxml import etree
 
 from solaris.utilities.validation import expect_integer, expect_alphastring
 
-class SSWEquipment(dict):
-    def __init__(self, xmlnode):
-        self.name = xmlnode.xpath['./name[1]'].text
-        self.node_type = xmlnode.tag
-        self.ssw_name = '%s - %s' % (self.node_type, self.name)
-        
-        locations = xmlnode.xpath('./location|./splitlocation')
-        
+class SSWMountedItem(dict):
+
+    def mount(self, xmlnode):
         #Most entries only record a single slot, and require that we 
         #extrapolate from there.
         self.extrapolated = False
+        
+        locations = xmlnode.xpath('./location|./splitlocation')
         
         self.mountings = {}
         for loc in locations:
@@ -36,6 +33,21 @@ class SSWEquipment(dict):
             
         if len(self.mountings) == 0:
             self.mountings['--'] = None
+    
+    def extrapolated(self, criticals):
+        if not self.extrapolated:
+            loc = self.mountings.keys()[0]
+            start = self.mountings[loc][0]
+            self.mountings.loc = range(start, start+criticals)
+
+class SSWEquipment(SSWMountedItem):
+    def __init__(self, xmlnode):
+        self.name = xmlnode.xpath['./name[1]'].text
+        self.node_type = xmlnode.tag
+        self.ssw_name = '%s - %s' % (self.node_type, self.name)
+        
+        self.mount(xmlnode)
+        
          
 class SSWArmour(SSWEquipment):
     def __init__(self, xmlnode):
