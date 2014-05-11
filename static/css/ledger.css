@@ -1,0 +1,90 @@
+div.stable_ledger {
+	float: none;
+    width: 600px;	
+    margin-left : auto;
+    margin-right : auto;
+    
+    height:100%;
+    overflow:hidden;
+}
+
+div.balance {
+	width: 100%;
+	display: block;
+	float: none;
+	height: 48px;
+	
+	margin-top: 6px;
+	margin-bottom: 6px;
+	
+}
+
+div.subheader {
+	display: block;
+	left: 20px;
+	float: none;
+	height: 38px;
+	
+	margin-left: 20px;
+	
+	margin-top: 4px;
+	margin-bottom: 4px;
+	
+}
+
+div.lineitem {
+	display: block;
+	left: 40px;
+	float: none;
+	height: 32px;
+	
+	margin-left: 20px;
+	
+	margin-top: 4px;
+	margin-bottom: 4px;
+	
+}
+
+div.ledger_desc {
+	position: relative;
+	margin-right: 108px;
+	height: 100%;
+	vertical-align: middle;
+}
+
+
+div.ledger_value {
+	position: relative;
+	float: right;
+	width: 100px;
+	height: 100%;
+	vertical-align: middle;
+}
+
+
+div.balance div.ledger_desc, div.balance div.ledger_value {
+	background-color : #AAAAAA;
+	line-height: 48px;
+}
+
+div.subheader div.ledger_desc, div.subheader div.ledger_value {
+	background-color : #BBBBBB;
+	line-height: 38px;
+}
+
+div.lineitem div.ledger_desc, div.lineitem div.ledger_value {
+	background-color : #CCCCCC;
+	line-height: 32px;
+}
+
+
+div h1, div h2, div h3 {
+	margin: auto;
+	
+	padding: 0px;
+	
+	text-align: left;
+	vertical-align: middle;
+	padding-left: 20px;
+	padding-right: 20px;
+}

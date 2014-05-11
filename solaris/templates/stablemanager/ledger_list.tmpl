@@ -1,6 +1,19 @@
 <div xmlns:py="http://genshi.edgewall.org/" class="stable_ledger">
   <h1>${stable_name} Finances, Week ${week}</h1>
+  <div class="balance">
+    <div class="ledger_value">${opening_balance}</div>
+    <div class="ledger_desc"><h2>Opening Balance</h2></div>
+  </div>
+  
   <py:for each="group in ledger_items">
-    <h2>${group['description']}</h2>
+    <div class="subheader">
+      <div class="ledger_value">--</div>
+      <div class="ledger_desc"><h3>${group['description']}</h3></div>
+    </div>
   </py:for>
+  
+  <div class="balance">
+    <div class="ledger_value">${closing_balance}</div>
+    <div class="ledger_desc"><h2>Closing Balance</h2></div>
+  </div>
 </div>

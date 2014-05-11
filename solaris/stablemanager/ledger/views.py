@@ -60,5 +60,11 @@ class StableLedgerView(StableView):
             ,   'form'    : None
         } )
             
-        body = self.template.generate(stable_name = stable.stable_name, week = week.week_number, ledger_items = ledger_items)
+        body = self.template.generate(
+            stable_name = stable.stable_name
+        ,   week = week.week_number
+        ,   ledger_items = ledger_items
+        ,   opening_balance = ledger.opening_balance
+        ,   closing_balance = ledger.closing_balance()
+        )
         return HttpResponse(self.in_layout(body, request))
