@@ -26,7 +26,7 @@ class stable_required(object):
             if stableList.count() <> 1:
                 return redirect(func_self.register_url)
         
-            if self.add_stable:
+            if self.add_stable and not 'stable' in kwargs:
                 return function(obj_self, request, *args, stable=stableList[0], **kwargs)
             else:
                 return function(obj_self, request, *args, **kwargs)   
