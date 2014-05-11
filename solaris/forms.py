@@ -9,9 +9,12 @@ from .utils import get_arg
 def escape_unicode(string):
     return conditional_escape(force_unicode(string))
 
-class SolarisFormMixin():    
+class SolarisFormMixin():
+    
+    inner_form_template = 'solaris_form.tmpl'
+        
     def __init__(self, *args, **kwargs):
-        templateName = get_arg('template', kwargs, default='solaris_form.tmpl')
+        templateName = get_arg('template', kwargs, self.__class__.inner_form_template)
         self.template = loader.get_template(templateName)
         
         self.redirectURL = get_arg('redirect', kwargs)
@@ -50,19 +53,33 @@ class SolarisFormMixin():
         
         return fieldData
     
+    def getAllFields(self):
+        fieldSet = []   
+        for fieldName in self.fields.keys():
+            fieldSet.append(self.getField(fieldName))
+        
+        return FieldSet
+    
     def as_p(self):
         
         if '__all__' in self.errors:
             formErrors = self.errors['__all__']
         else:
             formErrors = None
-            
-        fieldSet = []    
-        for fieldName in self.fields.keys():
-            fieldSet.append(self.getField(fieldName))
         
-        return self.template.generate(formErrors=formErrors, form=fieldSet, redirect=self.redirectURL)
+        return self.template.generate(formErrors=formErrors, form=self.getAllFields(), redirect=self.redirectURL)
 
+class SolarisFixedFormMixin(SolarisFormMixin):
+    """ 
+    Variant of SolarisFormMixin that passes the list of fields to the template as a dictionary, so that the field placement
+    can be more tightly controlled / customized
+    """
+    def getAllFields(self):        
+        fieldSet = dict()    
+        for fieldName in self.fields.keys():
+            fieldSet[fieldName] = self.getField(fieldName)
+        
+        return fieldSet
 
 class SolarisModelForm(SolarisFormMixin, ModelForm):
 
