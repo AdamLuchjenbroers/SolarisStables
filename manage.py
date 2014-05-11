@@ -1,14 +1,16 @@
 #!/usr/bin/python2.7
-from django.core.management import execute_manager
-from os import environ
-from importlib import import_module
 
-try:
-    settings = import_module(environ['DJANGO_SETTINGS_MODULE'])
-except ImportError:
-    import sys
-    sys.stderr.write("Error: Can't find the file 'settings.py' in the directory containing %r. It appears you've customized things.\nYou'll have to run django-admin.py, passing it your settings module.\n(If the file settings.py does indeed exist, it's causing an ImportError somehow.)\n" % __file__)
-    sys.exit(1)
+# Recommended Manage.py for Django 1.4+
+#    https://docs.djangoproject.com/en/1.4/releases/1.4/#updated-default-project-layout-and-manage-py
+
+from os import environ
+
+import sys
 
 if __name__ == "__main__":
-    execute_manager(settings) 
+    environ.setdefault("DJANGO_SETTINGS_MODULE", environ['DJANGO_SETTINGS_MODULE'])
+    
+    from django.core.management import execute_from_command_line
+    
+    execute_from_command_line(sys.argv)
+    
