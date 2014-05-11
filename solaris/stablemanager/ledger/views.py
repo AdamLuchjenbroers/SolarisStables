@@ -36,6 +36,14 @@ class StableLedgerView(StableView):
                 self.create_ledger(stable, week_model)
             else:
                 raise Http404
-               
+        
+        ledger_items = dict()       
+        
+        for (code, description) in LedgerItem.item_types:
+            ledger_items[code] = dict()
+            ledger_items[code]['description'] = description
+            ledger_items[code]['items'] = LedgerItem.objects.filter(ledger=ledger, type=code)
+            ledger_items[code]['form'] = None #TODO
+        
         body = Markup('<P>Stable Ledgers and Finance for the %s will go here</P><P>The Selected Broadcast Week is: %s</P>' % (stable.stable_name, week_model.week_number))
         return HttpResponse(self.in_layout(body, request))
