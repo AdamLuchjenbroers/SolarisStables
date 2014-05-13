@@ -88,6 +88,12 @@ form.lineitem div.ledger_desc, form.lineitem div.ledger_value, form.lineitem div
 	line-height: 32px;
 }
 
+div.lineitem:hover div.ledger_desc, div.lineitem:hover div.ledger_value {
+	background-color : #AAAADD;
+	border-color : #4444DD;
+	border-width : thin;
+}
+
 
 div h1, div h2, div h3, div p {
 	margin: auto;

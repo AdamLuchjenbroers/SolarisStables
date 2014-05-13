@@ -7,10 +7,11 @@ class LedgerItemForm(SolarisFixedFormMixin, ModelForm):
     
     inner_form_template = 'stablemanager/ledger_item_add.tmpl'
     
-    def __init__(self, *args, **kwargs):        
+    def __init__(self, *args, **kwargs):
+        super(LedgerItemForm, self).__init__(*args, **kwargs)
+                
         self.fields['type'].widget = HiddenInput()
         
-        super(LedgerItemForm, self).__init__(*args, **kwargs)
         
     def set_tabs(self, form_tab):
         self.fields['description'].widget.attrs['tabindex'] = (form_tab * 3) - 2
