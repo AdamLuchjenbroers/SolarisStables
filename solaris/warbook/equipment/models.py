@@ -14,14 +14,15 @@ class Equipment(models.Model):
     critical_factor = models.DecimalField(max_digits=4, decimal_places=1, null=True)
     cost_func = models.CharField(max_length=40, choices=cost.cost_funcs, null=True)
     cost_factor = models.DecimalField(max_digits=12, decimal_places=1, null=True)
-    
+	
     # Can this item be split across multiple locations
     splittable = models.BooleanField(default=False)
     # Can this equipment take critical hits
     crittable = models.BooleanField(default=True)
-
-	has_ammo = models.BooleanField(default='False')
-	ammo_for = models.ForeignKeyField('Equipment', null=True, blank=True)
+    
+    has_ammo = models.BooleanField(default='False')
+    ammo_for = models.ForeignKey('Equipment', null=True, blank=True)
+    ammo_size = models.IntegerField(null=True,blank=True)
     weapon_properties = models.CharField(max_length=20, null=True)
     
     equipment_classes = (

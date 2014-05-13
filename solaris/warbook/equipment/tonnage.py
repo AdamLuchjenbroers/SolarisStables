@@ -13,22 +13,22 @@ def fixed(self, mech):
 
 def jumpjet(self, mech):
     if mech.tonnage <= 55:
-        return 0.5f * self.tonnage_factor
+        return 0.5 * self.tonnage_factor
     if mech.tonnage > 55 and mech.tonnage <= 85:
-        return 1.0f * self.tonnage_factor
+        return 1.0 * self.tonnage_factor
     else:
         #90+ Tons
-        return 2.0f * self.tonnage_factor 
+        return 2.0 * self.tonnage_factor 
     
 def masc(self, mech):
-    return ceil( mech.tonnage * 0.05f )
+    return ceil( mech.tonnage * 0.05 )
 
 def melee(self, mech):
     return ceil( mech.tonnage / self.tonnage_factor )
 
-def armour(self, mech, units=None)
+def armour(self, mech, units=None):
     if units == None:
-		units = mech.total_armour()
+        units = mech.total_armour()
     
-	return ceil(units / (self.tonnage_factor * 8)) / 2
+    return ceil(units / (self.tonnage_factor * 8)) / 2
 	
