@@ -7,7 +7,6 @@ from urlparse import urlparse
 from django.http import HttpResponse
 
 from .forms import RegistrationForm, LoginForm
-from solaris.core import render_page
 from solaris.views import SolarisView
 
 class SolarisLoginView(SolarisView):
