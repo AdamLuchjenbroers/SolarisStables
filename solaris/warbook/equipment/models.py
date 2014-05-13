@@ -19,6 +19,9 @@ class Equipment(models.Model):
     splittable = models.BooleanField(default=False)
     # Can this equipment take critical hits
     crittable = models.BooleanField(default=True)
+
+	has_ammo = models.BooleanField(default='False')
+	ammo_for = models.ForeignKeyField('Equipment', null=True, blank=True)
     weapon_properties = models.CharField(max_length=20, null=True)
     
     equipment_classes = (
