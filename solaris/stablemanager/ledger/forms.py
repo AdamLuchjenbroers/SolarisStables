@@ -20,8 +20,6 @@ class LedgerItemForm(SolarisFixedFormMixin, ModelForm):
         else:
             self.submit_action = 'Add'
         
-        print self.fields
-        
         
     def set_tabs(self, form_tab):
         self.fields['description'].widget.attrs['tabindex'] = (form_tab * 3) - 2
