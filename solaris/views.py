@@ -1,6 +1,8 @@
 from copy import deepcopy
+from urlparse import urlparse
 
 from django.views.generic.edit import View
+from django.shortcuts import redirect
 from django_genshi import loader
 from django.http import HttpResponse
 from genshi import Markup
@@ -58,3 +60,45 @@ class SolarisView(View):
     
     def get(self, request):   
         return HttpResponse(self.in_layout(self.body_content, request))
+    
+class SolarisFormViewMixin(object):
+    form_outer_template = 'solaris_form_outer.tmpl'
+    form_class = None
+    form_properties = {
+        'css-class' : 'form'
+    ,   'post-url'  : '/post'
+    ,   'submit'    : 'submit'
+    ,   'redirect'  : None
+    }
+    accept_redirect = False
+    
+    def __init__(self, *args, **kwargs):
+        super(SolarisFormViewMixin, self).__init__(*args, **kwargs)
+        self.template = loader.get_template(self.__class__.form_outer_template)
+        
+        self.form_properties = {}
+        
+        for (prop, default) in self.__class__.form_properties.items():
+            self.form_properties[prop] = get_arg(prop,kwargs,default=default)
+        
+    def render_form(self, form):
+        body = Markup( self.template.generate(
+            form_items = Markup(form.as_p())
+        ,   formclass  = self.form_properties['css-class']
+        ,   post_url   = self.form_properties['post-url']
+        ,   submit     = self.form_properties['submit']
+        )) 
+        
+        return HttpResponse(body)
+    
+    def redirectURL(self, postdata):
+        if 'redirect' in postdata and self.__class__.accept_redirect:
+            url = urlparse(postdata['redirect'])
+            return redirect(url.path)
+        elif self.form_properties['redirect']:
+            return redirect(self.form_properties['redirect'])
+        else:
+            return None
+        
+    def get_form(self, data=None):
+        return self.__class__.form_class(data)

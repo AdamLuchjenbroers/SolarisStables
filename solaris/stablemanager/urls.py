@@ -4,6 +4,7 @@ from .views import StableRegistrationView, StableOverview
 from solaris.stablemanager.ledger.views import StableLedgerView, StableLedgerDeleteView
 from solaris.stablemanager.training.views import StableTrainingView
 from solaris.stablemanager.actions.views import StableActionView
+from solaris.stablemanager.assets.views import StablePilotsView, StableNewPilotsView
 
 urlpatterns = patterns('',
     (r'^/?$', StableOverview.as_view()),
@@ -15,5 +16,6 @@ urlpatterns = patterns('',
     (r'^training/(?P<week>[0-9]+)/?$', StableTrainingView.as_view()),
     (r'^actions/?$', StableActionView.as_view()),
     (r'^actions/(?P<week>[0-9]+)/?$', StableActionView.as_view()),
-    
+    (r'^pilots/?$', StablePilotsView.as_view()),
+    (r'^pilots/add/?$', StableNewPilotsView.as_view()),
 )
