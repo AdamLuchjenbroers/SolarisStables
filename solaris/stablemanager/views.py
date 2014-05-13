@@ -14,7 +14,8 @@ class StableView(SolarisView):
           {'title' : 'Ledger', 'url' : '/stable/ledger'},
           {'title' : 'Assets', 'url' : '/stable'},
           {'title' : 'Actions', 'url' : '/stable/actions'},
-          {'title' : 'Training', 'url' : '/stable/training'},          
+          {'title' : 'Training', 'url' : '/stable/training'},
+          {'title' : 'Pilots', 'url' : '/stable/pilots'},          
         ]
     menu_selected = 'Stable'
     
@@ -60,10 +61,3 @@ class StableRegistrationView(SolarisView):
             return self.create_stable(form, request)
         else:       
             return HttpResponse( self.in_layout(body, request) )   
-    #    pass
-        
-    
-
-def stable_registration(request):
-    body = Markup('<P>This will become a Stable Registration Page</P>')
-    return render_page(body=body, selected=None, request=request)
