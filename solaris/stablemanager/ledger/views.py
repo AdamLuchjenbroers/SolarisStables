@@ -16,6 +16,7 @@ class StableLedgerView(StableView):
     submenu_selected = 'Ledger'
     
     styles_list = deepcopy_append(StableView.styles_list, ['/static/css/ledger.css'])
+    scripts_list = ['/static/js/jquery-1.11.1.js', '/static/js/stable_ledger.js']
     
     def __init__(self, *args, **kwargs):
         self.template = loader.get_template('stablemanager/ledger_list.tmpl')
@@ -55,18 +56,36 @@ class StableLedgerView(StableView):
     def get(self, request, stable=None, week=None, ledger=None):
                 
         ledger_items = []      
+        tab_index=1;
         
         for (code, description) in LedgerItem.item_types:
-            ledger_items.append( {
+            new_item = {
                 'code' : code
             ,   'description' : description
-            ,   'entries' : ledger.entries.filter(type=code)
             ,   'form'    : LedgerItemForm( initial={ 'type' : code })
-            } )
-            
-        for (index, item) in enumerate(ledger_items):
-            item['form'].set_tabs(index)
-            
+            }
+                       
+            entries = ledger.entries.filter(type=code)
+            if entries:
+                new_item['entries'] = []
+                
+                for item in entries:
+                    form = LedgerItemForm(instance=item)
+                    form.set_tabs(tab_index)
+                    tab_index += 1
+                    new_item['entries'].append({
+                        'item' : item
+                    ,   'form' : form
+                    })
+                    
+            else:
+                new_item['entries'] = None
+                
+            new_item['form'].set_tabs(tab_index)
+            tab_index += 1
+                    
+            ledger_items.append(new_item)
+
         body = self.template.generate(
             stable_name = stable.stable_name
         ,   week = week.week_number
@@ -81,7 +100,12 @@ class StableLedgerView(StableView):
         form_values['ledger'] = ledger.id
         form_values['tied'] = False
         
-        form = LedgerItemForm(form_values)
+        try:
+            instance = LedgerItem.objects.get(id=form_values['id'], ledger=ledger)
+        except (LedgerItem.DoesNotExist, KeyError):
+            instance = None
+        
+        form = LedgerItemForm(form_values, instance=instance)
         if form.is_valid():
             form.save()
         

@@ -11,17 +11,24 @@
       <div class="ledger_desc"><h3>${group['description']}</h3></div>
     </div>
     
-    <py:if test="group['items']">
-      <py:for each = "lineitem in group['entries']">
+    <py:if test="group['entries']">
+      <py:for each="line in group['entries']">
         <div class="lineitem">
-          <div class="ledger_value"><p>${lineitem.cost}</p></div>
-          <div class="ledger_desc"><p>${lineitem.description}</p></div>
+          <div class="line_display">
+            <div class="ledger_value"><p>${line['item'].cost}</p></div>
+            <div class="ledger_desc"><p>${line['item'].description}</p></div>
+          </div>
+          <div class="line_update">
+          	${line['form'].as_p()}
+          </div>
         </div>
       </py:for>
     </py:if>
     
     <py:if test="group['form']">
+    <div class="lineitem">
       ${group['form'].as_p()}
+    </div>
     </py:if>
   </py:for>
   

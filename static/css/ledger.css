@@ -94,6 +94,10 @@ div.lineitem:hover div.ledger_desc, div.lineitem:hover div.ledger_value {
 	border-width : thin;
 }
 
+div.line_update {
+	display:none;
+}
+
 
 div h1, div h2, div h3, div p {
 	margin: auto;
