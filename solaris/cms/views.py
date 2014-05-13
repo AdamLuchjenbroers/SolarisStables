@@ -3,6 +3,7 @@ from genshi import Markup
 from django.shortcuts import redirect
 from django_genshi import loader
 from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 
 from solaris.views import SolarisView
@@ -24,9 +25,9 @@ class NewsListView(NewsView):
     
 class NewsPostFormView(NewsView):
 
-    @permission_required('cms.post_news')    
-    def dispatch(self, *args, **kwargs):
-        super(NewsPostFormView, self).dispatch(*args, **kwargs)
+    @method_decorator(permission_required('cms.post_news'))    
+    def dispatch(self, request, *args, **kwargs):
+        return super(NewsPostFormView, self).dispatch(request, *args, **kwargs)
         
     def get(self, request):
         tmpl_news = loader.get_template('cms/news_form.tmpl')    
