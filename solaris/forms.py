@@ -88,6 +88,9 @@ class SolarisModelForm(SolarisFormMixin, ModelForm):
 
 class SolarisForm(SolarisFormMixin, Form):
     pass
+
+class SolarisInlineForm(SolarisFormMixin, ModelForm):
+    inner_form_template = 'solaris_form_inline.tmpl'
            
         
              

@@ -1,0 +1,28 @@
+<div xmlns:py="http://genshi.edgewall.org/" class="content">
+<py:if test="formErrors">
+  <div class="form_error">
+    <p>Errors were encountered processing this form</p>
+    <ul>
+    <py:for each="error in formErrors">
+      <li/>${error}
+    </py:for>
+    </ul>
+  </div>
+</py:if>
+<py:for each="field in form">
+  <div id="${field['label']}" class="field_basic">
+    <div class="field_label"><label for="id_${field['label']}">${field['label']}:</label></div>
+    <div class="field_input"> ${field['markup']} </div>
+    <div class="field_messages" id="${field['label']}_message">
+      <py:if test="field['errors']">
+        <py:for each="errorText in field['errors']">
+           ${errorText}
+        </py:for>
+      </py:if>
+    </div>
+  </div>
+</py:for>
+<py:if test="redirect">
+  <input type="hidden" name="redirect" value="${redirect}"/>
+</py:if>
+</div>
