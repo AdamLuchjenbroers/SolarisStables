@@ -9,15 +9,15 @@ from .utils import get_arg
 def escape_unicode(string):
     return conditional_escape(force_unicode(string))
 
-class SolarisFormMixin():
+class SolarisFormMixin(object):
     
     inner_form_template = 'solaris_form.tmpl'
         
     def __init__(self, *args, **kwargs):
-        templateName = get_arg('template', kwargs, self.__class__.inner_form_template)
-        self.template = loader.get_template(templateName)
+        self.template = loader.get_template(self.__class__.inner_form_template)
         
         self.redirectURL = get_arg('redirect', kwargs)
+        super(SolarisFormMixin, self).__init__(*args, **kwargs)
 
     def getErrors(self, fieldName):
         errorList=[]
@@ -84,16 +84,10 @@ class SolarisFixedFormMixin(SolarisFormMixin):
         return fieldSet
 
 class SolarisModelForm(SolarisFormMixin, ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        SolarisFormMixin.__init__(self, *args, **kwargs)
-        ModelForm.__init__(self,*args, **kwargs)
+    pass
 
 class SolarisForm(SolarisFormMixin, Form):
-
-    def __init__(self, *args, **kwargs):
-        SolarisFormMixin.__init__(self, *args, **kwargs)
-        Form.__init__(self,*args, **kwargs)
+    pass
            
         
              
