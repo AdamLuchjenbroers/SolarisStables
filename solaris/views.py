@@ -71,6 +71,7 @@ class SolarisFormViewMixin(object):
     ,   'redirect'  : None
     }
     accept_redirect = False
+    form_initial={}
     
     def __init__(self, *args, **kwargs):
         super(SolarisFormViewMixin, self).__init__(*args, **kwargs)
@@ -89,7 +90,7 @@ class SolarisFormViewMixin(object):
         ,   submit     = self.form_properties['submit']
         )) 
         
-        return HttpResponse(body)
+        return body
     
     def redirectURL(self, postdata):
         if 'redirect' in postdata and self.__class__.accept_redirect:
@@ -101,4 +102,4 @@ class SolarisFormViewMixin(object):
             return None
         
     def get_form(self, data=None):
-        return self.__class__.form_class(data)
+        return self.__class__.form_class(data, initial=self.__class__.form_initial)

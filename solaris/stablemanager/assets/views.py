@@ -15,14 +15,27 @@ class StableNewPilotsView(SolarisFormViewMixin, StableView):
     form_class = PilotForm
     form_properties = {
         'css-class' : 'pilotform'
-    ,   'post-url'  : '/stable/pilots/edit'
+    ,   'post-url'  : '/stable/pilots/add'
     ,   'submit'    : 'Submit'
     ,   'redirect'  : None
+    }
+    
+    form_initial = {
+        'pilot_rank' : 'Rookie'
+    ,   'skill_gunnery' : 5
+    ,   'skill_pilotting' : 6
+    ,   'exp_character_points' : 0
     }
     
     def get(self, request, stable=None):
         form = self.get_form()
         formHTML = Markup(self.render_form(form))
-        return HttpResponse( self.in_layout( formHTML , request)   )
+        return HttpResponse( self.in_layout( formHTML , request))
+    
+    def post(self, request, stable=None):
+        form = self.get_form(request.POST)
+        formHTML = Markup(self.render_form(form))
+        return HttpResponse( self.in_layout( formHTML , request))
+        
     
     
