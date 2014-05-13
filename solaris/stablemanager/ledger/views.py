@@ -61,8 +61,11 @@ class StableLedgerView(StableView):
                 'code' : code
             ,   'description' : description
             ,   'entries' : ledger.entries.filter(type=code)
-            ,   'form'    : LedgerItemForm( initial={ 'type' : code } )
-        } )
+            ,   'form'    : LedgerItemForm( initial={ 'type' : code })
+            } )
+            
+        for (index, item) in enumerate(ledger_items):
+            item['form'].set_tabs(index)
             
         body = self.template.generate(
             stable_name = stable.stable_name
