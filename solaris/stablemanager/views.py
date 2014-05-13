@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 
 from solaris.views import SolarisView
-from solaris.core import render_page
 from .utils import stable_required
 
 from .forms import StableRegistrationForm
