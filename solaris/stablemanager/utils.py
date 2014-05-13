@@ -21,14 +21,14 @@ class stable_required(object):
                                       )
                                         
             
-            stableList = Stable.objects.filter(owner = request.user)
-            
-            if stableList.count() <> 1:
+            try:
+                stable_object = Stable.objects.get(owner = request.user)
+                
+                if self.add_stable and not 'stable' in kwargs:
+                    return function(obj_self, request, *args, stable=stable_object, **kwargs)
+                else:
+                    return function(obj_self, request, *args, **kwargs)   
+            except Stable.DoesNotExist:
                 return redirect(func_self.register_url)
-        
-            if self.add_stable and not 'stable' in kwargs:
-                return function(obj_self, request, *args, stable=stableList[0], **kwargs)
-            else:
-                return function(obj_self, request, *args, **kwargs)   
-            
+                    
         return decorator
