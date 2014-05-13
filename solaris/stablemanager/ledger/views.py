@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django_genshi import loader
 
 from solaris.utils import deepcopy_append
@@ -10,7 +10,7 @@ from solaris.stablemanager.ledger.models import Ledger, LedgerItem
 from solaris.stablemanager.utils import stable_required
 from solaris.battlereport.models import BroadcastWeek
 
-from .forms import LedgerItemForm
+from .forms import LedgerItemForm, LedgerDeleteForm
 
 class StableLedgerView(StableView):
     submenu_selected = 'Ledger'
@@ -72,10 +72,16 @@ class StableLedgerView(StableView):
                 for item in entries:
                     form = LedgerItemForm(instance=item)
                     form.set_tabs(tab_index)
+                    form.set_postURL( '/stable/ledger/%i' % week.week_number)
+                    delete_form = LedgerDeleteForm(initial={
+                                      'id' : item.id
+                                    , 'week' : week.week_number
+                                  })
                     tab_index += 1
                     new_item['entries'].append({
                         'item' : item
                     ,   'form' : form
+                    ,   'delete' : delete_form
                     })
                     
             else:
@@ -111,3 +117,20 @@ class StableLedgerView(StableView):
         
         return self.get(request, stable=stable, week=week, ledger=ledger)
         
+class StableLedgerDeleteView(StableView):
+    def get(self, request, stable=None, week=None, ledger=None):
+        # Redirect back to main page
+        return redirect('/stable/ledger')
+        
+    def post(self, request, stable=None):
+        try:
+            item = LedgerItem.objects.get(id=request.POST['id'])
+            
+            # Check to make sure the deleted item belongs to the correct Stable
+            if item.ledger.stable == stable:
+                item.delete()
+        except (LedgerItem.DoesNotExist, KeyError):
+            pass
+        
+        return redirect('/stable/ledger')        
+    

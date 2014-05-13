@@ -41,6 +41,7 @@ div.lineitem, form.lineitem {
 	margin-top: 4px;
 	margin-bottom: 4px;
 	
+	position: relative;	
 }
 
 div.ledger_desc {
@@ -96,6 +97,17 @@ div.lineitem:hover div.ledger_desc, div.lineitem:hover div.ledger_value {
 
 div.line_update {
 	display:none;
+}
+
+form.linedelete {
+	position: absolute;
+	display: none;
+	right: 0px;
+	bottom: 0px;
+}
+
+div.lineitem:hover form.linedelete {
+	display: block;
 }
 
 
