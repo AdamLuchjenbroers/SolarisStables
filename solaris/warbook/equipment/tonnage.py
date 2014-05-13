@@ -5,6 +5,7 @@ tonnage_funcs = (
 	('Jumpjet', 'jumpjet'),
 	('MASC', 'masc'),
 	('Melee Weapon', 'melee'),
+	('Armour', 'armour'),
 )
 
 def fixed(self, mech):
@@ -24,3 +25,10 @@ def masc(self, mech):
 
 def melee(self, mech):
     return ceil( mech.tonnage / self.tonnage_factor )
+
+def armour(self, mech, units=None)
+    if units == None:
+		units = mech.total_armour()
+    
+	return ceil(units / (self.tonnage_factor * 8)) / 2
+	
