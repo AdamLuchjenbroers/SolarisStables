@@ -106,6 +106,9 @@ class MechDesignLocation(models.Model):
                 crit_table[slot-1] = item
         return crit_table
     
+    def location_code(self):
+        return self.location.location
+    
     class Meta:
         unique_together = (('mech','location'),)
         verbose_name_plural = 'Mech Design Locations'

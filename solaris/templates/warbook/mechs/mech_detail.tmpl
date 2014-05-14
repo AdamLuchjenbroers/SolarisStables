@@ -4,5 +4,17 @@
     ${mech.tonnage} Tons, ${mech.move_walk()}/${mech.move_run()}/${mech.move_jump()}
     <em>BV:</em> ${mech.bv_value}
     <em>Cost:</em> ${mech.credit_value}
-  </p>  
+  </p>
+  <div class="${mech.motive_type}_armour">
+    <py:for each="location in mech.locations.all()">
+    <div class="armour_location" id="armour_${location.location_code()}">
+       <div class="armour_header">${location.location_code()}</div>
+       <div class="armour_armour">${location.armour}</div>
+       <py:if test="location.structure">
+          <div class="armour_structure">${location.structure}</div>
+       </py:if>
+    </div>
+    </py:for>
+    </div>  
 </div>
+
