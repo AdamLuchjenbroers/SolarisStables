@@ -16,6 +16,12 @@ class MechDesign(models.Model):
     omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True)
     ssw_filename = models.CharField(max_length=1024, blank=True, null=True)
     
+    motive_options = (
+        ('Biped', 'B')
+    ,   ('Quad' , 'Q')
+    )    
+    motive_type = models.CharField(max_length=8, choices=motive_options)
+    
     techbase_options = (
         ('Inner Sphere', 'I'),
         ('Clan', 'C'),
