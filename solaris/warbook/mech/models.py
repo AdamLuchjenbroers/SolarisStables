@@ -25,13 +25,8 @@ class MechDesign(models.Model):
     tech_base = models.CharField(max_length=1, choices=techbase_options)
 
     def total_armour(self):
-		armour_units = 0
-
-		for location in self.locations.all():
-			armour_units += location.armour
-
-		return armour_units
-	
+        return (self.locations.aggregate( models.Sum('armour') ))['armour__sum']
+    
     def gyro_tonnage(self):
         #FIXME: Should be handled by equipment, as this varies by gyro type
         return ceil(self.engine_rating / 100) 
