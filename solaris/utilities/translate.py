@@ -24,3 +24,13 @@ locations_quad['la'] = 'LFL'
 locations_quad['ll'] = 'LRL'
 locations_quad['rl'] = 'RRL'
 
+tech_bases = {
+    'Inner Sphere' : 'I'
+,   'Clan' : 'C'
+,   'Mixed' : 'M'
+}
+
+motive_options = {
+    'Biped' : 'B'
+,   'Quad'  : 'Q'
+}

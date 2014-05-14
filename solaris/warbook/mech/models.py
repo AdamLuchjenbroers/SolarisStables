@@ -17,17 +17,16 @@ class MechDesign(models.Model):
     ssw_filename = models.CharField(max_length=1024, blank=True, null=True)
     
     motive_options = (
-        ('Biped', 'B')
-    ,   ('Quad' , 'Q')
+        ('B', 'Biped')
+    ,   ('Q', 'Quad')
     )    
-    motive_type = models.CharField(max_length=8, choices=motive_options)
+    motive_type = models.CharField(max_length=1, choices=motive_options)
     
     techbase_options = (
-        ('Inner Sphere', 'I'),
-        ('Clan', 'C'),
-        ('Mixed', 'M')
-    )
-  
+        ('I', 'Inner Sphere'),
+        ('C', 'Clan'),
+        ('M', 'Mixed')
+    )  
     tech_base = models.CharField(max_length=1, choices=techbase_options)
 
     def total_armour(self):

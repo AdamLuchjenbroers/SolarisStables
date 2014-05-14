@@ -1,9 +1,9 @@
 from math import floor
-from lxml import etree
 
-from solaris.utilities.validation import expect_integer, expect_alphastring
 from solaris.warbook.mech.models import MechLocation
 from solaris.warbook.equipment.models import Equipment
+
+from solaris.utilities import translate 
 
 class SSWMountedItem(dict):
 
@@ -90,12 +90,12 @@ class SSWMech(dict):
         
         self['is_omni'] = ( xmlnode.get('omnimech') == 'TRUE' )
                        
-        self['credit_cost'] = self.get_number(xmlnode, './cost/text()')
+        self['credit_value'] = self.get_number(xmlnode, './cost/text()')
         
         if self['is_omni']:
-            self['bv_cost'] = 0
+            self['bv_value'] = 0
         else:
-            self['bv_cost'] = self.get_number(xmlnode, './battle_value/text()')
+            self['bv_value'] = self.get_number(xmlnode, './battle_value/text()')
         
         self.engine = SSWEngine( xmlnode.xpath('./engine')[0] )
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
@@ -103,63 +103,8 @@ class SSWMech(dict):
         self['engine_rating'] = self.engine.rating
         self['stock_design'] = stock
         self['ssw_filename'] = ssw_filename
-           
         
-
-class SSWFile:
-    def __init__(self, sswFileName=None):
-        fd = open(sswFileName)
-        self.file_name = sswFileName
+        self['tech_base'] = translate.tech_bases[ xmlnode.xpath('./techbase/text()')[0] ]
+        self['motive_type'] = translate.motive_options[ xmlnode.xpath('./motive_type/text()')[0] ]
         
-        self.xmlFile = etree.parse(fd)
-        self.mech = SSWMech( self.xmlFile.xpath('/mech')[0] )
-    
-    @expect_integer        
-    def get_cost(self):
-        return self.mech.credit_cost        
-    
-    @expect_integer
-    def get_bv(self):
-        return self.mech.bv_cost
-        
-    @expect_alphastring
-    def get_type(self):
-        typeInfo = self.xmlFile.xpath('/mech/mech_type')
-        return typeInfo[0].text
-    
-    @expect_alphastring
-    def get_techbase(self):
-        typeInfo = self.xmlFile.xpath('/mech/techbase')
-        return typeInfo[0].text
-        
-    @expect_alphastring
-    def get_motive_type(self):
-        mtNodes = self.xmlFile.xpath('/mech/motive_type')
-        return mtNodes[0].text
-    
-    @expect_integer
-    def get_tonnage(self):
-        mechInfo = self.xmlFile.xpath('/mech/@tons')
-        return int(mechInfo[0])
-    
-    def get_name(self):
-        mechInfo = self.xmlFile.xpath('/mech/@name')
-        return mechInfo[0]
-    
-    def get_code(self):
-        mechInfo = self.xmlFile.xpath('/mech/@model')
-        return mechInfo[0]
-    
-    @expect_integer 
-    def get_enginerating(self):
-        mechInfo = self.xmlFile.xpath('/mech/engine/@rating')
-        return int(mechInfo[0])
-
-        
-    def get_armour(self):
-        armour_node = self.xmlFile.xpath('/mech/armor')[0]
-        return SSWArmour(armour_node)
-        
-    def is_omni(self): 
-        mechInfo = self.xmlFile.xpath('/mech/@omnimech')
-        return mechInfo[0] == "TRUE"
+        self.type = xmlnode.xpath('./mech_type/text()')[0]

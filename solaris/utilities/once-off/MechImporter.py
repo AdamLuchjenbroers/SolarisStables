@@ -8,7 +8,7 @@ from solaris.utilities.loader import load_mech
 sswPattern = re.compile('.*\.ssw$')
 
 def recursiveScanAll(path, relative_path='.'):
-    
+   
     for fileName in os.listdir(path):
         fullpath = path + '/' + fileName    
         if os.path.isdir(fullpath):
@@ -20,7 +20,7 @@ def recursiveScanAll(path, relative_path='.'):
 if __name__ == '__main__':
     
     basepath = settings.SSW_STOCK_MECHS_ROOT
-    
+        
     recursiveScanAll(basepath)
     
     
