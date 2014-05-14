@@ -18,7 +18,6 @@ class MechValidationForm(ModelForm):
     class Meta:
         model = MechDesign
         
-class LocationValidationForm(ModelForm):
-    
+class LocationValidationForm(ModelForm):    
     class Meta:
         model = MechDesignLocation

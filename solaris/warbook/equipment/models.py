@@ -41,8 +41,8 @@ class Equipment(models.Model):
            ('J', 'Jumpjet'),
            ('Q', 'Equipment'),
            ('S', 'Armour / Structure'),
-           ('A', 'Ammunition')
-           ('T', 'Actuator')
+           ('A', 'Ammunition'),
+           ('T', 'Actuator'),
            ('?', 'Unclassified'),
     )
     equipment_class = models.CharField(max_length=1, choices=equipment_classes, default='?')

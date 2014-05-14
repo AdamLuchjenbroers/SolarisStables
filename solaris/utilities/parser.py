@@ -1,13 +1,72 @@
 from math import floor
 
+from django.utils.html import strip_tags
+
 from solaris.warbook.mech.models import MechLocation
 from solaris.warbook.equipment.models import Equipment
 
-from solaris.utilities import translate 
+from solaris.utilities import translate
+
+
+class SSWParseError(Exception):
+    def __init__(self, mech, formerrors):
+        self.value = 'Error parsing %s\n' % mech['ssw_filename']
+        for (key, value) in formerrors.items():
+            self.value += '\t%s: %s' % (key, strip_tags('%s' % value))
+    def __str__(self):
+        return repr(self.value)
+
+class SSWItemMounting(dict):
+    def __init__(self, location, slots, rear, turret):
+        self.location_code = location
+        self['location'] = None
+        self['slots'] = ','.join(str(s) for s in slots)
+        self['rear_firing'] = rear
+        self['turret_mounted'] = turret
+        
+    def add_slot(self, new_slots):
+        slots = set(self['slots'].split(','))
+        
+        for index in new_slots:
+            slots.add(index)
+            
+        slot_list = list(slots)
+        slot_list.sort()
+        self['slots'] = ','.join(str(s) for s in slot_list)
+        
+    def extrapolate(self, count):
+        slots = self['slots'].split(',')
+        
+        if len(slots) > 1:
+            # Already extrapolated
+            return 
+        
+        start = slots[0]
+        self['slots'] = ','.join( str(i) for i in range (start, start+count) )
+        
+        
 
 class SSWMountedItem(dict):
+    
+    default_type = '?'   
+    
+    def __init__(self, mech=None, eq_class=None):
+        if mech:
+            self['mech'] = mech.id
+        else:
+            self['mech'] = None
+            
+        if eq_class == None:
+            eq_class = self.__class__.default_type
+                
+        if self['ssw_name']:
+            (self['equipment'], created) = Equipment.objects.get_or_create(ssw_name=self['ssw_name'])
+            if created:
+                self['equipment'].name = self['name']
+                self['equipment'].equipment_class = eq_class
+                self['equipment'].save()
 
-    def mount(self, xmlnode):
+    def mount(self, xmlnode, rear_firing, turret):
         #Most entries only record a single slot, and require that we 
         #extrapolate from there.
         self.extrapolated = False
@@ -25,21 +84,21 @@ class SSWMountedItem(dict):
                 index = range(start+1, count+start+1)
             
             if loc.text in self.mountings:
-                self.mountings[loc.text] += index
+                self.mountings[loc.text].add_slot(index)
             else:
-                self.mountings[loc.text] = index
-                
-        for key in self.mountings:
-            self.mountings[key].sort()
+                self.mountings[loc.text] = SSWItemMounting(loc.text, index, rear_firing, turret)
             
         if len(self.mountings) == 0:
-            self.mountings['--'] = None
+            self.mountings['--'] = SSWItemMounting('--', [], False, False)
     
-    def extrapolated(self, criticals):
-        if not self.extrapolated:
+    def extrapolate(self, criticals):
+        if self.extrapolated:
+            return
+        
+        if len(self.mountings) == 1: 
             loc = self.mountings.keys()[0]
-            start = self.mountings[loc][0]
-            self.mountings.loc = range(start, start+criticals)
+            self.mountings[loc].extrapolate(criticals)
+        self.extrapolated = True
 
 class SSWLocation(dict):
     def __init__(self, mech, armour, code):
@@ -50,19 +109,37 @@ class SSWLocation(dict):
 
 class SSWEquipment(SSWMountedItem):
     def __init__(self, xmlnode):
-        self['name'] = xmlnode.xpath['./name[1]'].text
+        (self['name'], rear, turret) = self.parse_name(xmlnode.xpath['./name[1]'].text)
         self.node_type = xmlnode.tag
         self['ssw_name'] = '%s - %s' % (self.node_type, self.name)
         
-        self.mount(xmlnode)
+        self.mount(xmlnode, rear, turret)
+        super(SSWEquipment,self).__init__()
+        
+    def parse_name(self, equipment_name):
+        rear = False
+        turret = False
+        
+        if equipment_name[0:3] == '(T)':
+            turret = True
+            equipment_name = equipment_name[4:]
+            
+        if equipment_name[0:3] == '(R)':
+            rear = True
+            equipment_name = equipment_name[4:]
+            
+        return (equipment_name, rear, turret)
         
          
 class SSWArmour(SSWMountedItem):
+    
+    default_type = 'S'
+    
     def __init__(self, xmlnode):
          
         #Armour is stored as multiple single-slot assignments, so we can consider
         #it extrapolated already
-        self.mount(xmlnode)
+        self.mount(xmlnode, False, False)
         self.extrapolated = True
         
         armorInfo = xmlnode.xpath('./*[not(self::type|self::location)]')
@@ -70,13 +147,24 @@ class SSWArmour(SSWMountedItem):
         for location in armorInfo:
             self.armour[location.tag] = int(location.text)
             
-        typenode = xmlnode.xpath('./type')
-        self.equipment_name = typenode[0].text
+        armour_type = xmlnode.xpath('./type/text()')[0]
+        self['ssw_name'] = 'Armour - %s' % armour_type
+        self['name'] = armour_type
+        
+        super(SSWArmour,self).__init__()
         
 class SSWEngine(SSWMountedItem):
+    side_torso_allocation = {}
+    default_type = 'E'
+    
     def __init__(self, xmlnode):
         self.mountings={'ct' : [1,2,3,8,9,10] }
         self.rating = xmlnode.get('rating')
+        
+        self['ssw_name'] = 'Engine - %s' % xmlnode.text
+        self['name'] = xmlnode.text
+        super(SSWEngine, self).__init__()
+        
     
 class SSWMech(dict):
     def get_number(self, node, xpath):
