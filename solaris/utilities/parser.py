@@ -17,10 +17,10 @@ class SSWMountedItem(dict):
         self.mountings = {}
         for loc in locations:
             if loc.tag == 'location':
-                index = [int(locations.get('index'))+1]
+                index = [int(loc.get('index'))+1]
             if loc.tag == 'splitlocation':
-                count = int(locations.get('number'))
-                start = int(locations.get('index'))
+                count = int(loc.get('number'))
+                start = int(loc.get('index'))
                 #TODO - Check if SSW counts forward or backward from the assigned index
                 index = range(start+1, count+start+1)
             
@@ -57,9 +57,8 @@ class SSWEquipment(SSWMountedItem):
         self.mount(xmlnode)
         
          
-class SSWArmour(SSWEquipment):
+class SSWArmour(SSWMountedItem):
     def __init__(self, xmlnode):
-        super(SSWArmour,self).__init__(xmlnode)
          
         #Armour is stored as multiple single-slot assignments, so we can consider
         #it extrapolated already
@@ -74,25 +73,29 @@ class SSWArmour(SSWEquipment):
         typenode = xmlnode.xpath('./type')
         self.equipment_name = typenode[0].text
         
-class SSWEngine(SSWEquipment):
+class SSWEngine(SSWMountedItem):
     def __init__(self, xmlnode):
         self.mountings={'ct' : [1,2,3,8,9,10] }
         self.rating = xmlnode.get('rating')
     
 class SSWMech(dict):
+    def get_number(self, node, xpath):
+        text = node.xpath(xpath)[0]
+        return int(floor(float(text)))
+    
     def __init__(self, xmlnode, ssw_filename, stock=True):
         self['tonnage'] = xmlnode.get('tons')
         self['mech_name'] = xmlnode.get('name')
         self['mech_code'] = xmlnode.get('model')
         
-        self['is_omni'] = ( xmlnode.get('omni') == 'TRUE' )
-               
-        self['credit_cost'] = int(floor(xmlnode.xpath('./cost')[0]))
+        self['is_omni'] = ( xmlnode.get('omnimech') == 'TRUE' )
+                       
+        self['credit_cost'] = self.get_number(xmlnode, './cost/text()')
         
-        if self.is_omni:
+        if self['is_omni']:
             self['bv_cost'] = 0
         else:
-            self['bv_cost'] = int(floor(xmlnode.xpath('./battle_value')[0]))
+            self['bv_cost'] = self.get_number(xmlnode, './battle_value/text()')
         
         self.engine = SSWEngine( xmlnode.xpath('./engine')[0] )
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
@@ -100,10 +103,6 @@ class SSWMech(dict):
         self['engine_rating'] = self.engine.rating
         self['stock_design'] = stock
         self['ssw_filename'] = ssw_filename
-        
-        self.equipment = []
-        for node in xmlnode.xpath('./baselayout/*/equipment'):
-            self.equipment.add( SSWEquipment(node) )
            
         
 
