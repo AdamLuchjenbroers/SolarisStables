@@ -3,7 +3,7 @@ import re
 
 from django.conf import settings
 
-from solaris.utilities.loader import load_mech
+from solaris.utilities.loader import MechLoader
 
 sswPattern = re.compile('.*\.ssw$')
 
@@ -15,7 +15,8 @@ def recursiveScanAll(path, relative_path='.'):
             recursiveScanAll(fullpath, relative_path=relative_path + '/' + fileName)
             
         if os.path.isfile(fullpath) and sswPattern.match(fileName):
-        	load_mech(relative_path  + '/' + fileName)   
+            loader = MechLoader()
+            loader.load_mech(relative_path  + '/' + fileName)   
     
 if __name__ == '__main__':
     

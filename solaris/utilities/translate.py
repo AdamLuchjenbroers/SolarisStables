@@ -24,6 +24,10 @@ locations_quad['ra'] = 'RFL'
 locations_quad['la'] = 'LFL'
 locations_quad['ll'] = 'LRL'
 locations_quad['rl'] = 'RRL'
+locations_quad['frl'] = 'RFL'
+locations_quad['fll'] = 'LFL'
+locations_quad['rrl'] = 'LRL'
+locations_quad['rll'] = 'RRL'
 
 tech_bases = {
     'Inner Sphere' : 'I'
