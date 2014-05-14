@@ -1,7 +1,7 @@
 from django.db import models
 from math import ceil
 
-from .refdata import locations_all
+from .refdata import locations_all, structure_entry, structure
 
 class MechDesign(models.Model):
     mech_name = models.CharField(max_length=50)
@@ -76,6 +76,13 @@ class MechLocation(models.Model):
     criticals = models.IntegerField()
     rear_of = models.ForeignKey('MechLocation', null=True)
     
+    def structure(self, tonnage):
+        table_entry = structure_entry(self.location)
+        if table_entry != 'other':
+            return structure[tonnage][table_entry]
+        else:
+            return None
+    
     class Meta:
         verbose_name_plural = 'Mech Locations'
         verbose_name = 'Mech Location'
@@ -86,7 +93,7 @@ class MechDesignLocation(models.Model):
     mech = models.ForeignKey(MechDesign, related_name='locations')
     location = models.ForeignKey(MechLocation)
     armour = models.IntegerField()
-    structure = models.IntegerField(null=True)
+    structure = models.IntegerField(null=True, blank=True)
     
     def get_criticals(self):
         crit_table = [None] * self.location.criticals

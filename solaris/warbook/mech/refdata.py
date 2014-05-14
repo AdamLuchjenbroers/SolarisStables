@@ -68,6 +68,22 @@ def is_head(location):
 def is_rear(location):
     return location in ('RRT', 'RLT', 'RCT')
 
+def structure_entry(location):
+    if is_arm(location):
+        return 'arm'
+    elif is_leg(location):
+        return 'leg'
+    elif is_sidetorso(location):
+        return 'sidetorso'
+    elif is_centertorso(location):
+        return 'centertorso'
+    elif is_head(location):
+        return 'head'
+    else:
+        return 'other'
+    
+    
+
 def criticals(location):
     if is_head(location) or is_leg(location):
         return 6
