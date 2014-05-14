@@ -4,9 +4,8 @@
 '''
 
 from django.forms import ModelForm
-from django.forms.models import model_to_dict
-
 from solaris.warbook.mech.models import MechDesign, MechDesignLocation
+from solaris.warbook.equipment.models import Mounting, MechEquipment
 
 class MechValidationForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -21,3 +20,12 @@ class MechValidationForm(ModelForm):
 class LocationValidationForm(ModelForm):    
     class Meta:
         model = MechDesignLocation
+        
+        
+class MechEquipmentForm(ModelForm):
+    class Meta:
+        model = MechEquipment
+        
+class MountingForm(ModelForm):
+    class Meta:
+        model = Mounting

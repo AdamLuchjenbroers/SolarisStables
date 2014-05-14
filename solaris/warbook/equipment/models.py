@@ -73,6 +73,12 @@ class Equipment(models.Model):
             
     def repair_cost(self, mech, hits):
         return self.cost(mech) * (hits / self.criticals(mech))
+    
+    def __unicode__(self):
+        if self.name:
+            return self.name
+        else:
+            return '<%s>' % self.ssw_name
             
     class Meta:
         verbose_name_plural = 'Equipment'
@@ -92,6 +98,11 @@ class MechEquipment(models.Model):
                 crit_count += location.num_slots()
         
         return crit_count
+    
+    def delete(self):
+        for mount in self.mountings.all():
+            mount.delete()
+        super(MechEquipment,self).delete()
         
     def is_directfire(self):
         return self.equipment.is_directfire()

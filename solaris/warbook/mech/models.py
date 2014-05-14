@@ -32,6 +32,10 @@ class MechDesign(models.Model):
     def total_armour(self):
         return (self.locations.aggregate( models.Sum('armour') ))['armour__sum']
     
+    def reset_equipment(self):        
+        for mount in self.loadout.all():
+            mount.delete()
+    
     def gyro_tonnage(self):
         #FIXME: Should be handled by equipment, as this varies by gyro type
         return ceil(self.engine_rating / 100) 

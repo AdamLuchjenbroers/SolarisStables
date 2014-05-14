@@ -10,6 +10,7 @@ locations_all = {
     'la' : 'LA',
     'll' : 'LL',
     'rl' : 'RL',
+    '--' : '--',
 }
 
 locations_biped = locations_all.copy()

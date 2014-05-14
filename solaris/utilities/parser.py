@@ -2,7 +2,6 @@ from math import floor
 
 from django.utils.html import strip_tags
 
-from solaris.warbook.mech.models import MechLocation
 from solaris.warbook.equipment.models import Equipment
 
 from solaris.utilities import translate
@@ -17,7 +16,7 @@ class SSWParseError(Exception):
         return repr(self.value)
 
 class SSWItemMounting(dict):
-    def __init__(self, location, slots, rear, turret):
+    def __init__(self, location, slots, rear=False, turret=False):
         self.location_code = location
         self['location'] = None
         self['slots'] = ','.join(str(s) for s in slots)
@@ -60,13 +59,15 @@ class SSWMountedItem(dict):
             eq_class = self.__class__.default_type
                 
         if self['ssw_name']:
-            (self['equipment'], created) = Equipment.objects.get_or_create(ssw_name=self['ssw_name'])
+            (self.equipment , created) = Equipment.objects.get_or_create(ssw_name=self['ssw_name'])
+            
+            self['equipment'] = self.equipment.id
             if created:
-                self['equipment'].name = self['name']
-                self['equipment'].equipment_class = eq_class
-                self['equipment'].save()
+                self.equipment.name = self['name']
+                self.equipment.equipment_class = eq_class
+                self.equipment.save()
 
-    def mount(self, xmlnode, rear_firing, turret):
+    def mount(self, xmlnode, rear_firing=False, turret=False):
         #Most entries only record a single slot, and require that we 
         #extrapolate from there.
         self.extrapolated = False
@@ -83,13 +84,15 @@ class SSWMountedItem(dict):
                 #TODO - Check if SSW counts forward or backward from the assigned index
                 index = range(start+1, count+start+1)
             
+            loc_code = loc.text.lower()
+            
             if loc.text in self.mountings:
-                self.mountings[loc.text].add_slot(index)
+                self.mountings[loc_code].add_slot(index)
             else:
-                self.mountings[loc.text] = SSWItemMounting(loc.text, index, rear_firing, turret)
+                self.mountings[loc_code] = SSWItemMounting(loc_code, index, rear=rear_firing, turret=turret)
             
         if len(self.mountings) == 0:
-            self.mountings['--'] = SSWItemMounting('--', [], False, False)
+            self.mountings['--'] = SSWItemMounting('--', [])
     
     def extrapolate(self, criticals):
         if self.extrapolated:
@@ -145,8 +148,11 @@ class SSWArmour(SSWMountedItem):
         armorInfo = xmlnode.xpath('./*[not(self::type|self::location)]')
         self.armour = {}
         for location in armorInfo:
-            self.armour[location.tag] = int(location.text)
-            
+            self.armour[location.tag.lower()] = int(location.text)
+
+        # Add an entry for the blank as well, just to make sure this gets populated correctly
+        self.armour['--'] = 0
+        
         armour_type = xmlnode.xpath('./type/text()')[0]
         self['ssw_name'] = 'Armour - %s' % armour_type
         self['name'] = armour_type
@@ -158,11 +164,34 @@ class SSWEngine(SSWMountedItem):
     default_type = 'E'
     
     def __init__(self, xmlnode):
-        self.mountings={'ct' : [1,2,3,8,9,10] }
-        self.rating = xmlnode.get('rating')
-        
         self['ssw_name'] = 'Engine - %s' % xmlnode.text
         self['name'] = xmlnode.text
+        
+        self.mountings = {}
+        
+        if xmlnode.text == 'Compact Fusion Engine':
+            self.mountings['ct'] = SSWItemMounting('ct', [1,2,3])
+        else:
+            self.mountings['ct'] = SSWItemMounting('ct', [1,2,3,8,9,10])
+        
+        side_count = 0
+        if xmlnode.text == 'XL Engine':
+            side_count = 3
+        elif xmlnode.text == 'Light Fusion Engine':
+            side_count = 2
+        elif xmlnode.text == 'XXL Engine':
+            side_count = 6
+            
+        if side_count > 0:
+            right_start = int(xmlnode.get('rsstart'))
+            self.mountings['rt'] = SSWItemMounting('rt', range(right_start, right_start + side_count))
+            
+            left_start = int(xmlnode.get('lsstart'))
+            self.mountings['lt'] = SSWItemMounting('lt', range(left_start, left_start + side_count))
+            
+        self.rating = xmlnode.get('rating')
+        
+        
         super(SSWEngine, self).__init__()
         
     
