@@ -30,7 +30,7 @@ locations_quad = locations_allmechs + locations_quadonly
 
 locations_all = locations_allmechs + locations_quadonly + locations_bipedonly
 
-structure = {
+structure = {          
   20  : { 'head' : 3, 'arm' :  3, 'leg' :  4, 'sidetorso' :  5, 'centertorso' :  6},
   25  : { 'head' : 3, 'arm' :  4, 'leg' :  6, 'sidetorso' :  6, 'centertorso' :  8},
   30  : { 'head' : 3, 'arm' :  5, 'leg' :  7, 'sidetorso' :  7, 'centertorso' : 10},

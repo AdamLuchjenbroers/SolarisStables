@@ -6,7 +6,7 @@ from solaris.warbook.mech.models import MechDesign, MechDesignLocation
 from solaris.warbook.equipment import tonnage, criticals, cost
 
 class Equipment(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, default='FIXME')
     ssw_name = models.CharField(max_length=100, unique=True)
     tonnage_func = models.CharField(max_length=40, choices=tonnage.tonnage_funcs, null=True)
     tonnage_factor = models.DecimalField(max_digits=4, decimal_places=1, null=True)
@@ -20,21 +20,30 @@ class Equipment(models.Model):
     # Can this equipment take critical hits
     crittable = models.BooleanField(default=True)
     
-    has_ammo = models.BooleanField(default='False')
+    has_ammo = models.BooleanField(default=False)
     ammo_for = models.ForeignKey('Equipment', null=True, blank=True)
     ammo_size = models.IntegerField(null=True,blank=True)
     weapon_properties = models.CharField(max_length=20, null=True)
     
+    record_states = (
+        (0, 'Aggressive Load')
+    ,   (1, 'Incomplete')
+    ,   (2, 'Completed')
+    )
+    record_status = models.IntegerField(choices=record_states, default=0)
+    
     equipment_classes = (
-           ('Engine', 'E'),
-           ('Gyro', 'G'),
-           ('Cockpit & Systems', 'C'),
-           ('Weapon', 'W'),
-           ('Heatsink', 'H'),
-           ('Jumpjet', 'J'),
-           ('Equipment', 'X'),
-           ('Armour / Structure', 'A'),
-           ('Unclassified', '?'),
+           ('E', 'Engine'),
+           ('G', 'Gyro'),
+           ('C', 'Cockpit & Systems'),
+           ('W', 'Weapon'),
+           ('H', 'Heatsink'),
+           ('J', 'Jumpjet'),
+           ('Q', 'Equipment'),
+           ('S', 'Armour / Structure'),
+           ('A', 'Ammunition')
+           ('T', 'Actuator')
+           ('?', 'Unclassified'),
     )
     equipment_class = models.CharField(max_length=1, choices=equipment_classes, default='?')
     
