@@ -9,9 +9,9 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Adding field 'MechDesign.tech_baase'
-        db.add_column('warbook_mechdesign', 'tech_base',
-                      self.gf('django.db.models.fields.CharField')(default='I', max_length=1),
-                      keep_default=False)
+        #db.add_column('warbook_mechdesign', 'tech_base',
+        #              self.gf('django.db.models.fields.CharField')(default='I', max_length=1),
+        #              keep_default=False)
 
 
         # Changing field 'MechDesign.motive_type'
