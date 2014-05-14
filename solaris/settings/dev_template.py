@@ -31,6 +31,9 @@ USE_DJANGO_STATIC = True
 MEDIA_ROOT = ''
 MEDIA_URL = ''
 
+# Path to Solaris Skunkwerks mech files
+SSW_STOCK_MECHS_ROOT = '/path/to/ssw/mech/files/'
+
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
