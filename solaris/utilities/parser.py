@@ -41,13 +41,13 @@ class SSWMountedItem(dict):
             start = self.mountings[loc][0]
             self.mountings.loc = range(start, start+criticals)
 
-class SSWLocation(dict)
+class SSWLocation(dict):
     def __init__(self, mech, armour, code):
         self['mech'] = mech
         self['armour'] = armour
         
-		
-			
+
+
 class SSWEquipment(SSWMountedItem):
     def __init__(self, xmlnode):
         self['name'] = xmlnode.xpath['./name[1]'].text
@@ -64,12 +64,12 @@ class SSWArmour(SSWEquipment):
         #Armour is stored as multiple single-slot assignments, so we can consider
         #it extrapolated already
         self.mount(xmlnode)
-        self.extrapolated = true
+        self.extrapolated = True
         
         armorInfo = xmlnode.xpath('./*[not(self::type|self::location)]')
-        self.armor = {}
+        self.armour = {}
         for location in armorInfo:
-            armor[location.tag] = int(location.text)
+            self.armour[location.tag] = int(location.text)
             
         typenode = xmlnode.xpath('./type')
         self.equipment_name = typenode[0].text
@@ -80,7 +80,7 @@ class SSWEngine(SSWEquipment):
         self.rating = xmlnode.get('rating')
     
 class SSWMech(dict):
-    def __init__(self, xmlnode, ssw_filename, stock=True)
+    def __init__(self, xmlnode, ssw_filename, stock=True):
         self['tonnage'] = xmlnode.get('tons')
         self['mech_name'] = xmlnode.get('name')
         self['mech_code'] = xmlnode.get('model')
@@ -113,7 +113,7 @@ class SSWFile:
         self.file_name = sswFileName
         
         self.xmlFile = etree.parse(fd)
-        self.mech = SSWMech( xmlFile.xpath('/mech')[0] )
+        self.mech = SSWMech( self.xmlFile.xpath('/mech')[0] )
     
     @expect_integer        
     def get_cost(self):
