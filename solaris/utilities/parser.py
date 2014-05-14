@@ -2,6 +2,8 @@ from math import floor
 from lxml import etree
 
 from solaris.utilities.validation import expect_integer, expect_alphastring
+from solaris.warbook.mech.models import MechLocation
+from solaris.warbook.equipment.models import Equipment
 
 class SSWMountedItem(dict):
 
@@ -39,11 +41,18 @@ class SSWMountedItem(dict):
             start = self.mountings[loc][0]
             self.mountings.loc = range(start, start+criticals)
 
+class SSWLocation(dict)
+    def __init__(self, mech, armour, code):
+        self['mech'] = mech
+        self['armour'] = armour
+        
+		
+			
 class SSWEquipment(SSWMountedItem):
     def __init__(self, xmlnode):
-        self.name = xmlnode.xpath['./name[1]'].text
+        self['name'] = xmlnode.xpath['./name[1]'].text
         self.node_type = xmlnode.tag
-        self.ssw_name = '%s - %s' % (self.node_type, self.name)
+        self['ssw_name'] = '%s - %s' % (self.node_type, self.name)
         
         self.mount(xmlnode)
         
@@ -51,11 +60,12 @@ class SSWEquipment(SSWMountedItem):
 class SSWArmour(SSWEquipment):
     def __init__(self, xmlnode):
         super(SSWArmour,self).__init__(xmlnode)
-        
+         
         #Armour is stored as multiple single-slot assignments, so we can consider
         #it extrapolated already
+        self.mount(xmlnode)
         self.extrapolated = true
-    
+        
         armorInfo = xmlnode.xpath('./*[not(self::type|self::location)]')
         self.armor = {}
         for location in armorInfo:
@@ -69,23 +79,27 @@ class SSWEngine(SSWEquipment):
         self.mountings={'ct' : [1,2,3,8,9,10] }
         self.rating = xmlnode.get('rating')
     
-class SSWMech:
-    def __init__(self, xmlnode)
-        self.tonnage = xmlnode.get('tons')
-        self.mech_name = xmlnode.get('name')
-        self.mech_code = xmlnode.get('model')
+class SSWMech(dict):
+    def __init__(self, xmlnode, ssw_filename, stock=True)
+        self['tonnage'] = xmlnode.get('tons')
+        self['mech_name'] = xmlnode.get('name')
+        self['mech_code'] = xmlnode.get('model')
         
-        self.is_omni = ( xmlnode.get('omni') == 'TRUE' )
+        self['is_omni'] = ( xmlnode.get('omni') == 'TRUE' )
                
-        self.credit_cost = int(floor(xmlnode.xpath('./cost')[0]))
+        self['credit_cost'] = int(floor(xmlnode.xpath('./cost')[0]))
         
         if self.is_omni:
-            0
+            self['bv_cost'] = 0
         else:
-            self.bv_cost = int(floor(xmlnode.xpath('./battle_value')[0]))
+            self['bv_cost'] = int(floor(xmlnode.xpath('./battle_value')[0]))
         
         self.engine = SSWEngine( xmlnode.xpath('./engine')[0] )
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
+        
+        self['engine_rating'] = self.engine.rating
+        self['stock_design'] = stock
+        self['ssw_filename'] = ssw_filename
         
         self.equipment = []
         for node in xmlnode.xpath('./baselayout/*/equipment'):

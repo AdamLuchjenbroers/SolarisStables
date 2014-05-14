@@ -41,13 +41,7 @@ class MechDesign(models.Model):
       
     def move_run(self):
         return int(ceil(self.move_walk() * 1.5))
-    
-    def move_jump(self):
-        # Unimplemented
-        return 'X'
-    '''
-    Awaiting implementation of equipment loading
-        
+       
     def move_jump(self):
         jump_mp = 0
         if not self.loadout:
@@ -64,7 +58,7 @@ class MechDesign(models.Model):
             if item.is_directfire():
                 tons += item.tonnage()
         return tons
-    '''
+    
     
     class Meta:
         unique_together = (('mech_name', 'mech_code', 'omni_loadout'), ('ssw_filename', 'omni_loadout'),)
