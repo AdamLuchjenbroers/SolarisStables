@@ -110,7 +110,7 @@ class MechDesignLocation(models.Model):
         return self.location.location
     
     def location_name(self):
-        return self.location.location
+        return self.location.get_location_display()
     
     class Meta:
         unique_together = (('mech','location'),)
