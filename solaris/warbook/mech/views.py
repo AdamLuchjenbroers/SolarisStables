@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, get_list_or_404, redirect
 from django.http import HttpResponse
 
 from solaris.utils import deepcopy_append
+from solaris.views import PageObject
 from solaris.warbook.views import ReferenceView
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.mech.forms import MechSearchForm
@@ -12,16 +13,23 @@ from solaris.warbook.mech.forms import MechSearchForm
 class MechView(ReferenceView):
     submenu_selected = 'Mechs'
 
+class MechCritTable(PageObject):
+    template = 'warbook/mechs/mech_detail.tmpl'
+
 class MechDetailView(MechView):
     styles_list = deepcopy_append(MechView.styles_list, ['/static/css/mech_detail.css'])
     
     def get(self, request, name='', code=''):        
         mech = get_object_or_404(MechDesign, mech_name__iexact=name, mech_code__iexact=code)
-        
+         
         tmpl_mech = loader.get_template('warbook/mechs/mech_detail.tmpl')
-        body = Markup(tmpl_mech.generate(mech=mech))
+        crit_tables = dict()
+        for location in mech.locations.all():
+            if location.criticals:
+                crit_tables[location.location_code] = MechCritTable(location)
+        
+        body = Markup(tmpl_mech.generate(mech=mech, crit_tables=crit_tables))
         return HttpResponse(self.in_layout(body, request))
-
 
 class MechListView(MechView):
     def get(self, request, name=''):

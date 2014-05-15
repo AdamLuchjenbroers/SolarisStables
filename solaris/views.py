@@ -60,6 +60,16 @@ class SolarisView(View):
     
     def get(self, request):   
         return HttpResponse(self.in_layout(self.body_content, request))
+
+class PageObject(object):
+    template = ''
+    
+    def __init__(self, **context):
+        self.template = loader.get_template(self.__class__.template)
+        self.context = context
+        
+    def render(self):
+        return Markup( self.template.generate( **self.context )
     
 class SolarisFormViewMixin(object):
     form_outer_template = 'solaris_form_outer.tmpl'

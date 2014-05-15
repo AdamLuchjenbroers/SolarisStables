@@ -107,9 +107,13 @@ div.critical_table {
   margin-bottom: 20px;
 }
 
+div.critical_table div {
+   width: 100%
+}
+
 div.critical_table span {
   float: right;
-  width: 140px;
+  width: 90%;
   text-align: center;
 }
 
