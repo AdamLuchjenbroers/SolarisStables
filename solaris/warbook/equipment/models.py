@@ -9,11 +9,11 @@ class Equipment(models.Model):
     name = models.CharField(max_length=100, default='FIXME')
     ssw_name = models.CharField(max_length=100, unique=True)
     tonnage_func = models.CharField(max_length=40, choices=tonnage.tonnage_funcs, null=True)
-    tonnage_factor = models.DecimalField(max_digits=4, decimal_places=1, null=True)
+    tonnage_factor = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     critical_func = models.CharField(max_length=40, choices=criticals.critical_funcs, null=True)
-    critical_factor = models.DecimalField(max_digits=4, decimal_places=1, null=True)
+    critical_factor = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     cost_func = models.CharField(max_length=40, choices=cost.cost_funcs, null=True)
-    cost_factor = models.DecimalField(max_digits=12, decimal_places=1, null=True)
+    cost_factor = models.DecimalField(max_digits=16, decimal_places=4, null=True)
     
     # Can this item be split across multiple locations
     splittable = models.BooleanField(default=False)
@@ -23,7 +23,7 @@ class Equipment(models.Model):
     has_ammo = models.BooleanField(default=False)
     ammo_for = models.ForeignKey('Equipment', null=True, blank=True)
     ammo_size = models.IntegerField(null=True,blank=True)
-    weapon_properties = models.CharField(max_length=20, null=True)
+    weapon_properties = models.CharField(max_length=20, null=True, blank=True)
     
     record_states = (
         (0, 'Aggressive Load')
