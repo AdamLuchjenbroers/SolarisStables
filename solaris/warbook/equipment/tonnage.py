@@ -6,7 +6,8 @@ tonnage_funcs = (
 	('masc'   , 'MASC'),
 	('melee'  ,'Melee Weapon'),
 	('armour' , 'Armour'),
-	('engine' , 'Engine')
+	('engine' , 'Engine'),
+	('gyro'   , 'Gyro')
 )
 
 def fixed(self, mech):
@@ -37,3 +38,5 @@ def engine(self, mech):
     #FIXME
     return 0
     
+def gyro(self, mech):
+    return ceil(mech.engine_rating / 100.0) * self.tonnage_factor 
