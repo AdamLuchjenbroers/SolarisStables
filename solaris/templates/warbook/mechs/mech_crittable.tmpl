@@ -1,0 +1,21 @@
+<div class="critical_table" id="criticals_${location.location_code()}" xmlns:py="http://genshi.edgewall.org/" class="content">
+  <div class="critical_header">${location.location_name()}</div>
+    <py:for each="(slot, item) in enumerate(location.get_criticals())">
+      <py:if test="slot == 6"><hr/></py:if>
+      <py:choose test="item">
+        <py:when test="None">
+           <div>${(slot%6)+1}<span class="item_noncrittable">-- No Item --</span></div>
+        </py:when>
+
+        <py:otherwise>
+           <div>${(slot%6)+1}
+             <py:choose test="item.equipment.equipment.crittable">
+               <py:when test="True"><span class="item_crittable">${item.get_equipmentname()}</span></py:when>
+               <py:otherwise><span class="item_noncrittable">${item.get_equipmentname()}</span></py:otherwise>
+             </py:choose>
+           </div>
+        </py:otherwise>
+      </py:choose>
+   </py:for>
+  </div>
+</div>
