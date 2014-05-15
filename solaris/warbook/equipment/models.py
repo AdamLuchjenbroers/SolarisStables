@@ -127,6 +127,9 @@ class Mounting(models.Model):
     rear_firing = models.BooleanField(default=False)
     turret_mounted = models.BooleanField(default=False)
     
+    def get_equipmentname(self):
+        return self.equipment.equipment.name
+    
     def get_slots(self):
         return self.slots.split(',')
         

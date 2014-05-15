@@ -15,6 +15,21 @@
        </py:if>
     </div>
     </py:for>
-    </div>  
+  </div>
+
+  <div class="${mech.motive_type}_criticals">
+    <py:for each="location in mech.locations.all()">
+      <py:if test="location.structure">
+         <div class="critical_table" id="criticals_${location.location_code()}">
+           <div class="critical_header">${location.location_name()}</div>
+           <py:for each="item in location.get_criticals()">
+             <py:if test="item">
+                <div class="item_crittable">${item.get_equipmentname()}</div>
+             </py:if>
+           </py:for>
+         </div>
+      </py:if>
+    </py:for>
+  </div>  
 </div>
 

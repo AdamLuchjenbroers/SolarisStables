@@ -101,12 +101,15 @@ class MechDesignLocation(models.Model):
     
     def get_criticals(self):
         crit_table = [None] * self.location.criticals
-        for item in self.criticals:
+        for item in self.criticals.all():
             for slot in item.get_slots():
-                crit_table[slot-1] = item
+                crit_table[int(slot)-1] = item
         return crit_table
     
     def location_code(self):
+        return self.location.location
+    
+    def location_name(self):
         return self.location.location
     
     class Meta:
