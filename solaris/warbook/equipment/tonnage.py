@@ -1,11 +1,12 @@
 from math import ceil
 
 tonnage_funcs = (
-	('Fixed Tonnage', 'fixed'),
-	('Jumpjet', 'jumpjet'),
-	('MASC', 'masc'),
-	('Melee Weapon', 'melee'),
-	('Armour', 'armour'),
+	('fixed'  , 'Fixed Tonnage'),
+	('jumpjet', 'Jumpjet'),
+	('masc'   , 'MASC'),
+	('melee'  ,'Melee Weapon'),
+	('armour' , 'Armour'),
+	('engine' , 'Engine')
 )
 
 def fixed(self, mech):
@@ -31,4 +32,8 @@ def armour(self, mech, units=None):
         units = mech.total_armour()
     
     return ceil(units / (self.tonnage_factor * 8)) / 2
-	
+
+def engine(self, mech):
+    #FIXME
+    return 0
+    

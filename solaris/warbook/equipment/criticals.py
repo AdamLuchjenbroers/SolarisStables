@@ -1,8 +1,9 @@
 from math import ceil
 
 critical_funcs = (
-	('Fixed Criticals', 'fixed'),
-	('MASC', 'masc')
+	('fixed'   , 'Fixed Criticals'),
+	('masc'    , 'MASC'),
+	('melee'  ,'Melee Weapon'),
 )
 
 def fixed(self, mech):
