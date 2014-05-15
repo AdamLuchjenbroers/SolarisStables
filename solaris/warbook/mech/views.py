@@ -19,16 +19,25 @@ class MechCritTable(PageObject):
 class MechDetailView(MechView):
     styles_list = deepcopy_append(MechView.styles_list, ['/static/css/mech_detail.css'])
     
+    def __init__(self, *args, **kwargs):
+        self.template = loader.get_template('warbook/mechs/mech_detail.tmpl')
+        super(MechDetailView, self).__init__(*args, **kwargs) 
+    
     def get(self, request, name='', code=''):        
-        mech = get_object_or_404(MechDesign, mech_name__iexact=name, mech_code__iexact=code)
-         
-        tmpl_mech = loader.get_template('warbook/mechs/mech_detail.tmpl')
+        mech_model = get_object_or_404(MechDesign, mech_name__iexact=name, mech_code__iexact=code)
+                
         crit_tables = dict()
-        for location in mech.locations.all():
-            if location.criticals:
-                crit_tables[location.location_code] = MechCritTable(location=location)
+        for location in mech_model.locations.all():
+            if location.structure:
+                crit_tables = MechCritTable(location=location)
         
-        body = Markup(tmpl_mech.generate(mech=mech, crit_tables=crit_tables))
+        crit_rows = (
+            ['HD']
+        ,   ['LA','LT','CT','RT','RA']
+        ,   ['LL','LFL','LRL','RL','RFL', 'RLL']
+        )
+        
+        body = Markup( self.template.generate(mech=mech_model, crit_tables=crit_tables, crit_rows=crit_rows))
         return HttpResponse(self.in_layout(body, request))
 
 class MechListView(MechView):
