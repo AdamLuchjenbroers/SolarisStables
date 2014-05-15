@@ -189,8 +189,7 @@ class SSWEngine(SSWMountedItem):
             left_start = int(xmlnode.get('lsstart'))
             self.mountings['lt'] = SSWItemMounting('lt', range(left_start, left_start + side_count))
             
-        self.rating = xmlnode.get('rating')
-        
+        self.rating = xmlnode.get('rating')        
         
         super(SSWEngine, self).__init__()
         
@@ -203,7 +202,7 @@ class SSWMech(dict):
     def __init__(self, xmlnode, ssw_filename, stock=True):
         self['tonnage'] = xmlnode.get('tons')
         self['mech_name'] = xmlnode.get('name')
-        self['mech_code'] = xmlnode.get('model')
+        self['mech_code'] = xmlnode.get('model') or ' '
         
         self['is_omni'] = ( xmlnode.get('omnimech') == 'TRUE' )
                        
