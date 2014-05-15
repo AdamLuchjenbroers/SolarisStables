@@ -49,11 +49,8 @@ class SSWMountedItem(dict):
     
     default_type = '?'   
     
-    def __init__(self, mech=None, eq_class=None):
-        if mech:
-            self['mech'] = mech.id
-        else:
-            self['mech'] = None
+    def __init__(self, eq_class=None):
+        self['mech'] = None
             
         if eq_class == None:
             eq_class = self.__class__.default_type
@@ -160,10 +157,9 @@ class SSWArmour(SSWMountedItem):
         super(SSWArmour,self).__init__()
         
 class SSWEngine(SSWMountedItem):
-    side_torso_allocation = {}
     default_type = 'E'
     
-    def __init__(self, xmlnode):
+    def __init__(self, xmlnode, gyro_criticals=4):
         self['ssw_name'] = 'Engine - %s' % xmlnode.text
         self['name'] = xmlnode.text
         
@@ -172,7 +168,7 @@ class SSWEngine(SSWMountedItem):
         if xmlnode.text == 'Compact Fusion Engine':
             self.mountings['ct'] = SSWItemMounting('ct', [1,2,3])
         else:
-            self.mountings['ct'] = SSWItemMounting('ct', [1,2,3,8,9,10])
+            self.mountings['ct'] = SSWItemMounting('ct', [1,2,3] + range(4 + gyro_criticals, 7 + gyro_criticals))
         
         side_count = 0
         if xmlnode.text == 'XL Engine':
@@ -192,6 +188,20 @@ class SSWEngine(SSWMountedItem):
         self.rating = xmlnode.get('rating')        
         
         super(SSWEngine, self).__init__()
+        
+class SSWGyro(SSWMountedItem):
+    default_type = 'G'
+    
+    def __init__(self, xmlnode):
+        self['ssw_name'] = 'Gyro - %s' % xmlnode.text
+        self['name'] = xmlnode.text
+        
+        super(SSWGyro, self).__init__()
+        
+        self.mount()
+        self.criticals = self.equipment.criticals()
+        self.extrapolate(self.criticals)
+        
         
     
 class SSWMech(dict):
@@ -213,7 +223,8 @@ class SSWMech(dict):
         else:
             self['bv_value'] = self.get_number(xmlnode, './battle_value/text()')
         
-        self.engine = SSWEngine( xmlnode.xpath('./engine')[0] )
+        self.gyro = SSWGyro( xmlnode.xpath('./gyro')[0] )
+        self.engine = SSWEngine( xmlnode.xpath('./engine')[0], gyro_criticals=self.gyro.criticals )
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
         
         self['engine_rating'] = self.engine.rating
