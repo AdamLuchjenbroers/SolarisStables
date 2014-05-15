@@ -4,6 +4,7 @@ from genshi import Markup
 from django.shortcuts import get_object_or_404, get_list_or_404, redirect
 from django.http import HttpResponse
 
+from solaris.utils import deepcopy_append
 from solaris.warbook.views import ReferenceView
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.mech.forms import MechSearchForm
@@ -12,6 +13,8 @@ class MechView(ReferenceView):
     submenu_selected = 'Mechs'
 
 class MechDetailView(MechView):
+    styles_list = deepcopy_append(MechView.styles_list, ['/static/css/mech_detail.css'])
+    
     def get(self, request, name='', code=''):        
         mech = get_object_or_404(MechDesign, mech_name__iexact=name, mech_code__iexact=code)
         

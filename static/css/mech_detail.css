@@ -1,0 +1,79 @@
+div.B_armour, div.Q_armour {
+  position: relative;
+  width: 400px;
+  
+  margin-left: auto;
+  margin-right: auto; 
+}
+
+div.armour_location {
+  position: absolute;
+  width: 40px;
+
+  border-width: 1px;
+  border-color: #000000;
+}
+
+div.armour_header {
+  background: #BBBBBB;
+}
+
+div#armour_HD {
+  left: 100px;
+  top: 30px;
+}
+
+div#armour_CT {
+  left: 100px;
+  top: 100px;
+}
+
+div#armour_RT {
+  left: 150px;
+  top: 120px;
+}
+
+div#armour_LT {
+  left: 50px;
+  top: 120px;
+}
+
+div#armour_RA {
+  left: 200px;
+  top:  140px;
+}
+
+div#armour_LA {
+  left:  0px;
+  top: 140px;
+}
+
+div#armour_RL {
+  left: 160px;
+  top: 200px;
+}
+
+div#armour_LL {
+  left: 40px;
+  top: 200px;
+}
+
+
+div#armour_RCT {
+  left: 330px;
+  top: 100px;
+}
+
+div#armour_RRT {
+  left: 380px;
+  top: 120px;
+}
+
+div#armour_RLT {
+  left: 280px;
+  top: 120px;
+}
+
+div#armour_-- {
+  display: none;
+}
