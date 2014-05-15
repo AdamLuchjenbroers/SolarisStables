@@ -41,6 +41,7 @@ class SSWItemMounting(dict):
             return 
         
         start = slots[0]
+        print start
         self['slots'] = ','.join( str(i) for i in range (start, start+count) )
         
         
@@ -198,10 +199,11 @@ class SSWGyro(SSWMountedItem):
         
         super(SSWGyro, self).__init__()
         
-        self.mount()
         self.criticals = self.equipment.criticals()
-        self.extrapolate(self.criticals)
         
+        self.mountings = {}
+        self.mountings['ct'] = SSWItemMounting('ct', range(4, 4+self.criticals))
+        self.extrapolated = True
         
     
 class SSWMech(dict):
@@ -212,7 +214,7 @@ class SSWMech(dict):
     def __init__(self, xmlnode, ssw_filename, stock=True):
         self['tonnage'] = xmlnode.get('tons')
         self['mech_name'] = xmlnode.get('name')
-        self['mech_code'] = xmlnode.get('model') or ' '
+        self['mech_code'] = xmlnode.get('model') or '--'
         
         self['is_omni'] = ( xmlnode.get('omnimech') == 'TRUE' )
                        
