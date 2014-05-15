@@ -69,7 +69,7 @@ class PageObject(object):
         self.context = context
         
     def render(self):
-        return Markup( self.template.generate( **self.context )
+        return Markup( self.template.generate( **self.context ))
     
 class SolarisFormViewMixin(object):
     form_outer_template = 'solaris_form_outer.tmpl'
