@@ -26,7 +26,7 @@ class MechDetailView(MechView):
         crit_tables = dict()
         for location in mech.locations.all():
             if location.criticals:
-                crit_tables[location.location_code] = MechCritTable(location)
+                crit_tables[location.location_code] = MechCritTable(location=location)
         
         body = Markup(tmpl_mech.generate(mech=mech, crit_tables=crit_tables))
         return HttpResponse(self.in_layout(body, request))

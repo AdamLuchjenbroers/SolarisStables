@@ -6,11 +6,11 @@ critical_funcs = (
 	('melee'  ,'Melee Weapon'),
 )
 
-def fixed(self, mech):
+def fixed(self, mech=None):
     return self.critical_factor
     
-def masc(self, mech):
+def masc(self, mech=None):
     return ceil( mech.tonnage * 0.05 )
 
-def melee(self, mech):
+def melee(self, mech=None):
     return ceil( mech.tonnage / self.critical_factor )

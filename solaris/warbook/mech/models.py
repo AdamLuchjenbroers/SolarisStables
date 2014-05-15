@@ -35,10 +35,6 @@ class MechDesign(models.Model):
     def reset_equipment(self):        
         for mount in self.loadout.all():
             mount.delete()
-    
-    def gyro_tonnage(self):
-        #FIXME: Should be handled by equipment, as this varies by gyro type
-        return ceil(self.engine_rating / 100) 
         
     def move_walk(self):
         return int(ceil(self.engine_rating / self.tonnage))
