@@ -200,7 +200,7 @@ class SSWGyro(SSWMountedItem):
         super(SSWGyro, self).__init__()
         
         self.mountings = {}
-        if self.equipment.criticals():
+        if self.equipment.criticals:
             self.criticals = self.equipment.criticals()
                 
             self.mountings['ct'] = SSWItemMounting('ct', range(4, 4+self.criticals))
