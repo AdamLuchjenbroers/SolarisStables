@@ -14,7 +14,7 @@ class MechView(ReferenceView):
     submenu_selected = 'Mechs'
 
 class MechCritTable(PageObject):
-    template = 'warbook/mechs/mech_detail.tmpl'
+    template = 'warbook/mechs/mech_crittable.tmpl'
 
 class MechDetailView(MechView):
     styles_list = deepcopy_append(MechView.styles_list, ['/static/css/mech_detail.css'])
@@ -29,7 +29,7 @@ class MechDetailView(MechView):
         crit_tables = dict()
         for location in mech_model.locations.all():
             if location.structure:
-                crit_tables = MechCritTable(location=location)
+                crit_tables[location.location_code()] = MechCritTable(location=location)
         
         crit_rows = (
             ['HD']

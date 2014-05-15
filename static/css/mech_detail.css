@@ -98,6 +98,11 @@ div.B_criticals, div.Q_criticals {
   margin-right: auto;
 }
 
+div.critical_group {
+  position: relative;
+  width: 100%;
+}
+
 div.critical_table {
   width: 150px;
   float: left;

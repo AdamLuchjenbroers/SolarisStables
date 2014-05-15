@@ -22,7 +22,7 @@
     <py:for each="row in crit_rows">
     <div class="criticals_group">
       <py:for each="loc in row">
-        <py:if test="loc in crit_tables">${crit_tables[loc].render()}</py:if>
+        <py:if test="loc in crit_tables.keys()">${crit_tables[loc].render()}</py:if>
       </py:for>
     </div>
     </py:for>
