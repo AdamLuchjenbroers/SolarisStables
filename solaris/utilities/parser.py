@@ -199,11 +199,20 @@ class SSWGyro(SSWMountedItem):
         
         super(SSWGyro, self).__init__()
         
-        self.criticals = self.equipment.criticals()
-        
         self.mountings = {}
-        self.mountings['ct'] = SSWItemMounting('ct', range(4, 4+self.criticals))
-        self.extrapolated = True
+        if self.equipment.criticals():
+            self.criticals = self.equipment.criticals()
+                
+            self.mountings['ct'] = SSWItemMounting('ct', range(4, 4+self.criticals))
+            self.extrapolated = True
+        else:
+            self.mountings['ct'] = SSWItemMounting('ct', [4])
+            self.criticals = 1
+            self.extrapolated = False
+    
+    def extrapolate(self, criticals):
+        self.criticals = criticals
+        super(SSWGyro, self).extrapolate(criticals)
         
     
 class SSWMech(dict):
