@@ -64,6 +64,11 @@ class SSWMountedItem(dict):
                 self.equipment.name = self['name']
                 self.equipment.equipment_class = eq_class
                 self.equipment.save()
+            
+            if self.equipment.critical_func:
+                self.criticals = self.equipment.criticals()
+            else:
+                self.criticals = None
 
     def mount(self, xmlnode, rear_firing=False, turret=False):
         #Most entries only record a single slot, and require that we 
@@ -180,10 +185,10 @@ class SSWEngine(SSWMountedItem):
             side_count = 6
             
         if side_count > 0:
-            right_start = int(xmlnode.get('rsstart'))
+            right_start = int(xmlnode.get('rsstart')) + 1
             self.mountings['rt'] = SSWItemMounting('rt', range(right_start, right_start + side_count))
             
-            left_start = int(xmlnode.get('lsstart'))
+            left_start = int(xmlnode.get('lsstart')) + 1
             self.mountings['lt'] = SSWItemMounting('lt', range(left_start, left_start + side_count))
             
         self.rating = xmlnode.get('rating')        
@@ -200,14 +205,11 @@ class SSWGyro(SSWMountedItem):
         super(SSWGyro, self).__init__()
         
         self.mountings = {}
-        if self.equipment.criticals:
-            self.criticals = self.equipment.criticals()
-                
+        if self.criticals:
             self.mountings['ct'] = SSWItemMounting('ct', range(4, 4+self.criticals))
             self.extrapolated = True
         else:
             self.mountings['ct'] = SSWItemMounting('ct', [4])
-            self.criticals = 1
             self.extrapolated = False
     
     def extrapolate(self, criticals):
