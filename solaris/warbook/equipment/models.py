@@ -91,6 +91,8 @@ class Equipment(models.Model):
         db_table = 'warbook_equipment'
         app_label = 'warbook'
         
+        ordering = ['equipment_class', 'name']
+        
 
 class MechEquipment(models.Model):
     mech = models.ForeignKey(MechDesign, related_name='loadout')

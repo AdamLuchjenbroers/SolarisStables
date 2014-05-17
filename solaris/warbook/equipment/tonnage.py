@@ -8,7 +8,8 @@ tonnage_funcs = (
 	('armour' , 'Armour'),
 	('engine' , 'Engine'),
 	('gyro'   , 'Gyro'),
-	('structure', 'Internal Structure')
+	('structure', 'Internal Structure'),
+	('targetting_computer', 'Targetting Computer'),
 )
 
 def fixed(self, mech):
@@ -44,3 +45,6 @@ def structure(self, mech):
     
 def gyro(self, mech):
     return ceil(mech.engine_rating / 100.0) * self.tonnage_factor 
+   
+def targetting_computer(self, mech):
+    return ceil(mech.directfire_tonnage() / 4.0)
