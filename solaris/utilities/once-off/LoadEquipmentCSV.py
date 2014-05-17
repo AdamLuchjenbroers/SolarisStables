@@ -7,7 +7,7 @@ class EquipmentForm(ModelForm):
         model = Equipment
 
 
-fh = open('/home/notavi/Programming/SourceData/EquipmentCSV/DataLoad1.csv','r')
+fh = open('/home/notavi/Programming/SourceData/EquipmentCSV/DataLoad2.csv','r')
 
 reader = DictReader(fh)
 
