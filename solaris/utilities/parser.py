@@ -110,8 +110,6 @@ class SSWLocation(dict):
     def __init__(self, mech, armour, code):
         self['mech'] = mech
         self['armour'] = armour
-        
-
 
 class SSWEquipment(SSWMountedItem):
     def __init__(self, xmlnode):
@@ -136,7 +134,17 @@ class SSWEquipment(SSWMountedItem):
             
         return (equipment_name, rear, turret)
         
-         
+class SSWStructure(SSWMountedItem):
+    default_type = 'S'
+
+    def __init__(self, xmlnode):
+        self.mount(xmlnode, False, False)
+        self.extrapolated = True
+        
+        structure_type = xmlnode.xpath('./type/text()')[0]
+        self['ssw_name'] = 'Structure - %s' % structure_type
+        self['name'] = structure_type
+ 
 class SSWArmour(SSWMountedItem):
     
     default_type = 'S'
@@ -214,8 +222,7 @@ class SSWGyro(SSWMountedItem):
     
     def extrapolate(self, criticals):
         self.criticals = criticals
-        super(SSWGyro, self).extrapolate(criticals)
-        
+        super(SSWGyro, self).extrapolate(criticals)        
     
 class SSWMech(dict):
     def get_number(self, node, xpath):
@@ -236,9 +243,17 @@ class SSWMech(dict):
         else:
             self['bv_value'] = self.get_number(xmlnode, './battle_value/text()')
         
+        self.equipment = []
+        
         self.gyro = SSWGyro( xmlnode.xpath('./gyro')[0] )
         self.engine = SSWEngine( xmlnode.xpath('./engine')[0], gyro_criticals=self.gyro.criticals )
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
+        self.structure = SSWStructure( xmlnode.xpath('./structure')[0] )
+        
+        self.equipment.append(self.gyro)
+        self.equipment.append(self.engine)
+        self.equipment.append(self.armour)        
+        self.equipment.append(self.structure)        
         
         self['engine_rating'] = self.engine.rating
         self['stock_design'] = stock
