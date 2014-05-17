@@ -1,9 +1,10 @@
+from copy import deepcopy
 
 class CriticalsList(object):
     def __init__(self, criticals=None):
         if criticals and isinstance(criticals, list):
             criticals.sort()
-            self.slots = criticals
+            self.slots = list(set(criticals)) #Deduplicate the list on assignment
         else:
             self.slots = []
             
@@ -32,11 +33,45 @@ class CriticalsList(object):
                 self.slots.append(new_slot)
                 
         self.slots.sort()
-        
-    def __add__(self, other):
-        # Attempt to iterate over it, if that values assume it's a single value
+    
+    def __iadd__(self, other):
         try:
             for value in other:
                 self.add(value)
         except TypeError:
             self.add(other)
+        return self
+        
+    def __add__(self, other):
+        result = deepcopy(self)
+        # Attempt to iterate over it, if that values assume it's a single value
+        result += other
+            
+        return result
+    
+    def singleslot(self):
+        """
+        If the list contains only one slot, returns the value of that slot.
+        Otherwise, return None
+        """
+        if len(self.slots) == 1:
+            return self.slots[0]
+        else:
+            return None
+
+class SSWItemMounting(dict):
+    def __init__(self, location, slots, rear=False, turret=False):
+        self.location_code = location
+        self['location'] = None
+        self['slots'] = CriticalsList(slots)
+        self['rear_firing'] = rear
+        self['turret_mounted'] = turret
+        
+    def add_slot(self, new_slots):
+        self['slots'] += new_slots
+        
+    def extrapolate(self, count):
+        start = self['slots'].singleslot()
+        
+        if start:
+            self['slots'].add(start, count)

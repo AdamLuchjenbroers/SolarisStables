@@ -14,37 +14,7 @@ class SSWParseError(Exception):
             self.value += '\t%s: %s' % (key, strip_tags('%s' % value))
     def __str__(self):
         return repr(self.value)
-
-class SSWItemMounting(dict):
-    def __init__(self, location, slots, rear=False, turret=False):
-        self.location_code = location
-        self['location'] = None
-        self['slots'] = ','.join(str(s) for s in slots)
-        self['rear_firing'] = rear
-        self['turret_mounted'] = turret
-        
-    def add_slot(self, new_slots):
-        slots = set(self['slots'].split(','))
-        
-        for index in new_slots:
-            slots.add(index)
-            
-        slot_list = list(slots)
-        slot_list.sort()
-        self['slots'] = ','.join(str(s) for s in slot_list)
-        
-    def extrapolate(self, count):
-        slots = self['slots'].split(',')
-        
-        if len(slots) > 1:
-            # Already extrapolated
-            return 
-        
-        start = slots[0]
-        print start
-        self['slots'] = ','.join( str(i) for i in range (start, start+count) )
-        
-        
+   
 
 class SSWMountedItem(dict):
     
