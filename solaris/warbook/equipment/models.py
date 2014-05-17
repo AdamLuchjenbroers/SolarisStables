@@ -20,10 +20,15 @@ class Equipment(models.Model):
     # Can this equipment take critical hits
     crittable = models.BooleanField(default=True)
     
+    # Is this item a weapon that uses ammo
     has_ammo = models.BooleanField(default=False)
+    # Is this item the basic ammo type for its launcher
+    basic_ammo = models.BooleanField(default=False)
     ammo_for = models.ForeignKey('Equipment', null=True, blank=True)
     ammo_size = models.IntegerField(null=True,blank=True)
     weapon_properties = models.CharField(max_length=20, null=True, blank=True)
+    # Are the tonnage / criticals for this item only derivable after the rest of the mech is loaded
+    evaluate_last = models.BooleanField(default=False)    
     
     record_states = (
         (0, 'Aggressive Load')

@@ -7,7 +7,8 @@ tonnage_funcs = (
 	('melee'  ,'Melee Weapon'),
 	('armour' , 'Armour'),
 	('engine' , 'Engine'),
-	('gyro'   , 'Gyro')
+	('gyro'   , 'Gyro'),
+	('structure', 'Internal Structure')
 )
 
 def fixed(self, mech):
@@ -37,6 +38,9 @@ def armour(self, mech, units=None):
 def engine(self, mech):
     #FIXME
     return 0
+   
+def structure(self, mech):
+    return ceil((mech.tonnage * self.tonnage_factor * 2) / 10)/2
     
 def gyro(self, mech):
     return ceil(mech.engine_rating / 100.0) * self.tonnage_factor 
