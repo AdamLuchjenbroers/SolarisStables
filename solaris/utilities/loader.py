@@ -103,9 +103,8 @@ class MechLoader(object):
             
             locations = self.load_locations(mech, mech_object)
             
-            self.load_equipment(mech, mech_object.id, mech.gyro, locations)
-            self.load_equipment(mech, mech_object.id, mech.engine, locations)
-            self.load_equipment(mech, mech_object.id, mech.armour, locations)        
+            for gear in mech.equipment:
+                self.load_equipment(mech, mech_object.id, gear, locations)        
             
             mech_form.save()
             transaction.commit()

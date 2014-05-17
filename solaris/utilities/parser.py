@@ -76,6 +76,9 @@ class SSWMech(dict):
         self.equipment.append(self.armour)        
         self.equipment.append(self.structure) 
         
+        for item in xmlnode.xpath('//equipment'):
+            SSWEquipment(item)
+        
         self['engine_rating'] = self.engine.rating
         self['stock_design'] = stock
         self['ssw_filename'] = ssw_filename

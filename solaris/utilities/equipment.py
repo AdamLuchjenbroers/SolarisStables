@@ -129,7 +129,7 @@ class SSWMountedItem(dict):
             
             loc_code = loc.text.lower()
             
-            if loc.text in self.mountings:
+            if loc_code in self.mountings:
                 self.mountings[loc_code].add_slot(index)
             else:
                 self.mountings[loc_code] = SSWItemMounting(loc_code, index, rear=rear_firing, turret=turret)
@@ -155,15 +155,21 @@ class SSWMountedItem(dict):
         
 class SSWEquipment(SSWMountedItem):
     
-    default_type = 'Q'
+    default_type = '?'
     
-    def __init__(self, xmlnode):
-        (self['name'], rear, turret) = self.parse_name(xmlnode.xpath['./name[1]'].text)
-        self.node_type = xmlnode.tag
-        self['ssw_name'] = '%s - %s' % (self.node_type, self.name)
+    def __init__(self, xmlnode):        
+        (name, rear, turret) = self.parse_name(xmlnode.xpath('./name')[0].text)
+        self['name'] = name
         
-        self.mount(xmlnode, rear, turret)
-        super(SSWEquipment,self).__init__()
+        try:
+            self['name'].index('@')
+            self['ssw_name'] = 'Ammo - %s' % name      
+            super(SSWEquipment,self).__init__(eq_class='A')
+        except ValueError:
+            self['ssw_name'] = 'Equipment - %s' % name
+            super(SSWEquipment,self).__init__()
+        
+        self.mount(xmlnode, rear, turret)        
         
     def parse_name(self, equipment_name):
         rear = False

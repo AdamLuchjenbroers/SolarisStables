@@ -30,8 +30,13 @@ def getEquipmentList(sswFileName):
         item_name = item.text
         if item_name[0:3] in ('(T)', '(R)'):
             item_name = item_name[4:]
+            
+        if item_name[0] == '@':
+            item_type = 'Ammo'
+        else:
+            item_type = 'Equipment'
         
-        equipment.add('Equipment - %s' % item_name)
+        equipment.add('%s - %s' % (item_type, item_name))
             
     
     
