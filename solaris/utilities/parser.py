@@ -4,7 +4,7 @@ from django.utils.html import strip_tags
 
 
 from solaris.utilities import translate
-from solaris.utilities.equipment import SSWEquipment, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem
+from solaris.utilities.equipment import SSWEquipment, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWActuator
 
 class SSWParseError(Exception):
     def __init__(self, mech, formerrors):
@@ -18,6 +18,40 @@ class SSWLocation(dict):
     def __init__(self, mech, armour, code):
         self['mech'] = mech
         self['armour'] = armour
+        
+class SSWQuadActuatorSet(list):
+    def __init__(self):    
+        for leg in ('frl', 'fll', 'rrl', 'rll'):
+            self.append(SSWActuator('Hip', leg, 1))
+            self.append(SSWActuator('Upper Leg', leg, 2))
+            self.append(SSWActuator('Lower Leg', leg, 3))
+            self.append(SSWActuator('Foot', leg, 4))
+        
+
+class SSWBipedActuatorSet(list):
+    conditional_actuators = [
+        ('lla', 'la', 'Lower Arm', 3),
+        ('lh', 'la', 'Hand', 4),
+        ('rla', 'ra', 'Lower Arm' ,3),
+        ('rh', 'ra', 'Hand', 4),
+    ]   
+    
+    def __init__(self, xmlnode):
+        self.append(SSWActuator('Shoulder', 'la' ,1))
+        self.append(SSWActuator('Upper Arm', 'la' ,2))
+        self.append(SSWActuator('Shoulder', 'ra' ,1))
+        self.append(SSWActuator('Upper Arm', 'ra' ,2))
+        
+        for (attr, location, name, slot) in SSWBipedActuatorSet.conditional_actuators:
+            if xmlnode.get(attr) == 'TRUE':
+                self.append(SSWActuator(name, location, slot))
+            
+        for leg in ('ll', 'rl'):
+            self.append(SSWActuator('Hip', leg, 1))
+            self.append(SSWActuator('Upper Leg', leg, 2))
+            self.append(SSWActuator('Lower Leg', leg, 3))
+            self.append(SSWActuator('Foot', leg, 4))
+        
 
 class SSWItemList(list):
     item_class = '?'
@@ -35,13 +69,24 @@ class SSWHeatsinkList(SSWItemList):
 
 class SSWJumpjetList(SSWItemList):
     item_class = 'Jumpjet'
-    item_group = 'J'   
+    item_group = 'J'
+    
+class SSWBaseLoadout(list):
+    pass   
 
 class SSWLoadout(list):
-    def __init__(self, xmlnode):       
+    def __init__(self, xmlnode, motive_type='B'):       
         self += SSWHeatsinkList( xmlnode.xpath('./heatsinks')[0])
         
+        if motive_type == 'B':
+            self += SSWBipedActuatorSet( xmlnode.xpath('./actuators')[0] )
+        else:
+            self += SSWQuadActuatorSet()
+        
         xml_jets = xmlnode.xpath('./jumpjets')
+        
+        for item in xmlnode.xpath('./equipment'):
+            self.append(SSWEquipment(item))
         
         if xml_jets:
             self += SSWJumpjetList(xml_jets[0])
@@ -64,26 +109,25 @@ class SSWMech(dict):
             self['bv_value'] = 0
         else:
             self['bv_value'] = self.get_number(xmlnode, './battle_value/text()')
+        
+        self['tech_base'] = translate.tech_bases[ xmlnode.xpath('./techbase/text()')[0] ]
+        self['motive_type'] = translate.motive_options[ xmlnode.xpath('./motive_type/text()')[0] ]
             
         self.gyro = SSWGyro( xmlnode.xpath('./gyro')[0] )
         self.engine = SSWEngine( xmlnode.xpath('./engine')[0], gyro_criticals=self.gyro.criticals )
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
         self.structure = SSWStructure( xmlnode.xpath('./structure')[0] )        
                 
-        self.equipment = SSWLoadout( xmlnode.xpath('./baseloadout')[0] )
+        self.equipment = SSWLoadout( xmlnode.xpath('./baseloadout')[0], motive_type=self['motive_type'])
         self.equipment.append(self.gyro)
         self.equipment.append(self.engine)
         self.equipment.append(self.armour)        
         self.equipment.append(self.structure) 
         
-        for item in xmlnode.xpath('//equipment'):
-            SSWEquipment(item)
+        
         
         self['engine_rating'] = self.engine.rating
         self['stock_design'] = stock
         self['ssw_filename'] = ssw_filename
-        
-        self['tech_base'] = translate.tech_bases[ xmlnode.xpath('./techbase/text()')[0] ]
-        self['motive_type'] = translate.motive_options[ xmlnode.xpath('./motive_type/text()')[0] ]
         
         self.type = xmlnode.xpath('./mech_type/text()')[0]

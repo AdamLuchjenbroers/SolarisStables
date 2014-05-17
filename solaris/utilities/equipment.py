@@ -153,6 +153,19 @@ class SSWMountedItem(dict):
             
         self.extrapolated = True
         
+class SSWActuator(SSWMountedItem):
+    default_extrapolated = True
+    default_type = 'T'
+    
+    def __init__(self, name, location, slot):
+        self['name'] = name
+        self['ssw_name'] = 'Actuator - %s' % name
+        
+        super(SSWActuator, self).__init__()
+        
+        self.mountings[location] = SSWItemMounting(location, [slot])
+    
+        
 class SSWEquipment(SSWMountedItem):
     
     default_type = '?'

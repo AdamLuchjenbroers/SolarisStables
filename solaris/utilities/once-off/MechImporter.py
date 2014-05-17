@@ -20,7 +20,8 @@ def recursiveScanAll(path, relative_path='.'):
             try: 
                 loader = MechLoader()
                 loader.load_mech(relative_path  + '/' + fileName)
-            except Error as e:
+            except BaseException as e:
+                print '%s > %s ' % (relative_path, e)
                 failures[relative_path] = e   
     
 if __name__ == '__main__':
@@ -29,10 +30,10 @@ if __name__ == '__main__':
         
     recursiveScanAll(basepath)
     
-    for file, errors in failures.keys():
+    for file, errors in failures.items():
         print 'Errors encountered processing %s' % file
         
         for err in errors:
-            print '\t%s' % err.value
+            print '\t%s' % err
     
     
