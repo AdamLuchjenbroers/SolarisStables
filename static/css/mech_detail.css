@@ -89,7 +89,7 @@ div#armour_-- {
 
 div.B_criticals, div.Q_criticals {
   position: relative;
-  width: 700px;
+  width: 900px;
   height: 100%;
 
   display:block;
@@ -99,13 +99,18 @@ div.B_criticals, div.Q_criticals {
 }
 
 div.critical_group {
-  position: relative;
-  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+  width: auto;
+  display: table;
 }
 
 div.critical_table {
   width: 150px;
-  float: left;
+
+  position: relative;
+  display: inline-block;
 
   margin-left: 10px;
   margin-right: 10px;
