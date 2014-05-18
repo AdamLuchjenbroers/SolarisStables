@@ -4,7 +4,7 @@ from django.utils.html import strip_tags
 
 
 from solaris.utilities import translate
-from solaris.utilities.equipment import SSWEquipment, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWActuator
+from solaris.utilities.equipment import SSWEquipment, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWActuator, SSWCockpitItem
 
 class SSWParseError(Exception):
     def __init__(self, mech, formerrors):
@@ -19,14 +19,55 @@ class SSWLocation(dict):
         self['mech'] = mech
         self['armour'] = armour
         
+class SSWCockpitSet(list):
+    def __init__(self, xmlnode):
+        cockpit_layout = xmlnode.xpath('./type/text()')[0]
+        
+        if cockpit_layout == 'Torso-Mounted Cockpit':
+            self.torso_cockpit(xmlnode, cockpit_layout)
+        elif cockpit_layout in ('Standard Cockpit', 'Primitive Cockpit', 'Industrial Cockpit', 'Industrial w/ Adv. FC', 'Primitive Industrial Cockpit'):
+            self.normal_cockpit(xmlnode, cockpit_layout)
+        elif cockpit_layout == 'Small Cockpit':
+            self.small_cockpit(xmlnode, cockpit_layout)
+        else:
+            print 'Unrecognised Cockpit Layout: %s' % cockpit_layout
+    
+    def normal_cockpit(self, xmlnode, name):
+        self.append(SSWCockpitItem('Life Support', 'hd', 1))
+        self.append(SSWCockpitItem('Sensors', 'hd', 2))
+        self.append(SSWCockpitItem(name, 'hd', 3))
+        self.append(SSWCockpitItem('Sensors', 'hd', 5))
+        self.append(SSWCockpitItem('Life Support', 'hd', 6))
+        
+    def small_cockpit(self, xmlnode, name):
+        self.append(SSWCockpitItem('Life Support', 'hd', 1))
+        self.append(SSWCockpitItem('Sensors', 'hd', 2))
+        self.append(SSWCockpitItem(name, 'hd', 3))
+        self.append(SSWCockpitItem('Sensors', 'hd', 4))       
+        
+    def torso_cockpit(self, xmlnode, cockpit):
+        
+        def parse_location(location, name):
+            slot = location.get('index')
+            loc_code = location.text.lower()
+            self.append(SSWCockpitItem, name, loc_code, slot)
+        
+        #Torso mounted cockpits store the locations in a particular order
+        #and provide no other information to identify them
+        location_set = xmlnode.xpath('location')
+        
+        parse_location(location_set[0], cockpit)
+        parse_location(location_set[1], 'Life Support')
+        parse_location(location_set[2], 'Sensors')
+        parse_location(location_set[3], 'Sensors')
+        
 class SSWQuadActuatorSet(list):
     def __init__(self):    
         for leg in ('frl', 'fll', 'rrl', 'rll'):
             self.append(SSWActuator('Hip', leg, 1))
             self.append(SSWActuator('Upper Leg', leg, 2))
             self.append(SSWActuator('Lower Leg', leg, 3))
-            self.append(SSWActuator('Foot', leg, 4))
-        
+            self.append(SSWActuator('Foot', leg, 4))        
 
 class SSWBipedActuatorSet(list):
     conditional_actuators = [
@@ -116,13 +157,15 @@ class SSWMech(dict):
         self.gyro = SSWGyro( xmlnode.xpath('./gyro')[0] )
         self.engine = SSWEngine( xmlnode.xpath('./engine')[0], gyro_criticals=self.gyro.criticals )
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
-        self.structure = SSWStructure( xmlnode.xpath('./structure')[0] )        
+        self.structure = SSWStructure( xmlnode.xpath('./structure')[0] )   
+        self.cockpit = SSWCockpitSet( xmlnode.xpath('./cockpit')[0] )   
                 
         self.equipment = SSWLoadout( xmlnode.xpath('./baseloadout')[0], motive_type=self['motive_type'])
         self.equipment.append(self.gyro)
         self.equipment.append(self.engine)
         self.equipment.append(self.armour)        
         self.equipment.append(self.structure) 
+        self.equipment += self.cockpit
         
         
         

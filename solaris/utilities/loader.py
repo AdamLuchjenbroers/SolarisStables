@@ -16,6 +16,19 @@ def print_errors(errors):
         
 class MechLoader(object):
     
+    def __init__(self, sswfile):
+            fd = open('%s/%s' % (settings.SSW_STOCK_MECHS_ROOT, sswfile),'rb')
+            
+            self.filename = sswfile            
+            self.sswXML = etree.parse(fd)
+                        
+            try:
+                self.mech = MechDesign.objects.get(ssw_filename=self.filename)            
+            except MechDesign.DoesNotExist:
+                self.mech = None
+            
+          
+    
     def load_locations(self, mech, mech_model):
         locations = {}
         
@@ -44,10 +57,14 @@ class MechLoader(object):
     
         return locations
     
-    def load_equipment(self, mech, mech_id, equipment, mechlocations):
-        equipment['mech'] = mech_id
-        eq_form = MechEquipmentForm(equipment)
+    def load_equipment(self, equipment):
+        equipment['mech'] = self.mech.id
         
+        if equipment.equipment.critical_func:
+            equipment.extrapolate(equipment.equipment.criticals(mech=self.mech))
+        
+        eq_form = MechEquipmentForm(equipment)
+                
         if eq_form.is_valid():
             eq_form.save()
                     
@@ -55,56 +72,54 @@ class MechLoader(object):
                 loc_code = self.location_map[ssw_loc]
                 
                 mount['equipment'] = eq_form.instance.id
-                mount['location'] = mechlocations[loc_code].id
+                mount['location'] = self.location_models[loc_code].id
                 mount_form = MountingForm(mount)
                 if mount_form.is_valid():
                     mount_form.save()
                 else:
-                    raise SSWParseError(mech, mount_form.errors)
+                    raise SSWParseError(self.filename, mount_form.errors)
             eq_form.save()
         else:
-            raise SSWParseError(mech, eq_form.errors)
+            raise SSWParseError(self.filename, eq_form.errors)
         
                 
     @transaction.commit_manually
-    def load_mech(self, sswfile):
+    def load_mech(self):
         try:
-            filename = '%s/%s' % (settings.SSW_STOCK_MECHS_ROOT, sswfile)
-            fd = open(filename,'rb')
+            parsed_mech = SSWMech( self.sswXML.xpath('/mech')[0], self.filename )
             
-            sswXML = etree.parse(fd)
-            mech = SSWMech( sswXML.xpath('/mech')[0], sswfile )
-            
-            if mech.type != 'BattleMech' or mech['tech_base'] != 'I' or int(mech['tonnage']) < 20:
+            if parsed_mech.type != 'BattleMech' or parsed_mech['tech_base'] != 'I' or int(parsed_mech['tonnage']) < 20:
                 transaction.rollback()
                 return 
             
-            print "Importing %s ( %s / %s )" % (sswfile, mech['mech_name'], mech['mech_code'])
+            print "Importing %s ( %s / %s )" % (self.filename, parsed_mech['mech_name'], parsed_mech['mech_code'])
             
-            if mech['motive_type'] =='Q':
+            if parsed_mech['motive_type'] =='Q':
                 self.location_map = translate.locations_quad
             else:
                 self.location_map = translate.locations_biped
-            
-            try:
-                mech_object = MechDesign.objects.get(ssw_filename=sswfile)            
-            except MechDesign.DoesNotExist:
-                mech_object = None
-            
-            mech_form = MechValidationForm(mech, instance=mech_object)
-            
+ 
+            mech_form = MechValidationForm(parsed_mech, instance=self.mech)            
             if not mech_form.is_valid():
-                raise SSWParseError(mech, mech_form.errors)
+                raise SSWParseError(parsed_mech, mech_form.errors)
             
             mech_form.save()           
             
-            mech_object = MechDesign.objects.get(ssw_filename=sswfile)
-            mech_object.reset_equipment()
+            self.mech = mech_form.instance
+            self.mech.reset_equipment()
             
-            locations = self.load_locations(mech, mech_object)
+            self.location_models = self.load_locations(parsed_mech, self.mech)
             
-            for gear in mech.equipment:
-                self.load_equipment(mech, mech_object.id, gear, locations)        
+            lazy_evaluation = []
+            
+            for gear in parsed_mech.equipment:
+                if gear.equipment.evaluate_last:
+                    lazy_evaluation.append(gear)
+                else:
+                    self.load_equipment(gear)
+                    
+            for gear in lazy_evaluation:
+                self.load_equipment(gear)
             
             mech_form.save()
             transaction.commit()

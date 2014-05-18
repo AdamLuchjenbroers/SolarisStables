@@ -1,5 +1,6 @@
 import os
 import re
+import traceback
 
 from django.conf import settings
 
@@ -18,10 +19,11 @@ def recursiveScanAll(path, relative_path='.'):
             
         if os.path.isfile(fullpath) and sswPattern.match(fileName):
             try: 
-                loader = MechLoader()
-                loader.load_mech(relative_path  + '/' + fileName)
+                loader = MechLoader(relative_path  + '/' + fileName)
+                loader.load_mech()
             except BaseException as e:
                 print '%s > %s ' % (relative_path, e)
+                traceback.print_exc()
                 failures[relative_path] = e   
     
 if __name__ == '__main__':

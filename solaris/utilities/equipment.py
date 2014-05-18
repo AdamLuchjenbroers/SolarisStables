@@ -82,7 +82,7 @@ class SSWItemMounting(dict):
         start = self['slots'].singleslot()
         
         if start:
-            self['slots'].add(start, count)
+            self['slots'].add(start, int(count))
             
 class SSWMountedItem(dict):
     
@@ -93,6 +93,7 @@ class SSWMountedItem(dict):
         self['mech'] = None
         self.criticals = None
         self.mountings = {}
+        self.extrapolated = self.__class__.default_extrapolated
             
         if eq_class == None:
             eq_class = self.__class__.default_type
@@ -106,8 +107,6 @@ class SSWMountedItem(dict):
                 self.equipment.equipment_class = eq_class
                 self.equipment.save()
             
-            if self.equipment.critical_func:
-                self.criticals = self.equipment.criticals()
     
     def total_mountings(self):
         return sum(self.mountings[k].size() for k in self.mountings.keys())         
@@ -153,17 +152,26 @@ class SSWMountedItem(dict):
             
         self.extrapolated = True
         
-class SSWActuator(SSWMountedItem):
-    default_extrapolated = True
-    default_type = 'T'
+class SSWDerivedItem(SSWMountedItem):
+    item_group = '?'
     
     def __init__(self, name, location, slot):
         self['name'] = name
-        self['ssw_name'] = 'Actuator - %s' % name
+        self['ssw_name'] = '%s - %s' % (self.__class__.item_group, name)
         
-        super(SSWActuator, self).__init__()
-        
+        super(SSWDerivedItem, self).__init__()        
         self.mountings[location] = SSWItemMounting(location, [slot])
+        
+        
+class SSWActuator(SSWDerivedItem):
+    default_extrapolated = True
+    default_type = 'T'
+    item_group = 'Actuator'
+    
+class SSWCockpitItem(SSWDerivedItem):
+    default_extrapolated = True
+    default_type = 'C'
+    item_group = 'Cockpit'    
     
         
 class SSWEquipment(SSWMountedItem):
@@ -239,10 +247,10 @@ class SSWEngine(SSWMountedItem):
         self['name'] = xmlnode.text
         
         super(SSWEngine, self).__init__()
-        
+               
         self.mountings['ct'] = SSWItemMounting('ct', [1,2,3])
         
-        if self.criticals > 3:
+        if xmlnode.text != 'Compact Fusion Engine':
             offset = 4 + (gyro_criticals or 4)            
             self.mountings['ct'].add_slot(range(offset, offset+3))
         
