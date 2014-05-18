@@ -47,7 +47,7 @@ def structure(self, mech=None):
 def gyro(self, mech=None):
     return ceil(mech.engine_rating / 100.0) * self.tonnage_factor 
    
-def targetting_computer(self, mech):
+def targetting_computer(self, mech=None):
     return ceil(mech.directfire_tonnage() / 4.0)
    
 def supercharger(self, mech=None):
