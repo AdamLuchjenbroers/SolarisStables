@@ -26,7 +26,7 @@ def getEquipmentList(sswFileName):
     if xmlFile.xpath('/mech/mech_type')[0].text != 'BattleMech':
         return    
     
-    for item in xmlFile.xpath('//equipment/name[text()]'):
+    for item in xmlFile.xpath('//cockpit/type'):
         item_name = item.text
         if item_name[0:3] in ('(T)', '(R)'):
             item_name = item_name[4:]
