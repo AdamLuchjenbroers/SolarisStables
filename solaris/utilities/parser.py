@@ -50,8 +50,7 @@ class SSWCockpitSet(list):
         def parse_location(location, name):
             slot = location.get('index')
             loc_code = location.text.lower()
-            self.append(SSWCockpitItem, name, loc_code, slot)
-        
+            self.append(SSWCockpitItem(name, loc_code, slot))        
         #Torso mounted cockpits store the locations in a particular order
         #and provide no other information to identify them
         location_set = xmlnode.xpath('location')
