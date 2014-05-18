@@ -10,9 +10,9 @@
     <py:for each="location in mech.locations.all()">
     <div class="armour_location" id="armour_${location.location_code()}">
        <div class="armour_header">${location.location_code()}</div>
-       <div class="armour_armour">${location.armour}</div>
+       <div class="armour_armour">A<span>${location.armour}</span></div>
        <py:if test="location.structure">
-          <div class="armour_structure">${location.structure}</div>
+          <div class="armour_structure">S<span>${location.structure}</span></div>
        </py:if>
     </div>
     </py:for>
