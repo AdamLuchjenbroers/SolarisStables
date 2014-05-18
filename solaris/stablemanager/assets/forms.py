@@ -15,6 +15,5 @@ class PilotTrainingForm(SolarisInlineForm):
     class Meta:
         model = PilotTraining
         
-class PilotInlineSkillsForm(BaseInlineFormSet):
-    form = PilotTrainingForm
-    model = PilotTraining
+        
+PilotInlineSkillsForm = inlineformset_factory(Pilot, PilotTraining, form=PilotTrainingForm )

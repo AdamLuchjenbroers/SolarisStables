@@ -91,6 +91,9 @@ class SolarisForm(SolarisFormMixin, Form):
 
 class SolarisInlineForm(SolarisFormMixin, ModelForm):
     inner_form_template = 'solaris_form_inline.tmpl'
+    
+    def as_p(self):
+        return Markup( super(SolarisInlineForm, self).as_p())
            
         
              

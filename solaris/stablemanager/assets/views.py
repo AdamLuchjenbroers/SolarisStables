@@ -1,21 +1,20 @@
 from django.http import HttpResponse
 from genshi import Markup
+from django_genshi import loader
 
 from solaris.stablemanager.views import StableView
-from solaris.views import SolarisFormViewMixin
 
-from .forms import PilotForm
+from .forms import PilotForm, PilotInlineSkillsForm
 
 class StablePilotsView(StableView):
     def get(self, request, stable=None):
         body = Markup('<P>The Pilots Listing for the %s will go here</P>' % stable.stable_name)
         return HttpResponse(self.in_layout(body, request))
 
-class StableNewPilotsView(SolarisFormViewMixin, StableView):
-    form_class = PilotForm
+class StableNewPilotsView(StableView):
     form_properties = {
-        'css-class' : 'pilotform'
-    ,   'post-url'  : '/stable/pilots/add'
+        'css_class' : 'pilotform'
+    ,   'post_url'  : '/stable/pilots/add'
     ,   'submit'    : 'Submit'
     ,   'redirect'  : None
     }
@@ -27,9 +26,21 @@ class StableNewPilotsView(SolarisFormViewMixin, StableView):
     ,   'exp_character_points' : 0
     }
     
+    def __init__(self):
+        self.template = loader.get_template('stablemanager/pilot_form.tmpl')
+        super(StableNewPilotsView, self).__init__()
+        
+    
     def get(self, request, stable=None):
-        form = self.get_form()
-        formHTML = Markup(self.render_form(form))
+        frm_pilot = PilotForm()
+        frm_skills = PilotInlineSkillsForm()
+        
+        html_pilot = Markup(frm_pilot.as_p())
+        html_skills = Markup(frm_skills.as_p())
+        
+        rendered = self.template.generate(pilot_form=html_pilot, skills_form=html_skills, **self.__class__.form_properties )
+        
+        formHTML = Markup(rendered)
         return HttpResponse( self.in_layout( formHTML , request))
     
     def post(self, request, stable=None):
