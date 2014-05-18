@@ -5,7 +5,8 @@ cost_funcs = (
 	('engine'  , 'Engine'),
 	('gyro'    , 'Gyro'),
 	('mech'    , 'Mech Tonnage'),
-	('jumpjet' , 'Jumpjet')
+	('jumpjet' , 'Jumpjet'),
+	('per_er'  , 'By Engine Rating')
 )
 
 def fixed(self, mech, units=None):
@@ -25,3 +26,6 @@ def mech(self, mech):
    
 def jumpjet(self, mech):
     return mech.jumping_mp() * mech.tonnage * self.cost_factor
+   
+def per_er(self, mech):
+    return self.cost_factor * mech.engine_rating

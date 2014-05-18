@@ -8,13 +8,16 @@ critical_funcs = (
 )
 
 def fixed(self, mech=None):
-    return self.critical_factor
+    return int(self.critical_factor)
     
 def masc(self, mech=None):
-    return ceil( mech.tonnage * 0.05 )
+    return int(ceil( mech.tonnage * 0.05 ))
 
 def melee(self, mech=None):
-    return ceil( mech.tonnage / self.critical_factor )   
+    return int(ceil( mech.tonnage / self.critical_factor ))   
    
-def targetting_computer(self, mech):
-    return ceil(mech.directfire_tonnage() / 4.0)
+def targetting_computer(self, mech=None):
+    if mech:
+        return int(ceil(float(mech.directfire_tonnage()) / 4.0))
+    else:
+        return None
