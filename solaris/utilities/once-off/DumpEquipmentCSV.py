@@ -3,7 +3,7 @@ from django.forms.models import model_to_dict
 
 from solaris.warbook.equipment.models import Equipment
 
-fh = open('/home/notavi/Programming/SourceData/EquipmentCSV/DataLoad3.csv','w')
+fh = open('/home/notavi/Programming/SourceData/EquipmentCSV/DataLoad4.csv','w')
 
 to_fill = Equipment.objects.filter(record_status=0)
 header = ['id', 'name', 'ssw_name', 'equipment_class'
