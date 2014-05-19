@@ -27,7 +27,8 @@ class MechLoader(object):
             except MechDesign.DoesNotExist:
                 self.mech = None
             
-          
+            self.parsed_mech = None
+            self.locations = None 
     
     def load_locations(self, mech, mech_model):
         locations = {}
@@ -86,33 +87,33 @@ class MechLoader(object):
     @transaction.commit_manually
     def load_mech(self):
         try:
-            parsed_mech = SSWMech( self.sswXML.xpath('/mech')[0], self.filename )
+            self.parsed_mech = SSWMech( self.sswXML.xpath('/mech')[0], self.filename )
             
-            if parsed_mech.type != 'BattleMech' or parsed_mech['tech_base'] != 'I' or int(parsed_mech['tonnage']) < 20:
+            if self.parsed_mech.type != 'BattleMech' or parsed_mech['tech_base'] != 'I' or int(parsed_mech['tonnage']) < 20:
                 transaction.rollback()
                 return 
             
             print "Importing %s ( %s / %s )" % (self.filename, parsed_mech['mech_name'], parsed_mech['mech_code'])
             
-            if parsed_mech['motive_type'] =='Q':
+            if self.parsed_mech['motive_type'] =='Q':
                 self.location_map = translate.locations_quad
             else:
                 self.location_map = translate.locations_biped
  
-            mech_form = MechValidationForm(parsed_mech, instance=self.mech)            
+            mech_form = MechValidationForm(self.parsed_mech, instance=self.mech)            
             if not mech_form.is_valid():
-                raise SSWParseError(parsed_mech, mech_form.errors)
+                raise SSWParseError(self.parsed_mech, mech_form.errors)
             
             mech_form.save()           
             
             self.mech = mech_form.instance
             self.mech.reset_equipment()
             
-            self.location_models = self.load_locations(parsed_mech, self.mech)
+            self.location_models = self.load_locations(self.parsed_mech, self.mech)
             
             lazy_evaluation = []
             
-            for gear in parsed_mech.equipment:
+            for gear in self.parsed_mech.equipment:
                 if gear.equipment.evaluate_last:
                     lazy_evaluation.append(gear)
                 else:
@@ -125,4 +126,9 @@ class MechLoader(object):
             transaction.commit()
         finally:
             transaction.rollback()
+            #Free Resources
+            if self.parsed_mech:
+                del self.parsed_mech
             
+            if self.location_models:
+                del self.location_models 

@@ -24,7 +24,10 @@ def recursiveScanAll(path, relative_path='.'):
             except BaseException as e:
                 print '%s > %s ' % (relative_path, e)
                 traceback.print_exc()
-                failures[relative_path] = e   
+                failures[relative_path] = e
+            finally:
+                #Explicitly free memory, because letting them pile up is a serious memory hog
+                del loader   
     
 if __name__ == '__main__':
     
