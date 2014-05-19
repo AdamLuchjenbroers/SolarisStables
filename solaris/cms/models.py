@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from genshi import Markup
 
+from markitup.fields import MarkupField
 
 class StaticContent(models.Model):
     title = models.CharField(max_length=20)
@@ -21,11 +22,11 @@ class StaticContent(models.Model):
 class NewsPost(models.Model):
     title = models.CharField(max_length=120)
     poster = models.ForeignKey(User)
-    content = models.TextField()
+    content = MarkupField()
     post_date = models.DateField(auto_now_add=True)
   
     def get_markup_content(self):
-        return Markup(self.content)
+        return Markup(self.content.rendered)
   
     markup_content = property(get_markup_content, None)
   
