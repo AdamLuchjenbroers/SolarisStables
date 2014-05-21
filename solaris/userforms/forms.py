@@ -61,7 +61,7 @@ class RegistrationForm(SolarisModelForm):
         fields = ('username', 'email', 'first_name', 'last_name', 'password', 'passwordrepeat' )
         
     def render(self):
-        form_template = loader.get_template('solaris_form_outer.tmpl')
+        form_template = loader.get_template('solaris_form_outer.genshi')
 
         return form_template.generate(form_items=Markup(self.as_p()), formclass='register', post_url='/register', submit='Register')
     

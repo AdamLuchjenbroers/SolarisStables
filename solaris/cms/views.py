@@ -18,7 +18,7 @@ class NewsListView(NewsView):
         for p in posts:
             p.prepare()
         
-        tmpl_news = loader.get_template('cms/news_posts.tmpl')    
+        tmpl_news = loader.get_template('cms/news_posts.genshi')    
         newspage = Markup(tmpl_news.generate(news=posts, adminbar=request.user.has_perm('cms.post_news')))
         
         return HttpResponse(self.in_layout(newspage, request))
@@ -30,7 +30,7 @@ class NewsPostFormView(NewsView):
         return super(NewsPostFormView, self).dispatch(request, *args, **kwargs)
         
     def get(self, request):
-        tmpl_news = loader.get_template('cms/news_form.tmpl')    
+        tmpl_news = loader.get_template('cms/news_form.genshi')    
         newsform = Markup(tmpl_news.generate())
     
         return HttpResponse(self.in_layout(newsform, request))

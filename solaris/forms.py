@@ -11,7 +11,7 @@ def escape_unicode(string):
 
 class SolarisFormMixin(object):
     
-    inner_form_template = 'solaris_form.tmpl'
+    inner_form_template = 'solaris_form.genshi'
         
     def __init__(self, *args, **kwargs):
         self.template = loader.get_template(self.__class__.inner_form_template)
@@ -90,7 +90,7 @@ class SolarisForm(SolarisFormMixin, Form):
     pass
 
 class SolarisInlineForm(SolarisFormMixin, ModelForm):
-    inner_form_template = 'solaris_form_inline.tmpl'
+    inner_form_template = 'solaris_form_inline.genshi'
     
     def as_p(self):
         return Markup( super(SolarisInlineForm, self).as_p())

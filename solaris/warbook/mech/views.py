@@ -14,13 +14,13 @@ class MechView(ReferenceView):
     submenu_selected = 'Mechs'
 
 class MechCritTable(PageObject):
-    template = 'warbook/mechs/mech_crittable.tmpl'
+    template = 'warbook/mechs/mech_crittable.genshi'
 
 class MechDetailView(MechView):
     styles_list = deepcopy_append(MechView.styles_list, ['/static/css/mech_detail.css'])
     
     def __init__(self, *args, **kwargs):
-        self.template = loader.get_template('warbook/mechs/mech_detail.tmpl')
+        self.template = loader.get_template('warbook/mechs/mech_detail.genshi')
         super(MechDetailView, self).__init__(*args, **kwargs) 
     
     def get(self, request, name='', code=''):        
@@ -44,7 +44,7 @@ class MechListView(MechView):
     def get(self, request, name=''):
         mech_list = get_list_or_404(MechDesign, mech_name__iexact=name)
         
-        tmpl_mech = loader.get_template('warbook/mechs/mech_listing.tmpl')
+        tmpl_mech = loader.get_template('warbook/mechs/mech_listing.genshi')
         body = Markup(tmpl_mech.generate(mech_name=name.title(), mech_list=mech_list))
         
         return HttpResponse(self.in_layout(body, request))
@@ -75,7 +75,7 @@ class MechSearchResultsView(MechView):
         return get_list_or_404(MechDesign, **search)
     
     def post(self, request):
-        tmpl_mech = loader.get_template('warbook/mechs/mech_listing.tmpl')
+        tmpl_mech = loader.get_template('warbook/mechs/mech_listing.genshi')
         
         mech_list = self.search(request.POST)
         body = Markup(tmpl_mech.generate(mech_name='Search Results', mech_list=mech_list))
@@ -90,7 +90,7 @@ class MechSearchView(ReferenceView):
     def get(self, request):
         form = MechSearchForm()
         
-        search_form = loader.get_template('solaris_form_outer.tmpl')
+        search_form = loader.get_template('solaris_form_outer.genshi')
         body = Markup(search_form.generate(form_items=Markup(form.as_p()), formclass='mechsearch', post_url='/reference/mechs/search/', submit='Search')) 
         
         return HttpResponse(self.in_layout(body, request))

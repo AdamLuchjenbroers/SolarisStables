@@ -37,7 +37,7 @@ class StableRegistrationView(SolarisView):
     def __init__(self, *args, **kwargs):
         super(StableRegistrationView, self).__init__(*args, **kwargs)
         
-        self.template = loader.get_template('stablemanager/register.tmpl')
+        self.template = loader.get_template('stablemanager/register.genshi')
     
     def get_scripts(self):
         return ['/static/js/jquery-1.11.1.js', '/static/js/stable_registration.js']

@@ -19,7 +19,7 @@ class StableLedgerView(StableView):
     scripts_list = ['/static/js/jquery-1.11.1.js', '/static/js/stable_ledger.js']
     
     def __init__(self, *args, **kwargs):
-        self.template = loader.get_template('stablemanager/ledger_list.tmpl')
+        self.template = loader.get_template('stablemanager/ledger_list.genshi')
         super(StableLedgerView, self).__init__(*args, **kwargs)
         
 

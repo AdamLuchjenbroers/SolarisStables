@@ -15,7 +15,7 @@ class DisciplineListView(DisciplineView):
         disciplines = models.PilotDiscipline.objects.all()
       
         # Render Technology Detail
-        tmpl_disc = loader.get_template('warbook/pilotskill/pilot_disciplines.tmpl')
+        tmpl_disc = loader.get_template('warbook/pilotskill/pilot_disciplines.genshi')
         
         body = Markup(tmpl_disc.generate(disciplines=disciplines, baseURL=request.get_full_path()))
         return HttpResponse(self.in_layout(body, request))
@@ -27,7 +27,7 @@ class DisciplineDetailView(DisciplineView):
         disciplineObject = get_object_or_404(models.PilotDiscipline, urlname=discipline)
         skills = models.PilotAbility.objects.filter(discipline=disciplineObject)
         
-        tmpl_disc = loader.get_template('warbook/pilotskill/pilot_abilities.tmpl')
+        tmpl_disc = loader.get_template('warbook/pilotskill/pilot_abilities.genshi')
         
         body = Markup(tmpl_disc.generate(discipline=disciplineObject, abilities=skills))
         return HttpResponse(self.in_layout(body, request))

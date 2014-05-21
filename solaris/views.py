@@ -23,7 +23,7 @@ class SolarisView(View):
     submenu_selected = None
 
     def __init__(self, *args, **kwargs):         
-        master_template = get_arg('master_template', kwargs, 'layout.tmpl')
+        master_template = get_arg('master_template', kwargs, 'layout.genshi')
         self.base_layout = loader.get_template(master_template)
         
         self.doctype = get_arg('doctype', kwargs, 'html')        
@@ -72,7 +72,7 @@ class PageObject(object):
         return Markup( self.template.generate( **self.context ))
     
 class SolarisFormViewMixin(object):
-    form_outer_template = 'solaris_form_outer.tmpl'
+    form_outer_template = 'solaris_form_outer.genshi'
     form_class = None
     form_properties = {
         'css-class' : 'form'

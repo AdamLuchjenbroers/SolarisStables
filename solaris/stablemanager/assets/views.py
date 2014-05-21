@@ -27,7 +27,7 @@ class StableNewPilotsView(StableView):
     }
     
     def __init__(self):
-        self.template = loader.get_template('stablemanager/pilot_form.tmpl')
+        self.template = loader.get_template('stablemanager/pilot_form.genshi')
         super(StableNewPilotsView, self).__init__()
         
     

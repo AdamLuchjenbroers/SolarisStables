@@ -13,7 +13,7 @@ class SolarisLoginView(SolarisView):
     
     def __init__(self, *args, **kwargs):
         super(SolarisLoginView, self).__init__(*args, **kwargs)
-        self.template = loader.get_template('solaris_form_outer.tmpl')
+        self.template = loader.get_template('solaris_form_outer.genshi')
     
     def post(self, request, **kwargs):
         form = LoginForm(request.POST)
@@ -45,7 +45,7 @@ class SolarisRegistrationView(SolarisView):
     
     def __init__(self, *args, **kwargs):
         super(SolarisRegistrationView, self).__init__(*args, **kwargs)
-        self.template = loader.get_template('solaris_form_outer.tmpl')
+        self.template = loader.get_template('solaris_form_outer.genshi')
     
     def post(self, request, **kwargs):
         form = RegistrationForm(request.POST)

@@ -5,7 +5,7 @@ from solaris.stablemanager.ledger.models import LedgerItem
 
 class LedgerItemForm(SolarisFixedFormMixin, ModelForm):
     
-    inner_form_template = 'stablemanager/ledger_item_add.tmpl'
+    inner_form_template = 'stablemanager/ledger_item_add.genshi'
     
     id = IntegerField(widget=HiddenInput, required=False)
     
@@ -43,7 +43,7 @@ class LedgerItemForm(SolarisFixedFormMixin, ModelForm):
         model = LedgerItem
         
 class LedgerDeleteForm(SolarisFixedFormMixin, Form):                      
-    inner_form_template = 'stablemanager/ledger_item_delete.tmpl'    
+    inner_form_template = 'stablemanager/ledger_item_delete.genshi'    
     id = IntegerField(widget=HiddenInput, required=True)
     week = IntegerField(widget=HiddenInput, required=True)
     

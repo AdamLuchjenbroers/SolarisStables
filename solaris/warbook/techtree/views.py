@@ -22,7 +22,7 @@ class TechnologyListView(TechnologyView):
             )
     
         # Render Technologies List
-        tmpl_tech = loader.get_template('warbook/techtree/tech_list.tmpl')    
+        tmpl_tech = loader.get_template('warbook/techtree/tech_list.genshi')    
         techtree = Markup(tmpl_tech.generate(techtree=tech_list, baseURL=request.get_full_path()))
 
         return HttpResponse(self.in_layout(techtree, request))
@@ -34,7 +34,7 @@ class TechnologyDetailView(TechnologyView):
         modifiers = models.TechnologyRollModifier.objects.filter(technology=techdata)
 
         # Render Technology Detail
-        tmpl_tech = loader.get_template('warbook/techtree/tech_detail.tmpl')
+        tmpl_tech = loader.get_template('warbook/techtree/tech_detail.genshi')
         description = Markup(techdata.description)
     
         body = Markup(tmpl_tech.generate(description=description, tech=techdata, modifiers=modifiers))
