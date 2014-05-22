@@ -42,21 +42,28 @@ class SolarisViewMixin(object):
         else:
             return self.__class__.base_menu      
         
-    def get_context(self, request):
-        return Context({
-            'body' : '<p>Body Goes Here</p>'
-          , 'selected' : self.__class__.menu_selected
-          , 'menu' : self.get_menu(request.user)
-          , 'submenu' : self.__class__.submenu
-          , 'submenu_selected' : self.__class__.submenu_selected
-          , 'styles' : self.__class__.styles_list
-          , 'scripts' : self.__class__.scripts_list
-        })          
+    def get_context_data(self, request=None, **kwargs):
+        try:
+            page_context = super(SolarisViewMixin, self).get_context_data(**kwargs)
+        except AttributeError:
+            page_context = Context()
+
+        page_context['selected'] = self.__class__.menu_selected
+        page_context['menu'] = self.get_menu(request.user)
+        page_context['submenu'] = self.__class__.submenu
+        page_context['submenu_selected'] = self.__class__.submenu_selected
+        page_context['styles'] = self.__class__.styles_list
+        page_context['scripts'] = self.__class__.scripts_list
+
+        if not 'body' in page_context:
+             page_context['body'] = '<p>Body Goes Here</p>'
+
+        return page_context
 
 class SolarisView(SolarisViewMixin, View):
     
     def in_layout(self, body, request):
-        page_context = self.get_context(request)
+        page_context = self.get_context_data(request=request)
         page_context['body'] = body
                 
         return render_to_response(self.template_name, page_context, RequestContext(request) )
