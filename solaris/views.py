@@ -2,18 +2,15 @@ from copy import deepcopy
 from urlparse import urlparse
 
 from django.views.generic.edit import View
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render_to_response
 from django_genshi import loader as genshi_loader
-from django.http import HttpResponse
-from django.template import Context
-from django.template.loader import get_template
+from django.template import Context, RequestContext
 
 from genshi import Markup
 
 from .utils import get_arg
 
-class SolarisView(View):
-    
+class SolarisViewMixin(object):
     styles_list = ['/static/css/solaris.css',]
     scripts_list = ['/static/nicEdit/nicEdit.js',] 
     base_menu = [
@@ -43,29 +40,29 @@ class SolarisView(View):
                 
             return menu
         else:
-            return self.__class__.base_menu                       
+            return self.__class__.base_menu      
         
-    
-    def in_layout(self, body, request):   
-        
-        page_context = Context({
-            'body' : body
+    def get_context(self, request):
+        return Context({
+            'body' : '<p>Body Goes Here</p>'
           , 'selected' : self.__class__.menu_selected
           , 'menu' : self.get_menu(request.user)
           , 'submenu' : self.__class__.submenu
           , 'submenu_selected' : self.__class__.submenu_selected
-          , 'authenticated' : request.user.is_authenticated()
-          , 'username' : request.user.username
           , 'styles' : self.__class__.styles_list
           , 'scripts' : self.__class__.scripts_list
-        })
-        
-        template = get_template(self.template_name)
-        
-        return template.render(page_context)
+        })          
+
+class SolarisView(SolarisViewMixin, View):
     
+    def in_layout(self, body, request):
+        page_context = self.get_context(request)
+        page_context['body'] = body
+                
+        return render_to_response(self.template_name, page_context, RequestContext(request) )
+
     def get(self, request):   
-        return HttpResponse(self.in_layout(self.body_content, request))
+        return self.in_layout(self.body_content, request)
 
 class PageObject(object):
     template = ''

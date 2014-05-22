@@ -33,7 +33,7 @@
       {% endfor %}
       
       <span class='login'>
-         {% if authenticated %}
+         {% if user.is_authenticated %}
            <li class="login"><a href="/logout">Logout</a></li>
          {% else %}
            <li class="login"><a href="/login">Login</a></li>
@@ -44,14 +44,17 @@
     {% endblock %}
 
     {% block pagesubmenu %}
-    {% if submenu %}{% for item in submenu %}
+    {% if submenu %}    
+    <ul class="submenu">
+    {% for item in submenu %}
        {% if item.title == submenu_selected %}
          <li id="selected">{{item.title}}</li>
        {% else %}
          <li><a href="{{item.url}}">{{item.title}}</a></li>
        {% endif %}
-      </ul>
-    {% endfor %}{% endif %}
+    {% endfor %}
+    </ul>
+    {% endif %}
     {% endblock %}
     
     {% block pagebody %}
