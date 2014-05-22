@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>{% block title %}Solaris StableManager{% endblock %}</title>
+    {% block css %}
+        {% if styles %}{% for sheet in styles %} 
+          <link rel="stylesheet" type="text/css" href="{{sheet}}" />
+        {% endfor %}{% endif %}
+    {% endblock %}
+    {% block scripts %}
+        {% if scripts %}{% for js in scripts %}
+         <script type="text/javascript" src="{{js}}"></script>
+        {% endfor %}{% endif %}
+    {% endblock %}
+  </head>
+  
+  <body>
+    {% block pagetitle %}
+    <div class="title">
+      <image id="logo" src="/static/images/solaris.jpg"/>
+      <h1>Solaris StableManager</h1>
+      <h2>Work in progress</h2>
+    </div>
+    {% endblock %}
+
+    {% block pagemenu %}
+    <ul class="menu">
+      {% for item in menu %}
+         {% if item.title == selected %}
+            <li id="selected">{{item.title}}</li>
+         {% else %} 
+            <li><a href="{{item.url}}">{{item.title}}</a></li>
+         {% endif %}
+      {% endfor %}
+      
+      <span class='login'>
+         {% if authenticated %}
+           <li class="login"><a href="/logout">Logout</a></li>
+         {% else %}
+           <li class="login"><a href="/login">Login</a></li>
+           <li class="login"><a href="/register">Register</a></li>
+         {% endif %}
+      </span>
+    </ul>  
+    {% endblock %}
+
+    {% block pagesubmenu %}
+    {% if submenu %}{% for item in submenu %}
+       {% if item.title == submenu_selected %}
+         <li id="selected">{{item.title}}</li>
+       {% else %}
+         <li><a href="{{item.url}}">{{item.title}}</a></li>
+       {% endif %}
+      </ul>
+    {% endfor %}{% endif %}
+    {% endblock %}
+    
+    {% block pagebody %}
+      <div class="body">{{body | safe}}</div>
+    {% endblock %}
+  </body>
+</html>

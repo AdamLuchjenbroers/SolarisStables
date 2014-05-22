@@ -3,8 +3,11 @@ from urlparse import urlparse
 
 from django.views.generic.edit import View
 from django.shortcuts import redirect
-from django_genshi import loader
+from django_genshi import loader as genshi_loader
 from django.http import HttpResponse
+from django.template import Context
+from django.template.loader import get_template
+
 from genshi import Markup
 
 from .utils import get_arg
@@ -22,9 +25,8 @@ class SolarisView(View):
     submenu = None
     submenu_selected = None
 
-    def __init__(self, *args, **kwargs):         
-        master_template = get_arg('master_template', kwargs, 'layout.genshi')
-        self.base_layout = loader.get_template(master_template)
+    def __init__(self, *args, **kwargs):
+        self.template_name = get_arg('master_template', kwargs, 'solaris_layout.tmpl')
         
         self.doctype = get_arg('doctype', kwargs, 'html')        
         
@@ -46,17 +48,21 @@ class SolarisView(View):
     
     def in_layout(self, body, request):   
         
-        return self.base_layout.generate(
-            body=body
-          , selected=self.__class__.menu_selected
-          , menu=self.get_menu(request.user)
-          , submenu = self.__class__.submenu
-          , submenu_selected = self.__class__.submenu_selected
-          , authenticated = request.user.is_authenticated()
-          , username = request.user.username
-          , styles = self.__class__.styles_list
-          , scripts = self.__class__.scripts_list
-        ).render(self.doctype, doctype=self.doctype)
+        page_context = Context({
+            'body' : body
+          , 'selected' : self.__class__.menu_selected
+          , 'menu' : self.get_menu(request.user)
+          , 'submenu' : self.__class__.submenu
+          , 'submenu_selected' : self.__class__.submenu_selected
+          , 'authenticated' : request.user.is_authenticated()
+          , 'username' : request.user.username
+          , 'styles' : self.__class__.styles_list
+          , 'scripts' : self.__class__.scripts_list
+        })
+        
+        template = get_template(self.template_name)
+        
+        return template.render(page_context)
     
     def get(self, request):   
         return HttpResponse(self.in_layout(self.body_content, request))
@@ -65,7 +71,7 @@ class PageObject(object):
     template = ''
     
     def __init__(self, **context):
-        self.template = loader.get_template(self.__class__.template)
+        self.template = genshi_loader.get_template(self.__class__.template)
         self.context = context
         
     def render(self):
@@ -85,7 +91,7 @@ class SolarisFormViewMixin(object):
     
     def __init__(self, *args, **kwargs):
         super(SolarisFormViewMixin, self).__init__(*args, **kwargs)
-        self.template = loader.get_template(self.__class__.form_outer_template)
+        self.template = genshi_loader.get_template(self.__class__.form_outer_template)
         
         self.form_properties = {}
         
