@@ -12,7 +12,7 @@ from .utils import get_arg
 
 class SolarisViewMixin(object):
     styles_list = ['/static/css/solaris.css',]
-    scripts_list = ['/static/nicEdit/nicEdit.js',] 
+    scripts_list = ['/static/js/jquery-1.11.1.js',] 
     menu_selected = None
     submenu = None
     submenu_selected = None
