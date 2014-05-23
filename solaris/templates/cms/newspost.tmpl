@@ -1,0 +1,9 @@
+{% extends 'solaris_layout.tmpl' %}
+{% block pagebody %}
+<div class="body">
+  <form action="/postnews" method="POST" class="newsform"> 
+    {{ form.as_p | safe}}
+    <p><input type="submit" Value="Post" class="submit"/></p>
+  </form>
+</div>
+{% endblock %}
