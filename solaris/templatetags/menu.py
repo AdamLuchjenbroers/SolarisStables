@@ -5,5 +5,6 @@ register = template.Library()
 
 @register.filter(name="menu")
 def menuitem(item):
-    return mark_safe('<li><a href \"%s\">%s</a></li>' % (item['url'], item['title']))
+    (url, title) = (item['url'], item['title'])
+    return mark_safe('<li><a href \"%s\">%s</a></li>' % (url, title))
  

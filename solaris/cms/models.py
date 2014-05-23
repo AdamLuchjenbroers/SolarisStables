@@ -18,7 +18,7 @@ class StaticContent(models.Model):
         verbose_name = 'Static Content'
         verbose_name_plural = 'Static Content'
     
-    
+   
 class NewsPost(models.Model):
     title = models.CharField(max_length=120)
     poster = models.ForeignKey(User)
@@ -42,3 +42,4 @@ class NewsPost(models.Model):
 
     def prepare(self):
         pass
+
