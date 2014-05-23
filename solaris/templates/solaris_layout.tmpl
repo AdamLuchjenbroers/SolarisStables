@@ -1,3 +1,4 @@
+{% load menu %}
 <html>
   <head>
     <title>{% block title %}Solaris StableManager{% endblock %}</title>
@@ -27,8 +28,8 @@
       {% for item in menu %}
          {% if item.title == selected %}
             <li id="selected">{{item.title}}</li>
-         {% else %} 
-            <li><a href="{{item.url}}">{{item.title}}</a></li>
+         {% else %}
+            {{item | menu }} 
          {% endif %}
       {% endfor %}
       
