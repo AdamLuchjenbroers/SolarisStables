@@ -14,9 +14,11 @@ class SolarisViewMixin(object):
     styles_list = ['/static/css/solaris.css',]
     scripts_list = ['/static/nicEdit/nicEdit.js',] 
     base_menu = [
-          {'title' : 'News', 'url' : '/'},
-          {'title' : 'Wiki', 'url' : '/wiki/'},
-          {'title' : 'Reference', 'url' : '/reference/'},       
+          {'title' : 'News', 'url' : '/', 'visible' : 'always'},
+          {'title' : 'Wiki', 'url' : '/wiki/', 'visible' : 'always'},
+          {'title' : 'Reference', 'url' : '/reference/', 'visible' : 'always'},       
+          {'title' : 'Stable', 'url' : '/stable/', 'visible' : 'login'},       
+          {'title' : 'Admin', 'url' : '/admin', 'visible' : 'admin'},       
         ]
     menu_selected = None
     submenu = None
@@ -29,35 +31,25 @@ class SolarisViewMixin(object):
         
         self.body_content = get_arg('body', kwargs, Markup('<p>Body Goes Here</p>'))
         
-    def get_menu(self, user):
-        if user.is_authenticated():
-            menu = deepcopy(self.__class__.base_menu)
-            
-            menu.append( {'title' : 'Stable', 'url' : '/stable'} )
-            
-            if user.is_staff:            
-                menu.append({'title' : 'Admin', 'url' : '/admin'})
-                
-            return menu
-        else:
+    def get_menu(self):
             return self.__class__.base_menu      
         
-    def get_context_data(self, request=None, **kwargs):
+    def get_context_data(self, **kwargs):
         try:
             page_context = super(SolarisViewMixin, self).get_context_data(**kwargs)
         except AttributeError:
             page_context = Context()
-
+        
         page_context['selected'] = self.__class__.menu_selected
-        page_context['menu'] = self.get_menu(request.user)
+        page_context['menu'] = self.get_menu()
         page_context['submenu'] = self.__class__.submenu
         page_context['submenu_selected'] = self.__class__.submenu_selected
         page_context['styles'] = self.__class__.styles_list
         page_context['scripts'] = self.__class__.scripts_list
-
+        
         if not 'body' in page_context:
              page_context['body'] = '<p>Body Goes Here</p>'
-
+        
         return page_context
 
 class SolarisView(SolarisViewMixin, View):
@@ -65,6 +57,7 @@ class SolarisView(SolarisViewMixin, View):
     def in_layout(self, body, request):
         page_context = self.get_context_data(request=request)
         page_context['body'] = body
+        page_context['visibility'] = ['always']
                 
         return render_to_response(self.template_name, page_context, RequestContext(request) )
 

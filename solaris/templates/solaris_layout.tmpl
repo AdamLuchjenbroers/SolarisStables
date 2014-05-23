@@ -25,14 +25,13 @@
 
     {% block pagemenu %}
     <ul class="menu">
-      {% for item in menu %}
-         {% if item.title == selected %}
-            <li id="selected">{{item.title}}</li>
-         {% else %}
-            {{item | menu }} 
-         {% endif %}
-      {% endfor %}
-      
+      {{ selected | menu:"News,/" }}
+      {{ selected | menu:"Reference,/reference" }}
+      {{ selected | menu:"Wiki,/wiki" }}
+
+      {% if user.is_authenticated %}
+          {{ selected | menu:"Stable,/stable" }}
+      {% endif %} 
       <span class='login'>
          {% if user.is_authenticated %}
            <li class="login"><a href="/logout">Logout</a></li>
@@ -60,6 +59,9 @@
     
     {% block pagebody %}
       <div class="body">{{body | safe}}</div>
+      {% for v in visibility %}
+        <p> {{v}}</p>
+      {% endfor %}
     {% endblock %}
   </body>
 </html>
