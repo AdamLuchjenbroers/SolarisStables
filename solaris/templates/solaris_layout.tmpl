@@ -31,7 +31,11 @@
 
       {% if user.is_authenticated %}
           {{ selected | menu:"Stable,/stable" }}
+          {% if user.is_admin %}
+              {{ selected | menu:"Admin,/admin" }}
+          {% endif %}
       {% endif %} 
+
       <span class='login'>
          {% if user.is_authenticated %}
            <li class="login"><a href="/logout">Logout</a></li>

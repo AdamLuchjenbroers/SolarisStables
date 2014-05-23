@@ -5,14 +5,27 @@ from django_genshi import loader
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 
-from solaris.views import SolarisView
+from solaris.views import SolarisView, SolarisViewMixin
 from solaris.cms.models import NewsPost
 
 class NewsView(SolarisView):
     menu_selected = 'News'
     
-class NewsListView(NewsView):
+class NewsListView(SolarisViewMixin, TemplateView):
+    def get_context_data(self, **kwargs):
+        page_context = super(NewsListView, self).get_context_data(**kwargs)
+        
+        page_context['news'] = NewsPost.objects.order_by('post_date').reverse()[0:5]
+        page_context['body'] = '<p>Template Broken</p>'
+        return page_context
+
+    menu_selected = 'News'
+    template_name = 'cms/news.tmpl'
+    
+
+class OldNewsListView(NewsView):
     def get(self, request):
         posts = NewsPost.objects.order_by('post_date').reverse()[0:5]
         for p in posts:

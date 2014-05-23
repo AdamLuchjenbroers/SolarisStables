@@ -1,0 +1,20 @@
+{% extends 'solaris_layout.tmpl' %}
+{% block pagebody %}
+<div class="body">
+  {% if perms.cms.post_news %}
+      <div class="adminbar"><a href="/postnews">Post News</a></div>
+      <br/>
+  {% endif %}
+  {% for post in news %}
+  <div class="news">
+    <div class="header">
+      <span class="title">{{post.title}}</span>
+      <span class="byline">Posted by {{post.poster.username}} on {{post.post_date}}</span>
+    </div>
+    <div class="content">
+      {{post.markup_content | safe}}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

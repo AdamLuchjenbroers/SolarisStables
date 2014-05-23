@@ -1,7 +1,7 @@
 from copy import deepcopy
 from urlparse import urlparse
 
-from django.views.generic.edit import View
+from django.views.generic import View, TemplateView
 from django.shortcuts import redirect, render_to_response
 from django_genshi import loader as genshi_loader
 from django.template import Context, RequestContext
@@ -13,26 +13,10 @@ from .utils import get_arg
 class SolarisViewMixin(object):
     styles_list = ['/static/css/solaris.css',]
     scripts_list = ['/static/nicEdit/nicEdit.js',] 
-    base_menu = [
-          {'title' : 'News', 'url' : '/', 'visible' : 'always'},
-          {'title' : 'Wiki', 'url' : '/wiki/', 'visible' : 'always'},
-          {'title' : 'Reference', 'url' : '/reference/', 'visible' : 'always'},       
-          {'title' : 'Stable', 'url' : '/stable/', 'visible' : 'login'},       
-          {'title' : 'Admin', 'url' : '/admin', 'visible' : 'admin'},       
-        ]
     menu_selected = None
     submenu = None
     submenu_selected = None
-
-    def __init__(self, *args, **kwargs):
-        self.template_name = get_arg('master_template', kwargs, 'solaris_layout.tmpl')
         
-        self.doctype = get_arg('doctype', kwargs, 'html')        
-        
-        self.body_content = get_arg('body', kwargs, Markup('<p>Body Goes Here</p>'))
-        
-    def get_menu(self):
-            return self.__class__.base_menu      
         
     def get_context_data(self, **kwargs):
         try:
@@ -41,7 +25,6 @@ class SolarisViewMixin(object):
             page_context = Context()
         
         page_context['selected'] = self.__class__.menu_selected
-        page_context['menu'] = self.get_menu()
         page_context['submenu'] = self.__class__.submenu
         page_context['submenu_selected'] = self.__class__.submenu_selected
         page_context['styles'] = self.__class__.styles_list
@@ -52,7 +35,8 @@ class SolarisViewMixin(object):
         
         return page_context
 
-class SolarisView(SolarisViewMixin, View):
+class SolarisView(SolarisViewMixin, TemplateView):
+    template_name = 'solaris_layout.tmpl'
     
     def in_layout(self, body, request):
         page_context = self.get_context_data(request=request)
