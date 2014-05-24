@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 from solaris.views import SolarisView
 
-class ReferenceView(SolarisView):
+class ReferenceViewMixin(object):
     menu_selected = 'Reference'
     
     submenu = [
@@ -11,6 +11,9 @@ class ReferenceView(SolarisView):
           {'title' : 'Pilot Skills', 'url' : '/reference/pilotskills'},
           {'title' : 'Mechs', 'url' : '/reference/mechs'},       
         ]
+
+
+class ReferenceView(ReferenceViewMixin, SolarisView):
     
     def get(self, request, stable=None):
         body = Markup('<P>Reference Data Index to go here</P>')

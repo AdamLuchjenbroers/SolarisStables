@@ -8,13 +8,9 @@ from django.views.generic import TemplateView
 from solaris.views import SolarisViewMixin
 
 from solaris.warbook.techtree import models
-from solaris.warbook.views import ReferenceView
+from solaris.warbook.views import ReferenceViewMixin
 
-class TechnologyView(ReferenceView):
-    submenu_selected = 'TechTree'
-
-class TechnologyListView(SolarisViewMixin, TemplateView):
-    menu_selected = 'Reference'
+class TechnologyListView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
     submenu_selected = 'TechTree'
     template_name = 'warbook/techlist.tmpl'
     
@@ -33,8 +29,7 @@ class TechnologyListView(SolarisViewMixin, TemplateView):
         
         return page_context
 
-class TechnologyDetailView(SolarisViewMixin, TemplateView):
-    menu_selected = 'Reference'
+class TechnologyDetailView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
     submenu_selected = 'TechTree'
     template_name = 'warbook/techdetail.tmpl'
     
@@ -47,18 +42,3 @@ class TechnologyDetailView(SolarisViewMixin, TemplateView):
         page_context['technology'] = self.technology
         
         return page_context
-        
-
-class OldTechnologyDetailView(TechnologyView):
-    def get(self, request, technology='', **kwargs):
-        # Get Technology Information
-        techdata = get_object_or_404(models.Technology, urlname=technology)
-        modifiers = models.TechnologyRollModifier.objects.filter(technology=techdata)
-
-        # Render Technology Detail
-        tmpl_tech = loader.get_template('warbook/techtree/tech_detail.genshi')
-        description = Markup(techdata.description)
-    
-        body = Markup(tmpl_tech.generate(description=description, tech=techdata, modifiers=modifiers))
-    
-        return HttpResponse(self.in_layout(body, request))
