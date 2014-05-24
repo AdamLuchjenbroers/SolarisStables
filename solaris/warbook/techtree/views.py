@@ -33,7 +33,23 @@ class TechnologyListView(SolarisViewMixin, TemplateView):
         
         return page_context
 
-class TechnologyDetailView(TechnologyView):
+class TechnologyDetailView(SolarisViewMixin, TemplateView):
+    menu_selected = 'Reference'
+    submenu_selected = 'TechTree'
+    template_name = 'warbook/techdetail.tmpl'
+    
+    def get(self, request, technology=''):
+        self.technology = get_object_or_404(models.Technology, urlname=technology)
+        return super(TechnologyDetailView, self).get(request)
+    
+    def get_context_data(self, **kwargs):
+        page_context = super(TechnologyDetailView, self).get_context_data(**kwargs)
+        page_context['technology'] = self.technology
+        
+        return page_context
+        
+
+class OldTechnologyDetailView(TechnologyView):
     def get(self, request, technology='', **kwargs):
         # Get Technology Information
         techdata = get_object_or_404(models.Technology, urlname=technology)

@@ -1,0 +1,18 @@
+{% extends 'solaris_layout.tmpl' %}
+ 
+{% block pagebody %}
+<div class="body"><div class="tech_tier{{technology.tier}}">
+  <h1>{{technology.name}}</h1>
+  <div class="tech_desc">
+    {{ technology.description | safe }}
+  </div>
+  <div class="tech_rolls">
+    <p>Base Difficulty: {{ technology.base_difficulty }}</p>
+    <ul>
+    {% for modifier in technology.modifiers.all %}
+      <li><em>{{modifier.modifier}}</em> {{modifier.condition}}</li>
+    {% endfor %}  
+    </ul>
+  </div>
+</div></div>
+{% endblock %}

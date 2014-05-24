@@ -39,7 +39,7 @@ class Technology(models.Model):
 
 
 class TechnologyRollModifier(models.Model):
-    technology = models.ForeignKey(Technology)
+    technology = models.ForeignKey(Technology, related_name='modifiers')
     modifier   = models.IntegerField(default=2)
     condition  = models.CharField(max_length=120)
   
