@@ -9,7 +9,7 @@
       <div class="tech_tier{{tier.number}}">
       {% for tech in tier.techs %}
         <div class="tech">
-          <span><a href="{{baseurl}}/{{tech.urlname}}">{{tech.name}}</a></span>
+          <span><a href="/reference/techtree/{{tech.urlname}}">{{tech.name}}</a></span>
           <span class="roll"> {{tech.base_difficulty }} </span>
         </div>
       {% endfor %}
