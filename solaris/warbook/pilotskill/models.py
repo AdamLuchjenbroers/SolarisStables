@@ -17,6 +17,9 @@ class PilotDiscipline(models.Model):
         verbose_name = 'Pilot Discipline'
         db_table = 'warbook_pilotdiscipline'
         app_label = 'warbook'
+    
+    def get_absolute_url(self):
+        return '/reference/pilotskills/%s' % self.urlname
         
     def __unicode__(self):
         return self.name
@@ -38,7 +41,7 @@ class PilotTrait(models.Model):
     
     name  = models.CharField(max_length=40)
     description = models.TextField()
-    discipline = models.ForeignKey(PilotDiscipline, null=True, blank=True)
+    discipline = models.ForeignKey(PilotDiscipline, null=True, blank=True, related_name='skills')
     bv_mod = models.DecimalField(max_digits=6 ,decimal_places=3 ,choices=bv_modifiers)
     trait_type = models.CharField(max_length=1, choices=trait_list, default='I')
     

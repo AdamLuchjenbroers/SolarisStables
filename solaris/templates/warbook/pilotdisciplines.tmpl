@@ -1,0 +1,12 @@
+{% extends 'solaris_layout.tmpl' %}
+ 
+{% block pagebody %}
+<div class="body">
+  <h1>Pilot Skills and Abilities</h1>
+  {% for discipline in object_list %}
+    <div class="discipline">
+    <h2><a href="{{ discipline.get_absolute_url }}">{{discipline.name}}</a></h2>
+    <p>{{discipline.markup_blurb | safe}}</p>       
+  {% endfor %}
+</div>
+{% endblock %}
