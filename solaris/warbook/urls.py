@@ -8,7 +8,7 @@ from solaris.warbook.mech.views import MechListView, MechDetailView, MechSearchV
 urlpatterns = patterns('',
     (r'^/?$', ReferenceView.as_view() ), 
     (r'^techtree/?$',  TechnologyListView.as_view() ),
-    (r'^techtree/(?P<technology>[^/]+)/?$', TechnologyDetailView.as_view() ),
+    (r'^techtree/(?P<slug>[^/]+)/?$', TechnologyDetailView.as_view() ),
     (r'^pilotskills/?$', DisciplineListView.as_view() ),
     (r'^pilotskills/(?P<discipline>[^/]+)/?$', DisciplineDetailView.as_view() ),
     (r'^mechs/?$', MechSearchView.as_view()) ,

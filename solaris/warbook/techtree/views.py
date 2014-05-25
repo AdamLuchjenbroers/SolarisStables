@@ -3,7 +3,7 @@ from django_genshi import loader
 from genshi import Markup
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 
 from solaris.views import SolarisViewMixin
 
@@ -29,16 +29,8 @@ class TechnologyListView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
         
         return page_context
 
-class TechnologyDetailView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
+class TechnologyDetailView(SolarisViewMixin, ReferenceViewMixin, DetailView):
     submenu_selected = 'TechTree'
     template_name = 'warbook/techdetail.tmpl'
-    
-    def get(self, request, technology=''):
-        self.technology = get_object_or_404(models.Technology, urlname=technology)
-        return super(TechnologyDetailView, self).get(request)
-    
-    def get_context_data(self, **kwargs):
-        page_context = super(TechnologyDetailView, self).get_context_data(**kwargs)
-        page_context['technology'] = self.technology
-        
-        return page_context
+    slug_field = 'urlname' 
+    model = models.Technology
