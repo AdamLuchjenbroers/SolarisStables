@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.urlresolvers import reverse
+
 from genshi import Markup
 from decimal import Decimal
 
@@ -19,7 +21,7 @@ class PilotDiscipline(models.Model):
         app_label = 'warbook'
     
     def get_absolute_url(self):
-        return '/reference/pilotskills/%s' % self.urlname
+        return reverse('discipline', kwargs={'slug': self.urlname})
         
     def __unicode__(self):
         return self.name

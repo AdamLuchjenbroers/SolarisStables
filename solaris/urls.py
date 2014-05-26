@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     (r'^register/?$', SolarisRegistrationView.as_view()),
     
     (r'^admin/', include(admin.site.urls)),
-    (r'^reference/?', include('solaris.warbook.urls')),
+    (r'^reference/', include('solaris.warbook.urls')),
     (r'^stable/?', include('solaris.stablemanager.urls'))
 )
 
