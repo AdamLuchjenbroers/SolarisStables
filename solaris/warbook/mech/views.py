@@ -3,9 +3,11 @@ from django_genshi import loader
 from genshi import Markup
 from django.shortcuts import get_object_or_404, get_list_or_404, redirect
 from django.http import HttpResponse
+from django.views.generic import TemplateView, ListView
+
 
 from solaris.utils import deepcopy_append
-from solaris.views import PageObject
+from solaris.views import PageObject, SolarisViewMixin
 from solaris.warbook.views import ReferenceView
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.mech.forms import MechSearchForm
@@ -40,15 +42,18 @@ class MechDetailView(MechView):
         body = Markup( self.template.generate(mech=mech_model, crit_tables=crit_tables, crit_rows=crit_rows))
         return HttpResponse(self.in_layout(body, request))
 
-class MechListView(MechView):
-    def get(self, request, name=''):
-        mech_list = get_list_or_404(MechDesign, mech_name__iexact=name)
+class MechListView(SolarisViewMixin, ListView):
+    template_name = 'warbook/mechlist.tmpl'
+    model = MechDesign
+    
+    def get_queryset(self):
+        return get_list_or_404(MechDesign, mech_name__iexact=self.kwargs['name'])
+    
+    def get_context_data(self):
+        page_context = super(MechListView, self).get_context_data()
         
-        tmpl_mech = loader.get_template('warbook/mechs/mech_listing.genshi')
-        body = Markup(tmpl_mech.generate(mech_name=name.title(), mech_list=mech_list))
-        
-        return HttpResponse(self.in_layout(body, request))
-
+        page_context['chassis'] = self.kwargs['name']
+        return page_context
 
 class MechSearchResultsView(MechView):
     translate_terms = {

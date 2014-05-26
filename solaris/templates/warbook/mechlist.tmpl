@@ -1,0 +1,14 @@
+{% extends 'solaris_layout.tmpl' %}
+ 
+{% block pagebody %}
+<div class="body">
+  <h1>{{ chassis }}</h1>
+  {% for mech in object_list %}
+    <p class="mechlist">
+      <span class="name"><em><a href="{{mech.get_absolute_url}}">{{mech.mech_name}} {{mech.mech_code}}</a>:</em></span>
+      <span class="profile">{{mech.tonnage}} Tons, {{mech.move_walk}}/{{mech.move_run}}/{{mech.move_jump}}</span>
+      <span class="cost">BV: {{mech.bv_value}}, Cost:{{mech.credit_value}}</span>
+    </p>
+  {% endfor %}
+</div>
+{% endblock %}
