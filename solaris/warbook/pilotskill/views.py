@@ -20,5 +20,5 @@ class DisciplineListView(ReferenceViewMixin, SolarisViewMixin, ListView):
 class DisciplineDetailView(ReferenceViewMixin, SolarisViewMixin, DetailView):
     submenu_selected = 'Pilot Skills'
     template_name = 'warbook/pilotskilldetail.tmpl'
-    slug_field = 'urlname' 
+    slug_field = 'urlname__iexact' 
     model = models.PilotDiscipline

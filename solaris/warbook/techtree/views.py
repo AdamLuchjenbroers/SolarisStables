@@ -32,5 +32,5 @@ class TechnologyListView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
 class TechnologyDetailView(SolarisViewMixin, ReferenceViewMixin, DetailView):
     submenu_selected = 'TechTree'
     template_name = 'warbook/techdetail.tmpl'
-    slug_field = 'urlname' 
+    slug_field = 'urlname__iexact' 
     model = models.Technology
