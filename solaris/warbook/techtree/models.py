@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 class Technology(models.Model):
     
@@ -31,6 +32,9 @@ class Technology(models.Model):
             return self.name
         else:
             return '%s (Hidden)' % self.name
+    
+    def get_absolute_url(self):
+        return reverse('technology', kwargs={'slug': self.urlname})
    
     class Meta:
         verbose_name_plural = 'Technologies'
