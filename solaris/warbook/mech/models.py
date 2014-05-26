@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from math import ceil
 
 from .refdata import locations_all, structure_entry, structure
@@ -70,6 +71,9 @@ class MechDesign(models.Model):
         
     def __unicode__(self):
         return '%s %s' % (self.mech_name, self.mech_code)
+    
+    def get_absolute_url(self):
+        return reverse('mech_detail', kwargs={'name': self.mech_name, 'code': self.mech_code})
 
 class MechLocation(models.Model):
     location = models.CharField(max_length=3, unique=True, choices=locations_all)
