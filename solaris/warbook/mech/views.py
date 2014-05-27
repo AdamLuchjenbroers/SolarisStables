@@ -45,6 +45,7 @@ class MechDetailView(MechView):
 class MechListView(SolarisViewMixin, ListView):
     template_name = 'warbook/mechlist.tmpl'
     model = MechDesign
+    submenu_selected = 'Mechs'
     
     def get_queryset(self):
         return get_list_or_404(MechDesign, mech_name__iexact=self.kwargs['name'])
@@ -55,7 +56,11 @@ class MechListView(SolarisViewMixin, ListView):
         page_context['chassis'] = self.kwargs['name']
         return page_context
 
-class MechSearchResultsView(MechView):
+class MechSearchResultsView(SolarisViewMixin, ListView):
+    template_name = 'warbook/mechlist.tmpl'
+    model = MechDesign
+    submenu_selected = 'Mechs'
+    
     translate_terms = {
         u'mech_name' : 'mech_name__iexact',
         u'mech_code' : 'mech_code__iexact',
@@ -67,28 +72,37 @@ class MechSearchResultsView(MechView):
         u'bv_high' : 'bv_value__lte',
     }
     
-    def search(self, fields):
-        search = dict()
+    def get_filter_args(self, requestdata):
+        filter_args = {}
         
-        print fields['tonnage_low']
-        for (term, qterm) in MechSearchResultsView.translate_terms.items() :
-            if term in fields and fields[term] != '':
-                print '  %s: %s' % (qterm, fields[term])
-                search[qterm] = fields[term]
-        print search
+        for (term, query_term) in MechSearchResultsView.translate_terms.items() :
+            if term in requestdata and requestdata[term] != '':
+                filter_args[query_term] = requestdata[term]
+
+        return filter_args
         
-        return get_list_or_404(MechDesign, **search)
-    
     def post(self, request):
-        tmpl_mech = loader.get_template('warbook/mechs/mech_listing.genshi')
-        
-        mech_list = self.search(request.POST)
-        body = Markup(tmpl_mech.generate(mech_name='Search Results', mech_list=mech_list))
-        
-        return HttpResponse(self.in_layout(body, request))
-    
+            if request.POST:
+                self.filter_args = self.get_filter_args(request.POST)
+                return super(MechSearchResultsView, self).get(request)
+            else:
+                return redirect('/reference/mechs')
+         
     def get(self, request):
-        return redirect('/reference/mechs')
+        if request.GET:
+            self.filter_args = self.get_filter_args(request.GET)
+            return super(MechSearchResultsView, self).get(request)
+        else:
+            return redirect('/reference/mechs')
+        
+    def get_queryset(self):
+        return get_list_or_404(MechDesign, **self.filter_args)
+    
+    def get_context_data(self):
+        page_context = super(MechSearchResultsView, self).get_context_data()
+        
+        page_context['chassis'] = 'Search Results'
+        return page_context
             
 
 class MechSearchView(ReferenceView):
