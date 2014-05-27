@@ -10,7 +10,8 @@ tonnage_funcs = (
 	('gyro'   , 'Gyro'),
 	('structure', 'Internal Structure'),
 	('targetting_computer', 'Targetting Computer'),
-	('supercharger', 'Supercharger')
+	('supercharger', 'Supercharger'),
+        ('retractable', 'Retractable Blade'),
 )
 
 def fixed(self, mech=None):
@@ -53,3 +54,7 @@ def targetting_computer(self, mech=None):
 def supercharger(self, mech=None):
     #FIXME: Should be Engine Tonnage / 10
     return None
+
+def retractable(self, mech=None):
+    return (ceil((mech.tonnage / self.tonnage_factor *) 2.0 ) / 2.0) + 0.5
+
