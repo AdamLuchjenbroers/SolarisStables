@@ -56,5 +56,5 @@ def supercharger(self, mech=None):
     return None
 
 def retractable(self, mech=None):
-    return (ceil((mech.tonnage / self.tonnage_factor *) 2.0 ) / 2.0) + 0.5
+    return (ceil((mech.tonnage / self.tonnage_factor) * 2.0 ) / 2.0) + 0.5
 
