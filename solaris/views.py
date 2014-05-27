@@ -25,8 +25,6 @@ class SolarisViewMixin(object):
             page_context = Context()
         
         page_context['selected'] = self.__class__.menu_selected
-        page_context['submenu'] = self.__class__.submenu
-        page_context['submenu_selected'] = self.__class__.submenu_selected
         page_context['styles'] = self.__class__.styles_list
         page_context['scripts'] = self.__class__.scripts_list
         
@@ -39,7 +37,7 @@ class SolarisView(SolarisViewMixin, TemplateView):
     template_name = 'solaris_layout.tmpl'
     
     def in_layout(self, body, request):
-        page_context = self.get_context_data(request=request)
+        page_context = self.get_context_data()
         page_context['body'] = body
         page_context['visibility'] = ['always']
                 
