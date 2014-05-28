@@ -8,7 +8,7 @@ from django.views.generic import TemplateView, ListView
 
 from solaris.utils import deepcopy_append
 from solaris.views import PageObject, SolarisViewMixin
-from solaris.warbook.views import ReferenceView
+from solaris.warbook.views import ReferenceView, ReferenceViewMixin
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.mech.forms import MechSearchForm
 
@@ -42,7 +42,7 @@ class MechDetailView(MechView):
         body = Markup( self.template.generate(mech=mech_model, crit_tables=crit_tables, crit_rows=crit_rows))
         return HttpResponse(self.in_layout(body, request))
 
-class MechListView(SolarisViewMixin, ListView):
+class MechListView(SolarisViewMixin, ReferenceViewMixin, ListView):
     template_name = 'warbook/mechlist.tmpl'
     model = MechDesign
     submenu_selected = 'Mechs'
@@ -56,7 +56,7 @@ class MechListView(SolarisViewMixin, ListView):
         page_context['chassis'] = self.kwargs['name']
         return page_context
 
-class MechSearchResultsView(SolarisViewMixin, ListView):
+class MechSearchResultsView(SolarisViewMixin, ReferenceViewMixin, ListView):
     template_name = 'warbook/mechlist.tmpl'
     model = MechDesign
     submenu_selected = 'Mechs'
