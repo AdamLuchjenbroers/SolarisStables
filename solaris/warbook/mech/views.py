@@ -1,22 +1,11 @@
-#from django.http import HttpResponse
-from django_genshi import loader
-from genshi import Markup
 from django.shortcuts import get_object_or_404, get_list_or_404, redirect
-from django.http import HttpResponse
-from django.views.generic import ListView, TemplateView
-
+from django.views.generic import ListView, TemplateView, FormView
 
 from solaris.utils import deepcopy_append
-from solaris.views import PageObject, SolarisViewMixin
-from solaris.warbook.views import ReferenceView, ReferenceViewMixin
+from solaris.views import SolarisViewMixin
+from solaris.warbook.views import ReferenceViewMixin
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.mech.forms import MechSearchForm
-
-class MechView(ReferenceView):
-    submenu_selected = 'Mechs'
-
-class MechCritTable(PageObject):
-    template = 'warbook/mechs/mech_crittable.genshi'
 
 class MechDetailView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
     template_name = 'warbook/mechdetail.tmpl'
@@ -94,14 +83,10 @@ class MechSearchResultsView(SolarisViewMixin, ReferenceViewMixin, ListView):
         
         page_context['chassis'] = 'Search Results'
         return page_context
-            
+         
+class MechSearchView(SolarisViewMixin, ReferenceViewMixin, FormView):       
+    template_name = 'warbook/mechsearch.tmpl'
+    form_class = MechSearchForm
+    submenu_selected = 'Mechs'
 
-class MechSearchView(ReferenceView):
-    def get(self, request):
-        form = MechSearchForm()
-        
-        search_form = loader.get_template('solaris_form_outer.genshi')
-        body = Markup(search_form.generate(form_items=Markup(form.as_p()), formclass='mechsearch', post_url='/reference/mechs/search/', submit='Search')) 
-        
-        return HttpResponse(self.in_layout(body, request))
         

@@ -1,0 +1,15 @@
+{% extends 'solaris_layout.tmpl' %}
+{% load markitup_tags %}
+
+{% block additional_headers %}
+  {% markitup_media %}
+{% endblock %}
+ 
+{% block pagebody %}
+<div class="body">
+  <form action="/reference/mechs/search" method="POST" class="mechform"> 
+    {{ form.as_p | safe}}
+    <p><input type="submit" Value="Search" class="submit"/></p>
+  </form>
+</div>
+{% endblock %}
