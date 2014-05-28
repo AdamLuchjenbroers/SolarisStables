@@ -1,0 +1,22 @@
+{% block crit-table %}
+<div class="critical_table" id="criticals_{{object.location_code}}">
+  <div class="critical_header"> {{ object.location_name }} </div>
+  {% for (slot, item) in enumerate(location.get_criticals %}
+    {% if slot == 6 %} <hr/> {% endif %}
+
+    {% if item %}
+    <div> {{ (slot % 6) + 1 }}
+    {% if item.is_crittable %}
+      <span class="item_crittable">
+    {% else %}
+      <span class="item_noncrittable">
+    {% endif %}
+    {{item.get_equipmentname}}
+    </>
+    </div>
+    {% else %}
+    <div>{{(slot%6)+1}}<span class="item_noncrittable">-- No Item --</span></div>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endblock %}
