@@ -85,6 +85,33 @@ div#armour_LL {
 }
 
 
+div#armour_LRL {
+  left: 10px;
+  top: 200px;
+}
+
+div#armour_LFL {
+  left: 70px;
+  top: 200px;
+}
+
+div#armour_RFL {
+  left:130px;
+  top: 200px;
+}
+
+div#armour_RRL {
+  left:190px;
+  top: 200px;
+}
+
+
+div#armour_LL {
+  left: 40px;
+  top: 200px;
+}
+
+
 div#armour_RCT {
   left: 330px;
   top: 100px;
