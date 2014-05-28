@@ -1,4 +1,5 @@
 {% extends 'solaris_layout.tmpl' %}
+{% load mech_items %}
  
 {% block pagebody %}
 <div class="body"><div class="tech_tier{{technology.tier}}">
@@ -19,17 +20,32 @@
         {% endif %} 
       </div>
     {% endfor %}
+  </div>
   
-  <div class="${mech.motive_type}_criticals">
-    {% for row in crit_rows %}
+  <div class="{{mech.motive_type}}_criticals">
     <div class="critical_group">
-      {% for location in row %}
-        {% if loc in crit_tables.keys %}
-          {% crit_tables[loc].render %}
-        {% endif %}
-      {% endfor %}
+       {{ crit_table.HD | crit_table }}
     </div>
-    {% endfor %}
+    
+    <div class="critical_group">
+       {% if mech.motive_type == 'B' %} {{ crit_table.LA | crit_table }} {% endif %}
+       {{ crit_table.LT | crit_table }}
+       {{ crit_table.CT | crit_table }}
+       {{ crit_table.RT | crit_table }}
+       {% if mech.motive_type == 'B' %} {{ crit_table.RA | crit_table }} {% endif %}
+    </div>
+    
+    <div class="critical_group">
+      {% if mech.motive_type == 'B' %}
+        {{ crit_table.LL | crit_table }}
+        {{ crit_table.RL | crit_table }}
+      {% else %}
+        {{ crit_table.LRL | crit_table }}
+        {{ crit_table.LFL | crit_table }}
+        {{ crit_table.RFL | crit_table }}
+        {{ crit_table.RRL | crit_table }}
+      {% endif %}
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -147,6 +147,9 @@ class Mounting(models.Model):
     def num_slots(self):
         return len(self.get_slots())
     
+    def is_crittable(self):
+        return self.equipment.equipment.crittable
+    
         
     class Meta:
         verbose_name_plural = 'Mounting'

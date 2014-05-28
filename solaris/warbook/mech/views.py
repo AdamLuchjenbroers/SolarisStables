@@ -3,7 +3,7 @@ from django_genshi import loader
 from genshi import Markup
 from django.shortcuts import get_object_or_404, get_list_or_404, redirect
 from django.http import HttpResponse
-from django.views.generic import TemplateView, ListView
+from django.views.generic import ListView, TemplateView
 
 
 from solaris.utils import deepcopy_append
@@ -18,29 +18,20 @@ class MechView(ReferenceView):
 class MechCritTable(PageObject):
     template = 'warbook/mechs/mech_crittable.genshi'
 
-class MechDetailView(MechView):
-    styles_list = deepcopy_append(MechView.styles_list, ['/static/css/mech_detail.css'])
+class MechDetailView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
+    template_name = 'warbook/mechdetail.tmpl'
+    model = MechDesign
+    submenu_selected = 'Mechs'
     
-    def __init__(self, *args, **kwargs):
-        self.template = loader.get_template('warbook/mechs/mech_detail.genshi')
-        super(MechDetailView, self).__init__(*args, **kwargs) 
+    styles_list = deepcopy_append(SolarisViewMixin.styles_list, ['/static/css/mech_detail.css'])
     
-    def get(self, request, name='', code=''):        
-        mech_model = get_object_or_404(MechDesign, mech_name__iexact=name, mech_code__iexact=code)
-                
-        crit_tables = dict()
-        for location in mech_model.locations.all():
-            if location.structure:
-                crit_tables[location.location_code()] = MechCritTable(location=location)
+    def get_context_data(self, **kwargs):
+        page_context = super(MechDetailView,self).get_context_data(**kwargs)
         
-        crit_rows = (
-            ['HD']
-        ,   ['LA','LT','CT','RT','RA']
-        ,   ['LL','LFL','LRL','RL','RFL', 'RLL']
-        )
+        page_context['mech'] = get_object_or_404(MechDesign, mech_name__iexact=self.kwargs['name'], mech_code__iexact=self.kwargs['code'])
+        page_context['crit_table'] = { location.location_code() : location for location in page_context['mech'].locations.all() }
         
-        body = Markup( self.template.generate(mech=mech_model, crit_tables=crit_tables, crit_rows=crit_rows))
-        return HttpResponse(self.in_layout(body, request))
+        return page_context
 
 class MechListView(SolarisViewMixin, ReferenceViewMixin, ListView):
     template_name = 'warbook/mechlist.tmpl'
