@@ -1,13 +1,6 @@
-# -*- coding: iso-8859-1 -*-
-from genshi import Markup
-from django.shortcuts import redirect
-from django_genshi import loader
-from django.contrib.auth.decorators import permission_required
-from django.utils.decorators import method_decorator
-from django.http import HttpResponse
 from django.views.generic import TemplateView, FormView
 
-from solaris.views import SolarisView, SolarisViewMixin
+from solaris.views import SolarisViewMixin
 from solaris.cms.models import NewsPost
 from solaris.cms.forms import NewsPostForm
     
