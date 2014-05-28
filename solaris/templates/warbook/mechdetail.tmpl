@@ -9,6 +9,27 @@
     <em>Cost:</em> {{mech.credit_value}}
   </p>
 
-  <div class=""></div>
+  <div class="{{mech.motive_type}}_armour">
+    {% for location in mech.locations.all %}
+      <div class="armour_location" id="armour_{{location.location_code}}">
+        <div class="armour_header">{{location.location_code}}</div>
+        <div class="armour_armour">A<span>{{location.armour}}</span></div>
+        {% if location.structure %}
+          <div class="armour_structure">S<span>{{location.structure}}</span></div>
+        {% endif %} 
+      </div>
+    {% endfor %}
+  
+  <div class="${mech.motive_type}_criticals">
+    {% for row in crit_rows %}
+    <div class="critical_group">
+      {% for location in row %}
+        {% if loc in crit_tables.keys %}
+          {% crit_tables[loc].render %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}
