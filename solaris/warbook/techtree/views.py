@@ -1,8 +1,3 @@
-#from django.http import HttpResponse
-from django_genshi import loader
-from genshi import Markup
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
 from django.views.generic import TemplateView, DetailView
 
 from solaris.views import SolarisViewMixin

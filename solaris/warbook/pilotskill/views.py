@@ -1,8 +1,4 @@
-from django_genshi import loader
-from genshi import Markup
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import DetailView, ListView
 
 from solaris.views import SolarisViewMixin
 

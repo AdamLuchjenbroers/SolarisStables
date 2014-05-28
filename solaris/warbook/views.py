@@ -1,5 +1,6 @@
 from genshi import Markup
 from django.http import HttpResponse
+from django.template import Context
 
 from solaris.views import SolarisView
 
@@ -18,6 +19,7 @@ class ReferenceViewMixin(object):
           {'title' : 'Mechs', 'url' : '/reference/mechs'},       
         ]
         page_context['submenu_selected'] = self.__class__.submenu_selected
+               
         return page_context
 
 

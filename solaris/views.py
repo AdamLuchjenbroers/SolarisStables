@@ -1,7 +1,6 @@
-from copy import deepcopy
 from urlparse import urlparse
 
-from django.views.generic import View, TemplateView
+from django.views.generic import TemplateView
 from django.shortcuts import redirect, render_to_response
 from django_genshi import loader as genshi_loader
 from django.template import Context, RequestContext
@@ -29,7 +28,7 @@ class SolarisViewMixin(object):
         page_context['scripts'] = self.__class__.scripts_list
         
         if not 'body' in page_context:
-             page_context['body'] = '<p>Body Goes Here</p>'
+            page_context['body'] = '<p>Body Goes Here</p>'
         
         return page_context
 
