@@ -12,3 +12,4 @@ class MechSearchForm(SolarisForm):
     bv_low = IntegerField(label='Min BV', required=False)
     bv_high = IntegerField(label='Max BV', required=False)
 
+
