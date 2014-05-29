@@ -4,34 +4,23 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView, View
 
 from solaris.utils import deepcopy_append
-from solaris.stablemanager.views import StableViewMixin
+from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import Ledger, LedgerItem
 from solaris.battlereport.models import BroadcastWeek
 
 from .forms import LedgerItemForm, LedgerDeleteForm
 
-class StableLedgerView(StableViewMixin, TemplateView):
+class StableLedgerView(StableWeekMixin, TemplateView):
     submenu_selected = 'Ledger'
     template_name = 'stablemanager/stable_ledger.tmpl'
     
     styles_list = deepcopy_append(StableViewMixin.styles_list, ['/static/css/ledger.css'])
     scripts_list = ['/static/js/jquery-1.11.1.js', '/static/js/stable_ledger.js']
     
-    def get_ledger_data(self):
-        if 'week' in self.kwargs:
-            self.week = get_object_or_404(BroadcastWeek, week_number=self.kwargs['week'])
-        else:
-            self.week = self.stable.current_week
-            
-        self.ledger = get_object_or_404(Ledger, stable=self.stable, week=self.week)
-        return self.ledger    
-    
     def get_context_data(self, **kwargs):
         page_context = super(StableLedgerView,self).get_context_data(**kwargs)
         
-        self.get_ledger_data()
-
-        page_context['week'] = self.week
+        self.ledger = get_object_or_404(Ledger, stable=self.stable, week=self.week)
         page_context['ledger'] = self.ledger
         
         page_context['ledger_groups'] = []    

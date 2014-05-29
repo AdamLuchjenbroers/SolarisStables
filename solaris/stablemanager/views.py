@@ -1,13 +1,15 @@
 from genshi import Markup
 from django_genshi import loader
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 
 from django.views.generic import TemplateView
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
 
+
 from solaris.views import SolarisView, SolarisViewMixin
+from solaris.battlereport.models import BroadcastWeek
 
 from .models import Stable
 from .utils import stable_required
@@ -54,7 +56,23 @@ class StableViewMixin(SolarisViewMixin):
             return super(StableViewMixin, self).dispatch(request, *args, **kwargs)
         except Stable.DoesNotExist:
             return redirect()
-            
+
+class StableWeekMixin(StableViewMixin):
+    """
+      StableWeekMixin handles Stable Views that vary on a week-by-week basis.
+      If week is provided as a parameter, the provided week is used otherwise
+      the view defaults to the current Stable Week
+    """
+    def get_context_data(self, **kwargs):
+        page_context = super(StableWeekMixin, self).get_context_data(**kwargs)
+        
+        if 'week' in self.kwargs:
+            self.week = get_object_or_404(BroadcastWeek, week_number=self.kwargs['week'])
+        else:
+            self.week = self.stable.current_week
+        page_context['week'] = self.week        
+ 
+        return page_context            
 
 class StableOverview(StableViewMixin, TemplateView):       
     submenu_selected = 'Assets'
