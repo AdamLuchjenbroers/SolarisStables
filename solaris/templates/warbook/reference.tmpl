@@ -1,0 +1,13 @@
+{% extends 'solaris_layout.tmpl' %}
+{% load markitup_tags %}
+
+{% block additional_headers %}
+  {% markitup_media %}
+{% endblock %}
+ 
+{% block pagebody %}
+<div class="body">
+  <h1>Solaris Reference Data</h1>
+  <p>These tables show various pieces of reference data and information</p>
+</div>
+{% endblock %}

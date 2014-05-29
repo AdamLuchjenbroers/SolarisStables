@@ -2,17 +2,16 @@ from django.shortcuts import get_object_or_404, get_list_or_404, redirect
 from django.views.generic import ListView, TemplateView, FormView
 
 from solaris.utils import deepcopy_append
-from solaris.views import SolarisViewMixin
 from solaris.warbook.views import ReferenceViewMixin
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.mech.forms import MechSearchForm
 
-class MechDetailView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
+class MechDetailView(ReferenceViewMixin, TemplateView):
     template_name = 'warbook/mechdetail.tmpl'
     model = MechDesign
     submenu_selected = 'Mechs'
     
-    styles_list = deepcopy_append(SolarisViewMixin.styles_list, ['/static/css/mech_detail.css'])
+    styles_list = deepcopy_append(ReferenceViewMixin.styles_list, ['/static/css/mech_detail.css'])
     
     def get_context_data(self, **kwargs):
         page_context = super(MechDetailView,self).get_context_data(**kwargs)
@@ -22,7 +21,7 @@ class MechDetailView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
         
         return page_context
 
-class MechListView(SolarisViewMixin, ReferenceViewMixin, ListView):
+class MechListView(ReferenceViewMixin, ListView):
     template_name = 'warbook/mechlist.tmpl'
     model = MechDesign
     submenu_selected = 'Mechs'
@@ -36,7 +35,7 @@ class MechListView(SolarisViewMixin, ReferenceViewMixin, ListView):
         page_context['chassis'] = self.kwargs['name']
         return page_context
 
-class MechSearchResultsView(SolarisViewMixin, ReferenceViewMixin, ListView):
+class MechSearchResultsView(ReferenceViewMixin, ListView):
     template_name = 'warbook/mechlist.tmpl'
     model = MechDesign
     submenu_selected = 'Mechs'
@@ -84,7 +83,7 @@ class MechSearchResultsView(SolarisViewMixin, ReferenceViewMixin, ListView):
         page_context['chassis'] = 'Search Results'
         return page_context
          
-class MechSearchView(SolarisViewMixin, ReferenceViewMixin, FormView):       
+class MechSearchView(ReferenceViewMixin, FormView):       
     template_name = 'warbook/mechsearch.tmpl'
     form_class = MechSearchForm
     submenu_selected = 'Mechs'

@@ -1,11 +1,9 @@
 from django.views.generic import TemplateView, DetailView
 
-from solaris.views import SolarisViewMixin
-
 from solaris.warbook.techtree import models
 from solaris.warbook.views import ReferenceViewMixin
 
-class TechnologyListView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
+class TechnologyListView(ReferenceViewMixin, TemplateView):
     submenu_selected = 'TechTree'
     template_name = 'warbook/techlist.tmpl'
     
@@ -24,7 +22,7 @@ class TechnologyListView(SolarisViewMixin, ReferenceViewMixin, TemplateView):
         
         return page_context
 
-class TechnologyDetailView(SolarisViewMixin, ReferenceViewMixin, DetailView):
+class TechnologyDetailView(ReferenceViewMixin, DetailView):
     submenu_selected = 'TechTree'
     template_name = 'warbook/techdetail.tmpl'
     slug_field = 'urlname__iexact' 

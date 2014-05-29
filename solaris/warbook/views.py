@@ -1,10 +1,10 @@
-from genshi import Markup
 from django.http import HttpResponse
 from django.template import Context
+from django.views.generic import TemplateView 
 
-from solaris.views import SolarisView
+from solaris.views import SolarisViewMixin
 
-class ReferenceViewMixin(object):
+class ReferenceViewMixin(SolarisViewMixin):
     menu_selected = 'Reference'
     
     def get_context_data(self, **kwargs):
@@ -22,9 +22,5 @@ class ReferenceViewMixin(object):
                
         return page_context
 
-
-class ReferenceView(ReferenceViewMixin, SolarisView):
-    
-    def get(self, request, stable=None):
-        body = Markup('<P>Reference Data Index to go here</P>')
-        return HttpResponse(self.in_layout(body, request))
+class ReferenceView(ReferenceViewMixin, TemplateView):
+    template_name = 'warbook/reference.tmpl'
