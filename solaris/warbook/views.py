@@ -8,10 +8,7 @@ class ReferenceViewMixin(SolarisViewMixin):
     menu_selected = 'Reference'
     
     def get_context_data(self, **kwargs):
-        try:
-            page_context = super(ReferenceViewMixin, self).get_context_data(**kwargs)
-        except AttributeError:
-            page_context = Context()
+        page_context = super(ReferenceViewMixin, self).get_context_data(**kwargs)
         
         page_context['submenu'] = [
           {'title' : 'TechTree', 'url' : '/reference/techtree'},
