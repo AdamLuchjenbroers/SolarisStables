@@ -2,9 +2,8 @@ from django.db import models
 from solaris.battlereport.models import BroadcastWeek
 from solaris.stablemanager.models import Stable
 
-
 class Ledger(models.Model):
-    stable = models.ForeignKey(Stable)
+    stable = models.ForeignKey(Stable, related_name='ledger')
     week = models.ForeignKey(BroadcastWeek)
     opening_balance = models.IntegerField()
     next_ledger = models.ForeignKey('Ledger', null=True, related_name='prev_ledger')

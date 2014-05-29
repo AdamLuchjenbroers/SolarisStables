@@ -1,0 +1,10 @@
+{% extends 'solaris_layout.tmpl' %}
+ 
+{% block pagebody %}
+<div class="body">
+  <h1>{{stable.stable_name}}</h1>
+
+  <h2>Finances</h2>
+  <p><em>Current Balance: </em>{{stable.current_balance}}</p>
+</div>
+{% endblock %}

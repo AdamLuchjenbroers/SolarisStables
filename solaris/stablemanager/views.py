@@ -3,9 +3,14 @@ from django_genshi import loader
 from django.http import HttpResponse
 from django.shortcuts import redirect
 
-from solaris.views import SolarisView
-from .utils import stable_required
+from django.views.generic import TemplateView
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import redirect_to_login
 
+from solaris.views import SolarisView, SolarisViewMixin
+
+from .models import Stable
+from .utils import stable_required
 from .forms import StableRegistrationForm
 
 class StableView(SolarisView):
@@ -23,13 +28,38 @@ class StableView(SolarisView):
         self.stable = kwargs['stable']
         return super(StableView, self).dispatch(request, *args, **kwargs)
 
-class StableOverview(StableView):       
+class StableViewMixin(SolarisViewMixin):
+    
+    def get_context_data(self, **kwargs):
+        page_context = super(StableViewMixin, self).get_context_data(**kwargs)
+        
+        page_context['stable'] = self.stable
+        page_context['menu_selected'] = 'Stable'
+        page_context['submenu'] = [
+          {'title' : 'Ledger', 'url' : '/stable/ledger'},
+          {'title' : 'Assets', 'url' : '/stable'},
+          {'title' : 'Actions', 'url' : '/stable/actions'},
+          {'title' : 'Training', 'url' : '/stable/training'},
+          {'title' : 'Pilots', 'url' : '/stable/pilots'},          
+        ]
+        
+        return page_context
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return redirect_to_login(request.get_full_path(), 'login', REDIRECT_FIELD_NAME)
+
+        try:
+            self.stable = Stable.objects.get(owner=request.user)
+            return super(StableViewMixin, self).dispatch(request, *args, **kwargs)
+        except Stable.DoesNotExist:
+            return redirect()
+            
+
+class StableOverview(StableViewMixin, TemplateView):       
     submenu_selected = 'Assets'
-    
-    def get(self, request, stable=None):
-        body = Markup('<P>Stable Management for the %s will go here</P>' % stable.stable_name)
-        return HttpResponse(self.in_layout(body, request))
-    
+    template_name = 'stablemanager/stable_overview.tmpl'
+
 
 class StableRegistrationView(SolarisView):    
     scripts_list = ['/static/js/jquery-1.11.1.js', '/static/js/stable_registration.js']

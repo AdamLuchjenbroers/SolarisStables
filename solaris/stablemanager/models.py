@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
 from solaris.warbook.pilotskill.models import PilotDiscipline
 from solaris.battlereport.models import BroadcastWeek
-  
+
 class Stable(models.Model):
     stable_name = models.CharField(max_length=200)
     owner = models.OneToOneField(User, null=True)
@@ -21,7 +22,14 @@ class Stable(models.Model):
         #STUB: Will return a list of incomplete data (e.g. missing repair
         #bills, unspent training points, etc).
         return None
-        
+    
+    def current_balance(self):
+        try:
+            ledger = self.ledger.get(week=self.current_week)
+            return ledger.closing_balance()
+        except Error:
+            return 0
+    
     def week_complete(self):
         return (self.remaining_tasks == None and self.current_week.next_week != None)
      
