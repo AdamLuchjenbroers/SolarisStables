@@ -1,15 +1,16 @@
-from django.http import HttpResponse
 from genshi import Markup
 from django_genshi import loader
 
-from solaris.stablemanager.views import StableView
+from django.http import HttpResponse
+from django.views.generic import TemplateView, FormView
+
+from solaris.stablemanager.views import StableView, StableWeekMixin
 
 from .forms import PilotForm, PilotInlineSkillsForm
 
-class StablePilotsView(StableView):
-    def get(self, request, stable=None):
-        body = Markup('<P>The Pilots Listing for the %s will go here</P>' % stable.stable_name)
-        return HttpResponse(self.in_layout(body, request))
+class StablePilotsView(StableWeekMixin, TemplateView):
+    submenu_selected = 'Pilots'
+    template_name = 'stablemanager/stable_pilots.tmpl'
 
 class StableNewPilotsView(StableView):
     form_properties = {
