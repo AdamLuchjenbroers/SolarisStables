@@ -1,13 +1,8 @@
-from solaris.stablemanager.views import StableView
-from genshi import Markup
-from django.http import HttpResponse
+from django.views.generic import TemplateView
 
-#from django_genshi import loader
+from solaris.stablemanager.views import StableWeekMixin
 
-class StableActionView(StableView):
+class StableActionView(StableWeekMixin, TemplateView):
     submenu_selected = 'Actions'
-    
-    def get(self, request, stable=None, week=None):
-        body = Markup('<P>The Actions Ledger for the %s will go here</P><P>The Selected Broadcast Week is: %s</P>' % (stable.stable_name, week))
-        return HttpResponse(self.in_layout(body, request))
+    template_name = 'stablemanager/stable_actions.tmpl'
         
