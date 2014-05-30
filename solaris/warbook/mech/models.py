@@ -30,6 +30,15 @@ class MechDesign(models.Model):
     )  
     tech_base = models.CharField(max_length=1, choices=techbase_options)
 
+    production_options = (
+        ('P', 'Standard Production Design'),
+        ('H', 'Historical Custom Design'),
+        ('C', 'Customized Stable Design')
+    )
+    production_type = models.CharField(max_length=1, choices=production_options, default='P')    
+    
+    omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True)
+
     def total_armour(self):
         return (self.locations.aggregate( models.Sum('armour') ))['armour__sum']
     
