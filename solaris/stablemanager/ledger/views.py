@@ -3,7 +3,6 @@ from copy import deepcopy
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView, View
 
-from solaris.utils import deepcopy_append
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import Ledger, LedgerItem
 
@@ -12,10 +11,7 @@ from .forms import LedgerItemForm, LedgerDeleteForm
 class StableLedgerView(StableWeekMixin, TemplateView):
     submenu_selected = 'Ledger'
     template_name = 'stablemanager/stable_ledger.tmpl'
-    
-    styles_list = deepcopy_append(StableViewMixin.styles_list, ['/static/css/ledger.css'])
-    scripts_list = ['/static/js/jquery-1.11.1.js', '/static/js/stable_ledger.js']
-    
+        
     def get_context_data(self, **kwargs):
         page_context = super(StableLedgerView,self).get_context_data(**kwargs)
         
@@ -65,14 +61,14 @@ class StableLedgerView(StableWeekMixin, TemplateView):
         return page_context
     
     def post(self, request, stable=None, week=None, ledger=None):
-        ledger = self.get_ledger_data()
+        self.ledger = get_object_or_404(Ledger, stable=self.stable, week=self.week)
         
         form_values = deepcopy(request.POST)
-        form_values['ledger'] = ledger.id
+        form_values['ledger'] = self.ledger.id
         form_values['tied'] = False
                 
         try:
-            instance = LedgerItem.objects.get(id=form_values['id'], ledger=ledger)
+            instance = LedgerItem.objects.get(id=form_values['id'], ledger=self.ledger)
         except (LedgerItem.DoesNotExist, KeyError, ValueError):
             instance = None
         
