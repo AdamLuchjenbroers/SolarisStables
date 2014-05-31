@@ -32,12 +32,13 @@ class StableView(SolarisView):
         return super(StableView, self).dispatch(request, *args, **kwargs)
 
 class StableViewMixin(SolarisViewMixin):
+    menu_selected = 'Stable'
     
     def get_context_data(self, **kwargs):
         page_context = super(StableViewMixin, self).get_context_data(**kwargs)
         
         page_context['stable'] = self.stable
-        page_context['menu_selected'] = 'Stable'
+        page_context['selected'] = 'Stable'
         page_context['submenu'] = [
           {'title' : 'Ledger', 'url' : '/stable/ledger'},
           {'title' : 'Assets', 'url' : '/stable'},
