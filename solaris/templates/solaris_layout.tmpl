@@ -23,14 +23,15 @@
 
     {% block pagemenu %}
     <ul class="menu">
-      {{ selected | menu:"News,/" }}
-      {{ selected | menu:"Reference,/reference" }}
-      {{ selected | menu:"Wiki,/wiki" }}
-
+      {% menuitem News / %}
+      {% menuitem Reference /reference %}
+      {% menuitem Wiki /wiki %}
+      
       {% if user.is_authenticated %}
-          {{ selected | menu:"Stable,/stable" }}
+          {% menuitem Stable /stable %}
+          
           {% if user.is_admin %}
-              {{ selected | menu:"Admin,/admin" }}
+              {% menuitem Admin /admin %}
           {% endif %}
       {% endif %} 
 
