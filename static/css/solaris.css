@@ -91,7 +91,7 @@ ul.menu li a {
   height: 18px;
 }
 
-div.toolbar span#selected, ul.menu li#selected { 
+ul.menu li.selected { 
   background-color: #660000;
   color: #FFFFFF;  
   display:block;
@@ -99,6 +99,22 @@ div.toolbar span#selected, ul.menu li#selected {
 
   width: 160px; 
   height: 18px;
+}
+
+ul.menu li.selected:hover {
+  background-color: #771111;
+} 
+
+ul.menu li.selected a:link {
+  color: #FFFFFF;
+}
+
+ul.menu li.selected a:visited {
+  color: #CCCCCC;
+}
+
+ul.menu li.selected a:hover {
+  color: #FFFFFF;
 }
 
 ul.submenu {
