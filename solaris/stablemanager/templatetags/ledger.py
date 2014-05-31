@@ -9,7 +9,7 @@ class LedgerFormNode(Node):
         self.week = Variable('week.week_number')
         self.form = Variable(form_variable)
         
-        self.template = loader.get_template('stablemanager/stable_ledger_itemform.tmpl')
+        self.template = loader.get_template('stablemanager/tags/stable_ledger_itemform.tmpl')
         self.node_context = Context( {'action' : action} )
         
         
@@ -29,7 +29,7 @@ class LedgerDeleteNode(Node):
     def __init__(self, form_variable):
         self.form = Variable(form_variable)
         
-        self.template = loader.get_template('stablemanager/stable_ledger_deleteitem.tmpl')
+        self.template = loader.get_template('stablemanager/tags/stable_ledger_deleteitem.tmpl')
         self.node_context = Context( {'action' : 'X', 'post_url' : reverse('stable_ledger_delete')} )    
     def render(self, context):          
         self.node_context['form'] = self.form.resolve(context)
