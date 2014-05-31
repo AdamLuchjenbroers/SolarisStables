@@ -1,6 +1,0 @@
-<div xmlns:py="http://genshi.edgewall.org/" class="register_form">
-  <form action="/stable/register" method="POST" class="login">
-    ${form_items}
-    <p><input type="submit" Value="Register" class="submit"/></p>
-  </form>
-</div>
