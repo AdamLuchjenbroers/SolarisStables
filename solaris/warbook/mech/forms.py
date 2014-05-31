@@ -1,8 +1,6 @@
-from django.forms import CharField, IntegerField
+from django.forms import CharField, IntegerField, Form
 
-from solaris.forms import SolarisForm
-
-class MechSearchForm(SolarisForm):
+class MechSearchForm(Form):
     mech_name = CharField(label='Mech Name', required=False)
     mech_code = CharField(label='Mech Code', required=False)
     tonnage_low = IntegerField(label='Min Tons', required=False)

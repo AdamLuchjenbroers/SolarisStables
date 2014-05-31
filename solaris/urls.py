@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-1 -*-
-from django.conf.urls import patterns, include
+from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 
@@ -12,9 +12,9 @@ urlpatterns = patterns('',
     (r'^/?$', NewsListView.as_view()),
     
     (r'^postnews/?$', NewsPostFormView.as_view()),
-    (r'^login/?$', SolarisLoginView.as_view()),
+    url(r'^login/?$', SolarisLoginView.as_view(), name='login'),
     (r'^logout/?$', 'solaris.userforms.views.logout_user'),
-    (r'^register/?$', SolarisRegistrationView.as_view()),
+    url(r'^register/?$', SolarisRegistrationView.as_view(), name='register'),
     
     (r'^admin/', include(admin.site.urls)),
     (r'^reference/', include('solaris.warbook.urls')),
