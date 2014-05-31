@@ -4,7 +4,22 @@ from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.pilotskill.models import PilotTrait
 from solaris.warbook.models import House
 
-
+class PilotRank(models.Model):
+    rank = models.CharField(max_length=20, unique=True)
+    min_gunnery = models.IntegerField()
+    min_piloting = models.IntegerField()
+    skills_limit = models.IntegerField()
+    promotion = models.ForeignKey('PilotRank', null=True, blank=True)    
+        
+    class Meta:
+        verbose_name_plural = 'Pilot Ranks'
+        verbose_name = 'Pilot Rank'
+        db_table = 'stablemanager_pilotrank'
+        app_label = 'stablemanager'
+        
+    def __unicode__(self):
+        return self.rank
+    
 class Pilot(models.Model):
     pilot_validRanks = (
                    ('R', 'Rookie')    ,
@@ -16,7 +31,7 @@ class Pilot(models.Model):
     stable = models.ForeignKey(Stable, blank=True)
     pilot_name = models.CharField(max_length=50, blank=True)
     pilot_callsign = models.CharField(max_length=20)
-    pilot_rank = models.CharField(max_length=1, choices=pilot_validRanks)
+    pilot_rank = models.ForeignKey(PilotRank)
     skill_gunnery = models.IntegerField()
     skill_pilotting = models.IntegerField()
     exp_character_points = models.IntegerField(default=0)
