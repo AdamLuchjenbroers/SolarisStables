@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404, get_list_or_404, redirect
 from django.views.generic import ListView, TemplateView, FormView
 
-from solaris.utils import deepcopy_append
 from solaris.warbook.views import ReferenceViewMixin
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.mech.forms import MechSearchForm
@@ -10,8 +9,6 @@ class MechDetailView(ReferenceViewMixin, TemplateView):
     template_name = 'warbook/mechdetail.tmpl'
     model = MechDesign
     submenu_selected = 'Mechs'
-    
-    styles_list = deepcopy_append(ReferenceViewMixin.styles_list, ['/static/css/mech_detail.css'])
     
     def get_context_data(self, **kwargs):
         page_context = super(MechDetailView,self).get_context_data(**kwargs)
