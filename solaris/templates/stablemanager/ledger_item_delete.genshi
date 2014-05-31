@@ -1,4 +1,0 @@
-<form xmlns:py="http://genshi.edgewall.org/" action="${post_url}" method="POST" class="linedelete">
-  <div class="ledger_add"><input type="submit" Value="${submit}" class="submit"/></div>
-  <div class="hidden">${fields['id']['markup']}${fields['week']['markup']}</div>
-</form>
