@@ -1,5 +1,3 @@
-from django.http import HttpResponse
-from django.template import Context
 from django.views.generic import TemplateView 
 
 from solaris.views import SolarisViewMixin
