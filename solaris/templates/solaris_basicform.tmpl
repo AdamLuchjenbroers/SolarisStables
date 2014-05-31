@@ -1,0 +1,14 @@
+{% extends 'solaris_layout.tmpl' %}
+{% load solaris_forms %}
+ 
+{% block pagebody %}
+<div class="body">
+  <form action="{{post_url}}" method="POST" class="{{form_class}}">
+    {% if form.non_field_errors %} <div class="form_error"> {{ form.non_field_errors }} </div> {% endif %}
+    {% for field in form %}
+      {% basic_field field %}
+    {% endfor %}
+    <p><input type="submit" Value="{{submit}}" class="submit"/></p>
+  </form>
+</div>
+{% endblock %}
