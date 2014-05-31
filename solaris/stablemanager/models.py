@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 
 from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
@@ -27,7 +28,7 @@ class Stable(models.Model):
         try:
             ledger = self.ledger.get(week=self.current_week)
             return ledger.closing_balance()
-        except Error:
+        except ObjectDoesNotExist:
             return 0
     
     def week_complete(self):
