@@ -3,15 +3,16 @@ from django_genshi import loader
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.forms import CharField, PasswordInput, ValidationError
+from django.forms import ModelForm, Form
+
 from solaris.forms import SolarisModelForm, SolarisForm
 
-class LoginForm(SolarisForm):
+class LoginForm(Form):
     username = CharField(label='Username', required=True)
     password = CharField(label='Password', widget=PasswordInput, required=True)
 
     def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(*args, **kwargs)
-    
+        super(LoginForm, self).__init__(*args, **kwargs)    
     
     def clean(self):
         super(LoginForm,self).clean()
@@ -28,6 +29,8 @@ class LoginForm(SolarisForm):
                 
         if self.user == None:
             raise ValidationError('Invalid Username or Password')
+        
+        return self.cleaned_data
         
 class RegistrationForm(SolarisModelForm):
     
