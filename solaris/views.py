@@ -10,8 +10,6 @@ from genshi import Markup
 from .utils import get_arg
 
 class SolarisViewMixin(object):
-    styles_list = ['/static/css/solaris.css',]
-    scripts_list = ['/static/js/jquery-1.11.1.js',] 
     menu_selected = None
     submenu = None
     submenu_selected = None
@@ -24,8 +22,6 @@ class SolarisViewMixin(object):
             page_context = Context()
         
         page_context['selected'] = self.__class__.menu_selected
-        page_context['styles'] = self.__class__.styles_list
-        page_context['scripts'] = self.__class__.scripts_list
         
         if not 'body' in page_context:
             page_context['body'] = '<p>Body Goes Here</p>'
