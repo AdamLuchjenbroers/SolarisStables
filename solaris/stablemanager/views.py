@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
 
@@ -97,8 +97,22 @@ class StableOverview(StableViewMixin, TemplateView):
     submenu_selected = 'Assets'
     template_name = 'stablemanager/stable_overview.tmpl'
 
+class StableRegistrationView(SolarisViewMixin, CreateView):
+    menu_selected = 'Stable'
+    form_class = CreateView
+    template_name = 'stablemanager/stable_register.tmpl'
+    success_url = '/stable'
+    
+    def get_context_data(self, **kwargs):
+        page_context = super(StableRegistrationView, self).get_context_data(**kwargs)
+        
+        page_context['post_url'] = reverse ('stable_registration')
+        page_context['submit'] = 'Register'
+        page_context['form_class'] = 'registration'
+        
+        return page_context
 
-class StableRegistrationView(SolarisView):    
+class OldStableRegistrationView(SolarisView):    
     scripts_list = ['/static/js/jquery-1.11.1.js', '/static/js/stable_registration.js']
     
     def __init__(self, *args, **kwargs):
@@ -121,7 +135,7 @@ class StableRegistrationView(SolarisView):
         return HttpResponse( self.in_layout(body, request) )        
     
     def post(self, request):
-        form = StableRegistrationForm(request.POST)
+        form = CreateView(request.POST)
         body = self.template.generate(form_items=Markup(form.as_p()))
         if form.is_valid():
             return self.create_stable(form, request)
