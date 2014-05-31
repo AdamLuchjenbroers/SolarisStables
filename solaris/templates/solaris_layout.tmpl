@@ -2,17 +2,14 @@
 <html>
   <head>
     <title>{% block title %}Solaris StableManager{% endblock %}</title>
-    {% block css %}
+    {% block pageheader %}
         {% if styles %}{% for sheet in styles %} 
           <link rel="stylesheet" type="text/css" href="{{sheet}}" />
         {% endfor %}{% endif %}
-    {% endblock %}
-    {% block scripts %}
         {% if scripts %}{% for js in scripts %}
          <script type="text/javascript" src="{{js}}"></script>
         {% endfor %}{% endif %}
     {% endblock %}
-    {% block additional_headers %}{% endblock %}
   </head>
   
   <body>

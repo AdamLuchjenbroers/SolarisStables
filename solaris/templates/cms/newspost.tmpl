@@ -1,7 +1,8 @@
 {% extends 'solaris_layout.tmpl' %}
 {% load markitup_tags %}
 
-{% block additional_headers %}
+{% block pageheader %}
+  {{ block.super }}
   {% markitup_media %}
 {% endblock %}
  
