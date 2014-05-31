@@ -1,14 +1,10 @@
 {% load menu %}
 <html>
   <head>
-    <title>{% block title %}Solaris StableManager{% endblock %}</title>
+    <title>{% block title %}Solaris StableManager{% endblock %}</title>  
     {% block pageheader %}
-        {% if styles %}{% for sheet in styles %} 
-          <link rel="stylesheet" type="text/css" href="{{sheet}}" />
-        {% endfor %}{% endif %}
-        {% if scripts %}{% for js in scripts %}
-         <script type="text/javascript" src="{{js}}"></script>
-        {% endfor %}{% endif %}
+    <link rel="stylesheet" type="text/css" href="/static/css/solaris.css" />
+    <script type="text/javascript" src="/static/js/jquery-1.11.1.js"></script>
     {% endblock %}
   </head>
   
