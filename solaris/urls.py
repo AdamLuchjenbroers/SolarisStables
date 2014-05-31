@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     
     (r'^admin/', include(admin.site.urls)),
     (r'^reference/', include('solaris.warbook.urls')),
-    (r'^stable/?', include('solaris.stablemanager.urls'))
+    (r'^stable/', include('solaris.stablemanager.urls'))
 )
 
 if settings.USE_DJANGO_STATIC:
