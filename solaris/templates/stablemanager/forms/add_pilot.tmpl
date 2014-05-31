@@ -1,0 +1,28 @@
+{% extends 'solaris_layout.tmpl' %}
+{% load solaris_forms %}
+ 
+{% block pagebody %}
+<div class="body">
+  <form action="{{post_url}}" method="POST" class="{{form_class}}">
+    {% if pilot.non_field_errors or skills.non_field_errors %} 
+      <div class="form_error">
+        {{ pilot.non_field_errors }} {{skills.non_field_errors}}}
+      </div>
+    {% endif %}
+    
+    {% for field in pilot %}
+      {% basic_field field %}
+    {% endfor %}
+    
+    {% for skill in skillset %}
+    <div class="skill">
+      {% for field in skill %}
+        {% basic_field field %}
+      {% endfor %}
+    </div>
+    {% endfor %}
+    
+    <p><input type="submit" Value="{{submit}}" class="submit"/></p>
+  </form>
+</div>
+{% endblock %}

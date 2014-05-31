@@ -1,7 +1,9 @@
 from django.forms.models import inlineformset_factory
-from django.forms import ModelForm
+from django.forms import ModelForm, ModelChoiceField
 
 from .models import Pilot, PilotTraining
+
+from solaris.warbook.pilotskill.models import PilotDiscipline
 
 class PilotForm(ModelForm):
 
@@ -11,7 +13,10 @@ class PilotForm(ModelForm):
         
 class PilotTrainingForm(ModelForm):
     
+    discipline = ModelChoiceField(queryset=PilotDiscipline.objects.all())
+    
     class Meta:
-        model = PilotTraining        
+        model = PilotTraining
+        fields = ('discipline', 'training', 'notes')        
         
 PilotInlineSkillsForm = inlineformset_factory(Pilot, PilotTraining, form=PilotTrainingForm )

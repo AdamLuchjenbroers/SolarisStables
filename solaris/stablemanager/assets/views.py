@@ -3,6 +3,7 @@ from django_genshi import loader
 
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from django.core.urlresolvers import reverse
 
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 
@@ -14,7 +15,28 @@ class StablePilotsView(StableWeekMixin, TemplateView):
 
 class StableNewPilotsView(StableViewMixin, TemplateView):
     submenu_selected = 'Pilots'
-    template_name = ''
+    template_name = 'stablemanager/forms/add_pilot.tmpl'
+    
+    def __init__(self):
+        self.form_pilot = PilotForm(initial={
+            'pilot_rank' : 'Rookie'
+        ,   'skill_gunnery' : 5
+        ,   'skill_pilotting' : 6
+        ,   'exp_character_points' : 0
+        })
+        self.form_skills = PilotInlineSkillsForm()
+    
+    def get_context_data(self, **kwargs):
+        page_context = super(StableNewPilotsView, self).get_context_data(**kwargs)
+        
+        page_context['pilot'] = self.form_pilot
+        page_context['skillset'] = self.form_skills
+        
+        page_context['post_url'] = reverse ('pilots_add')
+        page_context['submit'] = 'Add'
+        page_context['form_class'] = 'pilot'
+        
+        return page_context
     
 class OldStableNewPilotsView(object):
     form_properties = {
