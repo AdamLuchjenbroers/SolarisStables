@@ -1,9 +1,9 @@
-from solaris.forms import SolarisModelForm
+from django.forms import ModelForm
 from solaris.cms.models import NewsPost
 
 from markitup.widgets import MarkItUpWidget
 
-class NewsPostForm(SolarisModelForm):
+class NewsPostForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(NewsPostForm, self).__init__(*args, **kwargs)

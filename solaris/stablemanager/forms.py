@@ -1,5 +1,4 @@
-from solaris.forms import SolarisForm
-from django.forms import CharField, ModelChoiceField
+from django.forms import CharField, ModelChoiceField, Form
 from django.db.models import Max
 
 from solaris.warbook.models import House
@@ -9,14 +8,13 @@ from solaris.stablemanager.ledger.models import Ledger
 from solaris.battlereport.models import BroadcastWeek
 
 
-class StableRegistrationForm(SolarisForm):
+class StableRegistrationForm(Form):
     stable_name = CharField(label='Stable Name', required=True)
     house = ModelChoiceField(label='House', required=True, queryset=House.objects.all())
     discipline_1 = ModelChoiceField(label='Discipline 1', required=True, queryset=PilotDiscipline.objects.all())
     discipline_2 = ModelChoiceField(label='Discipline 2', required=True, queryset=PilotDiscipline.objects.all())
     
     def register_stable(self, user):
-        print self.cleaned_data
         house = House.objects.get(house=self.cleaned_data['house'])
         
         stable = Stable.objects.create(

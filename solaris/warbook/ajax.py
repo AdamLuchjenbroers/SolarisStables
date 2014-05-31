@@ -2,15 +2,15 @@ import json
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from django.views.generic import View
 
-from solaris.views import SolarisView
 from .models import House
 
 
-class SolarisAjax(SolarisView):
+class AjaxView(View):
     pass
 
-class JsonHouseDisciplines(SolarisAjax):
+class JsonHouseDisciplines(AjaxView):
         
     def get(self, request, house_name=''):
         house = get_object_or_404(House, house__iexact=house_name)

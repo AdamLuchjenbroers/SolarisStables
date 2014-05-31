@@ -81,7 +81,7 @@ class MechSearchResultsView(ReferenceViewMixin, ListView):
         return page_context
          
 class MechSearchView(ReferenceViewMixin, FormView):       
-    template_name = 'warbook/mechsearch.tmpl'
+    template_name = 'solaris_basicform.tmpl'
     form_class = MechSearchForm
     submenu_selected = 'Mechs'
 
