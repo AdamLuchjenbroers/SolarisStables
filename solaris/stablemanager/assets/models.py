@@ -20,14 +20,7 @@ class PilotRank(models.Model):
     def __unicode__(self):
         return self.rank
     
-class Pilot(models.Model):
-    pilot_validRanks = (
-                   ('R', 'Rookie')    ,
-                   ('C', 'Contender') ,
-                   ('S', 'Star')      ,
-                   ('X', 'Champion')  ,
-                   )
-    
+class Pilot(models.Model):    
     stable = models.ForeignKey(Stable, blank=True)
     pilot_name = models.CharField(max_length=50, blank=True)
     pilot_callsign = models.CharField(max_length=20)
