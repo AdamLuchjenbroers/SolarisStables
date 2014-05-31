@@ -1,4 +1,9 @@
 {% extends 'solaris_layout.tmpl' %}
+
+{% block pageheader %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="/static/css/techtree.css" />
+{% endblock %}
  
 {% block pagebody %}
 <div class="body">

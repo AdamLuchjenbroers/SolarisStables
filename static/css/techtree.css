@@ -1,0 +1,51 @@
+
+.tech_tier0, .tech_tier1, .tech_tier2, .tech_tier3 {
+  position: relative;
+  left: 40px;
+  right: 40px;
+  margin: 20px 20px 20px 20px;
+  padding: 10px 10px 10px 10px;
+  width: 80%
+  }
+
+.tech_desc, .tech_rolls {
+  padding: 5px 5px 5px 5px;
+  margin: 0px 10px 10px 10px;
+}
+
+.tech_tier0 {
+   background-color: #888888;
+}
+
+.tech_tier0 div, .tech_tier0 span {
+   background-color: #F0F0F0;
+}
+
+.tech_tier1 {
+  background-color: #22AA22;
+}
+
+.tech_tier1 div, .tech_tier1 span {
+   background-color: #88F088;
+}
+
+.tech_tier2 {
+  background-color: #AAAA22;
+}
+
+.tech_tier2 div, .tech_tier2 span {
+   background-color: #F0F088;
+}
+
+.tech_tier3 {
+  background-color: #AA2222;
+}
+
+.tech_tier3 div, .tech_tier3 span {
+   background-color: #F08888;
+}
+
+div.tech span.roll {
+  float: right;
+  margin: 0px 5px;
+}
