@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.urlresolvers import reverse
+
 from solaris.battlereport.models import BroadcastWeek
 from solaris.stablemanager.models import Stable
 
@@ -15,6 +17,9 @@ class Ledger(models.Model):
             balance += item.get_cost()
             
         return balance
+    
+    def get_absolute_url(self):
+        return reverse('stable_ledger', kwargs={'week': self.week.week_number})
     
     class Meta:
         verbose_name_plural = 'Ledgers'
