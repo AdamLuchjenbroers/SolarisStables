@@ -2,6 +2,7 @@ from copy import deepcopy
 
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView, View
+from django.core.urlresolvers import reverse
 
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import Ledger, LedgerItem
@@ -79,16 +80,16 @@ class StableLedgerView(StableWeekMixin, TemplateView):
         return self.get(request)
         
 class StableLedgerDeleteView(StableViewMixin, View):
-    def get(self, request, stable=None, week=None, ledger=None):
+    def get(self, request):
         # Redirect back to main page
-        return redirect('/stable/ledger')
+        return redirect(reverse('stable_ledger_now'))
         
-    def post(self, request, stable=None):
+    def post(self, request):
         try:
             item = LedgerItem.objects.get(id=request.POST['id'])
             
             # Check to make sure the deleted item belongs to the correct Stable
-            if item.ledger.stable == stable:
+            if item.ledger.stable == self.stable:
                 item.delete()
         except (LedgerItem.DoesNotExist, KeyError):
             pass

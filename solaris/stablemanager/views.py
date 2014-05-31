@@ -59,7 +59,7 @@ class StableViewMixin(SolarisViewMixin):
             return redirect(reverse ('stable_registration'))        
     
     def dispatch(self, request, *args, **kwargs):
-        if self.stable == None:
+        if not hasattr(self, 'stable'):
             # get_stable hasn't already been called
             redirect = self.get_stable(request)
             if redirect:
