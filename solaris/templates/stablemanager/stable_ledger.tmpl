@@ -1,4 +1,12 @@
 {% extends 'solaris_layout.tmpl' %}
+{% load ledger %}
+ 
+{% block pageheader %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="/static/css/ledger.css" />
+  <script src="/static/js/stable_ledger.js" type="text/javascript" > </script>
+  
+{% endblock %}
  
 {% block pagebody %}
 <div class="body">
@@ -21,16 +29,16 @@
             <div class="ledger_value"><p>{{entry.item.cost}}</p></div>
             <div class="ledger_desc"><p>{{entry.item.description}}</p></div>
           </div>
-          <div class="line_update">
-          	{{entry.form.as_p | safe}}
+          <div class="line_update">         
+          	{% ledger_edit_form entry.form %}
           </div>
-          {{entry.delete.as_p  | safe}}
+          {{entry.delete.as_p | safe}}
         </div>
     {% endfor %}{% endif %}
      
     {% if group.form %}
     <div class="lineitem">
-      {{group.form.as_p  | safe}}
+      {% ledger_add_form group.form %}
     </div>
     {% endif %}
   {% endfor %}
