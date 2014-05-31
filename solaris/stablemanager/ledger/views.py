@@ -6,7 +6,6 @@ from django.views.generic import TemplateView, View
 from solaris.utils import deepcopy_append
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import Ledger, LedgerItem
-from solaris.battlereport.models import BroadcastWeek
 
 from .forms import LedgerItemForm, LedgerDeleteForm
 
