@@ -35,7 +35,7 @@ ROOT_URLCONF = 'solaris.urls'
 
 MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': True})
 
-JQUERY_URL = 'js/jquery.1.11.1.js'
+JQUERY_URL = None
 
 INSTALLED_APPS = (
     'django.contrib.auth',
