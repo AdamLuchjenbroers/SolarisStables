@@ -12,7 +12,6 @@ class TechnologyListView(ReferenceViewMixin, TemplateView):
         tech_list = []
          
         for (code, name) in models.Technology.categories:
-            print 'Adding %s (%s)' % (name, code)
             tech_list.append(
                 { 'name' : name
                 , 'tiers' : [{ 'number' : tier, 'techs' : models.Technology.objects.filter(category=code, tier=tier, show=True)} for tier in range(1,4)]}
