@@ -1,11 +1,7 @@
-from genshi import Markup
-from django_genshi import loader
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.forms import CharField, PasswordInput, ValidationError
 from django.forms import ModelForm, Form
-
-from solaris.forms import SolarisModelForm, SolarisForm
 
 class LoginForm(Form):
     username = CharField(label='Username', required=True)
@@ -32,7 +28,7 @@ class LoginForm(Form):
         
         return self.cleaned_data
         
-class RegistrationForm(SolarisModelForm):
+class RegistrationForm(ModelForm):
     
     passwordrepeat = CharField(widget=PasswordInput, label='Repeat')
     
@@ -62,9 +58,4 @@ class RegistrationForm(SolarisModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name', 'last_name', 'password', 'passwordrepeat' )
-        
-    def render(self):
-        form_template = loader.get_template('solaris_form_outer.genshi')
-
-        return form_template.generate(form_items=Markup(self.as_p()), formclass='register', post_url='/register', submit='Register')
     
