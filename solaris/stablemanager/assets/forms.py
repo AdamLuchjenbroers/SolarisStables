@@ -1,4 +1,4 @@
-from django.forms.models import BaseInlineFormSet, inlineformset_factory
+from django.forms.models import inlineformset_factory
 
 from solaris.forms import SolarisModelForm, SolarisInlineForm
 

@@ -4,7 +4,7 @@ from django_genshi import loader
 from django.http import HttpResponse
 from django.views.generic import TemplateView, FormView
 
-from solaris.stablemanager.views import StableView, StableWeekMixin
+from solaris.stablemanager.views import StableWeekMixin
 
 from .forms import PilotForm, PilotInlineSkillsForm
 
@@ -12,7 +12,7 @@ class StablePilotsView(StableWeekMixin, TemplateView):
     submenu_selected = 'Pilots'
     template_name = 'stablemanager/stable_pilots.tmpl'
 
-class StableNewPilotsView(StableView):
+class StableNewPilotsView(StableViewMixin, View):
     form_properties = {
         'css_class' : 'pilotform'
     ,   'post_url'  : '/stable/pilots/add'
