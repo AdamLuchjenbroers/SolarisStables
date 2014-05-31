@@ -13,7 +13,7 @@ class MechMathsTest(TestCase):
         Tests that the engine 'size' formula is implemented correctly
         """
         wolverine = MechDesign.objects.get(mech_name='Wolverine', mech_code='WVR-7D')
-        self.assertEqual(wolverine.move_walk(), 5,  'Failed Test: Testing Walking MP, expected 5, got %i', wolverine.move_walk())
+        self.assertEqual(wolverine.move_walk(), 5,  'Failed Test: Testing Walking MP, expected 5, got %i' % wolverine.move_walk())
         
     
     def test_runningMP_Even(self):
@@ -21,12 +21,12 @@ class MechMathsTest(TestCase):
         Tests that running MP is calculated correctly
         """
         raven = MechDesign.objects.get(mech_name='Raven', mech_code='RVN-4L')
-        self.assertEqual(raven.move_run(), 9, 'Failed Test: Testing Running MP Formula (even), expected 9, got %i', raven.move_run())
+        self.assertEqual(raven.move_run(), 9, 'Failed Test: Testing Running MP Formula (even), expected 9, got %i' % raven.move_run())
         
     def test_runningMP_Odd(self):
         """
         Tests that running MP is calculated correctly
         """
         wolverine = MechDesign.objects.get(mech_name='Wolverine', mech_code='WVR-7D')
-        self.assertEqual(wolverine.move_run(), 8, 'Failed Test: Running MP Formula (odd), expected 8, got %i', wolverine.move_run())
+        self.assertEqual(wolverine.move_run(), 8, 'Failed Test: Running MP Formula (odd), expected 8, got %i' % wolverine.move_run())
 
