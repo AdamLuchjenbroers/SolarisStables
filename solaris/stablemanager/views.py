@@ -2,6 +2,7 @@ from genshi import Markup
 from django_genshi import loader
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
+from django.core.urlresolvers import reverse
 
 from django.views.generic import TemplateView
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -47,15 +48,24 @@ class StableViewMixin(SolarisViewMixin):
         
         return page_context
     
-    def dispatch(self, request, *args, **kwargs):
+    def get_stable(self, request):
         if not request.user.is_authenticated():
             return redirect_to_login(request.get_full_path(), 'login', REDIRECT_FIELD_NAME)
 
         try:
             self.stable = Stable.objects.get(owner=request.user)
-            return super(StableViewMixin, self).dispatch(request, *args, **kwargs)
+            return None
         except Stable.DoesNotExist:
-            return redirect()
+            return redirect(reverse ('stable_registration'))        
+    
+    def dispatch(self, request, *args, **kwargs):
+        if self.stable == None:
+            # get_stable hasn't already been called
+            redirect = self.get_stable(request)
+            if redirect:
+                return redirect
+        
+        return super(StableViewMixin, self).dispatch(request, *args, **kwargs)
 
 class StableWeekMixin(StableViewMixin):
     """
@@ -63,13 +73,21 @@ class StableWeekMixin(StableViewMixin):
       If week is provided as a parameter, the provided week is used otherwise
       the view defaults to the current Stable Week
     """
-    def get_context_data(self, **kwargs):
-        page_context = super(StableWeekMixin, self).get_context_data(**kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        redirect = self.get_stable(request)
+        if redirect:
+            return redirect        
         
         if 'week' in self.kwargs:
             self.week = get_object_or_404(BroadcastWeek, week_number=self.kwargs['week'])
         else:
             self.week = self.stable.current_week
+                   
+        return super(StableWeekMixin, self).dispatch(request, *args, **kwargs) 
+    
+    
+    def get_context_data(self, **kwargs):
+        page_context = super(StableWeekMixin, self).get_context_data(**kwargs)
         page_context['week'] = self.week        
  
         return page_context            
