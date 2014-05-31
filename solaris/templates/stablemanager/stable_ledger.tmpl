@@ -32,7 +32,7 @@
           <div class="line_update">         
           	{% ledger_edit_form entry.form %}
           </div>
-          {{entry.delete.as_p | safe}}
+          {% ledger_delete entry.delete %}
         </div>
     {% endfor %}{% endif %}
      

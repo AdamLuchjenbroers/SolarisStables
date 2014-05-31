@@ -25,6 +25,16 @@ class LedgerFormNode(Node):
         
         return mark_safe(self.template.render(self.node_context))       
     
+class LedgerDeleteNode(Node):
+    def __init__(self, form_variable):
+        self.form = Variable(form_variable)
+        
+        self.template = loader.get_template('stablemanager/stable_ledger_deleteitem.tmpl')
+        self.node_context = Context( {'action' : 'X', 'post_url' : reverse('stable_ledger_delete')} )    
+    def render(self, context):          
+        self.node_context['form'] = self.form.resolve(context)
+        
+        return mark_safe(self.template.render(self.node_context))   
 
 def do_ledger_form(parser, token, action='Add'):
     arguments = token.split_contents()
@@ -41,3 +51,12 @@ def do_ledger_add_form(parser, token):
 @register.tag(name="ledger_edit_form")
 def do_ledger_edit_form(parser, token):
     return do_ledger_form(parser, token, action='Edit')
+
+@register.tag(name="ledger_delete")
+def do_ledger_delete(parser, token):
+    arguments = token.split_contents()
+    
+    if len(arguments) != 2:
+        raise TemplateSyntaxError("%r tag expects a single  argument" % token.contents.split()[0])
+    
+    return LedgerDeleteNode(arguments[1])
