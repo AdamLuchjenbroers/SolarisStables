@@ -48,13 +48,19 @@ class PilotTraitGroup(models.Model):
         
     def __unicode__(self):
         return self.name
-    
+
+class PilotDisciplineManager(models.Manager):
+    def get_query_set(self):
+        return super(PilotDisciplineManager,self).get_query_set().filter(discipline_type='T')
+
 class PilotDiscipline(PilotTraitGroup):
     class Meta:
         verbose_name_plural = 'Pilot Disciplines'
         verbose_name = 'Pilot Discipline'
         app_label = 'warbook'
         proxy = True
+        
+    objects = PilotDisciplineManager()
  
 class PilotTrait(models.Model):
     bv_modifiers = (

@@ -14,9 +14,6 @@ class PilotDisciplineAdmin(admin.ModelAdmin):
     model = models.PilotDiscipline
     inlines = [PilotAbilityInline,]
 
-    def queryset(self, request):
-        return self.model.objects.filter(discipline_type='T')
-
 class PilotTraitGroupAdmin(admin.ModelAdmin):
     model = models.PilotTraitGroup
     inlines = [PilotTraitInline,]
