@@ -115,7 +115,7 @@ $( document ).ready(function() {
        url  : '/reference/ajax/house_disciplines/' + $('#id_house option:selected').text(),
        dataType : 'json'
      }).done(function(json) {
-       $('#House').attr('class', 'field_info')
+       $('#field_id_house').attr('class', 'field_info')
        
        infostr = 'House Disciplines<ul>';
        
@@ -124,7 +124,7 @@ $( document ).ready(function() {
        });
        
        infostr += '</ul>';
-       $('#House_message').html(infostr);
+       $('#id_house_message').html(infostr);
        
        house_disciplines = json;
        update_disciplines();       

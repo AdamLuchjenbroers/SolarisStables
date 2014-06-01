@@ -83,6 +83,12 @@ class StableRegistrationView(SolarisViewMixin, CreateView):
     form_class = StableRegistrationForm
     template_name = 'stablemanager/stable_register.tmpl'
     success_url = '/stable'
+    model = Stable
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
     
     def get_context_data(self, **kwargs):
         page_context = super(StableRegistrationView, self).get_context_data(**kwargs)

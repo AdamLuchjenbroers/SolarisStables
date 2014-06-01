@@ -1,7 +1,7 @@
  {% if field.errors %}
- <div id="{{field.auto_id}}" class="field_error">
+ <div id="field_{{field.auto_id}}" class="field_error">
  {% else %}
- <div id="{{field.auto_id}}" class="field_basic">
+ <div id="field_{{field.auto_id}}" class="field_basic">
  {% endif %} 
     <div class="field_label"> {{field.label_tag}}</div>
     <div class="field_input"> {{field}} </div>
