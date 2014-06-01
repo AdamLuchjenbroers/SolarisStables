@@ -82,6 +82,16 @@ div.form_column {
 	float: left;
 }
 
+div.short_column {
+	width: 80px;
+	display: inline-block;
+	float: left;
+}
+
+div.short_column input {
+    width: 60px;	
+}
+
 div.column_field_error {	
     border-width: 1px;
     border-style: solid;   
