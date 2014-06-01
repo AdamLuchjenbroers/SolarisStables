@@ -39,6 +39,16 @@ class Pilot(models.Model):
                 self.deactivate()
         except ObjectDoesNotExist:            
             self.deactivate() # Dead or otherwise obsolete pilot
+            
+    
+class PilotTraining(models.Model):
+    pilot_week = models.ForeignKey('PilotWeek')
+    training = models.ForeignKey(PilotTrait)
+    notes = models.CharField(max_length=50, blank=True)
+    
+    class Meta:
+        db_table = 'stablemanager_pilottraining'
+        app_label = 'stablemanager'   
     
 class PilotWeek(models.Model):
     pilot = models.ForeignKey(Pilot, related_name='weeks')
@@ -47,7 +57,6 @@ class PilotWeek(models.Model):
     start_character_points = models.IntegerField(default=0)
     adjust_character_points = models.IntegerField(default=0)
     
-    earned_training_points = models.IntegerField(default=0)
     assigned_training_points = models.IntegerField(default=0)
         
     rank = models.ForeignKey(PilotRank)
@@ -55,11 +64,21 @@ class PilotWeek(models.Model):
     skill_pilotting = models.IntegerField()
     wounds = models.IntegerField()
     
-    skill = models.ManyToManyField(PilotTrait, blank=True, null=True, through='PilotTraining')
+    skill = models.ManyToManyField(PilotTrait, blank=True, null=True, through=PilotTraining)
+    
+    class Meta:
+        db_table = 'stablemanager_pilotweek'
+        app_label = 'stablemanager'  
+    
+    def earned_training_points(self):
+        return 0
+    
+    def gained_character_points(self):
+        return self.adjust_character_points + self.assigned_training_points + self.rank.auto_train_cp
     
     def character_points(self):
         # TODO: Add earned character-points from battles.
-        return self.start_character_points + self.adjust_character_points + self.assigned_training_points + self.rank.auto_train_cp
+        return self.start_character_points + self.gained_character_points()
     
     def advance(self):
         if self.week.next_week == None:
@@ -96,15 +115,6 @@ class PilotWeek(models.Model):
         ,   wounds = new_wounds
         ,   skill = new_skill
         )
-    
-class PilotTraining(models.Model):
-    pilot = models.ForeignKey(Pilot)
-    training = models.ForeignKey(PilotTrait)
-    notes = models.CharField(max_length=50, blank=True)
-    
-    class Meta:
-        db_table = 'stablemanager_pilottraining'
-        app_label = 'stablemanager'    
             
 class Mech(models.Model):
     stable = models.ForeignKey(Stable, blank=True, null=True)
