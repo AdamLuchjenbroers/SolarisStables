@@ -11,6 +11,14 @@ form input {
   border: 1px solid;
 }
 
+form label {
+  width: 6em;
+  margin-right: 0.5em;
+  float: left;
+  text-align: right;
+  display: block;
+}
+
 /*
   Basic Field Layout
 */
@@ -66,7 +74,9 @@ div.field_basic div.field_input, div.field_error div.field_input, div.field_info
   width: 260px;
 }
 
-
+/*
+  Columnar Field Layout
+*/
 
 
 div.column_field_basic {
@@ -86,22 +96,17 @@ div.column_field_error {
     background-color: #8888F0;	
 }
 
+div.column_field_info {
+	width: 40%;
+	display: inline-block;
+	float: left;
+	
+    border-width: 1px;
+    border-style: solid;   
+    font-weight: bold;
+    background-color: #8888F0;	
+}
+
 div.column_field_basic div, div.column_field_basic span, div.column_field_error div, div.column_field_error span {
 	float: none;
-}
-
-
-form label {
-  width: 6em;
-  margin-right: 0.5em;
-  float: left;
-  text-align: right;
-  display: block;
-}
-
-
-
-
-form.login input.submit {
-  border: 2px outset;
 }

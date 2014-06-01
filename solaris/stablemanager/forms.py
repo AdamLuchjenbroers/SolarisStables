@@ -1,10 +1,8 @@
-from django.forms import HiddenInput, ModelChoiceField, ModelForm
+from django.forms import ModelChoiceField, ModelForm
 from django.db.models import Max
 
-from solaris.warbook.models import House
 from solaris.warbook.pilotskill.models import PilotDiscipline
 from solaris.stablemanager.models import Stable
-from solaris.stablemanager.ledger.models import Ledger
 from solaris.battlereport.models import BroadcastWeek
 
 
@@ -22,19 +20,7 @@ class StableRegistrationForm(ModelForm):
     class Meta:
         model = Stable
         fields = ('stable_name', 'house', 'discipline_1', 'discipline_2')       
-    
-    def save(self, commit=True):
-        super(StableRegistrationForm, self).save(commit=False)        
-                    
-        self.instance.stable_disciplines.add( PilotDiscipline.objects.get(name=self.cleaned_data['discipline_1']) )
-        self.instance.stable_disciplines.add( PilotDiscipline.objects.get(name=self.cleaned_data['discipline_2']) )
-        
-        Ledger.objects.create(
-            stable = self.instance
-        ,   week = self.week
-        ,   opening_balance = 10000000
-        )        
-        self.instance.save(commit=commit)    
+  
     
     def clean(self):
         super(StableRegistrationForm,self).clean()

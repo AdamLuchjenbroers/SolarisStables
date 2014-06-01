@@ -8,8 +8,10 @@ from django.contrib.auth.views import redirect_to_login
 
 from solaris.views import SolarisViewMixin
 from solaris.battlereport.models import BroadcastWeek
+from solaris.warbook.pilotskill.models import PilotDiscipline
 
 from .models import Stable
+from .ledger.models import Ledger
 from .forms import StableRegistrationForm
 
 class StableViewMixin(SolarisViewMixin):
@@ -88,7 +90,17 @@ class StableRegistrationView(SolarisViewMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
+        self.object.save()           
+                    
+        self.object.stable_disciplines.add( PilotDiscipline.objects.get(name=form.cleaned_data['discipline_1']) )
+        self.object.stable_disciplines.add( PilotDiscipline.objects.get(name=form.cleaned_data['discipline_2']) )
         self.object.save()
+        
+        Ledger.objects.create(
+            stable = self.instance
+        ,   week = self.week
+        ,   opening_balance = 10000000
+        )
     
     def get_context_data(self, **kwargs):
         page_context = super(StableRegistrationView, self).get_context_data(**kwargs)
