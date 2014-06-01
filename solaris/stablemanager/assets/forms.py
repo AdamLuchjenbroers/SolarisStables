@@ -10,6 +10,9 @@ class PilotForm(ModelForm):
     def __init__(self, **kwargs):
         super(PilotForm, self).__init__(**kwargs)
         self.fields['stable'].widget = HiddenInput()
+        
+        self.fields['pilot_name'].label = 'Name'
+        self.fields['pilot_callsign'].label = 'Callsign'
 
     class Meta:
         model = models.Pilot
