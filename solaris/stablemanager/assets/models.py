@@ -69,9 +69,9 @@ class PilotWeek(models.Model):
     assigned_training_points = models.IntegerField(default=0)
         
     rank = models.ForeignKey(PilotRank)
-    skill_gunnery = models.IntegerField()
-    skill_piloting = models.IntegerField()
-    wounds = models.IntegerField()
+    skill_gunnery = models.IntegerField(default=5)
+    skill_piloting = models.IntegerField(default=6)
+    wounds = models.IntegerField(default=0)
     
     skill = models.ManyToManyField(PilotTrait, blank=True, null=True, through=PilotTraining)
     

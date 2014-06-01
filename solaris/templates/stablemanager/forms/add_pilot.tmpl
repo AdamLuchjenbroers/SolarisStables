@@ -10,10 +10,19 @@
       </div>
     {% endif %}
     
-    {% for field in pilot %}
+    <fieldset> <legend>Pilot Details</legend>
+    {% basic_field pilot.pilot_callsign %}
+    {% basic_field pilot.pilot_name %}
+    {% basic_field pilot.affiliation %}
+    </fieldset>
+    
+    <fieldset> <legend>Pilot Experience</legend>
+    {% for field in pilotweek %}
       {% basic_field field %}
     {% endfor %}
+    </fieldset>
     
+    <fieldset> <legend>Pilot Skills and Traits</legend>
     {% for skill in skillset %}
     <div class="skill">
       {% for field in skill %}
@@ -21,6 +30,7 @@
       {% endfor %}
     </div>
     {% endfor %}
+    </fieldset>
     
     <p><input type="submit" Value="{{submit}}" class="submit"/></p>
   </form>
