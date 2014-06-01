@@ -26,7 +26,7 @@ class PilotWeekForm(ModelForm):
         self.fields['pilot'].widget = HiddenInput()
         self.fields['week'].widget = HiddenInput()
         
-        self.fields['start_character_points'].label = 'Character Points'
+        self.fields['start_character_points'].label = 'Experience'
         self.fields['skill_gunnery'].label = 'Gunnery'
         self.fields['skill_piloting'].label = 'Piloting'
     
