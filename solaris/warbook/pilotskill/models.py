@@ -9,7 +9,8 @@ class PilotRank(models.Model):
     min_gunnery = models.IntegerField()
     min_piloting = models.IntegerField()
     skills_limit = models.IntegerField()
-    promotion = models.ForeignKey('PilotRank', null=True, blank=True)    
+    auto_train_cp = models.IntegerField()
+    promotion = models.ForeignKey('PilotRank', null=True, blank=True)
         
     class Meta:
         verbose_name_plural = 'Pilot Ranks'
