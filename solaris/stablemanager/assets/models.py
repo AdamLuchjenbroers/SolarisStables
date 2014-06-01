@@ -70,7 +70,7 @@ class PilotWeek(models.Model):
         
     rank = models.ForeignKey(PilotRank)
     skill_gunnery = models.IntegerField()
-    skill_pilotting = models.IntegerField()
+    skill_piloting = models.IntegerField()
     wounds = models.IntegerField()
     
     skill = models.ManyToManyField(PilotTrait, blank=True, null=True, through=PilotTraining)
@@ -104,7 +104,7 @@ class PilotWeek(models.Model):
         # TODO - Apply Training
         new_rank = self.rank
         new_gunnery = self.skill_gunnery
-        new_pilotting = self.skill_pilotting
+        new_piloting = self.skill_piloting
         new_skill = self.skill
         
         if self.wounds > 0 and self.wounds < 6:        
@@ -121,7 +121,7 @@ class PilotWeek(models.Model):
         ,   start_character_points=self.character_points()
         ,   rank = new_rank
         ,   skill_gunnery = new_gunnery
-        ,   skill_pilotting = new_pilotting
+        ,   skill_piloting = new_piloting
         ,   wounds = new_wounds
         ,   skill = new_skill
         )
