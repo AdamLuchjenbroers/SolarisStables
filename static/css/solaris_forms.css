@@ -82,13 +82,17 @@ div.form_column {
 	float: left;
 }
 
+div.form_column select, div.form_column input {
+	width: 180px;
+}
+
 div.short_column {
 	width: 80px;
 	display: inline-block;
 	float: left;
 }
 
-div.short_column input {
+div.short_column select, div.short_column input {
     width: 60px;	
 }
 

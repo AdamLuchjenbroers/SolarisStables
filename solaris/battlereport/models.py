@@ -8,6 +8,10 @@ class Zodiac(models.Model):
     def __unicode__(self):
         return self.sign
 
+class BroadcastWeekManager(models.Model):
+    def current_week(self):
+        return super(BroadcastWeekManager,self).get(next_week=None)
+
 class BroadcastWeek(models.Model):
     week_number = models.IntegerField()
     sign = models.ForeignKey(Zodiac)
