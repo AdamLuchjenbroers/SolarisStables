@@ -1,0 +1,73 @@
+form div {
+    height:100%;
+    overflow:hidden
+}
+
+div.form_error, div.field_error {
+  border-width: 1px;
+  border-style: solid;
+  padding: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+    
+  font-weight: bold;
+  background-color: #F08888;
+}
+
+div.form_info, div.field_info {
+  border-width: 1px;
+  border-style: solid;
+  padding: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+    
+  font-weight: bold;
+  background-color: #8888F0;
+}
+
+div.field_basic {
+  border-width: 0px;
+  padding: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  
+  
+  height:100%;
+  overflow:hidden;
+  
+  position: relative;  
+}
+
+.field_label {
+  float: left;
+  display: inline-block;
+  width: 120px;
+}
+
+.field_input {
+  float: left;
+  display: inline-block;
+  width: 260px;
+}
+
+.field_message {
+  float: left;
+  display: inline-block;
+}
+
+form label {
+  width: 6em;
+  margin-right: 0.5em;
+  float: left;
+  text-align: right;
+  display: block;
+}
+
+form.login input {
+  margin-left: 0.5em;
+  border: 1px solid;
+}
+
+form.login input.submit {
+  border: 2px outset;
+}
