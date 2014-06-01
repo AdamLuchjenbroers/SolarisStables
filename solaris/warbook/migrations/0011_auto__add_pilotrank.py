@@ -20,11 +20,14 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('warbook', ['PilotRank'])
         
+        db.add_column('warbook_pilotrank', 'auto_train_cp',
+                      self.gf('django.db.models.fields.IntegerField')(default=0),
+                      keep_default=False)
+
         champion = PilotRank.objects.create(rank='Champion', min_piloting=0, min_gunnery=0, skills_limit=-1)
         star = PilotRank.objects.create(rank='Star', min_piloting=0, min_gunnery=0, skills_limit=-1, promotion=champion)
-        contender = PilotRank.objects.create(rank='Contender', min_piloting=3, min_gunnery=4, skills_limit=2, promotion=star)
-        rookie = PilotRank.objects.create(rank='Rookie', min_piloting=4, min_gunnery=5, skills_limit=1, promotion=contender)
-
+        contender = PilotRank.objects.create(rank='Contender', min_piloting=3, min_gunnery=4, skills_limit=2, promotion=star, auto_train_cp=1)
+        rookie = PilotRank.objects.create(rank='Rookie', min_piloting=4, min_gunnery=5, skills_limit=1, promotion=contender, auto_train_cp=2)
 
     def backwards(self, orm):
         # Deleting model 'PilotRank'

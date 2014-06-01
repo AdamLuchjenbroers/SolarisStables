@@ -8,24 +8,9 @@ from solaris.warbook.pilotskill.models import PilotRank
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'PilotRank.auto_train_cp'
-        db.add_column('warbook_pilotrank', 'auto_train_cp',
-                      self.gf('django.db.models.fields.IntegerField')(default=0),
-                      keep_default=False)
-        
-        rookie = PilotRank.objects.get(rank='Rookie')
-        rookie.auto_train_cp = 2
-        rookie.save()
-        
-        contender = PilotRank.objects.get(rank='Contender')
-        contender.auto_train_cp = 1  
-        contender.save()
-
-
+        pass
     def backwards(self, orm):
-        # Deleting field 'PilotRank.auto_train_cp'
-        db.delete_column('warbook_pilotrank', 'auto_train_cp')
-
+        pass
 
     models = {
         'warbook.equipment': {
