@@ -1,7 +1,3 @@
-from genshi import Markup
-from django_genshi import loader
-
-from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.core.urlresolvers import reverse
 
