@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 from solaris.battlereport.models import BroadcastWeek
 from solaris.stablemanager.models import Stable
@@ -18,6 +19,26 @@ class Ledger(models.Model):
             
         return balance
     
+    def advance(self):
+        if self.week.next_week == None:
+            return
+        
+        try:
+            # Try to get the next week along after this one, in case it already exists
+            # Should rarely return anything, but this is included as a safety feature
+            return self.objects.get(stable=self.stable, week=self.week.next_week)
+        except ObjectDoesNotExist:
+            pass
+        
+        self.next_ledger = self.objects.create(
+            stable = self.stable
+        ,   week = self.week.next_week
+        ,   opening_balance = self.closing_balance()
+        )
+        self.save()
+        
+        return self.next_ledger
+            
     def get_absolute_url(self):
         return reverse('stable_ledger', kwargs={'week': self.week.week_number})
     
@@ -26,6 +47,8 @@ class Ledger(models.Model):
         verbose_name = 'Ledger'
         db_table = 'stablemanager_ledger'
         app_label = 'stablemanager'
+        
+        unique_together = ('stable', 'week')
     
 
 class LedgerItem(models.Model):

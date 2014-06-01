@@ -33,5 +33,18 @@ class Stable(models.Model):
     
     def week_complete(self):
         return (self.remaining_tasks == None and self.current_week.next_week != None)
+    
+    def advance(self):
+        """ Handles advancing the stable and all related objects to the next Broadcast Week """
+        if self.current_week.next_week == None:
+            return
+        
+        ledger = self.ledger.get(week=self.current_week)
+        ledger.advance()
+        
+        for pilot in self.pilots.all():
+            pilot.advance()        
+        
+        
      
 
