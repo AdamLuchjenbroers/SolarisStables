@@ -24,6 +24,8 @@ class Pilot(models.Model):
         db_table = 'stablemanager_pilot'
         app_label = 'stablemanager'
         
+        unique_together = ('stable', 'pilot_callsign')
+        
     def __unicode__(self):
         if self.pilot_name != None:
             (first, last) = self.pilot_name.split(' ',1)
