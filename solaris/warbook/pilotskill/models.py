@@ -4,6 +4,22 @@ from django.core.urlresolvers import reverse
 from genshi import Markup
 from decimal import Decimal
 
+class PilotRank(models.Model):
+    rank = models.CharField(max_length=20, unique=True)
+    min_gunnery = models.IntegerField()
+    min_piloting = models.IntegerField()
+    skills_limit = models.IntegerField()
+    promotion = models.ForeignKey('PilotRank', null=True, blank=True)    
+        
+    class Meta:
+        verbose_name_plural = 'Pilot Ranks'
+        verbose_name = 'Pilot Rank'
+        db_table = 'warbook_pilotrank'
+        app_label = 'warbook'
+        
+    def __unicode__(self):
+        return self.rank
+
 class PilotDiscipline(models.Model):
     name  = models.CharField(max_length=40)
     blurb = models.TextField()  
