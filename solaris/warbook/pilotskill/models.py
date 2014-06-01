@@ -20,10 +20,17 @@ class PilotRank(models.Model):
     def __unicode__(self):
         return self.rank
 
-class PilotDiscipline(models.Model):
+class PilotTraitGroup(models.Model):
     name  = models.CharField(max_length=40)
     blurb = models.TextField()  
     urlname = models.CharField(max_length=20, unique=True)
+    
+    discipline_options = (
+                     ('T', 'Training')
+                   , ('I', 'Issues') # Ego problems, family issues, etc
+                   , ('O', 'Other') # Subdermal armour or other odd traits
+                   )    
+    discipline_type = models.CharField(max_length=1, choices=discipline_options, default='I')
   
     def get_markup_blurb(self):
         return Markup(self.blurb)
@@ -31,8 +38,8 @@ class PilotDiscipline(models.Model):
     markup_blurb = property(get_markup_blurb, None)
   
     class Meta:
-        verbose_name_plural = 'Pilot Disciplines'
-        verbose_name = 'Pilot Discipline'
+        verbose_name_plural = 'Pilot Trait Groups'
+        verbose_name = 'Pilot Trait Group'
         db_table = 'warbook_pilotdiscipline'
         app_label = 'warbook'
     
@@ -42,15 +49,14 @@ class PilotDiscipline(models.Model):
     def __unicode__(self):
         return self.name
     
+class PilotDiscipline(PilotTraitGroup):
+    class Meta:
+        verbose_name_plural = 'Pilot Disciplines'
+        verbose_name = 'Pilot Discipline'
+        app_label = 'warbook'
+        proxy = True
  
 class PilotTrait(models.Model):
-    
-    trait_list = (
-                     ('T', 'Training')
-                   , ('I', 'Issues') # Ego problems, family issues, etc
-                   , ('O', 'Other') # Subdermal armour or other odd traits
-                   )
-    
     bv_modifiers = (
                     (Decimal('0.000'), 'No Modifier'    ),
                     (Decimal('0.050'), 'Piloting Skill' ),
@@ -59,9 +65,8 @@ class PilotTrait(models.Model):
     
     name  = models.CharField(max_length=40)
     description = models.TextField()
-    discipline = models.ForeignKey(PilotDiscipline, null=True, blank=True, related_name='skills')
+    discipline = models.ForeignKey(PilotTraitGroup, null=True, blank=True, related_name='traits')
     bv_mod = models.DecimalField(max_digits=6 ,decimal_places=3 ,choices=bv_modifiers)
-    trait_type = models.CharField(max_length=1, choices=trait_list, default='I')
     
     def bv_text(self):
         bv_description = self.get_bv_mod_display()
@@ -76,13 +81,9 @@ class PilotTrait(models.Model):
     def __unicode__(self):
         return self.name   
   
-class PilotAbility(PilotTrait):
-    
+class PilotAbility(PilotTrait):   
     class Meta:
         verbose_name_plural = 'Pilot Abilities'
         verbose_name = 'Pilot Ability'
         proxy = True
 
-    def save(self, *args, **kwargs):
-        self.trait_type = 'T'
-        super(PilotAbility,self).save(*args, **kwargs)

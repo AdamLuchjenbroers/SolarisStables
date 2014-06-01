@@ -18,7 +18,8 @@ admin.site.register(tech_models.Technology, tech_admin.TechnologyAdmin)
 
 # Import Pilot Skills and Disciplines
 admin.site.register(pilot_models.PilotDiscipline, pilot_admin.PilotDisciplineAdmin)
-admin.site.register(pilot_models.PilotTrait, pilot_admin.PilotTraitAdmin)
+admin.site.register(pilot_models.PilotTraitGroup, pilot_admin.PilotTraitGroupAdmin)
+admin.site.register(pilot_models.PilotRank)
 
 # Import Equipment
 admin.site.register(equipment_models.Equipment, equipment_admin.EquipmentAdmin )
