@@ -11,18 +11,9 @@ form input {
   border: 1px solid;
 }
 
-form label {
-  width: 6em;
-  margin-right: 0.5em;
-  float: left;
-  text-align: right;
-  display: block;
-}
-
 /*
   Basic Field Layout
 */
-
 div.field_basic {
   border-width: 0px;
   padding: 6px;
@@ -58,6 +49,14 @@ div.field_info {
   background-color: #8888F0;
 }
 
+div.field_basic label, div.field_error label, div.field_info label {
+  width: 6em;
+  margin-right: 0.5em;
+  float: left;
+  text-align: right;
+  display: block;
+}
+
 div.field_basic div, div.field_basic span
 , div.field_error div, div.field_error span  
 , div.field_info div, div.field_info span 
@@ -77,30 +76,20 @@ div.field_basic div.field_input, div.field_error div.field_input, div.field_info
 /*
   Columnar Field Layout
 */
-
-
-div.column_field_basic {
-	width: 40%;
+div.form_column {
+	width: 200px;
 	display: inline-block;
 	float: left;
 }
 
-div.column_field_error {
-	width: 40%;
-	display: inline-block;
-	float: left;
-	
+div.column_field_error {	
     border-width: 1px;
     border-style: solid;   
     font-weight: bold;
     background-color: #8888F0;	
 }
 
-div.column_field_info {
-	width: 40%;
-	display: inline-block;
-	float: left;
-	
+div.column_field_info {	
     border-width: 1px;
     border-style: solid;   
     font-weight: bold;
@@ -108,5 +97,6 @@ div.column_field_info {
 }
 
 div.column_field_basic div, div.column_field_basic span, div.column_field_error div, div.column_field_error span {
+	align: left;
 	float: none;
 }

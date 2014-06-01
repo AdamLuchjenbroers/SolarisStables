@@ -11,15 +11,18 @@
     {% endif %}
     
     <fieldset> <legend>Pilot Details</legend>
-    {% basic_field pilot.pilot_callsign %}
-    {% basic_field pilot.pilot_name %}
-    {% basic_field pilot.affiliation %}
+    {% column_field pilot.pilot_callsign %}
+    {% column_field pilot.pilot_name %}
+    {% column_field pilot.affiliation %}
     </fieldset>
     
     <fieldset> <legend>Pilot Experience</legend>
-    {% for field in pilotweek %}
-      {% basic_field field %}
-    {% endfor %}
+    {% column_field pilotweek.rank %}
+    {% column_field pilotweek.skill_gunnery %}    
+    {% column_field pilotweek.skill_piloting %}    
+    {% column_field pilotweek.start_character_points %}
+    {{ pilotweek.pilot }}
+    {{ pilotweek.week }}
     </fieldset>
     
     <fieldset> <legend>Pilot Skills and Traits</legend>

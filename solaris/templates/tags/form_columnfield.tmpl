@@ -1,0 +1,17 @@
+ <div class="form_column">
+ {% if field.errors %}
+ <div id="{{field.auto_id}}" class="column_field_error">
+ {% else %}
+ <div id="{{field.auto_id}}" class="column_field_basic">
+ {% endif %} 
+    <div class="field_label"> {{field.label_tag}}</div>
+    <div class="field_input"> {{field}} </div>
+    <div class="field_messages" id="{{field.auto_id}}_message">
+      {%if field.errors %}
+        {% for error_text in field.errors %}
+          {{ error_text }}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+  </div>
