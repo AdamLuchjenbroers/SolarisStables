@@ -25,7 +25,12 @@ class Pilot(models.Model):
         app_label = 'stablemanager'
         
     def __unicode__(self):
-        return self.pilot_callsign
+        (first, last) = self.pilot_name.split(' ',1)
+        
+        return '%s \"%s\" %s' % (first, self.pilot_callsign, last)
+    
+    def full_name(self):
+        return self.__unicode__()
     
     def deactivate(self):
         self.is_active = False
@@ -71,6 +76,7 @@ class PilotWeek(models.Model):
         app_label = 'stablemanager'  
     
     def earned_training_points(self):
+        # TODO: Derive based on battle participation
         return 0
     
     def gained_character_points(self):
