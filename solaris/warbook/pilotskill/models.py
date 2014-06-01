@@ -47,7 +47,7 @@ class PilotTraitGroup(models.Model):
         return reverse('discipline', kwargs={'slug': self.urlname})
         
     def __unicode__(self):
-        return self.name
+        return '%s - %s' % (self.get_discipline_type_display(), self.name)
 
 class PilotDisciplineManager(models.Manager):
     def get_query_set(self):
@@ -61,6 +61,8 @@ class PilotDiscipline(PilotTraitGroup):
         proxy = True
         
     objects = PilotDisciplineManager()
+    def __unicode__(self):
+        return self.name
  
 class PilotTrait(models.Model):
     bv_modifiers = (
