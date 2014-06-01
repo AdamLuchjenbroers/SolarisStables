@@ -30,7 +30,7 @@ class LoginForm(Form):
         
 class RegistrationForm(ModelForm):
     
-    passwordrepeat = CharField(widget=PasswordInput, label='Repeat')
+    passwordrepeat = CharField(widget=PasswordInput, label='Repeat', required=True)
     
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
@@ -38,11 +38,15 @@ class RegistrationForm(ModelForm):
         self.fields['username'].help_text = None
         self.fields['email'].label = 'E-Mail'
         self.fields['password'].widget = PasswordInput()
-           
+        self.fields['password'].required = True
+
     def clean(self):
         super(RegistrationForm,self).clean()
         
-        if self.cleaned_data["password"] != self.cleaned_data["passwordrepeat"]:
+        if not('password' in self.cleaned_data.keys() and 'passwordrepeat' in self.cleaned_data.keys()):
+            # Already caught elsewhere
+            return self.cleaned_data
+        elif self.cleaned_data["password"] != self.cleaned_data["passwordrepeat"]:
             raise ValidationError('Passwords entered do not match')
        
         return self.cleaned_data
