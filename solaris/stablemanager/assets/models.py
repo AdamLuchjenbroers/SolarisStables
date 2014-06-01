@@ -25,9 +25,11 @@ class Pilot(models.Model):
         app_label = 'stablemanager'
         
     def __unicode__(self):
-        (first, last) = self.pilot_name.split(' ',1)
-        
-        return '%s \"%s\" %s' % (first, self.pilot_callsign, last)
+        if self.pilot_name != None:
+            (first, last) = self.pilot_name.split(' ',1)
+            return '%s \"%s\" %s' % (first, self.pilot_callsign, last)
+        else:
+            return self.pilot_callsign
     
     def full_name(self):
         return self.__unicode__()
