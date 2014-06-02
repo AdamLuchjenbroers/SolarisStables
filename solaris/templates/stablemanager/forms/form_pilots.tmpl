@@ -19,6 +19,7 @@
     {% column_field pilot.pilot_callsign %}
     {% column_field pilot.pilot_name %}
     {% column_field pilot.affiliation %}
+    {{ pilot.stable }}
     </fieldset>
     
     <fieldset> <legend>Pilot Experience</legend>
@@ -26,11 +27,10 @@
     {% column_field pilotweek.skill_gunnery short_column %}    
     {% column_field pilotweek.skill_piloting short_column %}    
     {% column_field pilotweek.start_character_points short_column %}
-    {{ pilotweek.pilot }}
-    {{ pilotweek.week }}
     </fieldset>
     
     <fieldset> <legend>Pilot Skills and Traits</legend>
+    {{skillset.management_form}}
     {% for skill in skillset %}
     <div class="skill">
       {% column_field skill.discipline %}

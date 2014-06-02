@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
 
 from solaris.warbook.pilotskill.models import PilotRank
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
@@ -15,6 +16,10 @@ class StableNewPilotsView(StableViewMixin, TemplateView):
     template_name = 'stablemanager/forms/form_pilots.tmpl'
 
     def create_forms(self, pilot=None):
+        if hasattr(self, 'form_pilot'):
+            #Already done
+            return
+        
         pilot_initial = {
             'stable' : self.stable.id
         ,   'affiliation' : self.stable.house.id
@@ -47,7 +52,7 @@ class StableNewPilotsView(StableViewMixin, TemplateView):
         page_context['pilotweek'] = self.form_pilotweek
         page_context['skillset'] = self.form_skillset
         
-        page_context['post_url'] = '/' # reverse('pilots_add')
+        page_context['post_url'] = reverse('pilots_add')
         page_context['submit'] = 'Add'
         page_context['form_class'] = 'pilot'
         
@@ -59,6 +64,25 @@ class StableNewPilotsView(StableViewMixin, TemplateView):
     
     def post(self, request):
         self.create_forms()
+        self.form_pilot.fields['stable'].value = self.stable
+        
+        v_pilot = self.form_pilot.is_valid()
+        v_pilotweek = self.form_pilotweek.is_valid()
+        v_skillset = self.form_skillset.is_valid()
+        if v_pilot and v_pilotweek and v_skillset:
+            pilot = self.form_pilot.save(commit=False)
+            pilot.stable = self.stable
+            pilot.save()
+            
+            pilotweek = self.form_pilotweek.save(commit=False)
+            pilotweek.week = self.stable.current_week
+            pilotweek.pilot = pilot
+            pilotweek.save()
+
+            self.form_skillset.instance = pilotweek
+            self.form_skillset.save()
+            return redirect('/')
+        
         return self.get(request)
 
     def form_valid(self, form):        

@@ -7,9 +7,10 @@ from solaris.warbook.pilotskill.models import PilotTraitGroup
 
 class PilotForm(ModelForm):
     
-    def __init__(self, **kwargs):
-        super(PilotForm, self).__init__(**kwargs)
+    def __init__(self, *args, **kwargs):
+        super(PilotForm, self).__init__(*args, **kwargs)
         self.fields['stable'].widget = HiddenInput()
+        self.fields['stable'].required = False #Will be set by invoking form
         
         self.fields['pilot_name'].label = 'Name'
         self.fields['pilot_callsign'].label = 'Callsign'
@@ -20,11 +21,8 @@ class PilotForm(ModelForm):
         
 class PilotWeekForm(ModelForm):
     
-    def __init__(self, **kwargs):
-        super(PilotWeekForm, self).__init__(**kwargs)
-        
-        self.fields['pilot'].widget = HiddenInput()
-        self.fields['week'].widget = HiddenInput()
+    def __init__(self, *args, **kwargs):
+        super(PilotWeekForm, self).__init__(*args, **kwargs)
         
         self.fields['start_character_points'].label = 'Experience'
         self.fields['skill_gunnery'].label = 'Gunnery'
@@ -32,7 +30,7 @@ class PilotWeekForm(ModelForm):
     
     class Meta:
         model = models.PilotWeek
-        fields = ('pilot', 'week','rank','skill_gunnery', 'skill_piloting', 'start_character_points')
+        fields = ('rank','skill_gunnery', 'skill_piloting', 'start_character_points')
     
         
 class PilotTrainingForm(ModelForm):
