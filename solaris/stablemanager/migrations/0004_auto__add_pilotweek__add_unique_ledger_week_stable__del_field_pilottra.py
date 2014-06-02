@@ -1,51 +1,109 @@
 # -*- coding: utf-8 -*-
-import datetime
+from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
-
-from solaris.stablemanager.assets.models import PilotRank
 
 
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'PilotRank'
-        db.create_table('stablemanager_pilotrank', (
+        # Adding model 'PilotWeek'
+        db.create_table('stablemanager_pilotweek', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('rank', self.gf('django.db.models.fields.CharField')(unique=True, max_length=20)),
-            ('min_gunnery', self.gf('django.db.models.fields.IntegerField')()),
-            ('min_piloting', self.gf('django.db.models.fields.IntegerField')()),
-            ('skills_limit', self.gf('django.db.models.fields.IntegerField')()),
-            ('promotion', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.PilotRank'], null=True, blank=True)),
+            ('pilot', self.gf('django.db.models.fields.related.ForeignKey')(related_name='weeks', to=orm['stablemanager.Pilot'])),
+            ('week', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['battlereport.BroadcastWeek'])),
+            ('start_character_points', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('adjust_character_points', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('assigned_training_points', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('rank', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['warbook.PilotRank'])),
+            ('skill_gunnery', self.gf('django.db.models.fields.IntegerField')(default=5)),
+            ('skill_piloting', self.gf('django.db.models.fields.IntegerField')(default=6)),
+            ('wounds', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
-        db.send_create_signal('stablemanager', ['PilotRank'])
-        
-        champion = PilotRank.objects.create(rank='Champion', min_piloting=0, min_gunnery=0, skills_limit=-1)
-        star = PilotRank.objects.create(rank='Star', min_piloting=0, min_gunnery=0, skills_limit=-1, promotion=champion)
-        contender = PilotRank.objects.create(rank='Contender', min_piloting=3, min_gunnery=4, skills_limit=2, promotion=star)
-        rookie = PilotRank.objects.create(rank='Rookie', min_piloting=4, min_gunnery=5, skills_limit=1, promotion=contender)
-        
+        db.send_create_signal('stablemanager', ['PilotWeek'])
+
+        # Adding unique constraint on 'Ledger', fields ['week', 'stable']
+        db.create_unique('stablemanager_ledger', ['week_id', 'stable_id'])
+
+        # Deleting field 'PilotTraining.pilot'
+        db.delete_column(u'stablemanager_pilottraining', 'pilot_id')
+
+        # Adding field 'PilotTraining.pilot_week'
+        db.add_column('stablemanager_pilottraining', 'pilot_week',
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['stablemanager.PilotWeek']),
+                      keep_default=False)
+
+        # Deleting field 'Pilot.exp_wounds'
+        db.delete_column(u'stablemanager_pilot', 'exp_wounds')
+
+        # Deleting field 'Pilot.skill_gunnery'
+        db.delete_column(u'stablemanager_pilot', 'skill_gunnery')
+
+        # Deleting field 'Pilot.exp_character_points'
+        db.delete_column(u'stablemanager_pilot', 'exp_character_points')
+
+        # Deleting field 'Pilot.skill_pilotting'
+        db.delete_column(u'stablemanager_pilot', 'skill_pilotting')
+
         # Deleting field 'Pilot.pilot_rank'
         db.delete_column(u'stablemanager_pilot', 'pilot_rank')
-        
-        # Adding field 'Pilot.pilot_rank'
-        db.add_column('stablemanager_pilot', 'pilot_rank',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['stablemanager.PilotRank']),
+
+        # Adding field 'Pilot.is_active'
+        db.add_column('stablemanager_pilot', 'is_active',
+                      self.gf('django.db.models.fields.BooleanField')(default=True),
                       keep_default=False)
+
+        # Adding unique constraint on 'Pilot', fields ['pilot_callsign', 'stable']
+        db.create_unique('stablemanager_pilot', ['pilot_callsign', 'stable_id'])
 
 
     def backwards(self, orm):
-        # Removing index on 'Pilot', fields ['pilot_rank']
-        db.delete_index('stablemanager_pilot', ['pilot_rank_id'])
+        # Removing unique constraint on 'Pilot', fields ['pilot_callsign', 'stable']
+        db.delete_unique('stablemanager_pilot', ['pilot_callsign', 'stable_id'])
 
-        # Deleting model 'PilotRank'
-        db.delete_table('stablemanager_pilotrank')
+        # Removing unique constraint on 'Ledger', fields ['week', 'stable']
+        db.delete_unique('stablemanager_ledger', ['week_id', 'stable_id'])
 
-        # Renaming column for 'Pilot.pilot_rank' to match new field type.
-        db.rename_column('stablemanager_pilot', 'pilot_rank_id', 'pilot_rank')
-        # Changing field 'Pilot.pilot_rank'
-        db.alter_column('stablemanager_pilot', 'pilot_rank', self.gf('django.db.models.fields.CharField')(max_length=1))
+        # Deleting model 'PilotWeek'
+        db.delete_table('stablemanager_pilotweek')
+
+        # Adding field 'PilotTraining.pilot'
+        db.add_column(u'stablemanager_pilottraining', 'pilot',
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['stablemanager.Pilot']),
+                      keep_default=False)
+
+        # Deleting field 'PilotTraining.pilot_week'
+        db.delete_column('stablemanager_pilottraining', 'pilot_week_id')
+
+        # Adding field 'Pilot.exp_wounds'
+        db.add_column(u'stablemanager_pilot', 'exp_wounds',
+                      self.gf('django.db.models.fields.IntegerField')(default=0),
+                      keep_default=False)
+
+        # Adding field 'Pilot.skill_gunnery'
+        db.add_column(u'stablemanager_pilot', 'skill_gunnery',
+                      self.gf('django.db.models.fields.IntegerField')(default=5),
+                      keep_default=False)
+
+        # Adding field 'Pilot.exp_character_points'
+        db.add_column(u'stablemanager_pilot', 'exp_character_points',
+                      self.gf('django.db.models.fields.IntegerField')(default=0),
+                      keep_default=False)
+
+        # Adding field 'Pilot.skill_pilotting'
+        db.add_column(u'stablemanager_pilot', 'skill_pilotting',
+                      self.gf('django.db.models.fields.IntegerField')(default=6),
+                      keep_default=False)
+
+        # Adding field 'Pilot.pilot_rank'
+        db.add_column(u'stablemanager_pilot', 'pilot_rank',
+                      self.gf('django.db.models.fields.CharField')(default=1, max_length=1),
+                      keep_default=False)
+
+        # Deleting field 'Pilot.is_active'
+        db.delete_column('stablemanager_pilot', 'is_active')
+
 
     models = {
         u'auth.group': {
@@ -99,7 +157,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'stablemanager.ledger': {
-            'Meta': {'object_name': 'Ledger'},
+            'Meta': {'unique_together': "(('stable', 'week'),)", 'object_name': 'Ledger'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'next_ledger': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'prev_ledger'", 'null': 'True', 'to': "orm['stablemanager.Ledger']"}),
             'opening_balance': ('django.db.models.fields.IntegerField', [], {}),
@@ -123,34 +181,34 @@ class Migration(SchemaMigration):
             'stable': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['stablemanager.Stable']", 'null': 'True', 'blank': 'True'})
         },
         'stablemanager.pilot': {
-            'Meta': {'object_name': 'Pilot'},
+            'Meta': {'unique_together': "(('stable', 'pilot_callsign'),)", 'object_name': 'Pilot'},
             'affiliation': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['warbook.House']"}),
-            'exp_character_points': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'exp_wounds': ('django.db.models.fields.IntegerField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'pilot_callsign': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             'pilot_name': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
-            'pilot_rank': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['stablemanager.PilotRank']"}),
-            'skill': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['warbook.PilotTrait']", 'null': 'True', 'through': "orm['stablemanager.PilotTraining']", 'blank': 'True'}),
-            'skill_gunnery': ('django.db.models.fields.IntegerField', [], {}),
-            'skill_pilotting': ('django.db.models.fields.IntegerField', [], {}),
-            'stable': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['stablemanager.Stable']", 'blank': 'True'})
-        },
-        'stablemanager.pilotrank': {
-            'Meta': {'object_name': 'PilotRank'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'min_gunnery': ('django.db.models.fields.IntegerField', [], {}),
-            'min_piloting': ('django.db.models.fields.IntegerField', [], {}),
-            'promotion': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['stablemanager.PilotRank']", 'null': 'True', 'blank': 'True'}),
-            'rank': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
-            'skills_limit': ('django.db.models.fields.IntegerField', [], {})
+            'stable': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pilots'", 'blank': 'True', 'to': u"orm['stablemanager.Stable']"})
         },
         'stablemanager.pilottraining': {
             'Meta': {'object_name': 'PilotTraining'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'notes': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
-            'pilot': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['stablemanager.Pilot']"}),
+            'pilot_week': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['stablemanager.PilotWeek']"}),
             'training': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['warbook.PilotTrait']"})
+        },
+        'stablemanager.pilotweek': {
+            'Meta': {'object_name': 'PilotWeek'},
+            'adjust_character_points': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'assigned_training_points': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'pilot': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'weeks'", 'to': "orm['stablemanager.Pilot']"}),
+            'rank': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['warbook.PilotRank']"}),
+            'skill': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['warbook.PilotTrait']", 'null': 'True', 'through': "orm['stablemanager.PilotTraining']", 'blank': 'True'}),
+            'skill_gunnery': ('django.db.models.fields.IntegerField', [], {'default': '5'}),
+            'skill_piloting': ('django.db.models.fields.IntegerField', [], {'default': '6'}),
+            'start_character_points': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'week': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['battlereport.BroadcastWeek']"}),
+            'wounds': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         u'stablemanager.stable': {
             'Meta': {'object_name': 'Stable'},
@@ -158,8 +216,8 @@ class Migration(SchemaMigration):
             'house': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['warbook.House']", 'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'owner': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True', 'null': 'True'}),
-            'reputation': ('django.db.models.fields.IntegerField', [], {}),
-            'stable_disciplines': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['warbook.PilotDiscipline']", 'symmetrical': 'False'}),
+            'reputation': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'stable_disciplines': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['warbook.PilotTraitGroup']", 'symmetrical': 'False'}),
             'stable_name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'supply_contract': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['warbook.Technology']", 'symmetrical': 'False'})
         },
@@ -167,7 +225,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'House'},
             'blurb': ('django.db.models.fields.TextField', [], {}),
             'house': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
-            'house_disciplines': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['warbook.PilotDiscipline']", 'symmetrical': 'False'}),
+            'house_disciplines': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['warbook.PilotTraitGroup']", 'symmetrical': 'False'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
         'warbook.mechdesign': {
@@ -188,21 +246,31 @@ class Migration(SchemaMigration):
             'tech_base': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'tonnage': ('django.db.models.fields.IntegerField', [], {})
         },
-        'warbook.pilotdiscipline': {
-            'Meta': {'object_name': 'PilotDiscipline'},
-            'blurb': ('django.db.models.fields.TextField', [], {}),
+        'warbook.pilotrank': {
+            'Meta': {'object_name': 'PilotRank'},
+            'auto_train_cp': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
-            'urlname': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'})
+            'min_gunnery': ('django.db.models.fields.IntegerField', [], {}),
+            'min_piloting': ('django.db.models.fields.IntegerField', [], {}),
+            'promotion': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['warbook.PilotRank']", 'null': 'True', 'blank': 'True'}),
+            'rank': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
+            'skills_limit': ('django.db.models.fields.IntegerField', [], {})
         },
         'warbook.pilottrait': {
             'Meta': {'object_name': 'PilotTrait', 'db_table': "'warbook_pilotability'"},
             'bv_mod': ('django.db.models.fields.DecimalField', [], {'max_digits': '6', 'decimal_places': '3'}),
             'description': ('django.db.models.fields.TextField', [], {}),
-            'discipline': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'skills'", 'null': 'True', 'to': "orm['warbook.PilotDiscipline']"}),
+            'discipline': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'traits'", 'null': 'True', 'to': "orm['warbook.PilotTraitGroup']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '40'})
+        },
+        'warbook.pilottraitgroup': {
+            'Meta': {'object_name': 'PilotTraitGroup', 'db_table': "'warbook_pilotdiscipline'"},
+            'blurb': ('django.db.models.fields.TextField', [], {}),
+            'discipline_type': ('django.db.models.fields.CharField', [], {'default': "'I'", 'max_length': '1'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
-            'trait_type': ('django.db.models.fields.CharField', [], {'default': "'I'", 'max_length': '1'})
+            'urlname': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'})
         },
         'warbook.technology': {
             'Meta': {'object_name': 'Technology'},
