@@ -10,10 +10,10 @@ from . import forms, models
 class StablePilotsView(StableWeekMixin, ListView):
     submenu_selected = 'Pilots'
     template_name = 'stablemanager/stable_pilots.tmpl'
-    model = models.Pilot    
+    model = models.PilotWeek    
 
     def get_queryset(self):
-        return models.Pilot.objects.filter(stable=self.stable, is_active=True)
+        return models.PilotWeek.objects.filter(week=self.week, pilot__stable=self.stable)
 
 class StableNewPilotsView(StableViewMixin, TemplateView):
     submenu_selected = 'Pilots'

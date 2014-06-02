@@ -97,7 +97,7 @@ class StableRegistrationView(SolarisViewMixin, CreateView):
         self.object.save()
         
         Ledger.objects.create(
-            stable = self.instance
+            stable = self.object
         ,   week = self.week
         ,   opening_balance = 10000000
         )

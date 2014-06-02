@@ -6,9 +6,19 @@
   
   {% if object_list %}
   <table class="pilots">
-    <tr class="header"><td>Pilot</td><td>Talents</td><td colspan=2>Abilities</td></tr>
-    {% for pilot in object_list %}
-     <tr><td>{{pilot.full_name}}</td><td>TODO</td><td>{{pilot.gunnery}}</td><td>{{pilot.piloting}}</td></tr>
+    <tr class="header"><td rowspan=2 class="name">Pilot</td><td rowspan=2 class="talents">Talents</td><td colspan=2 class="abilities">Abilities</td><td rowspan=2 class="experience">Experience</td><td rowspan=2 class="wounds">Wounds</td></tr>
+    <tr class="header"><td class="subheader">G</td><td class="subheader">P</td></tr>
+    {% for pilotweek in object_list %}
+     <tr class="{%cycle 'odd' 'even' %}">
+       <td>{{pilotweek.pilot.full_name}}</td>
+       <td>{% for training in pilotweek.skills.all %} 
+         {{training.skill}} 
+         {% if forloop.last == False %}, {% endif %}
+        {% endfor %}</td>
+       <td>{{pilotweek.skill_gunnery}}</td><td>{{pilotweek.skill_piloting}}</td>
+       <td>{{pilotweek.character_points}}</td>
+       <td>{{pilotweek.wounds}}</td>
+       </tr>
     {% endfor %}
   </table>
   {% else %}

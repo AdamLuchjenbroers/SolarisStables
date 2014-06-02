@@ -245,3 +245,41 @@ div.news_form input {
   border: 1px solid;
   width: 36em;
 }
+
+table tr td {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+table tr.header {
+  font-weight: bold;
+  background-color: #BBBBBB;
+}
+
+table.pilots tr.header td {
+  width: 60px;
+}
+
+table.pilots tr.header td.wounds {
+  width: 70px;
+}
+
+table.pilots tr.header td.experience {
+  width: 100px;
+}
+
+table.pilots tr.header td.subheader {
+  width: 20px;
+}
+
+table.pilots tr.header td.name, table.pilots tr.header td.talents {
+  width: 200px;
+}
+
+table.pilots tr.odd {
+  background-color: #C8C8FF;
+}
+
+table.pilots tr.even {
+  background-color: #B0B0FF;
+}
