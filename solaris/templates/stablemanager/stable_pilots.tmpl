@@ -3,5 +3,16 @@
 {% block pagebody %}
 <div class="body">
   <h1>{{stable.stable_name}} Pilots, Week {{week.week_number}}</h1>
+  
+  {% if object_list %}
+  <table class="pilots">
+    <tr class="header"><td>Pilot</td><td>Talents</td><td colspan=2>Abilities</td></tr>
+    {% for pilot in object_list %}
+     <tr><td>{{pilot.full_name}}</td><td>TODO</td><td>{{pilot.gunnery}}</td><td>{{pilot.piloting}}</td></tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p>No pilots in stable</p>
+  {% endif %}
 </div>
 {% endblock %}

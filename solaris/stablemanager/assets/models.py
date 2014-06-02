@@ -12,7 +12,6 @@ class Pilot(models.Model):
     pilot_name = models.CharField(max_length=50, blank=True)
     pilot_callsign = models.CharField(max_length=20)
     affiliation = models.ForeignKey(House)
-    
     is_active = models.BooleanField(default=True)
     
     def isDead(self):

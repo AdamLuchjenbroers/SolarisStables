@@ -1,15 +1,19 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 
 from solaris.warbook.pilotskill.models import PilotRank
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 
-from . import forms
+from . import forms, models
 
-class StablePilotsView(StableWeekMixin, TemplateView):
+class StablePilotsView(StableWeekMixin, ListView):
     submenu_selected = 'Pilots'
     template_name = 'stablemanager/stable_pilots.tmpl'
+    model = models.Pilot    
+
+    def get_queryset(self):
+        return models.Pilot.objects.filter(stable=self.stable, is_active=True)
 
 class StableNewPilotsView(StableViewMixin, TemplateView):
     submenu_selected = 'Pilots'
