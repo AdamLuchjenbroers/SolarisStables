@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
+import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -8,6 +8,56 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Stable'
+        db.create_table(u'stablemanager_stable', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('stable_name', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('owner', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, null=True)),
+            ('house', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['warbook.House'], null=True)),
+            ('reputation', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('current_week', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['battlereport.BroadcastWeek'], null=True)),
+        ))
+        db.send_create_signal(u'stablemanager', ['Stable'])
+
+        # Adding M2M table for field supply_contract on 'Stable'
+        db.create_table(u'stablemanager_stable_supply_contract', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('stable', models.ForeignKey(orm[u'stablemanager.stable'], null=False)),
+            ('technology', models.ForeignKey(orm['warbook.technology'], null=False))
+        ))
+        db.create_unique(u'stablemanager_stable_supply_contract', ['stable_id', 'technology_id'])
+
+        # Adding M2M table for field stable_disciplines on 'Stable'
+        db.create_table(u'stablemanager_stable_stable_disciplines', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('stable', models.ForeignKey(orm[u'stablemanager.stable'], null=False)),
+            ('pilotdiscipline', models.ForeignKey(orm['warbook.pilottraitgroup'], null=False))
+        ))
+        db.create_unique(u'stablemanager_stable_stable_disciplines', ['stable_id', 'pilotdiscipline_id'])
+
+        # Adding model 'Pilot'
+        db.create_table('stablemanager_pilot', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('stable', self.gf('django.db.models.fields.related.ForeignKey')(related_name='pilots', blank=True, to=orm['stablemanager.Stable'])),
+            ('pilot_name', self.gf('django.db.models.fields.CharField')(max_length=50, blank=True)),
+            ('pilot_callsign', self.gf('django.db.models.fields.CharField')(max_length=20)),
+            ('affiliation', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['warbook.House'])),
+            ('is_active', self.gf('django.db.models.fields.BooleanField')(default=True)),
+        ))
+        db.send_create_signal('stablemanager', ['Pilot'])
+
+        # Adding unique constraint on 'Pilot', fields ['stable', 'pilot_callsign']
+        db.create_unique('stablemanager_pilot', ['stable_id', 'pilot_callsign'])
+
+        # Adding model 'PilotTraining'
+        db.create_table('stablemanager_pilottraining', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('pilot_week', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.PilotWeek'])),
+            ('training', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['warbook.PilotTrait'])),
+            ('notes', self.gf('django.db.models.fields.CharField')(max_length=50, blank=True)),
+        ))
+        db.send_create_signal('stablemanager', ['PilotTraining'])
+
         # Adding model 'PilotWeek'
         db.create_table('stablemanager_pilotweek', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -23,86 +73,73 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('stablemanager', ['PilotWeek'])
 
-        # Adding unique constraint on 'Ledger', fields ['week', 'stable']
-        db.create_unique('stablemanager_ledger', ['week_id', 'stable_id'])
+        # Adding model 'Mech'
+        db.create_table('stablemanager_mech', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('stable', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.Stable'], null=True, blank=True)),
+            ('mech_type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['warbook.MechDesign'])),
+            ('signature_of', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['stablemanager.Pilot'], null=True, blank=True)),
+        ))
+        db.send_create_signal('stablemanager', ['Mech'])
 
-        # Deleting field 'PilotTraining.pilot'
-        db.delete_column(u'stablemanager_pilottraining', 'pilot_id')
+        # Adding model 'Ledger'
+        db.create_table('stablemanager_ledger', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('stable', self.gf('django.db.models.fields.related.ForeignKey')(related_name='ledger', to=orm['stablemanager.Stable'])),
+            ('week', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['battlereport.BroadcastWeek'])),
+            ('opening_balance', self.gf('django.db.models.fields.IntegerField')()),
+            ('next_ledger', self.gf('django.db.models.fields.related.ForeignKey')(related_name='prev_ledger', null=True, to=orm['stablemanager.Ledger'])),
+        ))
+        db.send_create_signal('stablemanager', ['Ledger'])
 
-        # Adding field 'PilotTraining.pilot_week'
-        db.add_column('stablemanager_pilottraining', 'pilot_week',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['stablemanager.PilotWeek']),
-                      keep_default=False)
+        # Adding unique constraint on 'Ledger', fields ['stable', 'week']
+        db.create_unique('stablemanager_ledger', ['stable_id', 'week_id'])
 
-        # Deleting field 'Pilot.exp_wounds'
-        db.delete_column(u'stablemanager_pilot', 'exp_wounds')
-
-        # Deleting field 'Pilot.skill_gunnery'
-        db.delete_column(u'stablemanager_pilot', 'skill_gunnery')
-
-        # Deleting field 'Pilot.exp_character_points'
-        db.delete_column(u'stablemanager_pilot', 'exp_character_points')
-
-        # Deleting field 'Pilot.skill_pilotting'
-        db.delete_column(u'stablemanager_pilot', 'skill_pilotting')
-
-        # Deleting field 'Pilot.pilot_rank'
-        db.delete_column(u'stablemanager_pilot', 'pilot_rank')
-
-        # Adding field 'Pilot.is_active'
-        db.add_column('stablemanager_pilot', 'is_active',
-                      self.gf('django.db.models.fields.BooleanField')(default=True),
-                      keep_default=False)
-
-        # Adding unique constraint on 'Pilot', fields ['pilot_callsign', 'stable']
-        db.create_unique('stablemanager_pilot', ['pilot_callsign', 'stable_id'])
+        # Adding model 'LedgerItem'
+        db.create_table('stablemanager_ledgeritem', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('ledger', self.gf('django.db.models.fields.related.ForeignKey')(related_name='entries', to=orm['stablemanager.Ledger'])),
+            ('description', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('cost', self.gf('django.db.models.fields.IntegerField')()),
+            ('type', self.gf('django.db.models.fields.CharField')(max_length=1)),
+            ('tied', self.gf('django.db.models.fields.BooleanField')(default=False)),
+        ))
+        db.send_create_signal('stablemanager', ['LedgerItem'])
 
 
     def backwards(self, orm):
-        # Removing unique constraint on 'Pilot', fields ['pilot_callsign', 'stable']
-        db.delete_unique('stablemanager_pilot', ['pilot_callsign', 'stable_id'])
+        # Removing unique constraint on 'Ledger', fields ['stable', 'week']
+        db.delete_unique('stablemanager_ledger', ['stable_id', 'week_id'])
 
-        # Removing unique constraint on 'Ledger', fields ['week', 'stable']
-        db.delete_unique('stablemanager_ledger', ['week_id', 'stable_id'])
+        # Removing unique constraint on 'Pilot', fields ['stable', 'pilot_callsign']
+        db.delete_unique('stablemanager_pilot', ['stable_id', 'pilot_callsign'])
+
+        # Deleting model 'Stable'
+        db.delete_table(u'stablemanager_stable')
+
+        # Removing M2M table for field supply_contract on 'Stable'
+        db.delete_table('stablemanager_stable_supply_contract')
+
+        # Removing M2M table for field stable_disciplines on 'Stable'
+        db.delete_table('stablemanager_stable_stable_disciplines')
+
+        # Deleting model 'Pilot'
+        db.delete_table('stablemanager_pilot')
+
+        # Deleting model 'PilotTraining'
+        db.delete_table('stablemanager_pilottraining')
 
         # Deleting model 'PilotWeek'
         db.delete_table('stablemanager_pilotweek')
 
-        # Adding field 'PilotTraining.pilot'
-        db.add_column(u'stablemanager_pilottraining', 'pilot',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['stablemanager.Pilot']),
-                      keep_default=False)
+        # Deleting model 'Mech'
+        db.delete_table('stablemanager_mech')
 
-        # Deleting field 'PilotTraining.pilot_week'
-        db.delete_column('stablemanager_pilottraining', 'pilot_week_id')
+        # Deleting model 'Ledger'
+        db.delete_table('stablemanager_ledger')
 
-        # Adding field 'Pilot.exp_wounds'
-        db.add_column(u'stablemanager_pilot', 'exp_wounds',
-                      self.gf('django.db.models.fields.IntegerField')(default=0),
-                      keep_default=False)
-
-        # Adding field 'Pilot.skill_gunnery'
-        db.add_column(u'stablemanager_pilot', 'skill_gunnery',
-                      self.gf('django.db.models.fields.IntegerField')(default=5),
-                      keep_default=False)
-
-        # Adding field 'Pilot.exp_character_points'
-        db.add_column(u'stablemanager_pilot', 'exp_character_points',
-                      self.gf('django.db.models.fields.IntegerField')(default=0),
-                      keep_default=False)
-
-        # Adding field 'Pilot.skill_pilotting'
-        db.add_column(u'stablemanager_pilot', 'skill_pilotting',
-                      self.gf('django.db.models.fields.IntegerField')(default=6),
-                      keep_default=False)
-
-        # Adding field 'Pilot.pilot_rank'
-        db.add_column(u'stablemanager_pilot', 'pilot_rank',
-                      self.gf('django.db.models.fields.CharField')(default=1, max_length=1),
-                      keep_default=False)
-
-        # Deleting field 'Pilot.is_active'
-        db.delete_column('stablemanager_pilot', 'is_active')
+        # Deleting model 'LedgerItem'
+        db.delete_table('stablemanager_ledgeritem')
 
 
     models = {
