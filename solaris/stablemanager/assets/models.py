@@ -50,9 +50,18 @@ class Pilot(models.Model):
             
     
 class PilotTraining(models.Model):
-    pilot_week = models.ForeignKey('PilotWeek')
+    pilot_week = models.ForeignKey('PilotWeek', related_name='skills')
     training = models.ForeignKey(PilotTrait)
-    notes = models.CharField(max_length=50, blank=True)
+    notes = models.CharField(max_length=50, blank=True, null=True)
+    
+    def skill(self):
+        return self.__unicode__()
+    
+    def __unicode__(self):
+        if self.notes:
+            return '%s (%s)' % (self.training.name, self.notes)
+        else:
+            return self.training.name
     
     class Meta:
         db_table = 'stablemanager_pilottraining'

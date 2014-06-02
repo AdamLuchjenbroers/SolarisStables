@@ -9,9 +9,9 @@
 {% block pagebody %}
 <div class="body">
   <form action="{{post_url}}" method="POST" class="{{form_class}}">
-    {% if pilot.non_field_errors or skills.non_field_errors %} 
+    {% if pilot.non_field_errors or pilotweek.non_field_errors or skills.non_field_errors %} 
       <div class="form_error">
-        {{ pilot.non_field_errors }} {{skills.non_field_errors}}}
+        {{ pilot.non_field_errors }} {{pilotweek.non_field_errors}} {{skills.non_field_errors}}
       </div>
     {% endif %}
     
