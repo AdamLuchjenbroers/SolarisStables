@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -47,7 +48,6 @@ class Pilot(models.Model):
                 self.deactivate()
         except ObjectDoesNotExist:            
             self.deactivate() # Dead or otherwise obsolete pilot
-            
     
 class PilotTraining(models.Model):
     pilot_week = models.ForeignKey('PilotWeek', related_name='skills')
@@ -98,6 +98,20 @@ class PilotWeek(models.Model):
         # TODO: Add earned character-points from battles.
         return self.start_character_points + self.gained_character_points()
     
+    def bv(self):
+        base_bv = 1.0
+        base_bv += (4-self.skill_gunnery) * 0.20
+        base_bv += (5-self.skill_piloting) * 0.05
+        
+        skills_bv = self.skills.aggregate( models.Sum('training__bv_mod'))['training__bv_mod__sum']
+        if skills_bv != None:
+            base_bv += float(skills_bv)
+
+        return base_bv
+
+    def bv_formatted(self):
+        return '%0.2f' % self.bv()
+
     def advance(self):
         if self.week.next_week == None:
             return       

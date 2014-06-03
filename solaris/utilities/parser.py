@@ -140,7 +140,7 @@ class SSWMech(dict):
         self['tonnage'] = xmlnode.get('tons')
         self['mech_name'] = xmlnode.get('name')
         self['mech_code'] = xmlnode.get('model') or '--'
-        
+        self['omni_loadout'] = 'Base' 
         self['is_omni'] = ( xmlnode.get('omnimech') == 'TRUE' )
                        
         self['credit_value'] = self.get_number(xmlnode, './cost/text()')
