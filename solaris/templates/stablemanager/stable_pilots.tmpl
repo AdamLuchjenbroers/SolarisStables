@@ -9,16 +9,16 @@
     <tr class="header"><td rowspan=2 class="name">Pilot</td><td rowspan=2 class="talents">Talents</td><td colspan=2 class="abilities">Abilities</td><td rowspan=2 class="bv">BV</td><td rowspan=2 class="experience">Experience</td><td rowspan=2 class="wounds">Wounds</td></tr>
     <tr class="header"><td class="subheader">G</td><td class="subheader">P</td></tr>
     {% for pilotweek in object_list %}
-     <tr class="{%cycle 'odd' 'even' %}">
-       <td>{{pilotweek.pilot.full_name}}</td>
-       <td>{% for training in pilotweek.skills.all %} 
+     <tr class="{%cycle 'odd' 'even' %}" id="{{pilotweek.pilot.pilot_callsign}}">
+       <td class="name">{{pilotweek.pilot.full_name}}</td>
+       <td class="talents">{% for training in pilotweek.skills.all %} 
          {{training.skill}} 
          {% if forloop.last == False %}, {% endif %}
         {% endfor %}</td>
-       <td>{{pilotweek.skill_gunnery}}</td><td>{{pilotweek.skill_piloting}}</td>
-       <td>{{pilotweek.bv_formatted}}</td>
-       <td>{{pilotweek.character_points}}</td>
-       <td>{{pilotweek.wounds}}</td>
+       <td class="gunnery">{{pilotweek.skill_gunnery}}</td><td class="piloting">{{pilotweek.skill_piloting}}</td>
+       <td class="bv">{{pilotweek.bv_formatted}}</td>
+       <td class="experience">{{pilotweek.character_points}}</td>
+       <td class="wounds">{{pilotweek.wounds}}</td>
        </tr>
     {% endfor %}
   </table>
