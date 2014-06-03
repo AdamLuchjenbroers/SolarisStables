@@ -39,7 +39,11 @@
     </div>
     {% endfor %}
     </fieldset>
-    
+    <div class="template_form" id="template_skill"> {% with skillset.empty_form as skill %}
+      {% column_field skill.discipline %}
+      {% column_field skill.training %}
+      {% column_field skill.notes %}
+    </div> {% endwith %}
     <p><input type="submit" Value="{{submit}}" class="submit"/></p>
   </form>
 </div>

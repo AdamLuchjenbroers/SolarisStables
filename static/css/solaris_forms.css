@@ -114,3 +114,8 @@ div.column_field_basic div, div.column_field_basic span, div.column_field_error 
 	align: left;
 	float: none;
 }
+
+/* Template Forms */
+div.template_form {
+    display: none;
+}
