@@ -278,8 +278,10 @@ table.pilots tr.header td.name, table.pilots tr.header td.talents {
 
 table.pilots tr.odd {
   background-color: #C8C8FF;
+  font-size : small;
 }
 
 table.pilots tr.even {
   background-color: #B0B0FF;
+  font-size : small;
 }
