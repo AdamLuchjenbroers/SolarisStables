@@ -40,5 +40,5 @@ class PilotTrainingForm(ModelForm):
     class Meta:
         model = models.PilotTraining
         fields = ('discipline', 'training', 'notes')        
-        
-PilotInlineSkillsForm = inlineformset_factory(models.PilotWeek, models.PilotTraining, form=PilotTrainingForm )
+
+PilotInlineSkillsForm = inlineformset_factory(models.PilotWeek, models.PilotTraining, form=PilotTrainingForm, extra=1 )
