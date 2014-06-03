@@ -85,7 +85,7 @@ class StableNewPilotsView(StableViewMixin, TemplateView):
 
             self.form_skillset.instance = pilotweek
             self.form_skillset.save()
-            return redirect('/')
+            return redirect(reverse('stable_overview')
         
         return self.get(request)
 
