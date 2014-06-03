@@ -17,5 +17,5 @@ urlpatterns = patterns('',
     url(r'^actions/?$', StableActionView.as_view()),
     url(r'^actions/(?P<week>[0-9]+)/?$', StableActionView.as_view()),
     url(r'^pilots/?$', StablePilotsView.as_view()),
-    url(r'^pilots/add/?$', StableNewPilotsView.as_view(), name='pilots_add'),
+    url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),
 )
