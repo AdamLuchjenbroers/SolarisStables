@@ -4,6 +4,28 @@ from django.core.urlresolvers import reverse
 from genshi import Markup
 from decimal import Decimal
 
+class TrainingCost(models.Model):
+    training_options = (
+        ('P', 'Piloting'),
+        ('G', 'Gunnery'),
+        ('S', 'Skills'),
+    )
+    training = models.CharField(max_length=1, choices=training_options)
+    train_from = models.IntegerField()
+    train_to = models.IntegerField()
+    cost = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = 'Training Costs'
+        verbose_name = 'Training Cost'
+        db_table = 'warbook_trainingcost'
+        app_label = 'warbook'
+        unique_together = ('training','train_to')
+        
+    def __unicode__(self):
+        return '%s %s' % (self.get_training_display(), self.train_to)
+    
+
 class PilotRank(models.Model):
     rank = models.CharField(max_length=20, unique=True)
     min_gunnery = models.IntegerField()
