@@ -27,6 +27,7 @@ class BroadcastWeek(models.Model):
               , sign = self.sign.next
             )
             self.next_week.save()
+            self.save()
         
         return self.next_week
     
