@@ -86,14 +86,17 @@ class MechLoader(object):
                 
     @transaction.commit_manually
     def load_mech(self):
+        self.location_models = None
+        self.parsed_mech = None
+
         try:
             self.parsed_mech = SSWMech( self.sswXML.xpath('/mech')[0], self.filename )
             
-            if self.parsed_mech.type != 'BattleMech' or parsed_mech['tech_base'] != 'I' or int(parsed_mech['tonnage']) < 20:
+            if self.parsed_mech.type != 'BattleMech' or self.parsed_mech['tech_base'] != 'I' or int(self.parsed_mech['tonnage']) < 20:
                 transaction.rollback()
                 return 
             
-            print "Importing %s ( %s / %s )" % (self.filename, parsed_mech['mech_name'], parsed_mech['mech_code'])
+            print "Importing %s ( %s / %s )" % (self.filename, self.parsed_mech['mech_name'], self.parsed_mech['mech_code'])
             
             if self.parsed_mech['motive_type'] =='Q':
                 self.location_map = translate.locations_quad

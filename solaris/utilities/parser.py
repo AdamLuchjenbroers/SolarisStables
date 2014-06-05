@@ -135,41 +135,61 @@ class SSWMech(dict):
     def get_number(self, node, xpath):
         text = node.xpath(xpath)[0]
         return int(floor(float(text)))
-    
-    def __init__(self, xmlnode, ssw_filename, stock=True):
+
+    def load_baselayout(self, xmlnode):
         self['tonnage'] = xmlnode.get('tons')
         self['mech_name'] = xmlnode.get('name')
         self['mech_code'] = xmlnode.get('model') or '--'
-        self['omni_loadout'] = 'Base' 
         self['is_omni'] = ( xmlnode.get('omnimech') == 'TRUE' )
-                       
-        self['credit_value'] = self.get_number(xmlnode, './cost/text()')
-        
-        if self['is_omni']:
-            self['bv_value'] = 0
-        else:
-            self['bv_value'] = self.get_number(xmlnode, './battle_value/text()')
-        
-        self['tech_base'] = translate.tech_bases[ xmlnode.xpath('./techbase/text()')[0] ]
-        self['motive_type'] = translate.motive_options[ xmlnode.xpath('./motive_type/text()')[0] ]
-            
+        self['motive_type'] = translate.motive_options[ xmlnode.xpath('./motive_type/text()')[0]]
+        self['tech_base'] = translate.tech_bases[ xmlnode.xpath('./techbase/text()')[0]]
+
         self.gyro = SSWGyro( xmlnode.xpath('./gyro')[0] )
         self.engine = SSWEngine( xmlnode.xpath('./engine')[0], gyro_criticals=self.gyro.criticals )
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
         self.structure = SSWStructure( xmlnode.xpath('./structure')[0] )   
         self.cockpit = SSWCockpitSet( xmlnode.xpath('./cockpit')[0] )   
-                
         self.equipment = SSWLoadout( xmlnode.xpath('./baseloadout')[0], motive_type=self['motive_type'])
+                
         self.equipment.append(self.gyro)
         self.equipment.append(self.engine)
         self.equipment.append(self.armour)        
         self.equipment.append(self.structure) 
         self.equipment += self.cockpit
-        
-        
-        
+
+        self.type = xmlnode.xpath('./mech_type/text()')[0]
+
         self['engine_rating'] = self.engine.rating
-        self['stock_design'] = stock
+
+    def __init__(self, xmlnode, ssw_filename, production_type='P', base_layout=None):
+       
         self['ssw_filename'] = ssw_filename
+        self['production_type'] = production_type
+        
+        if base_layout == None:
+            #Omni-mech base layout or Non Omni-mech
+            self.load_baselayout(xmlnode) 
+            self['omni_loadout'] = 'Base' 
+        else:               
+            #Copy all the details from the base_layout        
+            self.gyro = base_layout.gyro
+            self.engine = base_layout.engine
+            self.armour = base_layout.armour
+            self.structure = base_layout.structure
+            self.cockpit = base_layout.cockpit
+            self.equipment = base_layout.equipment
+            self.type = base_layout.type
+            
+            for (key, item) in base_layout.items:
+                self[key] = item
+            
+            self.equipment += SSWLoadout(xmlnode, motive_type=self['motive_type'])
+        
+        self['credit_value'] = self.get_number(xmlnode, './cost/text()')
+        
+        if self['is_omni'] and base_layout == None:
+            self['bv_value'] = 0
+        else:
+            self['bv_value'] = self.get_number(xmlnode, './battle_value/text()')
         
         self.type = xmlnode.xpath('./mech_type/text()')[0]
