@@ -4,7 +4,7 @@ import traceback
 
 from django.conf import settings
 
-from solaris.utilities.loader import MechLoader
+from solaris.utilities.loader import SSWLoader
 
 sswPattern = re.compile('.*\.ssw$')
 
@@ -19,8 +19,8 @@ def recursiveScanAll(path, relative_path='.'):
             
         if os.path.isfile(fullpath) and sswPattern.match(fileName):
             try: 
-                loader = MechLoader(relative_path  + '/' + fileName)
-                loader.load_mech()
+                loader = SSWLoader(relative_path  + '/' + fileName)
+                loader.load_mechs()
             except BaseException as e:
                 print '%s > %s ' % (relative_path, e)
                 traceback.print_exc()

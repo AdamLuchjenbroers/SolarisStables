@@ -195,4 +195,5 @@ class SSWMech(dict):
             self.loadouts = [ SSWMech(loadout_node, ssw_filename, production_type= production_type, base_layout=self) for loadout_node in xmlnode.xpath('./loadout') ]
         else:
             self['bv_value'] = self.get_number(xmlnode, './battle_value/text()')
+            self.loadouts = []
         

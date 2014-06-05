@@ -7,7 +7,7 @@ from .refdata import locations_all, structure_entry, structure
 class MechDesign(models.Model):
     mech_name = models.CharField(max_length=50)
     mech_code = models.CharField(max_length=50)
-    omni_loadout = models.CharField(max_length=30, default='N/A', blank=True)
+    omni_loadout = models.CharField(max_length=30, default='Base', blank=True)
     stock_design = models.BooleanField(default=True)
     credit_value = models.IntegerField(null=True)
     bv_value = models.IntegerField(null=True)

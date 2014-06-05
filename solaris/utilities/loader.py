@@ -13,22 +13,48 @@ from .forms import MechValidationForm, LocationValidationForm, MechEquipmentForm
 def print_errors(errors):
     for (key, value) in errors.items():
         print '\t%s: %s' % (key, strip_tags('%s' % value))
+
+class SSWLoader(object):
+
+    def __init__(self, sswfile):
+	fd = open('%s/%s' % (settings.SSW_STOCK_MECHS_ROOT, sswfile),'rb')
+            
+        self.filename = sswfile            
+        self.sswXML = etree.parse(fd)
+
+    def load_mechs(self):
+        parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename )
+            
+        if parsed_mechs.type != 'BattleMech' or parsed_mechs['tech_base'] != 'I' or int(parsed_mechs['tonnage']) < 20:
+            return 
+            
+        print "Importing %s ( %s / %s )" % (self.filename, parsed_mechs['mech_name'], parsed_mechs['mech_code'])
+        
+        # Load Base Config
+        base_config = MechLoader(self.filename, parsed_mechs)
+        base_config.load_mech()
+        
+        for loadout in parsed_mechs.loadouts:
+             print " * Importing Config: %s" % loadout['omni_loadout']
+             loadout_mech = MechLoader(self.filename, loadout)
+             loadout_mech.load_mech()
+            
         
 class MechLoader(object):
+ 
+    def __init__(self, sswfile, parsed_mech):
+        self.parsed_mech = parsed_mech
+        self.filename = sswfile            
+        self.locations = None 
+ 
+        try:
+            self.mech = MechDesign.objects.get(ssw_filename=self.filename, omni_loadout=parsed_mech['omni_loadout'])            
+        except MechDesign.DoesNotExist:
+            self.mech = None
     
-    def __init__(self, sswfile):
-            fd = open('%s/%s' % (settings.SSW_STOCK_MECHS_ROOT, sswfile),'rb')
-            
-            self.filename = sswfile            
-            self.sswXML = etree.parse(fd)
-                        
-            try:
-                self.mech = MechDesign.objects.get(ssw_filename=self.filename)            
-            except MechDesign.DoesNotExist:
-                self.mech = None
-            
-            self.parsed_mech = None
-            self.locations = None 
+
+    def exists(self):
+        return (self.mech != None)
     
     def load_locations(self, mech, mech_model):
         locations = {}
@@ -82,22 +108,12 @@ class MechLoader(object):
             eq_form.save()
         else:
             raise SSWParseError(self.filename, eq_form.errors)
-        
                 
     @transaction.commit_manually
     def load_mech(self):
         self.location_models = None
-        self.parsed_mech = None
 
         try:
-            self.parsed_mech = SSWMech( self.sswXML.xpath('/mech')[0], self.filename )
-            
-            if self.parsed_mech.type != 'BattleMech' or self.parsed_mech['tech_base'] != 'I' or int(self.parsed_mech['tonnage']) < 20:
-                transaction.rollback()
-                return 
-            
-            print "Importing %s ( %s / %s )" % (self.filename, self.parsed_mech['mech_name'], self.parsed_mech['mech_code'])
-            
             if self.parsed_mech['motive_type'] =='Q':
                 self.location_map = translate.locations_quad
             else:
