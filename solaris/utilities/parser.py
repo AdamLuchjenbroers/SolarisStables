@@ -170,7 +170,9 @@ class SSWMech(dict):
             #Omni-mech base layout or Non Omni-mech
             self.load_baselayout(xmlnode) 
             self['omni_loadout'] = 'Base' 
-        else:               
+        else:
+            self['omni_loadout'] = xmlnode.get('name')
+               
             #Copy all the details from the base_layout        
             self.gyro = base_layout.gyro
             self.engine = base_layout.engine
@@ -189,7 +191,8 @@ class SSWMech(dict):
         
         if self['is_omni'] and base_layout == None:
             self['bv_value'] = 0
+            
+            self.loadouts = [ SSWMech(loadout_node, ssw_filename, production_type= production_type, base_layout=self) for loadout_node in xmlnode.xpath('./loadout') ]
         else:
             self['bv_value'] = self.get_number(xmlnode, './battle_value/text()')
         
-        self.type = xmlnode.xpath('./mech_type/text()')[0]
