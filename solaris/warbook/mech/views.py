@@ -12,8 +12,14 @@ class MechDetailView(ReferenceViewMixin, TemplateView):
     
     def get_context_data(self, **kwargs):
         page_context = super(MechDetailView,self).get_context_data(**kwargs)
+
+        if not('omni' in self.kwargs.keys()):
+            self.kwargs['omni'] = 'Base'
         
-        page_context['mech'] = get_object_or_404(MechDesign, mech_name__iexact=self.kwargs['name'], mech_code__iexact=self.kwargs['code'])
+        page_context['mech'] = get_object_or_404(MechDesign
+                                                , mech_name__iexact=self.kwargs['name']
+                                                , mech_code__iexact=self.kwargs['code']
+                                                , omni_loadout__iexact=self.kwargs['omni']  )
         page_context['crit_table'] = { location.location_code() : location for location in page_context['mech'].locations.all() }
         
         return page_context

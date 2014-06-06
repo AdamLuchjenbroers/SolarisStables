@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^mechs/?$', MechSearchView.as_view(), name='mech_search') ,
     url(r'^mechs/search/?$', MechSearchResultsView.as_view(), name='mech_searchresult'),
     url(r'^mechs/(?P<name>[^/]+)/?$', MechListView.as_view(), name='mech_chassis') ,
-    url(r'^mechs/(?P<name>[^/]+)/(?P<code>[^/]+)/?$', MechDetailView.as_view(), name='mech_detail') ,
+    url(r'^mechs/(?P<name>[^/]+)/(?P<code>[^/]+)/(?P<omni>[^/]+)/?$', MechDetailView.as_view(), name='mech_detail') ,
+    url(r'^mechs/(?P<name>[^/]+)/(?P<code>[^/]+)/?$', MechDetailView.as_view(), name='mech_detail_base') ,
     url(r'^ajax/?', include('solaris.warbook.ajax_urls'))    
 )
