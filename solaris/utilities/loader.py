@@ -22,10 +22,6 @@ class SSWLoader(object):
         self.filename = sswfile            
         self.sswXML = etree.parse(self.xml_fd)
 
-    def __del__(self):
-        close(self.xml_fd)
-        super(SSWLoader, self).__del__()
-
     def load_mechs(self):
         parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename )
             
