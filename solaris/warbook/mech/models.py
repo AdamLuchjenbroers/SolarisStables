@@ -37,7 +37,7 @@ class MechDesign(models.Model):
     )
     production_type = models.CharField(max_length=1, choices=production_options, default='P')    
     
-    omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True)
+    omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True, related_name='loadouts')
 
     def total_armour(self):
         return (self.locations.aggregate( models.Sum('armour') ))['armour__sum']
@@ -45,6 +45,22 @@ class MechDesign(models.Model):
     def reset_equipment(self):        
         for mount in self.loadout.all():
             mount.delete()
+
+    def get_loadouts(self):
+        if self.is_omni:
+            loadouts = [self]
+
+            if self.omni_basechassis:
+                omni_loadouts = self.omni_basechassis.loadouts.all()
+            else:
+                omni_loadouts = self.loadouts.all()
+
+            for omni_config in omni_loadouts:
+                loadouts.append(omni_config)
+
+            return loadouts
+        else:
+            return None
         
     def move_walk(self):
         return int(ceil(self.engine_rating / self.tonnage))
