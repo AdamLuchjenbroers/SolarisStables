@@ -14,6 +14,11 @@
     <em>BV:</em> {{mech.bv_value}}
     <em>Cost:</em> {{mech.credit_value}}
   </p>
+  <ul class="loadouts">
+  {% for loadout in mech.get_loadouts %}
+    <li><a href="{{loadout.get_absolute_url}}">{{loadout.omni_loadout}}</a></li>
+  {% endfor %}
+  </ul>
 
   <div class="{{mech.motive_type}}_armour">
     {% for location in mech.locations.all %}

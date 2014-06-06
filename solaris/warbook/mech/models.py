@@ -48,14 +48,15 @@ class MechDesign(models.Model):
 
     def get_loadouts(self):
         if self.is_omni:
-            loadouts = [self]
-
             if self.omni_basechassis:
+                loadouts = [self.omni_basechassis]
                 omni_loadouts = self.omni_basechassis.loadouts.all()
             else:
+                loadouts = [self]
                 omni_loadouts = self.loadouts.all()
 
             for omni_config in omni_loadouts:
+                print omni_config.omni_loadout
                 loadouts.append(omni_config)
 
             return loadouts
@@ -98,7 +99,7 @@ class MechDesign(models.Model):
         return '%s %s' % (self.mech_name, self.mech_code)
     
     def get_absolute_url(self):
-        return reverse('mech_detail', kwargs={'name': self.mech_name, 'code': self.mech_code})
+        return reverse('mech_detail', kwargs={'name': self.mech_name, 'code': self.mech_code, 'omni': self.omni_loadout})
 
 class MechLocation(models.Model):
     location = models.CharField(max_length=3, unique=True, choices=locations_all)
