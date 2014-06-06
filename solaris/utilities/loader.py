@@ -37,6 +37,7 @@ class SSWLoader(object):
         for loadout in parsed_mechs.loadouts:
              print " * Importing Config: %s" % loadout['omni_loadout']
              loadout_mech = MechLoader(self.filename, loadout)
+             loadout_mech.parsed_mech['omni_basechassis'] = base_config.mech.id
              loadout_mech.load_mech()
             
         

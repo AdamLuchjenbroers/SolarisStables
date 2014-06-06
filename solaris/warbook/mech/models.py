@@ -56,7 +56,6 @@ class MechDesign(models.Model):
                 omni_loadouts = self.loadouts.all()
 
             for omni_config in omni_loadouts:
-                print omni_config.omni_loadout
                 loadouts.append(omni_config)
 
             return loadouts

@@ -152,7 +152,7 @@ class SSWMech(dict):
         self.armour = SSWArmour( xmlnode.xpath('./armor')[0] )
         self.structure = SSWStructure( xmlnode.xpath('./structure')[0] )   
         self.cockpit = SSWCockpitSet( xmlnode.xpath('./cockpit')[0] )   
-        self.equipment = SSWLoadout( xmlnode.xpath('./baseloadout')[0], motive_type=self['motive_type'])
+        self.equipment = SSWBaseLoadout( xmlnode.xpath('./baseloadout')[0], motive_type=self['motive_type'])
                 
         self.equipment.append(self.gyro)
         self.equipment.append(self.engine)
