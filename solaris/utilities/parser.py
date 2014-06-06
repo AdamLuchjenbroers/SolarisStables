@@ -111,26 +111,29 @@ class SSWJumpjetList(SSWItemList):
     item_class = 'Jumpjet'
     item_group = 'J'
     
-class SSWBaseLoadout(list):
-    pass   
-
 class SSWLoadout(list):
-    def __init__(self, xmlnode, motive_type='B'):       
-        self += SSWHeatsinkList( xmlnode.xpath('./heatsinks')[0])
-        
-        if motive_type == 'B':
-            self += SSWBipedActuatorSet( xmlnode.xpath('./actuators')[0] )
-        else:
-            self += SSWQuadActuatorSet()
+    def __init__(self, xmlnode, motive_type='B'):
+        xml_heatsinks = xmlnode.xpath('./heatsinks')
+        if xml_heatsinks:       
+            self += SSWHeatsinkList(xml_heatsinks[0])
         
         xml_jets = xmlnode.xpath('./jumpjets')
+        if xml_jets:
+            self += SSWJumpjetList(xml_jets[0])
         
         for item in xmlnode.xpath('./equipment'):
             self.append(SSWEquipment(item))
         
-        if xml_jets:
-            self += SSWJumpjetList(xml_jets[0])
     
+class SSWBaseLoadout(SSWLoadout):
+    def __init__(self, xmlnode, motive_type='B'):
+        super(SSWBaseLoadout, self).__init__(xmlnode, motive_type=motive_type)
+           
+        if motive_type == 'B':
+            self += SSWBipedActuatorSet( xmlnode.xpath('./actuators')[0] )
+        else:
+            self += SSWQuadActuatorSet()
+
 class SSWMech(dict):
     def get_number(self, node, xpath):
         text = node.xpath(xpath)[0]
@@ -182,7 +185,7 @@ class SSWMech(dict):
             self.equipment = base_layout.equipment
             self.type = base_layout.type
             
-            for (key, item) in base_layout.items:
+            for (key, item) in base_layout.items():
                 self[key] = item
             
             self.equipment += SSWLoadout(xmlnode, motive_type=self['motive_type'])
