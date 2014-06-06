@@ -185,11 +185,10 @@ class SSWMech(dict):
             self.armour = base_layout.armour
             self.structure = base_layout.structure
             self.cockpit = base_layout.cockpit
-            self.equipment = base_layout.equipment
             self.type = base_layout.type
             
-            
-            self.equipment += SSWLoadout(xmlnode, motive_type=self['motive_type'])
+            self.equipment = SSWLoadout(xmlnode, motive_type=self['motive_type'])
+            self.equipment += base_layout.equipment
         
         self['credit_value'] = self.get_number(xmlnode, './cost/text()')
         
