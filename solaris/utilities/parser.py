@@ -174,6 +174,9 @@ class SSWMech(dict):
             self.load_baselayout(xmlnode) 
             self['omni_loadout'] = 'Base' 
         else:
+            for (key, item) in base_layout.items():
+                self[key] = item
+
             self['omni_loadout'] = xmlnode.get('name')
                
             #Copy all the details from the base_layout        
@@ -185,8 +188,6 @@ class SSWMech(dict):
             self.equipment = base_layout.equipment
             self.type = base_layout.type
             
-            for (key, item) in base_layout.items():
-                self[key] = item
             
             self.equipment += SSWLoadout(xmlnode, motive_type=self['motive_type'])
         
