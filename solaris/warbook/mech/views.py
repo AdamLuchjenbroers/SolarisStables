@@ -19,7 +19,8 @@ class MechDetailView(ReferenceViewMixin, TemplateView):
         page_context['mech'] = get_object_or_404(MechDesign
                                                 , mech_name__iexact=self.kwargs['name']
                                                 , mech_code__iexact=self.kwargs['code']
-                                                , omni_loadout__iexact=self.kwargs['omni']  )
+                                                , omni_loadout__iexact=self.kwargs['omni']  
+                                                , production_type='P')
         page_context['crit_table'] = { location.location_code() : location for location in page_context['mech'].locations.all() }
         
         return page_context
@@ -30,7 +31,7 @@ class MechListView(ReferenceViewMixin, ListView):
     submenu_selected = 'Mechs'
     
     def get_queryset(self):
-        return get_list_or_404(MechDesign, mech_name__iexact=self.kwargs['name'])
+        return get_list_or_404(MechDesign, mech_name__iexact=self.kwargs['name'], production_type='P', omni_loadout__iexact='Base')
     
     def get_context_data(self):
         page_context = super(MechListView, self).get_context_data()
@@ -55,7 +56,7 @@ class MechSearchResultsView(ReferenceViewMixin, ListView):
     }
     
     def get_filter_args(self, requestdata):
-        filter_args = {}
+        filter_args = {'production_type' : 'P', 'omni_loadout__iexact' : 'Base'}
         
         for (term, query_term) in MechSearchResultsView.translate_terms.items() :
             if term in requestdata and requestdata[term] != '':
