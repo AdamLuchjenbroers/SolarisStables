@@ -16,7 +16,11 @@
   </p>
   <ul class="loadouts">
   {% for loadout in mech.get_loadouts %}
+  {% if loadout == mech %}
+    <li class="selected">{{loadout.omni_loadout}}</li>
+  {% else %}
     <li><a href="{{loadout.get_absolute_url}}">{{loadout.omni_loadout}}</a></li>
+  {% endif %}
   {% endfor %}
   </ul>
 
