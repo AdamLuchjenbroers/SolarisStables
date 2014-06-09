@@ -98,7 +98,10 @@ class MechDesign(models.Model):
         return '%s %s' % (self.mech_name, self.mech_code)
     
     def get_absolute_url(self):
-        return reverse('mech_detail', kwargs={'name': self.mech_name, 'code': self.mech_code, 'omni': self.omni_loadout})
+        if self.omni_loadout == 'Base':
+            return reverse('mech_detail_base', kwargs={'name': self.mech_name, 'code': self.mech_code})
+        else:
+            return reverse('mech_detail', kwargs={'name': self.mech_name, 'code': self.mech_code, 'omni': self.omni_loadout})
 
 class MechLocation(models.Model):
     location = models.CharField(max_length=3, unique=True, choices=locations_all)
