@@ -2,6 +2,43 @@ div.content {
   position: relative;
 }
 
+ul.loadouts {
+  background-color: #AAAAAA;
+  height: 28px;
+}
+
+ul.loadouts li, ul.loadouts li a {
+  display:block;
+  float: left;
+  background-color: #CCCCCC;
+  border: 1px solid black;
+  vertical-align: middle;
+
+  font-size: small;
+
+  margin-right: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+
+  position: relative;
+  top: 2px; 
+  height: 22px;
+}
+
+ul.loadouts li a {
+  padding: 0px;
+  margin: 0px;
+  top: 0px;
+
+  border: 0px;
+}
+
+
+ul.loadouts li.selected {
+  background-color: #660000;
+  color: #FFFFFF;  
+}
+
 div.B_armour, div.Q_armour {
   position: relative;
   width: 400px;
@@ -197,3 +234,5 @@ span.item_noncrittable {
   color: #aaaaaa;
   text-align: center;
 }
+
+
