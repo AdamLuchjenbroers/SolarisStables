@@ -117,12 +117,16 @@ class SSWLoadout(list):
         if xml_heatsinks:       
             self += SSWHeatsinkList(xml_heatsinks[0])
         
+        self.fcs_artemisIV = (xmlnode.get('fcsa4') == 'TRUE')
+        self.fcs_artemisV = (xmlnode.get('fcsa5') == 'TRUE')
+        self.fcs_apollo = (xmlnode.get('fcsapollo') == 'TRUE')
+        
         xml_jets = xmlnode.xpath('./jumpjets')
         if xml_jets:
             self += SSWJumpjetList(xml_jets[0])
         
         for item in xmlnode.xpath('./equipment'):
-            self.append(SSWEquipment(item))
+            self.append(SSWEquipment(item, fcs_artemisIV=self.fcs_artemisIV, fcs_artemisV=self.fcs_artemisV, fcs_apollo=self.fcs_apollo))
         
     
 class SSWBaseLoadout(SSWLoadout):

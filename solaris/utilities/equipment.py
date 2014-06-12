@@ -188,7 +188,7 @@ class SSWEquipment(SSWMountedItem):
     
     default_type = '?'
     
-    def __init__(self, xmlnode):        
+    def __init__(self, xmlnode, fcs_artemisIV=False, fcs_artemisV=False, fcs_apollo=False):        
         (name, rear, turret) = self.parse_name(xmlnode.xpath('./name')[0].text)
         self['name'] = name
         
