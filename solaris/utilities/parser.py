@@ -4,7 +4,7 @@ from django.utils.html import strip_tags
 
 
 from solaris.utilities import translate
-from solaris.utilities.equipment import SSWEquipment, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWActuator, SSWCockpitItem
+from solaris.utilities.equipment import SSWEquipment, SSWEnhancement, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWActuator, SSWCockpitItem
 
 class SSWParseError(Exception):
     def __init__(self, mech, formerrors):
@@ -159,6 +159,10 @@ class SSWMech(dict):
         self.equipment.append(self.armour)        
         self.equipment.append(self.structure) 
         self.equipment += self.cockpit
+
+        xml_enhancement = xmlnode.xpath('./enhancement')
+        if xml_enhancement:
+            self.equipment.append(SSWEnhancement(xml_enhancement[0]))
 
         self.type = xmlnode.xpath('./mech_type/text()')[0]
 

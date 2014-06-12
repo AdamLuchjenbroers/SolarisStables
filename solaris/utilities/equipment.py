@@ -93,8 +93,8 @@ class SSWMountedItem(dict):
         self['mech'] = None
         self.criticals = None
         self.mountings = {}
-        self.extrapolated = self.__class__.default_extrapolated
-            
+        self.extrapolated = self.__class__.default_extrapolated           
+ 
         if eq_class == None:
             eq_class = self.__class__.default_type
                 
@@ -173,7 +173,18 @@ class SSWCockpitItem(SSWDerivedItem):
     default_type = 'C'
     item_group = 'Cockpit'    
     
-        
+class SSWEnhancement(SSWMountedItem):
+    default_type = 'Q'
+    
+    def __init__(self, xmlnode):
+        enh_type = xmlnode.xpath('./type/text()')[0]
+        self['name'] = enh_type
+        self['ssw_name'] = 'Enhancement - %s' % enh_type
+        print self['ssw_name']
+
+        super(SSWEnhancement, self).__init__()
+        self.mount(xmlnode)       
+
 class SSWEquipment(SSWMountedItem):
     
     default_type = '?'
@@ -305,5 +316,4 @@ class SSWListItem(SSWMountedItem):
         size = (self.criticals or 1)        
         
         self.mountings[code] = SSWItemMounting(code, range(index, index+size))
-        
-        
+                
