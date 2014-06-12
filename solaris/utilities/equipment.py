@@ -180,7 +180,6 @@ class SSWEnhancement(SSWMountedItem):
         enh_type = xmlnode.xpath('./type/text()')[0]
         self['name'] = enh_type
         self['ssw_name'] = 'Enhancement - %s' % enh_type
-        print self['ssw_name']
 
         super(SSWEnhancement, self).__init__()
         self.mount(xmlnode)       
