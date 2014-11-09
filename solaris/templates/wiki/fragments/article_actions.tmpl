@@ -1,0 +1,15 @@
+{% load i18n wiki_tags %}{% load url from future %}
+
+<ul class="submenu">
+
+  <li> <a href="{% url 'wiki:get' article_id=article.id path=urlpath.path %}">View Page</a></li>
+  
+{% if article|can_write:user and not article.current_revision.locked %}
+  <li> <a href="{% url 'wiki:edit' article_id=article.id path=urlpath.path %}">Edit Page</a></li>
+{% else %}
+  <li> <a href="{% url 'wiki:source' article_id=article.id path=urlpath.path %}">View Source</a></li>
+{% endif %}
+
+<li><a href="{% url 'wiki:history' article_id=article.id path=urlpath.path %}">History</a></li>
+
+</ul>

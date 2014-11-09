@@ -2,6 +2,10 @@
 
 {% block title %}Stablemunder Wiki - {{ article.current_revision.title }}{% endblock %}
 
+{% block pagesubmenu %}
+  {% include "wiki/fragments/article_actions.tmpl" %}
+{% endblock %}
+
 {% block wiki_contents %}
 <div class="article"></div>
   <h1>{{ article.current_revision.title }}</h1>

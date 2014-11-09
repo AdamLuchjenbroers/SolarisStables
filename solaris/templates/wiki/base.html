@@ -21,21 +21,14 @@
   <div class="adminbar">
   {% block wiki_search %}
   <form id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">
-    <div class="input-group">
-        <input type="search" class="form-control search-query" name="q" placeholder="{% trans "Search..." %}" />
-        <span class="input-group-btn">
-           <button class="btn btn-default" type="button">
-             <span class="icon-search"></span>
-           </button>
-        </span>
-    </div><!-- /input-group -->
+    <input type="search" class="search" name="q" placeholder="{% trans "Search..." %}" />
+    <button type="button">
+      <span class="icon-search"></span>
+    </button>
   </form>
   {% endblock %}
 
-  {% block user_bar %}
-    {% if user.is_authenticated %} 
-
-    {% endif %}
+  {% block wiki_commands %}
   {% endblock %}
   
   </div>
@@ -44,11 +37,13 @@
   
    {% block wiki_contents %}{% endblock %}
 
+ {% endblock %}
+
    <footer id="wiki-footer">
      <hr />
      <p>{% blocktrans %}Powered by <a href="http://www.django-wiki.org">django-wiki</a>, an open source application under the <a href="http://www.gnu.org/licenses/quick-guide-gplv3.html">GPLv3</a> license. Let knowledge be the cure.{% endblocktrans %}</p>
     </footer>
 
-  {% endblock %}
+
   </div>
 {% endblock %}

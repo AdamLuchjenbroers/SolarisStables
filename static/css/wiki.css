@@ -13,5 +13,24 @@ padding: 0 0 0.5em;
 
 
 form#wiki-search-form {
-	float: left;
+	text-align: left;
+	float: none;
+}
+
+form#wiki-search-form button {
+	width: 20px;
+	height: 20px;	
+	
+	margin: 0px;
+	margin-botton: 4px;
+	padding: 0px;
+	
+	vericlal-align: middle;
+}
+
+form#wiki-search-form button span.icon-search {
+	content:url(/static/images/icons/search.png);
+	
+	width: 20px;
+	height: 20px;
 }
