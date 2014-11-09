@@ -29,6 +29,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'solaris.urls'
 
 MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': True})
+MARKITUP_SET = 'markitup/sets/markdown'
 
 JQUERY_URL = None
 

@@ -25,11 +25,6 @@ class NewsPost(models.Model):
     content = MarkupField()
     post_date = models.DateField(auto_now_add=True)
   
-    def get_markup_content(self):
-        return mark_safe(self.content.rendered)
-  
-    markup_content = property(get_markup_content, None)
-  
     class Meta:
         verbose_name = 'News Post'
         verbose_name_plural = 'News Posts'

@@ -12,7 +12,7 @@
       <span class="byline">Posted by {{post.poster.username}} on {{post.post_date}}</span>
     </div>
     <div class="content">
-      {{post.markup_content | safe}}
+      {{post.content.rendered | safe}}
     </div>
   </div>
   {% endfor %}
