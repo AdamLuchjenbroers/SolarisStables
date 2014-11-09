@@ -17,4 +17,12 @@ def deepcopy_append(base_list, to_append):
         new_list.append(item)
         
     return new_list
+
+def determine_selected(request):
+    print request
+    
+    if request.path[0:5] == '/wiki':
+        return {'selected' : 'Wiki'}
+    else:
+        return {}
     
