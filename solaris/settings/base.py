@@ -15,7 +15,8 @@ USE_I18N = True
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
    'django.template.loaders.filesystem.Loader',
-   'django.template.loaders.app_directories.Loader',   
+   'django.template.loaders.app_directories.Loader',
+#   'solaris.templates.load_from__app'   
 #     'django.template.loaders.eggs.load_template_source',
 )
 
@@ -31,7 +32,7 @@ ROOT_URLCONF = 'solaris.urls'
 MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': True})
 MARKITUP_SET = 'markitup/sets/markdown'
 
-JQUERY_URL = None
+JQUERY_URL = '/static/js/jquery-1.11.1.js'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
