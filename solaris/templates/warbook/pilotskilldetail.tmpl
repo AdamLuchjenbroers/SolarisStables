@@ -1,10 +1,10 @@
 {% extends 'solaris_layout.tmpl' %}
  
 {% block pagebody %}
-<div class="body"><div class="tech_tier{{technology.tier}}">
+<div class="body"><div class="discipline_blurb">
   <h1>{{object.name}}</h1>
   <p>{{object.blurb}}</p>
-  {% for ability in object.skills.all %}
+  {% for ability in object.traits.all %}
     <div class="ability">
       <h2>{{ability.name}}</h2>
       <p class="abilityText">{{ability.description}}</p>
