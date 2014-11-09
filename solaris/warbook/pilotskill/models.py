@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 
-from genshi import Markup
 from decimal import Decimal
 
 class TrainingCost(models.Model):
@@ -56,7 +56,7 @@ class PilotTraitGroup(models.Model):
     discipline_type = models.CharField(max_length=1, choices=discipline_options, default='I')
   
     def get_markup_blurb(self):
-        return Markup(self.blurb)
+        return mark_safe(self.blurb)
   
     markup_blurb = property(get_markup_blurb, None)
   
