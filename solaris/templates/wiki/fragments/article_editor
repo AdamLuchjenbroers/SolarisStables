@@ -1,0 +1,3 @@
+{% load wiki_tags i18n sekizai_tags markitup_tags %}
+
+{% wiki_form form %}
