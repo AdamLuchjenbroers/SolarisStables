@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from genshi import Markup
+from django.utils.safestring import mark_safe
 
 from markitup.fields import MarkupField
 
@@ -26,7 +26,7 @@ class NewsPost(models.Model):
     post_date = models.DateField(auto_now_add=True)
   
     def get_markup_content(self):
-        return Markup(self.content.rendered)
+        return mark_safe(self.content.rendered)
   
     markup_content = property(get_markup_content, None)
   
