@@ -1,0 +1,14 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}Stablemunder Wiki - {{ article.current_revision.title }}{% endblock %}
+
+{% block wiki_contents %}
+<div class="article"></div>
+  <h1>{{ article.current_revision.title }}</h1>
+  <div>
+    {% block wiki_contents_tab %}
+    {% endblock %}
+  </div>
+</div>
+{% endblock %}
+
