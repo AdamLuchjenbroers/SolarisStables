@@ -19,11 +19,6 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.load_template_source',
 )
 
-GENSHI_TEMPLATE_LOADERS = (
-     'django_genshi.loaders.filesystem.load_template',
-)
-
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
