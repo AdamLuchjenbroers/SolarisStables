@@ -6,6 +6,9 @@ from django.conf import settings
 from solaris.userforms.views import SolarisLoginView, SolarisRegistrationView
 from solaris.cms.views import NewsListView, NewsPostFormView
 
+from wiki.urls import get_pattern as get_wiki_pattern
+from django_notify.urls import get_pattern as get_notify_pattern
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -19,6 +22,9 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^reference/', include('solaris.warbook.urls')),
     (r'^stable/', include('solaris.stablemanager.urls')),
+    
+    (r'^wiki/', get_wiki_pattern()),
+    (r'^notify/', get_notify_pattern())
 )
 
 if settings.USE_DJANGO_STATIC:
