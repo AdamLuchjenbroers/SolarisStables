@@ -2,7 +2,7 @@
 {% block pagebody %}
 <div class="body">
   {% if perms.cms.post_news %}
-      <div class="adminbar"><a href="/postnews">Post News</a></div>
+      <div class="adminbar"><a class="post" href="/postnews">Post News</a></div>
       <br/>
   {% endif %}
   {% for post in news %}

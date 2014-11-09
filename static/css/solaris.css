@@ -226,7 +226,7 @@ div.news div.content {
 }
 
 div.adminbar {
-  position: absolute;
+  position: relative;
   left: 0px;
   right: 0px;
   top: 0px;
@@ -235,8 +235,16 @@ div.adminbar {
   text-align: right;
   font-size: small;
   
-  margin: 0px;
+  margin: -8px;
   padding: 2px;
+}
+
+div.adminbar a.post {
+  text-align: right;
+  font-size: small;
+  
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 div.news_form input {
