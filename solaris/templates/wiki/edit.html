@@ -10,6 +10,7 @@
      <input type="hidden" name="preview" value="1" />
      {% with edit_form as form %}
        {% include "wiki/includes/editor.html" %}
-     {% endwith %}   
+     {% endwith %}
+     <input type="submit" value="Update Page" action="submit"/>   
    </form>
 {% endblock %}
