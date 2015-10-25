@@ -12,7 +12,7 @@
        <li class="revision-history">
     {% endif %}
     
-    <span class="revision-title"><a href="{% url 'wiki:preview_revision' article.id %}">{{revision.title }}</a></span>
+    <span class="revision-title">{{revision.title }}</span>
     
     <span class="revision-timestamp">
     {% include "wiki/includes/revision_info.html" with current_revision=article.current_revision %}
