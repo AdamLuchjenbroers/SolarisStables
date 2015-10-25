@@ -56,7 +56,7 @@
     <g
        id="g4214"
        style="stroke:#010101;stroke-opacity:1"
-       transform="translate(25.127544,3.4092648)">
+       transform="translate(27.127544,5.4092648)">
       <ellipse
          ry="27.400389"
          rx="27.526657"
@@ -82,18 +82,5 @@
        d="M 46.093018,1005.1287 30.931112,1043.406"
        id="path4176"
        inkscape:connector-curvature="0" />
-    <ellipse
-       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#4444d0;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path4172-4"
-       cx="58.210041"
-       cy="977.70624"
-       rx="27.526657"
-       ry="27.400389" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#4444d0;stroke-width:2.03491712;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 47.085639,1003.6002 31.20118,1043.2311"
-       id="path4176-6"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
   </g>
 </svg>
