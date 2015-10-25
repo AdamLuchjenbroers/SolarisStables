@@ -24,7 +24,9 @@ urlpatterns = patterns('',
     (r'^stable/', include('solaris.stablemanager.urls')),
     
     (r'^wiki/', get_wiki_pattern()),
-    (r'^notify/', get_notify_pattern())
+    (r'^notify/', get_notify_pattern()),
+    
+    (r'^markitup/', include('markitup.urls'))
 )
 
 if settings.USE_DJANGO_STATIC:
