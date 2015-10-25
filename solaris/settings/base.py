@@ -67,7 +67,8 @@ INSTALLED_APPS = (
     'markitup',
     #Django-Wiki
     'django.contrib.humanize',
-    'django_notify',
+    'django_nyt',
+    'south', #Remove once we hit Django 1.7+
     'mptt',
     'sekizai',
     'sorl.thumbnail',
