@@ -47,7 +47,7 @@ ul.wiki-submenu {
   font-size: small;
   
   float: left;
-  width: 510px;	
+  width: 640px;	
 }
 
 ul.wiki-breadcrumbs {}
@@ -128,8 +128,6 @@ form.wiki-edit div.wiki-label, form.wiki-create div.wiki-label {
 
 span.input-group-addon {
    float: left;
-   width: 0.4em;
-   font-size: 120%;
    font-weight: bold;	
 }
 
@@ -155,8 +153,8 @@ input#id_summary, input#id_title, div.input-group {
 }
 
 input#id_slug {
-	width: 260px;
-	float: right;
+	width: 100%;
+	overflow: hidden;
 }
 
 
