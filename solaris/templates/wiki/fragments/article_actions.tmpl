@@ -1,19 +1,24 @@
+{% extends 'wiki/fragments/wiki_actions.tmpl' %}
+
 {% load i18n wiki_tags %}{% load url from future %}
 
-<ul class="submenu">
 
-  <li> <a href="{% url 'wiki:get' article_id=article.id path=urlpath.path %}">View Page</a></li>
-  
-{% if article|can_write:user and not article.current_revision.locked %}
-  <li> <a href="{% url 'wiki:edit' article_id=article.id path=urlpath.path %}">Edit Page</a></li>
-{% else %}
-  <li> <a href="{% url 'wiki:source' article_id=article.id path=urlpath.path %}">View Source</a></li>
-{% endif %}
+{% block wiki-actions-list %} 
+  <ul class="wiki-submenu">
+    <li> <a href="{% url 'wiki:get' article_id=article.id path=urlpath.path %}">View Page</a></li>
+ 
+  {% if article|can_write:user and not article.current_revision.locked %}
+    <li> <a href="{% url 'wiki:edit' article_id=article.id path=urlpath.path %}">Edit Page</a></li>
+  {% else %}
+    <li> <a href="{% url 'wiki:source' article_id=article.id path=urlpath.path %}">View Source</a></li>
+  {% endif %}
 
-<li><a href="{% url 'wiki:history' article_id=article.id path=urlpath.path %}">History</a></li>
+    <li><a href="{% url 'wiki:history' article_id=article.id path=urlpath.path %}">History</a></li>
 
-{% if article|can_write:user  %}
-   <li><a href="{% url 'wiki:create' path=urlpath.parent.path %}">New Page</a></li>
-{% endif %}
+  {% if article|can_write:user  %}
+    <li><a href="{% url 'wiki:create' path=urlpath.parent.path %}">New Page</a></li>
+  {% endif %}
 
-</ul>
+  </ul>
+
+{% endblock %}

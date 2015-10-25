@@ -12,26 +12,19 @@
 {% block wiki_site_title %} Solaris - Wiki {% endblock %}
 
 {% block pagesubmenu %}
-  {% include "wiki/fragments/article_actions.tmpl" %}
+  {% include "wiki/fragments/wiki_actions.tmpl" %}
 {% endblock %}
 
 {% block pagebody %}
   <div class="body">
     
   {% block wiki_search %}
-  <div class="wiki-search-bar">
+  <div class="wiki-nav-bar">
   <ul class="wiki-breadcrumbs">
     {% for ancestor in urlpath.cached_ancestors %}
       <li><a href="{% url 'wiki:get' path=ancestor.path %}">{{ ancestor.article.current_revision.title|truncatechars:25 }}</a></li>
     {% endfor %}
   </ul>
-  <form id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">
-    <button type="button">
-      <span class="icon-search"></span>
-    </button>
-    
-    <input type="search" class="search" name="q" placeholder="{% trans "Search..." %}" />
-  </form>
   {% endblock %}
 
   {% block wiki_commands %}

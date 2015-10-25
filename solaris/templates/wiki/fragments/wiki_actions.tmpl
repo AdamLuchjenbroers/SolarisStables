@@ -1,0 +1,15 @@
+{% load i18n wiki_tags %}{% load url from future %}
+<div class="submenu">
+
+  {% block wiki-actions-list %} {% endblock %}
+
+  <form id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">
+    <button type="button">
+      <span class="icon-search"></span>
+    </button>
+    
+    <input type="search" class="search" name="q" placeholder="{% trans "Search..." %}" />
+  </form>
+</div>
+
+<div class="spacer"></div>
