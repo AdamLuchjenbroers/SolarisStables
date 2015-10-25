@@ -113,24 +113,30 @@ form#wiki-search-form button {
 	height: 20px;
 }
 
-form.wiki-edit {
+form.wiki-edit, form.wiki-create {
 	padding-left: 20px;
 }
 
-form.wiki-edit > div {
+form.wiki-edit > div, form.wiki-create > div {
      margin-bottom: 12px;
 }
 
-form.wiki-edit div.wiki-label {
+form.wiki-edit div.wiki-label, form.wiki-create div.wiki-label {
 	float: left;
 	width: 80px;
 }
 
-form.wiki-edit div.wiki-control {
-	float: left;
+span.input-group-addon {
+   float: left;
+   width: 0.4em;
+   font-size: 120%;
+   font-weight: bold;	
+}
+
+form.wiki-edit div.wiki-control, form.wiki-create div.wiki-control {
 	left: 100px;
 	padding-left: 0px;
-	width: 550px;
+	width: 620px;
 }
 
 textarea#id_content {
@@ -138,26 +144,33 @@ textarea#id_content {
 	height: 400px;
 }
 
-form.wiki-edit div.wiki-control * {
+form.wiki-edit div.wiki-control *, form.wiki-create div.wiki-control *  {
 	margin-left: 0px;
 	display: block;
 }
 
-input#id_summary, input#id_title {
+input#id_summary, input#id_title, div.input-group {
 	float: left;
-	width: 250px;
+	width: 270px;
+}
+
+input#id_slug {
+	width: 260px;
+	float: right;
 }
 
 
 /* Hide a few fields I have no use for */
-p#hint_id_summary {
+p#hint_id_summary, p#hint_id_slug {
 	float: right;
 	font-size: 80%;
-	width: 250px;
+	width: 300px;
 	margin: 0px;
 }
 
 span.asteriskField {
 	visibility: hidden;
-}
+	display: none;
+	float: none;
+	position: absolute;
 }
