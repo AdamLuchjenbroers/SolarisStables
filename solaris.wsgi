@@ -1,8 +1,8 @@
 import os, sys
-import django.core.handlers.wsgi
+from django.core.wsgi import get_wsgi_application
 
 sys.path.append('/var/www/solaris')
 sys.path.append('/var/www/python')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'solaris.settings.grayson'
 
-application = django.core.handlers.wsgi.WSGIHandler()
+application = get_wsgi_application()
