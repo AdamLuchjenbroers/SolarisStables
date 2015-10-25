@@ -1,11 +1,21 @@
 {% extends 'wiki/article.html' %}
 {% load markitup_tags %}
 
+{% block pageheader %}
+  {{ block.super }}
+  <script type="text/javascript" src="/static/markitup/jquery.markitup.js"></script>
+  <script type="text/javascript" src="/static/markitup/sets/markdown/set.js"></script>
+  <script language="javascript">
+  $(document).ready(function() {
+    $("#id_revision").val('{{ article.current_revision.id }}');
+  });
+</script>
+{% endblock %}
+
 {% block title %}Editing - {{ article.current_revision.title }}{% endblock %}
 
-
 {% block wiki_contents_tab %}
-   <form method="POST">
+   <form class="wiki-edit" method="POST">
      <input type="hidden" name="save" value="1" />
      <input type="hidden" name="preview" value="1" />
      {% with edit_form as form %}
