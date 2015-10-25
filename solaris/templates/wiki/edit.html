@@ -3,13 +3,7 @@
 
 {% block pageheader %}
   {{ block.super }}
-  <script type="text/javascript" src="/static/markitup/jquery.markitup.js"></script>
-  <script type="text/javascript" src="/static/markitup/sets/markdown/set.js"></script>
-  <script language="javascript">
-  $(document).ready(function() {
-    $("#id_revision").val('{{ article.current_revision.id }}');
-  });
-</script>
+  {% markitup_media %}
 {% endblock %}
 
 {% block title %}Editing - {{ article.current_revision.title }}{% endblock %}
@@ -21,6 +15,7 @@
      {% with edit_form as form %}
        {% include "wiki/includes/editor.html" %}
      {% endwith %}
+     {% markitup_editor edit_form.content.auto_id %}
      <input type="submit" value="Update Page" action="submit"/>   
    </form>
 {% endblock %}
