@@ -64,7 +64,6 @@ INSTALLED_APPS = (
     'solaris.stablemanager',
     'solaris.stablemanager.assets',
     'solaris.stablemanager.ledger',
-    'south',
     'markitup',
     #Django-Wiki
     'django.contrib.humanize',
