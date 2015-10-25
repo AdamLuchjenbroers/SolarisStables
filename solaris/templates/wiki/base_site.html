@@ -11,10 +11,8 @@
 
 {% block wiki_site_title %} Solaris - Wiki {% endblock %}
 
-{% block pagesubmenu2 %}
-    <ul class="submenu">
-      <li>Stuff </li>
-    </ul>
+{% block pagesubmenu %}
+  {% include "wiki/fragments/article_actions.tmpl" %}
 {% endblock %}
 
 {% block pagebody %}
@@ -42,12 +40,13 @@
   </div>
 
  {% block wiki_body %}
-  
+ <div class="article">
    {% block wiki_contents %}{% endblock %}
    <footer id="wiki-footer">
      <hr />
      <p>{% blocktrans %}Powered by <a href="http://www.django-wiki.org">django-wiki</a>, an open source application under the <a href="http://www.gnu.org/licenses/quick-guide-gplv3.html">GPLv3</a> license. Let knowledge be the cure.{% endblocktrans %}</p>
     </footer>
+    </div>
  {% endblock %}
 
 
