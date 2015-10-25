@@ -8,7 +8,9 @@
 
 {% block wiki_contents %}
 <div class="article"></div>
+  {% block wiki_contents_header %}
   <h1>{{ article.current_revision.title }}</h1>
+  {% endblock %}
   <div>
     {% block wiki_contents_tab %}
     {% endblock %}

@@ -1,8 +1,8 @@
-{% extends 'wiki/base.html' %}
+{% extends 'wiki/article.html' %}
 
 {% block title %}Stablemunder Wiki - {{ article.current_revision.title }} History {% endblock %}
 
-{% block wiki_contents %}
+{% block wiki_contents_tab %}
 <p>Page History</p>
 <ul class="revision-list">
   {% for revision in revisions %}
@@ -11,11 +11,24 @@
     {% else %}
        <li class="revision-history">
     {% endif %}
-    <span class="revision-title">{{revision.title }}</span>
+    
+    <span class="revision-title"><a href="{% url 'wiki:preview_revision' article.id %}">{{revision.title }}</a></span>
+    
+    <span class="revision-timestamp">
     {% include "wiki/includes/revision_info.html" with current_revision=article.current_revision %}
+    </span>
+    
+    <span class="revision-log">
+    {% if revision.user_message %}
+       {{ revision.user_message }}
+    {% elif revision.automatic_log %}
+       {{ revision.automatic_log }}
+    {% else %}
+       No Log Message
+    {% endif %}
+    </span>
     </li>
-  </div>
   {% endfor %}
-</div>
+</ul>
 
 {% endblock %}

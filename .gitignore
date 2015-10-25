@@ -1,5 +1,10 @@
 *.pyc
 
+#Django Settings
+solaris/settings/*
+!solaris/settings/base.py
+!solaris/settings/__init__.py
+
 #Eclipse settings / project stuff
 .project
 .pydevproject
