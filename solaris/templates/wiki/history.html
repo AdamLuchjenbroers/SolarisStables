@@ -1,0 +1,21 @@
+{% extends 'wiki/base.html' %}
+
+{% block title %}Stablemunder Wiki - {{ article.current_revision.title }} History {% endblock %}
+
+{% block wiki_contents %}
+<p>Page History</p>
+<ul class="revision-list">
+  {% for revision in revisions %}
+    {% if revision == article.current_revision %}
+       <li class="revision-current">
+    {% else %}
+       <li class="revision-history">
+    {% endif %}
+    <span class="revision-title">{{revision.title }}</span>
+    {% include "wiki/includes/revision_info.html" with current_revision=article.current_revision %}
+    </li>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
