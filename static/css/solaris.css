@@ -117,7 +117,7 @@ ul.menu li.selected a:hover {
   color: #FFFFFF;
 }
 
-ul.submenu {
+ul.submenu, div.submenu {
   position: absolute;
   top: 280px;
   left: 120px;
@@ -137,7 +137,7 @@ ul.submenu {
   font-size: small;
 }
 
-ul.submenu li {
+ul.submenu li, ul.wiki-submenu li {
   float: left;
   text-align: center;
   vertical-align: middle;
@@ -160,15 +160,15 @@ ul.submenu li {
   background-color: #BBBBBB;
 }
 
-ul.submenu li a {  
+ul.submenu li a, ul.wiki-submenu li a {  
   display:block;
   vertical-align: middle;
 
   width: 120px; 
-  height: 13px;
+  height: 18px;
 }
 
-ul.submenu li#selected {  
+ul.submenu li#selected, ul.wiki-submenu li#selected {  
   background-color: #660000;
   color: #FFFFFF;  
   display:block;
@@ -186,7 +186,7 @@ div.body {
   position: absolute;
   left: 60px;
   right: 60px;
-  top: 310px;
+  top: 320px;
   padding: 8px;
   
   

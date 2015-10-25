@@ -11,7 +11,13 @@ margin: 0;
 padding: 0 0 0.5em;
 }
 
-div.wiki-search-bar {
+div.spacer {
+	position: static;
+	height: 12px;
+	padding: 0px;
+}
+
+div.wiki-nav-bar, div.wiki-actions-bar {
   position: relative;
   left: 0px;
   right: 0px;
@@ -26,7 +32,25 @@ div.wiki-search-bar {
   padding: 2px;
 }
 
-ul.wiki-breadcrumbs {
+ul.wiki-submenu {
+  border-width: 4px;
+  border-style: solid;
+  border-color: #888888;  
+  list-style-type:none;
+  
+  background-color: #888888;
+  
+  padding: 0px;
+  margin: 0px;
+  
+  font-family: arial,sans-serif;
+  font-size: small;
+  
+  float: left;
+  width: 80%;	
+}
+
+ul.wiki-breadcrumbs {}
 	margin: 4px;
 	padding: 4px;
 	width: 80%;
@@ -34,9 +58,6 @@ ul.wiki-breadcrumbs {
 	float: left;
 }
 
-ul.wiki-breadcrumbs li {
-	display: inline;
-}
 
 ul.wiki-breadcrumbs li a {
 	background-color: #BBBBBB;
@@ -54,6 +75,11 @@ ul.wiki-breadcrumbs li::after {
    padding: 0px;
 	
    content: ">"
+}
+
+
+ul.wiki-breadcrumbs li {
+	display: inline;
 }
 
 form#wiki-search-form {
