@@ -42,7 +42,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'solaris.urls'
 
-WIKI_BASEURL = '/wiki/'
+WIKI_BASEURL = True
 
 MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': True})
 MARKITUP_SET = 'markitup/sets/markdown'
