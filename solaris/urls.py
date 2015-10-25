@@ -7,7 +7,7 @@ from solaris.userforms.views import SolarisLoginView, SolarisRegistrationView
 from solaris.cms.views import NewsListView, NewsPostFormView
 
 from wiki.urls import get_pattern as get_wiki_pattern
-from django_notify.urls import get_pattern as get_notify_pattern
+from django_nyt.urls import get_pattern as get_notify_pattern
 
 admin.autodiscover()
 
