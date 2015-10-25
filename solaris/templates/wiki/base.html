@@ -19,14 +19,20 @@
 
 {% block pagebody %}
   <div class="body">
-  
-  <div class="adminbar">
+    
   {% block wiki_search %}
+  <div class="wiki-search-bar">
+  <ul class="wiki-breadcrumbs">
+    {% for ancestor in urlpath.cached_ancestors %}
+      <li><a href="{% url 'wiki:get' path=ancestor.path %}">{{ ancestor.article.current_revision.title|truncatechars:25 }}</a></li>
+    {% endfor %}
+  </ul>
   <form id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">
-    <input type="search" class="search" name="q" placeholder="{% trans "Search..." %}" />
     <button type="button">
       <span class="icon-search"></span>
     </button>
+    
+    <input type="search" class="search" name="q" placeholder="{% trans "Search..." %}" />
   </form>
   {% endblock %}
 
@@ -38,13 +44,13 @@
  {% block wiki_body %}
   
    {% block wiki_contents %}{% endblock %}
-
- {% endblock %}
-
    <footer id="wiki-footer">
      <hr />
      <p>{% blocktrans %}Powered by <a href="http://www.django-wiki.org">django-wiki</a>, an open source application under the <a href="http://www.gnu.org/licenses/quick-guide-gplv3.html">GPLv3</a> license. Let knowledge be the cure.{% endblocktrans %}</p>
     </footer>
+ {% endblock %}
+
+
 
 
   </div>

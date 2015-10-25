@@ -11,10 +11,58 @@ margin: 0;
 padding: 0 0 0.5em;
 }
 
+div.wiki-search-bar {
+  position: relative;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  
+  height: 30px;
+      
+  background-color: #888888;
+  font-size: small;
+  
+  margin: -8px;
+  padding: 2px;
+}
+
+ul.wiki-breadcrumbs {
+	margin: 4px;
+	padding: 4px;
+	width: 80%;
+	
+	float: left;
+}
+
+ul.wiki-breadcrumbs li {
+	display: inline;
+}
+
+ul.wiki-breadcrumbs li a {
+	background-color: #BBBBBB;
+	
+	margin: 4px;
+	
+	padding: 4px;
+	padding-left: 8px;
+	padding-right: 8px;
+	
+}
+
+ul.wiki-breadcrumbs li::after {
+   margin: 0px;
+   padding: 0px;
+	
+   content: ">"
+}
 
 form#wiki-search-form {
 	text-align: left;
-	float: none;
+	float: right;
+	
+	
+	position: relative;
+	margin: 2px;
 }
 
 form#wiki-search-form button {
@@ -25,11 +73,15 @@ form#wiki-search-form button {
 	margin-botton: 4px;
 	padding: 0px;
 	
-	vericlal-align: middle;
+	vertical-align: middle;
 }
 
-form#wiki-search-form button span.icon-search {
-	content:url(/static/images/icons/search.png);
+form#wiki-search-form button {
+    background: transparent url('/static/images/icons/search.png') no-repeat center top;
+    border: none;
+     
+    cursor: pointer; /* hand-shaped cursor */
+    cursor: hand; /* for IE 5.x */
 	
 	width: 20px;
 	height: 20px;
