@@ -1,1 +1,2619 @@
-[{"pk": 1, "model": "warbook.pilotdiscipline", "fields": {"urlname": "combat", "name": "Combat", "blurb": "Some pilots are hardened by experience, and have developed talents that make them more formidable in melee. \r\n"}}, {"pk": 2, "model": "warbook.pilotdiscipline", "fields": {"urlname": "piloting", "name": "Piloting", "blurb": "Some Pilots are able to push their mechs to perform remarkable feats of agility, or even make their mechs dance."}}, {"pk": 3, "model": "warbook.pilotdiscipline", "fields": {"urlname": "ferocity", "name": "Ferocity", "blurb": "Some pilots are known, not for finess or grace, but rather for their raw aggression and effective brutality"}}, {"pk": 4, "model": "warbook.pilotdiscipline", "fields": {"urlname": "techno", "name": "Technician", "blurb": "Some pilots contribute value to their stables, not through their talents on the field, but through assisting with stable management off the field."}}, {"pk": 8, "model": "warbook.pilotdiscipline", "fields": {"urlname": "ews", "name": "Electronic and Subversive Warfare", "blurb": "Some pilots know how to use the on-board electronics in their mechs to perform various clever tricks on the battlefield."}}, {"pk": 7, "model": "warbook.pilotdiscipline", "fields": {"urlname": "missile", "name": "Missile", "blurb": "Some pilots prefer their weapons to have warheads attached, and are more proficient at using missile systems in battle."}}, {"pk": 5, "model": "warbook.pilotdiscipline", "fields": {"urlname": "energy", "name": "Energy Weapons", "blurb": "Some pilots are more proficient with Energy Weapons, and are able to use them especially well."}}, {"pk": 6, "model": "warbook.pilotdiscipline", "fields": {"urlname": "ballistics", "name": "Ballistics", "blurb": "Some pilots favour old-fashioned gun-powder and are able to use Ballistics weapons to great effect."}}, {"pk": 1, "model": "warbook.pilottrait", "fields": {"discipline": 1, "trait_type": "T", "bv_mod": "0.200", "name": "Melee Expert", "description": "The Melee Expert may allocate a +1 easier to hit and to the damage of his physical attacks. If used to increase damage of a charge or DFA, it is added to base damage before multiplied for distance.\r\n"}}, {"pk": 2, "model": "warbook.pilottrait", "fields": {"discipline": 1, "trait_type": "T", "bv_mod": "0.050", "name": "Ammo Pro", "description": "The ammunition pro is able to get the most out of an ammunition bin, allowing his own mech to link ammunition bins to increase combined capacity by an additional half ton of shots (and risking damage in ammo explosion). Also the stable is allowed to allocate half ton ammo bins to weapons other than the MG, after the first ton is won. Loss of the pilot with this power does not fail mechs modified to use advanced ammunition in the modification. "}}, {"pk": 3, "model": "warbook.pilottrait", "fields": {"discipline": 1, "trait_type": "T", "bv_mod": "0.050", "name": "Toughness", "description": "The pilot is especially tough and pain resistant, ignoring the first head hit and lowering ammunition explosion feedback to one pilot hit."}}, {"pk": 4, "model": "warbook.pilottrait", "fields": {"discipline": 1, "trait_type": "T", "bv_mod": "0.200", "name": "Knockdown", "description": "This training allows a pilot to know how to strike a mech physically to overbalance them. On any attack stronger than the punch of the mech piloted, including ability, weapon, TSM, or other physical attacks during the round (like the\r\nother fist punching), the target must roll piloting like successful kick. In the case that the pilot must make a PSR because of the attack, such as with a kick, it is 1 harder."}}, {"pk": 5, "model": "warbook.pilottrait", "fields": {"discipline": 1, "trait_type": "T", "bv_mod": "0.050", "name": "Steadfast", "description": "Trained to hold it steady, this pilot skill forces piloting skill rolls for damage to be made in 30 point increments instead of 20."}}, {"pk": 6, "model": "warbook.pilottrait", "fields": {"discipline": 1, "trait_type": "T", "bv_mod": "0.200", "name": "Melee Weapon Specialist", "description": "The pilot has trained to use a type of physical weapon. Randomly determine a melee weapon (Punch, Kick, Hatchet, or more if the Stable has tech access to other physical weapons), and gain +2 to hit with this weapon. "}}, {"pk": 7, "model": "warbook.pilottrait", "fields": {"discipline": 2, "trait_type": "T", "bv_mod": "0.050", "name": "Catfall", "description": "Catfall pilots have the knack to keep some control when others completely lose it. When the\r\nmech falls, whether by failed PSR, falling elevation, or failed Gyro/missing leg, the Catfall pilot is allowed\r\nto choose the direction of the fall, takes only half damage to the mech for the fall, and gets +2 on his roll to not hurt the pilot."}}, {"pk": 8, "model": "warbook.pilottrait", "fields": {"discipline": 2, "trait_type": "T", "bv_mod": "0.050", "name": "Dodge", "description": "The Dodge skill allows the pilot to withhold physical attacks by his unit, to make it harder to be hit by them. A penalty of 4 applies to attack roll of physical attackers against a dodging mech. "}}, {"pk": 9, "model": "warbook.pilottrait", "fields": {"discipline": 2, "trait_type": "T", "bv_mod": "0.200", "name": "Acrobat", "description": "The acrobat gains +1 jump movement point. Only applies to mechs with jump movement rates and costs 1 extra heat."}}, {"pk": 10, "model": "warbook.pilottrait", "fields": {"discipline": 2, "trait_type": "T", "bv_mod": "0.200", "name": "Natural Grace", "description": "While some pilots can keep their rides 'stable', you make yours dance. +1 Piloting roll against knock down, physical attacks, skidding, water, avoid pilot damage from falling, and entering rouble terrain. You gain +1 run movement like a vehicle on roads. You can run backwards. Finally on entering an arena make a pilot check unmodified to make your mech disco dance and gain +1 fame in fight."}}, {"pk": 11, "model": "warbook.pilottrait", "fields": {"discipline": 2, "trait_type": "T", "bv_mod": "0.050", "name": "Speed Demon", "description": "This skill lets the pilot may add +1 to the current mechs run speed. If used on a mech with MASC or Supercharger, it acts as a further half walk movement to the mechs run category. Also the target roll for Hip Seizing of MASC or Supercharger Engine burnout is one less with this pilot."}}, {"pk": 12, "model": "warbook.pilottrait", "fields": {"discipline": 2, "trait_type": "T", "bv_mod": "0.050", "name": "Manoeuvring Ace", "description": "This skill lets the pilot of a bipedal mech use the Side slip move of a quad mech. If used on a quad \u2018mech, Side slip only costs 1 mp. Also reduce by 1 difficulty for slip on roads"}}, {"pk": 13, "model": "warbook.pilottrait", "fields": {"discipline": 3, "trait_type": "T", "bv_mod": "0.200", "name": "Berzerker Charger", "description": "This training lets the pilot fire torso mounted weapons, at the target of the charge, during a charge attack."}}, {"pk": 14, "model": "warbook.pilottrait", "fields": {"discipline": 3, "trait_type": "T", "bv_mod": "0.200", "name": "Edge", "description": "The pilot gets one edge, allowing one reroll of a dice roll made by him against an opponent during the course of the battle."}}, {"pk": 15, "model": "warbook.pilottrait", "fields": {"discipline": 3, "trait_type": "T", "bv_mod": "0.050", "name": "Killer Reputation", "description": "This pilot has caused media attention that gives him instant pop +2 to the accounting of any fight. Also, to for a pilot to lose to a Killer Rep pilot is to become dead news, incurring a further -2 to pop accounting of defeated enemies."}}, {"pk": 16, "model": "warbook.pilottrait", "fields": {"discipline": 3, "trait_type": "T", "bv_mod": "0.050", "name": "Nerves of Steel", "description": "A pilot with this trick can fight back unconsciousness, gaining a bonus 2 on rolls to avoid falling unconscious, and takes only one hit from ammunition explosions."}}, {"pk": 17, "model": "warbook.pilottrait", "fields": {"discipline": 3, "trait_type": "T", "bv_mod": "0.200", "name": "Angel of DFA", "description": "A pilot trained to land his mech on enemy mechs, may gain a bonus to his with a death from above, for every jump movement point he does not use to reach the target, up to a max of 3"}}, {"pk": 18, "model": "warbook.pilottrait", "fields": {"discipline": 3, "trait_type": "T", "bv_mod": "0.200", "name": "Fist Fire", "description": "Once per round, on a successful punch or melee weapon attack, the pilot may fire one single direct fire weapon with normal to hit chance -1 easier, with a hit damaging the same hit location as the melee attack"}}, {"pk": 19, "model": "warbook.pilottrait", "fields": {"discipline": 4, "trait_type": "T", "bv_mod": "0.050", "name": "Engineer", "description": "Pilots with the Engineer skill may reduce the cost of one Engineering stable action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."}}, {"pk": 20, "model": "warbook.pilottrait", "fields": {"discipline": 4, "trait_type": "T", "bv_mod": "0.050", "name": "Arms Dealer", "description": "Pilots with the Arms Dealer skill may reduce the cost of one action taken to secure a supply contract by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."}}, {"pk": 21, "model": "warbook.pilottrait", "fields": {"discipline": 4, "trait_type": "T", "bv_mod": "0.050", "name": "Medic", "description": "Pilots with the Medic skill may reduce the cost of a single medical action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."}}, {"pk": 22, "model": "warbook.pilottrait", "fields": {"discipline": 4, "trait_type": "T", "bv_mod": "0.050", "name": "Publicist", "description": "Pilots with the Medic skill may reduce the cost of a single publicity action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."}}, {"pk": 23, "model": "warbook.pilottrait", "fields": {"discipline": 4, "trait_type": "T", "bv_mod": "0.050", "name": "Scrounge", "description": "Pilots with the Medic skill may reduce the cost of a single action taken to salvage or acquire a mech by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."}}, {"pk": 24, "model": "warbook.pilottrait", "fields": {"discipline": 4, "trait_type": "T", "bv_mod": "0.050", "name": "Lawyer", "description": "Pilots with the Laywer skill may reduce the cost of a single legal action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."}}, {"pk": 26, "model": "warbook.pilottrait", "fields": {"discipline": 5, "trait_type": "T", "bv_mod": "0.050", "name": "Cool Hand", "description": "A pilot with the cool-hand skill is able to better use their mechs cooling systems, sinking an additional 2 heat per round (or 3 on mechs fitted with Double Heat-Sinks)"}}, {"pk": 27, "model": "warbook.pilottrait", "fields": {"discipline": 5, "trait_type": "T", "bv_mod": "0.050", "name": "Harmony of Lasers", "description": "A pilot with the Harmony of Lasers skill can reduce the power to his laser weapons to smooth out the balance of heat and damage. Before the start of a match, this pilot may elect to reduce both the heat and damage caused by the weapon (minimum 1 heat/1 damage). The pilot may return the weapon to full power during the match in the end-phase of any round."}}, {"pk": 28, "model": "warbook.pilottrait", "fields": {"discipline": 5, "trait_type": "T", "bv_mod": "0.200", "name": "Marksman", "description": "A pilot with the Marksman skill gains a -1 bonus to hit with energy weapons on any round where he did not move."}}, {"pk": 25, "model": "warbook.pilottrait", "fields": {"discipline": 5, "trait_type": "T", "bv_mod": "0.200", "name": "Weapons Specialist (Energy)", "description": "When a pilot acquires this skill, randomly determine two energy weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a -1 bonus to hit."}}, {"pk": 29, "model": "warbook.pilottrait", "fields": {"discipline": 5, "trait_type": "T", "bv_mod": "0.200", "name": "Range Expert (Energy)", "description": "When a pilot acquires this skill, randomly determine two energy weapons that their stable currently has access to, and randomly determine a range bracket (short, medium, long). The pilot may select one of those weapons to be proficient in increasing the range of. The pilot treats the maximum range of that range bracket as 2 hexes longer when firing the chosen weapon. This change does not cause other range brackets to be altered or recalculated."}}, {"pk": 30, "model": "warbook.pilottrait", "fields": {"discipline": 5, "trait_type": "T", "bv_mod": "0.200", "name": "Extreme Range", "description": "When a pilot acquires this skill, randomly determine two energy weapons that their stable currently has access to. The pilot may select one of those weapons to be proficient in pushing beyond its normal maximum range. This functions as using the Extreme Range rules from Tactical Operations."}}, {"pk": 31, "model": "warbook.pilottrait", "fields": {"discipline": 6, "trait_type": "T", "bv_mod": "0.200", "name": "Weapons Specialist (Ballistics)", "description": "When a pilot acquires this skill, randomly determine two Ballistics weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a -1 bonus to hit."}}, {"pk": 32, "model": "warbook.pilottrait", "fields": {"discipline": 6, "trait_type": "T", "bv_mod": "0.050", "name": "One More in the Chamber", "description": "A pilot with the One More in the Chamber skill is able to fit more ammunition into a regular ammo bin. He may add 1 additional shot per 10 shots (rounded up) to each existing ballistics ammo bin equipped on his mech."}}, {"pk": 33, "model": "warbook.pilottrait", "fields": {"discipline": 6, "trait_type": "T", "bv_mod": "0.200", "name": "Accurate Shots", "description": "When a pilot acquires this skill, randomly determine two Cluster firing Ballistics weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a +2 when rolling on the cluster hits table to determine how many shots hit."}}, {"pk": 34, "model": "warbook.pilottrait", "fields": {"discipline": 6, "trait_type": "T", "bv_mod": "0.200", "name": "Gauss Hammer", "description": "A pilot with the Gauss Hammer skill is proficient in using the powerful impact of a Gauss Rifle to unbalance their opponents. On any round where this pilot has successfully hit a target with one or more Gauss Rifle attacks, the threshold for requiring a Pilotting Skill Check to remain standing is reduced by 5."}}, {"pk": 35, "model": "warbook.pilottrait", "fields": {"discipline": 6, "trait_type": "T", "bv_mod": "0.200", "name": "Hip Shot", "description": "A pilot with the hip-shot skill is proficient in firing ballistics weapons on the run. This pilot takes only a +1 penalty to hit while running, in place of the usual +2."}}, {"pk": 37, "model": "warbook.pilottrait", "fields": {"discipline": 7, "trait_type": "T", "bv_mod": "0.200", "name": "Weapons Specialist (Missile)", "description": "When a pilot acquires this skill, randomly determine two Missile weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a -1 bonus to hit."}}, {"pk": 38, "model": "warbook.pilottrait", "fields": {"discipline": 7, "trait_type": "T", "bv_mod": "0.200", "name": "Save Your Ammo", "description": "A pilot with the Save Your Ammo skill is able to avoid firing LRMs when the shot proves too hard to make. He may elect to cancel any attack that fails to hit by 5 or more, causing no heat and costing no ammo (similar to how a Streak system functions). This does not otherwise alter the behaviour of LRMs."}}, {"pk": 39, "model": "warbook.pilottrait", "fields": {"discipline": 7, "trait_type": "T", "bv_mod": "0.200", "name": "Accurate Volley", "description": "When a pilot acquires this skill, randomly determine a type of launcher that their stable currently has access to. The pilot gets a +2 modifier when rolling on the Cluster Hits table when rolling for hits from that type of launcher. This stacks with guidance systems such as Artemis IV."}}, {"pk": 40, "model": "warbook.pilottrait", "fields": {"discipline": 7, "trait_type": "T", "bv_mod": "0.050", "name": "Streak Override", "description": "Pilots with the Streak Override skill are able to override their Streak launchers to fire even when a lock has not been acquired. After failing to hit with a Streak Launcher, they may override the launcher and re-roll the attack role. On a successful hit, they must role on the appropriate column of the Cluster Hits table to determine how many missiles hit."}}, {"pk": 41, "model": "warbook.pilottrait", "fields": {"discipline": 7, "trait_type": "T", "bv_mod": "0.200", "name": "Anticipate Target", "description": "Pilots with the Anticipate Target skilll are able to more effectively aim ahead of their targets. They may reduce the targets movement modifier by 1 when making attack rolls with missile weapons."}}, {"pk": 42, "model": "warbook.pilottrait", "fields": {"discipline": 7, "trait_type": "T", "bv_mod": "0.200", "name": "Range Expert (Missile)", "description": "When a pilot acquires this skill, randomly determine two Missile weapons that their stable currently has access to, and randomly determine a range bracket (short, medium, long). The pilot may select one of those weapons to be proficient in increasing the range of. The pilot treats the maximum range of that range bracket as 2 hexes longer when firing the chosen weapon. This change does not cause other range brackets to be altered or recalculated."}}, {"pk": 43, "model": "warbook.pilottrait", "fields": {"discipline": 8, "trait_type": "T", "bv_mod": "0.050", "name": "Multitrack", "description": "This pilot may target any number of secondary targets in any arcs without penalty. "}}, {"pk": 44, "model": "warbook.pilottrait", "fields": {"discipline": 8, "trait_type": "T", "bv_mod": "0.200", "name": "Targeting Range Finder", "description": "The pilot skill counts as having a level 3 variable range targeting system. During the end phase, the pilot may switch between three different targeting modes. Once initiative is determined the player is stuck with whatever mode he had at end of last round. Choice is written on sheet but changes are declared, but not which of the three modes is chosen. Normal mode is the standard unmodified shots at short range, two harder at medium, and four at long. Short range shifts short range to -1 easier, at the penalty that long range becomes 5 harder. Long range reverses that, with short range becoming 1 harder, while long is only 3 harder."}}, {"pk": 45, "model": "warbook.pilottrait", "fields": {"discipline": 8, "trait_type": "T", "bv_mod": "0.200", "name": "Phantom", "description": "This pilot is gifted enough to track enemy sensor frequencies and use his ECM gear to jam them in a limited fashion. Taxing his systems with an extra 1 heat, he adds one to long range attacks made against him. This stealth like effect requires an ECM."}}, {"pk": 46, "model": "warbook.pilottrait", "fields": {"discipline": 8, "trait_type": "T", "bv_mod": "0.200", "name": "Smoker", "description": "The pilot is adept at generating a dirty reaction out the jump jet ports on rounds not jumping, to cause smoke, then using this as cover. This counts as a level two light smoke in the hex he is in trade for three heat. This may also be used by pilots with a mech flamer instead of using jump jets."}}, {"pk": 47, "model": "warbook.pilottrait", "fields": {"discipline": 8, "trait_type": "T", "bv_mod": "0.050", "name": "Computer Pro", "description": "This pilot is trained to best use his battle and heat management computers, for Sensor operations and to keep the coolant flowing. The pilot is able to penetrate ECM as a two hex Active Probe. He also can manipulate heat sinks to get a +2 bonus on rolls to avoid shut down, and a +1 bonus to avoid ammunition explosions."}}, {"pk": 48, "model": "warbook.pilottrait", "fields": {"discipline": 8, "trait_type": "T", "bv_mod": "0.050", "name": "C3 Specialist", "description": "This pilot is trained to share data and co-ordinate actions. He may act as a C3 slave and connect to a C3 Master. If in a mech with a C3 Slave, may act as a C3i."}}, {"pk": 36, "model": "warbook.pilottrait", "fields": {"discipline": 6, "trait_type": "T", "bv_mod": "0.200", "name": "Range Expert (Ballistic)", "description": "When a pilot acquires this skill, randomly determine two Ballistics weapons that their stable currently has access to, and randomly determine a range bracket (short, medium, long). The pilot may select one of those weapons to be proficient in increasing the range of. The pilot treats the maximum range of that range bracket as 2 hexes longer when firing the chosen weapon. This change does not cause other range brackets to be altered or recalculated."}}, {"pk": 1, "model": "warbook.house", "fields": {"house": "House Davion", "blurb": "House Davion rules the Federated Suns, one of the five great powers of the Inner Sphere", "house_disciplines": [4, 5, 6]}}, {"pk": 2, "model": "warbook.house", "fields": {"house": "House Kurita", "blurb": "The Draconis Combine, rules by House Kurita, is known both for their prowess on the battlefield and for their intrigues off it.", "house_disciplines": [2, 3, 7]}}, {"pk": 3, "model": "warbook.house", "fields": {"house": "House Liao", "blurb": "Often engaged in skirmishes with both the Free Worlds League and the Federated Suns, the Capellan Confederation (ruled by House Liao) are experienced at defending their own.", "house_disciplines": [1, 8, 7]}}, {"pk": 4, "model": "warbook.house", "fields": {"house": "House Marik", "blurb": "The Mariks rule the Free Worlds League, with a Marik holding the post of Captain-General for many centuries. Fractious and individualistic, they are nevertheless a formidible force on the battlefield.", "house_disciplines": [7, 5, 6]}}, {"pk": 5, "model": "warbook.house", "fields": {"house": "House Steiner", "blurb": "The Lyran Commonwealth, ruled by House Steiner, is one of the five powerhouses of the Inner Sphere. ", "house_disciplines": [1, 5, 6]}}, {"pk": 6, "model": "warbook.house", "fields": {"house": "ComStar", "blurb": "Originally the maintainers of the galactic communications HPG network, ComStar also maintains a sizeable fleet of mechs. They use these mechs to protect the independence of galactic communications throughout the Inner Sphere", "house_disciplines": [2, 4, 8]}}, {"pk": 7, "model": "warbook.house", "fields": {"house": "Word of Blake", "blurb": "The Word of Blake is a splinter group that broke away from Comstar, who became a force to be reckoned with when they successfully captured Terra in 3057. They revere technology as mythical and divine, and stop at nothing to spread their Jihad.", "house_disciplines": [3, 4, 8]}}, {"pk": 2, "model": "warbook.technology", "fields": {"category": "weap", "name": "Star League Weapons", "show": true, "tier": 1, "urlname": "sl-weapons", "base_difficulty": 5, "description": "<p>At it's height, the Star League had many improvements to on the basic weapons technology. Gaining a supply contract for this technology grants access to:</p>\r\n\r\n<ul>\r\n<li/>ER PPC\r\n<li/>ER Large Laser\r\n<li/>Large Pulse Laser\r\n<li/>Medium Pulse Laser\r\n<li/>Small Pulse Laser\r\n<li/>Streak SRM 2 \r\n<li/>Narc Missile Beacon \r\n<li/>Narc LRM & SRM \r\n<li/>LB10X AC \r\n<li/>Ultra 5 AC\r\n<li/>Gauss Rifle\r\n<li/>Arrow IV Artillery\r\n</ul>"}}, {"pk": 22, "model": "warbook.technology", "fields": {"category": "weap", "name": "X-Pulse Lasers", "show": true, "tier": 3, "urlname": "xpulse", "base_difficulty": 9, "description": "<P>X-Pulse lasers increase the reach of standard pulse lasers but considerably increase the amount of waste heat they generate. This technology grants access to the following equipment:</P>\r\n<UL>\r\n  <LI/>Small X-Pulse Laser\r\n  <LI/>Medium X-Pulse Laser\r\n  <LI/>Large X-Pulse Laser\r\n</UL>"}}, {"pk": 24, "model": "warbook.technology", "fields": {"category": "weap", "name": "Hyper-Velocity AutoCannon", "show": true, "tier": 3, "urlname": "hvac", "base_difficulty": 9, "description": "<P>The Hyper-Velocity AutoCannon improves on the reach standard AutoCannon, with the resulting firing mechanism creating a visually impressive amount of smoke. The increased power of the firing mechanism does, however, come with a slight risk of ammo detonation while firing\r\n<UL>\r\n  <LI/>Hyper-Velocity AC/2\r\n  <LI/>Hyper-Velocity AC/5\r\n  <LI/>Hyper-Velocity AC/10\r\n</UL></P>"}}, {"pk": 25, "model": "warbook.technology", "fields": {"category": "weap", "name": "Improved Heavy Gauss", "show": true, "tier": 3, "urlname": "imp_hvg_gauss", "base_difficulty": 9, "description": "<P>The Improved Heavy Gauss Rifle sacrifices some range and has increased bulk and weight, but offers an improved ballistic profile that enables it to deliver its full damage even at long ranges</P>"}}, {"pk": 26, "model": "warbook.technology", "fields": {"category": "weap", "name": "Solaris Gauss", "show": true, "tier": 3, "urlname": "solaris-gauss", "base_difficulty": 9, "description": "<P>Some experimental Gauss Rifle variants never really found home on the battlefield, but found a useful home in the Solaris Arenas. The Magshot is basically an up-sized battle-armour Gauss Rifle, and the Silver Bullet Gauss is a cluster variant of the standard Gauss Rifle (however, its ammo feed mechanisms and barrel design only allow it to fire cluster ammo. Normal slug munitions are not supported, which limited its battlefield utility). This technology grants access to:\r\n<UL>\r\n <LI/>Magshot Gauss Rifle\r\n <LI/>Silver Bullet Gauss Rifle\r\n</UL></P>\r\n"}}, {"pk": 1, "model": "warbook.technology", "fields": {"category": "weap", "name": "Heavy PPC", "show": true, "tier": 2, "urlname": "heavy-ppc", "base_difficulty": 8, "description": "<p>A heavier version of the PPC, able to deliver more damage over a similar range</p>"}}, {"pk": 3, "model": "warbook.technology", "fields": {"category": "weap", "name": "Light PPC", "show": true, "tier": 2, "urlname": "light-ppc", "base_difficulty": 8, "description": "<P>A lighter version of the PPC that sacrifices firepower in order to reduce weight and bulk</p>"}}, {"pk": 4, "model": "warbook.technology", "fields": {"category": "weap", "name": "Snubnose PPC", "show": true, "tier": 2, "urlname": "snubby", "base_difficulty": 8, "description": "<P>The snub-nose PPC improves close range accuracy and overall reach at the expense of being able to deliver damage at longer ranges</P>"}}, {"pk": 5, "model": "warbook.technology", "fields": {"category": "weap", "name": "ER Lasers", "show": true, "tier": 2, "urlname": "er-lasers", "base_difficulty": 8, "description": "<P>Extended range lasers improve the overall range of lasers, but generate considerably more heat. This technology grants access to the following equipment</P>\r\n<UL>\r\n  <LI/>ER Small Laser\r\n  <LI/>ER Medium Laser\r\n  <LI/>ER Large Laser\r\n</UL>"}}, {"pk": 6, "model": "warbook.technology", "fields": {"category": "weap", "name": "Plasma Rifle", "show": true, "tier": 2, "urlname": "plasma-rifle", "base_difficulty": 8, "description": "<P>The plasma rifle fires a ball of burning plasma, inflicting both damage and heat upon its target</P>"}}, {"pk": 7, "model": "warbook.technology", "fields": {"category": "weap", "name": "Ultra Autocannons", "show": true, "tier": 2, "urlname": "ultra-ac", "base_difficulty": 8, "description": "<p>Ultra Autocannons improve on the basic design by doubling the rate of fire. However the design does suffer from a small risk of jamming</P>\r\n<p>Grants access to:\r\n<ul>\r\n  <li/>Ultra AC/2\r\n  <li/>Ultra AC/5\r\n  <li/>Ultra AC/10\r\n  <li/>Ultra AC/20\r\n</ul></p>"}}, {"pk": 8, "model": "warbook.technology", "fields": {"category": "weap", "name": "LB-X Autocannons", "show": true, "tier": 2, "urlname": "lb-x", "base_difficulty": 8, "description": "<P>LB-X Autocannons enable the use of both normal slug munitions as well as other types such as cluster ammo<p>\r\n<p>Grants access to:\r\n<ul>\r\n  <li/>LB2-X AC\r\n  <li/>LB5-X AC\r\n  <li/>LB10-X AC\r\n  <li/>LB20-X AC\r\n</ul></p>"}}, {"pk": 9, "model": "warbook.technology", "fields": {"category": "weap", "name": "Davion Autocannons", "show": true, "tier": 2, "urlname": "davion-ac", "base_difficulty": 8, "description": "<P>Known for their auto-cannon technology, House Davion produces various autocannon designs that either reduce the weight or improve on the rate of fire<p>\r\n<ul>\r\n  <li/>Rotary AC/5\r\n  <li/>Rotary AC/5\r\n  <li/>Light AC/5\r\n  <li/>Light AC/10\r\n</ul></p>"}}, {"pk": 10, "model": "warbook.technology", "fields": {"category": "weap", "name": "Machine Guns", "show": true, "tier": 2, "urlname": "machine-guns", "base_difficulty": 6, "description": "<P>There are multiple variants to the humble machine gun that either improve on firepower or reduce weight</P>\r\n<ul>\r\n  <li/>Heavy Machinegun\r\n  <li/>Light Machinegun\r\n  <li/>Machine Gun Array\r\n</ul></p>"}}, {"pk": 11, "model": "warbook.technology", "fields": {"category": "weap", "name": "Heavy Gauss", "show": true, "tier": 2, "urlname": "heavy-gauss", "base_difficulty": 8, "description": "<P>The Heavy Gauss Rifle is capable of delivering supersonic slugs over long distances, providing a devastating battlefield weapon</P>"}}, {"pk": 12, "model": "warbook.technology", "fields": {"category": "weap", "name": "Light Gauss", "show": true, "tier": 2, "urlname": "light-gauss", "base_difficulty": 8, "description": "<P>The Light Gauss rifle is a smaller version of the Gauss Rifle that sacrifices firepower for the sake of reducing weight and bulk</P>"}}, {"pk": 13, "model": "warbook.technology", "fields": {"category": "weap", "name": "Streak SRMS", "show": true, "tier": 2, "urlname": "streak", "base_difficulty": 8, "description": "<P>Through the use of improved guidance systems, the Streak system is able to ensure that all missiles in a given volley hit their intended target</P>"}}, {"pk": 15, "model": "warbook.technology", "fields": {"category": "weap", "name": "Medium Range Missiles", "show": true, "tier": 2, "urlname": "mrm", "base_difficulty": 8, "description": "<P>Falling somewhere between SRMs and LRMs in terms of reach, MRMs provide a useful middle-ground between the two technologies</P>\r\n<ul>\r\n  <li/>MRM 10\r\n  <li/>MRM 20\r\n  <li/>MRM 30\r\n  <li/>MRM 40\r\n</ul></p>"}}, {"pk": 16, "model": "warbook.technology", "fields": {"category": "weap", "name": "Multi-Missile Launcher", "show": true, "tier": 2, "urlname": "mml", "base_difficulty": 8, "description": "<p>The Multi-Missile Launcher improves the loading and firing mechanisms, allowing the launcher change between firing SRM or LRM munitions at will<p>\r\n<ul>\r\n  <li/>MML 3\r\n  <li/>MML 5\r\n  <li/>MML 7\r\n  <li/>MML 9\r\n</ul></p>"}}, {"pk": 17, "model": "warbook.technology", "fields": {"category": "weap", "name": "I-Narc", "show": true, "tier": 2, "urlname": "inarc", "base_difficulty": 8, "description": "<P>The Improved Narc launcher adds a more effective beacon design and allows for the use of a more diverse set of beacon options</p>\r\n<p>This technology grants access to the I-narc launcher and the following beacon types<ul>\r\n  <li/>Homing pod\r\n  <li/>ECM pod\r\n  <li/>Explosive Pod\r\n  <li/>Haywire Pod\r\n  <li/>Nemesis Pod\r\n</ul></p>"}}, {"pk": 14, "model": "warbook.technology", "fields": {"category": "weap", "name": "Rocket Launchers", "show": true, "tier": 2, "urlname": "rocket-launcher", "base_difficulty": 6, "description": "<P>A simple, lower tech approach to missile projectiles. It sacrifices guidance systems and complex loader systems to provide a lower cost approach to delivering firepower</P>\r\n<ul>\r\n  <li/>RL 10\r\n  <li/>RL 15\r\n  <li/>RL 20\r\n</ul></p>"}}, {"pk": 18, "model": "warbook.technology", "fields": {"category": "weap", "name": "Enhanced Flamers", "show": true, "tier": 3, "urlname": "enh-flamer", "base_difficulty": 9, "description": "<P>Improving on flame-thrower technology, Enhanced Flamers grants access to the following</P>\r\n<UL>\r\n  <LI/>ER Flamer\r\n  <LI/>Heavy Flamer\r\n</UL>"}}, {"pk": 19, "model": "warbook.technology", "fields": {"category": "weap", "name": "Binary Lasers", "show": true, "tier": 3, "urlname": "binary-laser", "base_difficulty": 9, "description": "<P>The Binary Laser Cannon functions pairs two laser weapons together into a single unit, combining some common parts to reduce weight and bulk</P>"}}, {"pk": 20, "model": "warbook.technology", "fields": {"category": "weap", "name": "Bombast Laser", "show": true, "tier": 3, "urlname": "bombast-laser", "base_difficulty": 9, "description": "<P>The bombast laser allows the firer to sacrifice some accuracy for more damage</p>"}}, {"pk": 21, "model": "warbook.technology", "fields": {"category": "weap", "name": "Variable Speed Pulse Lasers", "show": true, "tier": 3, "urlname": "vsp-pulse", "base_difficulty": 9, "description": "<P>Variable Speed Pulse Lasers sacrifice some of their long range accuracy and firepower to become truly deadly weapons at close range. This technology grants access to:\r\n<UL>\r\n  <LI/>Small VSP Laser\r\n  <LI/>Medium VSP Laser\r\n  <LI/>Large VSP Laser\r\n</UL>"}}, {"pk": 27, "model": "warbook.technology", "fields": {"category": "weap", "name": "Battlemech Taser", "show": true, "tier": 3, "urlname": "taser", "base_difficulty": 9, "description": "<P>The Battlemech Taser uses power from the firing mechs Fusion Engine to cripple or completely disable its target</p>"}}, {"pk": 54, "model": "warbook.technology", "fields": {"category": "ammo", "name": "Caseless Autocannon Ammo", "show": true, "tier": 3, "urlname": "caseless-ac", "base_difficulty": 9, "description": "<P>Caseless ammo allows for the ammo storage capacity of an Autocannon ammo bin to be doubled. However, due to some issues getting the ammo feed mechanism to work correctly it also creates a small risk of jamming</P>"}}, {"pk": 28, "model": "warbook.technology", "fields": {"category": "weap", "name": "Thunderbolt Missile Launcher", "show": true, "tier": 3, "urlname": "thunderbolt", "base_difficulty": 9, "description": "<P>The Thunderbolt Missile Launcher uses many of the guidance and launch systems of standard LRM launchers, but launches a single larger missile with a more powerful payload in place of numerous smaller missiles fired by standard LRMS. This technology grants access to:\r\n<UL>\r\n  <LI/>Thunderbolt 5 Launcher\r\n  <LI/>Thunderbolt 10 Launcher\r\n  <LI/>Thunderbolt 15 Launcher\r\n  <LI/>Thunderbolt 20 Launcher\r\n</UL>"}}, {"pk": 29, "model": "warbook.technology", "fields": {"category": "weap", "name": "Mech Mortar", "show": true, "tier": 3, "urlname": "mech-mortar", "base_difficulty": 9, "description": "<P>Mech-based Mortar weapons provide an alternative option to LRMs for delivering long range firepower. While they are less effective when fired directly at their target (as they must always fire in an arc), their immunity from anti-missile systems makes them a good option for indirect fire. This technology grants access to:\r\n<UL>\r\n  <LI/>Mech Mortar 1\r\n  <LI/>Mech Mortar 2\r\n  <LI/>Mech Mortar 4\r\n  <LI/>Mech Mortar 8\r\n</UL></P>"}}, {"pk": 30, "model": "warbook.technology", "fields": {"category": "weap", "name": "Extended LRM Launchers", "show": true, "tier": 3, "urlname": "ELRM", "base_difficulty": 9, "description": "<P>The Extended LRM launcher improves the reach of the existing LRM technologies, but further sacrifices short range effectiveness. This technology grants access to:\r\n<UL>\r\n  <LI/>ELRM 5\r\n  <LI/>ELRM 10\r\n  <LI/>ELRM 15\r\n  <LI/>ELRM 2\r\n</UL></P>"}}, {"pk": 31, "model": "warbook.technology", "fields": {"category": "weap", "name": "Solaris Thunderbolt", "show": true, "tier": 3, "urlname": "solaris-thunderbolt", "base_difficulty": 9, "description": "<P>Trent - You've got this as 'revised'. Please update this entry via the admin interface.</P>"}}, {"pk": 32, "model": "warbook.technology", "fields": {"category": "equip", "name": "Basic Equipment", "show": false, "tier": 0, "urlname": "basic_equipment", "base_difficulty": 0, "description": "<P>Some technologies are so basic that everyone has access to them. The following items fall into this category:\r\n<UL>\r\n  <LI/>Search Light\r\n  <LI/>One Shot (OS) Launchers\r\n  <LI/>Recon Camera\r\n</UL></P>"}}, {"pk": 33, "model": "warbook.technology", "fields": {"category": "equip", "name": "Star League Equipment", "show": true, "tier": 1, "urlname": "sl-equip", "base_difficulty": 5, "description": "<p>At it's height, the Star League had many interesting equipment concepts. Gaining a supply contract for this technology grants access to:\r\n<ul>\r\n  <li/>Beagle Active Probe\r\n  <li/>Guardian ECM\r\n  <li/>TAG\r\n  <li/>MASC\r\n  <li/>Anti-Missile Systems\r\n  <li/>Artemis IV LRM Launchers\r\n  <li/>Artemis IV SRM Launchers\r\n</ul></p>\r\n"}}, {"pk": 34, "model": "warbook.technology", "fields": {"category": "weap", "name": "Basic Weapons", "show": false, "tier": 0, "urlname": "basic_weapons", "base_difficulty": 0, "description": "<P>Some basic weapons technologies are readily accessible to everyone:\r\n<UL>\r\n  <LI/>PPC\r\n  <LI/>Large Laser\r\n  <LI/>Medium Laser\r\n  <LI/>Small Laser\r\n  <LI/>Flamer\r\n  <LI/>Vehicle Flamer\r\n  <LI/>LRM 5\r\n  <LI/>LRM 10\r\n  <LI/>LRM 15\r\n  <LI/>LRM 20 \r\n  <LI/>SRM 2\r\n  <LI/>SRM 4 \r\n  <LI/>SRM 6\r\n  <LI/>AC 2\r\n  <LI/>AC 5\r\n  <LI/>AC 10 \r\n  <LI/>AC 20\r\n  <LI/>Machine Gun\r\n</UL></P>"}}, {"pk": 35, "model": "warbook.technology", "fields": {"category": "equip", "name": "C3 Targeting Computers", "show": true, "tier": 2, "urlname": "c3", "base_difficulty": 8, "description": "<P>A C3 Targeting network (consisting of one C3 Master and up to 3 C3 Slaves) may be used by to share targeting information between multiple mechs, greatly improving the effectiveness of long range fire. This technology grants access to:\r\n<UL>\r\n  <LI/>C3 Master Computer\r\n  <LI/>C3 Slave Computer\r\n</UL></P>"}}, {"pk": 36, "model": "warbook.technology", "fields": {"category": "equip", "name": "Improved C3 Computer", "show": true, "tier": 2, "urlname": "imp-c3", "base_difficulty": 8, "description": "<P>The Improved C3 Computer Network enables the same targeting information sharing as its counterpart, but eliminates the Master / Slave aspect of the design. This increases reliability by removing a single point of failure.</P>"}}, {"pk": 37, "model": "warbook.technology", "fields": {"category": "equip", "name": "Targeting Computer", "show": true, "tier": 2, "urlname": "targeting-comp", "base_difficulty": 8, "description": "<P>A Targeting computer increases the accuracy of many direct-fire ballistic and energy weapons, and enables the firer to target specific locations upon the enemy mech.</P>"}}, {"pk": 38, "model": "warbook.technology", "fields": {"category": "equip", "name": "Coolant Pods", "show": true, "tier": 3, "urlname": "coolant-pods", "base_difficulty": 7, "description": "<P>Coolant pods provide a one-shot tool for drastically reducing the heat of a Mech</P>"}}, {"pk": 40, "model": "warbook.technology", "fields": {"category": "equip", "name": "Improved One-shot Launchers", "show": true, "tier": 3, "urlname": "ios", "base_difficulty": 9, "description": "<P>By removing all ammo feed mechanisms completely, Improved One-shot launchers are able to reduce their weight</P>"}}, {"pk": 41, "model": "warbook.technology", "fields": {"category": "equip", "name": "M-Pod", "show": true, "tier": 3, "urlname": "m-pod", "base_difficulty": 9, "description": "<P>Based on the Anti-infantry A-Pod, the M-Pod increases the destructive power to effectively create a one-shot, close range cluster weapon</P>"}}, {"pk": 42, "model": "warbook.technology", "fields": {"category": "equip", "name": "Apollo MRM Fire Control System", "show": true, "tier": 3, "urlname": "apollo-fcs", "base_difficulty": 9, "description": "<P>While using a different technique to the Artemis Fire Control Systems utilised by SRM and LRM launchers, the Apollo FCS serves a similar function to increase the accuracy of the unguided MRM launchers</P>"}}, {"pk": 43, "model": "warbook.technology", "fields": {"category": "equip", "name": "PPC Capacitors", "show": true, "tier": 3, "urlname": "ppc-capacitor", "base_difficulty": 9, "description": "<p>The PPC capacitor allows PPCs to be pre-charged, allowing the heat burden to be spread over a longer time period</P>"}}, {"pk": 44, "model": "warbook.technology", "fields": {"category": "equip", "name": "Supercharger", "show": true, "tier": 3, "urlname": "supercharger", "base_difficulty": 9, "description": "<P>The SuperCharger allows more power to be extracted from a fusion engine, allowing mechs to significantly increase their running speed. However, there are some risks associated with overdriving an engine in this manner, and damage to the engine may result if overused</P>"}}, {"pk": 48, "model": "warbook.technology", "fields": {"category": "equip", "name": "Boosted C3 System", "show": true, "tier": 3, "urlname": "boosted-c3", "base_difficulty": 11, "description": "<P>The Boosted C3 System improves on the strength of the communication signal used between mechs, making it more resilient against enemy ECM systems</P>"}}, {"pk": 46, "model": "warbook.technology", "fields": {"category": "equip", "name": "Angel ECM Suite", "show": true, "tier": 3, "urlname": "angel-ecm", "base_difficulty": 11, "description": "<P>The Angel ECM suite is the more powerful cousin to the Guardian ECM</P>"}}, {"pk": 45, "model": "warbook.technology", "fields": {"category": "equip", "name": "Bloodhound Probe", "show": true, "tier": 3, "urlname": "bloodhound-probe", "base_difficulty": 11, "description": "<P>The Bloodhound probe is an enhanced cousin of the Beagle sensor probe suite</P>"}}, {"pk": 47, "model": "warbook.technology", "fields": {"category": "equip", "name": "Chaff Pods", "show": true, "tier": 3, "urlname": "chaff", "base_difficulty": 11, "description": "<P>Chaff pods provide a useful tool for throwing off the guidance systems on some guided missiles</P>"}}, {"pk": 39, "model": "warbook.technology", "fields": {"category": "equip", "name": "Laser Anti-Missile System", "show": true, "tier": 3, "urlname": "l-ams", "base_difficulty": 11, "description": "<P>The Laser AMS is similar in function to the normal Anti-Missile System, but due to its use of energy weapons it is not constrained by ammo</P>"}}, {"pk": 49, "model": "warbook.technology", "fields": {"category": "ammo", "name": "Basic Ammuntion", "show": false, "tier": 0, "urlname": "basic-ammo", "base_difficulty": 0, "description": "<P>Most weapons have a 'default' ammunition type that is used with them. This technology grants access to those default munitions.</P>"}}, {"pk": 51, "model": "warbook.technology", "fields": {"category": "ammo", "name": "Davion AC Ammunition", "show": true, "tier": 2, "urlname": "davion-ammo", "base_difficulty": 8, "description": "<P>House Davion is responsible for developing a variety of improvements to the humble Auto-Cannon shell. This technology grants access to:\r\n<UL>\r\n  <LI/>Armour Piercing AC Ammo\r\n  <LI/>Precision AC Ammo\r\n</UL></P>"}}, {"pk": 52, "model": "warbook.technology", "fields": {"category": "ammo", "name": "Advanced Missile Ammunition", "show": true, "tier": 2, "urlname": "adv-missiles", "base_difficulty": 8, "description": "<P>There are a variety of advanced missile designs available, that replace the standard explosive payload with something a bit more specialized. This technology grants access to:\r\n<UL>\r\n  <LI/>Mine clearing missiles\r\n  <LI/>Incendiary LRMs\r\n  <LI/>Heat seeking missiles\r\n  <LI/>I-swarm LRM\r\n  <LI/>Semi-guided LRM\r\n  <LI/>Thunder LRMs\r\n</UL></P>\r\n"}}, {"pk": 53, "model": "warbook.technology", "fields": {"category": "ammo", "name": "Liao Thunder LRMS", "show": true, "tier": 3, "urlname": "liao-thunder", "base_difficulty": 11, "description": "<P>House Liao is responsible for developing a variety of improvements to the Thunder LRM mine-delivery system. This technology grants access to the following munitions:\r\n<UL>\r\n  <LI/>Thunder Augmented LRM\r\n  <LI/>Thunder Inferno LRM\r\n  <LI/>Thunder Vibrobomb LRM\r\n  <LI/>Thunder Active LRM\r\n</UL></P>"}}, {"pk": 55, "model": "warbook.technology", "fields": {"category": "ammo", "name": "Spray Ammo", "show": true, "tier": 3, "urlname": "spray-ammo", "base_difficulty": 9, "description": "<P>While most often used for spraying fire, the barrel and ammo feeds of the humble flamethrower can also be adapted to serve other purposes. This technology grants access to:\r\n<UL>\r\n  <LI/>Flamer ammo\r\n  <LI/>Coolant ammo\r\n  <LI/>Corrosive ammo\r\n  <LI/>Inferno fuel ammo\r\n  <LI/>Oil slick ammo\r\n  <LI/>Paint ammo\r\n</UL></P>"}}, {"pk": 79, "model": "warbook.technology", "fields": {"category": "cons", "name": "Chameleon Light Polarization System", "show": true, "tier": 3, "urlname": "chameleon-lps", "base_difficulty": 10, "description": "<P>By using a mimetic system to try to camouflage the mech with its surroundings, the Chameleon Light Polarization System makes mechs much harder to target</P>"}}, {"pk": 56, "model": "warbook.technology", "fields": {"category": "ammo", "name": "Experimental Missile Ammo", "show": true, "tier": 3, "urlname": "experimental-missile", "base_difficulty": 11, "description": "<P>Set a bunch of boffins loose in a lab and there's no telling what wierd or wacky ideas they might come up with. This technology grants access to some of the more unusual missile ammunition out there, such as:\r\n<UL>\r\n  <LI/>Magnetic pulse missiles\r\n  <LI/>Acid SRMs\r\n  <LI/>Anti-radiation missiles\r\n  <LI/>Bola Narc Pods\r\n  <LI/>Follow the leader LRMs\r\n  <LI/>Tandem-charge SRMS\r\n  <LI/>EnLRM ammo\r\n</UL></P>"}}, {"pk": 57, "model": "warbook.technology", "fields": {"category": "cons", "name": "Basic Construction", "show": false, "tier": 0, "urlname": "basic-construction", "base_difficulty": 0, "description": "<P>All stables have access to the following basic construction technologies:\r\n<UL>\r\n  <LI/>Fusion Engine\r\n  <LI/>Gyro\r\n  <LI/>Cockpit\r\n  <LI/>Jump Jet\r\n  <LI/>Basic Construction\r\n  <LI/>Basic Armour\r\n</LI>"}}, {"pk": 58, "model": "warbook.technology", "fields": {"category": "cons", "name": "Star-League Construction", "show": true, "tier": 1, "urlname": "sl-construction", "base_difficulty": 5, "description": "<P>At its height, the Star League development many improvements to Battlemech construction materials and components. This technology grants access to:\r\n<UL>\r\n  <LI/>Extra Light Fusion Engines\r\n  <LI/>Double Heat Sinks\r\n  <LI/>Endo-Steel Internal Structure\r\n  <LI/>Ferro-Fibrous Armour\r\n</UL></P>"}}, {"pk": 59, "model": "warbook.technology", "fields": {"category": "cons", "name": "Small Cockpit", "show": true, "tier": 2, "urlname": "small-cockpit", "base_difficulty": 8, "description": "<P>The small cockpit was developed as a space-saving measure and provides more room to fit other systems into the head of a mech. However, the cramped nature of the cockpit does make it harder for the pilot to operate the mech</P>"}}, {"pk": 60, "model": "warbook.technology", "fields": {"category": "cons", "name": "Steiner Fusion Engines", "show": true, "tier": 2, "urlname": "steiner-fusion", "base_difficulty": 8, "description": "<P>House Steiner developed a couple of additional variants of the Fusion Engine, that provide additional options for the space/weight trade-off that these weapons require. This technology grants access to:\r\n<UL>\r\n  <LI/>Compact Fusion Engine\r\n  <LI/>Light Fusion Engine\r\n</UL></P>"}}, {"pk": 61, "model": "warbook.technology", "fields": {"category": "cons", "name": "Advanced Gyros", "show": true, "tier": 2, "urlname": "adv-gyro", "base_difficulty": 8, "description": "<P>While the standard gyro is an effective way to keep a BattleMech standing, various design improvements either reduce the weight or bulk of the standard Gyro or work to improve on its reliability. This technology grants access to:\r\n<UL>\r\n  <LI/>Compact Gyro\r\n  <LI/>Heavy Duty Gyro\r\n  <LI/>Extra-Light Gyro\r\n</UL></P>"}}, {"pk": 62, "model": "warbook.technology", "fields": {"category": "cons", "name": "Improved Jump jets", "show": true, "tier": 2, "urlname": "imp-jumpjet", "base_difficulty": 8, "description": "<P>The Improved Jump-jet reduces the heat generated at the expense of increased weight and bulk. Their design also allows much more significant jumping ranges to be acquired</P>"}}, {"pk": 63, "model": "warbook.technology", "fields": {"category": "cons", "name": "Advanced Ferro-Fibrous", "show": true, "tier": 2, "urlname": "adv-armour", "base_difficulty": 8, "description": "<P>This technology grants access to two new variants of ferro-fibrous armour that use different techniques to change the trade-off between weight and bulk.\r\n<UL> \r\n  <LI/>Light Ferro-Fibrous Armour\r\n  <LI/>Light Ferro-Fibrous Armour\r\n</UL></P>"}}, {"pk": 64, "model": "warbook.technology", "fields": {"category": "cons", "name": "Stealth Armour", "show": true, "tier": 2, "urlname": "stealth-armour", "base_difficulty": 8, "description": "<P>Stealth armour combines the defensive capabilities of a Guardian ECM to shroud the unit from enemy sensor and targeting systems. This technology grants access to:\r\n<UL>\r\n  <LI/>Stealth Armour\r\n  <LI/>Guardian ECM System\r\n</UL>"}}, {"pk": 65, "model": "warbook.technology", "fields": {"category": "cons", "name": "Triple Strength Myomer", "show": true, "tier": 2, "urlname": "tsm", "base_difficulty": 8, "description": "<P>Triple Strength Myomer strands replace the standard Myomer used to build a BattleMechs 'muscles'. When cold, they have the same power and strength as the standard Myomer, however once heated up they considerably increase the strength of the mech, making it much more deadly in melee combat</P>"}}, {"pk": 66, "model": "warbook.technology", "fields": {"category": "cons", "name": "Omnimechs", "show": true, "tier": 2, "urlname": "omnimechs", "base_difficulty": 8, "description": "<P>OmniMechs are a new, modular approach to building mechs that enables the weapons and equipment load-out to be adjusted. This technology grants access to order OmniMech designs</P>"}}, {"pk": 50, "model": "warbook.technology", "fields": {"category": "ammo", "name": "Star-League Ammunition", "show": true, "tier": 1, "urlname": "sl-ammo", "base_difficulty": 5, "description": "<P>At the height of the Star-League, there were many innovative forms of ammunition that could use standard launcher technologies to deliver more varied and tactically useful payloads. This technology grants access to:\r\n<UL>\r\n  <LI/>Swarm LRM\r\n  <LI/>Inferno SRM\r\n  <LI/>Smoke LRM\r\n  <LI/>Smoke SRM\r\n  <LI/>Flare LRM\r\n  <LI/>Tracer AC rounds.\r\n</UL></P>"}}, {"pk": 67, "model": "warbook.technology", "fields": {"category": "cons", "name": "Mechwarrior Aquatic Survival System", "show": true, "tier": 3, "urlname": "mass", "base_difficulty": 9, "description": "<P>The Mechwarrior Aquatic Survival system protects the pilot in the event of a head breach while underwater. Critical systems are sealed so that even if armour is breached the pilot does not drown</P>"}}, {"pk": 68, "model": "warbook.technology", "fields": {"category": "cons", "name": "Torso Mounted Cockpit", "show": true, "tier": 3, "urlname": "torso-cockpit", "base_difficulty": 9, "description": "<P>By mounting the cockpit inside the torso, it is possible to give the pilot the protection of alot more armour. However, the pilot becomes more dependant on the mech's sensor systems to know what is happening, and on the life support systems to keep him cool closer to the engine.</p>\r\n\r\n<P>Such cockpits are often cramped, due to limited torso space, and a usable ejection system has yet to be designed.</P>"}}, {"pk": 69, "model": "warbook.technology", "fields": {"category": "cons", "name": "Extra-Extra-Light Engines", "show": true, "tier": 3, "urlname": "xxl-engine", "base_difficulty": 9, "description": "<P>Even bulkier than the Extra-Light engine, the XXL engine provides a considerable reduction in weight. However, it is a much less heat-efficient engine compared to the alternatives. </P>"}}, {"pk": 70, "model": "warbook.technology", "fields": {"category": "cons", "name": "Armoured Components", "show": true, "tier": 3, "urlname": "armoured-components", "base_difficulty": 11, "description": "<P>With the addition of armour, components can be designed to be more resilient against critical hits</P>"}}, {"pk": 71, "model": "warbook.technology", "fields": {"category": "cons", "name": "Advanced Internal Structures", "show": true, "tier": 3, "urlname": "adv-structure", "base_difficulty": 11, "description": "<P>There are a variety of more exotic materials and techniques that can be applied to constructing a BattleMech chassis. This technology grants access to:\r\n<UL>\r\n  <LI/>Composite Internal Structure\r\n  <LI/>Endo composite structure\r\n  <LI/>Reinforced Structure\r\n</UL></P>"}}, {"pk": 72, "model": "warbook.technology", "fields": {"category": "cons", "name": "Battlemech Turret", "show": true, "tier": 3, "urlname": "bm-turret", "base_difficulty": 9, "description": "<P>Turrets provide weapons with the ability to cover a complete 360&#176; firing arc. This technology grants access to:\r\n<UL>\r\n  <LI/>Shoulder Turret\r\n  <LI/>Quad Turret\r\n  <LI/>Head Turret\r\n</UL></P>"}}, {"pk": 73, "model": "warbook.technology", "fields": {"category": "cons", "name": "CASE II", "show": true, "tier": 3, "urlname": "case_ii", "base_difficulty": 7, "description": "<P>Improving on the protective capabilities of CASE, the CASE II system is able to further reduce the consequences of a damaged ammo bin</P>"}}, {"pk": 74, "model": "warbook.technology", "fields": {"category": "cons", "name": "Hardened Armour", "show": true, "tier": 3, "urlname": "hardened-armour", "base_difficulty": 9, "description": "<P>Hardened armour is considerably more resilient to damage, but the additional weight of the armour materials impairs the movements of the mech</P>"}}, {"pk": 75, "model": "warbook.technology", "fields": {"category": "cons", "name": "Laser Reflective Armour", "show": true, "tier": 3, "urlname": "reflective-armour", "base_difficulty": 9, "description": "<P>Laser Reflective armour provides considerably more protection against laser weapons, but is much more vulnerable to physical impacts</P>"}}, {"pk": 76, "model": "warbook.technology", "fields": {"category": "cons", "name": "Reactive Armour", "show": true, "tier": 3, "urlname": "reactive-armour", "base_difficulty": 9, "description": "<P>Reactive Armour is embedded with small micro-explosive charges that can be used to counteract explosive weapons. It is much more bulky than most other armour types, and carries a small risk of a chain reaction in the charges themselves</P>"}}, {"pk": 77, "model": "warbook.technology", "fields": {"category": "cons", "name": "Void Signature System", "show": true, "tier": 3, "urlname": "void-sig", "base_difficulty": 11, "description": "<P>The Void Signature system combines techniques used by the Null Signature systems and Chameleon Light Polarisation System to render a mech almost invisible. The system is at its most effective when used on a still or slow moving mech."}}, {"pk": 78, "model": "warbook.technology", "fields": {"category": "cons", "name": "Null Signature System", "show": true, "tier": 3, "urlname": "null-signature", "base_difficulty": 10, "description": "<P>By using a combination of systems to mask a both the heat and electromagnetic signatures of a battlemech, the Null Signature system interferes with the ability of opposing sensor and targeting systems to effectively acquire it.</P>"}}, {"pk": 80, "model": "warbook.technology", "fields": {"category": "cons", "name": "Battlemech Har-Jel System", "show": true, "tier": 3, "urlname": "har-jel", "base_difficulty": 11, "description": "<P>Har-Jel, commonly used in the hull sealing systems of Clan spacecraft, can also be used in BattleMechs to protect against hull breaches while in hostile environments</P>"}}, {"pk": 81, "model": "warbook.technology", "fields": {"category": "cons", "name": "Underwater Movement Units", "show": true, "tier": 3, "urlname": "UMU", "base_difficulty": 11, "description": "<P>The normal motive systems of a BattleMech are ill-suited to an underwater environment. Underwater Movement Units provide more freedom to move in an underwater battlefield</P>"}}, {"pk": 82, "model": "warbook.technology", "fields": {"category": "cons", "name": "Blue Shield Particle Field Damper", "show": true, "tier": 3, "urlname": "blueshield-pfd", "base_difficulty": 11, "description": "<P>By using electromagnetic fields, the Blue Shield PFD system provides limited protection against Particle Projection Cannons.</P>"}}, {"pk": 1, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 1, "condition": "House Kurita"}}, {"pk": 2, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 1, "condition": "Access to ER PPC"}}, {"pk": 3, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 3, "condition": "House Kurita"}}, {"pk": 4, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 3, "condition": "Access to ER PPC"}}, {"pk": 5, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 4, "condition": "House Kurita"}}, {"pk": 6, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 4, "condition": "Access to ER PPC"}}, {"pk": 7, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 5, "condition": "House Marik"}}, {"pk": 8, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 5, "condition": "Access to ER Large Laser"}}, {"pk": 9, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 6, "condition": "House Liao"}}, {"pk": 10, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 7, "condition": "House Davion"}}, {"pk": 11, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 7, "condition": "House Marik"}}, {"pk": 12, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 7, "condition": "Access to Ultra AC/5"}}, {"pk": 13, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 8, "condition": "House Davion"}}, {"pk": 14, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 8, "condition": "Access to LB-10X AC"}}, {"pk": 15, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 9, "condition": "House Davion"}}, {"pk": 16, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 11, "condition": "House Steiner"}}, {"pk": 17, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 11, "condition": "Access to Gauss Rifle"}}, {"pk": 18, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 12, "condition": "House Marik"}}, {"pk": 19, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 12, "condition": "Access to Gauss Rifle"}}, {"pk": 20, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 13, "condition": "House Kurita"}}, {"pk": 21, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 13, "condition": "Access to Streak SRM2"}}, {"pk": 22, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 15, "condition": "House Kurita"}}, {"pk": 23, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 17, "condition": "Comstar"}}, {"pk": 24, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 17, "condition": "Word of Blake"}}, {"pk": 25, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 18, "condition": "House Davion"}}, {"pk": 26, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 18, "condition": "House Steiner"}}, {"pk": 27, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 19, "condition": "House Marik"}}, {"pk": 28, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 20, "condition": "House Steiner"}}, {"pk": 29, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 21, "condition": "House Marik"}}, {"pk": 30, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 21, "condition": "Word of Blake"}}, {"pk": 31, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 21, "condition": "Pulse Laser Technology"}}, {"pk": 32, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 22, "condition": "House Davion"}}, {"pk": 33, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 22, "condition": "Pulse Laser Technology"}}, {"pk": 35, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 24, "condition": "House Liao"}}, {"pk": 36, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 25, "condition": "House Steiner"}}, {"pk": 37, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 25, "condition": "Heavy Gauss Rifle"}}, {"pk": 38, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 26, "condition": "House Davion"}}, {"pk": 39, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 26, "condition": "Access to Gauss Rifle"}}, {"pk": 40, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 28, "condition": "House Davion"}}, {"pk": 41, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 28, "condition": "House Steiner"}}, {"pk": 42, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 29, "condition": "House Davion"}}, {"pk": 43, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 30, "condition": "House Davion"}}, {"pk": 44, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 31, "condition": "Access to Thunderbolt LRMs"}}, {"pk": 45, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 35, "condition": "House Kurita"}}, {"pk": 46, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 36, "condition": "Comstar"}}, {"pk": 47, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 36, "condition": "Word of Blake"}}, {"pk": 48, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 37, "condition": "House Davion"}}, {"pk": 49, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 39, "condition": "House Davion"}}, {"pk": 50, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 39, "condition": "Access to Anti-Missile System"}}, {"pk": 51, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 40, "condition": "House Kurita"}}, {"pk": 52, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 41, "condition": "House Steiner"}}, {"pk": 53, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 42, "condition": "House Kurita"}}, {"pk": 54, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 42, "condition": "Access to MRM Launchers"}}, {"pk": 55, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 43, "condition": "House Kurita"}}, {"pk": 56, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 43, "condition": "Access to ER PPC"}}, {"pk": 57, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 45, "condition": "Comstar"}}, {"pk": 58, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 45, "condition": "Access to Beagle Probe"}}, {"pk": 59, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 46, "condition": "House Kurita"}}, {"pk": 60, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 46, "condition": "Access to Guardian ECM"}}, {"pk": 61, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 47, "condition": "House Steiner"}}, {"pk": 62, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 48, "condition": "House Davion"}}, {"pk": 63, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 48, "condition": "Access to C3 Computers"}}, {"pk": 64, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 51, "condition": "House Davion"}}, {"pk": 65, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 51, "condition": "Access to Light Autocannons"}}, {"pk": 66, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 53, "condition": "House Liao"}}, {"pk": 67, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 53, "condition": "Access to Thunder LRMs"}}, {"pk": 68, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 54, "condition": "House Davion"}}, {"pk": 69, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 55, "condition": "Access to Heavy Flamers"}}, {"pk": 70, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 56, "condition": "Advanced Missiles Technology"}}, {"pk": 71, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 59, "condition": "House Davion"}}, {"pk": 72, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 60, "condition": "House Steiner"}}, {"pk": 73, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 60, "condition": "Access to Extra-Light Fusion Engines"}}, {"pk": 74, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 61, "condition": "House Steiner"}}, {"pk": 75, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 61, "condition": "House Kurita"}}, {"pk": 76, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 61, "condition": "ComStar"}}, {"pk": 77, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 63, "condition": "House Marik"}}, {"pk": 78, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 63, "condition": "House Steiner"}}, {"pk": 79, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 63, "condition": "Access to Ferro-Fibrous Armour"}}, {"pk": 80, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 64, "condition": "House Liao"}}, {"pk": 81, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 64, "condition": "Access to Guardian ECM"}}, {"pk": 82, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 65, "condition": "House Liao"}}, {"pk": 83, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 67, "condition": "House Davion"}}, {"pk": 84, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 68, "condition": "House Davion"}}, {"pk": 85, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 69, "condition": "House Davion"}}, {"pk": 86, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 70, "condition": "House Marik"}}, {"pk": 87, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 71, "condition": "House Davion"}}, {"pk": 88, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 71, "condition": "House Steiner"}}, {"pk": 89, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 71, "condition": "Comstar"}}, {"pk": 90, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 71, "condition": "Access to Endo-Steel Construction"}}, {"pk": 91, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 73, "condition": "House Marik"}}, {"pk": 92, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 74, "condition": "House Davion"}}, {"pk": 93, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 74, "condition": "House Steiner"}}, {"pk": 94, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 75, "condition": "House Steiner"}}, {"pk": 95, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 77, "condition": "Word of Blake"}}, {"pk": 96, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 80, "condition": "House Steiner"}}, {"pk": 97, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 81, "condition": "House Steiner"}}, {"pk": 98, "model": "techtree.technologyrollmodifier", "fields": {"modifier": -2, "technology": 82, "condition": "House Steiner"}}]
+[
+   {
+      "pk":1,
+      "model":"warbook.pilotdiscipline",
+      "fields":{
+         "urlname":"combat",
+         "name":"Combat",
+         "blurb":"Some pilots are hardened by experience, and have developed talents that make them more formidable in melee. \r\n"
+      }
+   },
+   {
+      "pk":2,
+      "model":"warbook.pilotdiscipline",
+      "fields":{
+         "urlname":"piloting",
+         "name":"Piloting",
+         "blurb":"Some Pilots are able to push their mechs to perform remarkable feats of agility, or even make their mechs dance."
+      }
+   },
+   {
+      "pk":3,
+      "model":"warbook.pilotdiscipline",
+      "fields":{
+         "urlname":"ferocity",
+         "name":"Ferocity",
+         "blurb":"Some pilots are known, not for finess or grace, but rather for their raw aggression and effective brutality"
+      }
+   },
+   {
+      "pk":4,
+      "model":"warbook.pilotdiscipline",
+      "fields":{
+         "urlname":"techno",
+         "name":"Technician",
+         "blurb":"Some pilots contribute value to their stables, not through their talents on the field, but through assisting with stable management off the field."
+      }
+   },
+   {
+      "pk":8,
+      "model":"warbook.pilotdiscipline",
+      "fields":{
+         "urlname":"ews",
+         "name":"Electronic and Subversive Warfare",
+         "blurb":"Some pilots know how to use the on-board electronics in their mechs to perform various clever tricks on the battlefield."
+      }
+   },
+   {
+      "pk":7,
+      "model":"warbook.pilotdiscipline",
+      "fields":{
+         "urlname":"missile",
+         "name":"Missile",
+         "blurb":"Some pilots prefer their weapons to have warheads attached, and are more proficient at using missile systems in battle."
+      }
+   },
+   {
+      "pk":5,
+      "model":"warbook.pilotdiscipline",
+      "fields":{
+         "urlname":"energy",
+         "name":"Energy Weapons",
+         "blurb":"Some pilots are more proficient with Energy Weapons, and are able to use them especially well."
+      }
+   },
+   {
+      "pk":6,
+      "model":"warbook.pilotdiscipline",
+      "fields":{
+         "urlname":"ballistics",
+         "name":"Ballistics",
+         "blurb":"Some pilots favour old-fashioned gun-powder and are able to use Ballistics weapons to great effect."
+      }
+   },
+   {
+      "pk":1,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":1,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Melee Expert",
+         "description":"The Melee Expert may allocate a +1 easier to hit and to the damage of his physical attacks. If used to increase damage of a charge or DFA, it is added to base damage before multiplied for distance.\r\n"
+      }
+   },
+   {
+      "pk":2,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":1,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Ammo Pro",
+         "description":"The ammunition pro is able to get the most out of an ammunition bin, allowing his own mech to link ammunition bins to increase combined capacity by an additional half ton of shots (and risking damage in ammo explosion). Also the stable is allowed to allocate half ton ammo bins to weapons other than the MG, after the first ton is won. Loss of the pilot with this power does not fail mechs modified to use advanced ammunition in the modification. "
+      }
+   },
+   {
+      "pk":3,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":1,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Toughness",
+         "description":"The pilot is especially tough and pain resistant, ignoring the first head hit and lowering ammunition explosion feedback to one pilot hit."
+      }
+   },
+   {
+      "pk":4,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":1,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Knockdown",
+         "description":"This training allows a pilot to know how to strike a mech physically to overbalance them. On any attack stronger than the punch of the mech piloted, including ability, weapon, TSM, or other physical attacks during the round (like the\r\nother fist punching), the target must roll piloting like successful kick. In the case that the pilot must make a PSR because of the attack, such as with a kick, it is 1 harder."
+      }
+   },
+   {
+      "pk":5,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":1,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Steadfast",
+         "description":"Trained to hold it steady, this pilot skill forces piloting skill rolls for damage to be made in 30 point increments instead of 20."
+      }
+   },
+   {
+      "pk":6,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":1,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Melee Weapon Specialist",
+         "description":"The pilot has trained to use a type of physical weapon. Randomly determine a melee weapon (Punch, Kick, Hatchet, or more if the Stable has tech access to other physical weapons), and gain +2 to hit with this weapon. "
+      }
+   },
+   {
+      "pk":7,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":2,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Catfall",
+         "description":"Catfall pilots have the knack to keep some control when others completely lose it. When the\r\nmech falls, whether by failed PSR, falling elevation, or failed Gyro/missing leg, the Catfall pilot is allowed\r\nto choose the direction of the fall, takes only half damage to the mech for the fall, and gets +2 on his roll to not hurt the pilot."
+      }
+   },
+   {
+      "pk":8,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":2,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Dodge",
+         "description":"The Dodge skill allows the pilot to withhold physical attacks by his unit, to make it harder to be hit by them. A penalty of 4 applies to attack roll of physical attackers against a dodging mech. "
+      }
+   },
+   {
+      "pk":9,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":2,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Acrobat",
+         "description":"The acrobat gains +1 jump movement point. Only applies to mechs with jump movement rates and costs 1 extra heat."
+      }
+   },
+   {
+      "pk":10,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":2,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Natural Grace",
+         "description":"While some pilots can keep their rides 'stable', you make yours dance. +1 Piloting roll against knock down, physical attacks, skidding, water, avoid pilot damage from falling, and entering rouble terrain. You gain +1 run movement like a vehicle on roads. You can run backwards. Finally on entering an arena make a pilot check unmodified to make your mech disco dance and gain +1 fame in fight."
+      }
+   },
+   {
+      "pk":11,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":2,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Speed Demon",
+         "description":"This skill lets the pilot may add +1 to the current mechs run speed. If used on a mech with MASC or Supercharger, it acts as a further half walk movement to the mechs run category. Also the target roll for Hip Seizing of MASC or Supercharger Engine burnout is one less with this pilot."
+      }
+   },
+   {
+      "pk":12,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":2,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Manoeuvring Ace",
+         "description":"This skill lets the pilot of a bipedal mech use the Side slip move of a quad mech. If used on a quad \u2018mech, Side slip only costs 1 mp. Also reduce by 1 difficulty for slip on roads"
+      }
+   },
+   {
+      "pk":13,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":3,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Berzerker Charger",
+         "description":"This training lets the pilot fire torso mounted weapons, at the target of the charge, during a charge attack."
+      }
+   },
+   {
+      "pk":14,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":3,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Edge",
+         "description":"The pilot gets one edge, allowing one reroll of a dice roll made by him against an opponent during the course of the battle."
+      }
+   },
+   {
+      "pk":15,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":3,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Killer Reputation",
+         "description":"This pilot has caused media attention that gives him instant pop +2 to the accounting of any fight. Also, to for a pilot to lose to a Killer Rep pilot is to become dead news, incurring a further -2 to pop accounting of defeated enemies."
+      }
+   },
+   {
+      "pk":16,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":3,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Nerves of Steel",
+         "description":"A pilot with this trick can fight back unconsciousness, gaining a bonus 2 on rolls to avoid falling unconscious, and takes only one hit from ammunition explosions."
+      }
+   },
+   {
+      "pk":17,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":3,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Angel of DFA",
+         "description":"A pilot trained to land his mech on enemy mechs, may gain a bonus to his with a death from above, for every jump movement point he does not use to reach the target, up to a max of 3"
+      }
+   },
+   {
+      "pk":18,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":3,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Fist Fire",
+         "description":"Once per round, on a successful punch or melee weapon attack, the pilot may fire one single direct fire weapon with normal to hit chance -1 easier, with a hit damaging the same hit location as the melee attack"
+      }
+   },
+   {
+      "pk":19,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":4,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Engineer",
+         "description":"Pilots with the Engineer skill may reduce the cost of one Engineering stable action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
+      }
+   },
+   {
+      "pk":20,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":4,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Arms Dealer",
+         "description":"Pilots with the Arms Dealer skill may reduce the cost of one action taken to secure a supply contract by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
+      }
+   },
+   {
+      "pk":21,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":4,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Medic",
+         "description":"Pilots with the Medic skill may reduce the cost of a single medical action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
+      }
+   },
+   {
+      "pk":22,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":4,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Publicist",
+         "description":"Pilots with the Medic skill may reduce the cost of a single publicity action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
+      }
+   },
+   {
+      "pk":23,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":4,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Scrounge",
+         "description":"Pilots with the Medic skill may reduce the cost of a single action taken to salvage or acquire a mech by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
+      }
+   },
+   {
+      "pk":24,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":4,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Lawyer",
+         "description":"Pilots with the Laywer skill may reduce the cost of a single legal action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
+      }
+   },
+   {
+      "pk":26,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":5,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Cool Hand",
+         "description":"A pilot with the cool-hand skill is able to better use their mechs cooling systems, sinking an additional 2 heat per round (or 3 on mechs fitted with Double Heat-Sinks)"
+      }
+   },
+   {
+      "pk":27,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":5,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Harmony of Lasers",
+         "description":"A pilot with the Harmony of Lasers skill can reduce the power to his laser weapons to smooth out the balance of heat and damage. Before the start of a match, this pilot may elect to reduce both the heat and damage caused by the weapon (minimum 1 heat/1 damage). The pilot may return the weapon to full power during the match in the end-phase of any round."
+      }
+   },
+   {
+      "pk":28,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":5,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Marksman",
+         "description":"A pilot with the Marksman skill gains a -1 bonus to hit with energy weapons on any round where he did not move."
+      }
+   },
+   {
+      "pk":25,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":5,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Weapons Specialist (Energy)",
+         "description":"When a pilot acquires this skill, randomly determine two energy weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a -1 bonus to hit."
+      }
+   },
+   {
+      "pk":29,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":5,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Range Expert (Energy)",
+         "description":"When a pilot acquires this skill, randomly determine two energy weapons that their stable currently has access to, and randomly determine a range bracket (short, medium, long). The pilot may select one of those weapons to be proficient in increasing the range of. The pilot treats the maximum range of that range bracket as 2 hexes longer when firing the chosen weapon. This change does not cause other range brackets to be altered or recalculated."
+      }
+   },
+   {
+      "pk":30,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":5,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Extreme Range",
+         "description":"When a pilot acquires this skill, randomly determine two energy weapons that their stable currently has access to. The pilot may select one of those weapons to be proficient in pushing beyond its normal maximum range. This functions as using the Extreme Range rules from Tactical Operations."
+      }
+   },
+   {
+      "pk":31,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":6,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Weapons Specialist (Ballistics)",
+         "description":"When a pilot acquires this skill, randomly determine two Ballistics weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a -1 bonus to hit."
+      }
+   },
+   {
+      "pk":32,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":6,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"One More in the Chamber",
+         "description":"A pilot with the One More in the Chamber skill is able to fit more ammunition into a regular ammo bin. He may add 1 additional shot per 10 shots (rounded up) to each existing ballistics ammo bin equipped on his mech."
+      }
+   },
+   {
+      "pk":33,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":6,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Accurate Shots",
+         "description":"When a pilot acquires this skill, randomly determine two Cluster firing Ballistics weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a +2 when rolling on the cluster hits table to determine how many shots hit."
+      }
+   },
+   {
+      "pk":34,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":6,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Gauss Hammer",
+         "description":"A pilot with the Gauss Hammer skill is proficient in using the powerful impact of a Gauss Rifle to unbalance their opponents. On any round where this pilot has successfully hit a target with one or more Gauss Rifle attacks, the threshold for requiring a Pilotting Skill Check to remain standing is reduced by 5."
+      }
+   },
+   {
+      "pk":35,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":6,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Hip Shot",
+         "description":"A pilot with the hip-shot skill is proficient in firing ballistics weapons on the run. This pilot takes only a +1 penalty to hit while running, in place of the usual +2."
+      }
+   },
+   {
+      "pk":37,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":7,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Weapons Specialist (Missile)",
+         "description":"When a pilot acquires this skill, randomly determine two Missile weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a -1 bonus to hit."
+      }
+   },
+   {
+      "pk":38,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":7,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Save Your Ammo",
+         "description":"A pilot with the Save Your Ammo skill is able to avoid firing LRMs when the shot proves too hard to make. He may elect to cancel any attack that fails to hit by 5 or more, causing no heat and costing no ammo (similar to how a Streak system functions). This does not otherwise alter the behaviour of LRMs."
+      }
+   },
+   {
+      "pk":39,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":7,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Accurate Volley",
+         "description":"When a pilot acquires this skill, randomly determine a type of launcher that their stable currently has access to. The pilot gets a +2 modifier when rolling on the Cluster Hits table when rolling for hits from that type of launcher. This stacks with guidance systems such as Artemis IV."
+      }
+   },
+   {
+      "pk":40,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":7,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Streak Override",
+         "description":"Pilots with the Streak Override skill are able to override their Streak launchers to fire even when a lock has not been acquired. After failing to hit with a Streak Launcher, they may override the launcher and re-roll the attack role. On a successful hit, they must role on the appropriate column of the Cluster Hits table to determine how many missiles hit."
+      }
+   },
+   {
+      "pk":41,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":7,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Anticipate Target",
+         "description":"Pilots with the Anticipate Target skilll are able to more effectively aim ahead of their targets. They may reduce the targets movement modifier by 1 when making attack rolls with missile weapons."
+      }
+   },
+   {
+      "pk":42,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":7,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Range Expert (Missile)",
+         "description":"When a pilot acquires this skill, randomly determine two Missile weapons that their stable currently has access to, and randomly determine a range bracket (short, medium, long). The pilot may select one of those weapons to be proficient in increasing the range of. The pilot treats the maximum range of that range bracket as 2 hexes longer when firing the chosen weapon. This change does not cause other range brackets to be altered or recalculated."
+      }
+   },
+   {
+      "pk":43,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":8,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Multitrack",
+         "description":"This pilot may target any number of secondary targets in any arcs without penalty. "
+      }
+   },
+   {
+      "pk":44,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":8,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Targeting Range Finder",
+         "description":"The pilot skill counts as having a level 3 variable range targeting system. During the end phase, the pilot may switch between three different targeting modes. Once initiative is determined the player is stuck with whatever mode he had at end of last round. Choice is written on sheet but changes are declared, but not which of the three modes is chosen. Normal mode is the standard unmodified shots at short range, two harder at medium, and four at long. Short range shifts short range to -1 easier, at the penalty that long range becomes 5 harder. Long range reverses that, with short range becoming 1 harder, while long is only 3 harder."
+      }
+   },
+   {
+      "pk":45,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":8,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Phantom",
+         "description":"This pilot is gifted enough to track enemy sensor frequencies and use his ECM gear to jam them in a limited fashion. Taxing his systems with an extra 1 heat, he adds one to long range attacks made against him. This stealth like effect requires an ECM."
+      }
+   },
+   {
+      "pk":46,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":8,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Smoker",
+         "description":"The pilot is adept at generating a dirty reaction out the jump jet ports on rounds not jumping, to cause smoke, then using this as cover. This counts as a level two light smoke in the hex he is in trade for three heat. This may also be used by pilots with a mech flamer instead of using jump jets."
+      }
+   },
+   {
+      "pk":47,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":8,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"Computer Pro",
+         "description":"This pilot is trained to best use his battle and heat management computers, for Sensor operations and to keep the coolant flowing. The pilot is able to penetrate ECM as a two hex Active Probe. He also can manipulate heat sinks to get a +2 bonus on rolls to avoid shut down, and a +1 bonus to avoid ammunition explosions."
+      }
+   },
+   {
+      "pk":48,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":8,
+         "trait_type":"T",
+         "bv_mod":"0.050",
+         "name":"C3 Specialist",
+         "description":"This pilot is trained to share data and co-ordinate actions. He may act as a C3 slave and connect to a C3 Master. If in a mech with a C3 Slave, may act as a C3i."
+      }
+   },
+   {
+      "pk":36,
+      "model":"warbook.pilottrait",
+      "fields":{
+         "discipline":6,
+         "trait_type":"T",
+         "bv_mod":"0.200",
+         "name":"Range Expert (Ballistic)",
+         "description":"When a pilot acquires this skill, randomly determine two Ballistics weapons that their stable currently has access to, and randomly determine a range bracket (short, medium, long). The pilot may select one of those weapons to be proficient in increasing the range of. The pilot treats the maximum range of that range bracket as 2 hexes longer when firing the chosen weapon. This change does not cause other range brackets to be altered or recalculated."
+      }
+   },
+   {
+      "pk":1,
+      "model":"warbook.house",
+      "fields":{
+         "house":"House Davion",
+         "blurb":"House Davion rules the Federated Suns, one of the five great powers of the Inner Sphere",
+         "house_disciplines":[
+            4,
+            5,
+            6
+         ]
+      }
+   },
+   {
+      "pk":2,
+      "model":"warbook.house",
+      "fields":{
+         "house":"House Kurita",
+         "blurb":"The Draconis Combine, rules by House Kurita, is known both for their prowess on the battlefield and for their intrigues off it.",
+         "house_disciplines":[
+            2,
+            3,
+            7
+         ]
+      }
+   },
+   {
+      "pk":3,
+      "model":"warbook.house",
+      "fields":{
+         "house":"House Liao",
+         "blurb":"Often engaged in skirmishes with both the Free Worlds League and the Federated Suns, the Capellan Confederation (ruled by House Liao) are experienced at defending their own.",
+         "house_disciplines":[
+            1,
+            8,
+            7
+         ]
+      }
+   },
+   {
+      "pk":4,
+      "model":"warbook.house",
+      "fields":{
+         "house":"House Marik",
+         "blurb":"The Mariks rule the Free Worlds League, with a Marik holding the post of Captain-General for many centuries. Fractious and individualistic, they are nevertheless a formidible force on the battlefield.",
+         "house_disciplines":[
+            7,
+            5,
+            6
+         ]
+      }
+   },
+   {
+      "pk":5,
+      "model":"warbook.house",
+      "fields":{
+         "house":"House Steiner",
+         "blurb":"The Lyran Commonwealth, ruled by House Steiner, is one of the five powerhouses of the Inner Sphere. ",
+         "house_disciplines":[
+            1,
+            5,
+            6
+         ]
+      }
+   },
+   {
+      "pk":6,
+      "model":"warbook.house",
+      "fields":{
+         "house":"ComStar",
+         "blurb":"Originally the maintainers of the galactic communications HPG network, ComStar also maintains a sizeable fleet of mechs. They use these mechs to protect the independence of galactic communications throughout the Inner Sphere",
+         "house_disciplines":[
+            2,
+            4,
+            8
+         ]
+      }
+   },
+   {
+      "pk":7,
+      "model":"warbook.house",
+      "fields":{
+         "house":"Word of Blake",
+         "blurb":"The Word of Blake is a splinter group that broke away from Comstar, who became a force to be reckoned with when they successfully captured Terra in 3057. They revere technology as mythical and divine, and stop at nothing to spread their Jihad.",
+         "house_disciplines":[
+            3,
+            4,
+            8
+         ]
+      }
+   },
+   {
+      "pk":2,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Star League Weapons",
+         "show":true,
+         "tier":1,
+         "urlname":"sl-weapons",
+         "base_difficulty":5,
+         "description":"<p>At it's height, the Star League had many improvements to on the basic weapons technology. Gaining a supply contract for this technology grants access to:</p>\r\n\r\n<ul>\r\n<li/>ER PPC\r\n<li/>ER Large Laser\r\n<li/>Large Pulse Laser\r\n<li/>Medium Pulse Laser\r\n<li/>Small Pulse Laser\r\n<li/>Streak SRM 2 \r\n<li/>Narc Missile Beacon \r\n<li/>Narc LRM & SRM \r\n<li/>LB10X AC \r\n<li/>Ultra 5 AC\r\n<li/>Gauss Rifle\r\n<li/>Arrow IV Artillery\r\n</ul>"
+      }
+   },
+   {
+      "pk":22,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"X-Pulse Lasers",
+         "show":true,
+         "tier":3,
+         "urlname":"xpulse",
+         "base_difficulty":9,
+         "description":"<P>X-Pulse lasers increase the reach of standard pulse lasers but considerably increase the amount of waste heat they generate. This technology grants access to the following equipment:</P>\r\n<UL>\r\n  <LI/>Small X-Pulse Laser\r\n  <LI/>Medium X-Pulse Laser\r\n  <LI/>Large X-Pulse Laser\r\n</UL>"
+      }
+   },
+   {
+      "pk":24,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Hyper-Velocity AutoCannon",
+         "show":true,
+         "tier":3,
+         "urlname":"hvac",
+         "base_difficulty":9,
+         "description":"<P>The Hyper-Velocity AutoCannon improves on the reach standard AutoCannon, with the resulting firing mechanism creating a visually impressive amount of smoke. The increased power of the firing mechanism does, however, come with a slight risk of ammo detonation while firing\r\n<UL>\r\n  <LI/>Hyper-Velocity AC/2\r\n  <LI/>Hyper-Velocity AC/5\r\n  <LI/>Hyper-Velocity AC/10\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":25,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Improved Heavy Gauss",
+         "show":true,
+         "tier":3,
+         "urlname":"imp_hvg_gauss",
+         "base_difficulty":9,
+         "description":"<P>The Improved Heavy Gauss Rifle sacrifices some range and has increased bulk and weight, but offers an improved ballistic profile that enables it to deliver its full damage even at long ranges</P>"
+      }
+   },
+   {
+      "pk":26,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Solaris Gauss",
+         "show":true,
+         "tier":3,
+         "urlname":"solaris-gauss",
+         "base_difficulty":9,
+         "description":"<P>Some experimental Gauss Rifle variants never really found home on the battlefield, but found a useful home in the Solaris Arenas. The Magshot is basically an up-sized battle-armour Gauss Rifle, and the Silver Bullet Gauss is a cluster variant of the standard Gauss Rifle (however, its ammo feed mechanisms and barrel design only allow it to fire cluster ammo. Normal slug munitions are not supported, which limited its battlefield utility). This technology grants access to:\r\n<UL>\r\n <LI/>Magshot Gauss Rifle\r\n <LI/>Silver Bullet Gauss Rifle\r\n</UL></P>\r\n"
+      }
+   },
+   {
+      "pk":1,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Heavy PPC",
+         "show":true,
+         "tier":2,
+         "urlname":"heavy-ppc",
+         "base_difficulty":8,
+         "description":"<p>A heavier version of the PPC, able to deliver more damage over a similar range</p>"
+      }
+   },
+   {
+      "pk":3,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Light PPC",
+         "show":true,
+         "tier":2,
+         "urlname":"light-ppc",
+         "base_difficulty":8,
+         "description":"<P>A lighter version of the PPC that sacrifices firepower in order to reduce weight and bulk</p>"
+      }
+   },
+   {
+      "pk":4,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Snubnose PPC",
+         "show":true,
+         "tier":2,
+         "urlname":"snubby",
+         "base_difficulty":8,
+         "description":"<P>The snub-nose PPC improves close range accuracy and overall reach at the expense of being able to deliver damage at longer ranges</P>"
+      }
+   },
+   {
+      "pk":5,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"ER Lasers",
+         "show":true,
+         "tier":2,
+         "urlname":"er-lasers",
+         "base_difficulty":8,
+         "description":"<P>Extended range lasers improve the overall range of lasers, but generate considerably more heat. This technology grants access to the following equipment</P>\r\n<UL>\r\n  <LI/>ER Small Laser\r\n  <LI/>ER Medium Laser\r\n  <LI/>ER Large Laser\r\n</UL>"
+      }
+   },
+   {
+      "pk":6,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Plasma Rifle",
+         "show":true,
+         "tier":2,
+         "urlname":"plasma-rifle",
+         "base_difficulty":8,
+         "description":"<P>The plasma rifle fires a ball of burning plasma, inflicting both damage and heat upon its target</P>"
+      }
+   },
+   {
+      "pk":7,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Ultra Autocannons",
+         "show":true,
+         "tier":2,
+         "urlname":"ultra-ac",
+         "base_difficulty":8,
+         "description":"<p>Ultra Autocannons improve on the basic design by doubling the rate of fire. However the design does suffer from a small risk of jamming</P>\r\n<p>Grants access to:\r\n<ul>\r\n  <li/>Ultra AC/2\r\n  <li/>Ultra AC/5\r\n  <li/>Ultra AC/10\r\n  <li/>Ultra AC/20\r\n</ul></p>"
+      }
+   },
+   {
+      "pk":8,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"LB-X Autocannons",
+         "show":true,
+         "tier":2,
+         "urlname":"lb-x",
+         "base_difficulty":8,
+         "description":"<P>LB-X Autocannons enable the use of both normal slug munitions as well as other types such as cluster ammo<p>\r\n<p>Grants access to:\r\n<ul>\r\n  <li/>LB2-X AC\r\n  <li/>LB5-X AC\r\n  <li/>LB10-X AC\r\n  <li/>LB20-X AC\r\n</ul></p>"
+      }
+   },
+   {
+      "pk":9,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Davion Autocannons",
+         "show":true,
+         "tier":2,
+         "urlname":"davion-ac",
+         "base_difficulty":8,
+         "description":"<P>Known for their auto-cannon technology, House Davion produces various autocannon designs that either reduce the weight or improve on the rate of fire<p>\r\n<ul>\r\n  <li/>Rotary AC/5\r\n  <li/>Rotary AC/5\r\n  <li/>Light AC/5\r\n  <li/>Light AC/10\r\n</ul></p>"
+      }
+   },
+   {
+      "pk":10,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Machine Guns",
+         "show":true,
+         "tier":2,
+         "urlname":"machine-guns",
+         "base_difficulty":6,
+         "description":"<P>There are multiple variants to the humble machine gun that either improve on firepower or reduce weight</P>\r\n<ul>\r\n  <li/>Heavy Machinegun\r\n  <li/>Light Machinegun\r\n  <li/>Machine Gun Array\r\n</ul></p>"
+      }
+   },
+   {
+      "pk":11,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Heavy Gauss",
+         "show":true,
+         "tier":2,
+         "urlname":"heavy-gauss",
+         "base_difficulty":8,
+         "description":"<P>The Heavy Gauss Rifle is capable of delivering supersonic slugs over long distances, providing a devastating battlefield weapon</P>"
+      }
+   },
+   {
+      "pk":12,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Light Gauss",
+         "show":true,
+         "tier":2,
+         "urlname":"light-gauss",
+         "base_difficulty":8,
+         "description":"<P>The Light Gauss rifle is a smaller version of the Gauss Rifle that sacrifices firepower for the sake of reducing weight and bulk</P>"
+      }
+   },
+   {
+      "pk":13,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Streak SRMS",
+         "show":true,
+         "tier":2,
+         "urlname":"streak",
+         "base_difficulty":8,
+         "description":"<P>Through the use of improved guidance systems, the Streak system is able to ensure that all missiles in a given volley hit their intended target</P>"
+      }
+   },
+   {
+      "pk":15,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Medium Range Missiles",
+         "show":true,
+         "tier":2,
+         "urlname":"mrm",
+         "base_difficulty":8,
+         "description":"<P>Falling somewhere between SRMs and LRMs in terms of reach, MRMs provide a useful middle-ground between the two technologies</P>\r\n<ul>\r\n  <li/>MRM 10\r\n  <li/>MRM 20\r\n  <li/>MRM 30\r\n  <li/>MRM 40\r\n</ul></p>"
+      }
+   },
+   {
+      "pk":16,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Multi-Missile Launcher",
+         "show":true,
+         "tier":2,
+         "urlname":"mml",
+         "base_difficulty":8,
+         "description":"<p>The Multi-Missile Launcher improves the loading and firing mechanisms, allowing the launcher change between firing SRM or LRM munitions at will<p>\r\n<ul>\r\n  <li/>MML 3\r\n  <li/>MML 5\r\n  <li/>MML 7\r\n  <li/>MML 9\r\n</ul></p>"
+      }
+   },
+   {
+      "pk":17,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"I-Narc",
+         "show":true,
+         "tier":2,
+         "urlname":"inarc",
+         "base_difficulty":8,
+         "description":"<P>The Improved Narc launcher adds a more effective beacon design and allows for the use of a more diverse set of beacon options</p>\r\n<p>This technology grants access to the I-narc launcher and the following beacon types<ul>\r\n  <li/>Homing pod\r\n  <li/>ECM pod\r\n  <li/>Explosive Pod\r\n  <li/>Haywire Pod\r\n  <li/>Nemesis Pod\r\n</ul></p>"
+      }
+   },
+   {
+      "pk":14,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Rocket Launchers",
+         "show":true,
+         "tier":2,
+         "urlname":"rocket-launcher",
+         "base_difficulty":6,
+         "description":"<P>A simple, lower tech approach to missile projectiles. It sacrifices guidance systems and complex loader systems to provide a lower cost approach to delivering firepower</P>\r\n<ul>\r\n  <li/>RL 10\r\n  <li/>RL 15\r\n  <li/>RL 20\r\n</ul></p>"
+      }
+   },
+   {
+      "pk":18,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Enhanced Flamers",
+         "show":true,
+         "tier":3,
+         "urlname":"enh-flamer",
+         "base_difficulty":9,
+         "description":"<P>Improving on flame-thrower technology, Enhanced Flamers grants access to the following</P>\r\n<UL>\r\n  <LI/>ER Flamer\r\n  <LI/>Heavy Flamer\r\n</UL>"
+      }
+   },
+   {
+      "pk":19,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Binary Lasers",
+         "show":true,
+         "tier":3,
+         "urlname":"binary-laser",
+         "base_difficulty":9,
+         "description":"<P>The Binary Laser Cannon functions pairs two laser weapons together into a single unit, combining some common parts to reduce weight and bulk</P>"
+      }
+   },
+   {
+      "pk":20,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Bombast Laser",
+         "show":true,
+         "tier":3,
+         "urlname":"bombast-laser",
+         "base_difficulty":9,
+         "description":"<P>The bombast laser allows the firer to sacrifice some accuracy for more damage</p>"
+      }
+   },
+   {
+      "pk":21,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Variable Speed Pulse Lasers",
+         "show":true,
+         "tier":3,
+         "urlname":"vsp-pulse",
+         "base_difficulty":9,
+         "description":"<P>Variable Speed Pulse Lasers sacrifice some of their long range accuracy and firepower to become truly deadly weapons at close range. This technology grants access to:\r\n<UL>\r\n  <LI/>Small VSP Laser\r\n  <LI/>Medium VSP Laser\r\n  <LI/>Large VSP Laser\r\n</UL>"
+      }
+   },
+   {
+      "pk":27,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Battlemech Taser",
+         "show":true,
+         "tier":3,
+         "urlname":"taser",
+         "base_difficulty":9,
+         "description":"<P>The Battlemech Taser uses power from the firing mechs Fusion Engine to cripple or completely disable its target</p>"
+      }
+   },
+   {
+      "pk":54,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"ammo",
+         "name":"Caseless Autocannon Ammo",
+         "show":true,
+         "tier":3,
+         "urlname":"caseless-ac",
+         "base_difficulty":9,
+         "description":"<P>Caseless ammo allows for the ammo storage capacity of an Autocannon ammo bin to be doubled. However, due to some issues getting the ammo feed mechanism to work correctly it also creates a small risk of jamming</P>"
+      }
+   },
+   {
+      "pk":28,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Thunderbolt Missile Launcher",
+         "show":true,
+         "tier":3,
+         "urlname":"thunderbolt",
+         "base_difficulty":9,
+         "description":"<P>The Thunderbolt Missile Launcher uses many of the guidance and launch systems of standard LRM launchers, but launches a single larger missile with a more powerful payload in place of numerous smaller missiles fired by standard LRMS. This technology grants access to:\r\n<UL>\r\n  <LI/>Thunderbolt 5 Launcher\r\n  <LI/>Thunderbolt 10 Launcher\r\n  <LI/>Thunderbolt 15 Launcher\r\n  <LI/>Thunderbolt 20 Launcher\r\n</UL>"
+      }
+   },
+   {
+      "pk":29,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Mech Mortar",
+         "show":true,
+         "tier":3,
+         "urlname":"mech-mortar",
+         "base_difficulty":9,
+         "description":"<P>Mech-based Mortar weapons provide an alternative option to LRMs for delivering long range firepower. While they are less effective when fired directly at their target (as they must always fire in an arc), their immunity from anti-missile systems makes them a good option for indirect fire. This technology grants access to:\r\n<UL>\r\n  <LI/>Mech Mortar 1\r\n  <LI/>Mech Mortar 2\r\n  <LI/>Mech Mortar 4\r\n  <LI/>Mech Mortar 8\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":30,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Extended LRM Launchers",
+         "show":true,
+         "tier":3,
+         "urlname":"ELRM",
+         "base_difficulty":9,
+         "description":"<P>The Extended LRM launcher improves the reach of the existing LRM technologies, but further sacrifices short range effectiveness. This technology grants access to:\r\n<UL>\r\n  <LI/>ELRM 5\r\n  <LI/>ELRM 10\r\n  <LI/>ELRM 15\r\n  <LI/>ELRM 2\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":31,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Solaris Thunderbolt",
+         "show":true,
+         "tier":3,
+         "urlname":"solaris-thunderbolt",
+         "base_difficulty":9,
+         "description":"<P>Trent - You've got this as 'revised'. Please update this entry via the admin interface.</P>"
+      }
+   },
+   {
+      "pk":32,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Basic Equipment",
+         "show":false,
+         "tier":0,
+         "urlname":"basic_equipment",
+         "base_difficulty":0,
+         "description":"<P>Some technologies are so basic that everyone has access to them. The following items fall into this category:\r\n<UL>\r\n  <LI/>Search Light\r\n  <LI/>One Shot (OS) Launchers\r\n  <LI/>Recon Camera\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":33,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Star League Equipment",
+         "show":true,
+         "tier":1,
+         "urlname":"sl-equip",
+         "base_difficulty":5,
+         "description":"<p>At it's height, the Star League had many interesting equipment concepts. Gaining a supply contract for this technology grants access to:\r\n<ul>\r\n  <li/>Beagle Active Probe\r\n  <li/>Guardian ECM\r\n  <li/>TAG\r\n  <li/>MASC\r\n  <li/>Anti-Missile Systems\r\n  <li/>Artemis IV LRM Launchers\r\n  <li/>Artemis IV SRM Launchers\r\n</ul></p>\r\n"
+      }
+   },
+   {
+      "pk":34,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"weap",
+         "name":"Basic Weapons",
+         "show":false,
+         "tier":0,
+         "urlname":"basic_weapons",
+         "base_difficulty":0,
+         "description":"<P>Some basic weapons technologies are readily accessible to everyone:\r\n<UL>\r\n  <LI/>PPC\r\n  <LI/>Large Laser\r\n  <LI/>Medium Laser\r\n  <LI/>Small Laser\r\n  <LI/>Flamer\r\n  <LI/>Vehicle Flamer\r\n  <LI/>LRM 5\r\n  <LI/>LRM 10\r\n  <LI/>LRM 15\r\n  <LI/>LRM 20 \r\n  <LI/>SRM 2\r\n  <LI/>SRM 4 \r\n  <LI/>SRM 6\r\n  <LI/>AC 2\r\n  <LI/>AC 5\r\n  <LI/>AC 10 \r\n  <LI/>AC 20\r\n  <LI/>Machine Gun\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":35,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"C3 Targeting Computers",
+         "show":true,
+         "tier":2,
+         "urlname":"c3",
+         "base_difficulty":8,
+         "description":"<P>A C3 Targeting network (consisting of one C3 Master and up to 3 C3 Slaves) may be used by to share targeting information between multiple mechs, greatly improving the effectiveness of long range fire. This technology grants access to:\r\n<UL>\r\n  <LI/>C3 Master Computer\r\n  <LI/>C3 Slave Computer\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":36,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Improved C3 Computer",
+         "show":true,
+         "tier":2,
+         "urlname":"imp-c3",
+         "base_difficulty":8,
+         "description":"<P>The Improved C3 Computer Network enables the same targeting information sharing as its counterpart, but eliminates the Master / Slave aspect of the design. This increases reliability by removing a single point of failure.</P>"
+      }
+   },
+   {
+      "pk":37,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Targeting Computer",
+         "show":true,
+         "tier":2,
+         "urlname":"targeting-comp",
+         "base_difficulty":8,
+         "description":"<P>A Targeting computer increases the accuracy of many direct-fire ballistic and energy weapons, and enables the firer to target specific locations upon the enemy mech.</P>"
+      }
+   },
+   {
+      "pk":38,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Coolant Pods",
+         "show":true,
+         "tier":3,
+         "urlname":"coolant-pods",
+         "base_difficulty":7,
+         "description":"<P>Coolant pods provide a one-shot tool for drastically reducing the heat of a Mech</P>"
+      }
+   },
+   {
+      "pk":40,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Improved One-shot Launchers",
+         "show":true,
+         "tier":3,
+         "urlname":"ios",
+         "base_difficulty":9,
+         "description":"<P>By removing all ammo feed mechanisms completely, Improved One-shot launchers are able to reduce their weight</P>"
+      }
+   },
+   {
+      "pk":41,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"M-Pod",
+         "show":true,
+         "tier":3,
+         "urlname":"m-pod",
+         "base_difficulty":9,
+         "description":"<P>Based on the Anti-infantry A-Pod, the M-Pod increases the destructive power to effectively create a one-shot, close range cluster weapon</P>"
+      }
+   },
+   {
+      "pk":42,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Apollo MRM Fire Control System",
+         "show":true,
+         "tier":3,
+         "urlname":"apollo-fcs",
+         "base_difficulty":9,
+         "description":"<P>While using a different technique to the Artemis Fire Control Systems utilised by SRM and LRM launchers, the Apollo FCS serves a similar function to increase the accuracy of the unguided MRM launchers</P>"
+      }
+   },
+   {
+      "pk":43,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"PPC Capacitors",
+         "show":true,
+         "tier":3,
+         "urlname":"ppc-capacitor",
+         "base_difficulty":9,
+         "description":"<p>The PPC capacitor allows PPCs to be pre-charged, allowing the heat burden to be spread over a longer time period</P>"
+      }
+   },
+   {
+      "pk":44,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Supercharger",
+         "show":true,
+         "tier":3,
+         "urlname":"supercharger",
+         "base_difficulty":9,
+         "description":"<P>The SuperCharger allows more power to be extracted from a fusion engine, allowing mechs to significantly increase their running speed. However, there are some risks associated with overdriving an engine in this manner, and damage to the engine may result if overused</P>"
+      }
+   },
+   {
+      "pk":48,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Boosted C3 System",
+         "show":true,
+         "tier":3,
+         "urlname":"boosted-c3",
+         "base_difficulty":11,
+         "description":"<P>The Boosted C3 System improves on the strength of the communication signal used between mechs, making it more resilient against enemy ECM systems</P>"
+      }
+   },
+   {
+      "pk":46,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Angel ECM Suite",
+         "show":true,
+         "tier":3,
+         "urlname":"angel-ecm",
+         "base_difficulty":11,
+         "description":"<P>The Angel ECM suite is the more powerful cousin to the Guardian ECM</P>"
+      }
+   },
+   {
+      "pk":45,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Bloodhound Probe",
+         "show":true,
+         "tier":3,
+         "urlname":"bloodhound-probe",
+         "base_difficulty":11,
+         "description":"<P>The Bloodhound probe is an enhanced cousin of the Beagle sensor probe suite</P>"
+      }
+   },
+   {
+      "pk":47,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Chaff Pods",
+         "show":true,
+         "tier":3,
+         "urlname":"chaff",
+         "base_difficulty":11,
+         "description":"<P>Chaff pods provide a useful tool for throwing off the guidance systems on some guided missiles</P>"
+      }
+   },
+   {
+      "pk":39,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"equip",
+         "name":"Laser Anti-Missile System",
+         "show":true,
+         "tier":3,
+         "urlname":"l-ams",
+         "base_difficulty":11,
+         "description":"<P>The Laser AMS is similar in function to the normal Anti-Missile System, but due to its use of energy weapons it is not constrained by ammo</P>"
+      }
+   },
+   {
+      "pk":49,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"ammo",
+         "name":"Basic Ammuntion",
+         "show":false,
+         "tier":0,
+         "urlname":"basic-ammo",
+         "base_difficulty":0,
+         "description":"<P>Most weapons have a 'default' ammunition type that is used with them. This technology grants access to those default munitions.</P>"
+      }
+   },
+   {
+      "pk":51,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"ammo",
+         "name":"Davion AC Ammunition",
+         "show":true,
+         "tier":2,
+         "urlname":"davion-ammo",
+         "base_difficulty":8,
+         "description":"<P>House Davion is responsible for developing a variety of improvements to the humble Auto-Cannon shell. This technology grants access to:\r\n<UL>\r\n  <LI/>Armour Piercing AC Ammo\r\n  <LI/>Precision AC Ammo\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":52,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"ammo",
+         "name":"Advanced Missile Ammunition",
+         "show":true,
+         "tier":2,
+         "urlname":"adv-missiles",
+         "base_difficulty":8,
+         "description":"<P>There are a variety of advanced missile designs available, that replace the standard explosive payload with something a bit more specialized. This technology grants access to:\r\n<UL>\r\n  <LI/>Mine clearing missiles\r\n  <LI/>Incendiary LRMs\r\n  <LI/>Heat seeking missiles\r\n  <LI/>I-swarm LRM\r\n  <LI/>Semi-guided LRM\r\n  <LI/>Thunder LRMs\r\n</UL></P>\r\n"
+      }
+   },
+   {
+      "pk":53,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"ammo",
+         "name":"Liao Thunder LRMS",
+         "show":true,
+         "tier":3,
+         "urlname":"liao-thunder",
+         "base_difficulty":11,
+         "description":"<P>House Liao is responsible for developing a variety of improvements to the Thunder LRM mine-delivery system. This technology grants access to the following munitions:\r\n<UL>\r\n  <LI/>Thunder Augmented LRM\r\n  <LI/>Thunder Inferno LRM\r\n  <LI/>Thunder Vibrobomb LRM\r\n  <LI/>Thunder Active LRM\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":55,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"ammo",
+         "name":"Spray Ammo",
+         "show":true,
+         "tier":3,
+         "urlname":"spray-ammo",
+         "base_difficulty":9,
+         "description":"<P>While most often used for spraying fire, the barrel and ammo feeds of the humble flamethrower can also be adapted to serve other purposes. This technology grants access to:\r\n<UL>\r\n  <LI/>Flamer ammo\r\n  <LI/>Coolant ammo\r\n  <LI/>Corrosive ammo\r\n  <LI/>Inferno fuel ammo\r\n  <LI/>Oil slick ammo\r\n  <LI/>Paint ammo\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":79,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Chameleon Light Polarization System",
+         "show":true,
+         "tier":3,
+         "urlname":"chameleon-lps",
+         "base_difficulty":10,
+         "description":"<P>By using a mimetic system to try to camouflage the mech with its surroundings, the Chameleon Light Polarization System makes mechs much harder to target</P>"
+      }
+   },
+   {
+      "pk":56,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"ammo",
+         "name":"Experimental Missile Ammo",
+         "show":true,
+         "tier":3,
+         "urlname":"experimental-missile",
+         "base_difficulty":11,
+         "description":"<P>Set a bunch of boffins loose in a lab and there's no telling what wierd or wacky ideas they might come up with. This technology grants access to some of the more unusual missile ammunition out there, such as:\r\n<UL>\r\n  <LI/>Magnetic pulse missiles\r\n  <LI/>Acid SRMs\r\n  <LI/>Anti-radiation missiles\r\n  <LI/>Bola Narc Pods\r\n  <LI/>Follow the leader LRMs\r\n  <LI/>Tandem-charge SRMS\r\n  <LI/>EnLRM ammo\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":57,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Basic Construction",
+         "show":false,
+         "tier":0,
+         "urlname":"basic-construction",
+         "base_difficulty":0,
+         "description":"<P>All stables have access to the following basic construction technologies:\r\n<UL>\r\n  <LI/>Fusion Engine\r\n  <LI/>Gyro\r\n  <LI/>Cockpit\r\n  <LI/>Jump Jet\r\n  <LI/>Basic Construction\r\n  <LI/>Basic Armour\r\n</LI>"
+      }
+   },
+   {
+      "pk":58,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Star-League Construction",
+         "show":true,
+         "tier":1,
+         "urlname":"sl-construction",
+         "base_difficulty":5,
+         "description":"<P>At its height, the Star League development many improvements to Battlemech construction materials and components. This technology grants access to:\r\n<UL>\r\n  <LI/>Extra Light Fusion Engines\r\n  <LI/>Double Heat Sinks\r\n  <LI/>Endo-Steel Internal Structure\r\n  <LI/>Ferro-Fibrous Armour\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":59,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Small Cockpit",
+         "show":true,
+         "tier":2,
+         "urlname":"small-cockpit",
+         "base_difficulty":8,
+         "description":"<P>The small cockpit was developed as a space-saving measure and provides more room to fit other systems into the head of a mech. However, the cramped nature of the cockpit does make it harder for the pilot to operate the mech</P>"
+      }
+   },
+   {
+      "pk":60,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Steiner Fusion Engines",
+         "show":true,
+         "tier":2,
+         "urlname":"steiner-fusion",
+         "base_difficulty":8,
+         "description":"<P>House Steiner developed a couple of additional variants of the Fusion Engine, that provide additional options for the space/weight trade-off that these weapons require. This technology grants access to:\r\n<UL>\r\n  <LI/>Compact Fusion Engine\r\n  <LI/>Light Fusion Engine\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":61,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Advanced Gyros",
+         "show":true,
+         "tier":2,
+         "urlname":"adv-gyro",
+         "base_difficulty":8,
+         "description":"<P>While the standard gyro is an effective way to keep a BattleMech standing, various design improvements either reduce the weight or bulk of the standard Gyro or work to improve on its reliability. This technology grants access to:\r\n<UL>\r\n  <LI/>Compact Gyro\r\n  <LI/>Heavy Duty Gyro\r\n  <LI/>Extra-Light Gyro\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":62,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Improved Jump jets",
+         "show":true,
+         "tier":2,
+         "urlname":"imp-jumpjet",
+         "base_difficulty":8,
+         "description":"<P>The Improved Jump-jet reduces the heat generated at the expense of increased weight and bulk. Their design also allows much more significant jumping ranges to be acquired</P>"
+      }
+   },
+   {
+      "pk":63,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Advanced Ferro-Fibrous",
+         "show":true,
+         "tier":2,
+         "urlname":"adv-armour",
+         "base_difficulty":8,
+         "description":"<P>This technology grants access to two new variants of ferro-fibrous armour that use different techniques to change the trade-off between weight and bulk.\r\n<UL> \r\n  <LI/>Light Ferro-Fibrous Armour\r\n  <LI/>Light Ferro-Fibrous Armour\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":64,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Stealth Armour",
+         "show":true,
+         "tier":2,
+         "urlname":"stealth-armour",
+         "base_difficulty":8,
+         "description":"<P>Stealth armour combines the defensive capabilities of a Guardian ECM to shroud the unit from enemy sensor and targeting systems. This technology grants access to:\r\n<UL>\r\n  <LI/>Stealth Armour\r\n  <LI/>Guardian ECM System\r\n</UL>"
+      }
+   },
+   {
+      "pk":65,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Triple Strength Myomer",
+         "show":true,
+         "tier":2,
+         "urlname":"tsm",
+         "base_difficulty":8,
+         "description":"<P>Triple Strength Myomer strands replace the standard Myomer used to build a BattleMechs 'muscles'. When cold, they have the same power and strength as the standard Myomer, however once heated up they considerably increase the strength of the mech, making it much more deadly in melee combat</P>"
+      }
+   },
+   {
+      "pk":66,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Omnimechs",
+         "show":true,
+         "tier":2,
+         "urlname":"omnimechs",
+         "base_difficulty":8,
+         "description":"<P>OmniMechs are a new, modular approach to building mechs that enables the weapons and equipment load-out to be adjusted. This technology grants access to order OmniMech designs</P>"
+      }
+   },
+   {
+      "pk":50,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"ammo",
+         "name":"Star-League Ammunition",
+         "show":true,
+         "tier":1,
+         "urlname":"sl-ammo",
+         "base_difficulty":5,
+         "description":"<P>At the height of the Star-League, there were many innovative forms of ammunition that could use standard launcher technologies to deliver more varied and tactically useful payloads. This technology grants access to:\r\n<UL>\r\n  <LI/>Swarm LRM\r\n  <LI/>Inferno SRM\r\n  <LI/>Smoke LRM\r\n  <LI/>Smoke SRM\r\n  <LI/>Flare LRM\r\n  <LI/>Tracer AC rounds.\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":67,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Mechwarrior Aquatic Survival System",
+         "show":true,
+         "tier":3,
+         "urlname":"mass",
+         "base_difficulty":9,
+         "description":"<P>The Mechwarrior Aquatic Survival system protects the pilot in the event of a head breach while underwater. Critical systems are sealed so that even if armour is breached the pilot does not drown</P>"
+      }
+   },
+   {
+      "pk":68,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Torso Mounted Cockpit",
+         "show":true,
+         "tier":3,
+         "urlname":"torso-cockpit",
+         "base_difficulty":9,
+         "description":"<P>By mounting the cockpit inside the torso, it is possible to give the pilot the protection of alot more armour. However, the pilot becomes more dependant on the mech's sensor systems to know what is happening, and on the life support systems to keep him cool closer to the engine.</p>\r\n\r\n<P>Such cockpits are often cramped, due to limited torso space, and a usable ejection system has yet to be designed.</P>"
+      }
+   },
+   {
+      "pk":69,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Extra-Extra-Light Engines",
+         "show":true,
+         "tier":3,
+         "urlname":"xxl-engine",
+         "base_difficulty":9,
+         "description":"<P>Even bulkier than the Extra-Light engine, the XXL engine provides a considerable reduction in weight. However, it is a much less heat-efficient engine compared to the alternatives. </P>"
+      }
+   },
+   {
+      "pk":70,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Armoured Components",
+         "show":true,
+         "tier":3,
+         "urlname":"armoured-components",
+         "base_difficulty":11,
+         "description":"<P>With the addition of armour, components can be designed to be more resilient against critical hits</P>"
+      }
+   },
+   {
+      "pk":71,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Advanced Internal Structures",
+         "show":true,
+         "tier":3,
+         "urlname":"adv-structure",
+         "base_difficulty":11,
+         "description":"<P>There are a variety of more exotic materials and techniques that can be applied to constructing a BattleMech chassis. This technology grants access to:\r\n<UL>\r\n  <LI/>Composite Internal Structure\r\n  <LI/>Endo composite structure\r\n  <LI/>Reinforced Structure\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":72,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Battlemech Turret",
+         "show":true,
+         "tier":3,
+         "urlname":"bm-turret",
+         "base_difficulty":9,
+         "description":"<P>Turrets provide weapons with the ability to cover a complete 360&#176; firing arc. This technology grants access to:\r\n<UL>\r\n  <LI/>Shoulder Turret\r\n  <LI/>Quad Turret\r\n  <LI/>Head Turret\r\n</UL></P>"
+      }
+   },
+   {
+      "pk":73,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"CASE II",
+         "show":true,
+         "tier":3,
+         "urlname":"case_ii",
+         "base_difficulty":7,
+         "description":"<P>Improving on the protective capabilities of CASE, the CASE II system is able to further reduce the consequences of a damaged ammo bin</P>"
+      }
+   },
+   {
+      "pk":74,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Hardened Armour",
+         "show":true,
+         "tier":3,
+         "urlname":"hardened-armour",
+         "base_difficulty":9,
+         "description":"<P>Hardened armour is considerably more resilient to damage, but the additional weight of the armour materials impairs the movements of the mech</P>"
+      }
+   },
+   {
+      "pk":75,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Laser Reflective Armour",
+         "show":true,
+         "tier":3,
+         "urlname":"reflective-armour",
+         "base_difficulty":9,
+         "description":"<P>Laser Reflective armour provides considerably more protection against laser weapons, but is much more vulnerable to physical impacts</P>"
+      }
+   },
+   {
+      "pk":76,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Reactive Armour",
+         "show":true,
+         "tier":3,
+         "urlname":"reactive-armour",
+         "base_difficulty":9,
+         "description":"<P>Reactive Armour is embedded with small micro-explosive charges that can be used to counteract explosive weapons. It is much more bulky than most other armour types, and carries a small risk of a chain reaction in the charges themselves</P>"
+      }
+   },
+   {
+      "pk":77,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Void Signature System",
+         "show":true,
+         "tier":3,
+         "urlname":"void-sig",
+         "base_difficulty":11,
+         "description":"<P>The Void Signature system combines techniques used by the Null Signature systems and Chameleon Light Polarisation System to render a mech almost invisible. The system is at its most effective when used on a still or slow moving mech."
+      }
+   },
+   {
+      "pk":78,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Null Signature System",
+         "show":true,
+         "tier":3,
+         "urlname":"null-signature",
+         "base_difficulty":10,
+         "description":"<P>By using a combination of systems to mask a both the heat and electromagnetic signatures of a battlemech, the Null Signature system interferes with the ability of opposing sensor and targeting systems to effectively acquire it.</P>"
+      }
+   },
+   {
+      "pk":80,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Battlemech Har-Jel System",
+         "show":true,
+         "tier":3,
+         "urlname":"har-jel",
+         "base_difficulty":11,
+         "description":"<P>Har-Jel, commonly used in the hull sealing systems of Clan spacecraft, can also be used in BattleMechs to protect against hull breaches while in hostile environments</P>"
+      }
+   },
+   {
+      "pk":81,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Underwater Movement Units",
+         "show":true,
+         "tier":3,
+         "urlname":"UMU",
+         "base_difficulty":11,
+         "description":"<P>The normal motive systems of a BattleMech are ill-suited to an underwater environment. Underwater Movement Units provide more freedom to move in an underwater battlefield</P>"
+      }
+   },
+   {
+      "pk":82,
+      "model":"warbook.technology",
+      "fields":{
+         "category":"cons",
+         "name":"Blue Shield Particle Field Damper",
+         "show":true,
+         "tier":3,
+         "urlname":"blueshield-pfd",
+         "base_difficulty":11,
+         "description":"<P>By using electromagnetic fields, the Blue Shield PFD system provides limited protection against Particle Projection Cannons.</P>"
+      }
+   },
+   {
+      "pk":1,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":1,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":2,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":1,
+         "condition":"Access to ER PPC"
+      }
+   },
+   {
+      "pk":3,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":3,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":4,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":3,
+         "condition":"Access to ER PPC"
+      }
+   },
+   {
+      "pk":5,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":4,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":6,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":4,
+         "condition":"Access to ER PPC"
+      }
+   },
+   {
+      "pk":7,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":5,
+         "condition":"House Marik"
+      }
+   },
+   {
+      "pk":8,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":5,
+         "condition":"Access to ER Large Laser"
+      }
+   },
+   {
+      "pk":9,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":6,
+         "condition":"House Liao"
+      }
+   },
+   {
+      "pk":10,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":7,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":11,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":7,
+         "condition":"House Marik"
+      }
+   },
+   {
+      "pk":12,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":7,
+         "condition":"Access to Ultra AC/5"
+      }
+   },
+   {
+      "pk":13,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":8,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":14,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":8,
+         "condition":"Access to LB-10X AC"
+      }
+   },
+   {
+      "pk":15,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":9,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":16,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":11,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":17,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":11,
+         "condition":"Access to Gauss Rifle"
+      }
+   },
+   {
+      "pk":18,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":12,
+         "condition":"House Marik"
+      }
+   },
+   {
+      "pk":19,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":12,
+         "condition":"Access to Gauss Rifle"
+      }
+   },
+   {
+      "pk":20,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":13,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":21,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":13,
+         "condition":"Access to Streak SRM2"
+      }
+   },
+   {
+      "pk":22,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":15,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":23,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":17,
+         "condition":"Comstar"
+      }
+   },
+   {
+      "pk":24,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":17,
+         "condition":"Word of Blake"
+      }
+   },
+   {
+      "pk":25,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":18,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":26,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":18,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":27,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":19,
+         "condition":"House Marik"
+      }
+   },
+   {
+      "pk":28,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":20,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":29,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":21,
+         "condition":"House Marik"
+      }
+   },
+   {
+      "pk":30,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":21,
+         "condition":"Word of Blake"
+      }
+   },
+   {
+      "pk":31,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":21,
+         "condition":"Pulse Laser Technology"
+      }
+   },
+   {
+      "pk":32,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":22,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":33,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":22,
+         "condition":"Pulse Laser Technology"
+      }
+   },
+   {
+      "pk":35,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":24,
+         "condition":"House Liao"
+      }
+   },
+   {
+      "pk":36,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":25,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":37,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":25,
+         "condition":"Heavy Gauss Rifle"
+      }
+   },
+   {
+      "pk":38,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":26,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":39,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":26,
+         "condition":"Access to Gauss Rifle"
+      }
+   },
+   {
+      "pk":40,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":28,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":41,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":28,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":42,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":29,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":43,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":30,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":44,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":31,
+         "condition":"Access to Thunderbolt LRMs"
+      }
+   },
+   {
+      "pk":45,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":35,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":46,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":36,
+         "condition":"Comstar"
+      }
+   },
+   {
+      "pk":47,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":36,
+         "condition":"Word of Blake"
+      }
+   },
+   {
+      "pk":48,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":37,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":49,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":39,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":50,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":39,
+         "condition":"Access to Anti-Missile System"
+      }
+   },
+   {
+      "pk":51,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":40,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":52,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":41,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":53,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":42,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":54,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":42,
+         "condition":"Access to MRM Launchers"
+      }
+   },
+   {
+      "pk":55,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":43,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":56,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":43,
+         "condition":"Access to ER PPC"
+      }
+   },
+   {
+      "pk":57,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":45,
+         "condition":"Comstar"
+      }
+   },
+   {
+      "pk":58,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":45,
+         "condition":"Access to Beagle Probe"
+      }
+   },
+   {
+      "pk":59,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":46,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":60,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":46,
+         "condition":"Access to Guardian ECM"
+      }
+   },
+   {
+      "pk":61,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":47,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":62,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":48,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":63,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":48,
+         "condition":"Access to C3 Computers"
+      }
+   },
+   {
+      "pk":64,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":51,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":65,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":51,
+         "condition":"Access to Light Autocannons"
+      }
+   },
+   {
+      "pk":66,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":53,
+         "condition":"House Liao"
+      }
+   },
+   {
+      "pk":67,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":53,
+         "condition":"Access to Thunder LRMs"
+      }
+   },
+   {
+      "pk":68,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":54,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":69,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":55,
+         "condition":"Access to Heavy Flamers"
+      }
+   },
+   {
+      "pk":70,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":56,
+         "condition":"Advanced Missiles Technology"
+      }
+   },
+   {
+      "pk":71,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":59,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":72,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":60,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":73,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":60,
+         "condition":"Access to Extra-Light Fusion Engines"
+      }
+   },
+   {
+      "pk":74,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":61,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":75,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":61,
+         "condition":"House Kurita"
+      }
+   },
+   {
+      "pk":76,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":61,
+         "condition":"ComStar"
+      }
+   },
+   {
+      "pk":77,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":63,
+         "condition":"House Marik"
+      }
+   },
+   {
+      "pk":78,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":63,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":79,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":63,
+         "condition":"Access to Ferro-Fibrous Armour"
+      }
+   },
+   {
+      "pk":80,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":64,
+         "condition":"House Liao"
+      }
+   },
+   {
+      "pk":81,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":64,
+         "condition":"Access to Guardian ECM"
+      }
+   },
+   {
+      "pk":82,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":65,
+         "condition":"House Liao"
+      }
+   },
+   {
+      "pk":83,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":67,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":84,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":68,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":85,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":69,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":86,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":70,
+         "condition":"House Marik"
+      }
+   },
+   {
+      "pk":87,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":71,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":88,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":71,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":89,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":71,
+         "condition":"Comstar"
+      }
+   },
+   {
+      "pk":90,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":71,
+         "condition":"Access to Endo-Steel Construction"
+      }
+   },
+   {
+      "pk":91,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":73,
+         "condition":"House Marik"
+      }
+   },
+   {
+      "pk":92,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":74,
+         "condition":"House Davion"
+      }
+   },
+   {
+      "pk":93,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":74,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":94,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":75,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":95,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":77,
+         "condition":"Word of Blake"
+      }
+   },
+   {
+      "pk":96,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":80,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":97,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":81,
+         "condition":"House Steiner"
+      }
+   },
+   {
+      "pk":98,
+      "model":"techtree.technologyrollmodifier",
+      "fields":{
+         "modifier":-2,
+         "technology":82,
+         "condition":"House Steiner"
+      }
+   }
+]
