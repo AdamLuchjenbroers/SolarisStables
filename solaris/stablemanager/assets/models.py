@@ -148,9 +148,10 @@ class PilotWeek(models.Model):
         ,   skill = new_skill
         )
             
-class Mech(models.Model):
+class StableMech(models.Model):
     stable = models.ForeignKey(Stable, blank=True, null=True)
     mech_type = models.ForeignKey(MechDesign)
+    mech_name = models.CharField(max_length=20, blank=True, null=True)
     signature_of = models.ForeignKey(Pilot, blank=True, null=True)
     
     class Meta:
