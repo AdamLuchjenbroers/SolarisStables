@@ -4,12 +4,14 @@
 <div class="body"><div class="discipline_blurb">
   <h1>{{object.name}}</h1>
   <p>{{object.blurb}}</p>
+  <dl class="skill-list">
   {% for ability in object.traits.all %}
-    <div class="ability">
-      <h2>{{ability.name}}</h2>
-      <p class="abilityText">{{ability.description}}</p>
-      <p class="bv">{{ability.bv_text}}</p>
-    </div>
+    <dt class="ability">{{ability.name}}</dt>
+      <dd class="ability-text">
+        <p class="ability-description">{{ability.description}}</p>
+        <p class="bv">{{ability.bv_text}}</p>
+      </dd>
   {% endfor %}
+  </dl>
 </div>
 {% endblock %}

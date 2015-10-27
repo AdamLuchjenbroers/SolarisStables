@@ -294,3 +294,12 @@ table.pilots tr.even {
   background-color: #B0B0FF;
   font-size : small;
 }
+
+dl.skill-list {
+   margin-left: 1em;
+}
+
+dt.ability {
+  font-size : 120%;
+  font-weight: bold;
+}
