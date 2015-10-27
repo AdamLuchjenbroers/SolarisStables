@@ -48,4 +48,6 @@ class TechnologyRollModifier(models.Model):
     condition  = models.CharField(max_length=120)
   
     class Meta:
+        verbose_name_plural = 'Technology Roll Modifiers'
         db_table = 'warbook_technologyrollmodifier'
+        app_label = 'warbook'
