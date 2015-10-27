@@ -17,6 +17,7 @@ class StaticContent(models.Model):
     class Meta:
         verbose_name = 'Static Content'
         verbose_name_plural = 'Static Content'
+        app_label = 'cms'
     
    
 class NewsPost(models.Model):
@@ -28,9 +29,11 @@ class NewsPost(models.Model):
     class Meta:
         verbose_name = 'News Post'
         verbose_name_plural = 'News Posts'
+        app_label = 'cms'
         permissions = (
                        ('post_news', 'Post News Items'),
                        )
+        
   
     def __unicode__(self):
         return self.title
