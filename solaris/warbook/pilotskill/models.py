@@ -19,7 +19,7 @@ class TrainingCost(models.Model):
         verbose_name_plural = 'Training Costs'
         verbose_name = 'Training Cost'
         db_table = 'warbook_trainingcost'
-        app_label = 'warbook'
+        app_label = 'solaris.warbook'
         unique_together = ('training','train_to')
         
     def __unicode__(self):
@@ -38,7 +38,7 @@ class PilotRank(models.Model):
         verbose_name_plural = 'Pilot Ranks'
         verbose_name = 'Pilot Rank'
         db_table = 'warbook_pilotrank'
-        app_label = 'warbook'
+        app_label = 'solaris.warbook'
         
     def __unicode__(self):
         return self.rank
@@ -64,7 +64,7 @@ class PilotTraitGroup(models.Model):
         verbose_name_plural = 'Pilot Trait Groups'
         verbose_name = 'Pilot Trait Group'
         db_table = 'warbook_pilotdiscipline'
-        app_label = 'warbook'
+        app_label = 'solaris.warbook'
     
     def get_absolute_url(self):
         return reverse('discipline', kwargs={'slug': self.urlname})
@@ -80,7 +80,7 @@ class PilotDiscipline(PilotTraitGroup):
     class Meta:
         verbose_name_plural = 'Pilot Disciplines'
         verbose_name = 'Pilot Discipline'
-        app_label = 'warbook'
+        app_label = 'solaris.warbook'
         proxy = True
         
     objects = PilotDisciplineManager()
@@ -107,7 +107,7 @@ class PilotTrait(models.Model):
         verbose_name_plural = 'Pilot Traits'
         verbose_name = 'Pilot Trait'
         db_table = 'warbook_pilotability'
-        app_label = 'warbook'
+        app_label = 'solaris.warbook'
     
     def __unicode__(self):
         return self.name   
