@@ -1,4 +1,6 @@
 *.pyc
+*~
+*.swp
 
 #Django Settings
 solaris/settings/*
@@ -9,3 +11,6 @@ solaris/settings/*
 .project
 .pydevproject
 .settings
+
+#Environment Specific Helper Scripts
+test_anskiere.py
