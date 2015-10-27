@@ -4,6 +4,8 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+from django.core.management import call_command
+from solaris.battlereport.models import BroadcastWeek, Zodiac
 
 class Migration(SchemaMigration):
 
@@ -16,7 +18,8 @@ class Migration(SchemaMigration):
             ('next', self.gf('django.db.models.fields.related.OneToOneField')(related_name='prev', unique=True, null=True, to=orm['battlereport.Zodiac'])),
         ))
         db.send_create_signal('battlereport', ['Zodiac'])
-
+        call_command('loaddata','data/battlereport.zodiac.json')
+        
         # Adding model 'BroadcastWeek'
         db.create_table('battlereport_broadcastweek', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -26,6 +29,12 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('battlereport', ['BroadcastWeek'])
 
+        # Create Week 1
+        week_one = BroadcastWeek(
+            week_number = 1
+        ,   sign = Zodiac.objects.get(sign='Pig')
+        )
+        week_one.save()
 
     def backwards(self, orm):
         # Deleting model 'Zodiac'
