@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
-from solaris.warbook.pilotskill.models import PilotDiscipline
+from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.battlereport.models import BroadcastWeek
 
 class Stable(models.Model):
@@ -13,7 +13,7 @@ class Stable(models.Model):
     house = models.ForeignKey(House, null=True)
     reputation = models.IntegerField(default=0)
     supply_contract = models.ManyToManyField(Technology)
-    stable_disciplines = models.ManyToManyField(PilotDiscipline)
+    stable_disciplines = models.ManyToManyField(PilotTraitGroup)
     current_week = models.ForeignKey(BroadcastWeek, null=True)
     
     def __unicode__(self):
