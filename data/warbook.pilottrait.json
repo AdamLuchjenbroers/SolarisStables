@@ -4,7 +4,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":1,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Melee Expert",
          "description":"The Melee Expert may allocate a +1 easier to hit and to the damage of his physical attacks. If used to increase damage of a charge or DFA, it is added to base damage before multiplied for distance.\r\n"
@@ -15,7 +14,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":1,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Ammo Pro",
          "description":"The ammunition pro is able to get the most out of an ammunition bin, allowing his own mech to link ammunition bins to increase combined capacity by an additional half ton of shots (and risking damage in ammo explosion). Also the stable is allowed to allocate half ton ammo bins to weapons other than the MG, after the first ton is won. Loss of the pilot with this power does not fail mechs modified to use advanced ammunition in the modification. "
@@ -26,7 +24,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":1,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Toughness",
          "description":"The pilot is especially tough and pain resistant, ignoring the first head hit and lowering ammunition explosion feedback to one pilot hit."
@@ -37,7 +34,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":1,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Knockdown",
          "description":"This training allows a pilot to know how to strike a mech physically to overbalance them. On any attack stronger than the punch of the mech piloted, including ability, weapon, TSM, or other physical attacks during the round (like the\r\nother fist punching), the target must roll piloting like successful kick. In the case that the pilot must make a PSR because of the attack, such as with a kick, it is 1 harder."
@@ -48,7 +44,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":1,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Steadfast",
          "description":"Trained to hold it steady, this pilot skill forces piloting skill rolls for damage to be made in 30 point increments instead of 20."
@@ -59,7 +54,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":1,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Melee Weapon Specialist",
          "description":"The pilot has trained to use a type of physical weapon. Randomly determine a melee weapon (Punch, Kick, Hatchet, or more if the Stable has tech access to other physical weapons), and gain +2 to hit with this weapon. "
@@ -70,7 +64,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":2,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Catfall",
          "description":"Catfall pilots have the knack to keep some control when others completely lose it. When the\r\nmech falls, whether by failed PSR, falling elevation, or failed Gyro/missing leg, the Catfall pilot is allowed\r\nto choose the direction of the fall, takes only half damage to the mech for the fall, and gets +2 on his roll to not hurt the pilot."
@@ -81,7 +74,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":2,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Dodge",
          "description":"The Dodge skill allows the pilot to withhold physical attacks by his unit, to make it harder to be hit by them. A penalty of 4 applies to attack roll of physical attackers against a dodging mech. "
@@ -92,7 +84,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":2,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Acrobat",
          "description":"The acrobat gains +1 jump movement point. Only applies to mechs with jump movement rates and costs 1 extra heat."
@@ -103,7 +94,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":2,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Natural Grace",
          "description":"While some pilots can keep their rides 'stable', you make yours dance. +1 Piloting roll against knock down, physical attacks, skidding, water, avoid pilot damage from falling, and entering rouble terrain. You gain +1 run movement like a vehicle on roads. You can run backwards. Finally on entering an arena make a pilot check unmodified to make your mech disco dance and gain +1 fame in fight."
@@ -114,7 +104,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":2,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Speed Demon",
          "description":"This skill lets the pilot may add +1 to the current mechs run speed. If used on a mech with MASC or Supercharger, it acts as a further half walk movement to the mechs run category. Also the target roll for Hip Seizing of MASC or Supercharger Engine burnout is one less with this pilot."
@@ -125,7 +114,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":2,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Manoeuvring Ace",
          "description":"This skill lets the pilot of a bipedal mech use the Side slip move of a quad mech. If used on a quad \u2018mech, Side slip only costs 1 mp. Also reduce by 1 difficulty for slip on roads"
@@ -136,7 +124,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":3,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Berzerker Charger",
          "description":"This training lets the pilot fire torso mounted weapons, at the target of the charge, during a charge attack."
@@ -147,7 +134,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":3,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Edge",
          "description":"The pilot gets one edge, allowing one reroll of a dice roll made by him against an opponent during the course of the battle."
@@ -158,7 +144,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":3,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Killer Reputation",
          "description":"This pilot has caused media attention that gives him instant pop +2 to the accounting of any fight. Also, to for a pilot to lose to a Killer Rep pilot is to become dead news, incurring a further -2 to pop accounting of defeated enemies."
@@ -169,7 +154,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":3,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Nerves of Steel",
          "description":"A pilot with this trick can fight back unconsciousness, gaining a bonus 2 on rolls to avoid falling unconscious, and takes only one hit from ammunition explosions."
@@ -180,7 +164,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":3,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Angel of DFA",
          "description":"A pilot trained to land his mech on enemy mechs, may gain a bonus to his with a death from above, for every jump movement point he does not use to reach the target, up to a max of 3"
@@ -191,7 +174,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":3,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Fist Fire",
          "description":"Once per round, on a successful punch or melee weapon attack, the pilot may fire one single direct fire weapon with normal to hit chance -1 easier, with a hit damaging the same hit location as the melee attack"
@@ -202,7 +184,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":4,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Engineer",
          "description":"Pilots with the Engineer skill may reduce the cost of one Engineering stable action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
@@ -213,7 +194,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":4,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Arms Dealer",
          "description":"Pilots with the Arms Dealer skill may reduce the cost of one action taken to secure a supply contract by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
@@ -224,7 +204,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":4,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Medic",
          "description":"Pilots with the Medic skill may reduce the cost of a single medical action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
@@ -235,7 +214,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":4,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Publicist",
          "description":"Pilots with the Medic skill may reduce the cost of a single publicity action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
@@ -246,7 +224,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":4,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Scrounge",
          "description":"Pilots with the Medic skill may reduce the cost of a single action taken to salvage or acquire a mech by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
@@ -257,7 +234,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":4,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Lawyer",
          "description":"Pilots with the Laywer skill may reduce the cost of a single legal action by 1 each broadcast week. Only one Technician ability may be used to reduce the cost of a given action."
@@ -268,7 +244,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":5,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Cool Hand",
          "description":"A pilot with the cool-hand skill is able to better use their mechs cooling systems, sinking an additional 2 heat per round (or 3 on mechs fitted with Double Heat-Sinks)"
@@ -279,7 +254,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":5,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Harmony of Lasers",
          "description":"A pilot with the Harmony of Lasers skill can reduce the power to his laser weapons to smooth out the balance of heat and damage. Before the start of a match, this pilot may elect to reduce both the heat and damage caused by the weapon (minimum 1 heat/1 damage). The pilot may return the weapon to full power during the match in the end-phase of any round."
@@ -290,7 +264,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":5,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Marksman",
          "description":"A pilot with the Marksman skill gains a -1 bonus to hit with energy weapons on any round where he did not move."
@@ -301,7 +274,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":5,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Weapons Specialist (Energy)",
          "description":"When a pilot acquires this skill, randomly determine two energy weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a -1 bonus to hit."
@@ -312,7 +284,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":5,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Range Expert (Energy)",
          "description":"When a pilot acquires this skill, randomly determine two energy weapons that their stable currently has access to, and randomly determine a range bracket (short, medium, long). The pilot may select one of those weapons to be proficient in increasing the range of. The pilot treats the maximum range of that range bracket as 2 hexes longer when firing the chosen weapon. This change does not cause other range brackets to be altered or recalculated."
@@ -323,7 +294,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":5,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Extreme Range",
          "description":"When a pilot acquires this skill, randomly determine two energy weapons that their stable currently has access to. The pilot may select one of those weapons to be proficient in pushing beyond its normal maximum range. This functions as using the Extreme Range rules from Tactical Operations."
@@ -334,7 +304,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":6,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Weapons Specialist (Ballistics)",
          "description":"When a pilot acquires this skill, randomly determine two Ballistics weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a -1 bonus to hit."
@@ -345,7 +314,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":6,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"One More in the Chamber",
          "description":"A pilot with the One More in the Chamber skill is able to fit more ammunition into a regular ammo bin. He may add 1 additional shot per 10 shots (rounded up) to each existing ballistics ammo bin equipped on his mech."
@@ -356,7 +324,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":6,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Accurate Shots",
          "description":"When a pilot acquires this skill, randomly determine two Cluster firing Ballistics weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a +2 when rolling on the cluster hits table to determine how many shots hit."
@@ -367,7 +334,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":6,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Gauss Hammer",
          "description":"A pilot with the Gauss Hammer skill is proficient in using the powerful impact of a Gauss Rifle to unbalance their opponents. On any round where this pilot has successfully hit a target with one or more Gauss Rifle attacks, the threshold for requiring a Pilotting Skill Check to remain standing is reduced by 5."
@@ -378,7 +344,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":6,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Hip Shot",
          "description":"A pilot with the hip-shot skill is proficient in firing ballistics weapons on the run. This pilot takes only a +1 penalty to hit while running, in place of the usual +2."
@@ -389,7 +354,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":7,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Weapons Specialist (Missile)",
          "description":"When a pilot acquires this skill, randomly determine two Missile weapons that their stable currently has access to. The pilot may select one of these two weapons, for which they receive a -1 bonus to hit."
@@ -400,7 +364,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":7,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Save Your Ammo",
          "description":"A pilot with the Save Your Ammo skill is able to avoid firing LRMs when the shot proves too hard to make. He may elect to cancel any attack that fails to hit by 5 or more, causing no heat and costing no ammo (similar to how a Streak system functions). This does not otherwise alter the behaviour of LRMs."
@@ -411,7 +374,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":7,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Accurate Volley",
          "description":"When a pilot acquires this skill, randomly determine a type of launcher that their stable currently has access to. The pilot gets a +2 modifier when rolling on the Cluster Hits table when rolling for hits from that type of launcher. This stacks with guidance systems such as Artemis IV."
@@ -422,7 +384,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":7,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Streak Override",
          "description":"Pilots with the Streak Override skill are able to override their Streak launchers to fire even when a lock has not been acquired. After failing to hit with a Streak Launcher, they may override the launcher and re-roll the attack role. On a successful hit, they must role on the appropriate column of the Cluster Hits table to determine how many missiles hit."
@@ -433,7 +394,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":7,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Anticipate Target",
          "description":"Pilots with the Anticipate Target skilll are able to more effectively aim ahead of their targets. They may reduce the targets movement modifier by 1 when making attack rolls with missile weapons."
@@ -444,7 +404,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":7,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Range Expert (Missile)",
          "description":"When a pilot acquires this skill, randomly determine two Missile weapons that their stable currently has access to, and randomly determine a range bracket (short, medium, long). The pilot may select one of those weapons to be proficient in increasing the range of. The pilot treats the maximum range of that range bracket as 2 hexes longer when firing the chosen weapon. This change does not cause other range brackets to be altered or recalculated."
@@ -455,7 +414,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":8,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Multitrack",
          "description":"This pilot may target any number of secondary targets in any arcs without penalty. "
@@ -466,7 +424,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":8,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Targeting Range Finder",
          "description":"The pilot skill counts as having a level 3 variable range targeting system. During the end phase, the pilot may switch between three different targeting modes. Once initiative is determined the player is stuck with whatever mode he had at end of last round. Choice is written on sheet but changes are declared, but not which of the three modes is chosen. Normal mode is the standard unmodified shots at short range, two harder at medium, and four at long. Short range shifts short range to -1 easier, at the penalty that long range becomes 5 harder. Long range reverses that, with short range becoming 1 harder, while long is only 3 harder."
@@ -477,7 +434,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":8,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Phantom",
          "description":"This pilot is gifted enough to track enemy sensor frequencies and use his ECM gear to jam them in a limited fashion. Taxing his systems with an extra 1 heat, he adds one to long range attacks made against him. This stealth like effect requires an ECM."
@@ -488,7 +444,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":8,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Smoker",
          "description":"The pilot is adept at generating a dirty reaction out the jump jet ports on rounds not jumping, to cause smoke, then using this as cover. This counts as a level two light smoke in the hex he is in trade for three heat. This may also be used by pilots with a mech flamer instead of using jump jets."
@@ -499,7 +454,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":8,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"Computer Pro",
          "description":"This pilot is trained to best use his battle and heat management computers, for Sensor operations and to keep the coolant flowing. The pilot is able to penetrate ECM as a two hex Active Probe. He also can manipulate heat sinks to get a +2 bonus on rolls to avoid shut down, and a +1 bonus to avoid ammunition explosions."
@@ -510,7 +464,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":8,
-         "trait_type":"T",
          "bv_mod":"0.050",
          "name":"C3 Specialist",
          "description":"This pilot is trained to share data and co-ordinate actions. He may act as a C3 slave and connect to a C3 Master. If in a mech with a C3 Slave, may act as a C3i."
@@ -521,7 +474,6 @@
       "model":"warbook.pilottrait",
       "fields":{
          "discipline":6,
-         "trait_type":"T",
          "bv_mod":"0.200",
          "name":"Range Expert (Ballistic)",
          "description":"When a pilot acquires this skill, randomly determine two Ballistics weapons that their stable currently has access to, and randomly determine a range bracket (short, medium, long). The pilot may select one of those weapons to be proficient in increasing the range of. The pilot treats the maximum range of that range bracket as 2 hexes longer when firing the chosen weapon. This change does not cause other range brackets to be altered or recalculated."
