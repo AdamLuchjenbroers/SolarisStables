@@ -13,4 +13,4 @@ solaris/settings/*
 .settings
 
 #Environment Specific Helper Scripts
-test_anskiere.py
+test-anskiere.sh
