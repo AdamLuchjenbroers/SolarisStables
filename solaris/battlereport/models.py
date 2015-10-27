@@ -4,6 +4,11 @@ class Zodiac(models.Model):
     sign = models.CharField(max_length = 20)
     rules = models.TextField()
     next = models.OneToOneField('Zodiac', related_name='prev', null=True)
+
+    class Meta:
+        verbose_name = 'Zodiac Sign'
+        db_table = 'battlereport_zodiac'
+        app_label = 'battlereport'
     
     def __unicode__(self):
         return self.sign
@@ -20,6 +25,11 @@ class BroadcastWeek(models.Model):
     def __unicode__(self):
         return 'Week %i' % self.week_number
         
+    class Meta:
+        verbose_name = 'Broadcast Week'
+        db_table = 'battlereport_broadcastweek'
+        app_label = 'battlereport'
+
     def advance(self):
         if self.next_week == None:            
             self.next_week = BroadcastWeek(
