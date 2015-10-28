@@ -2,6 +2,9 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from solaris.battlereport.models import BroadcastWeek
 from solaris.stablemanager.models import Stable
 
@@ -80,5 +83,13 @@ class LedgerItem(models.Model):
         verbose_name = 'Ledger Item'
         db_table = 'stablemanager_ledgeritem'
         app_label = 'stablemanager'
-
     
+
+@receiver(post_save, Stable):
+def setup_initial_ledger(sender, created=False, **kwargs):
+    if created:
+        (ledger, newledger) = Ledger.objects.get_or_create(stable=sender, week=sender.current_week)
+        if newledger:
+            ledger.opening_balance = 75000000
+
+        ledger.save()

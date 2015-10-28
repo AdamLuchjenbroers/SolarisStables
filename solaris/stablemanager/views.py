@@ -95,12 +95,6 @@ class StableRegistrationView(SolarisViewMixin, CreateView):
         self.object.stable_disciplines.add( PilotDiscipline.objects.get(name=form.cleaned_data['discipline_1']) )
         self.object.stable_disciplines.add( PilotDiscipline.objects.get(name=form.cleaned_data['discipline_2']) )
         self.object.save()
-        
-        Ledger.objects.create(
-            stable = self.object
-        ,   week = self.week
-        ,   opening_balance = 10000000
-        )
     
     def get_context_data(self, **kwargs):
         page_context = super(StableRegistrationView, self).get_context_data(**kwargs)
