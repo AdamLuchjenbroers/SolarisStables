@@ -13,34 +13,40 @@
     {% block pagetitle %}
     <div class="title">
       <image id="logo" src="/static/images/solaris.jpg"/>
-      <h1>Solaris StableManager</h1>
-      <h2>Work in progress</h2>
-    </div>
-    {% endblock %}
+       <div class="title-menu">
+         <h1 class="title-text">Solaris StableManager</h1>
+         <h2 class="subtitle-text">Work in progress</h2>
+         
+         <div class="menu-area"> 
+         {% block pagemenu %}
+         <ul class="menu menu-main">
+           {% menuitem News / %}
+           {% menuitem Reference /reference %}
+           {% menuitem Wiki /wiki %}
+           
+           {% if user.is_authenticated %}
+               {% menuitem Stable /stable %}
+               
+               {% if perms.is_admin %}
+                   {% menuitem Admin /admin %}
+               {% endif %}
+           {% endif %} 
+         </ul>
+         {% endblock %}
 
-    {% block pagemenu %}
-    <ul class="menu">
-      {% menuitem News / %}
-      {% menuitem Reference /reference %}
-      {% menuitem Wiki /wiki %}
-      
-      {% if user.is_authenticated %}
-          {% menuitem Stable /stable %}
-          
-          {% if perms.is_admin %}
-              {% menuitem Admin /admin %}
-          {% endif %}
-      {% endif %} 
-
-      <span class='login'>
+         {% block usermenu %}
+         <ul class='menu menu-login'>
          {% if user.is_authenticated %}
            <li class="login"><a href="/logout">Logout</a></li>
          {% else %}
            <li class="login"><a href="/login">Login</a></li>
            <li class="login"><a href="/register">Register</a></li>
          {% endif %}
-      </span>
-    </ul>  
+         </ul>
+         {% endblock %}
+         </div>
+       </div>
+      </div>
     {% endblock %}
 
     {% block pagesubmenu %}

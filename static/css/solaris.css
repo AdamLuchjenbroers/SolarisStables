@@ -2,52 +2,78 @@ body {
   background-color: #444444;
 }
 
+
+/****************************************
+ * Title Layout 
+ ****************************************/
+
 div.title {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 250px;  
-  color: #FFFF22;
   
   background-color: #000000;
 }
 
-div.title h1 {
-  position: absolute;
-  top: 40px;
-  left: 380px;
+img#logo {
+  position: relative;
+  padding: 0px 4px 4px 0px;
+  display: inline;
+  float: left;
+}
+
+div.title div.title-menu {
+  position: relative;
+  margin-left: 375px;
+  height 250px;
+  
+  font-family: arial,sans-serif;   
+  padding: 4px;
+}
+
+div.title-menu h1 {
   color: #FFFF22;
   
   font-family: arial,sans-serif;   
+
+  margin-left: 10px;
+  margin-top: 0.5em;
+  margin-bottom: 0px;
+  padding: 0px;
 }
 
-div.title h2 {
-  position: absolute;
-  top: 80px;
-  left: 380px;
+div.title-menu h2 {
   color: #BB8800;
 
   font-family: arial,sans-serif;   
+
+  margin-left: 10px;
+  margin-top: 0.2em;
+  padding: 0px;
 }
 
+div.menu-area {
+  border-width: 2px;
+  border-style: solid;
+  border-color: #BBBBBB;
+  border-radius: 5px;
+  
+  list-style-type:none;
 
-img#logo {
-  padding: 0px 4px 4px 0px
+  padding: 4px;
+  
+  background-color: #666666;
 }
 
 ul.menu, div.toolbar {
-  position: absolute;
-  top: 250px;
-  left: 60px;
-  right: 60px;
-    
-  border-width: 4px;
-  border-style: solid;
-  border-color: #666666;  
-  list-style-type:none;
-  
-  background-color: #666666;
+  position: relative;
+  display: inline-block;
+
+  vertical-align: top;
+
+  list-style: none;
   
   padding: 0px;
   margin: 0px;
@@ -56,25 +82,25 @@ ul.menu, div.toolbar {
   font-size: 12;
 }
 
+ul.menu-main {
+  width: 60%;
+}
+
+ul.menu-login {
+  width: 35%;
+}
+
 div.toolbar span, ul.menu li {
-  float: left;
   text-align: center;
   vertical-align: middle;
 
-  padding-top: 1px;
-  padding-bottom: 2px;
-  padding-left: 0px;
-  padding-right: 0px;
-  
-  margin: 0px;
+  float: left;
+  display: inline-block;
+  border: 1px solid #000000;
+  border-radius: 3px;
+  box-shadow: 2px 2px 4px #000000;
 
-  border-right-width: 4px;
-  border-right-style: solid;
-  border-right-color: #666666;
-  
-  border-left-width: 0px;
-  border-right-style: solid;
-  border-right-color: #666666;
+  margin: 2px;
     
   background-color: #BBBBBB;
 }
@@ -84,8 +110,15 @@ ul.menu li.login {
 }
 
 ul.menu li a {  
-  display:block;
   vertical-align: middle;
+ 
+  text-decoration: none;
+  font-size: 120%;
+  font-weight: bold;
+
+  padding: 0.1em;
+ 
+  display: block;
 
   width: 160px; 
   height: 18px;
@@ -94,11 +127,6 @@ ul.menu li a {
 ul.menu li.selected { 
   background-color: #660000;
   color: #FFFFFF;  
-  display:block;
-  vertical-align: middle;
-
-  width: 160px; 
-  height: 18px;
 }
 
 ul.menu li.selected:hover {
