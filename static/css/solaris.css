@@ -7,13 +7,18 @@ body {
  * Title Layout 
  ****************************************/
 
+body {
+  margin: 0px;
+  padding: 0px; 
+
+}
+
 div.title {
-  position: absolute;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 250px;  
-  
+ 
   background-color: #000000;
 }
 
@@ -146,23 +151,11 @@ ul.menu li.selected a:hover {
 }
 
 ul.submenu, div.submenu {
-  position: absolute;
-  top: 280px;
-  left: 120px;
-  right: 120px;
-    
-  border-width: 4px;
-  border-style: solid;
-  border-color: #888888;  
-  list-style-type:none;
-  
-  background-color: #888888;
-  
-  padding: 0px;
+  width: 100%; 
+
+  background-color: #444444;
+
   margin: 0px;
-  
-  font-family: arial,sans-serif;
-  font-size: small;
 }
 
 ul.submenu li, ul.wiki-submenu li {
@@ -174,16 +167,15 @@ ul.submenu li, ul.wiki-submenu li {
   padding-bottom: 2px;
   padding-left: 0px;
   padding-right: 0px;
-  
-  margin: 0px;
+  margin-bottom: 0px; 
+ 
+  margin-left: 0.5em;
 
-  border-right-width: 4px;
-  border-right-style: solid;
-  border-right-color: #888888;
-  
-  border-left-width: 0px;
-  border-right-style: solid;
-  border-right-color: #888888;
+  border: 1px solid #000000;
+  border-radius: 3px 3px 0px 0px;
+  border-bottom: none;
+  box-shadow: inset 0 -4px 10px -4px #000000;
+  // 2px 0px 4px #000000;
     
   background-color: #BBBBBB;
 }
@@ -197,31 +189,39 @@ ul.submenu li a, ul.wiki-submenu li a {
 }
 
 ul.submenu li#selected, ul.wiki-submenu li#selected {  
-  background-color: #660000;
-  color: #FFFFFF;  
+  background-color: #DDDDDD;
+  box-shadow: none;
+
   display:block;
   vertical-align: middle;
-  
+
+  text-decoration: none;
+  font-size: 120%;
+  font-weight: bold;
+
+  padding: 0.1em;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
   width: 120px; 
-  height: 13px;
+  height: 23px;
 }
 
 div.toolbar span.login {
   float: right;
 }
 
-div.body {
-  position: absolute;
-  left: 60px;
-  right: 60px;
-  top: 320px;
-  padding: 8px;
-  
+div.content {
+  margin-top: 2em;
+  margin-left: 2em;
+  margin-right: 2em;
   
   font-family: arial,sans-serif;   
   background-color: #DDDDDD;
 }
 
+div.body {
+  padding: 1em;
+}
 
 div.news {
   position: relative;

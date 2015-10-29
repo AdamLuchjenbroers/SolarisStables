@@ -49,25 +49,28 @@
       </div>
     {% endblock %}
 
-    {% block pagesubmenu %}
-    {% if submenu %}    
-    <ul class="submenu">
-    {% for item in submenu %}
-       {% if item.title == submenu_selected %}
-         <li id="selected">{{item.title}}</li>
-       {% else %}
-         <li><a href="{{item.url}}">{{item.title}}</a></li>
-       {% endif %}
-    {% endfor %}
-    </ul>
-    {% endif %}
-    {% endblock %}
-    
-    {% block pagebody %}
-      <div class="body">{{body | safe}}</div>
-      {% for v in visibility %}
-        <p> {{v}}</p>
-      {% endfor %}
+    {% block pagecontent %}
+      <div class="content">
+      {% block page-submenu %}
+        {% if submenu %}    
+          <ul class="menu submenu">
+          {% for item in submenu %}
+             {% if item.title == submenu_selected %}
+               <li id="selected">{{item.title}}</li>
+             {% else %}
+               <li><a href="{{item.url}}">{{item.title}}</a></li>
+             {% endif %}
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endblock %}
+            
+      {% block pagebody %}
+        {% for v in visibility %}
+          <p> {{v}}</p>
+        {% endfor %}
+      {% endblock %}
+      </div>
     {% endblock %}
   </body>
 </html>
