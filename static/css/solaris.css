@@ -103,11 +103,13 @@ div.toolbar span, ul.menu li {
   display: inline-block;
   border: 1px solid #000000;
   border-radius: 3px;
-  box-shadow: 2px 2px 4px #000000;
+  box-shadow: 2px 2px 4px #000000, inset 0 0 12px #000000;
+
+  color: #FFFFFF;
 
   margin: 2px;
     
-  background-color: #BBBBBB;
+  background-color: #664444;
 }
 
 ul.menu li.login {
@@ -120,6 +122,7 @@ ul.menu li a {
   text-decoration: none;
   font-size: 120%;
   font-weight: bold;
+  color: #BBBBBB;
 
   padding: 0.1em;
  
@@ -130,8 +133,9 @@ ul.menu li a {
 }
 
 ul.menu li.selected { 
-  background-color: #660000;
+  background-color: #AA0000;
   color: #FFFFFF;  
+  box-shadow: 2px 2px 4px #000000, inset 0 0 12px #220000;
 }
 
 ul.menu li.selected:hover {
@@ -143,7 +147,7 @@ ul.menu li.selected a:link {
 }
 
 ul.menu li.selected a:visited {
-  color: #CCCCCC;
+  color: #FFFFFF;
 }
 
 ul.menu li.selected a:hover {
