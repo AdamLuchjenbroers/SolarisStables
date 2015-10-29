@@ -188,6 +188,8 @@ ul.submenu li a, ul.wiki-submenu li a {
   display:block;
   vertical-align: middle;
 
+  color: #000000;
+
   width: 120px; 
   height: 18px;
 }
@@ -198,6 +200,7 @@ ul.submenu li#selected, ul.wiki-submenu li#selected {
 
   display:block;
   vertical-align: middle;
+  color: #222222;
 
   text-decoration: none;
   font-size: 120%;
