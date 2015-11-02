@@ -73,8 +73,8 @@ class PilotTraitGroup(models.Model):
         return '%s - %s' % (self.get_discipline_type_display(), self.name)
 
 class PilotDisciplineManager(models.Manager):
-    def get_query_set(self):
-        return super(PilotDisciplineManager,self).get_query_set().filter(discipline_type='T')
+    def get_queryset(self):
+        return super(PilotDisciplineManager,self).get_queryset().filter(discipline_type='T')
 
 class PilotDiscipline(PilotTraitGroup):
     class Meta:
