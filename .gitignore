@@ -7,6 +7,9 @@ solaris/settings/*
 !solaris/settings/base.py
 !solaris/settings/__init__.py
 
+#Admin Static Files
+solaris/static/admin
+
 #Eclipse settings / project stuff
 .project
 .pydevproject
