@@ -74,6 +74,7 @@ INSTALLED_APPS = (
     'mptt',
     'sekizai',
     'sorl.thumbnail',
+    'invitations',
     'wiki',
     'wiki.plugins.attachments',
     'wiki.plugins.notifications',
@@ -81,4 +82,6 @@ INSTALLED_APPS = (
     'wiki.plugins.macros',
 )
 
-
+ACCOUNT_ADAPTER='invitations.models.InvitationsAdapter'
+INVITATIONS_INVITE_ONLY=True
+INVITATIONS_INVITATION_EXPIRY=14
