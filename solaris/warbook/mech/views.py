@@ -92,4 +92,9 @@ class MechSearchView(ReferenceViewMixin, FormView):
     form_class = MechSearchForm
     submenu_selected = 'Mechs'
 
+    def get_context_data(self, **kwargs):
+        page_context = super(MechSearchView, self).get_context_data(**kwargs)
+
+        page_context['submit'] = 'Search'
+        return page_context
         
