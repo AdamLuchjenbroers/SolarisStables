@@ -25,7 +25,7 @@
            {% menuitem Wiki /wiki %}
            
            {% if user.is_authenticated %}
-               {% menuitem Stable /stable %}
+               <!-- menuitem Stable /stable !-->
                
                {% if perms.is_admin %}
                    {% menuitem Admin /admin %}
