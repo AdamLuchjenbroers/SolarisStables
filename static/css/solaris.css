@@ -55,7 +55,6 @@ span.title-menu h1 {
 
 span.title-menu h2 {
   color: #BB8800;
-  
 
   font-family: arial,sans-serif;   
 
@@ -167,6 +166,7 @@ ul.submenu, div.submenu {
   background-color: #444444;
 
   margin: 0px;
+  padding-left: 0.5em;
 }
 
 ul.submenu li, ul.wiki-submenu li {
@@ -230,11 +230,15 @@ div.content {
   margin-right: 2em;
   
   font-family: arial,sans-serif;   
-  background-color: #DDDDDD;
 }
 
 div.body {
   padding: 1em;
+  border: 2px solid #222633;
+  border-radius: 5px;
+  background-color: #DDDDDD;
+
+  box-shadow: 2px 2px 4px #000000;
 }
 
 div.news {
