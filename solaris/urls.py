@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^login/?$', SolarisLoginView.as_view(), name='login'),
     (r'^logout/?$', 'solaris.userforms.views.logout_user'),
 
-    url(r'^invitations/', include('invitations.urls', namespace='invitations')),
+    url(r'^invitations/', include('solaris.invites.urls', namespace='invites')),
     url(r'^register/?$', SolarisRegistrationView.as_view(), name='register'),
     
     (r'^admin/', include(admin.site.urls)),
