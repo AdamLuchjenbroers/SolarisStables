@@ -168,6 +168,7 @@ ul.submenu, div.submenu {
   width: 100%; 
 
   background-color: #444444;
+  overflow: visible;
 
   margin: 0px;
   padding-left: 0.5em;
@@ -182,9 +183,10 @@ ul.submenu li, ul.wiki-submenu li {
   padding-bottom: 2px;
   padding-left: 0px;
   padding-right: 0px;
+
   margin-bottom: 0px; 
- 
   margin-left: 0.5em;
+
 
   border: 1px solid #000000;
   border-radius: 3px 3px 0px 0px;
@@ -218,8 +220,10 @@ ul.submenu li#selected, ul.wiki-submenu li#selected {
   font-weight: bold;
 
   padding: 0.1em;
-  padding-bottom: 0px;
-  margin-bottom: 0px;
+  padding-bottom: -2px;
+  margin-bottom: -3px;
+
+  z-index: 2;
   width: 120px; 
   height: 23px;
 }
