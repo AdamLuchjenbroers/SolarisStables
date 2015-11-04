@@ -1,10 +1,15 @@
 {% extends 'solaris_layout.tmpl' %}
+
+{% block pageactions %}
+  {% if perms.cms.post_news %}
+    <ul class="actionbar">
+      <li><a class="post" href="/postnews">Post News</a></li>
+    </ul>
+  {% endif %}
+{% endblock %}
+
 {% block pagebody %}
 <div class="body">
-  {% if perms.cms.post_news %}
-      <div class="adminbar"><a class="post" href="/postnews">Post News</a></div>
-      <br/>
-  {% endif %}
   {% for post in news %}
   <div class="news">
     <div class="header">

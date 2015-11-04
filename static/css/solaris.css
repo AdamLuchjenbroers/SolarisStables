@@ -160,6 +160,10 @@ ul.menu li.selected a:hover {
   color: #FFFFFF;
 }
 
+/****************************************
+ * Tabbed Submenues
+ ****************************************/
+
 ul.submenu, div.submenu {
   width: 100%; 
 
@@ -220,9 +224,77 @@ ul.submenu li#selected, ul.wiki-submenu li#selected {
   height: 23px;
 }
 
-div.toolbar span.login {
-  float: right;
+/****************************************
+ * Action Bar
+ ****************************************/
+ul.actionbar {
+  border-width: 2px;
+  border-style: solid;
+  border-color: #BBBBBB;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #000000;
+
+  text-align: middle;  
+  display: block;
+  
+  list-style-type:none;
+
+  padding: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  
+  background-color: #262233;
 }
+
+ul.actionbar li {
+    display: inline-block;
+    text-color: #BBBBBB;
+    padding: 0.1em;
+
+    font-family: arial,sans-serif;
+    font-weight: bold;
+    border-right: 1px solid #BBBBBB;
+}
+
+ul.actionbar li.right {
+    float: right;
+    border-left: 1px solid #BBBBBB;
+    border-right: none;
+}
+
+ul.actionbar li a {
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+
+    width: 8em;
+    margin: 0.15em;
+    margin-left: 0.3em; 
+    margin-right: 0.3em; 
+
+    border-radius: 3px;
+}
+
+
+ul.actionbar li a:link {
+  color: #BBBBBB;
+}
+
+ul.actionbar li a:visited {
+  color: #BBBBBB;
+}
+
+ul.actionbar li a:hover {
+  color: #FFFFFF;
+  background-color: #222288;
+  border: none;
+}
+
+/****************************************
+ * Main Page Body
+ ****************************************/
 
 div.content {
   margin-top: 2em;
@@ -269,29 +341,6 @@ div.news div.content {
   padding: 5px 5px 5px 5px;
   margin: 0px 10px 10px 10px;
   background-color: #F0F0F0;
-}
-
-div.adminbar {
-  position: relative;
-  left: 0px;
-  right: 0px;
-  top: 0px;
-      
-  background-color: #888888;
-  text-align: right;
-  font-size: small;
-  
-  margin: -8px;
-  padding: 2px;
-}
-
-
-div.adminbar a.post {
-  text-align: right;
-  font-size: small;
-  
-  padding-left: 8px;
-  padding-right: 8px;
 }
 
 div.news_form input {
