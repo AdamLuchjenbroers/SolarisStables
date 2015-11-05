@@ -3,23 +3,21 @@
 {% block pageactions %}
   {% if perms.cms.post_news %}
     <ul class="actionbar">
-      <li><a class="post" href="/postnews">Post News</a></li>
+      <li class="right"><a class="post" href="/postnews">Post News</a></li>
     </ul>
   {% endif %}
 {% endblock %}
 
 {% block pagebody %}
-<div class="body">
   {% for post in news %}
-  <div class="news">
+  <div class="news-item">
     <div class="header">
       <span class="title">{{post.title}}</span>
-      <span class="byline">Posted by {{post.poster.username}} on {{post.post_date}}</span>
-    </div>
+      <span class="byline">Posted by {% firstof post.poster.first_name post.poster.username %} on {{post.post_date}}</span>
+    </div> <hr class="news-sep" />
     <div class="content">
       {{post.content.rendered | safe}}
     </div>
   </div>
   {% endfor %}
-</div>
 {% endblock %}

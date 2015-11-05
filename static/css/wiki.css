@@ -5,10 +5,17 @@ div.article {
 }
 
 div.article h1 {
-font-size: 3em;
-line-height: 1em;
-margin: 0;
-padding: 0 0 0.5em;
+  font-size: 170%;
+  line-height: 1em;
+  margin: 0;
+  padding: 0 0 0.5em;
+}
+
+div.article h2 {
+  font-size: 140%;
+  line-height: 1em;
+  margin: 0;
+  padding: 0 0 0.5em;
 }
 
 div.spacer {
@@ -50,7 +57,7 @@ ul.wiki-submenu {
   width: 640px;	
 }
 
-ul.wiki-breadcrumbs {}
+ul.wiki-breadcrumbs {
 	margin: 4px;
 	padding: 4px;
 	width: 80%;

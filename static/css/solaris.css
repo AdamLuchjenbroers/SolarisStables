@@ -319,28 +319,46 @@ div.body {
   box-shadow: 2px 2px 4px #000000;
 }
 
-div.news {
+/****************************************
+ * News
+ ****************************************/
+
+div.news-item {
   position: relative;
-  left: 40px;
-  right: 40px;
-  margin: 20px 20px 20px 20px;
-  padding: 10px 10px 10px 10px;
+  margin: auto;
   width: 80%;
-  background-color: #888888;
+  padding: 10px 10px 10px 10px;
+  margin-bottom: 1em;
+
+  border: 2px solid #222633;
+  border-radius: 5px;
+  background-color: #DDDDDD;
+  box-shadow: 2px 2px 4px #000000;
 }
 
-div.news div.header {
-  padding: 5px 5px 5px 5px;
-  margin: 0px 10px 10px 10px;
-  background-color: #CCCCCC;
+div.news-item div.header {
+  padding: 0.1em;
 }
 
-div.news div.header span.title {
+div.news-item div.header span.title {
   font-weight: bold;
+  display: inline-block;
+  width: 70%;
 }
 
-div.news div.header span.byline {
-  float: right;
+div.news-item div.header span.byline {
+  margin-right: 0.2em;
+  margin-left: auto;
+  color: #222222;
+  font-size: 80%;
+
+  display: inline-block;
+  text-align: right;
+  vertical-align: middle;
+
+  padding: 0.1em;
+  width: 25%;
+  border-left: 1px solid #222633;
 }
 
 div.news div.content {
