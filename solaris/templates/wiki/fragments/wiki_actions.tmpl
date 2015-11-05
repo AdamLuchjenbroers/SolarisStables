@@ -1,15 +1,26 @@
 {% load i18n wiki_tags %}{% load url from future %}
 <div class="submenu">
 
-  {% block wiki-actions-list %} {% endblock %}
+  <div class="actionbar">
+    {% block wiki-actions-list %} {% endblock %}
+    <hr class="action-break" />
 
-  <form id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">
-    <button type="button">
-      <span class="icon-search"></span>
-    </button>
-    
-    <input type="search" class="search" name="q" placeholder="{% trans "Search..." %}" />
-  </form>
+    <ul class="wiki-breadcrumbs">
+      {% for ancestor in urlpath.cached_ancestors %}
+        <li><em class="bc-divider">></em><a href="{% url 'wiki:get' path=ancestor.path %}">{{ ancestor.article.current_revision.title|truncatechars:25 }}</a></li>
+      {% endfor %}
+    </ul>
+
+    <form id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">
+      <button type="button">
+        <span class="icon-search"></span>
+      </button>
+      
+      <input type="search" class="search" name="q" placeholder="{% trans "Search..." %}" />
+    </form>
+  </div>
+  
+ 
 </div>
 
 <div class="spacer"></div>

@@ -231,21 +231,17 @@ ul.submenu li#selected, ul.wiki-submenu li#selected {
 /****************************************
  * Action Bar
  ****************************************/
-ul.actionbar {
+ul.actionbar, div.actionbar {
   border-width: 2px;
   border-style: solid;
   border-color: #BBBBBB;
   border-radius: 5px;
   box-shadow: 2px 2px 4px #000000;
 
-  text-align: middle;  
   display: block;
-
-  height: 1.7em;
   
-  list-style-type:none;
-
-  padding: 4px;
+  
+  margin-top: 0.8em;
   margin-left: auto;
   margin-right: auto;
   width: 80%;
@@ -253,7 +249,19 @@ ul.actionbar {
   background-color: #262233;
 }
 
-ul.actionbar li {
+ul.actionbar, ul.actionbar-inner {
+  text-align: middle;  
+  padding: 4px;
+  height: 1.7em;
+  list-style-type:none;
+}
+
+ul.actionbar-inner {
+   width: 100%;
+   margin: 0px;
+}
+
+ul.actionbar li, ul.actionbar-inner li {
     display: inline-block;
     text-color: #BBBBBB;
     padding: 0.1em;
@@ -263,13 +271,13 @@ ul.actionbar li {
     border-right: 1px solid #BBBBBB;
 }
 
-ul.actionbar li.right {
+ul.actionbar li.right, ul.actionbar-inner li.right {
     float: right;
     border-left: 1px solid #BBBBBB;
     border-right: none;
 }
 
-ul.actionbar li a {
+ul.actionbar li a, ul.actionbar-inner li a {
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -284,20 +292,34 @@ ul.actionbar li a {
 }
 
 
-ul.actionbar li a:link {
+ul.actionbar li a:link, ul.actionbar-inner li a:link, 
+ul.actionbar li a:visited, ul.actionbar-inner li a:visited {
   color: #BBBBBB;
 }
 
-ul.actionbar li a:visited {
-  color: #BBBBBB;
-}
-
-ul.actionbar li a:hover {
+ul.actionbar li a:hover, ul.actionbar-inner li a:hover  {
   color: #FFFFFF;
   background-color: #222288;
   border: none;
 }
 
+hr.action-break {
+  height: 2px;
+  padding: 0px;
+  margin: 0px;
+  width: calc(100% - 1em);
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.actionbar ul.wiki-breadcrumbs {
+	margin: 4px;
+	padding: 0.4em;
+
+        display: inline-block;
+	width: calc(100% - 20em);
+}
 /****************************************
  * Main Page Body
  ****************************************/

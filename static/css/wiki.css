@@ -57,13 +57,6 @@ ul.wiki-submenu {
   width: 640px;	
 }
 
-ul.wiki-breadcrumbs {
-	margin: 4px;
-	padding: 4px;
-	width: 80%;
-	
-	float: left;
-}
 
 
 ul.wiki-breadcrumbs li a {
@@ -80,8 +73,6 @@ ul.wiki-breadcrumbs li a {
 ul.wiki-breadcrumbs li::after {
    margin: 0px;
    padding: 0px;
-	
-   content: ">"
 }
 
 
@@ -91,11 +82,13 @@ ul.wiki-breadcrumbs li {
 
 form#wiki-search-form {
 	text-align: left;
-	float: right;
-	
-	
-	position: relative;
-	margin: 2px;
+        vertical-align: top;
+        display: inline-block;
+        width: 17em;	
+
+        padding-top: 0.4em;
+        padding-bottom: 0.4em;
+        margin: auto;	
 }
 
 form#wiki-search-form button {
@@ -103,7 +96,7 @@ form#wiki-search-form button {
 	height: 20px;	
 	
 	margin: 0px;
-	margin-botton: 4px;
+	margin-bottom: 4px;
 	padding: 0px;
 	
 	vertical-align: middle;

@@ -2,9 +2,8 @@
 
 {% load i18n wiki_tags %}{% load url from future %}
 
-
 {% block wiki-actions-list %} 
-  <ul class="wiki-submenu">
+  <ul class="actionbar-inner">
     <li> <a href="{% url 'wiki:get' article_id=article.id path=urlpath.path %}">View Page</a></li>
  
   {% if article|can_write:user and not article.current_revision.locked %}
@@ -20,10 +19,7 @@
     <li><a href="{% url 'wiki:create' path=urlpath.parent.path %}">New Topic</a></li>
     {% endif %}
     <li><a href="{% url 'wiki:create' path=urlpath.path %}">New Sub-topic</a></li>
-
     
   {% endif %}
-
   </ul>
-
 {% endblock %}
