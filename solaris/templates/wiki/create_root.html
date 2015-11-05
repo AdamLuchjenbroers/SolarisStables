@@ -1,0 +1,25 @@
+{% extends 'wiki/create.html' %}
+{% load wiki_tags i18n sekizai_tags markitup_tags %}
+
+{% block wiki-form %} 
+<h1>Create Root Article</h1>
+<p class"blurb">This wiki is operational, but currently contains no articles. Please edit and submit the initial article</p>
+
+<form method="POST" class="wiki-create">
+  {% wiki_form form %}
+  <div class="form-group form-actions">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-10">
+      <a href="{% url 'wiki:get' path=parent_urlpath.path %}" class="btn btn-default">
+        Go Back
+      </a>
+      <button type="submit" name="save_changes" class="btn btn-primary">
+        Create Article
+      </button>
+    </div>
+    {% markitup_editor create_form.content.auto_id %}  
+  </div>  
+</form>
+{% endblock %}
+
+

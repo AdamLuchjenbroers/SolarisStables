@@ -1,6 +1,5 @@
 {% extends "wiki/base.html" %}
-{% load wiki_tags i18n sekizai_tags %}
-{% load markitup_tags %}
+{% load wiki_tags i18n sekizai_tags markitup_tags %}
 
 {% block pageheader %}
   {{ block.super }}
@@ -43,8 +42,9 @@
 {% block wiki_contents %}
 
   {% include "wiki/includes/editormedia.html" %}
+  {% block wiki-form %} 
   <h1 class="page-header">Add new article</h1>
-  
+ 
   <form method="POST" class="wiki-create">
     {% wiki_form create_form %}
     <div class="form-group form-actions">
@@ -60,6 +60,7 @@
       {% markitup_editor create_form.content.auto_id %}  
     </div>  
   </form>
+  {% endblock %}
 
 {% endblock %}
 

@@ -154,6 +154,7 @@ form.wiki-edit div.wiki-control *, form.wiki-create div.wiki-control *  {
 	display: block;
 }
 
+
 input#id_summary, input#id_title, div.input-group {
 	float: left;
 	width: 270px;
@@ -166,7 +167,7 @@ input#id_slug {
 
 
 /* Hide a few fields I have no use for */
-p#hint_id_summary, p#hint_id_slug {
+p#hint_id_summary, p#hint_id_slug, p#hint_id_title {
 	float: right;
 	font-size: 80%;
 	width: 300px;
