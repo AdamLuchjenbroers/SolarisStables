@@ -283,8 +283,10 @@ ul.actionbar li.right, ul.actionbar-inner li.right {
   border-right: none;
 }
 
-ul.actionbar li a, ul.actionbar-inner li a, ul.wiki-breadcrumbs li a, ul.wiki-breadcrumbs span.bc-current {
-  text-align: center;
+ul.actionbar li a, ul.actionbar-inner li a, 
+ul.wiki-breadcrumbs li a, ul.wiki-breadcrumbs span.bc-current, 
+ul.wiki-breadcrumbs li.children 
+{
   text-decoration: none;
   display: inline-block;
   vertical-align: middle;
@@ -297,6 +299,10 @@ ul.actionbar li a, ul.actionbar-inner li a, ul.wiki-breadcrumbs li a, ul.wiki-br
   border-radius: 3px;
 }
 
+ul.actionbar li a, ul.actionbar-inner li a, 
+ul.wiki-breadcrumbs li a, ul.wiki-breadcrumbs span.bc-current { 
+  text-align: center;
+}
 
 ul.actionbar li a:link, ul.actionbar-inner li a:link, 
 ul.actionbar li a:visited, ul.actionbar-inner li a:visited,
@@ -305,7 +311,8 @@ ul.wiki-breadcrumbs li a:link, ul.wiki-breadcrumbs li a:visited
   color: #BBBBBB;
 }
 
-ul.actionbar li a:hover, ul.actionbar-inner li a:hover, ul.wiki-breadcrumbs li a:hover {
+ul.actionbar li a:hover, ul.actionbar-inner li a:hover, 
+ul.wiki-breadcrumbs li a:hover {
   color: #FFFFFF;
   background-color: #222288;
   border: none;
@@ -319,6 +326,51 @@ hr.action-break {
 
   margin-left: auto;
   margin-right: auto;
+}
+
+li.children {
+  position:absolute;
+}
+
+ul.bc-childmenu {
+  display: none;
+  font-size: 80%;
+  overflow: visible;
+  position: relative;
+
+  margin: 0px;
+  padding: 0px; 
+  z-index: 2;
+}
+
+ul.bc-childmenu li {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  margin: 0px;
+  margin-bottom: 0.1em;
+}
+
+li.children:hover {
+  background-color: rgba(34, 34, 136, 0.7);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 5px;
+}
+
+li.children:hover ul.bc-childmenu {
+  display: block;
+  list-style: none;
+}
+
+ul.bc-childmeni li a {
+   width: 100%;
+   padding: 1px;
+}
+
+ul.bc-childmenu li a:hover {
+   padding: 0px;
+   border: 1px solid #888888;
 }
 
 div.actionbar ul.wiki-breadcrumbs {
