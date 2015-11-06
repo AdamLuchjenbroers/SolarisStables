@@ -7,8 +7,11 @@
 
     <ul class="wiki-breadcrumbs">
       {% for ancestor in urlpath.cached_ancestors %}
-        <li><em class="bc-divider">></em><a href="{% url 'wiki:get' path=ancestor.path %}">{{ ancestor.article.current_revision.title|truncatechars:25 }}</a></li>
+        <li><em class="bc-divider">&gt;</em><a href="{% url 'wiki:get' path=ancestor.path %}">{{ ancestor.article.current_revision.title|truncatechars:25 }}</a></li>
       {% endfor %}
+      {% if article.current_revision.title %}
+        <li><em class="bc-divider">&gt;</em><span class="bc-current">{{article.current_revision.title}}</span></li>
+      {% endif %}
     </ul>
 
     <form id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">

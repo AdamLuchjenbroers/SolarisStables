@@ -2,7 +2,6 @@ body {
   background-color: #444444;
 }
 
-
 /****************************************
  * Title Layout 
  ****************************************/
@@ -114,7 +113,7 @@ div.toolbar span, ul.menu li {
   color: #FFFFFF;
 
   margin: 2px;
-    
+  
   background-color: #664444;
 }
 
@@ -187,13 +186,12 @@ ul.submenu li, ul.wiki-submenu li {
   margin-bottom: 0px; 
   margin-left: 0.5em;
 
-
   border: 1px solid #000000;
   border-radius: 3px 3px 0px 0px;
   border-bottom: none;
   box-shadow: inset 0 -4px 10px -4px #000000;
   // 2px 0px 4px #000000;
-    
+  
   background-color: #BBBBBB;
 }
 
@@ -240,7 +238,6 @@ ul.actionbar, div.actionbar {
 
   display: block;
   
-  
   margin-top: 0.8em;
   margin-left: auto;
   margin-right: auto;
@@ -257,47 +254,58 @@ ul.actionbar, ul.actionbar-inner {
 }
 
 ul.actionbar-inner {
-   width: 100%;
-   margin: 0px;
+  width: 100%;
+  margin: 0px;
+}
+
+em.bc-divider {
+  color: #BBBBBB;
+  font-family: arial,sans-serif;
+  font-weight: bold;
+}
+
+ul.actionbar li, ul.actionbar-inner li, ul.wiki-breadcrumbs li {
+  display: inline-block;
+  color: #BBBBBB;
+  padding: 0.1em;
+
+  font-family: arial,sans-serif;
+  font-weight: bold;
 }
 
 ul.actionbar li, ul.actionbar-inner li {
-    display: inline-block;
-    text-color: #BBBBBB;
-    padding: 0.1em;
-
-    font-family: arial,sans-serif;
-    font-weight: bold;
-    border-right: 1px solid #BBBBBB;
+  border-right: 1px solid #BBBBBB;
 }
 
 ul.actionbar li.right, ul.actionbar-inner li.right {
-    float: right;
-    border-left: 1px solid #BBBBBB;
-    border-right: none;
+  float: right;
+  border-left: 1px solid #BBBBBB;
+  border-right: none;
 }
 
-ul.actionbar li a, ul.actionbar-inner li a {
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    vertical-align: middle;
+ul.actionbar li a, ul.actionbar-inner li a, ul.wiki-breadcrumbs li a, ul.wiki-breadcrumbs span.bc-current {
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: middle;
 
-    width: 8em;
-    margin: 0.15em;
-    margin-left: 0.3em; 
-    margin-right: 0.3em; 
+  width: 8em;
+  margin: 0.15em;
+  margin-left: 0.3em; 
+  margin-right: 0.3em; 
 
-    border-radius: 3px;
+  border-radius: 3px;
 }
 
 
 ul.actionbar li a:link, ul.actionbar-inner li a:link, 
-ul.actionbar li a:visited, ul.actionbar-inner li a:visited {
+ul.actionbar li a:visited, ul.actionbar-inner li a:visited,
+ul.wiki-breadcrumbs li a:link, ul.wiki-breadcrumbs li a:visited
+{
   color: #BBBBBB;
 }
 
-ul.actionbar li a:hover, ul.actionbar-inner li a:hover  {
+ul.actionbar li a:hover, ul.actionbar-inner li a:hover, ul.wiki-breadcrumbs li a:hover {
   color: #FFFFFF;
   background-color: #222288;
   border: none;
@@ -314,11 +322,45 @@ hr.action-break {
 }
 
 div.actionbar ul.wiki-breadcrumbs {
-	margin: 4px;
-	padding: 0.4em;
+  margin: 4px;
+  padding: 0.4em;
 
-        display: inline-block;
-	width: calc(100% - 20em);
+  display: inline-block;
+  width: calc(100% - 20em);
+}
+
+
+form#wiki-search-form {
+  text-align: left;
+  vertical-align: top;
+  display: inline-block;
+  width: 17em;  
+
+  padding-top: 0.8em;
+  padding-bottom: 0.4em;
+  margin: auto;  
+}
+
+form#wiki-search-form button {
+  margin: 0px;
+  margin-bottom: 4px;
+  padding: 0px;
+
+  width: 20px;
+  height: 20px;
+  
+  vertical-align: middle;
+  background: transparent url('/static/images/icons/search.png') no-repeat center top;
+  border: none;
+  
+  cursor: pointer; /* hand-shaped cursor */
+  cursor: hand; /* for IE 5.x */
+}
+
+form#wiki-search-form input {
+  border: 2px solid #BBBBBB;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #000000;
 }
 /****************************************
  * Main Page Body
@@ -437,7 +479,7 @@ table.pilots tr.even {
 }
 
 dl.skill-list {
-   margin-left: 1em;
+  margin-left: 1em;
 }
 
 dt.ability {
