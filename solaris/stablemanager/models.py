@@ -7,6 +7,7 @@ from solaris.warbook.techtree.models import Technology
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.battlereport.models import BroadcastWeek
 
+
 class Stable(models.Model):
     stable_name = models.CharField(max_length=200)
     owner = models.OneToOneField(User, null=True)
@@ -19,10 +20,6 @@ class Stable(models.Model):
     def __unicode__(self):
         return self.stable_name
         
-    def remaining_tasks(self):
-        #STUB: Will return a list of incomplete data (e.g. missing repair
-        #bills, unspent training points, etc).
-        return None
     
     def current_balance(self):
         try:
@@ -44,7 +41,6 @@ class Stable(models.Model):
         
         for pilot in self.pilots.all():
             pilot.advance()        
-        
         
      
 

@@ -85,7 +85,7 @@ class LedgerItem(models.Model):
         app_label = 'stablemanager'
     
 
-@receiver(post_save, Stable):
+@receiver(post_save, sender=Stable)
 def setup_initial_ledger(sender, created=False, **kwargs):
     if created:
         (ledger, newledger) = Ledger.objects.get_or_create(stable=sender, week=sender.current_week)

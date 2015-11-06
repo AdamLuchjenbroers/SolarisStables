@@ -11,3 +11,5 @@ The current state for each Broadcast Week will be captured in a collection of we
 * LedgerItem captures stable expenses and details throughout the week (the Ledger model will be folded into StableWeek).
 * Stable Action to capture actions taken by the stable during the week.
 
+## Events
+Events will be captured in 'Log' tables that record a stream of events that apply to a given object. 

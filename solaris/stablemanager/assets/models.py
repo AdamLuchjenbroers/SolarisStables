@@ -81,7 +81,7 @@ class PilotWeek(models.Model):
     skill_piloting = models.IntegerField(default=6)
     wounds = models.IntegerField(default=0)
     
-    skill = models.ManyToManyField(PilotTrait, blank=True, null=True, through=PilotTraining)
+    skill = models.ManyToManyField(PilotTrait, blank=True, through=PilotTraining)
     
     class Meta:
         db_table = 'stablemanager_pilotweek'
