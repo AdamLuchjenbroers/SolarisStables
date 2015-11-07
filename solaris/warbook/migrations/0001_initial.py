@@ -29,7 +29,6 @@ def load_technologyrollmodifier(apps, schema_editor):
         
 def load_trainingcost(apps, schema_editor):
     call_command('loaddata', 'data/warbook.trainingcost.json');
-
     
 def noop(apps, schema_editor):
     # Why bother to delete from tables that are being dropped in the

@@ -1,7 +1,7 @@
 [
    {
       "pk":1,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":12,
@@ -10,7 +10,7 @@
    },
    {
       "pk":2,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":1,
@@ -19,7 +19,7 @@
    },
    {
       "pk":3,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":2,
@@ -28,7 +28,7 @@
    },
    {
       "pk":4,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":3,
@@ -37,7 +37,7 @@
    },
    {
       "pk":5,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":4,
@@ -46,7 +46,7 @@
    },
    {
       "pk":6,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":5,
@@ -55,7 +55,7 @@
    },
    {
       "pk":7,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":6,
@@ -64,7 +64,7 @@
    },
    {
       "pk":8,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":7,
@@ -73,7 +73,7 @@
    },
    {
       "pk":9,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":8,
@@ -82,7 +82,7 @@
    },
    {
       "pk":10,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":9,
@@ -91,7 +91,7 @@
    },
    {
       "pk":11,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":10,
@@ -100,7 +100,7 @@
    },
    {
       "pk":12,
-      "model":"battlereport.zodiac",
+      "model":"campaign.zodiac",
       "fields":{
          "rules":"TBA",
          "next":11,
