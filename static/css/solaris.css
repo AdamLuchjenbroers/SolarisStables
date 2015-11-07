@@ -262,6 +262,7 @@ em.bc-divider {
   color: #BBBBBB;
   font-family: arial,sans-serif;
   font-weight: bold;
+  font-style: normal;
 }
 
 ul.actionbar li, ul.actionbar-inner li, ul.wiki-breadcrumbs li {
@@ -319,10 +320,12 @@ ul.wiki-breadcrumbs li a:hover {
 }
 
 hr.action-break {
-  height: 2px;
   padding: 0px;
   margin: 0px;
   width: calc(100% - 1em);
+  
+  border: none;
+  border-top: 1px solid #BBBBBB;
 
   margin-left: auto;
   margin-right: auto;
