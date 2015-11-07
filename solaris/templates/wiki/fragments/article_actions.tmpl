@@ -16,6 +16,7 @@
 
   {% if article|can_write:user  %}
     <li><a href="/wiki/_create">New Page</a></li>
+    <li><a href="{% url 'wiki:delete' article_id=article.id path=urlpath.path %}">Delete Page</a></li>
   {% endif %}
   </ul>
 {% endblock %}
