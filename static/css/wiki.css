@@ -205,6 +205,39 @@ table.table-striped.wiki-dir tr.data:nth-child(odd) {
 table.table-striped.wiki-dir tr.data:nth-child(odd) {
     background: #BBBBBB;
 }
+
+/*****************************************************************************
+ * Page History Listings
+ *****************************************************************************/
+ul.revision-list {
+    list-style: none;
+}
+
+ul.revision-list li {
+    width: 80%;
+    padding: 0.1em;
+    margin: 0.1em;
+    border-radius: 5px;
+}
+
+ul.revision-list li.revision-current {
+    background: #262233;
+    color: #BBBBBB;
+}
+
+ul.revision-list li.previewable:hover {
+    background: #222288;
+    color: #FFFFFF;    
+}
+
+ul.revision-list li * {
+    display: inline-block;
+}
+
+ul.revision-list li dt {
+    font-size: 120%;
+    font-weight: bold;
+}
  
 /* Hide a few fields I have no use for */
 span.asteriskField {

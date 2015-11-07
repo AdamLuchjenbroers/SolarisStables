@@ -1,34 +1,69 @@
 {% extends 'wiki/article.html' %}
+{% load sekizai_tags i18n wiki_tags %}
 
 {% block title %}Stablemunder Wiki - {{ article.current_revision.title }} History {% endblock %}
 
+{% block pageheader %}
+  {{ block.super }}
+  <script type="text/javascript" >
+   
+  $( document ).ready(function() {
+    $('.previewable').on('click', function () {
+        revert_url = this.getAttribute('revert_url');
+        
+        $('#dialog-message').load(this.getAttribute('preview_url') +'?r=' + this.getAttribute('revision_id' ) + ' div.content');
+        
+        $('#dialog-message').dialog ({
+          modal: true,
+          buttons: {
+            Close: function() { $( this ).dialog("close"); }
+{% if article|can_write:user %}
+          , Change: function() { window.open(revert_url,'_self'); }
+{% endif %}            
+          }
+        });
+    });
+   });      
+  </script>
+{% endblock %}
+
 {% block wiki_contents_tab %}
-<p>Page History</p>
+<h2>Page History</h2>
 <ul class="revision-list">
   {% for revision in revisions %}
     {% if revision == article.current_revision %}
        <li class="revision-current">
+       <dt class="revision-current">{{revision.title}}</dt>
+    {% elif article|can_write:user %}
+       <li class="revision-history previewable" revision_id="{{ revision.id }}" preview_url="{% url 'wiki:preview_revision' article.id %}" revert_url="{% url 'wiki:change_revision' path=urlpath.path article_id=article.id revision_id=revision.id %}">
+       <dt class="revision-history">{{revision.title}}</dt>
     {% else %}
-       <li class="revision-history">
+       <li class="revision-history previewable" revision_id="{{ revision.id }}" preview_url="{% url 'wiki:preview_revision' article.id %}">
+       <dt class="revision-history">{{revision.title}}</dt>    
     {% endif %}
     
-    <span class="revision-title">{{revision.title }}</span>
+    <dd>
+      <span class="revision-timestamp">
+      Modified {% include "wiki/includes/revision_info.html" with current_revision=article.current_revision %}
+      </span>
     
-    <span class="revision-timestamp">
-    {% include "wiki/includes/revision_info.html" with current_revision=article.current_revision %}
-    </span>
-    
-    <span class="revision-log">
-    {% if revision.user_message %}
-       {{ revision.user_message }}
-    {% elif revision.automatic_log %}
-       {{ revision.automatic_log }}
-    {% else %}
-       No Log Message
-    {% endif %}
-    </span>
-    </li>
+      <span class="revision-log">
+      {% if revision.user_message %}
+         {{ revision.user_message }}
+      {% elif revision.automatic_log %}
+         {{ revision.automatic_log }}
+      {% else %}
+         No Log Message
+      {% endif %}
+      </span>
+    </dd>
+  </li>
   {% endfor %}
 </ul>
 
+<div title="Preview Revision" id="dialog-message" class="preview-dialog">
+  <p>Content to go here </p>
+</div>
+
 {% endblock %}
+
