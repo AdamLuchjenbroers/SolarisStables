@@ -15,11 +15,7 @@
     <li><a href="{% url 'wiki:history' article_id=article.id path=urlpath.path %}">History</a></li>
 
   {% if article|can_write:user  %}
-    {% if urlpath.parent %}
     <li><a href="/wiki/_create">New Page</a></li>
-    {% endif %}
-    <li><a href="{% url 'wiki:create' path=urlpath.path %}">New Sub-topic</a></li>
-    
   {% endif %}
   </ul>
 {% endblock %}
