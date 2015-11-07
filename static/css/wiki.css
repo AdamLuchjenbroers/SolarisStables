@@ -55,15 +55,15 @@ ul.wiki-submenu {
   width: 640px;  
 }
 
-form.wiki-edit, form.wiki-create {
+form.wiki-form {
   padding-left: 20px;
 }
 
-form.wiki-edit > div, form.wiki-create > div {
+form.wiki-form > div {
   margin-bottom: 12px;
 }
 
-form.wiki-edit div.wiki-label, form.wiki-create div.wiki-label {
+form.wiki-form div.wiki-label {
   float: left;
   width: 8em;
 }
@@ -74,7 +74,7 @@ span.input-group-addon {
    display: inline-block;  
 }
 
-form.wiki-edit div.wiki-control, form.wiki-create div.wiki-control {
+form.wiki-form div.wiki-control {
   left: 100px;
   padding-left: 0px;
   width: calc(80% - 8em);
@@ -85,7 +85,7 @@ textarea#id_content {
   height: 400px;
 }
 
-form.wiki-edit div.wiki-control *, form.wiki-create div.wiki-control *  {
+form.wiki-form div.wiki-control *, {
   margin-left: 0px;
   display: inline-block;
 }

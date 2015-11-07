@@ -9,7 +9,7 @@
 {% block title %}Editing - {{ article.current_revision.title }}{% endblock %}
 
 {% block wiki_contents_tab %}
-   <form class="wiki-edit" method="POST">
+   <form class="wiki-edit wiki-form" method="POST">
      <input type="hidden" name="save" value="1" />
      <input type="hidden" name="preview" value="1" />
      {% with edit_form as form %}
