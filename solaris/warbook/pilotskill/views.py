@@ -13,3 +13,4 @@ class DisciplineDetailView(ReferenceViewMixin, DetailView):
     template_name = 'warbook/pilotskilldetail.tmpl'
     slug_field = 'urlname__iexact' 
     model = models.PilotTraitGroup
+    queryset = models.PilotTraitGroup.objects.filter(discipline_type='T')
