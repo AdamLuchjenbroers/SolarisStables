@@ -6,20 +6,10 @@ class PilotTraitInline(admin.StackedInline):
     model = models.PilotTrait
     fields = ('name', 'description', 'bv_mod')  
 
-class PilotAbilityInline(PilotTraitInline):
-    extra = 6
-    max_num = 6
-  
-class PilotDisciplineAdmin(admin.ModelAdmin):
-    model = models.PilotTraitGroup
-    inlines = [PilotAbilityInline,]
-
 class PilotTraitGroupAdmin(admin.ModelAdmin):
     model = models.PilotTraitGroup
     inlines = [PilotTraitInline,]
-    
-    def get_queryset(self, request):
-        return self.model.objects.filter(~Q(discipline_type='T'))
+
     
 
     
