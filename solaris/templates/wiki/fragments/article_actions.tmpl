@@ -16,7 +16,7 @@
 
   {% if article|can_write:user  %}
     {% if urlpath.parent %}
-    <li><a href="{% url 'wiki:create' path=urlpath.parent.path %}">New Topic</a></li>
+    <li><a href="/wiki/_create">New Page</a></li>
     {% endif %}
     <li><a href="{% url 'wiki:create' path=urlpath.path %}">New Sub-topic</a></li>
     
