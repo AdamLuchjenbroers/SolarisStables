@@ -20,6 +20,9 @@
             {% if children_slice_more %}
               <li><a href="{% url 'wiki:dir' path=urlpath.path %}">... More articles</a></li>
             {% endif %}
+            {% if article|can_write:user %}
+              <li><a href="{% url 'wiki:create' path=urlpath.path %}">Add Page</a></li>
+            {% endif %}
           </ul>
         </li>
       {% endif %}
