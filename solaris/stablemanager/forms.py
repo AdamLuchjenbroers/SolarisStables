@@ -1,15 +1,15 @@
 from django.forms import ModelChoiceField, ModelForm
 from django.db.models import Max
 
-from solaris.warbook.pilotskill.models import PilotDiscipline
+from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.stablemanager.models import Stable
 from solaris.campaign.models import BroadcastWeek
 
 
 class StableRegistrationForm(ModelForm):
 
-    discipline_1 = ModelChoiceField(label='Discipline 1', required=True, queryset=PilotDiscipline.objects.all())
-    discipline_2 = ModelChoiceField(label='Discipline 2', required=True, queryset=PilotDiscipline.objects.all())
+    discipline_1 = ModelChoiceField(label='Discipline 1', required=True, queryset=PilotTraitGroup.objects.all())
+    discipline_2 = ModelChoiceField(label='Discipline 2', required=True, queryset=PilotTraitGroup.objects.all())
     
     def __init__(self, **kwargs):
         super(StableRegistrationForm, self).__init__(**kwargs)  

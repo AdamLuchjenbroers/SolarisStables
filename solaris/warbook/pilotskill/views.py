@@ -6,10 +6,10 @@ from solaris.warbook.pilotskill import models
 class DisciplineListView(ReferenceViewMixin, ListView):
     submenu_selected = 'Pilot Skills'
     template_name = 'warbook/pilotdisciplines.tmpl'
-    model = models.PilotDiscipline
+    model = models.PilotTraitGroup
     
 class DisciplineDetailView(ReferenceViewMixin, DetailView):
     submenu_selected = 'Pilot Skills'
     template_name = 'warbook/pilotskilldetail.tmpl'
     slug_field = 'urlname__iexact' 
-    model = models.PilotDiscipline
+    model = models.PilotTraitGroup

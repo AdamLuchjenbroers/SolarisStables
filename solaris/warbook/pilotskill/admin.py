@@ -11,7 +11,7 @@ class PilotAbilityInline(PilotTraitInline):
     max_num = 6
   
 class PilotDisciplineAdmin(admin.ModelAdmin):
-    model = models.PilotDiscipline
+    model = models.PilotTraitGroup
     inlines = [PilotAbilityInline,]
 
 class PilotTraitGroupAdmin(admin.ModelAdmin):

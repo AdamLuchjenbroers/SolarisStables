@@ -8,7 +8,7 @@ from django.contrib.auth.views import redirect_to_login
 
 from solaris.views import SolarisViewMixin
 from solaris.campaign.models import BroadcastWeek
-from solaris.warbook.pilotskill.models import PilotDiscipline
+from solaris.warbook.pilotskill.models import PilotTraitGroup
 
 from .models import Stable
 from .ledger.models import Ledger
@@ -92,8 +92,8 @@ class StableRegistrationView(SolarisViewMixin, CreateView):
         self.object.owner = self.request.user
         self.object.save()           
                     
-        self.object.stable_disciplines.add( PilotDiscipline.objects.get(name=form.cleaned_data['discipline_1']) )
-        self.object.stable_disciplines.add( PilotDiscipline.objects.get(name=form.cleaned_data['discipline_2']) )
+        self.object.stable_disciplines.add( PilotTraitGroup.objects.get(name=form.cleaned_data['discipline_1']) )
+        self.object.stable_disciplines.add( PilotTraitGroup.objects.get(name=form.cleaned_data['discipline_2']) )
         self.object.save()
     
     def get_context_data(self, **kwargs):
