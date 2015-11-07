@@ -111,10 +111,5 @@ class PilotTrait(models.Model):
     
     def __unicode__(self):
         return self.name   
-  
-class PilotAbility(PilotTrait):   
-    class Meta:
-        verbose_name_plural = 'Pilot Abilities'
-        verbose_name = 'Pilot Ability'
-        proxy = True
+
 
