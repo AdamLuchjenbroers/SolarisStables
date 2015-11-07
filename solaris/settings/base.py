@@ -53,6 +53,8 @@ JQUERY_URL = '/static/js/jquery-1.11.1.js'
 MIGRATION_MODULES = {
     'warbook'       : 'solaris.warbook.migrations'
 ,   'stablemanager' : 'solaris.stablemanager.migrations'
+,   'cms'           : 'solaris.cms.migrations'
+,   'campaign'      : 'solaris.campaign.migrations'
 }
 
 INSTALLED_APPS = (
