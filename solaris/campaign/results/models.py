@@ -1,7 +1,7 @@
 from django.db import models
 
 from solaris.stablemanager.models import Stable
-from solaris.stablemanager.assets.models import Pilot, Mech
+from solaris.stablemanager.mechs.models import Pilot, Mech
 
 class StableEntry(models.Model):
     stable = models.ForeignKey(Stable)

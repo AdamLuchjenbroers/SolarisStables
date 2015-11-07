@@ -1,7 +1,7 @@
 from django.db import models
 
 from solaris.warbook.pilotskill.models import TrainingCost, PilotTrait
-from solaris.stablemanager.assets.models import PilotWeek
+from solaris.stablemanager.mechs.models import PilotWeek
 
 class TrainingEvent(models.Model):
     pilot = models.ForeignKey(PilotWeek)

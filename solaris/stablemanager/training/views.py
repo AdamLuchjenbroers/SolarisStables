@@ -2,7 +2,7 @@ from django.views.generic import ListView
 from django.shortcuts import get_list_or_404
 
 from solaris.stablemanager.views import StableWeekMixin
-from solaris.stablemanager.assets.models import PilotWeek
+from solaris.stablemanager.mechs.models import PilotWeek
 
 class StableTrainingView(StableWeekMixin, ListView):
     submenu_selected = 'Training'
