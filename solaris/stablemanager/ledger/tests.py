@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-#from solaris.battlereport.models import Zodiac, BroadcastWeek
+#from solaris.campaign.models import Zodiac, BroadcastWeek
 #from .models import Ledger, LedgerItem
 
 

@@ -3,7 +3,7 @@ from django.db.models import Max
 
 from solaris.warbook.pilotskill.models import PilotDiscipline
 from solaris.stablemanager.models import Stable
-from solaris.battlereport.models import BroadcastWeek
+from solaris.campaign.models import BroadcastWeek
 
 
 class StableRegistrationForm(ModelForm):

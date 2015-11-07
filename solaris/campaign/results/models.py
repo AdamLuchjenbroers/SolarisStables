@@ -14,5 +14,5 @@ class StableEntry(models.Model):
     class Meta:
         verbose_name_plural = 'Stable Entries'
         verbose_name = 'Stable Entry'
-        db_table = 'battlereport_stableentry'
-        app_label = 'battlereport'
+        db_table = 'campaign_stableentry'
+        app_label = 'campaign'

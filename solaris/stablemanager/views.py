@@ -7,7 +7,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
 
 from solaris.views import SolarisViewMixin
-from solaris.battlereport.models import BroadcastWeek
+from solaris.campaign.models import BroadcastWeek
 from solaris.warbook.pilotskill.models import PilotDiscipline
 
 from .models import Stable

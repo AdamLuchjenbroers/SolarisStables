@@ -7,8 +7,8 @@ class Zodiac(models.Model):
 
     class Meta:
         verbose_name = 'Zodiac Sign'
-        db_table = 'battlereport_zodiac'
-        app_label = 'battlereport'
+        db_table = 'campaign_zodiac'
+        app_label = 'campaign'
     
     def __unicode__(self):
         return self.sign
@@ -27,8 +27,8 @@ class BroadcastWeek(models.Model):
         
     class Meta:
         verbose_name = 'Broadcast Week'
-        db_table = 'battlereport_broadcastweek'
-        app_label = 'battlereport'
+        db_table = 'campaign_broadcastweek'
+        app_label = 'campaign'
 
     def advance(self):
         if self.next_week == None:            

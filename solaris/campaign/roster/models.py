@@ -2,7 +2,7 @@ from django.db import models
 
 from markitup.fields import MarkupField
 
-from solaris.battlereport.models import BroadcastWeek
+from solaris.campaign.models import BroadcastWeek
 
 class FightGroup(models.Model):
     name = models.CharField(max_length=50)
@@ -10,8 +10,8 @@ class FightGroup(models.Model):
     class Meta:
         verbose_name_plural = 'Fight Groups'
         verbose_name = 'Fight Group'
-        db_table = 'battlereport_fightgroup'
-        app_label = 'battlereport'
+        db_table = 'campaign_fightgroup'
+        app_label = 'campaign'
     
 class FightType(models.Model):
     group = models.ForeignKey(FightGroup)
@@ -21,8 +21,8 @@ class FightType(models.Model):
     class Meta:
         verbose_name_plural = 'Fight Types'
         verbose_name = 'Fight Type'
-        db_table = 'battlereport_fighttype'
-        app_label = 'battlereport'
+        db_table = 'campaign_fighttype'
+        app_label = 'campaign'
 
 class Map(models.Model):
     name = models.CharField(max_length=20)
@@ -31,8 +31,8 @@ class Map(models.Model):
     class Meta:
         verbose_name_plural = 'Maps'
         verbose_name = 'Map'
-        db_table = 'battlereport_map'
-        app_label = 'battlereport'
+        db_table = 'campaign_map'
+        app_label = 'campaign'
 
 class RosteredFight(models.Model):
     week = models.ForeignKey(BroadcastWeek)
@@ -42,5 +42,5 @@ class RosteredFight(models.Model):
     class Meta:
         verbose_name_plural = 'Rostered Fights'
         verbose_name = 'Rostered Fight'
-        db_table = 'battlereport_rosteredfight'
-        app_label = 'battlereport'
+        db_table = 'campaign_rosteredfight'
+        app_label = 'campaign'

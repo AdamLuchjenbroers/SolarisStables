@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from solaris.battlereport.models import BroadcastWeek
+from solaris.campaign.models import BroadcastWeek
 from solaris.stablemanager.models import Stable
 
 class Ledger(models.Model):

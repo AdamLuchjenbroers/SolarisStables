@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
 from solaris.warbook.pilotskill.models import PilotTraitGroup
-from solaris.battlereport.models import BroadcastWeek
+from solaris.campaign.models import BroadcastWeek
 
 
 class Stable(models.Model):

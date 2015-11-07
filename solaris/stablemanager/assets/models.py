@@ -6,7 +6,7 @@ from solaris.stablemanager.models import Stable
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.pilotskill.models import PilotTrait, PilotRank
 from solaris.warbook.models import House
-from solaris.battlereport.models import BroadcastWeek
+from solaris.campaign.models import BroadcastWeek
     
 class Pilot(models.Model):    
     stable = models.ForeignKey(Stable, blank=True, related_name='pilots')

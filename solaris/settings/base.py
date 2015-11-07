@@ -51,7 +51,8 @@ MARKITUP_SET = 'markitup/sets/markdown'
 JQUERY_URL = '/static/js/jquery-1.11.1.js'
 
 MIGRATION_MODULES = {
-    'warbook'   : 'solaris.warbook.migrations'
+    'warbook'       : 'solaris.warbook.migrations'
+,   'stablemanager' : 'solaris.stablemanager.migrations'
 }
 
 INSTALLED_APPS = (
@@ -63,7 +64,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'solaris',
     'solaris.cms',
-    'solaris.battlereport',
+    'solaris.campaign',
     'solaris.warbook',
     'solaris.warbook.techtree',
     'solaris.warbook.pilotskill',
