@@ -5,18 +5,18 @@ from django.views.generic import TemplateView, View
 from django.core.urlresolvers import reverse
 
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
-from solaris.stablemanager.ledger.models import Ledger, LedgerItem
+from solaris.stablemanager.ledger.models import StableWeek, LedgerItem
 
 from .forms import LedgerItemForm, LedgerDeleteForm
 
 class StableLedgerView(StableWeekMixin, TemplateView):
-    submenu_selected = 'Ledger'
+    submenu_selected = 'StableWeek'
     template_name = 'stablemanager/stable_ledger.tmpl'
         
     def get_context_data(self, **kwargs):
         page_context = super(StableLedgerView,self).get_context_data(**kwargs)
         
-        self.ledger = get_object_or_404(Ledger, stable=self.stable, week=self.week)
+        self.ledger = get_object_or_404(StableWeek, stable=self.stable, week=self.week)
         page_context['ledger'] = self.ledger
         
         page_context['ledger_groups'] = []    
@@ -62,7 +62,7 @@ class StableLedgerView(StableWeekMixin, TemplateView):
         return page_context
     
     def post(self, request, stable=None, week=None, ledger=None):
-        self.ledger = get_object_or_404(Ledger, stable=self.stable, week=self.week)
+        self.ledger = get_object_or_404(StableWeek, stable=self.stable, week=self.week)
         
         form_values = deepcopy(request.POST)
         form_values['ledger'] = self.ledger.id

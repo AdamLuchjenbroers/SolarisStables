@@ -1,6 +1,9 @@
 from django.db import models
+from django.db.models.signals import post_save
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
+from django.dispatch import receiver
 
 from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
@@ -15,7 +18,7 @@ class Stable(models.Model):
     reputation = models.IntegerField(default=0)
     supply_contract = models.ManyToManyField(Technology)
     stable_disciplines = models.ManyToManyField(PilotTraitGroup)
-    current_week = models.ForeignKey(BroadcastWeek, null=True)
+    current_week = models.ForeignKey('StableWeek', null=True)
     
     def __unicode__(self):
         return self.stable_name
@@ -43,4 +46,59 @@ class Stable(models.Model):
             pilot.advance()        
         
      
+class StableWeek(models.Model):
+    stable = models.ForeignKey('Stable', related_name='ledger')
+    week = models.ForeignKey(BroadcastWeek)
+    opening_balance = models.IntegerField()
+    next_week = models.ForeignKey('StableWeek', null=True, related_name='prev_week')
+    
+    def closing_balance(self):
+        balance = self.opening_balance
+        
+        for item in self.entries.all():
+            balance += item.get_cost()
+            
+        return balance
+    
+    def advance(self):
+        if self.week.next_week == None:
+            return
+        
+        try:
+            # Try to get the next week along after this one, in case it already exists
+            # Should rarely return anything, but this is included as a safety feature
+            self.next_week = self.objects.get(stable=self.stable, week=self.week.next_week)
+            self.save()
+            return self.next_week
+        except ObjectDoesNotExist:
+            pass
+        
+        self.next_week = self.objects.create(
+            stable = self.stable
+        ,   week = self.week.next_week
+        ,   opening_balance = self.closing_balance()
+        )
+        self.save()
+        
+        return self.next_week
+            
+    def get_absolute_url(self):
+        return reverse('stable_ledger', kwargs={'week': self.week.week_number})
+    
+    class Meta:
+        verbose_name_plural = 'Ledgers'
+        verbose_name = 'StableWeek'
+        db_table = 'stablemanager_stableweek'
+        app_label = 'stablemanager'
+        
+        unique_together = ('stable', 'week')
+        
+    
+@receiver(post_save, sender=Stable)
+def setup_initial_ledger(sender, created=False, **kwargs):
+    if created:
+        (ledger, newledger) = StableWeek.objects.get_or_create(stable=sender, week=sender.current_week)
+        if newledger:
+            ledger.opening_balance = 75000000
 
+        ledger.save()

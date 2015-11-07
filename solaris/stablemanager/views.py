@@ -11,7 +11,7 @@ from solaris.campaign.models import BroadcastWeek
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 
 from .models import Stable
-from .ledger.models import Ledger
+from .ledger.models import StableWeek
 from .forms import StableRegistrationForm
 
 class StableViewMixin(SolarisViewMixin):
@@ -23,7 +23,7 @@ class StableViewMixin(SolarisViewMixin):
         page_context['stable'] = self.stable
         page_context['selected'] = 'Stable'
         page_context['submenu'] = [
-          {'title' : 'Ledger', 'url' : '/stable/ledger'},
+          {'title' : 'StableWeek', 'url' : '/stable/ledger'},
           {'title' : 'Assets', 'url' : '/stable'},
           {'title' : 'Actions', 'url' : '/stable/actions'},
           {'title' : 'Training', 'url' : '/stable/training'},
