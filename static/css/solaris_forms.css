@@ -22,9 +22,10 @@ div.field_basic {
   position: relative;  
 }
 
-div.field_error {
+div.field_error, div.form_error {
   border-width: 1px;
   border-style: solid;
+  border-radius: 5px;
   padding: 6px;
   margin-top: 4px;
   margin-bottom: 4px;
