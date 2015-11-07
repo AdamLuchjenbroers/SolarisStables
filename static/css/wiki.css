@@ -106,6 +106,7 @@ p.help-block {
   width: 24em;
   padding-left: 1em;
   margin: 0px;
+  display: inline-block;
 }
 
 a.btn, button.btn {
