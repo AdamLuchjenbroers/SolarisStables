@@ -65,18 +65,19 @@ form.wiki-edit > div, form.wiki-create > div {
 
 form.wiki-edit div.wiki-label, form.wiki-create div.wiki-label {
   float: left;
-  width: 80px;
+  width: 8em;
 }
 
 span.input-group-addon {
-   float: left;
-   font-weight: bold;  
+   font-weight: bold;
+   padding-right: 0.2em;
+   display: inline-block;  
 }
 
 form.wiki-edit div.wiki-control, form.wiki-create div.wiki-control {
   left: 100px;
   padding-left: 0px;
-  width: 620px;
+  width: calc(80% - 8em);
 }
 
 textarea#id_content {
@@ -86,7 +87,7 @@ textarea#id_content {
 
 form.wiki-edit div.wiki-control *, form.wiki-create div.wiki-control *  {
   margin-left: 0px;
-  display: block;
+  display: inline-block;
 }
 
 
@@ -96,19 +97,36 @@ input#id_summary, input#id_title, div.input-group {
 }
 
 input#id_slug {
-  width: 100%;
+  width: auto;
   overflow: hidden;
 }
 
-
-/* Hide a few fields I have no use for */
-p#hint_id_summary, p#hint_id_slug, p#hint_id_title {
-  float: right;
+p.help-block {
   font-size: 80%;
-  width: 300px;
+  width: 24em;
+  padding-left: 1em;
   margin: 0px;
 }
 
+a.btn, button.btn {
+  width: 8em;
+  display: inline-block;
+  margin: 0.4em;
+  padding: 0.1em;
+  
+  border: 1px solid #262233;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #000000;
+  
+  background: #AAAAAA;
+  color: #262233;
+  vertical-align: middle;
+  font-family: arial,sans-serif;   
+  text-align: center;
+  text-decoration: none;  
+}
+
+/* Hide a few fields I have no use for */
 span.asteriskField {
   visibility: hidden;
   display: none;
