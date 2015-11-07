@@ -11,6 +11,7 @@ class ReferenceViewMixin(SolarisViewMixin):
         page_context['submenu'] = [
           {'title' : 'TechTree', 'url' : '/reference/techtree'},
           {'title' : 'Pilot Skills', 'url' : '/reference/pilotskills'},
+          {'title' : 'Pilot Issues', 'url' : '/reference/pilottraits'},
           {'title' : 'Mechs', 'url' : '/reference/mechs'},       
         ]
         page_context['submenu_selected'] = self.__class__.submenu_selected
