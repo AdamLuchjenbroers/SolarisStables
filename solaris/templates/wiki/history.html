@@ -15,6 +15,8 @@
         
         $('#dialog-message').dialog ({
           modal: true,
+          width: (window.innerWidth * 0.75),
+          height: (window.innerHeight * 0.75),
           buttons: {
             Close: function() { $( this ).dialog("close"); }
 {% if article|can_write:user %}

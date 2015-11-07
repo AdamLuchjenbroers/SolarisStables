@@ -421,6 +421,43 @@ form#wiki-search-form input {
   border-radius: 5px;
   box-shadow: 2px 2px 4px #000000;
 }
+
+/****************************************
+ * JQuery UI Dialogs
+ ****************************************/
+div.ui-dialog {
+  border: 2px solid #262233;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #000000;
+  background: #888888;
+}
+
+div.ui-dialog-titlebar {
+  background: #262233;
+  border: 2px solid #DDDDDD;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #000000;
+  
+}
+
+div.ui-dialog-buttonpane {
+  background: #888888;
+  border: 0px;
+}
+
+div.ui-dialog-buttonset button.ui-button {
+  background: #262233;
+  border: 2px solid #DDDDDD;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #000000;
+  
+  color: #DDDDDD;
+}
+
+button.ui-dialog-titlebar-close {
+    display: none;
+}
+
 /****************************************
  * Main Page Body
  ****************************************/
