@@ -66,11 +66,12 @@ div.field_basic div, div.field_basic span
 } 
 
 div.field_basic div.field_label, div.field_error div.field_label, div.field_info div.field_label {
-  width: 120px;
+  width: 8em;
 }
 
 div.field_basic div.field_input, div.field_error div.field_input, div.field_info div.field_input {
-  width: 260px;
+  width: 24em;
+  width: calc(80% - 8em);
 }
 
 /*
