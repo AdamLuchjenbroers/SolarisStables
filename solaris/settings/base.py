@@ -1,4 +1,5 @@
 # Settings applicable to every environment
+from django.conf.global_settings import MIGRATION_MODULES
 
 TIME_ZONE = 'Australia/Sydney'
 
@@ -48,6 +49,10 @@ MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': True})
 MARKITUP_SET = 'markitup/sets/markdown'
 
 JQUERY_URL = '/static/js/jquery-1.11.1.js'
+
+MIGRATION_MODULES = {
+    'warbook'   : 'solaris.warbook.migrations'
+}
 
 INSTALLED_APPS = (
     'django.contrib.auth',
