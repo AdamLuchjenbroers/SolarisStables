@@ -3,7 +3,38 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from decimal import Decimal
+from django.core.management import call_command
 
+    
+def load_houses(apps, schema_editor):
+    call_command('loaddata', 'data/warbook.house.json');
+  
+def load_mechlocations(apps, schema_editor):
+    call_command('loaddata', 'data/warbook.mechlocation.json');
+         
+def load_pilotranks(apps, schema_editor):
+    call_command('loaddata', 'data/warbook.pilotrank.json');
+    
+def load_pilottraitgroup(apps, schema_editor):
+    call_command('loaddata', 'data/warbook.pilottraitgroup.json');
+    
+def load_pilottrait(apps, schema_editor):
+    call_command('loaddata', 'data/warbook.pilottrait.json');
+    
+def load_technology(apps, schema_editor):
+    call_command('loaddata', 'data/warbook.technology.json');
+    
+def load_technologyrollmodifier(apps, schema_editor):
+    call_command('loaddata', 'data/warbook.technologyrollmodifier.json');
+        
+def load_trainingcost(apps, schema_editor):
+    call_command('loaddata', 'data/warbook.trainingcost.json');
+
+    
+def noop(apps, schema_editor):
+    # Why bother to delete from tables that are being dropped in the
+    # same operation.
+    pass
 
 class Migration(migrations.Migration):
 
@@ -276,15 +307,12 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(to='warbook.PilotTraitGroup', db_table=b'warbook_house_x_discipline'),
             preserve_default=True,
         ),
-        migrations.CreateModel(
-            name='PilotDiscipline',
-            fields=[
-            ],
-            options={
-                'verbose_name': 'Pilot Discipline',
-                'proxy': True,
-                'verbose_name_plural': 'Pilot Disciplines',
-            },
-            bases=('warbook.pilottraitgroup',),
-        ),
+        migrations.RunPython(load_houses, reverse_code=noop),
+        migrations.RunPython(load_mechlocations, reverse_code=noop),
+        migrations.RunPython(load_pilotranks, reverse_code=noop),
+        migrations.RunPython(load_pilottraitgroup, reverse_code=noop),
+        migrations.RunPython(load_pilottrait, reverse_code=noop),
+        migrations.RunPython(load_technology, reverse_code=noop),
+        migrations.RunPython(load_technologyrollmodifier, reverse_code=noop),
+        migrations.RunPython(load_trainingcost, reverse_code=noop),
     ]
