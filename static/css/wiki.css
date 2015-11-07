@@ -126,6 +126,56 @@ a.btn, button.btn {
   text-decoration: none;  
 }
 
+/*****************************************************************************
+ * Directory tables
+ *****************************************************************************/
+table.wiki-dir {
+    border-collapse: separate;
+    border-spacing: 0px;
+}
+
+table.wiki-dir tr.header {
+    background-color: #262233;
+    color: #BBBBBB;
+    
+    border-radius: 5px;
+    border: 0px;
+    margin: 0px;
+    padding: 0.1em;
+    font-size: 110%;
+    box-shadow: 2px 2px 4px #000000;
+    margin-bottom: 0.5em;
+}
+
+table.wiki-dir tr.header th {
+    text-align: left;
+    padding-left: 0.2em;
+}
+
+table.wiki-dir tr:nth-of-type(2) td {
+    padding-top: 0.2em;
+}
+
+table.wiki-dir  th.header-title, table.wiki-dir  th.data-title {
+    width: 8em;
+}
+
+table.wiki-dir  th.header-slug, table.wiki-dir  th.data-slug {
+    width: 12em;
+}
+
+table.wiki-dir  th.header-modified, table.wiki-dir  th.data-modified {
+    width: 16em;
+}
+
+table.table-striped.wiki-dir tr.data:nth-child(odd) {
+    background: #888888;
+}
+ 
+table.table-striped.wiki-dir tr.data:nth-child(odd) {
+    background: #BBBBBB;
+}
+ 
 /* Hide a few fields I have no use for */
 span.asteriskField {
   visibility: hidden;
