@@ -127,8 +127,38 @@ a.btn, button.btn {
 }
 
 /*****************************************************************************
- * Directory tables
+ * Directory Listings / Table
  *****************************************************************************/
+div.wiki-dir-actions {
+    width: 52em;
+}
+
+div.wiki-dir-actions div.wiki-dir-buttons { 
+    display: inline-block;
+    width: 20em;
+}
+
+div.wiki-dir-actions div.wiki-dir-filter { 
+    vertical-align: top;
+    display: inline-block;
+    width: 18em;
+    margin: 0.4em;
+    padding: 0.2em;
+    padding-bottom: 0.4em;
+}
+
+div.wiki-dir-actions div.wiki-dir-clear {
+    display: inline-block;
+    width: 10em;
+}
+
+
+div.wiki-dir-actions div.wiki-dir-filter input {
+  border: 2px solid #262233;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #000000;
+}
+
 table.wiki-dir {
     border-collapse: separate;
     border-spacing: 0px;

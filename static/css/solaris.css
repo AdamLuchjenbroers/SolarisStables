@@ -388,17 +388,19 @@ div.actionbar ul.wiki-breadcrumbs {
 
 
 form#wiki-search-form {
+  vertical-align: top;  
   text-align: left;
-  vertical-align: top;
   display: inline-block;
+  
   width: 17em;  
-
   padding-top: 0.8em;
   padding-bottom: 0.4em;
+
   margin: auto;  
 }
 
-form#wiki-search-form button {
+
+form#wiki-search-form button, div.wiki-dir-filter button {
   margin: 0px;
   margin-bottom: 4px;
   padding: 0px;
