@@ -330,6 +330,7 @@ hr.action-break {
 
 li.children {
   position:absolute;
+  padding: 1px;
 }
 
 ul.bc-childmenu {
@@ -352,10 +353,12 @@ ul.bc-childmenu li {
 }
 
 li.children:hover {
-  background-color: rgba(34, 34, 136, 0.7);
+  background-color: rgba(76, 68, 102, 0.7);
   color: #FFFFFF;
-  border: none;
+  border: 1px solid #888888;
   border-radius: 5px;
+  
+  box-shadow: 2px 2px 4px #000000;
 }
 
 li.children:hover ul.bc-childmenu {
@@ -363,8 +366,7 @@ li.children:hover ul.bc-childmenu {
   list-style: none;
 }
 
-ul.bc-childmeni li a {
-   width: 100%;
+ul.bc-childmenu li a {
    padding: 1px;
 }
 
