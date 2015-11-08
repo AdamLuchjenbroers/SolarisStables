@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 
+from solaris.warbook.equipment.models import Equipment
+
 class Technology(models.Model):
     
     categories = (            
@@ -26,6 +28,7 @@ class Technology(models.Model):
     base_difficulty = models.IntegerField()
     tier = models.IntegerField(choices=tiers)
     show = models.BooleanField(default=True)
+    access_to = models.ManyToManyField(Equipment, db_table='warbook_tech_x_equipment')
  
     def __unicode__(self):
         if self.show:

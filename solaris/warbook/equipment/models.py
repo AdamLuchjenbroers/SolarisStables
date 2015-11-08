@@ -29,7 +29,11 @@ class Equipment(models.Model):
     weapon_properties = models.CharField(max_length=20, null=True, blank=True)
     # Are the tonnage / criticals for this item only derivable after the rest of the mech is loaded
     evaluate_last = models.BooleanField(default=False)    
-    
+    # Can this be attached to a fire control system?
+    fcs_artemis_iv = models.BooleanField(default=False)    
+    fcs_artemis_v = models.BooleanField(default=False)    
+    fcs_apollo = models.BooleanField(default=False)    
+
     record_states = (
         (0, 'Aggressive Load')
     ,   (1, 'Incomplete')
