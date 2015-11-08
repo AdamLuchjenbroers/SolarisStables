@@ -11,7 +11,10 @@ urlpatterns = patterns('',
 
     url(r'^reset-password/$', views.SolarisPasswordResetView.as_view(),
         name='account_reset_password'),
-                       
+    url(r"^reset-password/key/(?P<uidb36>[0-9A-Za-z]+)-(?P<key>.+)/$",
+        views.SolarisPasswordResetFromKeyView.as_view(),
+        name="account_reset_password_from_key"),
+                                             
     # These need to be in the invitations namespace so the django-invitations
     # module can derive the correct URLs
     url(r'^invite/$', views.SolarisSendInvite.as_view(),

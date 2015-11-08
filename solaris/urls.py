@@ -3,6 +3,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 
+import allauth.account.urls
+
 from solaris.account.views import SolarisLoginView, SolarisRegistrationView
 from solaris.cms.views import NewsListView, NewsPostFormView
 
