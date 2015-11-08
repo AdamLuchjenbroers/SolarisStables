@@ -42,7 +42,8 @@ div.title span.title-menu {
 }
 
 span.title-menu h1 {
-  color: #FFFF22;
+  color: #DDDDDD;
+  text-shadow: 2px 2px 4px #000000; 
   
   font-family: arial,sans-serif;   
 
@@ -53,8 +54,9 @@ span.title-menu h1 {
 }
 
 span.title-menu h2 {
-  color: #BB8800;
-
+  color: #BBBBBB;
+  text-shadow: 2px 2px 4px #000000;
+   
   font-family: arial,sans-serif;   
 
   margin-left: 10px;
