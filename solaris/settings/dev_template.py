@@ -62,3 +62,5 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = 'yes'
 EMAIL_HOST_USER = 'account@example.com'
 EMAIL_HOST_PASSWORD = 'password'
+
+DEFAULT_FROM_EMAIL = 'account@example.com'
