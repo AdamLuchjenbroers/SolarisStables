@@ -13,6 +13,13 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
    'django.template.loaders.filesystem.Loader',
@@ -31,8 +38,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     "sekizai.context_processors.sekizai",
-    "solaris.utils.determine_selected"
+    "solaris.utils.determine_selected",    
+#    "allauth.account.context_processors.account",
+#    "allauth.socialaccount.context_processors.socialaccount",
 )
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -87,10 +97,18 @@ INSTALLED_APPS = (
     'wiki.plugins.notifications',
     'wiki.plugins.images',
     'wiki.plugins.macros',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount'
 )
 
+LOGIN_REDIRECT_URL="/"
+
 ACCOUNT_ADAPTER='invitations.models.InvitationsAdapter'
+
+
 INVITATIONS_INVITE_ONLY=True
 INVITATIONS_INVITATION_EXPIRY=14
 INVITATIONS_SIGNUP_REDIRECT="/register/"
+
 

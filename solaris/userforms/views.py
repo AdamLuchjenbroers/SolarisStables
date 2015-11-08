@@ -4,34 +4,13 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from urlparse import urlparse
 from django.views.generic import FormView, CreateView
+from allauth.account.views import LoginView, SignupView
 
 from .forms import RegistrationForm, LoginForm
 from solaris.views import SolarisViewMixin
 
-class SolarisLoginView(SolarisViewMixin, FormView):
-    template_name = 'solaris_basicform.tmpl'
-    form_class = LoginForm
-    success_url = '/'
-    
-    def get_context_data(self, **kwargs):
-        page_context = super(SolarisLoginView, self).get_context_data(**kwargs)
-        
-        page_context['post_url'] = '/login'
-        page_context['submit'] = 'Login'
-        page_context['form_class'] = 'login'
-        
-        return page_context
-    
-    def form_valid(self, form):
-        login(self.request, form.user)
-        return super(SolarisLoginView, self).form_valid(form)
-        
-    def get(self, request):
-        if 'next' in request.GET:
-            url = urlparse(request.GET['next'])
-            self.success_url = url.path
-        
-        return super(SolarisLoginView, self).get(request)        
+class SolarisLoginView(SolarisViewMixin, LoginView):
+    success_url = '/'    
     
 class SolarisRegistrationView(SolarisViewMixin, CreateView):   
     template_name = 'solaris_basicform.tmpl'
