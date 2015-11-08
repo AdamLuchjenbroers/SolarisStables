@@ -14,8 +14,11 @@
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
   {% if form.non_field_errors %} <div class="form_error"> {{ form.non_field_errors }} </div> {% endif %}
-  {% for field in form %}
+  {% for field in form.visible_fields %}
       {% basic_field field %}
+  {% endfor %}
+  {% for hidden in form.hidden_fields %}
+    {{ hidden }}
   {% endfor %}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
