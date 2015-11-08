@@ -5,21 +5,23 @@ from django.forms.forms import NON_FIELD_ERRORS
 
 from invitations.views import SendInvite, AcceptInvite 
 from solaris.views import SolarisViewMixin
-from allauth.account.views import LoginView, SignupView, ConfirmEmailView
+from allauth.account import views as authviews
 
-from solaris.views import SolarisViewMixin
 
-class SolarisLoginView(SolarisViewMixin, LoginView):
+class SolarisLoginView(SolarisViewMixin, authviews.LoginView):
     pass
     
-class SolarisRegistrationView(SolarisViewMixin, SignupView):   
+class SolarisRegistrationView(SolarisViewMixin, authviews.SignupView):   
     pass
 
-class SolarisConfirmEmailView(SolarisViewMixin, ConfirmEmailView):
+class SolarisConfirmEmailView(SolarisViewMixin, authviews.ConfirmEmailView):
+    pass
+
+class SolarisPasswordResetView(SolarisViewMixin, authviews.PasswordResetView):
     pass
 
 class SolarisSendInvite(SolarisViewMixin, SendInvite):
-    template_name='invites/send_invite.html'
+    template_name='account/send_invite.html'
     submit='Invite'
 
     def get_context_data(self, **kwargs):
@@ -36,7 +38,7 @@ class SolarisSendInvite(SolarisViewMixin, SendInvite):
         return super(SolarisSendInvite, self).form_invalid(form)
 
 class SolarisAcceptInvite(SolarisViewMixin, AcceptInvite):
-    template_name='invites/accept_invite.html'
+    template_name='account/accept_invite.html'
     submit='Accept'
     
     def get_context_data(self, **kwargs):

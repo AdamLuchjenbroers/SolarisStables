@@ -9,8 +9,6 @@ from solaris.cms.views import NewsListView, NewsPostFormView
 from wiki.urls import get_pattern as get_wiki_pattern
 from django_nyt.urls import get_pattern as get_notify_pattern
 
-import allauth.account.urls as zyzzty
-
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -20,8 +18,9 @@ urlpatterns = patterns('',
     url(r'^login/?$', SolarisLoginView.as_view(), name='account_login'),
     (r'^logout/?$', 'solaris.account.views.logout_user'),
 
-    url(r'^invitations/', include('solaris.invites.urls', namespace='invitations')),
     url(r'^register/?$', SolarisRegistrationView.as_view(), name='account_signup'),
+    
+    url('^account/', include('solaris.account.urls')),
         
     (r'^admin/', include(admin.site.urls)),
     (r'^reference/', include('solaris.warbook.urls')),
