@@ -3,11 +3,13 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 
-from solaris.userforms.views import SolarisLoginView, SolarisRegistrationView
+from solaris.account.views import SolarisLoginView, SolarisRegistrationView
 from solaris.cms.views import NewsListView, NewsPostFormView
 
 from wiki.urls import get_pattern as get_wiki_pattern
 from django_nyt.urls import get_pattern as get_notify_pattern
+
+import allauth.account.urls as zyzzty
 
 admin.autodiscover()
 
@@ -15,11 +17,11 @@ urlpatterns = patterns('',
     (r'^/?$', NewsListView.as_view()),
     
     (r'^postnews/?$', NewsPostFormView.as_view()),
-    url(r'^login/?$', SolarisLoginView.as_view(), name='login'),
-    (r'^logout/?$', 'solaris.userforms.views.logout_user'),
+    url(r'^login/?$', SolarisLoginView.as_view(), name='account_login'),
+    (r'^logout/?$', 'solaris.account.views.logout_user'),
 
     url(r'^invitations/', include('solaris.invites.urls', namespace='invitations')),
-    url(r'^register/?$', SolarisRegistrationView.as_view(), name='register'),
+    url(r'^register/?$', SolarisRegistrationView.as_view(), name='account_signup'),
         
     (r'^admin/', include(admin.site.urls)),
     (r'^reference/', include('solaris.warbook.urls')),

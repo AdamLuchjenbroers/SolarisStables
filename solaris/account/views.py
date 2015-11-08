@@ -1,10 +1,7 @@
 # Create your views here.
-from django.contrib.auth import login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from django.shortcuts import redirect
-from urlparse import urlparse
-from django.views.generic import FormView, CreateView
-from allauth.account.views import LoginView, SignupView
+from allauth.account.views import LoginView, SignupView, ConfirmEmailView
 
 from solaris.views import SolarisViewMixin
 
@@ -12,6 +9,9 @@ class SolarisLoginView(SolarisViewMixin, LoginView):
     pass
     
 class SolarisRegistrationView(SolarisViewMixin, SignupView):   
+    pass
+
+class SolarisConfirmEmailView(SolarisViewMixin, ConfirmEmailView):
     pass
             
 def logout_user(request):
