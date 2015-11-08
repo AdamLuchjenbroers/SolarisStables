@@ -10,10 +10,6 @@ class SolarisSendInvite(SolarisViewMixin, SendInvite):
     def get_context_data(self, **kwargs):
         page_context = super(SolarisSendInvite, self).get_context_data(**kwargs)
         
-        print "Dumping KWARGS"
-        for (key, value) in kwargs.iteritems():
-            print "%s => %s" % (key, value)
-        
         if 'success_message' in kwargs:
             page_context['success_message'] = kwargs['success_message']
             
