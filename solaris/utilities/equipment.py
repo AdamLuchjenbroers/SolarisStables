@@ -36,6 +36,9 @@ class CriticalsList(object):
                 
         self.slots.sort()
     
+    def last(self):
+        return self.slots[-1]
+    
     def __iadd__(self, other):
         try:
             for value in other:
@@ -315,4 +318,18 @@ class SSWListItem(SSWMountedItem):
         size = (self.criticals or 1)        
         
         self.mountings[code] = SSWItemMounting(code, range(index, index+size))
-                
+        
+
+class SSWAttachedItem(SSWMountedItem):
+    default_type = 'Q'
+    default_extrapolated = True
+
+    def __init__(self, item_name, attached_to, item_type='Equipment'):
+        self['name'] = item_name
+        self['ssw_name'] = '%s - %s' % (item_type, item_name)
+        
+        super(SSWAttachedItem, self).__init__() 
+
+        loc = attached_to.mountings.keys()[0]
+        self.mountings[loc] = SSWItemMounting(loc, [ attached_to.mountings[loc].last() + 1 ])         
+        pass        

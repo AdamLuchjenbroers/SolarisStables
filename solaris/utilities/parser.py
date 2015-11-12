@@ -4,7 +4,7 @@ from django.utils.html import strip_tags
 
 
 from solaris.utilities import translate
-from solaris.utilities.equipment import SSWEquipment, SSWEnhancement, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWActuator, SSWCockpitItem
+from solaris.utilities.equipment import SSWEquipment, SSWEnhancement, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWActuator, SSWCockpitItem, SSWAttachedItem
 
 class SSWParseError(Exception):
     def __init__(self, mech, formerrors):
@@ -117,8 +117,8 @@ class SSWLoadout(list):
         if xml_heatsinks:       
             self += SSWHeatsinkList(xml_heatsinks[0])
         
-        self.fcs_artemisIV = (xmlnode.get('fcsa4') == 'TRUE')
-        self.fcs_artemisV = (xmlnode.get('fcsa5') == 'TRUE')
+        self.fcs_artemis_iv = (xmlnode.get('fcsa4') == 'TRUE')
+        self.fcs_artemis_v = (xmlnode.get('fcsa5') == 'TRUE')
         self.fcs_apollo = (xmlnode.get('fcsapollo') == 'TRUE')
         
         xml_jets = xmlnode.xpath('./jumpjets')
@@ -126,8 +126,17 @@ class SSWLoadout(list):
             self += SSWJumpjetList(xml_jets[0])
         
         for item in xmlnode.xpath('./equipment'):
-            self.append(SSWEquipment(item, fcs_artemisIV=self.fcs_artemisIV, fcs_artemisV=self.fcs_artemisV, fcs_apollo=self.fcs_apollo))
-        
+            item_equip = SSWEquipment(item, fcs_artemisIV=self.fcs_artemisIV, fcs_artemisV=self.fcs_artemisV, fcs_apollo=self.fcs_apollo)
+            self.append(item_equip)
+            
+            if self.fcs_artemis_iv and item_equip.equipment.fcs_artemis_iv):
+                SSWAttachedItem('Artemis IV', item_equip, item_type='FCS')  
+            
+            if self.fcs_artemis_v and item_equip.equipment.fcs_artemis_v):
+                SSWAttachedItem('Artemis V', item_equip, item_type='FCS')  
+            
+            if self.fcs_apollo and item_equip.equipment.fcs_apollo):
+                SSWAttachedItem('Apollo', item_equip, item_type='FCS')    
     
 class SSWBaseLoadout(SSWLoadout):
     def __init__(self, xmlnode, motive_type='B'):
