@@ -322,7 +322,7 @@ class SSWListItem(SSWMountedItem):
 
 class SSWAttachedItem(SSWMountedItem):
     default_type = 'Q'
-    default_extrapolated = True
+    default_extrapolated = False
 
     def __init__(self, item_name, attached_to, item_type='Equipment'):
         self['name'] = item_name
@@ -332,4 +332,3 @@ class SSWAttachedItem(SSWMountedItem):
 
         loc = attached_to.mountings.keys()[0]
         self.mountings[loc] = SSWItemMounting(loc, [ attached_to.mountings[loc].last() + 1 ])         
-        pass        
