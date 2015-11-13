@@ -34,11 +34,10 @@ class PilotWeekForm(ModelForm):
     
         
 class PilotTrainingForm(ModelForm):
-    
     discipline = ModelChoiceField(queryset=PilotTraitGroup.objects.all())
     
     class Meta:
-        model = models.PilotTraining
-        fields = ('discipline', 'training', 'notes')        
+        model = models.PilotWeekTraits
+        fields = ('discipline', 'trait', 'notes')        
 
-PilotInlineSkillsForm = inlineformset_factory(models.PilotWeek, models.PilotTraining, form=PilotTrainingForm, extra=1 )
+PilotInlineSkillsForm = inlineformset_factory(models.PilotWeek, models.PilotWeekTraits, form=PilotTrainingForm, extra=1 )

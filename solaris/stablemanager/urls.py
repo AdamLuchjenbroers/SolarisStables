@@ -4,7 +4,7 @@ from .views import StableRegistrationView, StableOverview
 from solaris.stablemanager.ledger.views import StableLedgerView, StableLedgerDeleteView
 from solaris.stablemanager.training.views import StableTrainingView
 from solaris.stablemanager.actions.views import StableActionView
-from solaris.stablemanager.assets.views import StablePilotsView, StableNewPilotsView
+from solaris.stablemanager.pilots.views import StablePilotsView, StableNewPilotsView
 
 urlpatterns = patterns('',
     url(r'^/?$', StableOverview.as_view(), name='stable_overview'),
