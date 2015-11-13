@@ -1,6 +1,6 @@
 from django.db import models
 from solaris.warbook.pilotskill.models import PilotTraitGroup
-from solaris.warbook.mechs.model import MechDesign
+from solaris.warbook.mech.models import MechDesign
 
 class House(models.Model):
     house = models.CharField(max_length=20, unique=True)
