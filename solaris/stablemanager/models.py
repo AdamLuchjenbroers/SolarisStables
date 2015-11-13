@@ -18,15 +18,19 @@ class Stable(models.Model):
     reputation = models.IntegerField(default=0)
     supply_contract = models.ManyToManyField(Technology)
     stable_disciplines = models.ManyToManyField(PilotTraitGroup)
-    current_week = models.ForeignKey('StableWeek', null=True)
     
     def __unicode__(self):
         return self.stable_name
-        
+    
+    def get_stableweek(self, for_week=None):
+        if week == None:
+            return self.ledger.get(next_week=None)
+        else:
+            return self.ledger.get(week=for_week)
     
     def current_balance(self):
         try:
-            ledger = self.ledger.get(week=self.current_week)
+            ledger = get_stableweek()
             return ledger.closing_balance()
         except ObjectDoesNotExist:
             return 0

@@ -49,7 +49,7 @@ class Pilot(models.Model):
             self.deactivate() # Dead or otherwise obsolete pilot
     
 class PilotWeekTraits(models.Model):
-    pilot_week = models.ForeignKey('PilotWeek', related_name='traits')
+    pilot_week = models.ForeignKey('PilotWeek')
     trait = models.ForeignKey(PilotTrait)
     notes = models.CharField(max_length=50, blank=True, null=True)
     
@@ -80,7 +80,7 @@ class PilotWeek(models.Model):
     skill_piloting = models.IntegerField(default=6)
     wounds = models.IntegerField(default=0)
     
-    traits = models.ManyToManyField(PilotTrait, blank=True, through=PilotTraining)
+    traits = models.ManyToManyField(PilotTrait, blank=True, through=PilotWeekTraits)
     
     class Meta:
         db_table = 'stablemanager_pilotweek'
