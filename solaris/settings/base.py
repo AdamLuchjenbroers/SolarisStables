@@ -82,9 +82,10 @@ INSTALLED_APPS = (
     'solaris.warbook.pilotskill',
     'solaris.warbook.mech',
     'solaris.warbook.equipment',
-#    'solaris.stablemanager',
-#    'solaris.stablemanager.assets',
-#    'solaris.stablemanager.ledger',
+    'solaris.stablemanager',
+    'solaris.stablemanager.mechs',
+    'solaris.stablemanager.pilots',
+    'solaris.stablemanager.ledger',
     'markitup',
     #Django-Wiki
     'django_nyt',
