@@ -10,8 +10,6 @@ ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
 
-MANAGERS = ADMINS
-
 DATABASES = {
   'default' : {
     'ENGINE'   : 'django.db.backends.postgresql_psycopg2'
@@ -22,9 +20,11 @@ DATABASES = {
   }
 }
 
+BASE_DIR = '/home/notavi/Programming/Solaris/SolarisStables'
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-STATIC_ROOT = '/<source folder>/static/'
+STATIC_ROOT = '%s/static/' % BASE_DIR
 STATIC_URL = '/static/'
 USE_DJANGO_STATIC = True 
 
@@ -43,13 +43,8 @@ ADMIN_MEDIA_PREFIX = '/media/admin/'
 SECRET_KEY = 'Dump a random, reasonably long string of junk here'
 
 
-GENSHI_TEMPLATE_DIRS = (
-     '/<source folder>/solaris/templates/'                   
-#    '/usr/local/django/solaris/templates/'
-)
-
 TEMPLATE_DIRS = (
-      '/<source folder>/solaris/templates/'                
+      '%s/solaris/templates/' % BASE_DIR            
 #    '/usr/local/django/solaris/templates/'
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
