@@ -23,14 +23,11 @@ class Stable(models.Model):
         return self.stable_name
     
     def get_stableweek(self, for_week=None):
-        if week == None:
-            return self.ledger.get(next_week=None)
-        else:
-            return self.ledger.get(week=for_week)
+        return self.ledger.get(next_week=for_week)
     
     def current_balance(self):
         try:
-            ledger = get_stableweek()
+            ledger = self.get_stableweek()
             return ledger.closing_balance()
         except ObjectDoesNotExist:
             return 0
@@ -99,10 +96,7 @@ class StableWeek(models.Model):
         
     
 @receiver(post_save, sender=Stable)
-def setup_initial_ledger(sender, created=False, **kwargs):
+def setup_initial_ledger(sender, instance=None, created=False, **kwargs):
     if created:
-        (ledger, newledger) = StableWeek.objects.get_or_create(stable=sender, week=sender.current_week)
-        if newledger:
-            ledger.opening_balance = 75000000
-
-        ledger.save()
+        ledger = StableWeek.objects.create(stable=instance, week=BroadcastWeek.objects.current_week(), opening_balance=75000000 )
+        ledger.save

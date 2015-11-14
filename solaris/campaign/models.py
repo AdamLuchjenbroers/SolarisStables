@@ -13,7 +13,7 @@ class Zodiac(models.Model):
     def __unicode__(self):
         return self.sign
 
-class BroadcastWeekManager(models.Model):
+class BroadcastWeekManager(models.Manager):
     def current_week(self):
         return super(BroadcastWeekManager,self).get(next_week=None)
 
@@ -21,7 +21,8 @@ class BroadcastWeek(models.Model):
     week_number = models.IntegerField()
     sign = models.ForeignKey(Zodiac)
     next_week = models.OneToOneField('BroadcastWeek', null=True, blank=True, related_name='prev_week')
-    
+    objects = BroadcastWeekManager()  
+  
     def __unicode__(self):
         return 'Week %i' % self.week_number
         

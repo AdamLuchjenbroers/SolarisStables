@@ -11,7 +11,10 @@ def noop(apps, schema_editor):
     # Why bother to delete from tables that are being dropped in the
     # same operation.
     pass
- 
+
+def create_initial_week(apps, schema_editor):
+    from solaris.campaign.models import BroadcastWeek, Zodiac
+    BroadcastWeek.objects.create(week_number=1, sign=Zodiac.objects.get(sign="Rat"))
 
 class Migration(migrations.Migration):
 
@@ -62,4 +65,5 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),                  
         migrations.RunPython(load_zodiac, reverse_code=noop),
+        migrations.RunPython(create_initial_week, reverse_code=noop),
     ]
