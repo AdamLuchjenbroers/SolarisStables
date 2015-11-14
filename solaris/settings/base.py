@@ -112,4 +112,9 @@ INVITATIONS_INVITE_ONLY=True
 INVITATIONS_INVITATION_EXPIRY=14
 INVITATIONS_SIGNUP_REDIRECT="/register/"
 
+#Manually specifying the Django 1.7+ Test runner stifles a few 
+#dud warnings (seem to be triggered off of unrelated fields).
+# https://code.djangoproject.com/ticket/23469
+# http://stackoverflow.com/questions/25871261/django-1-7-how-do-i-suppress-1-6-w001-some-project-unittests-may-not-execut
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
