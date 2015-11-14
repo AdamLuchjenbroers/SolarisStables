@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import BroadcastWeek, Zodiac
+from .models import BroadcastWeek
 '''
 Runs a suite of tests to confirm that the BroadcastWeek model correctly implements the following behavior
   * Generates a new Broadcast Week if Advance is called and there is no next week present
@@ -9,12 +9,11 @@ Additionally, confirm Zodiac sign has rotated correctly.
 class BroadcastWeekTests(TestCase):
     
     def setUp(self):
-        z_black = Zodiac.objects.create(sign='Black', rules='Test')
-        z_white = Zodiac.objects.create(sign='White', rules='Test', next=z_black)
-        z_black.next = z_white
+        self.week_past = BroadcastWeek.objects.get(week_number=1)
+        self.week_now = BroadcastWeek.objects.create(week_number=2, sign=self.week_past.sign.next)
         
-        self.week_now = BroadcastWeek.objects.create(week_number=2, sign=z_white)
-        self.week_past = BroadcastWeek.objects.create(week_number=1, sign=z_black, next_week=self.week_now)
+        self.week_past.next_week = self.week_now
+        self.week_past.save()
         
     def test_advanceCurrentWeek(self):
         new_week = self.week_now.advance()
@@ -23,7 +22,8 @@ class BroadcastWeekTests(TestCase):
         
         self.assertEqual(new_week.week_number, 3, 'Unexpected Week Number: %i' % new_week.week_number)
         self.assertEqual(check_count, 1, 'Duplicate Weeks found in Database')
-        self.assertEqual(new_week.sign.sign, 'Black', 'Incorrect Zodiac Sign: %s' % new_week.sign.sign)
+        # Week 1 is Rat: -> Ox -> Tiger
+        self.assertEqual(new_week.sign.sign, 'Tiger', 'Incorrect Zodiac Sign: %s' % new_week.sign.sign)
                 
     def test_advanceOldWeek(self):
         new_week = self.week_past.advance()
@@ -32,5 +32,6 @@ class BroadcastWeekTests(TestCase):
         
         self.assertEqual(new_week.week_number, 2, 'Unexpected Week Number: %i' % new_week.week_number)
         self.assertEqual(check_count, 1, 'Duplicate Weeks found in Database')
-        self.assertEqual(new_week.sign.sign, 'White', 'Incorrect Zodiac Sign: %s' % new_week.sign.sign)
+        # Week 1 is Rat: -> Ox
+        self.assertEqual(new_week.sign.sign, 'Ox', 'Incorrect Zodiac Sign: %s' % new_week.sign.sign)
         
