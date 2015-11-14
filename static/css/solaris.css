@@ -36,7 +36,8 @@ img#logo {
 div.title span.title-menu {
   display: inline-block;
   vertical-align: top;
-  
+
+  width: calc(100% - 2em - 300px);  
   font-family: arial,sans-serif;   
   padding: 4px;
 }
