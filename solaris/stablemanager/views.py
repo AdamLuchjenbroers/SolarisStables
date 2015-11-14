@@ -34,7 +34,7 @@ class StableViewMixin(SolarisViewMixin):
     
     def get_stable(self, request):
         if not request.user.is_authenticated():
-            return redirect_to_login(request.get_full_path(), 'login', REDIRECT_FIELD_NAME)
+            return redirect_to_login(request.get_full_path(), 'account_login', REDIRECT_FIELD_NAME)
 
         try:
             self.stable = Stable.objects.get(owner=request.user)
