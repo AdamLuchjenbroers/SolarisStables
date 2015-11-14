@@ -29,5 +29,5 @@ class LoginErrorTest(TestCase):
         self.assertNotContains(response, 'The username and/or password you specified are not correct', 200)
         
     def test_loginWithError(self):
-        response = self.client.post('/login/', {'username' : 'login-test', 'password' : 'wrongpass'})
+        response = self.client.post('/login/', {'login' : 'login-test', 'password' : 'wrongpass'})
         self.assertContains(response, 'The username and/or password you specified are not correct')
