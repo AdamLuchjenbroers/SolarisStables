@@ -16,8 +16,8 @@ def print_errors(errors):
 
 class SSWLoader(object):
 
-    def __init__(self, sswfile):
-    self.xml_fd = open('%s/%s' % (settings.SSW_STOCK_MECHS_ROOT, sswfile),'rb')
+    def __init__(self, sswfile, basepath=settings.SSW_STOCK_MECHS_ROOT):
+        self.xml_fd = open('%s/%s' % (basepath, sswfile),'rb')
             
         self.filename = sswfile            
         self.sswXML = etree.parse(self.xml_fd)
