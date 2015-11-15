@@ -18,6 +18,12 @@ solaris/static/admin
 #Rules data / info excluded because it
 #may be proprietary
 data/*.csv
+data/*.txt
+
+#Scrap utilities are generally not of releasable
+#quality and usually have machine specific paths
+#embedded in the logic (throwaway code)
+solaris/utilities/scrap
 
 #Environment Specific Helper Scripts
 test-anskiere.sh
