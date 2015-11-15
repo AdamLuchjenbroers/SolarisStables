@@ -80,6 +80,9 @@ class SSWItemMounting(dict):
         
     def size(self):
         return len(self['slots'])
+    
+    def last(self):
+        return self['slots'].last()
         
     def extrapolate(self, count):
         start = self['slots'].singleslot()
