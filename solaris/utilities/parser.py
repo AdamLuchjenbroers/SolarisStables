@@ -126,7 +126,7 @@ class SSWLoadout(list):
             self += SSWJumpjetList(xml_jets[0])
         
         for item in xmlnode.xpath('./equipment'):
-            item_equip = SSWEquipment(item, fcs_artemisIV=self.fcs_artemisIV, fcs_artemisV=self.fcs_artemisV, fcs_apollo=self.fcs_apollo)
+            item_equip = SSWEquipment(item, fcs_artemisIV=self.fcs_artemis_iv, fcs_artemisV=self.fcs_artemis_v, fcs_apollo=self.fcs_apollo)
             self.append(item_equip)
             
             if (self.fcs_artemis_iv and item_equip.equipment.fcs_artemis_iv):
