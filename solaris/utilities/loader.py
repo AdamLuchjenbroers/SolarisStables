@@ -110,7 +110,7 @@ class MechLoader(object):
         else:
             raise SSWParseError(self.filename, eq_form.errors)
                 
-    @transaction.commit_manually
+    @transaction.atomic
     def load_mech(self):
         self.location_models = None
 
@@ -143,9 +143,7 @@ class MechLoader(object):
                 self.load_equipment(gear)
             
             mech_form.save()
-            transaction.commit()
         finally:
-            transaction.rollback()
             #Free Resources
             if self.parsed_mech:
                 del self.parsed_mech
