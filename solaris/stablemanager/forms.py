@@ -1,4 +1,4 @@
-from django.forms import ModelChoiceField, ModelForm
+from django.forms import ModelMultipleChoiceField, ModelForm
 from django.db.models import Max
 
 from solaris.warbook.pilotskill.models import PilotTraitGroup
@@ -8,18 +8,19 @@ from solaris.campaign.models import BroadcastWeek
 
 class StableRegistrationForm(ModelForm):
 
-    discipline_1 = ModelChoiceField(label='Discipline 1', required=True, queryset=PilotTraitGroup.objects.all())
-    discipline_2 = ModelChoiceField(label='Discipline 2', required=True, queryset=PilotTraitGroup.objects.all())
+    stable_disciplines = ModelMultipleChoiceField(label='Disciplines', required=True, queryset=PilotTraitGroup.objects.filter(discipline_type='T'))
     
     def __init__(self, **kwargs):
         super(StableRegistrationForm, self).__init__(**kwargs)  
         
         self.fields['stable_name'].label = 'Name'
-        self.fields['house'].label = 'House'    
+        self.fields['house'].label = 'House'
+        self.fields['stable_disciplines'].label = 'Disciplines'    
+        self.fields['stable_disciplines'].classname = 'select_discipline'
  
     class Meta:
         model = Stable
-        fields = ('stable_name', 'house', 'discipline_1', 'discipline_2')       
+        fields = ('stable_name', 'house', 'stable_disciplines')       
   
     
     def clean(self):
