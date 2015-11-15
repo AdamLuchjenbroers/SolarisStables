@@ -549,6 +549,44 @@ select#id_stable_disciplines option.house{
     color: #BBBBBB;
     font-style: italic;
 }
+
+fieldset.mech_purchase {
+    width: 80%;
+    margin: auto;
+    vertical-align: top;
+    border: none;
+}
+
+fieldset.mech_purchase span {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+span.mech-name {
+    width: 14em;
+}
+
+span.mech-name input {
+    width: 100%;
+}
+
+span.mech-code {
+    width: 8em;
+}
+
+span.mech-code select {
+    width: 100%;
+}
+
+
+span.mech-cost {
+    width: 12em;
+}
+
+fieldset.template-form {
+    display: none;
+}
+
 /****************************************
  * Attic
  ****************************************/
