@@ -129,13 +129,13 @@ class SSWLoadout(list):
             item_equip = SSWEquipment(item, fcs_artemisIV=self.fcs_artemisIV, fcs_artemisV=self.fcs_artemisV, fcs_apollo=self.fcs_apollo)
             self.append(item_equip)
             
-            if self.fcs_artemis_iv and item_equip.equipment.fcs_artemis_iv):
+            if (self.fcs_artemis_iv and item_equip.equipment.fcs_artemis_iv):
                 SSWAttachedItem('Artemis IV', item_equip, item_type='FCS')  
             
-            if self.fcs_artemis_v and item_equip.equipment.fcs_artemis_v):
+            if (self.fcs_artemis_v and item_equip.equipment.fcs_artemis_v):
                 SSWAttachedItem('Artemis V', item_equip, item_type='FCS')  
             
-            if self.fcs_apollo and item_equip.equipment.fcs_apollo):
+            if (self.fcs_apollo and item_equip.equipment.fcs_apollo):
                 SSWAttachedItem('Apollo', item_equip, item_type='FCS')    
     
 class SSWBaseLoadout(SSWLoadout):
