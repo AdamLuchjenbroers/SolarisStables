@@ -13,7 +13,8 @@ def noop(apps, schema_editor):
     pass
 
 def create_initial_week(apps, schema_editor):
-    from solaris.campaign.models import BroadcastWeek, Zodiac
+    BroadcastWeek = apps.get_model('campaign','BroadcastWeek')
+    Zodiac = apps.get_model('campaign','Zodiac')
     BroadcastWeek.objects.create(week_number=1, sign=Zodiac.objects.get(sign="Rat"))
 
 class Migration(migrations.Migration):
