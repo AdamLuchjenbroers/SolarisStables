@@ -1,4 +1,4 @@
-from django.forms import ModelMultipleChoiceField, ModelForm
+from django.forms import ModelMultipleChoiceField, ModelForm, ValidationError
 from django.db.models import Max
 
 from solaris.warbook.pilotskill.models import PilotTraitGroup
@@ -22,11 +22,21 @@ class StableRegistrationForm(ModelForm):
         model = Stable
         fields = ('stable_name', 'house', 'stable_disciplines')       
   
+    def clean_stable_disciplines(self):
+        data = self.cleaned_data['stable_disciplines']
+        if len(data) < 2:
+            raise ValidationError('You must select two stable disciplines')
+        if len(data) > 2: 
+            raise ValidationError('You cannot select more than two stable disciplines')
+        
+        return data
     
     def clean(self):
         super(StableRegistrationForm,self).clean()
         
         aggr = BroadcastWeek.objects.aggregate(Max('week_number'))
         self.week = BroadcastWeek.objects.get(week_number=aggr['week_number__max'])
+        
+ 
         
         return self.cleaned_data

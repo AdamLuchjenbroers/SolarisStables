@@ -84,17 +84,19 @@ class StableRegistrationView(SolarisViewMixin, CreateView):
     menu_selected = 'Stable'
     form_class = StableRegistrationForm
     template_name = 'stablemanager/stable_register.tmpl'
-    success_url = '/stable'
+    success_url = '/stable/initial-mechs'
     model = Stable
     
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
         self.object.save()           
-                    
-        self.object.stable_disciplines.add( PilotTraitGroup.objects.get(name=form.cleaned_data['discipline_1']) )
-        self.object.stable_disciplines.add( PilotTraitGroup.objects.get(name=form.cleaned_data['discipline_2']) )
+         
+        for discipline in form.cleaned_data.get('stable_disciplines'):                    
+            self.object.stable_disciplines.add(discipline)
+            
         self.object.save()
+        return super(StableRegistrationView, self).form_valid(form)
     
     def get_context_data(self, **kwargs):
         page_context = super(StableRegistrationView, self).get_context_data(**kwargs)

@@ -1,6 +1,6 @@
 $( document ).ready(function() {
   var selected = [];
-  var choose_limit = 0;
+  var choose_limit = 2;
 
   // Reset this field on page reload.
   $('#id_house').val("");
@@ -18,6 +18,7 @@ $( document ).ready(function() {
         $.each(json, function(i, item) {
             if (item['choose-limit'] !== undefined) {
                 choose_limit = item['choose-limit'];
+                $('#id_stable_disciplines').attr('size', choose-limit)
             } else {
                 $('#id_stable_disciplines option[value=' + item.id + ']').addClass('house').attr("disabled", "yes");
             
