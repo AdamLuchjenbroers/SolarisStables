@@ -15,5 +15,9 @@ solaris/static/admin
 .pydevproject
 .settings
 
+#Rules data / info excluded because it
+#may be proprietary
+data/*.csv
+
 #Environment Specific Helper Scripts
 test-anskiere.sh
