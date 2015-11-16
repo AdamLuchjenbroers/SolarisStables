@@ -59,3 +59,5 @@ EMAIL_HOST_USER = 'account@example.com'
 EMAIL_HOST_PASSWORD = 'password'
 
 DEFAULT_FROM_EMAIL = 'account@example.com'
+
+CURRENT_CAMPAIGN='Solaris7'

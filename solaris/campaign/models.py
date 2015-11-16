@@ -1,9 +1,16 @@
 from django.db import models
+from django.conf import settings
+
+class CampaignManager(models.Manager):
+    def get_current_campaign(self):
+        return self.filter(name=settings.CURRENT_CAMPAIGN)
 
 class Campaign(models.Model):
     name = models.CharField(max_length=30)
     initial_balance = models.IntegerField()
     initial_contracts = models.ManyToManyField('warbook.Technology')
+
+    objects = CampaignManager
 
     def __unicode__(self):
         return self.name
