@@ -10,7 +10,7 @@ class Campaign(models.Model):
     initial_balance = models.IntegerField()
     initial_contracts = models.ManyToManyField('warbook.Technology')
 
-    objects = CampaignManager
+    objects = CampaignManager()
 
     def __unicode__(self):
         return self.name
