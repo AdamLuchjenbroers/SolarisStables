@@ -34,10 +34,21 @@ class Map(models.Model):
         db_table = 'campaign_map'
         app_label = 'campaign'
 
+class Condition(models.Model):
+    name = models.CharField(max_length=20)
+    rules = models.TextField()
+
+    class Meta:
+        verbose_name_plural = 'Conditions'
+        verbose_name = 'Condition'
+        db_table = 'campaign_conditions'
+        app_label = 'campaign'
+
 class RosteredFight(models.Model):
     week = models.ForeignKey(BroadcastWeek)
     fight_type = models.ForeignKey(FightType)
     fought = models.BooleanField(default=False)
+    conditions = models.ManyToManyField(FightCondition)
 
     class Meta:
         verbose_name_plural = 'Rostered Fights'

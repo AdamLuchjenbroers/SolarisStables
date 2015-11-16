@@ -1,9 +1,23 @@
 from django.db import models
 
+class Campaign(models.Model):
+    name = models.CharField(max_length=30)
+    initial_balance = models.IntegerField()
+    initial_contracts = models.ManyToManyField('warbook.Technology')
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Campaign'
+        db_table = 'campaign'
+        app_label = 'campaign'
+
 class Zodiac(models.Model):
     sign = models.CharField(max_length = 20)
     rules = models.TextField()
     next = models.OneToOneField('Zodiac', related_name='prev', null=True)
+    campaign = models.ForeignKey(Campaign, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Zodiac Sign'
@@ -21,8 +35,10 @@ class BroadcastWeek(models.Model):
     week_number = models.IntegerField()
     sign = models.ForeignKey(Zodiac)
     next_week = models.OneToOneField('BroadcastWeek', null=True, blank=True, related_name='prev_week')
-    objects = BroadcastWeekManager()  
+    campaign = models.ForeignKey(Campaign, null=True, blank=True)
   
+    objects = BroadcastWeekManager()  
+
     def __unicode__(self):
         return 'Week %i' % self.week_number
         
