@@ -7,7 +7,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
 
 from solaris.views import SolarisViewMixin
-from solaris.campaign.models import BroadcastWeek
+from solaris.campaign.models import BroadcastWeek, Campaign
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 
 from .models import Stable
@@ -90,8 +90,10 @@ class StableRegistrationView(SolarisViewMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
-        self.object.save()           
-         
+        self.object.campaign = Campaign.objects.get_current_campaign()   
+
+        self.object.save()
+
         for discipline in form.cleaned_data.get('stable_disciplines'):                    
             self.object.stable_disciplines.add(discipline)
             

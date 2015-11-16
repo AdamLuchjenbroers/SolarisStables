@@ -8,17 +8,16 @@ from django.dispatch import receiver
 from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
 from solaris.warbook.pilotskill.models import PilotTraitGroup
-from solaris.campaign.models import BroadcastWeek
+from solaris.campaign.models import BroadcastWeek, Campaign
 
 
 class Stable(models.Model):
     stable_name = models.CharField(max_length=200)
     owner = models.OneToOneField(User, null=True)
     house = models.ForeignKey(House, null=True)
-    reputation = models.IntegerField(default=0)
-    supply_contract = models.ManyToManyField(Technology)
     stable_disciplines = models.ManyToManyField(PilotTraitGroup)
-    
+    campaign = models.ForeignKey(Campaign, null=True)    
+
     def __unicode__(self):
         return self.stable_name
     
@@ -50,7 +49,9 @@ class Stable(models.Model):
 class StableWeek(models.Model):
     stable = models.ForeignKey('Stable', related_name='ledger')
     week = models.ForeignKey(BroadcastWeek)
+    reputation = models.IntegerField(default=0)
     opening_balance = models.IntegerField()
+    supply_contracts = models.ManyToManyField(Technology)
     next_week = models.ForeignKey('StableWeek', null=True, related_name='prev_week')
     
     def closing_balance(self):
@@ -77,6 +78,8 @@ class StableWeek(models.Model):
         self.next_week = self.objects.create(
             stable = self.stable
         ,   week = self.week.next_week
+        ,   supply_contracts = self.supply_contracts
+        ,   reputation = self.reputation
         ,   opening_balance = self.closing_balance()
         )
         self.save()
@@ -87,8 +90,8 @@ class StableWeek(models.Model):
         return reverse('stable_ledger', kwargs={'week': self.week.week_number})
     
     class Meta:
-        verbose_name_plural = 'Ledgers'
-        verbose_name = 'StableWeek'
+        verbose_name_plural = 'Stable Weeks'
+        verbose_name = 'Stable Week'
         db_table = 'stablemanager_stableweek'
         app_label = 'stablemanager'
         
@@ -98,5 +101,13 @@ class StableWeek(models.Model):
 @receiver(post_save, sender=Stable)
 def setup_initial_ledger(sender, instance=None, created=False, **kwargs):
     if created:
-        ledger = StableWeek.objects.create(stable=instance, week=BroadcastWeek.objects.current_week(), opening_balance=75000000 )
-        ledger.save
+        stable_week = StableWeek.objects.create(
+          stable=instance
+        , week=BroadcastWeek.objects.current_week()
+        , opening_balance=instance.campaign.initial_balance
+        )
+        stable_week.save()
+
+        stable_week.supply_contracts.add(*instance.campaign.initial_contracts.all())
+        stable_week.save()
+

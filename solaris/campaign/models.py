@@ -3,7 +3,7 @@ from django.conf import settings
 
 class CampaignManager(models.Manager):
     def get_current_campaign(self):
-        return self.filter(name=settings.CURRENT_CAMPAIGN)
+        return self.get(name=settings.CURRENT_CAMPAIGN)
 
 class Campaign(models.Model):
     name = models.CharField(max_length=30)
