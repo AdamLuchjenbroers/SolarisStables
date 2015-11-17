@@ -11,7 +11,6 @@ class AjaxView(View):
     pass
 
 class JsonHouseDisciplines(AjaxView):
-        
     def get(self, request, house_name=''):
         house = get_object_or_404(House, house__iexact=house_name)
         
