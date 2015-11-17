@@ -1,11 +1,15 @@
 from django.conf.urls import patterns, url
 
 from .views import StableRegistrationView, StableOverview
+from .ajax import ProductionChassisAutocomplete
+
+
 from solaris.stablemanager.ledger.views import StableLedgerView, StableLedgerDeleteView
 from solaris.stablemanager.training.views import StableTrainingView
 from solaris.stablemanager.actions.views import StableActionView
 from solaris.stablemanager.pilots.views import StablePilotsView, StableNewPilotsView
 from solaris.stablemanager.mechs.views import InitialMechPurchaseView
+
 
 urlpatterns = patterns('',
     url(r'^/?$', StableOverview.as_view(), name='stable_overview'),
@@ -20,4 +24,5 @@ urlpatterns = patterns('',
     url(r'^actions/(?P<week>[0-9]+)/?$', StableActionView.as_view()),
     url(r'^pilots/?$', StablePilotsView.as_view()),
     url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),
+    url(r'^query/list-produced/?$', ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto') 
 )

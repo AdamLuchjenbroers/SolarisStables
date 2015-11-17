@@ -64,8 +64,10 @@ class StableWeekMixin(StableViewMixin):
         
         if 'week' in self.kwargs:
             self.week = get_object_or_404(BroadcastWeek, week_number=self.kwargs['week'])
+            self.stableweek = get_object_or_404(StableWeek, stable=self.stable, week=self.week)
         else:
-            self.week = self.stable.current_week
+            self.stableweek = self.stable.get_stableweek()
+            self.week = self.stableweek.week
                    
         return super(StableWeekMixin, self).dispatch(request, *args, **kwargs) 
     
