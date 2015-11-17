@@ -84,7 +84,15 @@ class MechDesign(models.Model):
             if item.is_directfire():
                 tons += item.tonnage()
         return tons
+
+    def all_equipment(self):
+        from solaris.warbook.equipment.models import Equipment
+        return Equipment.objects.filter(id__in=self.loadout.all().values('equipment'))   
     
+    def can_be_produced_with(self, equipment_list):
+        # Check that all equipment on this mech can be found in the provided
+        # list of available equipment
+        return (self.all_equipment().exclude(pk__in=equipment_list).count() < 1)
     
     class Meta:
         unique_together = (('mech_name', 'mech_code', 'omni_loadout'), ('ssw_filename', 'omni_loadout'),)
