@@ -27,7 +27,12 @@ def clear_mechs(apps, schema_editor):
         mech.delete()
 
 productionLists = [
-    ('House Liao', 'mechs.liao.txt'),
+    ('House Liao'   , 'mechs.liao.txt'   ),
+    ('House Kurita' , 'mechs.kurita.txt' ),
+    ('House Davion' , 'mechs.davion.txt' ),
+    ('House Steiner', 'mechs.steiner.txt'),
+    ('House Marik'  , 'mechs.marik.txt'  ),
+    ('ComStar'      , 'mechs.comstar.txt'),
 ]
     
 def load_productionlists():
@@ -35,7 +40,7 @@ def load_productionlists():
     
     for (house, filename) in productionLists:
         print "Loading mech list for %s [%s]" % (house, filename)
-        full_path = '%s/%s' % (settings.BASE_DIR, filename)
+        full_path = '%s/data/%s' % (settings.BASE_DIR, filename)
         matchFromListFile(house, full_path, match_dict=match_dict, live=True)  
     
 def noop(apps, schema_editor):
