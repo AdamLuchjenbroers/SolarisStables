@@ -35,7 +35,7 @@ def getLauncher(launcher):
     except Equipment.DoesNotExist:
         pass
 
-def loadEquipmentCSV(csvfile):
+def loadEquipmentCSV(csvfile, reassign_id=False):
     fh = open(csvfile,'r')
     
     reader = DictReader(fh)
@@ -49,6 +49,9 @@ def loadEquipmentCSV(csvfile):
             if launcher:
                 row['ammo_for'] = launcher.id
             
+        if 'id' in row and reassign_id:
+            del row['id']
+
         try:
             eq_instance = Equipment.objects.get(ssw_name=row['ssw_name'])
         except Equipment.DoesNotExist:
