@@ -7,6 +7,7 @@ from django.dispatch import receiver
 
 from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
+from solaris.warbook.equipment.models import Equipment
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.campaign.models import BroadcastWeek, Campaign
 
@@ -89,6 +90,14 @@ class StableWeek(models.Model):
     def get_absolute_url(self):
         return reverse('stable_ledger', kwargs={'week': self.week.week_number})
     
+    def available_equipment(self):
+        eq_set = Equipment.objects.none()
+
+        for contract in self.supply_contracts.all():
+            eq_set |= contract.access_to.all()
+
+        return eq_set          
+
     class Meta:
         verbose_name_plural = 'Stable Weeks'
         verbose_name = 'Stable Week'
