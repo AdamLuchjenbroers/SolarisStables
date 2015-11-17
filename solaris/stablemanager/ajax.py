@@ -8,8 +8,7 @@ from .views import StableWeekMixin
 
 class ProductionChassisAutocomplete(StableWeekMixin, View):
     def get(self, request):
-        print "[%s]" % request.GET['m']
-        production = self.stable.house.produced_designs.filter(mech_name__icontains=request.GET['m'])
+        production = self.stable.house.produced_designs.filter(mech_name__icontains=request.GET['term'])
         
         equipment_list = self.stableweek.available_equipment()
   
