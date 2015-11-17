@@ -24,6 +24,7 @@ def createMatchingDict():
         
         if mech.is_omni and mech.omni_loadout != None:
             matching['%s %s%s' % (mech.mech_name, mech.mech_code, mech.omni_loadout)] = mech
+            matching['%s %s %s' % (mech.mech_name, mech.mech_code, mech.omni_loadout)] = mech
         
     return matching
 
