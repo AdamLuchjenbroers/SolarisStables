@@ -23,12 +23,13 @@ class StableViewMixin(SolarisViewMixin):
         page_context['stable'] = self.stable
         page_context['selected'] = 'Stable'
         page_context['submenu'] = [
-          {'title' : 'StableWeek', 'url' : '/stable/ledger'},
-          {'title' : 'Assets', 'url' : '/stable'},
+          {'title' : 'Overview', 'url' : '/stable'},
+          {'title' : 'Finances', 'url' : '/stable/ledger'},
           {'title' : 'Actions', 'url' : '/stable/actions'},
-          {'title' : 'Training', 'url' : '/stable/training'},
+#          {'title' : 'Training', 'url' : '/stable/training'},
           {'title' : 'Pilots', 'url' : '/stable/pilots'},          
         ]
+        page_context['submenu_selected'] = self.__class__.submenu_selected
         
         return page_context
     
@@ -80,7 +81,7 @@ class StableWeekMixin(StableViewMixin):
         return page_context            
 
 class StableOverview(StableWeekMixin, TemplateView):       
-    submenu_selected = 'Assets'
+    submenu_selected = 'Overview'
     template_name = 'stablemanager/stable_overview.tmpl'
 
 class StableRegistrationView(SolarisViewMixin, CreateView):
