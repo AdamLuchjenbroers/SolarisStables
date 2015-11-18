@@ -5,6 +5,15 @@
   <h1>{{stable.stable_name}}</h1>
 
   <h2>Finances</h2>
-  <p><em>Current Balance: </em>{{stable.current_balance}}</p>
+  <p><em>Current Balance: </em>{{stableweek.closing_balance}}</p>
+
+  <h2>Supply Contracts</h2>
+  <ul class="stable-tech-list">
+    {% for tech in stableweek.supply_contracts.all %}
+    {% if tech.show %}
+    <li class="stable-tech tier{{tech.tier}}">{{tech.name}}</li>
+    {% endif %}
+    {% endfor %}
+  </ul>
 </div>
 {% endblock %}

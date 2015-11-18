@@ -74,11 +74,12 @@ class StableWeekMixin(StableViewMixin):
     
     def get_context_data(self, **kwargs):
         page_context = super(StableWeekMixin, self).get_context_data(**kwargs)
+        page_context['stableweek'] = self.stableweek        
         page_context['week'] = self.week        
  
         return page_context            
 
-class StableOverview(StableViewMixin, TemplateView):       
+class StableOverview(StableWeekMixin, TemplateView):       
     submenu_selected = 'Assets'
     template_name = 'stablemanager/stable_overview.tmpl'
 
