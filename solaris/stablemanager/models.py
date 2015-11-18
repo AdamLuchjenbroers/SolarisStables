@@ -11,7 +11,6 @@ from solaris.warbook.equipment.models import Equipment
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.campaign.models import BroadcastWeek, Campaign
 
-
 class Stable(models.Model):
     stable_name = models.CharField(max_length=200)
     owner = models.OneToOneField(User, null=True)
