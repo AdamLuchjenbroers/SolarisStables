@@ -61,6 +61,10 @@ class StableWeek(models.Model):
             balance += item.get_cost()
             
         return balance
+
+    def prominence(self):
+        #TODO: Compute this using underlying pilots
+        return 0
     
     def advance(self):
         if self.week.next_week == None:

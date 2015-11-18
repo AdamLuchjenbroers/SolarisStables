@@ -15,7 +15,7 @@ class StableMech(models.Model):
         app_label = 'stablemanager'
 
 class StableMechWeek(models.Model):
-    stableweek = models.ForeignKey(StableWeek, blank=True, null=True)
+    stableweek = models.ForeignKey(StableWeek, related_name='mechs', blank=True, null=True)
     stablemech = models.ForeignKey(StableMech)
     current_design = models.ForeignKey('warbook.MechDesign')
     signature_of = models.ForeignKey('Pilot', blank=True, null=True)
