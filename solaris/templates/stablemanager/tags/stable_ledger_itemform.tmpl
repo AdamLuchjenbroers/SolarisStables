@@ -1,5 +1,5 @@
-<form action="{{post_url}}" method="POST">
-   <div class="ledger_add"><input type="submit" Value="{{action}}" class="submit" tabindex="{{submit_tab}}"/></div>
+<form class="ledger-form" action="{{post_url}}" method="POST">
+  <div class="ledger_add"><input type="submit" Value="{{action | safe}}" class="submit" tabindex="{{submit_tab}}"/></div>
   <div class="ledger_value">{{form.cost}}</div>
   <div class="ledger_desc">{{form.description}}</div>
   <div class="hidden">{{form.type}} {{form.id}}</div>

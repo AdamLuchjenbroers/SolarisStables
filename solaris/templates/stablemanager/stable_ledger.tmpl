@@ -19,13 +19,14 @@
   
   {% for group in ledger_groups %}
     <div class="subheader">
-      <div class="ledger_value"> </div>
       <div class="ledger_desc"><h3>{{group.description}}</h3></div>
+      <div class="ledger_value"> </div>
     </div>
     
     {% if group.entries %}{% for entry in group.entries %}
         <div class="lineitem">
           <div class="line_display">
+            <div class="ledger_add"><input type="submit" Value="&#x270E;" class="submit" tabindex="{{submit_tab}}"/></div>            
             <div class="ledger_value"><p>{{entry.item.cost}}</p></div>
             <div class="ledger_desc"><p>{{entry.item.description}}</p></div>
           </div>

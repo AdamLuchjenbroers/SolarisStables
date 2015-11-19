@@ -17,6 +17,45 @@ div.balance {
 	margin-top: 6px;
 	margin-bottom: 6px;
 	
+    background-color : #AAAAAA;
+}
+
+div.balance div.ledger_desc, div.balance div.ledger_value {
+    display: inline-block;
+    line-height: 48px;
+}
+
+form.ledger-form {
+    height: 100%;
+}
+
+
+form.ledger-form input {    
+    vertical-align: middle;
+}
+
+
+div.line_display div.ledger_add input
+, form.ledger-form div.ledger_add input
+, form.ledger-form div.ledger_edit input {
+    margin-left: 0.5em;
+    border: none;
+    background: transparent;
+    
+    height: 100%;
+    font-size: 120%;
+    font-weight: bold;
+    color: #262233;
+    
+    text-shadow: 2px 2px 4px #888888; 
+}
+
+div.line_display div.ledger_add input {
+    visibility: hidden;
+}
+
+div.line_display:hover div.ledger_add input {
+    visibility: visible;
 }
 
 div.subheader {
@@ -24,17 +63,24 @@ div.subheader {
 	float: none;
 	height: 38px;
 	
+    background-color : #BBBBBB;
+    
 	margin-left: 20px;
 	
 	margin-top: 4px;
 	margin-bottom: 4px;
-	
 }
+
+div.subheader div.ledger_desc, div.subheader div.ledger_value {
+    line-height: 38px;
+    display: inline-block;
+}
+
+
 
 div.lineitem, form.lineitem {
 	display: block;
 	float: none;
-	height: 32px;
 	
 	margin-left: 40px;
 	
@@ -42,29 +88,32 @@ div.lineitem, form.lineitem {
 	margin-bottom: 4px;
 	
 	position: relative;	
+	
+	background-color : #CCCCCC;
+}
+
+div.lineitem div, form.lineitem div {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+div.lineitem div.line_update {
+    display: none;
 }
 
 div.ledger_desc {
-	position: relative;
-	margin-right: 108px;
-	height: 100%;
-	vertical-align: middle;
+	width: 24em;
 }
 
 
 div.ledger_value {
-	position: relative;
 	float: right;
 	width: 100px;
-	height: 100%;
-	vertical-align: middle;
-}
-
-div.ledger_add {
-	position: relative;
-	float: left;
-	height: 100%;
-	vertical-align: middle;	
+	margin-right: 2em;
+	
+    text-align: left;
+    vertical-align: middle;
 }
 
 div.ledger_value input {
@@ -72,27 +121,29 @@ div.ledger_value input {
 	width: 90%;
 }
 
-
-div.balance div.ledger_desc, div.balance div.ledger_value {
-	background-color : #AAAAAA;
-	line-height: 48px;
+div.lineitem div.ledger_edit, div.line-item div.ledger_add {
+    height: 100%;
+    width: 1em;
+    text-align: center;
+    vertical-align: middle;
 }
 
-div.subheader div.ledger_desc, div.subheader div.ledger_value {
-	background-color : #BBBBBB;
-	line-height: 38px;
+div.lineitem input, div.lineitem p {
+    vertical-align: middle;
+    
+    height: 1.1em;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
 }
 
-div.lineitem div.ledger_desc, div.lineitem div.ledger_value,
-form.lineitem div.ledger_desc, form.lineitem div.ledger_value, form.lineitem div.ledger_add  {
-	background-color : #CCCCCC;
-	line-height: 32px;
-}
-
-div.lineitem:hover div.ledger_desc, div.lineitem:hover div.ledger_value {
+div.lineitem:hover {
 	background-color : #AAAADD;
 	border-color : #4444DD;
 	border-width : thin;
+}
+
+div.lineitem div.line_display, div.lineitem div.line_update {
+    width: 100%
 }
 
 div.line_update {
@@ -110,6 +161,20 @@ div.lineitem:hover form.linedelete {
 	display: block;
 }
 
+form.linedelete input {
+  margin: 0px;
+  padding: 0px;  
+
+  width: 32px;
+  
+  vertical-align: middle;
+  background: transparent url('/static/images/icons/delete.png') no-repeat center top;
+  border: none;
+  
+  cursor: pointer; /* hand-shaped cursor */
+  cursor: hand; /* for IE 5.x */
+}
+
 
 div h1, div h2, div h3, div p {
 	margin: auto;
@@ -121,3 +186,4 @@ div h1, div h2, div h3, div p {
 	padding-left: 20px;
 	padding-right: 20px;
 }
+

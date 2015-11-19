@@ -9,8 +9,16 @@ class LedgerFormNode(Node):
         self.week = Variable('week.week_number')
         self.form = Variable(form_variable)
         
+        if action == 'Add':
+            symbol = '&#x2795;'
+        elif action == 'Edit':
+            symbol = '&#x270E;'
+        else:
+            symbol = action
+        
+        
         self.template = loader.get_template('stablemanager/tags/stable_ledger_itemform.tmpl')
-        self.node_context = Context( {'action' : action} )
+        self.node_context = Context( {'action-text' : action,  'action' : symbol } )
         
         
     def render(self, context):
