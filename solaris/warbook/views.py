@@ -12,8 +12,13 @@ class ReferenceViewMixin(SolarisViewMixin):
           {'title' : 'TechTree', 'url' : '/reference/techtree'},
           {'title' : 'Pilot Skills', 'url' : '/reference/pilotskills'},
           {'title' : 'Pilot Issues', 'url' : '/reference/pilottraits'},
-          {'title' : 'Mechs', 'url' : '/reference/mechs'},       
         ]
+        
+        if self.request.user.is_authenticated():
+            page_context['submenu'] += [
+                {'title' : 'Mechs', 'url' : '/reference/mechs'},       
+            ]       
+        
         page_context['submenu_selected'] = self.__class__.submenu_selected
                
         return page_context
