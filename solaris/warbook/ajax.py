@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views.generic import View
 
 from .models import House
+from .mech.models import MechDesign
 
 
 class AjaxView(View):
@@ -24,5 +25,21 @@ class JsonHouseDisciplines(AjaxView):
             house_disciplines.append(d)
             
         return HttpResponse(json.dumps(house_disciplines))
-            
+
+class JsonMechInformationView(AjaxView):
+    def dispatch(self, request, **kwargs):
+        if not request.user.is_authenticated():
+            return HttpResponse(status=403)
         
+        self.mech  = get_object_or_404(MechDesign, mech_name=request.GET['chassis'], mech_code=request.GET['type'])
+        
+        return super(JsonMechInformationView, self).dispatch(request, **kwargs)
+        
+            
+class JsonPriceOfMech(JsonMechInformationView): 
+    def get(self, request):         
+        return HttpResponse(json.dumps(self.mech.credit_value))
+            
+class JsonBattleValueOfMech(JsonMechInformationView): 
+    def get(self, request):         
+        return HttpResponse(json.dumps(self.mech.bv_value))
