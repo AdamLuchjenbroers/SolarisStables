@@ -11,7 +11,6 @@ from solaris.warbook.equipment.models import Equipment
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.campaign.models import BroadcastWeek, Campaign
 
-
 class Stable(models.Model):
     stable_name = models.CharField(max_length=200)
     owner = models.OneToOneField(User, null=True)
@@ -62,6 +61,10 @@ class StableWeek(models.Model):
             balance += item.get_cost()
             
         return balance
+
+    def prominence(self):
+        #TODO: Compute this using underlying pilots
+        return 0
     
     def advance(self):
         if self.week.next_week == None:

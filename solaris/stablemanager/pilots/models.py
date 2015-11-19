@@ -68,7 +68,7 @@ class PilotWeekTraits(models.Model):
     
 class PilotWeek(models.Model):
     pilot = models.ForeignKey(Pilot, related_name='weeks')
-    week = models.ForeignKey(StableWeek)
+    week = models.ForeignKey(StableWeek, related_name='pilots')
     
     start_character_points = models.IntegerField(default=0)
     adjust_character_points = models.IntegerField(default=0)

@@ -240,6 +240,7 @@ ul.actionbar, div.actionbar {
   box-shadow: 2px 2px 4px #000000;
 
   display: block;
+  font-family: arial,sans-serif;
   
   margin-top: 0.8em;
   margin-left: auto;
@@ -425,6 +426,55 @@ form#wiki-search-form input {
   box-shadow: 2px 2px 4px #000000;
 }
 
+div.actionbar img#actionbar-stable-logo {
+   padding: 10px;
+   display: inline-block;
+   vertical-align: top;
+}
+
+div.actionbar span.actionbar-mainregion {
+   width: calc(100% - 110px);
+   height: 80px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+
+   display: inline-block;
+   vertical-align: top;
+
+   border-left: 1px solid #BBBBBB;
+}
+
+span.actionbar-mainregion span.actionbar-row {
+   color: #BBBBBB;
+   margin: 0.4em;
+   height: 28px;
+   vertical-align: top;
+   display: inline-block;
+}
+
+dl.actionbar-summary {
+   color: #BBBBBB;
+   margin: 0.4em;
+   height: 28px;
+   vertical-align: bottom;
+   display: block;
+}
+
+dl.actionbar-summary dt {
+  display: inline-block;
+  font-weight: bold;
+}
+
+dl.actionbar-summary dd {
+  display: inline-block;
+  margin-right: 0.4em;
+  padding-right: 1em;
+}
+
+dl.actionbar-summary dd:not(:last-of-type) {
+    border-right: 1px solid #BBBBBB;
+}
+
 /****************************************
  * JQuery UI Dialogs
  ****************************************/
@@ -586,6 +636,43 @@ span.mech-cost {
 fieldset.template-form {
     display: none;
 }
+
+/****************************************
+ * Stable Overview
+ ****************************************/
+ul.stable-tech-list {
+  list-style: none;
+}
+
+ul.stable-tech-list li.stable-tech {
+  border: 2px solid #262233;
+  border-radius: 5px;
+  padding: 0.3em;
+  box-shadow: 2px 2px 4px #000000;
+  font-size: 90%;
+  font-weight: bold;
+
+  display: inline-block;
+  width: 16em;
+}
+
+ul.stable-tech-list li.tier0 {
+  background-color: #FFFFFF;
+}
+
+ul.stable-tech-list li.tier1 {
+  background-color: #88FF88;
+}
+
+ul.stable-tech-list li.tier2 {
+  background-color: #FFFF88;
+}
+
+ul.stable-tech-list li.tier3 {
+  background-color: #FF8888;
+}
+
+
 
 /****************************************
  * Attic

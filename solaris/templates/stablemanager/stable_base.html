@@ -1,0 +1,17 @@
+{% extends 'solaris_layout.tmpl' %}
+
+{% block pageactions %}
+<div class="actionbar">
+  <img id="actionbar-stable-logo" src="/static/images/blank-80.png" alt="blank"/>
+  <span class="actionbar-mainregion">
+    <span class="actionbar-row">Stuff will go here </span>
+    <hr class="action-break"/>
+    <dl class="actionbar-summary">
+      <dt>Funds</dt><dd>{{stableweek.closing_balance}} CBills</dd>
+      <dt>Prominence</dt><dd>{{stableweek.prominence}}</dd>
+      <dt>Mechs</dt><dd>{{stableweek.mechs.count}}</dd>
+      <dt>Pilots</dt><dd>{{stableweek.pilots.count}}</dd>
+    </dl>
+  </span>
+</div>
+{% endblock %}

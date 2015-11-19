@@ -10,7 +10,7 @@ from solaris.stablemanager.ledger.models import StableWeek, LedgerItem
 from .forms import LedgerItemForm, LedgerDeleteForm
 
 class StableLedgerView(StableWeekMixin, TemplateView):
-    submenu_selected = 'StableWeek'
+    submenu_selected = 'Finances'
     template_name = 'stablemanager/stable_ledger.tmpl'
         
     def get_context_data(self, **kwargs):
