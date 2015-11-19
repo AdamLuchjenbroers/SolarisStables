@@ -1,11 +1,26 @@
 from django.shortcuts import get_object_or_404, get_list_or_404, redirect
 from django.views.generic import ListView, TemplateView, FormView
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import redirect_to_login
 
 from solaris.warbook.views import ReferenceViewMixin
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.mech.forms import MechSearchForm
+from solaris.stablemanager.models import Stable
 
-class MechDetailView(ReferenceViewMixin, TemplateView):
+class ReferenceMechMixin(ReferenceViewMixin):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return redirect_to_login(request.get_full_path(), 'account_login', REDIRECT_FIELD_NAME)
+
+        try:
+            self.stable = Stable.objects.get(owner=request.user)
+        except Stable.DoesNotExist:
+            self.stable = None
+            
+        return super(ReferenceMechMixin, self).dispatch(request, *args, **kwargs)
+
+class MechDetailView(ReferenceMechMixin, TemplateView):
     template_name = 'warbook/mechdetail.tmpl'
     model = MechDesign
     submenu_selected = 'Mechs'
@@ -25,7 +40,7 @@ class MechDetailView(ReferenceViewMixin, TemplateView):
         
         return page_context
 
-class MechListView(ReferenceViewMixin, ListView):
+class MechListView(ReferenceMechMixin, ListView):
     template_name = 'warbook/mechlist.tmpl'
     model = MechDesign
     submenu_selected = 'Mechs'
@@ -39,7 +54,7 @@ class MechListView(ReferenceViewMixin, ListView):
         page_context['chassis'] = self.kwargs['name']
         return page_context
 
-class MechSearchResultsView(ReferenceViewMixin, ListView):
+class MechSearchResultsView(ReferenceMechMixin, ListView):
     template_name = 'warbook/mechlist.tmpl'
     model = MechDesign
     submenu_selected = 'Mechs'
@@ -87,14 +102,17 @@ class MechSearchResultsView(ReferenceViewMixin, ListView):
         page_context['chassis'] = 'Search Results'
         return page_context
          
-class MechSearchView(ReferenceViewMixin, FormView):       
+class MechSearchView(ReferenceMechMixin, FormView):       
     template_name = 'solaris_basicform.tmpl'
     form_class = MechSearchForm
     submenu_selected = 'Mechs'
+    success_url='/reference/mechs/search'
 
     def get_context_data(self, **kwargs):
         page_context = super(MechSearchView, self).get_context_data(**kwargs)
 
         page_context['submit'] = 'Search'
+        page_context['post_url'] = '/reference/mechs/search'
+        
         return page_context
         
