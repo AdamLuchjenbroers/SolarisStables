@@ -4,6 +4,12 @@ from django.utils.safestring import mark_safe
 
 from decimal import Decimal
 
+class TrainingCostManager(models.Manager):
+    def upgrade_cost(self, training_type, from_skill, to_skill):
+        return self.filter( training=training_type
+                          , train_from__lte=from_skill
+                          , train_to__gte=to_skill).aggregate(models.Sum('cost'))['cost__sum']
+
 class TrainingCost(models.Model):
     training_options = (
         ('P', 'Piloting'),
@@ -14,6 +20,8 @@ class TrainingCost(models.Model):
     train_from = models.IntegerField()
     train_to = models.IntegerField()
     cost = models.IntegerField()
+
+    objects = TrainingCostManager()
 
     class Meta:
         verbose_name_plural = 'Training Costs'
