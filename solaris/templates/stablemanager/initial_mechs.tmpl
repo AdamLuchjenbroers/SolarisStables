@@ -1,7 +1,7 @@
 {% extends 'solaris_layout.tmpl' %}
 {% load solaris_forms %}
  
- {% block pageheader %}
+{% block pageheader %}
   {{ block.super }}
   <script src="/static/js/stable_addmech.js" type="text/javascript" > </script>
 {% endblock %}
@@ -27,9 +27,9 @@
         <span class="footer-element mech-code">Total</span>
         <span class="footer-element mech-cost" id="initial-mechs-total">{{initial_balance}}</span>
       </div>
-      <div class="template-form initial-mechs-row mech_purchase">
+      <div class="template-form initial-mechs-row mech-purchase" id="initial-mechs-template">
       {% with mech_formset.empty_form as form %} 
-        <input type="button" class="add-item" value="&#43;"/>     
+        <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/></span>
         <span class="mech-name">{{ form.mech_name }}</span>
         <span class="mech-code">{{ form.mech_code }}</span>
         <span class="mech-cost">&nbsp;</span>
@@ -41,9 +41,10 @@
         <span class="mech-code"></span>
         <span class="mech-cost" id="initial-mechs-balance">{{initial_balance}}</span>
       </div>
+
     {% for form in mech_formset %}
       <div class="initial-mechs-row mech-purchase"> 
-        <span class="form-action"><input type="button" class="icon-button add-item" value="&#43;"/></span>
+        <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/></span>
         <span class="mech-name">{{ form.mech_name }}</span>
         <span class="mech-code">{{ form.mech_code }}</span>
         <span class="mech-cost">&nbsp;</span>

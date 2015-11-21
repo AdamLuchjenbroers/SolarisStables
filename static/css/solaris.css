@@ -1,4 +1,4 @@
-body {
+ody {
   background-color: #444444;
 }
 
@@ -10,6 +10,7 @@ body {
   margin: 0px;
   padding: 0px; 
 
+  background-color: #444444;
 }
 
 div.title {
@@ -519,6 +520,7 @@ div.content {
   margin-top: 2em;
   margin-left: 2em;
   margin-right: 2em;
+  background-color: #444444;
   
   font-family: arial,sans-serif;   
 }
@@ -600,8 +602,10 @@ select#id_stable_disciplines option.house{
     font-style: italic;
 }
 
-form#initial-mechs-formbody {
+div#initial-mechs-formbody {
     display: table;
+    width: 80%;
+    margin: auto;
 }
 
 #initial-mech-manageform {
@@ -638,34 +642,33 @@ div#initial-mechs-header span, div.initial-mechs-row span, div#initial-mechs-foo
     padding-top: 0.2em;
 }
 
-div.initial-mechs-row:last-of-type {
+div.initial-mechs-row:last-of-type span {
     padding-bottom: 0.4em;
 }
 
 span.form-action {
-    width: 1em;
+    width: 15%;
 }
 
 span.mech-name {
-    width: 14em;
+    width: 35%;
 }
 
 span.mech-name input {
-  margin: 0 0.5em;
-  width: auto;
+    margin-left: 0px;
 }
 
 span.mech-code {
-    width: 10em;
+    width: 20%;
 }
 
 span.mech-code select {
-  margin: 0 0.5em;
-  width: 8em;
+    margin-left: 0px;
+    width: 90%;
 }
 
 span.mech-cost {
-    width: 12em;
+    width: 20%;
     text-align: right;
 }
 
