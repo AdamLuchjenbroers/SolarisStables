@@ -9,10 +9,10 @@
 {% block pagebody %}
 <div class="body">
    <h1>Initial Mech Purchases</h1>
-  {% if mech_formset.non_field_errors %} <div class="form_error"> {{ form.non_field_errors }} </div> {% endif %}
+  {% if form.non_field_errors %} <div class="form_error"> {{ form.non_field_errors }} </div> {% endif %}
   <form id="initial-mechs-form" action="{{post_url}}" method="POST" class="{{form_class}}">
     <fieldset id="initial-mech-manageform" class="mech_purchase">
-    {{ mech_formset.management_form }}
+    {{ form.management_form }}
     </fieldset>
     <div id="initial-mechs-formbody">
       <div id="initial-mechs-header">
@@ -30,7 +30,7 @@
         <span class="footer-element mech-cost" id="initial-mechs-total">{{initial_balance}}</span>
       </div>
       <div class="template-form initial-mechs-row mech-purchase" id="initial-mechs-template">
-      {% with mech_formset.empty_form as form %} 
+      {% with form.empty_form as form %} 
         <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/>{{form.week_no}}</span>
         <span class="mech-name">{{ form.mech_name }}</span>
         <span class="mech-code">{{ form.mech_code }}</span>
@@ -46,7 +46,7 @@
         <span class="mech-cost" id="initial-mechs-balance">{{initial_balance}}</span>
       </div>
 
-    {% for form in mech_formset %}
+    {% for form in form %}
       <div class="initial-mechs-row mech-purchase"> 
         <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/>{{form.week_no}}</span>
         <span class="mech-name">{{ form.mech_name }}</span>
