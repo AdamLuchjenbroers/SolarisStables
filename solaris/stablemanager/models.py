@@ -51,7 +51,8 @@ class StableWeek(models.Model):
     week = models.ForeignKey(BroadcastWeek)
     reputation = models.IntegerField(default=0)
     opening_balance = models.IntegerField()
-    supply_contracts = models.ManyToManyField(Technology)
+    supply_contracts = models.ManyToManyField('warbook.Technology')
+    supply_mechs = models.ManyToManyField('warbook.MechDesign')
     next_week = models.ForeignKey('StableWeek', null=True, related_name='prev_week')
     
     def closing_balance(self):
@@ -99,7 +100,28 @@ class StableWeek(models.Model):
         for contract in self.supply_contracts.all():
             eq_set |= contract.access_to.all()
 
-        return eq_set          
+        return eq_set         
+    
+    
+    def refresh_supply_mechs(self):
+        equipment_list = self.available_equipment()
+        
+        mechList = None
+        
+        if self.supply_contracts.filter(name='Omnimechs').exists():
+            mechList = self.stable.house.produced_designs.all()
+        else:
+            mechList = self.stable.house.produced_designs.filter(is_omni=False)
+        
+        
+        self.supply_mechs.clear()
+        
+        for mech in mechList:
+            if mech.can_be_produced_with(equipment_list):
+                self.supply_mechs.add(mech)
+                
+
+                
 
     class Meta:
         verbose_name_plural = 'Stable Weeks'
@@ -121,5 +143,6 @@ def setup_initial_ledger(sender, instance=None, created=False, **kwargs):
         stable_week.save()
 
         stable_week.supply_contracts.add(*instance.campaign.initial_contracts.all())
+        stable_week.refresh_supply_mechs()
         stable_week.save()
 
