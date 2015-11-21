@@ -1,6 +1,16 @@
+function recalc_total() {
+  var total = parseInt( $('#initial-mechs-balance').html() )
+
+  $('div.mech-purchase span.mech-cost').each( function() {
+    total += parseInt( $(this).html() );
+  });
+
+  $('#initial-mechs-total').html(total);
+}
+
 $( document ).ready(function() {
 
-    $('span.mech-name input').autocomplete({
+    $('.mech-purchase span.mech-name input').autocomplete({
         source: "/stable/query/list-produced",
         minLength: 3,
         select: function (event, ui) {
@@ -40,6 +50,7 @@ $( document ).ready(function() {
            },
        }).done(function(json) {
           cost.html('-' + json);
+          recalc_total();
        }); 
     });
 });
