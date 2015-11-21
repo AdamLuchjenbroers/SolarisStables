@@ -19,19 +19,22 @@
         <span class="header-element form-action"></span>
         <span class="header-element mech-name">Mech Chassis</span>
         <span class="header-element mech-code">Model</span>
+        <span class="header-element mech-preview"></span>
         <span class="header-element mech-cost">Cost</span>
       </div>
       <div id="initial-mechs-footer">
         <span class="footer-element form-action"></span>
         <span class="footer-element mech-name"></span>
         <span class="footer-element mech-code">Total</span>
+        <span class="footer-element mech-preview"></span>
         <span class="footer-element mech-cost" id="initial-mechs-total">{{initial_balance}}</span>
       </div>
       <div class="template-form initial-mechs-row mech-purchase" id="initial-mechs-template">
       {% with mech_formset.empty_form as form %} 
-        <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/></span>
+        <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/>{{form.week_no}}</span>
         <span class="mech-name">{{ form.mech_name }}</span>
         <span class="mech-code">{{ form.mech_code }}</span>
+        <span class="mech-preview"></span>
         <span class="mech-cost">&nbsp;</span>
       {% endwith %}
       </div>
@@ -39,19 +42,21 @@
         <span class="form-action"></span>
         <span class="mech-name">Available funds</span>
         <span class="mech-code"></span>
+        <span class="mech-preview"></span>
         <span class="mech-cost" id="initial-mechs-balance">{{initial_balance}}</span>
       </div>
 
     {% for form in mech_formset %}
       <div class="initial-mechs-row mech-purchase"> 
-        <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/></span>
+        <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/>{{form.week_no}}</span>
         <span class="mech-name">{{ form.mech_name }}</span>
         <span class="mech-code">{{ form.mech_code }}</span>
+        <span class="mech-preview"></span>
         <span class="mech-cost">&nbsp;</span>
       </div>
     {% endfor %}
     </div>    
-    <p><input type="submit" Value="{{submit}}" class="submit"/></p>
+    <input type="submit" Value="{{submit}}" class="submit"/>
   </form>
 </div>
 {% endblock %}
