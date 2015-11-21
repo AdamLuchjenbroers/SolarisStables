@@ -32,7 +32,6 @@ def noop(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warbook', '0002_auto_20151113_1752'),
         ('campaign', '0001_initial'),
     ]
 
