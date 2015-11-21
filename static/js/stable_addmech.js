@@ -20,15 +20,15 @@ $( document ).ready(function() {
                     option_html += "<option value=\"" + val + "\">" + val + "</value>";
                 }); 
                                                                    
-                inputbox.parents('fieldset.mech_purchase').find('span.mech-code select').html(option_html);               
+                inputbox.parents('.mech-purchase').find('span.mech-code select').html(option_html);               
             });
         }
     });
 
     $('span.mech-code select').change(function() {
        type = $(this).val();
-       chassis = $(this).parents('fieldset.mech_purchase').find('span.mech-name input').val();
-       cost = $(this).parents('fieldset.mech_purchase').find('span.mech-cost');
+       chassis = $(this).parents('.mech-purchase').find('span.mech-name input').val();
+       cost = $(this).parents('.mech-purchase').find('span.mech-cost');
 
        $.ajax( {
            type : 'get',
@@ -39,7 +39,7 @@ $( document ).ready(function() {
                type    : type
            },
        }).done(function(json) {
-          cost.html(json);
+          cost.html('-' + json);
        }); 
     });
 });
