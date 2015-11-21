@@ -4,6 +4,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
 
 from solaris.warbook.views import ReferenceViewMixin
+from solaris.warbook.models import House
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.mech.forms import MechSearchForm
 from solaris.stablemanager.models import Stable
@@ -77,6 +78,15 @@ class MechSearchResultsView(ReferenceMechMixin, ListView):
             if term in requestdata and requestdata[term] != '':
                 filter_args[query_term] = requestdata[term]
 
+        if requestdata['available_to'] == '-':
+            self.allmechs = MechDesign.objects.all()
+        elif requestdata['available_to'] == 'me':
+            self.allmechs = self.stable.get_stableweek().supply_mechs.all()
+        else:
+            # It's a house name, so get the house list for filtering
+            house = get_object_or_404( House, id=requestdata['available_to'])
+            self.allmechs = house.produced_designs.all()                     
+  
         return filter_args
         
     def post(self, request):
@@ -94,7 +104,7 @@ class MechSearchResultsView(ReferenceMechMixin, ListView):
             return redirect('/reference/mechs')
         
     def get_queryset(self):
-        return get_list_or_404(MechDesign, **self.filter_args)
+        return self.allmechs.filter(**self.filter_args) 
     
     def get_context_data(self):
         page_context = super(MechSearchResultsView, self).get_context_data()
