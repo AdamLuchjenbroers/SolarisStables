@@ -14,7 +14,7 @@ $( document ).ready(function() {
                     mech : ui.item.value
                 },
             }).done(function(json) {
-                var option_html="";
+                var option_html="<option value=\"\">--</value>";
                 
                 $.each(json, function(index, val) {
                     option_html += "<option value=\"" + val + "\">" + val + "</value>";
@@ -23,5 +23,23 @@ $( document ).ready(function() {
                 inputbox.parents('fieldset.mech_purchase').find('span.mech-code select').html(option_html);               
             });
         }
-  });
+    });
+
+    $('span.mech-code select').change(function() {
+       type = $(this).val();
+       chassis = $(this).parents('fieldset.mech_purchase').find('span.mech-name input').val();
+       cost = $(this).parents('fieldset.mech_purchase').find('span.mech-cost');
+
+       $.ajax( {
+           type : 'get',
+           url  : '/reference/ajax/mech/price-of',
+           dataType : 'json',
+           data : {
+               chassis : chassis,
+               type    : type
+           },
+       }).done(function(json) {
+          cost.html(json);
+       }); 
+    });
 });
