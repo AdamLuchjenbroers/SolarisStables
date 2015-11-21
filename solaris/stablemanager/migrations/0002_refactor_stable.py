@@ -57,5 +57,4 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(related_name='mechs', blank=True, to='stablemanager.StableWeek', null=True),
             preserve_default=True,
         ),
-        migrations.RunPython(build_production_list, reverse_code=noop),
     ]
