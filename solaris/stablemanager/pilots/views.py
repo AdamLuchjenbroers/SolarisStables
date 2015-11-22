@@ -15,6 +15,10 @@ class StablePilotsView(StableWeekMixin, ListView):
     def get_queryset(self):
         return models.PilotWeek.objects.filter(week=self.week, pilot__stable=self.stable)
 
+class InitialPilotNamingView(StableViewMixin, TemplateView):
+    template_name = 'stablemanager/initial_pilots.tmpl'
+    pass
+
 class StableNewPilotsView(StableViewMixin, TemplateView):
     submenu_selected = 'Pilots'
     template_name = 'stablemanager/forms/form_pilots.tmpl'
