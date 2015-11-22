@@ -64,4 +64,12 @@ class BroadcastWeek(models.Model):
             self.save()
         
         return self.next_week
-    
+
+class StartingPilotTemplate(models.Model):
+    campaign = models.ForeignKey(Campaign, related_name='initial_pilots')
+
+    count = models.IntegerField()
+    rank = models.ForeignKey('warbook.PilotRank')
+    piloting = models.IntegerField()
+    gunnery = models.IntegerField()
+
