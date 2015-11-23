@@ -5,5 +5,28 @@
 <div class="body">
    <h1>Name Starting Pilots</h1>
 
+  {% if form.non_field_errors %} <div class="form_error"> {{ form.non_field_errors }} </div> {% endif %}
+  <form id="initial-pilots-form" action="{{post_url}}" method="POST" class="{{form_class}}">
+    <fieldset id="initial-mech-manageform" class="mech_purchase">
+    {{ form.management_form }}
+    </fieldset>
+
+    <div id="initial-pilots-formbody">
+      <div id="initial-pilots-header">
+        <span class="header-element pilot-callsign">Pilot Callsign</span>
+        <span class="header-element pilot-name">Pilot Name</span>
+        <span class="header-element pilot-details">Details</span>
+      </div>
+
+      {% for pilot in form %}
+      <div class="initial-pilots-row pilot-rename">
+        <span class="pilot-callsign">{{pilot.pilot_callsign}}</span>
+        <span class="pilot-name">{{pilot.pilot_name}}</span>
+        <span class="pilot-details">{{pilot.summary}} {{pilot.id}}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <input type="submit" Value="{{submit}}" class="submit"/>
+  </form>
 </div>
 {% endblock %}

@@ -602,7 +602,7 @@ select#id_stable_disciplines option.house{
     font-style: italic;
 }
 
-div#initial-mechs-formbody {
+div#initial-mechs-formbody, div#initial-pilots-formbody {
     display: table;
     width: 80%;
     margin: auto;
@@ -616,12 +616,12 @@ div#initial-mechs-formbody {
     display: none;
 }
 
-div#initial-mechs-header {
+div#initial-mechs-header, div#initial-pilots-header {
     display: table-header-group;
     font-weight: bold;
 }
 
-div#initial-mechs-header span {
+div#initial-mechs-header span, div#initial-pilots-header span {
     border-bottom: 2px solid #000000;
 }
 
@@ -633,11 +633,12 @@ div#initial-mechs-footer span {
     border-top: 4px double #000000;
 }
 
-div.initial-mechs-row {
+div.initial-mechs-row, div.initial-pilots-row {
     display: table-row;
 }
 
-div#initial-mechs-header span, div.initial-mechs-row span, div#initial-mechs-footer span {
+div#initial-mechs-header span, div.initial-mechs-row span, div#initial-mechs-footer span,
+div#initial-pilots-header span, div.initial-pilots-row span {
     display: table-cell;
     padding-top: 0.2em;
 }
@@ -654,7 +655,7 @@ span.mech-name {
     width: 35%;
 }
 
-span.mech-name input {
+span.mech-name input, div.initial-pilots-row input {
     margin-left: 0px;
 }
 
@@ -670,6 +671,22 @@ span.mech-code select {
 span.mech-cost {
     width: 20%;
     text-align: right;
+}
+
+span.pilot-callsign {
+    width: 20%;
+}
+
+span.pilot-name {
+    width: 30%;
+}
+
+span.pilot-callsign input {
+    width: 10em;
+}
+
+span.pilot-details {
+    width: 50%
 }
 
 div.mech-purchase span.mech-cost {

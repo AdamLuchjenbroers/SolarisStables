@@ -1,5 +1,5 @@
 from django.forms.models import inlineformset_factory
-from django.forms import ModelForm, ModelChoiceField, HiddenInput
+from django.forms import ModelForm, ModelChoiceField, HiddenInput, CharField, modelformset_factory
 
 from . import models
 
@@ -18,6 +18,20 @@ class PilotForm(ModelForm):
     class Meta:
         model = models.Pilot
         fields = ('stable','pilot_name', 'pilot_callsign','affiliation')
+
+class PilotNamingForm(ModelForm):
+    pilot_name = CharField(required=False)
+
+    class Meta:
+        model = models.Pilot
+        fields = ('pilot_name', 'pilot_callsign')
+
+    def summary(self):
+        sw = self.instance.stable.get_stableweek()
+        pw = self.instance.weeks.get(week=sw)
+        return '%s, %i/%i' % (pw.rank.rank, pw.skill_gunnery, pw.skill_piloting)
+
+PilotNamingFormSet = modelformset_factory(models.Pilot, form=PilotNamingForm, fields=('pilot_name', 'pilot_callsign'), extra=0)
         
 class PilotWeekForm(ModelForm):
     
@@ -31,10 +45,11 @@ class PilotWeekForm(ModelForm):
     class Meta:
         model = models.PilotWeek
         fields = ('rank','skill_gunnery', 'skill_piloting', 'start_character_points')
+
     
         
 class PilotTrainingForm(ModelForm):
-    discipline = ModelChoiceField(queryset=PilotTraitGroup.objects.all())
+    discipline = ModelChoiceField(queryset=PilotTraitGroup.objects.filter(discipline_type='T'))
     
     class Meta:
         model = models.PilotWeekTraits
