@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from solaris.stablemanager.models import StableWeek
@@ -42,4 +42,8 @@ class LedgerItem(models.Model):
 
 @receiver(post_save, sender=LedgerItem)
 def recalculate_ledgers(sender, instance=None, created=False, **kwargs):
+    instance.ledger.recalculate()
+
+@receiver(post_delete, sender=LedgerItem)
+def recalculate_ledgers_ondelete(sender, instance=None, created=False, **kwargs):
     instance.ledger.recalculate()
