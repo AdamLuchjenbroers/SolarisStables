@@ -4,7 +4,7 @@
 {% block pagebody %}
 <div class="body">
    <h1>Name Starting Pilots</h1>
-   <p>Select callsigns for each of your starting pilots. Optionally, you may also provide names for each pilot, but this is not required. A name generator can be found online <a href="http://battletech.rpg.hu/dynmech/gamename.php">here</a> that can be used to help you.
+   <p>Select callsigns for each of your starting pilots. Optionally, you may also provide names for each pilot, but this is not required. A name generator can be found online at <a href="http://battletech.rpg.hu/dynmech/gamename.php" target="_blank">battletech,rpg.hu/dynmech/gamename.php</a> that can be used to help you.
   {% if form.non_field_errors %} <div class="form_error"> {{ form.non_field_errors }} </div> {% endif %}
   <form id="initial-pilots-form" action="{{post_url}}" method="POST" class="{{form_class}}">
     <fieldset id="initial-mech-manageform" class="mech_purchase">
