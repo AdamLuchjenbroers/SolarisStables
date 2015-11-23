@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from solaris.stablemanager.models import StableWeek
    
@@ -38,3 +40,6 @@ class LedgerItem(models.Model):
         db_table = 'stablemanager_ledgeritem'
         app_label = 'stablemanager'
 
+@receiver(post_save, sender=LedgerItem)
+def recalculate_ledgers(sender, instance=None, created=False, **kwargs):
+    instance.ledger.recalculate()
