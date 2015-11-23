@@ -26,9 +26,12 @@ class Pilot(models.Model):
         unique_together = ('stable', 'pilot_callsign')
         
     def __unicode__(self):
-        if self.pilot_name != None:
-            (first, last) = self.pilot_name.split(' ',1)
-            return '%s \"%s\" %s' % (first, self.pilot_callsign, last)
+        if self.pilot_name != "":
+            try:
+                (first, last) = self.pilot_name.split(' ',1)
+                return '%s \"%s\" %s' % (first, self.pilot_callsign, last)
+            except ValueError:
+                return '%s AKA \"%s\"' % (self.pilot_name, self.pilot_callsign)
         else:
             return self.pilot_callsign
     
@@ -102,7 +105,7 @@ class PilotWeek(models.Model):
         base_bv += (4-self.skill_gunnery) * 0.20
         base_bv += (5-self.skill_piloting) * 0.05
         
-        skills_bv = self.skills.aggregate( models.Sum('training__bv_mod'))['training__bv_mod__sum']
+        skills_bv = self.traits.aggregate( models.Sum('bv_mod'))['bv_mod__sum']
         if skills_bv != None:
             base_bv += float(skills_bv)
 

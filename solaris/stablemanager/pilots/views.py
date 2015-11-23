@@ -13,7 +13,7 @@ class StablePilotsView(StableWeekMixin, ListView):
     model = models.PilotWeek    
 
     def get_queryset(self):
-        return models.PilotWeek.objects.filter(week=self.week, pilot__stable=self.stable)
+        return models.PilotWeek.objects.filter(week=self.stableweek)
 
 class InitialPilotNamingView(StableViewMixin, TemplateView):
     template_name = 'stablemanager/initial_pilots.tmpl'
