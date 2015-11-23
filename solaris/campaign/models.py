@@ -65,6 +65,27 @@ class BroadcastWeek(models.Model):
         
         return self.next_week
 
+def createInitialPilots(stable):
+    from solaris.stablemanager.pilots.models import Pilot, PilotWeek
+
+    templates = stable.campaign.initial_pilots.all()
+    week = stable.get_stableweek()
+    
+    for t in templates:
+        for i in range(0,t.count):
+            pilot = Pilot.objects.create(
+                stable = stable
+            ,   pilot_callsign = 'Unnamed %s %i' % (t.rank.rank, i+1)
+            ,   affiliation = stable.house
+            )
+            PilotWeek.objects.create(
+                pilot = pilot
+            ,   week = week
+            ,   rank = t.rank
+            ,   skill_gunnery = t.gunnery
+            ,   skill_piloting = t.piloting  
+            )
+
 class StartingPilotTemplate(models.Model):
     campaign = models.ForeignKey(Campaign, related_name='initial_pilots')
 

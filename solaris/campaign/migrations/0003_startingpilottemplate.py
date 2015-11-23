@@ -5,7 +5,7 @@ from django.db import models, migrations
 
 def populate_templates(apps, schema_editor):
     StartingPilotTemplate = apps.get_model('campaign','StartingPilotTemplate')
-    Campaign = apps.get_model('campaign','StartingPilotTemplate')
+    Campaign = apps.get_model('campaign','Campaign')
     PilotRank = apps.get_model('warbook', 'PilotRank')
 
     templates = [
@@ -14,15 +14,15 @@ def populate_templates(apps, schema_editor):
        ('Contender', 5, 5, 6),
        ('Rookie'   , 4, 5, 6),
     ]
-
+    
     for c in Campaign.objects.all():
-        for (rank, count, gunnery, pilotting) in templates:
-            StartingPilotTemplate.objects.create(
+        for (rank, count, gunnery, piloting) in templates:
+            spt = StartingPilotTemplate.objects.create(
                 campaign = c
             ,   rank = PilotRank.objects.get(rank=rank)
             ,   count = count
             ,   gunnery = gunnery
-            ,   pilotting = pilotting
+            ,   piloting = piloting
             )
     
 def noop(apps, schema_editor):
