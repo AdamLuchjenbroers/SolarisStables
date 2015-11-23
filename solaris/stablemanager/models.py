@@ -9,7 +9,7 @@ from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
 from solaris.warbook.equipment.models import Equipment
 from solaris.warbook.pilotskill.models import PilotTraitGroup
-from solaris.campaign.models import BroadcastWeek, Campaign
+from solaris.campaign.models import BroadcastWeek, Campaign, createInitialPilots
 
 class Stable(models.Model):
     stable_name = models.CharField(max_length=200)
@@ -146,6 +146,8 @@ def setup_initial_ledger(sender, instance=None, created=False, **kwargs):
         , opening_balance=instance.campaign.initial_balance
         )
         stable_week.save()
+
+        createInitialPilots(instance)
 
         stable_week.supply_contracts.add(*instance.campaign.initial_contracts.all())
         stable_week.refresh_supply_mechs()

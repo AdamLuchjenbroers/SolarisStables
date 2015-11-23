@@ -17,11 +17,16 @@ class LedgerItem(models.Model):
     description = models.CharField(max_length=40)
     cost = models.IntegerField()
     type = models.CharField(max_length=1, choices=item_types)
-    
+
     """ A tied LedgerItem derives its cost from a linked event or item (e.g. a repair bill) and cannot be edited directly. """
     tied = models.BooleanField(default=False)
     
-    
+    """ These fields can optionally be used to link tied Ledger Items to their source events """
+    ref_mechdesign = models.ForeignKey('warbook.MechDesign', blank=True, null=True)
+    ref_stablemech = models.ForeignKey('StableMech', blank=True, null=True)
+    ref_stablemech_week = models.ForeignKey('StableMechWeek', blank=True, null=True)
+    ref_pilot = models.ForeignKey('Pilot', blank=True, null=True)
+    ref_pilot_week = models.ForeignKey('PilotWeek', blank=True, null=True)
     
     def get_cost(self):
         #Use a method for this so implementing repairbills / winnings will be smoother in future.

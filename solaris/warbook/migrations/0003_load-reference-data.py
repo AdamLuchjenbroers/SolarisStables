@@ -9,7 +9,7 @@ from solaris.utilities.data.mechs import loadMechFolder
 from solaris.utilities.data.housemechs import matchFromListFile, createMatchingDict
         
 def load_equipment(apps, schema_editor):
-    loadEquipmentCSV('%s/data/warbook.equipment.csv' % settings.BASE_DIR);
+    loadEquipmentCSV('%s/data/excluded/warbook.equipment.csv' % settings.BASE_DIR);
     
 def clear_equipment(apps, schema_editor):
     Equipment = apps.get_model('warbook','Equipment')
@@ -40,7 +40,7 @@ def load_productionlists():
     
     for (house, filename) in productionLists:
         print "Loading mech list for %s [%s]" % (house, filename)
-        full_path = '%s/data/%s' % (settings.BASE_DIR, filename)
+        full_path = '%s/data/excluded/%s' % (settings.BASE_DIR, filename)
         matchFromListFile(house, full_path, match_dict=match_dict, live=True)  
     
 def noop(apps, schema_editor):

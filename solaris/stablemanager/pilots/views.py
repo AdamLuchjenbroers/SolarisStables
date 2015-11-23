@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, FormView
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 
@@ -13,7 +13,32 @@ class StablePilotsView(StableWeekMixin, ListView):
     model = models.PilotWeek    
 
     def get_queryset(self):
-        return models.PilotWeek.objects.filter(week=self.week, pilot__stable=self.stable)
+        return models.PilotWeek.objects.filter(week=self.stableweek)
+
+class InitialPilotNamingView(StableViewMixin, FormView):
+    template_name = 'stablemanager/initial_pilots.tmpl'
+    form_class = forms.PilotNamingFormSet
+    success_url = '/stable'
+
+    def get_form_kwargs(self):
+        kwargs = super(InitialPilotNamingView, self).get_form_kwargs()
+        if self.request.method == 'GET':
+            kwargs['queryset'] = self.stable.pilots.filter(pilot_callsign__startswith='Unnamed')
+
+        return kwargs
+
+    def form_valid(self, form):
+        for pilot in form:
+            pilot.instance.save()
+
+        return super(InitialPilotNamingView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        page_context = super(InitialPilotNamingView, self).get_context_data(**kwargs)
+        
+        page_context['submit'] = 'Rename All'
+        return page_context
+        
 
 class StableNewPilotsView(StableViewMixin, TemplateView):
     submenu_selected = 'Pilots'
