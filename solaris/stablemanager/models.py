@@ -130,7 +130,12 @@ class StableWeek(models.Model):
         app_label = 'stablemanager'
         
         unique_together = ('stable', 'week')
-        
+    
+@receiver(m2m_changed, sender=StableWeek.supply_contracts.through)
+def refresh_supply_mechs(sender, instance=None, creaed=False, **kwargs):
+    # A supply contract has been added or removed, refresh the available mechs
+    instance.refresh_supply_mechs()
+
     
 @receiver(post_save, sender=Stable)
 def setup_initial_ledger(sender, instance=None, created=False, **kwargs):
