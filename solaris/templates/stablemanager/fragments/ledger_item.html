@@ -1,0 +1,17 @@
+{% load ledger %}
+
+{% if entry.item.tied %}
+  <div class="ledger-item ledger-item-tied">
+{% else %}
+  <div class="ledger-item ledger-item-edit">
+{% endif %}
+    <div class="ledger-view-display">
+      <span class="ledger-action"><input type="submit" class="icon-button ledger-edit" Value="&#x270E;" class="submit" tabindex="{{submit_tab}}"/></span>            
+      <span class="ledger-desc"><p>{{entry.item.description}}</p></span>
+      <span class="ledger-value"><p>{{entry.item.cost}}</p></span>
+    </div>
+{% if not entry.item.tied %}
+  {% ledger_edit_form entry.form %}
+  {% ledger_delete entry.delete %}
+{% endif %}
+  </div>

@@ -24,25 +24,11 @@
       <span class="ledger-desc">{{group.description}}</span>
       <span class="ledger-value" id="ledger-value-{{group.code | lower}}"> </span>
     </div>
-    
-    {% if group.entries %}{% for entry in group.entries %}
-      {% if entry.item.tied %}
-        <div class="ledger-item ledger-item-tied">
-      {% else %}
-        <div class="ledger-item ledger-item-edit">
-      {% endif %}
-          <div class="ledger-view-display">
-            <span class="ledger-action"><input type="submit" class="icon-button ledger-edit" Value="&#x270E;" class="submit" tabindex="{{submit_tab}}"/></span>            
-            <span class="ledger-desc"><p>{{entry.item.description}}</p></span>
-            <span class="ledger-value"><p>{{entry.item.cost}}</p></span>
-          </div>
-      {% if not entry.item.tied %}
-          {% ledger_edit_form entry.form %}
-          {% ledger_delete entry.delete %}
-      {% endif %}
-        </div>
-    {% endfor %}{% endif %}
      
+    {% if group.entries %}{% for entry in group.entries %}
+       {% include 'stablemanager/fragments/ledger_item.html' %}
+    {% endfor %}{% endif %}
+
     {% if group.form %}
     {% ledger_add_form group.form %}
     {% endif %}
