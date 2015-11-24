@@ -63,6 +63,16 @@ class StableWeek(models.Model):
             
         return balance
 
+    def recalculate(self):
+        try:
+            prev_week = self.prev_week.get(next_week=self)
+            self.opening_balance = prev_week.closing_balance()
+        except StableWeek.DoesNotExist:
+            pass
+
+        if self.next_week != None:
+            self.next_week.recalculate()
+
     def prominence(self):
         #TODO: Compute this using underlying pilots
         return 0
