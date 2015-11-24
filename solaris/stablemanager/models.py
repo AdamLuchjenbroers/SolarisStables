@@ -64,8 +64,11 @@ class StableWeek(models.Model):
         return balance
 
     def recalculate(self):
-        if self.prev_week != None:
-            self.opening_balance = self.prev_week.closing_balance()
+        try:
+            prev_week = self.prev_week.get(next_week=self)
+            self.opening_balance = prev_week.closing_balance()
+        except StableWeek.DoesNotExist:
+            pass
 
         if self.next_week != None:
             self.next_week.recalculate()
