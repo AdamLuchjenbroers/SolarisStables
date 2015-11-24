@@ -1,14 +1,13 @@
-from django.forms import ModelForm, Form, HiddenInput, IntegerField
+from django.forms import ModelForm, Form, HiddenInput, IntegerField, CharField
 
 from solaris.stablemanager.ledger.models import LedgerItem
 
 class LedgerItemForm(ModelForm):
     id = IntegerField(widget=HiddenInput, required=False)
+    type = CharField(widget=HiddenInput)
     
     def __init__(self, *args, **kwargs):
-        super(LedgerItemForm, self).__init__(*args, **kwargs)
-                
-        self.fields['type'].widget = HiddenInput()
+        super(LedgerItemForm, self).__init__(*args, auto_id=False, **kwargs)
         
         self.fields['id'].initial = self.instance.pk
         if self.instance.pk:
@@ -29,6 +28,7 @@ class LedgerItemForm(ModelForm):
                 
     class Meta:
         model = LedgerItem
+        fields = ('id', 'description', 'type', 'cost')
         
 class LedgerDeleteForm(Form): 
     id = IntegerField(widget=HiddenInput, required=True)
