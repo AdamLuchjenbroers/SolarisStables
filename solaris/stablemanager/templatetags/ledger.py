@@ -37,7 +37,7 @@ class LedgerDeleteNode(Node):
         self.form = Variable(form_variable)
         
         self.template = loader.get_template('stablemanager/tags/stable_ledger_deleteitem.tmpl')
-        self.node_context = Context( {'action' : 'X', 'post_url' : reverse('stable_ledger_delete')} )    
+        self.node_context = Context( {'action' : '&#x2716;', 'post_url' : reverse('stable_ledger_delete')} )    
     def render(self, context):          
         self.node_context['form'] = self.form.resolve(context)
         

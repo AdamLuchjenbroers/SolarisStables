@@ -1,4 +1,4 @@
-<form action="{{post_url}}" method="POST" class="linedelete">
-  <div class="ledger_delete"><input type="submit" Value="{{action}}" class="submit" tabindex="{{submit_tab}}"/></div>
-  <div class="hidden">{{form.week}} {{form.id}}</div>
+<form action="{{post_url}}" method="POST" class="ledger-item-delete">
+  <span class="ledger-delete"><input type="submit" Value="{{action | safe}}" class="icon-button ledger-delete submit" tabindex="{{submit_tab}}"/></span>
+  <span class="hidden">{{form.week}} {{form.id}}</span>
 </form>

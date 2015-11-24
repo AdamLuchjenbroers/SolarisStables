@@ -141,7 +141,7 @@ span.ledger-value input {
     width: 90%;
 }
 
-.ledger-item span.ledger-action { 
+span.ledger-action { 
     height: 100%;
     width: 2em;
     text-align: center;
@@ -165,31 +165,20 @@ form.ledger-item-edit {
     margin-left: 0px;
 }
 
-form.linedelete {
+form.ledger-item-delete {
     position: absolute;
     display: none;
     right: 0px;
     bottom: 0px;
 }
 
-div.ledger-item-edit:hover form.linedelete {
+input.ledger-delete {
+    color: #AA2222;
+}
+
+div.ledger-item-edit:hover form.ledger-item-delete {
     display: block;
 }
-
-form.linedelete input {
-  margin: 0px;
-  padding: 0px;  
-
-  width: 32px;
-  
-  vertical-align: middle;
-  background: transparent url('/static/images/icons/delete.png') no-repeat center top;
-  border: none;
-  
-  cursor: pointer; /* hand-shaped cursor */
-  cursor: hand; /* for IE 5.x */
-}
-
 
 div h1, div h2, div h3, div p {
     margin: auto;
