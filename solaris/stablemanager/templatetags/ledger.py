@@ -16,9 +16,8 @@ class LedgerFormNode(Node):
         else:
             symbol = action
         
-        
         self.template = loader.get_template('stablemanager/tags/stable_ledger_itemform.tmpl')
-        self.node_context = Context( {'action-text' : action,  'action' : symbol } )
+        self.node_context = Context( {'action_text' : action,  'action' : symbol } )
         
         
     def render(self, context):

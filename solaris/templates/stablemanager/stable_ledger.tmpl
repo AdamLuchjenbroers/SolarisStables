@@ -11,39 +11,49 @@
 {% block pagebody %}
 <div class="body">
   <h1>{{stable.stable_name}} Finances, Week {{week.week_number}}</h1>
-  
-  <div class="balance">
-    <div class="ledger_value"><p>{{opening_balance}}</p></div>
-    <div class="ledger_desc"><h2>Opening Balance</h2></div>
+ 
+  <div id="stable-ledger">
+   
+  <div id="stable-ledger-header">
+    <span class="ledger-desc">Opening Balance</span>
+    <span class="ledger-value">{{opening_balance}}</span>
   </div>
   
   {% for group in ledger_groups %}
-    <div class="subheader">
-      <div class="ledger_desc"><h3>{{group.description}}</h3></div>
-      <div class="ledger_value"> </div>
+    <div class="ledger-subheader">
+      <span class="ledger-desc">{{group.description}}</span>
+      <span class="ledger-value" id="ledger-value-{{group.code | lower}}"> </span>
     </div>
     
     {% if group.entries %}{% for entry in group.entries %}
-        <div class="lineitem">
-          <div class="line_display">
-            <div class="ledger_add"><input type="submit" Value="&#x270E;" class="submit" tabindex="{{submit_tab}}"/></div>            
-            <div class="ledger_value"><p>{{entry.item.cost}}</p></div>
-            <div class="ledger_desc"><p>{{entry.item.description}}</p></div>
+      {% if entry.item.tied %}
+        <div class="ledger-item ledger-item-tied">
+      {% else %}
+        <div class="ledger-item ledger-item-edit">
+      {% endif %}
+          <div class="ledger-view-display">
+            <span class="ledger-action"><input type="submit" class="icon-button ledger-edit" Value="&#x270E;" class="submit" tabindex="{{submit_tab}}"/></span>            
+            <span class="ledger-desc"><p>{{entry.item.description}}</p></span>
+            <span class="ledger-value"><p>{{entry.item.cost}}</p></span>
           </div>
-          <div class="line_update">         
-          	{% ledger_edit_form entry.form %}
-          </div>
+      {% if not entry.item.tied %}
+          {% ledger_edit_form entry.form %}
           {% ledger_delete entry.delete %}
+      {% endif %}
         </div>
     {% endfor %}{% endif %}
      
     {% if group.form %}
-    <div class="lineitem">
-      {% ledger_add_form group.form %}
-    </div>
+    {% ledger_add_form group.form %}
     {% endif %}
+
+    <div class="ledger-item ledger-item-summary" id="ledger-summary-{{group.code | lower}}">
+      <span class="ledger-action"></span>
+      <span class="ledger-desc">Total</span>
+      <span class="ledger-value" id="ledger-sumvalue-{{group.code | lower}}"> </span>
+    </div>
   {% endfor %}
  
-  
+  </div>  
 </div>
 {% endblock %}

@@ -1,29 +1,129 @@
-div.stable_ledger {
-	float: none;
-    width: 600px;	
-    margin-left : auto;
-    margin-right : auto;
+div#stable-ledger {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 2em;
+
+    display: block;
+}
+
+/*******************************************
+ * Header and Footer
+ *******************************************/
+
+div#stable-ledger-header, div#stable-ledger-footer {
+    width: 100%;
+    display: block;
+    float: none;
     
-    height:100%;
-    overflow:hidden;
+    margin-top: 6px;
+    border-bottom: 4px double #000000;
 }
 
-div.balance {
-	width: 100%;
-	display: block;
-	float: none;
-	height: 48px;
-	
-	margin-top: 6px;
-	margin-bottom: 6px;
-	
-    background-color : #AAAAAA;
-}
-
-div.balance div.ledger_desc, div.balance div.ledger_value {
+div#stable-ledger-header span, div#stable-ledger-footer span {
     display: inline-block;
-    line-height: 48px;
 }
+
+div#stable-ledger-header span {
+    margin: auto;
+    height: 100%;
+
+    font-weight: bold;
+    font-size: 160%;
+   
+    margin-bottom: 0.2em; 
+    padding: 0px;
+    
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 20px;
+}
+
+/*******************************************
+ * Subheadings
+ *******************************************/
+
+div.ledger-subheader {
+    display: block;
+    float: none;
+   
+    margin: 0.6em 0em 0.2em 1em;
+    padding-bottom: 0.1em; 
+    border-bottom: 2px solid #000000; 
+}
+
+div.ledger-subheader span.ledger-desc { 
+    display: inline-block;
+    font-size: 110%;
+    font-weight: bold;
+}
+
+/*******************************************
+ * Line Items
+ *******************************************/
+
+.ledger-item  {
+    display: block;
+    margin-left: 40px;
+     
+    float: none;
+    position: relative;
+
+    border-top: 1px dashed #888888;	
+}
+
+div.ledger-subheader + .ledger-item {
+    border-top: none;
+}
+
+.ledger-item span {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+div.ledger-item div.line_update {
+    display: none;
+}
+
+
+div.ledger-item input.ledger-edit {
+    visibility: hidden;
+}
+
+div.ledger-item-edit:hover {
+    background-color : #AAAADD;
+    border-color : #4444DD;
+    border-width : thin;
+}
+
+div.ledger-item-edit:hover input.ledger-edit {
+    visibility: visible;
+}
+
+span.ledger-desc {
+    width: 24em;
+}
+
+span.ledger-value {
+    float: right;
+    width: 100px;
+    margin-right: 2em;
+    
+    text-align: left;
+    vertical-align: middle;
+}
+
+div.ledger-item-summary {
+    border-top: 4px double #000000;
+    border-bottom: 1px solid #000000;
+
+    padding: 0.1em 0em;
+    margin-bottom: 0.4em;
+}
+
+
+
 
 form.ledger-form {
     height: 100%;
@@ -35,100 +135,20 @@ form.ledger-form input {
 }
 
 
-div.line_display div.ledger_add input
-, form.ledger-form div.ledger_add input
-, form.ledger-form div.ledger_edit input {
-    margin-left: 0.5em;
-    border: none;
-    background: transparent;
-    
+
+span.ledger-value input {
+    align: middle;
+    width: 90%;
+}
+
+.ledger-item span.ledger-action { 
     height: 100%;
-    font-size: 120%;
-    font-weight: bold;
-    color: #262233;
-    
-    text-shadow: 2px 2px 4px #888888; 
-}
-
-div.line_display div.ledger_add input {
-    visibility: hidden;
-}
-
-div.line_display:hover div.ledger_add input {
-    visibility: visible;
-}
-
-div.subheader {
-	display: block;
-	float: none;
-	height: 38px;
-	
-    background-color : #BBBBBB;
-    
-	margin-left: 20px;
-	
-	margin-top: 4px;
-	margin-bottom: 4px;
-}
-
-div.subheader div.ledger_desc, div.subheader div.ledger_value {
-    line-height: 38px;
-    display: inline-block;
-}
-
-
-
-div.lineitem, form.lineitem {
-	display: block;
-	float: none;
-	
-	margin-left: 40px;
-	
-	margin-top: 4px;
-	margin-bottom: 4px;
-	
-	position: relative;	
-	
-	background-color : #CCCCCC;
-}
-
-div.lineitem div, form.lineitem div {
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-}
-
-div.lineitem div.line_update {
-    display: none;
-}
-
-div.ledger_desc {
-	width: 24em;
-}
-
-
-div.ledger_value {
-	float: right;
-	width: 100px;
-	margin-right: 2em;
-	
-    text-align: left;
-    vertical-align: middle;
-}
-
-div.ledger_value input {
-	align: middle;
-	width: 90%;
-}
-
-div.lineitem div.ledger_edit, div.line-item div.ledger_add {
-    height: 100%;
-    width: 1em;
+    width: 2em;
     text-align: center;
     vertical-align: middle;
 }
 
-div.lineitem input, div.lineitem p {
+.ledger-item input, .ledger-item p {
     vertical-align: middle;
     
     height: 1.1em;
@@ -136,29 +156,24 @@ div.lineitem input, div.lineitem p {
     margin-bottom: 0.2em;
 }
 
-div.lineitem:hover {
-	background-color : #AAAADD;
-	border-color : #4444DD;
-	border-width : thin;
-}
-
-div.lineitem div.line_display, div.lineitem div.line_update {
+div.ledger-view-display, div.ledger-view-update {
     width: 100%
 }
 
-div.line_update {
-	display:none;
+form.ledger-item-edit {
+    display:none;
+    margin-left: 0px;
 }
 
 form.linedelete {
-	position: absolute;
-	display: none;
-	right: 0px;
-	bottom: 0px;
+    position: absolute;
+    display: none;
+    right: 0px;
+    bottom: 0px;
 }
 
-div.lineitem:hover form.linedelete {
-	display: block;
+div.ledger-item-edit:hover form.linedelete {
+    display: block;
 }
 
 form.linedelete input {
@@ -177,13 +192,14 @@ form.linedelete input {
 
 
 div h1, div h2, div h3, div p {
-	margin: auto;
-	
-	padding: 0px;
-	
-	text-align: left;
-	vertical-align: middle;
-	padding-left: 20px;
-	padding-right: 20px;
+    margin: auto;
+    height: 100%;
+    
+    padding: 0px;
+    
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
