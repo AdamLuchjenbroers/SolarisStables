@@ -20,7 +20,7 @@
   <h3>Non-Signature Mechs</h3>
   <ul class="stable-mech-list chit-list">
      {% for mech in stableweek.mechs.non_signature %}
-     <li class="chit tier0">
+     <li class="chit tier{{mech.current_design.tier}}">
        <span class="mech-tonnage">{{mech.current_design.tonnage}}</span>
        <span class="mech-name">{{mech.current_design.mech_name}} {{mech.current_design.mech_code}}</span>
      </li>
