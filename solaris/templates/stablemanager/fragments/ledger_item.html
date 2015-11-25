@@ -1,9 +1,9 @@
 {% load ledger %}
 
 {% if entry.item.tied %}
-  <div class="ledger-item ledger-item-tied">
+  <div class="ledger-item ledger-item-tied item-group-{{entry.item.type | lower}}">
 {% else %}
-  <div class="ledger-item ledger-item-edit">
+  <div class="ledger-item ledger-item-edit item-group-{{entry.item.type | lower}}">
 {% endif %}
     <div class="ledger-view-display">
       <span class="ledger-action"><input type="submit" class="icon-button ledger-edit" Value="&#x270E;" class="submit" tabindex="{{submit_tab}}"/></span>            
