@@ -16,7 +16,7 @@
    
   <div id="stable-ledger-header">
     <span class="ledger-desc">Opening Balance</span>
-    <span class="ledger-value">{{opening_balance}}</span>
+    <span class="ledger-value" id="ledger-opening-balance">{{opening_balance}}</span>
   </div>
   
   {% for group in ledger_groups %}
@@ -39,6 +39,11 @@
       <span class="ledger-value" id="ledger-sumvalue-{{group.code | lower}}"> </span>
     </div>
   {% endfor %}
+
+  <div id="stable-ledger-footer">
+    <span class="ledger-desc">Closing Balance</span>
+    <span class="ledger-value" id="ledger-closing-balance">{{closing_balance}}</span>
+  </div>
  
   </div>  
 </div>

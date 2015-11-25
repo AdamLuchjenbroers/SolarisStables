@@ -8,7 +8,11 @@
     <div class="ledger-view-display">
       <span class="ledger-action"><input type="submit" class="icon-button ledger-edit" Value="&#x270E;" class="submit" tabindex="{{submit_tab}}"/></span>            
       <span class="ledger-desc"><p>{{entry.item.description}}</p></span>
+      {% if entry.item.cost < 0 %}
+      <span class="ledger-value ledger-negative"><p>{{entry.item.cost}}</p></span>
+      {% else %}
       <span class="ledger-value"><p>{{entry.item.cost}}</p></span>
+      {% endif %}
     </div>
 {% if not entry.item.tied %}
   {% ledger_edit_form entry.form %}

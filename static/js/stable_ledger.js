@@ -29,8 +29,6 @@ function recalc_all() {
   $('#ledger-closing-balance').text(total); 
 }
 
-// ['r', 'p', 'e', 'w', 'i'] 
-
 $.fn.extend ({
 	showForm : function () {
 		this.find('div.ledger-view-display').hide();

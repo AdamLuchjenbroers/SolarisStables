@@ -15,16 +15,24 @@ div#stable-ledger-header, div#stable-ledger-footer {
     width: 100%;
     display: block;
     float: none;
-    
+}
+
+div#stable-ledger-header {
     margin-top: 6px;
     border-bottom: 4px double #000000;
+}
+
+div#stable-ledger-footer {
+    margin-top: 6px;
+    border-top: 4px double #000000;
+    border-bottom: 2px solid #000000;
 }
 
 div#stable-ledger-header span, div#stable-ledger-footer span {
     display: inline-block;
 }
 
-div#stable-ledger-header span {
+div#stable-ledger-header span, div#stable-ledger-footer span {
     margin: auto;
     height: 100%;
 
@@ -86,7 +94,6 @@ div.ledger-item div.line_update {
     display: none;
 }
 
-
 div.ledger-item input.ledger-edit {
     visibility: hidden;
 }
@@ -114,6 +121,10 @@ span.ledger-value {
     vertical-align: middle;
 }
 
+span.ledger-negative {
+    color: #AA2222;
+}
+
 div.ledger-item-summary {
     border-top: 4px double #000000;
     border-bottom: 1px solid #000000;
@@ -122,19 +133,13 @@ div.ledger-item-summary {
     margin-bottom: 0.4em;
 }
 
-
-
-
 form.ledger-form {
     height: 100%;
 }
 
-
 form.ledger-form input {    
     vertical-align: middle;
 }
-
-
 
 span.ledger-value input {
     align: middle;
