@@ -34,6 +34,8 @@ class Equipment(models.Model):
     fcs_artemis_v = models.BooleanField(default=False)    
     fcs_apollo = models.BooleanField(default=False)    
 
+    tier = models.IntegerField(default=0)
+
     record_states = (
         (0, 'Aggressive Load')
     ,   (1, 'Incomplete')
