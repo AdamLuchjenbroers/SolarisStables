@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from math import ceil
 
 from .refdata import locations_all, structure_entry, structure
+from solaris.warbook.refdata import technology_tiers
 
 class MechDesign(models.Model):
     mech_name = models.CharField(max_length=50)
@@ -38,6 +39,7 @@ class MechDesign(models.Model):
     production_type = models.CharField(max_length=1, choices=production_options, default='P')    
     
     omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True, related_name='loadouts')
+    tier = models.IntegerField(default=0, choices=technology_tiers)
 
     def total_armour(self):
         return (self.locations.aggregate( models.Sum('armour') ))['armour__sum']

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 
+from solaris.warbook.refdata import technology_tiers
 from solaris.warbook.equipment.models import Equipment
 
 class Technology(models.Model):
@@ -12,23 +13,15 @@ class Technology(models.Model):
                   ('ammo' , 'Ammunition'),
                   ('phys' , 'Physical Weapons'),
     )
-    
-    tiers = (
-       
-             ( 0 , 'Base Technology'),
-             ( 1 , 'Star-League'),
-             ( 2 , 'Advanced'),
-             ( 3 , 'Experimental')
-    )
   
     name = models.CharField(max_length=40)
     category = models.CharField(max_length=8, choices=categories)
     urlname = models.CharField(max_length=20)
     description = models.TextField()
     base_difficulty = models.IntegerField()
-    tier = models.IntegerField(choices=tiers)
+    tier = models.IntegerField(choices=technology_tiers)
     show = models.BooleanField(default=True)
-    access_to = models.ManyToManyField(Equipment, db_table='warbook_tech_x_equipment')
+    access_to = models.ManyToManyField(Equipment, db_table='warbook_tech_x_equipment', related_name='supplied_by')
  
     def __unicode__(self):
         if self.show:

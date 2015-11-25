@@ -4,6 +4,7 @@ from django.db import models
 
 from solaris.warbook.mech.models import MechDesign, MechDesignLocation
 from solaris.warbook.equipment import tonnage, criticals, cost
+from solaris.warbook.refdata import technology_tiers
 
 class Equipment(models.Model):
     name = models.CharField(max_length=100, default='FIXME')
@@ -34,7 +35,7 @@ class Equipment(models.Model):
     fcs_artemis_v = models.BooleanField(default=False)    
     fcs_apollo = models.BooleanField(default=False)    
 
-    tier = models.IntegerField(default=0)
+    tier = models.IntegerField(default=0, choices=technology_tiers)
 
     record_states = (
         (0, 'Aggressive Load')
