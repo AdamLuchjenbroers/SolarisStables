@@ -700,35 +700,43 @@ div.template-form {
 /****************************************
  * Stable Overview
  ****************************************/
-ul.stable-tech-list {
+ul.chit-list {
   list-style: none;
 }
 
-ul.stable-tech-list li.stable-tech {
+ul.chit-list li.chit { 
   border: 2px solid #262233;
   border-radius: 5px;
   padding: 0.3em;
   box-shadow: 2px 2px 4px #000000;
   font-size: 90%;
+  margin: 0.2em;
   font-weight: bold;
 
   display: inline-block;
   width: 16em;
 }
 
-ul.stable-tech-list li.tier0 {
+ul.chit-list span.mech-tonnage {
+  border-right: 1px solid #262233;
+  display: inline-block;
+  width: 2em;
+  margin-right: 0.5em;
+}
+
+ul.chit-list li.tier0 {
   background-color: #FFFFFF;
 }
 
-ul.stable-tech-list li.tier1 {
+ul.chit-list li.tier1 {
   background-color: #88FF88;
 }
 
-ul.stable-tech-list li.tier2 {
+ul.chit-list li.tier2 {
   background-color: #FFFF88;
 }
 
-ul.stable-tech-list li.tier3 {
+ul.chit-list li.tier3 {
   background-color: #FF8888;
 }
 

@@ -8,12 +8,23 @@
   <p><em>Current Balance: </em>{{stableweek.closing_balance}}</p>
 
   <h2>Supply Contracts</h2>
-  <ul class="stable-tech-list">
+  <ul class="stable-tech-list chit-list">
     {% for tech in stableweek.supply_contracts.all %}
     {% if tech.show %}
-    <li class="stable-tech tier{{tech.tier}}">{{tech.name}}</li>
+    <li class="stable-tech chit tier{{tech.tier}}">{{tech.name}}</li>
     {% endif %}
     {% endfor %}
+  </ul>
+
+  <h2>Mechs</h2>
+  <h3>Non-Signature Mechs</h3>
+  <ul class="stable-mech-list chit-list">
+     {% for mech in stableweek.mechs.non_signature %}
+     <li class="chit tier0">
+       <span class="mech-tonnage">{{mech.current_design.tonnage}}</span>
+       <span class="mech-name">{{mech.current_design.mech_name}} {{mech.current_design.mech_code}}</span>
+     </li>
+     {% endfor %}
   </ul>
 </div>
 {% endblock %}
