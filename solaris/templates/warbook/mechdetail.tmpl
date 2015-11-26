@@ -14,6 +14,7 @@
     <em>BV:</em> {{mech.bv_value}}
     <em>Cost:</em> {{mech.credit_value}}
   </p>
+  {% if mech.get_loadouts %}
   <ul class="loadouts">
   {% for loadout in mech.get_loadouts %}
   {% if loadout == mech %}
@@ -23,6 +24,7 @@
   {% endif %}
   {% endfor %}
   </ul>
+  {% endif %}
 
   <div class="{{mech.motive_type}}_armour">
     {% for location in mech.locations.all %}
