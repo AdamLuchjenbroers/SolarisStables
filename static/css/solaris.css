@@ -513,6 +513,34 @@ button.ui-dialog-titlebar-close {
 }
 
 /****************************************
+ * JQuery UI Dialogs
+ ****************************************/
+ul.ui-autocomplete {
+  border: 1px solid #262233;
+  border-radius: 0px 0px 3px 3px;
+  box-shadow: 2px 2px 4px #000000;
+
+  background-color: #AAAAAA;
+}
+
+ul.ui-autocomplete li.ui-menu-item {
+  margin: 1px;
+  font-size: 0.8rem;
+  font-family: arial,sans-serif;
+  border-radius: 0px 0px 3px 3px;
+}
+
+ul.ui-autocomplete li.ui-menu-item.ui-state-focus {
+  border: none;
+  border-radius: 3px 3px;
+  background: none;
+
+  font-weight: bold;
+  background-color: #262233;
+  color: #AAAAAA;
+}
+
+/****************************************
  * Main Page Body
  ****************************************/
 
