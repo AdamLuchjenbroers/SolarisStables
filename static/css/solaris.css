@@ -270,7 +270,7 @@ em.bc-divider {
   font-style: normal;
 }
 
-ul.actionbar li, ul.actionbar-inner li, ul.wiki-breadcrumbs li {
+ul.actionbar li, ul.actionbar-inner li, ul.wiki-breadcrumbs li, ul.actionbar-row li {
   display: inline-block;
   color: #BBBBBB;
   padding: 0.1em;
@@ -279,7 +279,7 @@ ul.actionbar li, ul.actionbar-inner li, ul.wiki-breadcrumbs li {
   font-weight: bold;
 }
 
-ul.actionbar li, ul.actionbar-inner li {
+ul.actionbar li, ul.actionbar-inner li, ul.actionbar-row li {
   border-right: 1px solid #BBBBBB;
 }
 
@@ -306,13 +306,15 @@ ul.wiki-breadcrumbs li.children
 }
 
 ul.actionbar li a, ul.actionbar-inner li a, 
-ul.wiki-breadcrumbs li a, ul.wiki-breadcrumbs span.bc-current { 
+ul.wiki-breadcrumbs li a, ul.wiki-breadcrumbs span.bc-current  
+ul.actionbar-row li a { 
   text-align: center;
 }
 
 ul.actionbar li a:link, ul.actionbar-inner li a:link, 
 ul.actionbar li a:visited, ul.actionbar-inner li a:visited,
 ul.wiki-breadcrumbs li a:link, ul.wiki-breadcrumbs li a:visited
+ul.actionbar-row li a:link, ul.actionbar-row li a:visited
 {
   color: #BBBBBB;
 }
@@ -445,12 +447,18 @@ div.actionbar span.actionbar-mainregion {
    border-left: 1px solid #BBBBBB;
 }
 
-span.actionbar-mainregion span.actionbar-row {
+span.actionbar-mainregion ul.actionbar-row {
    color: #BBBBBB;
    margin: 0.4em;
    height: 28px;
    vertical-align: top;
    display: inline-block;
+   list-style: none;
+}
+
+ul.actionbar-row li {
+    width: 8em;
+    text-align: middle;
 }
 
 dl.actionbar-summary {

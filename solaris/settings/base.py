@@ -86,6 +86,7 @@ INSTALLED_APPS = (
     'solaris.stablemanager.mechs',
     'solaris.stablemanager.pilots',
     'solaris.stablemanager.ledger',
+    'solaris.stablemanager.repairs',
     'markitup',
     #Django-Wiki
     'django_nyt',

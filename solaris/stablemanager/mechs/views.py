@@ -41,4 +41,3 @@ class InitialMechPurchaseView(StableViewMixin, FormView):
         context['initial_balance'] = self.stable.get_stableweek().opening_balance
         
         return context
-    
