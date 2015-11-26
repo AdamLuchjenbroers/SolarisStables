@@ -4,6 +4,7 @@
 {% block pageheader %}
   {{ block.super }}
   <script src="/static/js/stable_addmech.js" type="text/javascript" > </script>
+  <link rel="stylesheet" type="text/css" href="/static/css/mech_detail.css" />
 {% endblock %}
  
 {% block pagebody %}
@@ -34,7 +35,7 @@
         <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/>{{form.week_no}}</span>
         <span class="mech-name">{{ form.mech_name }}</span>
         <span class="mech-code">{{ form.mech_code }}</span>
-        <span class="mech-preview"></span>
+        <span class="mech-preview"><input type="button" disabled="true" class="word-button view-mech" value="Preview"/></span>
         <span class="mech-cost">&nbsp;</span>
       {% endwith %}
       </div>
@@ -51,12 +52,16 @@
         <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/>{{form.week_no}}</span>
         <span class="mech-name">{{ form.mech_name }}</span>
         <span class="mech-code">{{ form.mech_code }}</span>
-        <span class="mech-preview"></span>
+        <span class="mech-preview"><input type="button" disabled="true" class="word-button view-mech" value="Preview"/></span>
         <span class="mech-cost">&nbsp;</span>
       </div>
     {% endfor %}
     </div>    
     <input type="submit" Value="{{submit}}" class="submit"/>
   </form>
+</div>
+
+<div title="Preview Mech Design" id="dialog-mechpreview" class="preview-dialog hidden">
+  <p>Content to go here </p>
 </div>
 {% endblock %}

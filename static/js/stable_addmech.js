@@ -65,6 +65,22 @@ $( document ).ready(function() {
            },
        }).done(function(json) {
           cost.html('-' + json);
+
+          preview = cost.parents('.mech-purchase').find('span.mech-preview input');
+          preview.prop('disabled', false);
+
+          preview.click(function() {
+              $('#dialog-mechpreview').load('/reference/mechs/' + chassis + '/' + type + ' div.body');
+              $('#dialog-mechpreview').dialog ({
+                  modal: true,
+                  width: (window.innerWidth * 0.75),
+                  height: (window.innerHeight * 0.75),
+                  buttons: {
+                       Close: function() { $( this ).dialog("close"); }
+                  }
+              });
+          });
+
           recalc_total();
        }); 
     });
