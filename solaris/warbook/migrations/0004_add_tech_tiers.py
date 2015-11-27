@@ -11,15 +11,6 @@ def derive_equipment_tiers(apps, schema_editor):
             eq.tier = 3
         eq.save()
 
-def derive_mech_tiers(apps, schema_editor):
-    Equipment = apps.get_model('warbook','Equipment')
-    MechDesign = apps.get_model('warbook','MechDesign')
-    for mech in MechDesign.objects.all():
-       mech_eq = Equipment.objects.filter(id__in=mech.loadout.all().values('equipment'))   
-       mech.tier = mech_eq.aggregate(models.Max('tier'))['tier__max'] 
-       mech.save() 
-
-
 def noop(apps, schema_editor):
     # Why bother to delete from tables that are being dropped in the
     # same operation.
@@ -51,5 +42,4 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.RunPython(derive_equipment_tiers, reverse_code=noop),
-        migrations.RunPython(derive_mech_tiers, reverse_code=noop),
     ]
