@@ -4,8 +4,21 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 from django.core.management import call_command
 
+import json
+
 def load_zodiac(apps, schema_editor):
-    call_command('loaddata', 'data/campaign.zodiac.json');
+    Zodiac = apps.get_model('campaign','Zodiac')
+    signs = ['Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake', 'Horse', 'Sheep', 'Monkey', 'Rooster', 'Dog', 'Pig']
+    last = None
+
+    signs.reverse()
+    for s in signs:
+        last = Zodiac.objects.create(sign=s, rules='TBA', next=last)
+    
+    pig = Zodiac.objects.get(sign='Pig')
+    pig.next = Zodiac.objects.get(sign='Rat')
+    pig.save()
+
     
 def noop(apps, schema_editor):
     # Why bother to delete from tables that are being dropped in the
