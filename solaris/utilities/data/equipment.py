@@ -9,14 +9,10 @@ equipment_fields = ['id', 'name', 'ssw_name', 'equipment_class'
                    , 'cost_func', 'cost_factor', 'weapon_properties', 'basic_ammo'
                    , 'ammo_for', 'has_ammo', 'ammo_size', 'splittable', 'crittable'
                    , 'evaluate_last', 'record_status', 'fcs_artemis_iv', 'fcs_artemis_v'
-                   , 'fcs_apollo' ]
+                   , 'fcs_apollo', 'tier' ]
 
-class EquipmentForm(ModelForm):
-    class Meta:
-        model = Equipment
-        fields = equipment_fields
 
-def getLauncher(launcher):
+def getLauncher(launcher, Equipment=Equipment):
     try:
         ammo_for = Equipment.objects.get(id=int(launcher))
         return ammo_for
@@ -35,8 +31,13 @@ def getLauncher(launcher):
     except Equipment.DoesNotExist:
         pass
 
-def loadEquipmentCSV(csvfile, reassign_id=False):
+def loadEquipmentCSV(csvfile, reassign_id=False, csvfields=equipment_fields, Equipment=Equipment):
     fh = open(csvfile,'r')
+
+    class EquipmentForm(ModelForm):
+        class Meta:
+            model = Equipment
+            fields = csvfields
     
     reader = DictReader(fh)
     
@@ -45,7 +46,7 @@ def loadEquipmentCSV(csvfile, reassign_id=False):
             row['name'] = row['ssw_name'].split(' - ')[1]
             
         if 'ammo_for' in row:
-            launcher = getLauncher(row['ammo_for'])
+            launcher = getLauncher(row['ammo_for'], Equipment=Equipment)
             if launcher:
                 row['ammo_for'] = launcher.id
             

@@ -9,7 +9,15 @@ from solaris.utilities.data.mechs import loadMechFolder
 from solaris.utilities.data.housemechs import matchFromListFile, createMatchingDict
         
 def load_equipment(apps, schema_editor):
-    loadEquipmentCSV('%s/data/excluded/warbook.equipment.csv' % settings.BASE_DIR);
+    Equipment = apps.get_model('warbook','Equipment')
+    fields = ['id', 'name', 'ssw_name', 'equipment_class'
+             , 'tonnage_func', 'tonnage_factor', 'critical_func', 'critical_factor'
+             , 'cost_func', 'cost_factor', 'weapon_properties', 'basic_ammo'
+             , 'ammo_for', 'has_ammo', 'ammo_size', 'splittable', 'crittable'
+             , 'evaluate_last', 'record_status', 'fcs_artemis_iv', 'fcs_artemis_v'
+             , 'fcs_apollo' ]
+
+    loadEquipmentCSV('%s/data/excluded/warbook.equipment.csv' % settings.BASE_DIR, csvfields=fields, Equipment=Equipment );
     
 def clear_equipment(apps, schema_editor):
     Equipment = apps.get_model('warbook','Equipment')
