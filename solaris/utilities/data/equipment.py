@@ -67,16 +67,16 @@ def loadEquipmentCSV(csvfile, reassign_id=False, csvfields=equipment_fields, Equ
             
     fh.close()
 
-def dumpEquipmentCSV(csvfile, **kwargs):
+def dumpEquipmentCSV(csvfile, **kwargs, csvfields=equipment_fields):
     fh = open(csvfile,'w')
 
     to_fill = Equipment.objects.filter(**kwargs)
 
-    writer = DictWriter(fh, fieldnames=equipment_fields)   
+    writer = DictWriter(fh, fieldnames=csvfields)   
     writer.writeheader()
     
     for item in to_fill:
-        writer.writerow( model_to_dict(item) )
+        writer.writerow( model_to_dict(item, fields=csvfields) )
         
     print "%i Equipment Items exported" % len(to_fill)
         
