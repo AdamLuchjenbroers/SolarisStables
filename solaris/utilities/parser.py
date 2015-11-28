@@ -159,6 +159,8 @@ class SSWMech(dict):
         self['is_omni'] = ( xmlnode.get('omnimech') == 'TRUE' )
         self['motive_type'] = translate.motive_options[ xmlnode.xpath('./motive_type/text()')[0]]
         self['tech_base'] = translate.tech_bases[ xmlnode.xpath('./techbase/text()')[0]]
+        # FIXME: Default this to red
+        self['tier'] = 3
 
         self.gyro = SSWGyro( xmlnode.xpath('./gyro')[0] )
         self.engine = SSWEngine( xmlnode.xpath('./engine')[0], gyro_criticals=self.gyro.criticals )

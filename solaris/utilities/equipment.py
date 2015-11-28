@@ -1,5 +1,9 @@
 from copy import deepcopy
 
+#if 'equip_override' in globals():
+#    print "Overriding Equipment Class"
+#    Equipment = equip_override
+#else:
 from solaris.warbook.equipment.models import Equipment
 
 class CriticalsList(object):

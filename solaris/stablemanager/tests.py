@@ -1,7 +1,8 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from solaris.warbook.models import House
 from solaris.stablemanager.models import Stable
-from solaris.campaign.models import BroadcastWeek, Zodiac
+from solaris.campaign.models import BroadcastWeek, Zodiac, Campaign
 
 '''
 Runs a suite of tests to confirm the main stable page handles the following three cases correctly:
@@ -17,7 +18,10 @@ class StableLoginTests(TestCase):
         User.objects.create_user(username='has-stable', email='lotsa_mechs@nowhere.com', password='pass')
  
         stable_user = User.objects.get(username='has-stable')
-        Stable.objects.create(stable_name='Test Stable', owner=stable_user, reputation=0)
+        Stable.objects.create(stable_name='Test Stable'
+                             , owner=stable_user
+                             , house = House.objects.get(house='House Marik')
+                             , campaign=Campaign.objects.get_current_campaign())
  
 
     def test_redirectNotLoggedIn(self):

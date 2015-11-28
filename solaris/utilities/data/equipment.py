@@ -2,8 +2,6 @@ from csv import DictReader, DictWriter
 from django.forms import ModelForm
 from django.forms.models import model_to_dict
 
-from solaris.warbook.equipment.models import Equipment
-
 equipment_fields = ['id', 'name', 'ssw_name', 'equipment_class'
                    , 'tonnage_func', 'tonnage_factor', 'critical_func', 'critical_factor'
                    , 'cost_func', 'cost_factor', 'weapon_properties', 'basic_ammo'
@@ -11,6 +9,7 @@ equipment_fields = ['id', 'name', 'ssw_name', 'equipment_class'
                    , 'evaluate_last', 'record_status', 'fcs_artemis_iv', 'fcs_artemis_v'
                    , 'fcs_apollo', 'tier' ]
 
+from solaris.warbook.equipment.models import Equipment
 
 def getLauncher(launcher, Equipment=Equipment):
     try:
