@@ -27,6 +27,7 @@ class LedgerItem(models.Model):
     ref_mechdesign = models.ForeignKey('warbook.MechDesign', blank=True, null=True)
     ref_stablemech = models.ForeignKey('StableMech', blank=True, null=True)
     ref_stablemech_week = models.ForeignKey('StableMechWeek', blank=True, null=True)
+    ref_repairbill = models.OneToOneField('RepairBill', blank=True, null=True, related_name='ledger')
     ref_pilot = models.ForeignKey('Pilot', blank=True, null=True)
     ref_pilot_week = models.ForeignKey('PilotWeek', blank=True, null=True)
     
