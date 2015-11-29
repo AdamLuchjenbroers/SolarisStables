@@ -67,7 +67,7 @@ def loadEquipmentCSV(csvfile, reassign_id=False, csvfields=equipment_fields, Equ
             
     fh.close()
 
-def dumpEquipmentCSV(csvfile, **kwargs, csvfields=equipment_fields):
+def dumpEquipmentCSV(csvfile, csvfields=equipment_fields, **kwargs):
     fh = open(csvfile,'w')
 
     to_fill = Equipment.objects.filter(**kwargs)
