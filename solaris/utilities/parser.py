@@ -130,13 +130,13 @@ class SSWLoadout(list):
             self.append(item_equip)
             
             if (self.fcs_artemis_iv and item_equip.equipment.fcs_artemis_iv):
-                SSWAttachedItem('Artemis IV', item_equip, item_type='FCS')  
+                self.append(SSWAttachedItem('Artemis IV', item_equip, item_type='FCS'))  
             
             if (self.fcs_artemis_v and item_equip.equipment.fcs_artemis_v):
-                SSWAttachedItem('Artemis V', item_equip, item_type='FCS')  
+                self.append(SSWAttachedItem('Artemis V', item_equip, item_type='FCS'))  
             
             if (self.fcs_apollo and item_equip.equipment.fcs_apollo):
-                SSWAttachedItem('Apollo', item_equip, item_type='FCS')    
+                self.append(SSWAttachedItem('Apollo', item_equip, item_type='FCS'))    
     
 class SSWBaseLoadout(SSWLoadout):
     def __init__(self, xmlnode, motive_type='B'):

@@ -337,5 +337,13 @@ class SSWAttachedItem(SSWMountedItem):
         
         super(SSWAttachedItem, self).__init__() 
 
-        loc = attached_to.mountings.keys()[0]
-        self.mountings[loc] = SSWItemMounting(loc, [ attached_to.mountings[loc].last() + 1 ])         
+        self.attached_to = attached_to
+        self.loc = attached_to.mountings.keys()[0]
+
+    def extrapolate(self, criticals): 
+        slots = [ self.attached_to.mountings[self.loc].last() + 1 + offset for offset in range(criticals) ]
+        print "Mounting at %s, slots %s" % (self.loc, slots)
+        self.mountings[self.loc] = SSWItemMounting(self.loc, slots)
+        self.extrapolated = True 
+       
+         
