@@ -39,6 +39,7 @@ def loadEquipmentCSV(csvfile, reassign_id=False, csvfields=equipment_fields, Equ
             fields = csvfields
     
     reader = DictReader(fh)
+    loadcounts = { 'insert' : 0, 'update' : 0, 'failed': 0 }
     
     for row in reader:
         if 'name' not in row:
@@ -62,9 +63,12 @@ def loadEquipmentCSV(csvfile, reassign_id=False, csvfields=equipment_fields, Equ
         
         eq = EquipmentForm(row, instance=eq_instance)
         if eq.is_valid():
-            print '%s %s' % ('Loaded' if eq_instance == None else 'Updated', row['ssw_name'])
+            loadcounts['insert' if eq_instance == None else 'update'] += 1
             eq.save()
-            
+        else: 
+            loadcounts['failed'] += 1
+
+    print 'Equipment load complete: %i new, %i updated, %i failed to load' % (loadcounts['insert'], loadcounts['update'], loadcounts['failed'])           
     fh.close()
 
 def dumpEquipmentCSV(csvfile, csvfields=equipment_fields, **kwargs):
