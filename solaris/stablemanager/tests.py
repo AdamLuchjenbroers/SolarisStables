@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from solaris.warbook.models import House
-from solaris.stablemanager.models import Stable
+from solaris.stablemanager.models import Stable, StableWeek
 from solaris.campaign.models import BroadcastWeek, Zodiac, Campaign
 
 '''
@@ -46,4 +46,36 @@ class StableLoginTests(TestCase):
         self.assertEqual(response.status_code, 200, 'Page not rendered for user with a stable (HTTP %s)' % response.status_code)
         
         self.client.logout()
-        
+
+
+class StableSetupTests(TestCase):
+
+    def setUp(self): 
+        User.objects.create_user(username='has-stable', email='lotsa_mechs@nowhere.com', password='pass')
+ 
+        stable_user = User.objects.get(username='has-stable')
+        self.house = House.objects.get(house='House Marik')
+        self.campaign = Campaign.objects.get_current_campaign()
+
+        self.stable = Stable.objects.create(stable_name='Test Stable'
+                                           , owner = stable_user
+                                           , house = self.house 
+                                           , campaign= self.campaign)
+
+    def test_hasweek(self):
+        week = self.stable.get_stableweek()
+        self.assertIsInstance(week, StableWeek, 'Initial Stableweek missing')
+
+
+    def test_initialbalance(self):
+        week = self.stable.get_stableweek()
+        self.assertEqual( week.opening_balance, self.campaign.initial_balance
+                           , 'Iniiial balance set incorrectly, found %i, expected %i'
+                           % (week.opening_balance, self.campaign.initial_balance) )
+
+    def test_templates(self):
+        for template in self.campaign.initial_pilots.all():
+            pilotcount = self.stable.get_stableweek().pilots.filter( rank = template.rank
+                                                                   , skill_gunnery = template.gunnery
+                                                                   , skill_piloting = template.piloting ).count()
+            self.assertEqual(pilotcount, template.count, 'Expected %i %s, found %i' % (template.count, template.rank.rank, pilotcount) ) 
