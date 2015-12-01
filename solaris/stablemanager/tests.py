@@ -1,8 +1,13 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+
 from solaris.warbook.models import House
-from solaris.stablemanager.models import Stable, StableWeek
+from solaris.warbook.mech.models import MechDesign
+
 from solaris.campaign.models import BroadcastWeek, Zodiac, Campaign
+
+from solaris.stablemanager.models import Stable, StableWeek
+from solaris.stablemanager.mechs.models import StableMech, StableMechWeek
 
 '''
 Runs a suite of tests to confirm the main stable page handles the following three cases correctly:
@@ -78,4 +83,29 @@ class StableSetupTests(TestCase):
             pilotcount = self.stable.get_stableweek().pilots.filter( rank = template.rank
                                                                    , skill_gunnery = template.gunnery
                                                                    , skill_piloting = template.piloting ).count()
-            self.assertEqual(pilotcount, template.count, 'Expected %i %s, found %i' % (template.count, template.rank.rank, pilotcount) ) 
+            self.assertEqual(pilotcount, template.count, 'Expected %i %s, found %i' % (template.count, template.rank.rank, pilotcount) )
+
+
+class StableTestMixin(object):
+    def createStable(self, userName='test-user', stableName='Test Stable'):
+        User.objects.create_user(username=userName, email='lotsa_mechs@nowhere.com', password='pass')
+ 
+        stable_user = User.objects.get(username=userName)
+        stable = Stable.objects.create(stable_name=stableName
+                             , owner=stable_user
+                             , house = House.objects.get(house='House Marik')
+                             , campaign=Campaign.objects.get_current_campaign())
+
+        return stable
+
+    def addMech(self, stable, stableweek=None, create_ledger=True, **kwargs):
+        if stableweek == None:
+            stableweek = stable.get_stableweek()
+
+        mechdesign = MechDesign.objects.get(**kwargs)
+        mech = StableMech.objects.create_mech( stable = stable
+                                             , purchased_as = mechdesign
+                                             , purchased_on = stableweek
+                                             , create_ledger = create_ledger
+                                             )
+        return mech

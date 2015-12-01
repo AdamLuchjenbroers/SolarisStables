@@ -13,23 +13,11 @@ class InitialMechPurchaseView(StableViewMixin, FormView):
 
     def form_valid(self, form):
         for mechform in form:
-            self.stablemech = models.StableMech.objects.create(stable=self.stable, purchased_as=mechform.design)
-            self.stablemechweek = models.StableMechWeek.objects.create(
-              stableweek = self.stable.get_stableweek()
-            , stablemech = self.stablemech
-            , current_design = mechform.design
-            )
-
-            self.ledgeritem = LedgerItem.objects.create (
-              ledger = self.stable.get_stableweek()
-            , description = 'Purchase - %s' % mechform.design.__unicode__()
-            , cost = -mechform.design.credit_value
-            , type = 'P'
-            , tied = True
-            , ref_mechdesign = mechform.design
-            , ref_stablemech = self.stablemech
-            , ref_stablemech_week = self.stablemechweek
-            )
+            models.StableMech.objects.create_mech( stable = self.stable
+                                                 , purchased_as = mechform.design
+                                                 , purchased_on = self.stable.get_stableweek()
+                                                 , create_ledger = True
+                                                 )
  
         return super(InitialMechPurchaseView, self).form_valid(form)
     

@@ -14,20 +14,24 @@ class RepairBill(models.Model):
         db_table = 'stablemanager_repairbill'
         app_label = 'stablemanager'
 
+    def getLocation(self, location):
+        mechLocation = self.mech.locations(location__location=location)
+        (billLocation, created) = self.locations.get_or_create(location=mechLocation)
+        
+        return billLocation   
+
     def updateStructureDamage(self):
         damageTotals = self.locations.all().aggregate(models.Sum(armour_lost), models.Sum(structure_lost))
 
-        (armour, created) = self.lineitems.get_or_create(item=None, line_type='A')
-        if created:
-            armour.item = self.mech.loadout.get(equipment__equipment_class='S', equipment__ssw_name__startswith='Armour')
-        armour.count = damageTotals['sum__armour_lost']
-        armour.save()
+        armour = self.mech.loadout.get(equipment__equipment_class='S', equipment__ssw_name__startswith='Armour')
+        (armourLine, created) = self.lineitems.get_or_create(item=armour, line_type='A')
+        armourLine.count = damageTotals['sum__armour_lost']
+        armourLine.save()
 
-        (structure, created) = self.lineitems.get_or_create(item=None, line_type='S')
-        if created:
-            structure.item = self.mech.loadout.get(equipment__equipment_class='S', equipment__ssw_name__startswith='Structure')
-        structure.count = damageTotals['sum__structure_lost']
-        structure.save()
+        structure = self.mech.loadout.get(equipment__equipment_class='S', equipment__ssw_name__startswith='Structure')
+        (structureLine, created) = self.lineitems.get_or_create(item = structur, line_type='S')
+        structureLine.count = damageTotals['sum__structure_lost']
+        structureLine.save()
 
 class RepairBillLineItem(models.Model):
     bill = models.ForeignKey(RepairBill, related_name="lineitems")
@@ -63,8 +67,8 @@ class RepairBillCrit(models.Model):
 class RepairBillLocation(models.Model):
     bill = models.ForeignKey(RepairBill, related_name="locations")
     location = models.ForeignKey(MechDesignLocation)
-    armour_lost = models.IntegerField()
-    structure_lost = models.IntegerField()
+    armour_lost = models.IntegerField(default=0)
+    structure_lost = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = 'Repair Bill Location'
