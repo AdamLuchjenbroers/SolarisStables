@@ -12,7 +12,7 @@ from .models import RepairBill
 class RepairBillTests(StableTestMixin, TestCase):
     def setUp(self):
         self.stable = self.createStable()
-        self.mech = self.addMech(self.stable, mech_name='Wolverine', mech_code='WVR-7D')
+        self.mech = self.addMech(self.stable, mech_name='Griffin', mech_code='GRF-1N')
 
         stableweek = self.stable.get_stableweek()
 
