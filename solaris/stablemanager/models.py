@@ -21,8 +21,12 @@ class Stable(models.Model):
     def __unicode__(self):
         return self.stable_name
     
-    def get_stableweek(self, for_week=None):
-        return self.ledger.get(next_week=for_week)
+    def get_stableweek(self, week=None):
+        if week == None:
+            # No week selected, so get the latest
+            return self.ledger.get(next_week = None)
+        else:
+            return self.ledger.get(week = week)
     
     def current_balance(self):
         try:

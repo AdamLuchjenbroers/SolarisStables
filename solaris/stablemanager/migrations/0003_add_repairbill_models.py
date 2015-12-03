@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warbook', '0004_add_tech_tiers'),
+        ('warbook', '0005_load_mechs'),
         ('stablemanager', '0002_refactor_stable'),
     ]
 
@@ -43,8 +43,9 @@ class Migration(migrations.Migration):
             name='RepairBillLineItem',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('count', models.IntegerField()),
-                ('cost', models.IntegerField()),
+                ('count', models.IntegerField(default=0)),
+                ('tons', models.DecimalField(null=True, max_digits=4, decimal_places=1, blank=True)),
+                ('cost', models.IntegerField(default=0)),
                 ('line_type', models.CharField(max_length=1, choices=[(b'A', b'Armour'), (b'S', b'Structure'), (b'Q', b'Equipment'), (b'M', b'Ammunition'), (b'L', b'Labour Cost')])),
                 ('bill', models.ForeignKey(related_name='lineitems', to='stablemanager.RepairBill')),
                 ('item', models.ForeignKey(blank=True, to='warbook.MechEquipment', null=True)),
@@ -59,8 +60,8 @@ class Migration(migrations.Migration):
             name='RepairBillLocation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('armour_lost', models.IntegerField()),
-                ('structure_lost', models.IntegerField()),
+                ('armour_lost', models.IntegerField(default=0)),
+                ('structure_lost', models.IntegerField(default=0)),
                 ('bill', models.ForeignKey(related_name='locations', to='stablemanager.RepairBill')),
                 ('location', models.ForeignKey(to='warbook.MechDesignLocation')),
             ],
@@ -96,6 +97,12 @@ class Migration(migrations.Migration):
             model_name='stablemechweek',
             name='signature_of',
             field=models.ForeignKey(related_name='signature_mechs', blank=True, to='stablemanager.Pilot', null=True),
+            preserve_default=True,
+        ),
+        migrations.AlterField(
+            model_name='stablemechweek',
+            name='stablemech',
+            field=models.ForeignKey(related_name='weeks', to='stablemanager.StableMech'),
             preserve_default=True,
         ),
     ]

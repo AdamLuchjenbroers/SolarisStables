@@ -33,6 +33,14 @@ class StableMech(models.Model):
     purchased_as = models.ForeignKey('warbook.MechDesign')
     
     objects = StableMechManager()
+ 
+    def get_mechweek(self, week=None):
+        if week == None or type(week, solaris.campaign.models.BroadcastWeek):
+            stableweek = self.stable.get_stableweek(week=week)
+        else:
+            stableweek = week
+        
+        return self.weeks.get(stableweek = stableweek)
 
     class Meta:
         verbose_name_plural = 'Mechs'

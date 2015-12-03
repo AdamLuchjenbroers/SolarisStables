@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from solaris.stablemanager.mechs.models import StableMechWeek
 from solaris.warbook.mech.models import MechDesign, MechDesignLocation
@@ -15,29 +17,30 @@ class RepairBill(models.Model):
         app_label = 'stablemanager'
 
     def getLocation(self, location):
-        mechLocation = self.mech.locations(location__location=location)
+        mechLocation = self.mech.locations.get(location__location=location)
         (billLocation, created) = self.locations.get_or_create(location=mechLocation)
         
         return billLocation   
 
     def updateStructureDamage(self):
-        damageTotals = self.locations.all().aggregate(models.Sum(armour_lost), models.Sum(structure_lost))
+        damageTotals = self.locations.all().aggregate(models.Sum('armour_lost'), models.Sum('structure_lost'))
 
         armour = self.mech.loadout.get(equipment__equipment_class='S', equipment__ssw_name__startswith='Armour')
         (armourLine, created) = self.lineitems.get_or_create(item=armour, line_type='A')
-        armourLine.count = damageTotals['sum__armour_lost']
+        armourLine.count = damageTotals['armour_lost__sum']
         armourLine.save()
 
         structure = self.mech.loadout.get(equipment__equipment_class='S', equipment__ssw_name__startswith='Structure')
-        (structureLine, created) = self.lineitems.get_or_create(item = structur, line_type='S')
-        structureLine.count = damageTotals['sum__structure_lost']
+        (structureLine, created) = self.lineitems.get_or_create(item = structure, line_type='S')
+        structureLine.count = damageTotals['structure_lost__sum']
         structureLine.save()
 
 class RepairBillLineItem(models.Model):
     bill = models.ForeignKey(RepairBill, related_name="lineitems")
     item = models.ForeignKey(MechEquipment, blank=True, null=True)
-    count = models.IntegerField()
-    cost = models.IntegerField()
+    count = models.IntegerField(default=0)
+    tons = models.DecimalField(max_digits=4, decimal_places=1, blank=True, null=True)
+    cost = models.IntegerField(default=0)
     
     line_groups = (
        ('A', 'Armour'),
@@ -74,4 +77,9 @@ class RepairBillLocation(models.Model):
         verbose_name = 'Repair Bill Location'
         db_table = 'stablemanager_repairbill_loc'
         app_label = 'stablemanager'
+
+
+@receiver(post_save, sender=RepairBillLocation)
+def onLocationUpdate(sender, instance=None, created=False, **kwargs):
+    instance.bill.updateStructureDamage()
 
