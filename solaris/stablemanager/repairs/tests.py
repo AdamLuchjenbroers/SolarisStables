@@ -19,62 +19,81 @@ class RepairBillTests(StableTestMixin, TestCase):
         self.bill = RepairBill.objects.create( stableweek = self.mech.get_mechweek()
                                              , mech = self.mech.purchased_as
                                              )
+    def damageArmour(self, damagePattern):
+        for (locCode, amount) in damagePattern:
+            locItem = self.bill.getLocation(locCode)
+            locItem.armour_lost = amount
+            locItem.save()
+
+    def damageStructure(self, damagePattern):
+        for (locCode, amount) in damagePattern:
+            locItem = self.bill.getLocation(locCode)
+            locItem.structure_lost = amount
+            locItem.save()
 
     def test_billIncomplete(self):
         # A freshly created bill should start marked incomplete
         self.assertFalse(self.bill.complete, 'Repair Bill should not be marked complete when created')
 
     def test_armourLineItem(self):
-        location = self.bill.getLocation('RT')
-        location.armour_lost = 20
-        location.save()
+        self.damageArmour([('RT', 20),])
 
         # Check the armour line-item was created correctly
         lineitem = self.bill.lineitems.get(line_type='A')
         self.assertEquals(lineitem.count, 20, 'Armour Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 20))
 
     def test_armourNoDuplicates(self):
-        for (locCode, amount) in [('RT', 30), ('LT', 15), ('RL', 20)]:
-            locItem = self.bill.getLocation(locCode)
-            locItem.armour_lost = amount
-            locItem.save()
+        self.damageArmour([('RT', 30), ('LT', 15), ('RL', 20)])
 
         records = self.bill.lineitems.filter(line_type='A').count()
         self.assertEquals(records, 1, 'Duplicate Armour Line-items created')
 
     def test_armourSum(self):
-        for (locCode, amount) in [('RT', 30), ('LT', 15), ('RL', 20)]:
-            locItem = self.bill.getLocation(locCode)
-            locItem.armour_lost = amount
-            locItem.save()
+        self.damageArmour([('RT', 30), ('LT', 15), ('RL', 20)])
 
         lineitem = self.bill.lineitems.get(line_type='A')
         self.assertEquals(lineitem.count, 65, 'Summed armour Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 65))
 
+    def test_armourTons(self):
+        self.damageArmour([('RT', 30), ('CT', 14), ('RA', 12)])
+
+        lineitem = self.bill.lineitems.get(line_type='A')
+        self.assertEquals(lineitem.tons, 3.5, 'Summed armour Line-item has incorrect tonnage, got %.1f, expected %.1f' % (lineitem.tons, 3.5))
+
+    def test_armourCost(self):
+        self.damageArmour([('RT', 30), ('CT', 14), ('RA', 12)])
+
+        lineitem = self.bill.lineitems.get(line_type='A')
+        self.assertEquals(lineitem.cost, 35000.00, 'Summed armour Line-item has incorrect cost, got %.1f, expected %.1f' % (lineitem.cost, 35000.00))
+
     def test_structureLineItem(self):
-        location = self.bill.getLocation('RT')
-        location.structure_lost = 20
-        location.save()
+        self.damageStructure([('RT', 20),])
 
         # Check the structure line-item was created correctly
         lineitem = self.bill.lineitems.get(line_type='S')
         self.assertEquals(lineitem.count, 20, 'Structure Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 20))
 
     def test_structureNoDuplicates(self):
-        for (locCode, amount) in [('RT', 30), ('LT', 15), ('RL', 20)]:
-            locItem = self.bill.getLocation(locCode)
-            locItem.structure_lost = amount
-            locItem.save()
+        self.damageStructure([('RT', 30), ('LT', 15), ('RL', 20)])
 
         records = self.bill.lineitems.filter(line_type='S').count()
         self.assertEquals(records, 1, 'Duplicate Structure Line-items created')
 
     def test_structureSum(self):
-        for (locCode, amount) in [('RT', 30), ('LT', 15), ('RL', 20)]:
-            locItem = self.bill.getLocation(locCode)
-            locItem.structure_lost = amount
-            locItem.save()
+        self.damageStructure([('RT', 30), ('LT', 15), ('RL', 20)])
 
         lineitem = self.bill.lineitems.get(line_type='S')
         self.assertEquals(lineitem.count, 65, 'Summed structure Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 65))
+
+    def test_structureTons(self):
+        self.damageStructure([('RT', 30), ('CT', 14), ('RA', 12)])
+
+        lineitem = self.bill.lineitems.get(line_type='S')
+        self.assertEquals(lineitem.tons, None, 'Summed structure Line-item has a tonnage, this column should be blank')
+
+    def test_structureCost(self):
+        self.damageStructure([('RT', 30), ('CT', 14), ('RA', 12)])
+
+        lineitem = self.bill.lineitems.get(line_type='S')
+        self.assertEquals(lineitem.cost, 35000.00, 'Summed structure Line-item has incorrect cost, got %.1f, expected %.1f' % (lineitem.cost, 35000.00))
 

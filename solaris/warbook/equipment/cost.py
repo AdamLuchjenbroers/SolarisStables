@@ -16,17 +16,17 @@ def fixed(self, mech, units=None):
 def per_ton(self, mech, units=None):
     return self.cost_factor * Decimal(self.tonnage(units=units))
    
-def engine(self, mech):
+def engine(self, mech, units=None):
     return (self.cost_factor * mech.tonnage * mech.engine_rating) / 75
 
-def gyro(self, mech):
+def gyro(self, mech, units=None):
     return self.cost_factor * self.tonnage()
    
-def mech(self, mech):
+def mech(self, mech, units=None):
     return mech.tonnage * self.cost_factor
    
-def jumpjet(self, mech):
+def jumpjet(self, mech, units=None):
     return mech.jumping_mp() * mech.tonnage * self.cost_factor
    
-def per_er(self, mech):
+def per_er(self, mech, units=None):
     return self.cost_factor * mech.engine_rating

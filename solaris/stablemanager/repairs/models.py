@@ -28,11 +28,14 @@ class RepairBill(models.Model):
         armour = self.mech.loadout.get(equipment__equipment_class='S', equipment__ssw_name__startswith='Armour')
         (armourLine, created) = self.lineitems.get_or_create(item=armour, line_type='A')
         armourLine.count = damageTotals['armour_lost__sum']
+        armourLine.tons = armour.tonnage(units=armourLine.count)
+        armourLine.cost = armour.cost(units=armourLine.count)
         armourLine.save()
 
         structure = self.mech.loadout.get(equipment__equipment_class='S', equipment__ssw_name__startswith='Structure')
         (structureLine, created) = self.lineitems.get_or_create(item = structure, line_type='S')
         structureLine.count = damageTotals['structure_lost__sum']
+        structureLine.cost = structure.cost(units=structureLine.count)
         structureLine.save()
 
 class RepairBillLineItem(models.Model):
