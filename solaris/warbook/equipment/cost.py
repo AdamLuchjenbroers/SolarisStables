@@ -1,3 +1,4 @@
+from decimal import Decimal
 
 cost_funcs = (
 	('fixed'   , 'Fixed Cost'),
@@ -13,7 +14,7 @@ def fixed(self, mech, units=None):
     return self.cost_factor
 
 def per_ton(self, mech, units=None):
-    return self.cost_factor * self.tonnage()
+    return self.cost_factor * Decimal(self.tonnage(units=units))
    
 def engine(self, mech):
     return (self.cost_factor * mech.tonnage * mech.engine_rating) / 75

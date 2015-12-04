@@ -9,10 +9,12 @@ class EquipmentForm(forms.ModelForm):
                    queryset = Technology.objects.all()
                  , label = 'Supplied By'
                  , widget = admin.widgets.FilteredSelectMultiple('Technologies', False)
+                 , required = False
                  )
     ammo_for = forms.ModelChoiceField(
                    queryset = models.Equipment.objects.filter(has_ammo=True)
                  , label = 'Ammunition For'
+                 , required = False
                  )
 
 class HasTechnologyFilter(admin.SimpleListFilter):
