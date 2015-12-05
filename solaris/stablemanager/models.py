@@ -146,7 +146,7 @@ class StableWeek(models.Model):
         unique_together = ('stable', 'week')
     
 @receiver(m2m_changed, sender=StableWeek.supply_contracts.through)
-def refresh_supply_mechs(sender, instance=None, creaed=False, **kwargs):
+def refresh_supply_mechs(sender, instance=None, created=False, **kwargs):
     # A supply contract has been added or removed, refresh the available mechs
     instance.refresh_supply_mechs()
 
