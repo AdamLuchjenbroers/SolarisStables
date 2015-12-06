@@ -1,11 +1,14 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, testcases
 
 from .models import Equipment
 
 class MockMech():
-    def __init__(self, tonnage=50, engine_rating=200):
+    def __init__(self, tonnage=50, engine_rating=200, jump=0):
         self.tonnage = tonnage
         self.engine_rating = engine_rating
+        
+    def jumping_mp(self):
+        return jump
 
 class ArmourTestCases(TestCase):
     def setUp(self):
@@ -38,27 +41,18 @@ class StructureTestCases(TestCase):
     def setUp(self):
         self.standard = Equipment.objects.get(ssw_name='Structure - Standard Structure')
 
-    def test_standardTonnageFunc(self):
-        self.assertEquals(self.standard.tonnage_func, 'armour', 'Structure equipment has incorrect tonnage function (%s)' % self.standard.tonnage_func) 
-    def test_standardLow(self):
-        tons = self.standard.tonnage(units=16)
-        self.assertEquals(tons, 1, 'Expected 8 Units of Standard Structure = 1 Ton, got %2.1f Tons' % tons) 
-    
-    def test_standardRounding(self):
-        tons = self.standard.tonnage(units=17)
-        self.assertEquals(tons, 1.5, 'Expected 9 Units of Standard Structure to round up to 1.5 Tons, got %2.1f Tons' % tons) 
+    # TODO: Tonnage formula tests
 
-    def test_standardHigh(self):
-        tons = self.standard.tonnage(units=56)
-        self.assertEquals(tons, 3.5, 'Expected 56 Units of Standard Structure = 1 Ton, got %2.1f Tons' % tons) 
+    def test_standardTonnageFunc(self):
+        self.assertEquals(self.standard.tonnage_func, 'structure', 'Structure equipment has incorrect tonnage function (%s)' % self.standard.tonnage_func) 
 
     def test_standardCostLow(self):
         cost = self.standard.cost(MockMech(), units=16)
-        self.assertEquals(cost, 10000, 'Expected 1 Ton (16 Units) of armour to cost 10000, got %.2f' % cost)  
+        self.assertEquals(cost, 10000, 'Expected 16 structure units to cost 10000, got %.2f' % cost)  
 
     def test_standardCostHigh(self):
         cost = self.standard.cost(MockMech(), units=56)
-        self.assertEquals(cost, 35000, 'Expected 3.5 Tons (56 Units) of armour to cost 35000, got %.2f' % cost) 
+        self.assertEquals(cost, 35000, 'Expected 56 structure units to cost 35000, got %.2f' % cost) 
 
 class GyroTestCases(TestCase):
     def setUp(self):
@@ -78,3 +72,7 @@ class GyroTestCases(TestCase):
 
     def test_gyroTonnage201(self):
         self.gyroTonnageTest(self.standard, 201, 3)
+
+class JumpjetTestCases(TestCase):
+    def setUp(self):
+        self.standard = Equipment.objects.get(ssw_name='Jumpjets - Standard Jumpjet')
