@@ -88,3 +88,21 @@ class Dervish8DTests(MechTestMixin, TestCase):
         self.assertEquipment('RT','4,5,6','Equipment - (IS) LRM-15') 
         self.assertEquipment('RT','7','FCS - Artemis IV')
 
+class Griffin1NTests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Griffin'
+    ,   'mech_code'    : 'GRF-1N'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [5,8,5]
+
+class Hatchetman3FTests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Hatchetman'
+    ,   'mech_code'    : 'HCT-3F'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [4,6,4]
+
+    def test_hatchet(self):
+        self.assertEquipment('RA','5,6,7','Equipment - Hatchet')
