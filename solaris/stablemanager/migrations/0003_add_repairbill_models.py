@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('slot', models.IntegerField()),
-                ('critted', models.BooleanField(default=True)),
+                ('critted', models.BooleanField(default=False)),
             ],
             options={
                 'db_table': 'stablemanager_repair_line_x_loc',

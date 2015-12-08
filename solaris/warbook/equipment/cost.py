@@ -36,7 +36,7 @@ def mech(self, mech, units=None):
     return mech.tonnage * self.cost_factor
    
 def jumpjet(self, mech, units=None):
-    return mech.jumping_mp() * mech.jumping_mp() * mech.tonnage * self.cost_factor
+    return mech.move_jump() * mech.tonnage * self.cost_factor
    
 def per_er(self, mech, units=None):
     return self.cost_factor * mech.engine_rating

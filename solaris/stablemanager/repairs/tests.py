@@ -116,10 +116,22 @@ class EquipmentRepairTests(RepairBillTestMixin, TestCase):
         count = self.bill.lineitems.filter(line_type='Q', item__equipment__ssw_name = 'Heatsink - Single Heat Sink').count()
         self.assertEquals(count, 1, 'Expected line items to contain one Heat Sink, %i found' % count)
 
+    def test_heatsinkCost(self):
+        heatsink = self.bill.lineitems.get(line_type='Q', item__equipment__ssw_name = 'Heatsink - Single Heat Sink')
+        self.assertEquals(heatsink.cost, 2000, 'Expected cost for heatsink to be 2000, got %i' % heatsink.cost)
+
     def test_jumpjetLineItem(self):
         count = self.bill.lineitems.filter(line_type='Q', item__equipment__ssw_name = 'Jumpjet - Standard Jump Jet').count()
         self.assertEquals(count, 2, 'Expected line items to contain two Jump Jets, %i found' % count)
 
+    def test_jumpjetCost(self):
+        jet = self.bill.lineitems.filter(line_type='Q', item__equipment__ssw_name = 'Jumpjet - Standard Jump Jet')[0]
+        self.assertEquals(jet.cost, 55000, 'Expected cost to repair 1 jumpjet of 5 is 55000, %i found' % jet.cost)
+
     def test_ppcLineItem(self):
         count = self.bill.lineitems.filter(line_type='Q', item__equipment__ssw_name = 'Equipment - (IS) PPC').count()
         self.assertEquals(count, 1, 'Expected line items to contain one PPC, %i found' % count)
+
+    def test_ppcCost(self):
+        ppc = self.bill.lineitems.get(line_type='Q', item__equipment__ssw_name = 'Equipment - (IS) PPC')
+        self.assertEquals(ppc.cost, 133333, 'Expected cost for PPC (2 crits) to be 133333, got %i' % ppc.cost)

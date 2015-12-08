@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from decimal import Decimal
+
 from solaris.stablemanager.mechs.models import StableMechWeek
 from solaris.warbook.mech.models import MechDesign, MechDesignLocation
 from solaris.warbook.equipment.models import MechEquipment
@@ -36,23 +38,30 @@ class RepairBill(models.Model):
 
     def setCritical(self, location, slot, critted=True):
         billLocation = self.getLocation(location)
-        (billLine, created) = self.lineitems.get_or_create(
+        (billLine, lineCreated) = self.lineitems.get_or_create(
             item = self.mech.item_at(location, slot)
           , line_type = 'Q' 
         )
-
-        if critted:
-            billLine.count += 1
-        elif not (created or critted):
-            billLine.count -= 1
-        billLine.save()
-           
-        (billCrit, created) = RepairBillCrit.objects.get_or_create(
+        (billCrit, critCreated) = RepairBillCrit.objects.get_or_create(
             slot = slot
           , lineitem = billLine
           , location = billLocation
         )
+        
+        if critted and not billCrit.critted:
+            billLine.count += 1
+        elif billCrit.critted and not critted:
+            billLine.count -= 1
         billCrit.critted = critted
+        
+        criticals = billLine.item.equipment.criticals(mech=self.mech)
+        baseCost  = billLine.item.equipment.cost(mech=self.mech)
+        if billLine.count < criticals:
+            billLine.cost = int(baseCost * ( Decimal(billLine.count) / Decimal(criticals) ))
+        else:
+            billLine.cost = baseCost
+        
+        billLine.save()
         billCrit.save()
 
     def updateStructureDamage(self):
@@ -95,7 +104,7 @@ class RepairBillLineItem(models.Model):
 
 class RepairBillCrit(models.Model):
     slot = models.IntegerField()
-    critted = models.BooleanField(default=True)
+    critted = models.BooleanField(default=False)
     location = models.ForeignKey('RepairBillLocation')
     lineitem = models.ForeignKey('RepairBillLineItem')
 
