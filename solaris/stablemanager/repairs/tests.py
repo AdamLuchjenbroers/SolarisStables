@@ -93,3 +93,22 @@ class RepairBillTests(StableTestMixin, TestCase):
         lineitem = self.bill.lineitems.get(line_type='S')
         self.assertEquals(lineitem.cost, 35000.00, 'Summed structure Line-item has incorrect cost, got %.1f, expected %.1f' % (lineitem.cost, 35000.00))
 
+    def test_heatsinkLineItem(self):
+        self.bill.setCritical('CT',11)
+
+        count = self.bill.lineitems.filter(line_type='Q', item__equipment__ssw_name = 'Heatsink - Single Heat Sink').count()
+        self.assertEquals(count, 1, 'Expected line items to contain one Heat Sink, %i found' % count)
+
+    def test_jumpjetLineItem(self):
+        self.bill.setCritical('CT',12)
+        self.bill.setCritical('RT',1)
+
+        count = self.bill.lineitems.filter(line_type='Q', item__equipment__ssw_name = 'Jumpjet - Standard Jump Jet').count()
+        self.assertEquals(count, 2, 'Expected line items to contain two Jump Jets, %i found' % count)
+
+    def test_ppcLineItem(self):
+        self.bill.setCritical('RA',5)
+        self.bill.setCritical('RA',6)
+
+        count = self.bill.lineitems.filter(line_type='Q', item__equipment__ssw_name = 'Equipment - (IS) PPC').count()
+        self.assertEquals(count, 1, 'Expected line items to contain one PPC, %i found' % count)

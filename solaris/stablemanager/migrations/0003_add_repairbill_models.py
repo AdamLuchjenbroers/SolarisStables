@@ -91,6 +91,10 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(to='stablemanager.RepairBillLocation'),
             preserve_default=True,
         ),
+        migrations.AlterUniqueTogether(
+            name='repairbillcrit',
+            unique_together=set([('slot', 'location', 'lineitem')]),
+        ),
         migrations.RemoveField(
             model_name='stablemech',
             name='signature_of',

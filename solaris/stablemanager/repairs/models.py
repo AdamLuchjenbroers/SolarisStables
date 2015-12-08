@@ -34,6 +34,27 @@ class RepairBill(models.Model):
     def addStructureDamage(self, location, amount):
         self.addDamage(location, structure=amount) 
 
+    def setCritical(self, location, slot, critted=True):
+        billLocation = self.getLocation(location)
+        (billLine, created) = self.lineitems.get_or_create(
+            item = self.mech.item_at(location, slot)
+          , line_type = 'Q' 
+        )
+
+        if critted:
+            billLine.count += 1
+        elif not (created or critted):
+            billLine.count -= 1
+        billLine.save()
+           
+        (billCrit, created) = RepairBillCrit.objects.get_or_create(
+            slot = slot
+          , lineitem = billLine
+          , location = billLocation
+        )
+        billCrit.critted = critted
+        billCrit.save()
+
     def updateStructureDamage(self):
         damageTotals = self.locations.all().aggregate(models.Sum('armour_lost'), models.Sum('structure_lost'))
 
@@ -82,6 +103,7 @@ class RepairBillCrit(models.Model):
         verbose_name = 'Repair Bill Crit'
         db_table = 'stablemanager_repair_line_x_loc'
         app_label = 'stablemanager'
+        unique_together = (('slot','location', 'lineitem'),)
 
 class RepairBillLocation(models.Model):
     bill = models.ForeignKey(RepairBill, related_name="locations")
