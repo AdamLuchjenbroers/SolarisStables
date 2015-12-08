@@ -20,16 +20,12 @@ class RepairBillTests(StableTestMixin, TestCase):
                                              , mech = self.mech.purchased_as
                                              )
     def damageArmour(self, damagePattern):
-        for (locCode, amount) in damagePattern:
-            locItem = self.bill.getLocation(locCode)
-            locItem.armour_lost = amount
-            locItem.save()
+        for (location, amount) in damagePattern:
+            self.bill.addArmourDamage(location, amount)
 
     def damageStructure(self, damagePattern):
-        for (locCode, amount) in damagePattern:
-            locItem = self.bill.getLocation(locCode)
-            locItem.structure_lost = amount
-            locItem.save()
+        for (location, amount) in damagePattern:
+            self.bill.addStructureDamage(location, amount)
 
     def test_billIncomplete(self):
         # A freshly created bill should start marked incomplete

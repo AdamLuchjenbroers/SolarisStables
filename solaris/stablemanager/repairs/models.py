@@ -22,6 +22,18 @@ class RepairBill(models.Model):
         
         return billLocation   
 
+    def addDamage(self, location, armour=0, structure=0):
+        billLocation = self.getLocation(location)
+        billLocation.armour_lost += armour
+        billLocation.structure_lost += structure
+        billLocation.save()
+
+    def addArmourDamage(self, location, amount):
+        self.addDamage(location, armour=amount) 
+
+    def addStructureDamage(self, location, amount):
+        self.addDamage(location, structure=amount) 
+
     def updateStructureDamage(self):
         damageTotals = self.locations.all().aggregate(models.Sum('armour_lost'), models.Sum('structure_lost'))
 
