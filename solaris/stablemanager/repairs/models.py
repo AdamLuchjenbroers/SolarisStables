@@ -58,6 +58,7 @@ class RepairBillLineItem(models.Model):
         verbose_name = 'Repair Bill Line'
         db_table = 'stablemanager_repairbill_line'
         app_label = 'stablemanager'
+        unique_together = (('line_type','bill','item'),)
 
 class RepairBillCrit(models.Model):
     slot = models.IntegerField()
@@ -80,6 +81,7 @@ class RepairBillLocation(models.Model):
         verbose_name = 'Repair Bill Location'
         db_table = 'stablemanager_repairbill_loc'
         app_label = 'stablemanager'
+        unique_together = (('bill','location'),)
 
 
 @receiver(post_save, sender=RepairBillLocation)

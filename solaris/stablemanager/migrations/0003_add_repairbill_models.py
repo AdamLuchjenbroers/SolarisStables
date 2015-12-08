@@ -71,6 +71,14 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
+        migrations.AlterUniqueTogether(
+            name='repairbilllocation',
+            unique_together=set([('bill', 'location')]),
+        ),
+        migrations.AlterUniqueTogether(
+            name='repairbilllineitem',
+            unique_together=set([('line_type', 'bill', 'item')]),
+        ),
         migrations.AddField(
             model_name='repairbillcrit',
             name='lineitem',
