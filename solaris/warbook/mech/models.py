@@ -79,6 +79,10 @@ class MechDesign(models.Model):
             if item.equipment.equipment_class == 'J':
                 jump_mp += 1
         return jump_mp
+    
+    def item_at(self, location, slot):
+        mechLocation = self.locations.get(location__location=location)
+        return mechLocation.item_at(slot)
         
     def directfire_tonnage(self):
         tons = 0
@@ -136,6 +140,11 @@ class MechDesignLocation(models.Model):
     location = models.ForeignKey(MechLocation)
     armour = models.IntegerField()
     structure = models.IntegerField(null=True, blank=True)
+
+    def item_at(self, slot):
+        for item in self.criticals.all():
+            if '%i' % slot in item.get_slots():
+                return item.equipment
     
     def get_criticals(self):
         crit_table = [None] * self.location.criticals

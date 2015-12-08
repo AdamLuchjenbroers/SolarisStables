@@ -26,3 +26,18 @@ class MechMathsTest(TestCase):
         wolverine = MechDesign.objects.get(mech_name='Wolverine', mech_code='WVR-7D')
         self.assertEqual(wolverine.move_run(), 8, 'Failed Test: Running MP Formula (odd), expected 8, got %i' % wolverine.move_run())
 
+    def test_itemAt_Cockpit(self):
+        """
+        Tests that item_at returns the correct equipment object when used to retrieve the cockpit.
+        """
+        wolverine = MechDesign.objects.get(mech_name='Wolverine', mech_code='WVR-7D')
+        cockpit = wolverine.item_at('HD', 3)
+        self.assertEqual(cockpit.equipment.ssw_name, 'Cockpit - Standard Cockpit', 'Expected Cockpit in HD slot 3, found %s' % cockpit.equipment.ssw_name)
+
+    def test_itemAt_Gyro(self):
+        """
+        Tests that item_at returns the correct equipment object when used to retrieve the gyro.
+        """
+        wolverine = MechDesign.objects.get(mech_name='Wolverine', mech_code='WVR-7D')
+        gyro = wolverine.item_at('CT', 5)
+        self.assertEqual(gyro.equipment.ssw_name, 'Gyro - Standard Gyro', 'Expected Cockpit in HD slot 3, found %s' % gyro.equipment.ssw_name)
