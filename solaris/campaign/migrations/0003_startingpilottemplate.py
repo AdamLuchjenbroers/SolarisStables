@@ -11,8 +11,8 @@ def populate_templates(apps, schema_editor):
     templates = [
        ('Champion' , 1, 3, 4),
        ('Star'     , 4, 4, 5),
-       ('Contender', 5, 5, 6),
-       ('Rookie'   , 4, 5, 6),
+       ('Contender', 3, 5, 6),
+       ('Rookie'   , 3, 5, 6),
     ]
     
     for c in Campaign.objects.all():
