@@ -17,8 +17,7 @@ solaris/static/admin
 
 #Rules data / info excluded because it
 #may be proprietary
-data/*.csv
-data/*.txt
+data/excluded
 
 #Scrap utilities are generally not of releasable
 #quality and usually have machine specific paths
