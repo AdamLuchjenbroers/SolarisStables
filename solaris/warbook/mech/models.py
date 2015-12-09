@@ -120,7 +120,8 @@ class MechDesign(models.Model):
 class MechLocation(models.Model):
     location = models.CharField(max_length=3, unique=True, choices=locations_all)
     criticals = models.IntegerField()
-    rear_of = models.ForeignKey('MechLocation', null=True)
+    rear_of = models.ForeignKey('MechLocation', related_name='front_of', null=True)
+    next_damage = models.ForeignKey('MechLocation', related_name='prev_damage', null=True)
     
     def structure(self, tonnage):
         table_entry = structure_entry(self.location)

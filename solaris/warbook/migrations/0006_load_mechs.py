@@ -52,7 +52,7 @@ def noop(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warbook', '0004_add_tech_tiers'),
+        ('warbook', '0005_add_damage_transfer'),
     ]
 
     operations = [

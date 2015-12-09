@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warbook', '0005_load_mechs'),
+        ('warbook', '0006_load_mechs'),
         ('stablemanager', '0002_refactor_stable'),
     ]
 

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import json
 
 from django.db import models, migrations
 from decimal import Decimal
@@ -10,7 +11,19 @@ def load_houses(apps, schema_editor):
     call_command('loaddata', 'data/warbook.house.json');
   
 def load_mechlocations(apps, schema_editor):
-    call_command('loaddata', 'data/warbook.mechlocation.json');
+    from solaris.warbook.mech import refdata
+    MechLocation = apps.get_model('warbook','MechLocation')   
+ 
+    locations = {}
+    for (code, name) in refdata.locations_all:
+        locations[code] = MechLocation.objects.create (
+                            location = code
+                          , criticals = refdata.criticals(code)
+                          )
+
+    for (torso, rear) in [(loc, 'R'+loc) for loc in ('CT','LT','RT')]:
+        locations[rear].rear_of = locations[torso]
+        locations[rear].save()
          
 def load_pilotranks(apps, schema_editor):
     call_command('loaddata', 'data/warbook.pilotrank.json');

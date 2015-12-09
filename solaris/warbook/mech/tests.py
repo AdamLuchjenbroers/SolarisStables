@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import MechDesign
+from .models import MechDesign, MechLocation
 
 class MechMathsTest(TestCase):
     
@@ -41,3 +41,21 @@ class MechMathsTest(TestCase):
         wolverine = MechDesign.objects.get(mech_name='Wolverine', mech_code='WVR-7D')
         gyro = wolverine.item_at('CT', 5)
         self.assertEqual(gyro.equipment.ssw_name, 'Gyro - Standard Gyro', 'Expected Cockpit in HD slot 3, found %s' % gyro.equipment.ssw_name)
+
+"""
+Some simple model-validation tests to confirm that the MechLocation table has been loaded correctly
+"""
+class MechLocationDataTests(TestCase):
+
+    def test_centerTorsoRear(self):
+        rearCT = MechLocation.objects.get(location='RCT')
+        self.assertEquals(rearCT.rear_of.location, 'CT', 'Expected rear centre torso to be rear of CT, got %s' % rearCT.rear_of.location)
+
+    def test_rightTorsoTransfer(self):
+        right = MechLocation.objects.get(location='RT')
+        self.assertEquals(right.next_damage.location, 'CT', 'Expected right torso transfer to centre torso (CT), got %s' % right.next_damage.location)
+
+    def test_leftArmTransfer(self):
+        leftarm = MechLocation.objects.get(location='LA')
+        self.assertEquals(leftarm.next_damage.location, 'LT', 'Expected left arm transfer to left torso (LT), got %s' % leftarm.next_damage.location)
+
