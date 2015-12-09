@@ -24,17 +24,21 @@ class RepairBill(models.Model):
         
         return billLocation   
 
-    def addDamage(self, location, armour=0, structure=0):
+    def setDamage(self, location, armour=None, structure=None):
         billLocation = self.getLocation(location)
-        billLocation.armour_lost += armour
-        billLocation.structure_lost += structure
+        if armour != None:
+            billLocation.armour_lost = max(0, min(armour, billLocation.location.armour ))
+
+        if structure != None:
+            billLocation.structure_lost = max(0, min(structure, billLocation.location.structure))
+
         billLocation.save()
 
-    def addArmourDamage(self, location, amount):
-        self.addDamage(location, armour=amount) 
+    def setArmourDamage(self, location, amount):
+        self.setDamage(location, armour=amount) 
 
-    def addStructureDamage(self, location, amount):
-        self.addDamage(location, structure=amount) 
+    def setStructureDamage(self, location, amount):
+        self.setDamage(location, structure=amount) 
 
     def setCritical(self, location, slot, critted=True):
         billLocation = self.getLocation(location)

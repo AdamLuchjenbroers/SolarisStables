@@ -21,11 +21,11 @@ class RepairBillTestMixin(StableTestMixin):
                                              )
     def damageArmour(self, damagePattern):
         for (location, amount) in damagePattern:
-            self.bill.addArmourDamage(location, amount)
+            self.bill.setArmourDamage(location, amount)
 
     def damageStructure(self, damagePattern):
         for (location, amount) in damagePattern:
-            self.bill.addStructureDamage(location, amount)
+            self.bill.setStructureDamage(location, amount)
 
 
 class BasicRepairBillTests(RepairBillTestMixin, TestCase):
@@ -35,11 +35,18 @@ class BasicRepairBillTests(RepairBillTestMixin, TestCase):
 
 class ArmourRepairTests(RepairBillTestMixin, TestCase):
     def test_armourLineItem(self):
-        self.damageArmour([('RT', 20),])
+        self.damageArmour([('RT', 12),])
 
         # Check the armour line-item was created correctly
         lineitem = self.bill.lineitems.get(line_type='A')
-        self.assertEquals(lineitem.count, 20, 'Armour Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 20))
+        self.assertEquals(lineitem.count, 12, 'Armour Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 20))
+
+    def test_armourLineItemMax(self):
+        self.damageArmour([('RT', 30),])
+
+        # Check the armour line-item was created correctly
+        lineitem = self.bill.lineitems.get(line_type='A')
+        self.assertEquals(lineitem.count, 20, 'Armour Line-item should be maximum (%i), got %i' % (20, lineitem.count))
 
     def test_armourNoDuplicates(self):
         self.damageArmour([('RT', 30), ('LT', 15), ('RL', 20)])
@@ -48,42 +55,49 @@ class ArmourRepairTests(RepairBillTestMixin, TestCase):
         self.assertEquals(records, 1, 'Duplicate Armour Line-items created')
 
     def test_armourSum(self):
-        self.damageArmour([('RT', 30), ('LT', 15), ('RL', 20)])
+        self.damageArmour([('RT', 20), ('CT', 14), ('LT', 10), ('RA', 12)])
 
         lineitem = self.bill.lineitems.get(line_type='A')
-        self.assertEquals(lineitem.count, 65, 'Summed armour Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 65))
+        self.assertEquals(lineitem.count, 56, 'Summed armour Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 65))
 
     def test_armourTons(self):
-        self.damageArmour([('RT', 30), ('CT', 14), ('RA', 12)])
+        self.damageArmour([('RT', 20), ('CT', 14), ('LT', 10), ('RA', 12)])
 
         lineitem = self.bill.lineitems.get(line_type='A')
         self.assertEquals(lineitem.tons, 3.5, 'Summed armour Line-item has incorrect tonnage, got %.1f, expected %.1f' % (lineitem.tons, 3.5))
 
     def test_armourCost(self):
-        self.damageArmour([('RT', 30), ('CT', 14), ('RA', 12)])
+        self.damageArmour([('RT', 20), ('CT', 14), ('LT', 10), ('RA', 12)])
 
         lineitem = self.bill.lineitems.get(line_type='A')
         self.assertEquals(lineitem.cost, 35000.00, 'Summed armour Line-item has incorrect cost, got %.1f, expected %.1f' % (lineitem.cost, 35000.00))
 
 class StructureRepairTests(RepairBillTestMixin, TestCase):
     def test_structureLineItem(self):
+        self.damageStructure([('RT', 12),])
+
+        # Check the structure line-item was created correctly
+        lineitem = self.bill.lineitems.get(line_type='S')
+        self.assertEquals(lineitem.count, 12, 'Structure Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 12))
+
+    def test_structureLineItemMax(self):
         self.damageStructure([('RT', 20),])
 
         # Check the structure line-item was created correctly
         lineitem = self.bill.lineitems.get(line_type='S')
-        self.assertEquals(lineitem.count, 20, 'Structure Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 20))
+        self.assertEquals(lineitem.count, 13, 'Structure Line-item should be maximum (%i), got %i' % (13, lineitem.count))
 
     def test_structureNoDuplicates(self):
-        self.damageStructure([('RT', 30), ('LT', 15), ('RL', 20)])
+        self.damageStructure([('RT', 12), ('LT', 8), ('RL', 4)])
 
         records = self.bill.lineitems.filter(line_type='S').count()
         self.assertEquals(records, 1, 'Duplicate Structure Line-items created')
 
     def test_structureSum(self):
-        self.damageStructure([('RT', 30), ('LT', 15), ('RL', 20)])
+        self.damageStructure([('RT', 12), ('LT', 8), ('RL', 4)])
 
         lineitem = self.bill.lineitems.get(line_type='S')
-        self.assertEquals(lineitem.count, 65, 'Summed structure Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 65))
+        self.assertEquals(lineitem.count, 24, 'Summed structure Line-item has incorrect count, got %i, expected %i' % (lineitem.count, 24))
 
     def test_structureTons(self):
         self.damageStructure([('RT', 30), ('CT', 14), ('RA', 12)])
@@ -92,10 +106,10 @@ class StructureRepairTests(RepairBillTestMixin, TestCase):
         self.assertEquals(lineitem.tons, None, 'Summed structure Line-item has a tonnage, this column should be blank')
 
     def test_structureCost(self):
-        self.damageStructure([('RT', 30), ('CT', 14), ('RA', 12)])
+        self.damageStructure([('RT', 12), ('LT', 8), ('RL', 4)])
 
         lineitem = self.bill.lineitems.get(line_type='S')
-        self.assertEquals(lineitem.cost, 35000.00, 'Summed structure Line-item has incorrect cost, got %.1f, expected %.1f' % (lineitem.cost, 35000.00))
+        self.assertEquals(lineitem.cost, 15000.00, 'Summed structure Line-item has incorrect cost, got %.1f, expected %.1f' % (lineitem.cost, 35000.00))
 
 class EquipmentRepairTests(RepairBillTestMixin, TestCase):
     def setUp(self):
