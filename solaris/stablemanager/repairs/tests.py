@@ -149,3 +149,32 @@ class EquipmentRepairTests(RepairBillTestMixin, TestCase):
     def test_ppcCost(self):
         ppc = self.bill.lineitems.get(line_type='Q', item__equipment__ssw_name = 'Equipment - (IS) PPC')
         self.assertEquals(ppc.cost, 133333, 'Expected cost for PPC (2 crits) to be 133333, got %i' % ppc.cost)
+
+class LabourCostTests(RepairBillTestMixin, TestCase):
+    def test_singleItemRecord(self):
+        # JumpJet  
+        self.bill.setCritical('CT',12) # Jump Jet (55000 cbills)
+        count = self.bill.lineitems.filter(line_type='L').count()
+        self.assertEquals(count, 1, 'Only a single labour cost entry should exist, found %i' % count)
+
+    def test_singleItemCost(self):
+        self.bill.setCritical('CT',12) # Jump Jet (55000 cbills)
+
+        lineitem = self.bill.lineitems.get(line_type='L')
+        # Cost should be 55000 X 0.55 (for 55 ton mech) = 30250
+        self.assertEquals(lineitem.cost, 30250, 'Labour cost to repair a single jumpjet should be 30250, got %i' % lineitem.cost)
+
+    def test_multipleItemRecord(self):
+        self.bill.setCritical('CT',12) # Jump Jet (55000 cbills)
+        self.bill.setCritical('RT',3) # First slot of an LRM-10 (50000 cbills)
+
+        count = self.bill.lineitems.filter(line_type='L').count()
+        self.assertEquals(count, 1, 'Only a single labour cost entry should exist, found %i' % count)
+
+    def test_multipleItemCost(self):
+        self.bill.setCritical('CT',12) # Jump Jet (55000 cbills)
+        self.bill.setCritical('RT',3) # First slot of an LRM-10 (50000 cbills)
+
+        lineitem = self.bill.lineitems.get(line_type='L')
+        # Cost should be 105000 X 0.55 (for 55 ton mech) = 57750
+        self.assertEquals(lineitem.cost, 57750, 'Labour cost to repair a jumpjet and LRM should be 57750, got %i' % lineitem.cost)

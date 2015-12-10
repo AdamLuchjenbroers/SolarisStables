@@ -84,6 +84,17 @@ class RepairBill(models.Model):
         structureLine.cost = structure.cost(units=structureLine.count)
         structureLine.save()
 
+    def update_labour_cost(self):
+        partsCost = self.lineitems.exclude(line_type='L').aggregate(models.Sum('cost'))['cost__sum']
+        labourFactor = self.mech.tonnage / Decimal(100)
+        
+        labourCost = int(partsCost * labourFactor)
+        (labourLine, created) = self.lineitems.get_or_create(line_type='L')
+        labourLine.cost = labourCost
+
+        labourLine.save()
+
+
 class RepairBillLineItem(models.Model):
     bill = models.ForeignKey(RepairBill, related_name="lineitems")
     item = models.ForeignKey(MechEquipment, blank=True, null=True)
@@ -135,3 +146,7 @@ class RepairBillLocation(models.Model):
 def onLocationUpdate(sender, instance=None, created=False, **kwargs):
     instance.bill.updateStructureDamage()
 
+@receiver(post_save, sender=RepairBillLineItem)
+def updateLabourCost(sender, instance=None, created=False, **kwargs):
+    if instance.line_type != 'L':
+       instance.bill.update_labour_cost() 
