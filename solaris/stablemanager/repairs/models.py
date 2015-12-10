@@ -46,26 +46,23 @@ class RepairBill(models.Model):
             item = self.mech.item_at(location, slot)
           , line_type = 'Q' 
         )
+  
+        self.setCriticalRecord(billLine, billLocation, slot, critted)
+        billLine.updateCost()
+
+    def setCriticalRecord(self, lineitem, location, slot, critted):
         (billCrit, critCreated) = RepairBillCrit.objects.get_or_create(
             slot = slot
-          , lineitem = billLine
-          , location = billLocation
+          , lineitem = lineitem
+          , location = location
         )
         
         if critted and not billCrit.critted:
-            billLine.count += 1
+            lineitem.count += 1
         elif billCrit.critted and not critted:
-            billLine.count -= 1
+            lineitem.count -= 1
         billCrit.critted = critted
-        
-        criticals = billLine.item.equipment.criticals(mech=self.mech)
-        baseCost  = billLine.item.equipment.cost(mech=self.mech)
-        if billLine.count < criticals:
-            billLine.cost = int(baseCost * ( Decimal(billLine.count) / Decimal(criticals) ))
-        else:
-            billLine.cost = baseCost
-        
-        billLine.save()
+       
         billCrit.save()
 
     def updateStructureDamage(self):
@@ -116,6 +113,16 @@ class RepairBillLineItem(models.Model):
         db_table = 'stablemanager_repairbill_line'
         app_label = 'stablemanager'
         unique_together = (('line_type','bill','item'),)
+
+    def updateCost(self):
+        criticals = self.item.equipment.criticals(mech=self.bill.mech)
+        baseCost  = self.item.equipment.cost(mech=self.bill.mech)
+        if self.count < criticals:
+            self.cost = int(baseCost * ( Decimal(self.count) / Decimal(criticals) ))
+        else:
+            self.cost = baseCost
+        
+        self.save()
 
 class RepairBillCrit(models.Model):
     slot = models.IntegerField()
