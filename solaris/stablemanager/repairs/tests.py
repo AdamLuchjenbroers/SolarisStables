@@ -178,3 +178,28 @@ class LabourCostTests(RepairBillTestMixin, TestCase):
         lineitem = self.bill.lineitems.get(line_type='L')
         # Cost should be 105000 X 0.55 (for 55 ton mech) = 57750
         self.assertEquals(lineitem.cost, 57750, 'Labour cost to repair a jumpjet and LRM should be 57750, got %i' % lineitem.cost)
+
+class DestroyedLocationTests(RepairBillTestMixin, TestCase):
+    def setUp(self):
+        super(DestroyedLocationTests, self).setUp()
+        self.bill.destroyLocation('RT')
+
+    def test_armour(self):
+        location = self.bill.getLocation('RT')
+        self.assertEquals(location.armour_lost, 20, 'Expected all right torso armour (20) to be lost, got %i' % location.armour_lost)
+
+    def test_structure(self):
+        location = self.bill.getLocation('RT')
+        self.assertEquals(location.structure_lost, 13, 'Expected all right torso structure (13) to be lost, got %i' % location.structure_lost)
+    
+    def test_jumpjetsDestroyed(self):
+        count = self.bill.lineitems.filter(line_type='Q', count=1, item__equipment__ssw_name = 'Jumpjet - Standard Jump Jet').count()
+        self.assertEquals(count, 2, 'Expected 2 JumpJets to be destroyed, found %i' % count)   
+    
+    def test_lrmDestroyed(self):
+        count = self.bill.lineitems.filter(line_type='Q', count=2, item__equipment__ssw_name = 'Equipment - (IS) LRM-10').count()
+        self.assertEquals(count, 1, 'Expected 1 LRM-10 to be destroyed, found %i' % count)   
+    
+    def test_lrmAmmoDestroyed(self):
+        count = self.bill.lineitems.filter(line_type='Q', count=1, item__equipment__ssw_name = 'Ammo - (IS) @ LRM-10').count()
+        self.assertEquals(count, 2, 'Expected 2 LRM-10 ammo bins to be destroyed, found %i' % count)   

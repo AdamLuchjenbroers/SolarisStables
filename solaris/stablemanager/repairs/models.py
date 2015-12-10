@@ -24,6 +24,9 @@ class RepairBill(models.Model):
         
         return billLocation   
 
+    def destroyLocation(self, location):
+        self.getLocation(location).destroyLocation()
+
     def setDamage(self, location, armour=None, structure=None):
         billLocation = self.getLocation(location)
         if armour != None:
@@ -141,6 +144,20 @@ class RepairBillLocation(models.Model):
     location = models.ForeignKey(MechDesignLocation)
     armour_lost = models.IntegerField(default=0)
     structure_lost = models.IntegerField(default=0)
+
+    def destroyLocation(self):
+        self.armour_lost = self.location.armour
+        self.structure_lost = self.location.structure
+
+        for item in self.location.criticals.all():
+            (billLine, lineCreated) = self.bill.lineitems.get_or_create(
+                item = item.equipment
+              , line_type = 'Q' 
+            )
+            for slot in item.get_slots():
+                self.bill.setCriticalRecord(billLine, self, slot, True)
+            billLine.updateCost()
+        self.save()
 
     class Meta:
         verbose_name = 'Repair Bill Location'
