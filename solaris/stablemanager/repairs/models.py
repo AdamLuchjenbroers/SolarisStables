@@ -45,10 +45,7 @@ class RepairBill(models.Model):
 
     def setCritical(self, location, slot, critted=True):
         billLocation = self.getLocation(location)
-        (billLine, lineCreated) = self.lineitems.get_or_create(
-            item = self.mech.item_at(location, slot)
-          , line_type = 'Q' 
-        )
+        billLine = RepairBillLineItem.objects.line_for_item(self.mech.item_at(location,slot), self)
   
         self.setCriticalRecord(billLine, billLocation, slot, critted)
         billLine.updateCost()
@@ -59,11 +56,19 @@ class RepairBill(models.Model):
           , lineitem = lineitem
           , location = location
         )
-        
-        if critted and not billCrit.critted:
-            lineitem.count += 1
-        elif billCrit.critted and not critted:
-            lineitem.count -= 1
+       
+        if lineitem.line_type == 'Q': 
+            if critted and not billCrit.critted:
+                lineitem.count += 1
+            elif billCrit.critted and not critted:
+                lineitem.count -= 1
+        elif lineitem.line_type == 'A':
+            if critted and not billCrit.critted:
+                lineitem.count = lineitem.item.equipment.ammo_size
+                lineitem.tons = 1.0
+            elif billCrit.critted and not critted:
+                lineitem.count = 0
+                lineitem.tons = 0
         billCrit.critted = critted
        
         billCrit.save()
@@ -94,6 +99,24 @@ class RepairBill(models.Model):
 
         labourLine.save()
 
+class RepairBillLineManager(models.Manager):
+    def line_for_item(self, item, bill):
+        billLine = None
+
+        if item.equipment.equipment_class == 'A':
+            (billLine, lineCreated) = bill.lineitems.get_or_create(
+                item = item
+              , line_type = 'A'
+              , count = item.equipment.ammo_size
+              , tons = Decimal(1.0) 
+            )
+        else:
+            (billLine, lineCreated) = bill.lineitems.get_or_create(
+                item = item
+              , line_type = 'Q' 
+            )
+
+        return billLine
 
 class RepairBillLineItem(models.Model):
     bill = models.ForeignKey(RepairBill, related_name="lineitems")
@@ -111,21 +134,41 @@ class RepairBillLineItem(models.Model):
     )     
     line_type = models.CharField(max_length=1, choices=line_groups)
 
+    objects = RepairBillLineManager()
+
     class Meta:
         verbose_name = 'Repair Bill Line'
         db_table = 'stablemanager_repairbill_line'
         app_label = 'stablemanager'
         unique_together = (('line_type','bill','item'),)
-
-    def updateCost(self):
+    
+    def updateEquipmentCost(self):
         criticals = self.item.equipment.criticals(mech=self.bill.mech)
         baseCost  = self.item.equipment.cost(mech=self.bill.mech)
+
         if self.count < criticals:
             self.cost = int(baseCost * ( Decimal(self.count) / Decimal(criticals) ))
         else:
             self.cost = baseCost
-        
         self.save()
+
+    def updateAmmoCost(self):
+        baseCost  = self.item.equipment.cost(mech=self.bill.mech)
+        ammoSize  = self.item.equipment.ammo_size
+
+        if self.count > (ammoSize / 2):
+            self.cost = baseCost
+            self.tons = 1.0
+        else:
+            self.cost = 0
+            self.tons = 0.0
+        self.save()
+    
+    def updateCost(self):
+        if self.line_type == 'Q':
+            self.updateEquipmentCost()
+        elif self.line_type == 'A':
+            self.updateAmmoCost() 
 
 class RepairBillCrit(models.Model):
     slot = models.IntegerField()
@@ -150,10 +193,8 @@ class RepairBillLocation(models.Model):
         self.structure_lost = self.location.structure
 
         for item in self.location.criticals.all():
-            (billLine, lineCreated) = self.bill.lineitems.get_or_create(
-                item = item.equipment
-              , line_type = 'Q' 
-            )
+            billLine = RepairBillLineItem.objects.line_for_item(item.equipment, self.bill)
+
             for slot in item.get_slots():
                 self.bill.setCriticalRecord(billLine, self, slot, True)
             billLine.updateCost()

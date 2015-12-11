@@ -179,6 +179,18 @@ class LabourCostTests(RepairBillTestMixin, TestCase):
         # Cost should be 105000 X 0.55 (for 55 ton mech) = 57750
         self.assertEquals(lineitem.cost, 57750, 'Labour cost to repair a jumpjet and LRM should be 57750, got %i' % lineitem.cost)
 
+class DestroyedAmmoTests(RepairBillTestMixin, TestCase):
+    def setUp(self):
+        super(DestroyedAmmoTests, self).setUp()
+        self.bill.setCritical('RT',5) # LRM-10 Ammo bin
+        self.lineitem = self.bill.lineitems.get(line_type='A', item__equipment__ssw_name = 'Ammo - (IS) @ LRM-10')
+
+    def test_checkAmmoCount(self):
+        self.assertEqual(self.lineitem.count, 12, 'Ammo Count for a destroyed LRM-10 ammo bin should be 12, got %i' % self.lineitem.count) 
+
+    def test_checkAmmoTons(self):
+        self.assertEqual(self.lineitem.tons, 1.0, 'Used tonnage a destroyed LRM-10 ammo bin should be 1.0, got %.1f' % self.lineitem.tons) 
+
 class DestroyedLocationTests(RepairBillTestMixin, TestCase):
     def setUp(self):
         super(DestroyedLocationTests, self).setUp()
@@ -201,5 +213,14 @@ class DestroyedLocationTests(RepairBillTestMixin, TestCase):
         self.assertEquals(count, 1, 'Expected 1 LRM-10 to be destroyed, found %i' % count)   
     
     def test_lrmAmmoDestroyed(self):
-        count = self.bill.lineitems.filter(line_type='Q', count=1, item__equipment__ssw_name = 'Ammo - (IS) @ LRM-10').count()
-        self.assertEquals(count, 2, 'Expected 2 LRM-10 ammo bins to be destroyed, found %i' % count)   
+        count = self.bill.lineitems.filter(line_type='A', item__equipment__ssw_name = 'Ammo - (IS) @ LRM-10').count()
+        self.assertEquals(count, 2, 'Expected 2 LRM-10 ammo bins to be destroyed, found %i' % count)  
+
+    def test_lrmAmmoFull(self): 
+        lineitem = self.bill.lineitems.filter(line_type='A', item__equipment__ssw_name = 'Ammo - (IS) @ LRM-10')[0]
+        ammosize = lineitem.item.equipment.ammo_size
+        self.assertEquals(lineitem.count, ammosize, 'Expected full ammo count (%i) to be expended, found %i' % (ammosize, lineitem.count))
+
+    def test_lrmAmmoFullTon(self): 
+        lineitem = self.bill.lineitems.filter(line_type='A', item__equipment__ssw_name = 'Ammo - (IS) @ LRM-10')[0]
+        self.assertEquals(lineitem.tons, 1.0, 'Destroyed ammo bin counts as full expended ton, got %.1f' % lineitem.tons)
