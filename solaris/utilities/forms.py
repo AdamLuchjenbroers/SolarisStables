@@ -13,16 +13,21 @@ class MechValidationForm(ModelForm):
         
     class Meta:
         model = MechDesign
+        fields = ( 'mech_name', 'mech_code', 'omni_loadout', 'stock_design', 'credit_value', 'bv_value', 'tonnage'
+                 , 'engine_rating', 'is_omni', 'omni_basechassis', 'ssw_filename', 'motive_type', 'tech_base'
+                 , 'production_type', 'omni_basechassis') 
         
 class LocationValidationForm(ModelForm):    
     class Meta:
         model = MechDesignLocation
-        
+        fields = ('mech', 'location', 'armour', 'structure') 
         
 class MechEquipmentForm(ModelForm):
     class Meta:
         model = MechEquipment
-        
+        fields = ('mech', 'equipment')
+ 
 class MountingForm(ModelForm):
     class Meta:
         model = Mounting
+        fields = ('location', 'equipment', 'slots', 'rear_firing', 'turret_mounted')
