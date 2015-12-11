@@ -58,7 +58,8 @@ def loadEquipmentCSV(csvfile, reassign_id=False, csvfields=equipment_fields, Equ
         except Equipment.DoesNotExist:
             eq_instance = None
             
-        for boolean_field in ('splittable', 'crittable'):
+        for boolean_field in ('splittable', 'crittable', 'evaluate_last', 'basic_ammo'
+                             , 'has_ammo', 'fcs_artemis_iv', 'fcs_artemis_v', 'fcs_apollo'):
             row[boolean_field] = (row[boolean_field].upper() =='TRUE')
         
         eq = EquipmentForm(row, instance=eq_instance)
