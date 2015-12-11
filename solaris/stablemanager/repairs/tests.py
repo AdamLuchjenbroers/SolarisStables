@@ -10,9 +10,14 @@ from solaris.stablemanager.models import Stable, StableWeek
 from .models import RepairBill
 
 class RepairBillTestMixin(StableTestMixin):
+    repairMech = { 'mech_name' : 'Griffin', 'mech_code' : 'GRF-1N' }
+
     def setUp(self):
         self.stable = self.createStable()
-        self.mech = self.addMech(self.stable, mech_name='Griffin', mech_code='GRF-1N')
+        self.mech = self.addMech( self.stable
+                                , mech_name=self.__class__.repairMech['mech_name']
+                                , mech_code=self.__class__.repairMech['mech_code']
+                                )
 
         stableweek = self.stable.get_stableweek()
 
@@ -190,6 +195,19 @@ class DestroyedAmmoTests(RepairBillTestMixin, TestCase):
 
     def test_checkAmmoTons(self):
         self.assertEqual(self.lineitem.tons, 1.0, 'Used tonnage a destroyed LRM-10 ammo bin should be 1.0, got %.1f' % self.lineitem.tons) 
+
+class NonCrittableItemTests(RepairBillTestMixin, TestCase):
+    repairMech = { 'mech_name' : 'Wolverine', 'mech_code' : 'WVR-7D' }
+
+    def test_singleCrit(self):
+        self.bill.setCritical('LA',5)
+        count = self.bill.lineitems.filter(line_type='Q').count()
+        self.assertEqual(count, 0, 'Should be no line items after a single crit to ferro-fibrous, found %i' % count)
+
+    def test_destroyedLocation(self):
+        self.bill.destroyLocation('LA')
+        count = self.bill.lineitems.filter(line_type='Q').count()
+        self.assertEqual(count, 4, 'Should be four destroyed items in left arm, found %i' % count)
 
 class DestroyedLocationTests(RepairBillTestMixin, TestCase):
     def setUp(self):

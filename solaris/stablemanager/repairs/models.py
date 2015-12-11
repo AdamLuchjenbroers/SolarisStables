@@ -45,10 +45,14 @@ class RepairBill(models.Model):
 
     def setCritical(self, location, slot, critted=True):
         billLocation = self.getLocation(location)
+
         billLine = RepairBillLineItem.objects.line_for_item(self.mech.item_at(location,slot), self)
-  
+        if billLine == None:
+            return False
+ 
         self.setCriticalRecord(billLine, billLocation, slot, critted)
         billLine.updateCost()
+        return True
 
     def setCriticalRecord(self, lineitem, location, slot, critted):
         (billCrit, critCreated) = RepairBillCrit.objects.get_or_create(
@@ -102,6 +106,9 @@ class RepairBill(models.Model):
 class RepairBillLineManager(models.Manager):
     def line_for_item(self, item, bill):
         billLine = None
+
+        if not item.equipment.crittable:
+            return None
 
         if item.equipment.equipment_class == 'A':
             (billLine, lineCreated) = bill.lineitems.get_or_create(
@@ -194,6 +201,8 @@ class RepairBillLocation(models.Model):
 
         for item in self.location.criticals.all():
             billLine = RepairBillLineItem.objects.line_for_item(item.equipment, self.bill)
+            if billLine == None:
+                continue
 
             for slot in item.get_slots():
                 self.bill.setCriticalRecord(billLine, self, slot, True)

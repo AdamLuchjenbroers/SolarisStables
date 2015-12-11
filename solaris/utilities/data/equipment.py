@@ -59,7 +59,7 @@ def loadEquipmentCSV(csvfile, reassign_id=False, csvfields=equipment_fields, Equ
             eq_instance = None
             
         for boolean_field in ('splittable', 'crittable'):
-            row[boolean_field] = (row[boolean_field] == 'TRUE')
+            row[boolean_field] = (row[boolean_field].upper() =='TRUE')
         
         eq = EquipmentForm(row, instance=eq_instance)
         if eq.is_valid():
