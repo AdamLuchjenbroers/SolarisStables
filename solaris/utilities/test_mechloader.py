@@ -168,3 +168,47 @@ class Hatchetman3FTests(MechTestMixin, TestCase):
 
     def test_hatchet(self):
         self.assertEquipment('RA','5,6,7','Equipment - Hatchet')
+
+class OwensOW1BaseTests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Owens'
+    ,   'mech_code'    : 'OW-1'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [8,12,0]
+    directfire_tonnage = 0
+    check_fields = {
+        'production_year'  : 3056
+    ,   'ssw_description'  : 'Owens OW-1 35t, 8/12/0, XLFE, Std; 7.0T/94% Armor; 10 SHS; 1 C3S, 1 BAP, 1 TAG'
+    ,   'credit_value'     : 7832250
+    ,   'bv_value'         : 0
+    }
+
+    def test_beagle(self):
+        self.assertEquipment('LT','4,5','Equipment - Beagle Active Probe')
+
+    def test_tag(self):
+        self.assertEquipment('RT','4','Equipment - TAG')
+
+    def test_c3Slave(self):
+        self.assertEquipment('RT','5','Equipment - C3 Computer (Slave)')
+
+class OwensOW1CTests(OwensOW1BaseTests):
+    mech_ident = {
+        'mech_name'    : 'Owens'
+    ,   'mech_code'    : 'OW-1'
+    ,   'omni_loadout' : 'C'
+    }
+    directfire_tonnage = 7
+    check_fields = {
+        'production_year'  : 3056
+    ,   'ssw_description'  : 'Owens OW-1 C 35t, 8/12/0, XLFE, Std; 7.0T/94% Armor; 10 SHS; 2 ML, 1 C3S, 1 BAP, 1 TAG, 1 LL'
+    ,   'credit_value'     : 7929281
+    ,   'bv_value'         : 964
+    }
+
+    def test_largeLaser(self):
+        self.assertEquipment('LA','3,4','Equipment - (IS) Large Laser')
+
+    def test_mediumLaser(self):
+        self.assertEquipment('RA','3','Equipment - (IS) Medium Laser')
