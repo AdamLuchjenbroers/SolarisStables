@@ -56,6 +56,18 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.AddField(
+            model_name='mechdesign',
+            name='production_year',
+            field=models.IntegerField(null=True, blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='mechdesign',
+            name='ssw_description',
+            field=models.CharField(max_length=256, null=True, blank=True),
+            preserve_default=True,
+        ),
         migrations.RunPython(load_mechs, reverse_code=noop),
         migrations.RunPython(load_productionlists, reverse_code=noop),
         migrations.RunPython(derive_mech_tiers, reverse_code=noop),

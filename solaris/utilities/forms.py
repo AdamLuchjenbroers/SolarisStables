@@ -15,7 +15,7 @@ class MechValidationForm(ModelForm):
         model = MechDesign
         fields = ( 'mech_name', 'mech_code', 'omni_loadout', 'stock_design', 'credit_value', 'bv_value', 'tonnage'
                  , 'engine_rating', 'is_omni', 'omni_basechassis', 'ssw_filename', 'motive_type', 'tech_base'
-                 , 'production_type', 'omni_basechassis') 
+                 , 'production_type', 'ssw_description', 'production_year') 
         
 class LocationValidationForm(ModelForm):    
     class Meta:

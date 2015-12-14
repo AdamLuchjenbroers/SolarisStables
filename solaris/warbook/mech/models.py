@@ -17,6 +17,8 @@ class MechDesign(models.Model):
     is_omni = models.BooleanField(default=False)
     omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True)
     ssw_filename = models.CharField(max_length=1024, blank=True, null=True)
+    ssw_description = models.CharField(max_length=256, blank=True, null=True)
+    production_year = models.IntegerField(blank=True, null=True)
     
     motive_options = (
         ('B', 'Biped')
