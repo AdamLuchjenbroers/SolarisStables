@@ -38,7 +38,7 @@ class MechTestMixin(object):
     
     def test_directFireTonnage(self):
         self.mech_compare(self.mech.directfire_tonnage(), self.__class__.directfire_tonnage
-                         , '%s %s should have %i tons of direct fire weaponry, got %i') 
+                         , '%s %s should have %.1f tons of direct fire weaponry, got %.1f') 
 
     def test_productionYear(self):
         self.mech_compare( self.mech.production_year, self.__class__.check_fields['production_year']
@@ -56,6 +56,9 @@ class MechTestMixin(object):
         self.mech_compare( self.mech.ssw_description, self.__class__.check_fields['ssw_description']
                          , 'The %s %s description should be %s, got %s')
 
+    def test_gyro(self):
+        self.assertEquipment('CT','4,5,6,7','Gyro - Standard Gyro')
+
     def assertEquipment(self, location, slots, ssw_name):
         try:
             mount = self.mech.locations.get(location__location=location).criticals.get(slots=slots)
@@ -66,10 +69,18 @@ class MechTestMixin(object):
         mounted_name = mount.equipment.equipment.ssw_name
         self.assertEqual(mounted_name, ssw_name, "Object mounted in %s [%s] is %s, not %s" % (location, slots, mounted_name, ssw_name))
 
+    def engine_checkGeneric(self, lt_slots=None, rt_slots=None, ct_slots='1,2,3,8,9,10', engine='Engine - Fusion Engine'):
+        self.assertEquipment('CT', ct_slots, engine)
+        if lt_slots != None:
+           self.assertEquipment('LT', lt_slots, engine)
+        if rt_slots != None:
+           self.assertEquipment('RT', rt_slots, engine)
+
     def engine_checkXL(self, lt_slots='1,2,3', rt_slots='1,2,3'):
-        self.assertEquipment('CT','1,2,3,8,9,10','Engine - XL Engine')
-        self.assertEquipment('LT',lt_slots,'Engine - XL Engine')
-        self.assertEquipment('RT',rt_slots,'Engine - XL Engine')
+        self.engine_checkGeneric(lt_slots=lt_slots, rt_slots=rt_slots, engine = 'Engine - XL Engine')
+
+    def engine_checkLight(self, lt_slots='1,2', rt_slots='1,2'):
+        self.check_Generic(lt_slots=lt_slots, rt_slots=rt_slots, engine = 'Engine - Light Fusion Engine')
 
 class Wolverine7DTests(MechTestMixin, TestCase):
     mech_ident = {
@@ -92,9 +103,6 @@ class Wolverine7DTests(MechTestMixin, TestCase):
 
     def test_engine(self):
         self.engine_checkXL(lt_slots='1,2,3', rt_slots='1,2,3')
-
-    def test_engine(self):
-        self.assertEquipment('CT','4,5,6,7','Gyro - Standard Gyro')
 
 class Raven4LTests(MechTestMixin, TestCase):
     mech_ident = {
@@ -212,3 +220,83 @@ class OwensOW1CTests(OwensOW1BaseTests):
 
     def test_mediumLaser(self):
         self.assertEquipment('RA','3','Equipment - (IS) Medium Laser')
+
+class OwensOW1FTests(OwensOW1BaseTests):
+    mech_ident = {
+        'mech_name'    : 'Owens'
+    ,   'mech_code'    : 'OW-1'
+    ,   'omni_loadout' : 'F'
+    }
+    directfire_tonnage = 4
+    check_fields = {
+        'production_year'  : 3068
+    ,   'ssw_description'  : 'Owens OW-1 F 35t, 8/12/0, XLFE, Std; 7.0T/94% Armor; 10 SHS; 1 ECM, 1 APod, 1 C3S, 2 ERSL, 1 BAP, 1 LPPC, 1 TAG, TC'
+    ,   'credit_value'     : 8273531
+    ,   'bv_value'         : 933
+    }
+
+    def test_targetingComputer(self):
+        self.assertEquipment('HD','4','Equipment - (IS) Targeting Computer')
+
+    def test_guardianECM(self):
+        self.assertEquipment('LT','6,7','Equipment - Guardian ECM Suite')
+
+    def test_lightPPC(self):
+        self.assertEquipment('CT','11,12','Equipment - (IS) Light PPC')
+
+
+class ExcaliburEXCCSTests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Excalibur'
+    ,   'mech_code'    : 'EXC-CS'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [5,8,0]
+    directfire_tonnage = 11.5
+    check_fields = {
+        'production_year'  : 3067
+    ,   'ssw_description'  : 'Excalibur EXC-CS 70t, 5[6]/8[9]/0 TSM, XLFE, ES; 13.5T/100% Armor; 12 DHS; 4 ERML, 1 ERSL, 1 ERPPC, 1 LRM20, TC'
+    ,   'credit_value'     : 18188611
+    ,   'bv_value'         : 2174
+    }
+
+    def test_targetingComputer(self):
+        self.assertEquipment('LT','10,11,12','Equipment - (IS) Targeting Computer')
+
+    def test_LRM20(self):
+        self.assertEquipment('LT','4,5,6,7,8','Equipment - (IS) LRM-20')
+    
+    def test_artemisIV(self):
+        self.assertEquipment('LT','9','FCS - Artemis IV')
+
+    def test_tsmLA(self):
+        self.assertEquipment('LA','10,11','Enhancement - TSM')
+
+    def test_tsmRA(self):
+        self.assertEquipment('RA','11,12','Enhancement - TSM')
+
+    def test_tsmLegs(self):
+        self.assertEquipment('RL','6','Enhancement - TSM')
+        self.assertEquipment('LL','6','Enhancement - TSM')
+
+class Gallowglas3GLSTests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Gallowglas'
+    ,   'mech_code'    : 'GAL-3GLS'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [4,6,0]
+    directfire_tonnage = 26
+    check_fields = {
+        'production_year'  : 3064
+    ,   'ssw_description'  : 'Gallowglas GAL-3GLS 70t, 4[5]/6[8]/0 TSM, LFE, ES; 13.0T/96% Armor; 10 DHS; 2 ERLL, 1 ERML, 1 GR, TC'
+    ,   'credit_value'     : 12932920
+    ,   'bv_value'         : 2291
+    }
+
+    def test_targetingComputer(self):
+        self.assertEquipment('LT','3,4,5,6,7,8,9','Equipment - (IS) Targeting Computer')
+
+    def test_gaussRifle(self):
+        self.assertEquipment('RA','4,5,6,7,8,9,10','Equipment - (IS) Gauss Rifle')
+
