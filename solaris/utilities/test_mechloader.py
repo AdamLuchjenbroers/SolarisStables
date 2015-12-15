@@ -29,6 +29,32 @@ gyroLayout = {
     }
 }
 
+cockpitLayout = {
+    'Standard' : {
+        'cockpit' : { 'type' : 'Cockpit - Standard Cockpit' 
+                    , 'slots' : [ ('HD', '3') ]
+                    }
+    ,   'sensors' : { 'type' : 'Cockpit - Sensors' 
+                    , 'slots' : [ ('HD', '2'), ('HD', '5') ]
+                    }
+    ,   'support' : { 'type' : 'Cockpit - Life Support' 
+                    , 'slots' : [ ('HD', '1'), ('HD', '6') ]
+                    }
+    }
+,   'Small' : {
+        'cockpit' : { 'type' : 'Cockpit - Small Cockpit' 
+                    , 'slots' : [ ('HD', '3') ]
+                    }
+    ,   'sensors' : { 'type' : 'Cockpit - Sensors' 
+                    , 'slots' : [ ('HD', '2'), ('HD', '4') ]
+                    }
+    ,   'support' : { 'type' : 'Cockpit - Life Support' 
+                    , 'slots' : [ ('HD', '1') ]
+                    }
+    }
+}
+
+
 mechLocations = {
     'Biped' : ('LA','RA','RL','LL','RT','CT','LT','HD','--', 'RCT','RRT','RLT')
 ,   'Quad'  : ('LFL','RFL','RRL','LRL','RT','CT','LT','HD','--', 'RCT','RRT','RLT')
@@ -50,6 +76,7 @@ class MechTestMixin(object):
     }
     engine = engineLayout['Fusion']
     gyro = gyroLayout['Standard']
+    cockpit = cockpitLayout['Standard']
     locations = mechLocations['Biped']
 
     def setUp(self):
@@ -107,6 +134,21 @@ class MechTestMixin(object):
     def test_unexpectedLocations(self):
         count = self.mech.locations.exclude(location__location__in=self.locations).count()
         self.assertEqual(count, 0, 'Location check, found %i unexpected limbs' % count)
+
+    def test_cockpit(self):
+        cockpit = self.cockpit['cockpit']
+        for (location, slot) in cockpit['slots']:
+            self.assertEquipment(location, slot, cockpit['type'])
+
+    def test_sensors(self):
+        sensors = self.cockpit['sensors']
+        for (location, slot) in sensors['slots']:
+            self.assertEquipment(location, slot, sensors['type'])
+
+    def test_lifeSupport(self):
+        support = self.cockpit['support']
+        for (location, slot) in support['slots']:
+            self.assertEquipment(location, slot, support['type'])
 
     def assertEquipment(self, location, slots, ssw_name):
         try:
@@ -376,6 +418,7 @@ class Sirocco6CTests(MechTestMixin, TestCase):
     ,   'credit_value'     : 12189450
     ,   'bv_value'         : 2202
     }
+    cockpit = cockpitLayout['Small']
     locations = mechLocations['Quad']
 
     def test_leftForeLeg(self):
