@@ -29,6 +29,11 @@ gyroLayout = {
     }
 }
 
+mechLocations = {
+    'Biped' : ('LA','RA','RL','LL','RT','CT','LT','HD','--', 'RCT','RRT','RLT')
+,   'Quad'  : ('LFL','RFL','RRL','LRL','RT','CT','LT','HD','--', 'RCT','RRT','RLT')
+}
+
 class MechTestMixin(object):
     mech_ident = {
         'mech_name'    : 'MechName'
@@ -45,6 +50,7 @@ class MechTestMixin(object):
     }
     engine = engineLayout['Fusion']
     gyro = gyroLayout['Standard']
+    locations = mechLocations['Biped']
 
     def setUp(self):
         self.mech = MechDesign.objects.get(**self.__class__.mech_ident)
@@ -90,6 +96,17 @@ class MechTestMixin(object):
     def test_engine(self):
         for (location, slots) in self.__class__.engine['slots'].items():
             self.assertEquipment(location, slots, self.__class__.engine['engine'])
+
+    def test_expectedLocations(self):
+        count = self.mech.locations.filter(location__location__in=self.locations).count()
+        self.assertEqual( count
+                           , len(self.locations)
+                           , 'Location check found %i of %i expected locations' % (count, len(self.locations))
+                           )
+
+    def test_unexpectedLocations(self):
+        count = self.mech.locations.exclude(location__location__in=self.locations).count()
+        self.assertEqual(count, 0, 'Location check, found %i unexpected limbs' % count)
 
     def assertEquipment(self, location, slots, ssw_name):
         try:
@@ -359,6 +376,7 @@ class Sirocco6CTests(MechTestMixin, TestCase):
     ,   'credit_value'     : 12189450
     ,   'bv_value'         : 2202
     }
+    locations = mechLocations['Quad']
 
     def test_leftForeLeg(self):
         self.assertEquipment('LFL','1','Actuator - Hip')
