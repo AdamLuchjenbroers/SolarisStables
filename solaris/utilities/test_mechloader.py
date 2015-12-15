@@ -3,6 +3,32 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from solaris.warbook.mech.models import MechDesign
 
+engineLayout = {
+    'Fusion' : {
+        'engine' : 'Engine - Fusion Engine'
+    ,   'slots'  : { 'CT' : '1,2,3,8,9,10' }
+    }
+,   'XL' : {
+        'engine' : 'Engine - XL Engine'
+    ,   'slots'  : { 'CT' : '1,2,3,8,9,10', 'LT' : '1,2,3', 'RT' : '1,2,3' }
+    }
+,   'Light' : {
+        'engine' : 'Engine - Light Fusion Engine'
+    ,   'slots'  : { 'CT' : '1,2,3,8,9,10', 'LT' : '1,2', 'RT' : '1,2' }
+    }
+}
+
+gyroLayout = {
+    'Standard' : {
+        'gyro'  : 'Gyro - Standard Gyro'
+    ,   'slots' : '4,5,6,7'
+    }
+,   'XL' : {
+        'gyro'  : 'Gyro - Extra-Light Gyro'
+    ,   'slots' : '4,5,6,7,8,9'
+    }
+}
+
 class MechTestMixin(object):
     mech_ident = {
         'mech_name'    : 'MechName'
@@ -17,6 +43,8 @@ class MechTestMixin(object):
     ,   'credit_value'     : 0
     ,   'bv_value'         : 0
     }
+    engine = engineLayout['Fusion']
+    gyro = gyroLayout['Standard']
 
     def setUp(self):
         self.mech = MechDesign.objects.get(**self.__class__.mech_ident)
@@ -57,7 +85,11 @@ class MechTestMixin(object):
                          , 'The %s %s description should be %s, got %s')
 
     def test_gyro(self):
-        self.assertEquipment('CT','4,5,6,7','Gyro - Standard Gyro')
+        self.assertEquipment('CT', self.__class__.gyro['slots'], self.__class__.gyro['gyro'])
+
+    def test_engine(self):
+        for (location, slots) in self.__class__.engine['slots'].items():
+            self.assertEquipment(location, slots, self.__class__.engine['engine'])
 
     def assertEquipment(self, location, slots, ssw_name):
         try:
@@ -68,19 +100,6 @@ class MechTestMixin(object):
 
         mounted_name = mount.equipment.equipment.ssw_name
         self.assertEqual(mounted_name, ssw_name, "Object mounted in %s [%s] is %s, not %s" % (location, slots, mounted_name, ssw_name))
-
-    def engine_checkGeneric(self, lt_slots=None, rt_slots=None, ct_slots='1,2,3,8,9,10', engine='Engine - Fusion Engine'):
-        self.assertEquipment('CT', ct_slots, engine)
-        if lt_slots != None:
-           self.assertEquipment('LT', lt_slots, engine)
-        if rt_slots != None:
-           self.assertEquipment('RT', rt_slots, engine)
-
-    def engine_checkXL(self, lt_slots='1,2,3', rt_slots='1,2,3'):
-        self.engine_checkGeneric(lt_slots=lt_slots, rt_slots=rt_slots, engine = 'Engine - XL Engine')
-
-    def engine_checkLight(self, lt_slots='1,2', rt_slots='1,2'):
-        self.check_Generic(lt_slots=lt_slots, rt_slots=rt_slots, engine = 'Engine - Light Fusion Engine')
 
 class Wolverine7DTests(MechTestMixin, TestCase):
     mech_ident = {
@@ -96,13 +115,11 @@ class Wolverine7DTests(MechTestMixin, TestCase):
     ,   'credit_value'     : 11214456
     ,   'bv_value'         : 1314
     }
+    engine = engineLayout['XL']
 
     def test_hands(self):
         self.assertEquipment('LA','4','Actuator - Hand')
         self.assertEquipment('RA','4','Actuator - Hand')
-
-    def test_engine(self):
-        self.engine_checkXL(lt_slots='1,2,3', rt_slots='1,2,3')
 
 class Raven4LTests(MechTestMixin, TestCase):
     mech_ident = {
@@ -118,6 +135,7 @@ class Raven4LTests(MechTestMixin, TestCase):
     ,   'credit_value'     : 6001425
     ,   'bv_value'         : 873
     }
+    engine = engineLayout['XL']
 
 class Dervish8DTests(MechTestMixin, TestCase):
     mech_ident = {
@@ -133,9 +151,7 @@ class Dervish8DTests(MechTestMixin, TestCase):
     ,   'credit_value'     : 10782316
     ,   'bv_value'         : 1765
     }
-
-    def test_engine(self):
-        self.engine_checkXL(lt_slots='1,2,3', rt_slots='1,2,3')
+    engine = engineLayout['XL']
 
     def test_artemis(self):
         self.assertEquipment('LT','4,5,6','Equipment - (IS) LRM-15') 
@@ -191,6 +207,7 @@ class OwensOW1BaseTests(MechTestMixin, TestCase):
     ,   'credit_value'     : 7832250
     ,   'bv_value'         : 0
     }
+    engine = engineLayout['XL']
 
     def test_beagle(self):
         self.assertEquipment('LT','4,5','Equipment - Beagle Active Probe')
@@ -259,6 +276,7 @@ class ExcaliburEXCCSTests(MechTestMixin, TestCase):
     ,   'credit_value'     : 18188611
     ,   'bv_value'         : 2174
     }
+    engine = engineLayout['XL']
 
     def test_targetingComputer(self):
         self.assertEquipment('LT','10,11,12','Equipment - (IS) Targeting Computer')
@@ -293,6 +311,7 @@ class Gallowglas3GLSTests(MechTestMixin, TestCase):
     ,   'credit_value'     : 12932920
     ,   'bv_value'         : 2291
     }
+    engine = engineLayout['Light']
 
     def test_targetingComputer(self):
         self.assertEquipment('LT','3,4,5,6,7,8,9','Equipment - (IS) Targeting Computer')
@@ -300,3 +319,55 @@ class Gallowglas3GLSTests(MechTestMixin, TestCase):
     def test_gaussRifle(self):
         self.assertEquipment('RA','4,5,6,7,8,9,10','Equipment - (IS) Gauss Rifle')
 
+class Cuirass1XTests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Cuirass'
+    ,   'mech_code'    : 'CDR-1X'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [6,9,6]
+    directfire_tonnage = 11
+    check_fields = {
+        'production_year'  : 3085
+    ,   'ssw_description'  : 'Cuirass CDR-1X 40t, 6/9/6, XLFE, ES, XL Gyro; 8.0T/93% Armor; 10 SHS; 1 RAC5, 1 ERML, 1 Swrd'
+    ,   'credit_value'     : 6993280
+    ,   'bv_value'         : 1301
+    }
+    engine = {
+        'engine' : 'Engine - XL Engine'
+    ,   'slots'  : { 'CT' : '1,2,3,10,11,12', 'LT' : '1,2,3', 'RT' : '1,2,3' }
+    }
+    gyro = gyroLayout['XL']
+
+    def test_sword(self):
+        self.assertEquipment('RA','5,6,7','Equipment - Sword')
+
+    def test_rotaryAC(self):
+        self.assertEquipment('LA','4,5,6,7,8,9','Equipment - (IS) Rotary AC/5')
+
+class Sirocco6CTests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Sirocco'
+    ,   'mech_code'    : 'SRC-6C'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [3,5,5]
+    directfire_tonnage = 21
+    check_fields = {
+        'production_year'  : 3070
+    ,   'ssw_description'  : 'Sirocco SRC-6C 95t, 3/5/5, Std FE, Std Quad; 18.5T/100% LFF Armor; 10 DHS; 1 ECM, 1 ERLL, 1 C3S, 4 ERML, 1 LGR'
+    ,   'credit_value'     : 12189450
+    ,   'bv_value'         : 2202
+    }
+
+    def test_leftForeLeg(self):
+        self.assertEquipment('LFL','1','Actuator - Hip')
+
+    def test_rightForeLeg(self):
+        self.assertEquipment('RFL','2','Actuator - Upper Leg')
+
+    def test_leftRearLeg(self):
+        self.assertEquipment('LRL','3','Actuator - Lower Leg')
+
+    def test_rightRearLeg(self):
+        self.assertEquipment('RRL','4','Actuator - Foot')

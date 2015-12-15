@@ -299,6 +299,8 @@ class SSWGyro(SSWMountedItem):
         self['name'] = xmlnode.text
         
         super(SSWGyro, self).__init__()
+
+        self.criticals = self.equipment.criticals()
         
         self.mountings = {}
         if self.criticals:
