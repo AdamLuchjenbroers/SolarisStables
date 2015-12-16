@@ -161,6 +161,11 @@ class MechDesignLocation(models.Model):
     
     def location_name(self):
         return self.location.get_location_display()
+
+    def turret_tonnage(self):
+        return sum( (item.equipment.equipment.tonnage() for item in self.criticals.filter(turret_mounted=True)))
+        for item in self.criticals.filter(turret_mounted=True):
+            tonnage
     
     class Meta:
         unique_together = (('mech','location'),)
