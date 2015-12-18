@@ -4,7 +4,7 @@ from django.utils.html import strip_tags
 
 
 from solaris.utilities import translate
-from solaris.utilities.equipment import SSWEquipment, SSWEnhancement, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWActuator, SSWCockpitItem, SSWAttachedItem
+from solaris.utilities.equipment import SSWTurret, SSWEquipment, SSWEnhancement, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWActuator, SSWCockpitItem, SSWAttachedItem
 
 class SSWParseError(Exception):
     def __init__(self, mech, formerrors):
@@ -48,7 +48,7 @@ class SSWCockpitSet(list):
     def torso_cockpit(self, xmlnode, cockpit):
         
         def parse_location(location, name):
-            slot = location.get('index')
+            slot = int(location.get('index'))+1
             loc_code = location.text.lower()
             self.append(SSWCockpitItem(name, loc_code, slot))        
         #Torso mounted cockpits store the locations in a particular order
@@ -56,9 +56,13 @@ class SSWCockpitSet(list):
         location_set = xmlnode.xpath('location')
         
         parse_location(location_set[0], cockpit)
-        parse_location(location_set[1], 'Life Support')
-        parse_location(location_set[2], 'Sensors')
-        parse_location(location_set[3], 'Sensors')
+        parse_location(location_set[1], 'Sensors')
+        parse_location(location_set[2], 'Life Support')
+        parse_location(location_set[3], 'Life Support')
+        
+        # 2 Sensor packages are also included in the head (Tactical Operations, pg.300)
+        self.append(SSWCockpitItem('Sensors', 'hd', 1))
+        self.append(SSWCockpitItem('Sensors', 'hd', 2))
         
 class SSWQuadActuatorSet(list):
     def __init__(self):    
@@ -124,6 +128,10 @@ class SSWLoadout(list):
         xml_jets = xmlnode.xpath('./jumpjets')
         if xml_jets:
             self += SSWJumpjetList(xml_jets[0])
+
+        for turretXML in xmlnode.xpath('./turret'):
+            turret = SSWTurret(turretXML)
+            self.append(turret)
         
         for item in xmlnode.xpath('./equipment'):
             item_equip = SSWEquipment(item, fcs_artemisIV=self.fcs_artemis_iv, fcs_artemisV=self.fcs_artemis_v, fcs_apollo=self.fcs_apollo)
@@ -166,7 +174,7 @@ class SSWMech(dict):
         self.structure = SSWStructure( xmlnode.xpath('./structure')[0] )   
         self.cockpit = SSWCockpitSet( xmlnode.xpath('./cockpit')[0] )   
         self.equipment = SSWBaseLoadout( xmlnode.xpath('./baseloadout')[0], motive_type=self['motive_type'])
-                
+        
         self.equipment.append(self.gyro)
         self.equipment.append(self.engine)
         self.equipment.append(self.armour)        

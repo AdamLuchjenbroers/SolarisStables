@@ -171,6 +171,31 @@ class SSWDerivedItem(SSWMountedItem):
         
         super(SSWDerivedItem, self).__init__()        
         self.mountings[location] = SSWItemMounting(location, [slot])
+
+class SSWTurret(SSWMountedItem):
+    item_group = 'Q'
+
+    def __init__(self, xmlnode):
+        ssw_type = xmlnode.get('type')
+        if ssw_type == 'head':     
+            location = 'ct'
+            self['name'] = 'Head Turret'
+        elif ssw_type in ('left torso', 'right torso'):
+            location = '%ct' % ssw_type[0]
+            if xmlnode.xpath('/mech/motive_type/text()')[0] == 'Quad':
+               self['name'] = 'Quad Mech Turret'
+            else:
+               self['name'] = 'Shoulder Turret (%s)' % location.upper()
+        else:
+            # Unrecognised turret type. Would need to be investigated to implement properly.
+            location = '--'
+            self['name'] = '%s Turret' % ssw_name
+
+        self['ssw_name'] = 'Turret - %s' % self['name']
+        super(SSWTurret, self).__init__()
+        
+        index = int(xmlnode.get('index')) + 1
+        self.mountings[location] = SSWItemMounting(location, [index])
         
         
 class SSWActuator(SSWDerivedItem):

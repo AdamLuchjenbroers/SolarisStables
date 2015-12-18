@@ -121,9 +121,25 @@ class MechEquipment(models.Model):
         
     def is_directfire(self):
         return self.equipment.is_directfire()
+
+    def primary_location(self):
+        candidates = self.mountings.all()
+        if candidates.count() == 1:
+            return candidates.get()
+        elif candidates.count() > 1:
+            candidateSlots = 0
+            selected = None
+            for location in candidates:
+                if location.num_slots() > candidateSlots:
+                    candidateSlots = location.num_slots()
+                    selected = location
+            return selected
+        else:
+            # Some items (e.g. Armour and Structure) don't have a specific location
+            return None
         
     def tonnage(self, units=None):
-        return self.equipment.tonnage(self.mech, units=units)
+        return self.equipment.tonnage(self.mech, units=units, location=self.primary_location())
         
     def cost(self, units=None):
         return self.equipment.cost(self.mech, units=units)

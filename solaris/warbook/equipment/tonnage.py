@@ -13,12 +13,13 @@ tonnage_funcs = (
 	('targetting_computer', 'Targetting Computer'),
 	('supercharger', 'Supercharger'),
         ('retractable', 'Retractable Blade'),
+        ('turret','Mech Turret'),
 )
 
-def fixed(self, mech=None, units=None):
+def fixed(self, mech=None, units=None, location=None):
     return self.tonnage_factor
 
-def jumpjet(self, mech=None, units=None):
+def jumpjet(self, mech=None, units=None, location=None):
     if mech.tonnage <= 55:
         return Decimal(0.5) * self.tonnage_factor
     if mech.tonnage > 55 and mech.tonnage <= 85:
@@ -27,35 +28,42 @@ def jumpjet(self, mech=None, units=None):
         #90+ Tons
         return Decimal(2.0) * self.tonnage_factor 
     
-def masc(self, mech=None, units=None):
+def masc(self, mech=None, units=None, location=None):
     return ceil( mech.tonnage * 0.05 )
 
-def melee(self, mech=None, units=None):
+def melee(self, mech=None, units=None, location=None):
     return ceil( mech.tonnage / self.tonnage_factor )
 
-def armour(self, mech=None, units=None):
+def armour(self, mech=None, units=None, location=None):
     if units == None:
         units = mech.total_armour()
     
     return ceil(units / (self.tonnage_factor * 8)) / 2
 
-def engine(self, mech=None, units=None):
+def engine(self, mech=None, units=None, location=None):
     #FIXME: Should lookup tonnage in tables
     return None
    
-def structure(self, mech=None, units=None):
+def structure(self, mech=None, units=None, location=None):
     return ceil((mech.tonnage * self.tonnage_factor * 2) / 10)/2
     
-def gyro(self, mech=None, units=None):
+def gyro(self, mech=None, units=None, location=None):
     return Decimal(ceil(mech.engine_rating / 100.0)) * self.tonnage_factor 
    
-def targetting_computer(self, mech=None, units=None):
+def targetting_computer(self, mech=None, units=None, location=None):
     return ceil(mech.directfire_tonnage() / 4.0)
    
-def supercharger(self, mech=None, units=None):
+def supercharger(self, mech=None, units=None, location=None):
     #FIXME: Should be Engine Tonnage / 10
     return None
 
-def retractable(self, mech=None, units=None):
+def retractable(self, mech=None, units=None, location=None):
     return (ceil((mech.tonnage / self.tonnage_factor) * 2.0 ) / 2.0) + 0.5
 
+def turret(self, mech=None, units=None, location=None):
+    if location != None:
+        return Decimal(ceil(location.location.turret_tonnage() / 5.0) / 2.0)
+    else:
+        #FIXME: This could be a pain in the arse....
+        return None
+            

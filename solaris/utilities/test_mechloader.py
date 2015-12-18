@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.core.exceptions import ObjectDoesNotExist
 
 from solaris.warbook.mech.models import MechDesign
+from solaris.warbook.equipment.models import MechEquipment
 
 engineLayout = {
     'Fusion' : {
@@ -26,6 +27,10 @@ gyroLayout = {
 ,   'XL' : {
         'gyro'  : 'Gyro - Extra-Light Gyro'
     ,   'slots' : '4,5,6,7,8,9'
+    }
+,   'Compact' : {
+        'gyro'  : 'Gyro - Compact Gyro'
+    ,   'slots' : '4,5'
     }
 }
 
@@ -432,3 +437,82 @@ class Sirocco6CTests(MechTestMixin, TestCase):
 
     def test_rightRearLeg(self):
         self.assertEquipment('RRL','4','Actuator - Foot')
+
+class Quickdraw8XTests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Quickdraw'
+    ,   'mech_code'    : 'QKD-8X'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [5,8,0]
+    directfire_tonnage = 9
+    check_fields = {
+        'production_year'  : 3073
+    ,   'ssw_description'  : 'Quickdraw QKD-8X 60t, 5[6]/8[9]/0 TSM, Std FE, ES, Cmp Gyro; 12.0T/96% Stlth Armor; 12 SHS; 2 ML, 1 ECM, 1 PPC, 1 LftHst, 1 TAG'
+    ,   'credit_value'     : 9903360
+    ,   'bv_value'         : 1580
+    }
+    engine = {
+        'engine' : 'Engine - Fusion Engine'
+    ,   'slots'  : { 'CT' : '1,2,3,6,7,8' } 
+    }
+    gyro = gyroLayout['Compact']
+
+    cockpit = {
+        'cockpit' : { 'type' : 'Cockpit - Torso-Mounted Cockpit' 
+                    , 'slots' : [ ('CT', '9') ]
+                    }
+    ,   'sensors' : { 'type' : 'Cockpit - Sensors' 
+                    , 'slots' : [ ('HD', '1'), ('HD', '2'), ('CT', '10') ]
+                    }
+    ,   'support' : { 'type' : 'Cockpit - Life Support' 
+                    , 'slots' : [ ('RT', '1'), ('LT', '1') ]
+                    }
+    }
+
+    def test_turret(self):
+        self.assertEquipment('CT', '11', 'Turret - Head Turret')
+
+    def test_turretLocation(self):
+        # Gives a more meaningful error message, and I know there's only one turret.
+        turret = MechEquipment.objects.get(mech=self.mech, equipment__ssw_name__contains='Turret')
+        for mount in turret.mountings.all():
+            self.assertEqual(mount.location.location.location
+                            , 'CT', 'Expected to find Turret on Centre Torso, found on %s'
+                            % mount.location.location.location
+                            )
+
+    def test_turretSlot(self):
+        # Gives a more meaningful error message, and I know there's only one turret.
+        turret = MechEquipment.objects.get(mech=self.mech, equipment__ssw_name__contains='Turret')
+        for mount in turret.mountings.all():
+            self.assertEqual(mount.slots
+                            , '11', 'Expected to find Turret on slot 11, found in %s'
+                            % mount.slots
+                            )
+
+    def test_stealthArmour(self):
+        for (location, slots) in [ ('RA', '11,12'), ('RT','10,11'), ('RL', '5,6')
+                                 , ('LA', '11,12'), ('LT','9,10'), ('LL', '5,6') ]:
+            self.assertEquipment(location, slots, 'Armour - Stealth Armor')
+
+    def test_liftHoist(self):
+        self.assertEquipment('LT', '2,3,4', 'Equipment - Lift Hoist')
+
+    def test_liftHoistRear(self):
+        try:
+            hoist = self.mech.locations.get(location__location='LT').criticals.get(slots='2,3,4')
+            self.assertTrue(hoist.rear_firing, 'Hoist should be mounted as rear facing')
+        except ObjectDoesNotExist:
+            self.assertTrue(False, 'Unable to locate lift hoist')
+
+    def test_turretTonnage(self):
+        head = self.mech.locations.get(location__location='HD')
+        self.assertEqual( head.turret_tonnage(), 7.0
+                           , 'Expected combined tonnage of head equipment to be %.1f, got %.1f' 
+                           % ( 7.0, head.turret_tonnage() )
+                           )
+
+    def test_turretItemTonnage(self):
+        turret = MechEquipment.objects.get(mech=self.mech, equipment__ssw_name__contains='Turret')
+        self.assertNotEqual(turret.tonnage(), 1.0, 'Expected turret tonnage to be 1.0 Tons, got %.1f' % turret.tonnage())
