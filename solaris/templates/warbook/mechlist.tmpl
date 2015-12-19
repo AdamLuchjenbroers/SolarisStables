@@ -3,12 +3,22 @@
 {% block pagebody %}
 <div class="body">
   <h1>{{ chassis }}</h1>
+    <ul class="chit-list">
   {% for mech in object_list %}
-    <p class="mechlist">
-      <span class="name"><em><a href="{{mech.get_absolute_url}}">{{mech.mech_name}} {{mech.mech_code}}</a>:</em></span>
-      <span class="profile">{{mech.tonnage}} Tons, {{mech.move_walk}}/{{mech.move_run}}/{{mech.move_jump}}</span>
-      <span class="cost">BV: {{mech.bv_value}}, Cost:{{mech.credit_value}}</span>
-    </p>
-  {% endfor %}
+      <li class="chit tier{{mech.tier}}">
+         <span class="mech-tonnage">{{mech.tonnage}}</span>
+         <a class="chit-row" href="{{mech.get_absolute_url}}">
+           <div class="chit-section chit-section-left">
+             <div class="chit-toprow mech-name">{{mech.mech_name}} {{mech.mech_code}}</div>
+             <div class="chit-bottom mech-desc">{{ mech.description }}</div>
+           </div>
+           <div class="chit-section chit-section-right">
+             <div class="chit-toprow mech-bv">BV: {{mech.bv_value}}</div>
+             <div class="chit-bottom mech-cost">Cost: {{mech.credit_value}}</div>
+           </div>
+         </a>
+       </li>
+{% endfor %}
+    </ul>
 </div>
 {% endblock %}

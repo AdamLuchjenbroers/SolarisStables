@@ -43,6 +43,11 @@ class MechDesign(models.Model):
     omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True, related_name='loadouts')
     tier = models.IntegerField(default=0, choices=technology_tiers)
 
+    def description(self):
+        #Remove everything before the first , because Mech Name and Tonnage will be listed separately
+        loc = self.ssw_description.find(', ') + 2
+        return self.ssw_description[loc:]
+
     def total_armour(self):
         return (self.locations.aggregate( models.Sum('armour') ))['armour__sum']
     
