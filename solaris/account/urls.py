@@ -5,7 +5,7 @@ from . import views
 urlpatterns = patterns('',
 
     url(r'^confirm-email/$', views.SolarisConfirmEmailView.as_view(),
-        name='confirm_email'),
+        name='account_confirm_email'),
     # Duplicated here as a secondary option                   
     url(r'^login/?$', views.SolarisLoginView.as_view()),
 
