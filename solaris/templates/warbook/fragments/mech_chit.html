@@ -1,14 +1,30 @@
 
 <li class="chit tier{{mech.tier}}">
    <span class="mech-tonnage">{{mech.tonnage}}</span>
-   <a class="chit-row" href="{{mech.get_absolute_url}}">
+   <span class="mech-body"><a class="chit-row" href="{{mech.get_absolute_url}}">
      <div class="chit-section chit-section-left">
        <div class="chit-toprow mech-name">{{mech.mech_name}} {{mech.mech_code}}</div>
        <div class="chit-bottom mech-desc">{{ mech.description }}</div>
      </div>
      <div class="chit-section chit-section-right">
-       <div class="chit-toprow mech-bv">BV: {{mech.bv_value}}</div>
-       <div class="chit-bottom mech-cost">Cost: {{mech.credit_value}}</div>
+       <div class="chit-toprow mech-bv">{% if mech.is_omni %}Omni{% else %}BV: {{mech.bv_value}}{% endif %}</div>
+       <div class="chit-bottom mech-cost">{{mech.credit_value}} C-Bills</div>
      </div>
    </a>
+   {% if mech.is_omni %}
+   <ul class="omni-list">
+     <li class="omni-row omni-header">
+       <span class="omni-column config-name">Loadout</span>
+       <span class="omni-column config-description"></span>
+       <span class="omni-column config-bv">BV</span>
+     </li>
+   {% for config in mech.loadouts.all %}
+     <li class="omni-row omni-config">
+       <span class="omni-column config-name">{{config.omni_loadout}}</span>
+       <span class="omni-column config-description">{{config.description}}</span>
+       <span class="omni-column config-bv">{{config.bv_value}}</span>
+     </li>
+   {% endfor %}
+   </ul></span>
+   {% endif %}
  </li>

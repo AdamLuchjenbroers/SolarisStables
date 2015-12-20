@@ -748,13 +748,11 @@ ul.chit-list li.chit {
   width: 80%;
   position: relative;
   display: flex;
-  justify-content: space-between;
-  align-items: stretch;
   margin: auto;
   margin-bottom: 1rem;
 }
 
-li.chit span, li.chit a {
+li.chit span {
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;
   margin-left: 0.4rem;
@@ -762,7 +760,7 @@ li.chit span, li.chit a {
 }
 
 li.chit span.mech-tonnage {
-  border-right: 1px solid #262233;
+  border-right: 2px solid #262233;
   display: inline-block;
   font-size: 200%;
   width: 4rem;
@@ -774,23 +772,31 @@ li.chit span.mech-tonnage {
   text-align: center;
 }
 
-li.chit a.chit-row {
-  display: inline-block;
-  font-style: none;
+li.chit span.mech-body {
+  display: inline-flex;
+  flex-direction: column;
   flex-grow: 1;
-  color: #000000;
-
-  display: flex;
   justify-content: space-between;
   align-items: stretch;
 }
 
-li.chit a.chit-row div.chit-section-left {
+.chit-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+a.chit-row, a.omni-row {
+  font-style: none;
+  text-decoration: none;
+  color: #000000;
+}
+
+div.chit-section-left {
   display: inline-block;
   margin-right: 2rem;
 }
 
-li.chit a.chit-row div.chit-section-right {
+div.chit-section-right {
   display: inline-block;
   text-align: right;
   margin-left: 2rem;
@@ -808,11 +814,51 @@ div.chit-bottom {
   vertical-align: bottom;
 }
 
+ul.omni-list {
+  list-style: none;
+  display: table;
+  padding: 0.4rem;
+  width: calc(100% - 2rem);
+}
+
+ul.omni-list li.omni-row {
+  display: table-row;
+}
+
+li.omni-row span.omni-column {
+  display: table-cell;
+}
+
+span.config-name {
+  width: 5rem;
+  font-weight: bold;
+  border-right: 1px solid #262233;
+}
+
+span.config-description {
+  width: auto;
+  font-size: 80%;
+  padding-left: 0.2rem;
+}
+
+span.config-bv {
+  width: 6rem;
+  text-align: right;
+}
+
+li.omni-header span.config-bv {
+  font-weight: bold;
+}
+
+li.omni-config span.config-bv {
+  font-size: 80%;
+}
+
 ul.chit-list li.tier0 {
   background-color: #FFFFFF;
 }
 
-ul.chit-list li.tier3 a.chit-row:hover {
+ul.chit-list li.tier0 a.chit-row:hover {
   background-color: #FFFFFF;
   box-shadow: inset 0px 0px 5px #888888;
 }
