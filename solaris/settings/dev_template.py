@@ -54,7 +54,7 @@ TEMPLATE_DIRS = (
 
 EMAIL_HOST = 'mail.example.com'
 EMAIL_PORT = 465
-EMAIL_USE_SSL = 'yes'
+EMAIL_USE_TLS = 'yes'
 EMAIL_HOST_USER = 'account@example.com'
 EMAIL_HOST_PASSWORD = 'password'
 
