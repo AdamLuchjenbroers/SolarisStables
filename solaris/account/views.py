@@ -14,6 +14,9 @@ class SolarisLoginView(SolarisViewMixin, authviews.LoginView):
 class SolarisRegistrationView(SolarisViewMixin, authviews.SignupView):   
     pass
 
+class SolarisRegistrationEmailSentView(SolarisViewMixin, authviews.EmailVerificationSentView):
+    pass
+
 class SolarisConfirmEmailView(SolarisViewMixin, authviews.ConfirmEmailView):
     pass
 
@@ -22,6 +25,7 @@ class SolarisPasswordResetView(SolarisViewMixin, authviews.PasswordResetView):
 
 class SolarisPasswordResetFromKeyView(SolarisViewMixin, authviews.PasswordResetFromKeyView):
     pass
+
 
 class SolarisSendInvite(SolarisViewMixin, SendInvite):
     template_name='account/send_invite.html'
