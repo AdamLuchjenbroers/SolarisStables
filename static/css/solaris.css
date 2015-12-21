@@ -810,24 +810,27 @@ div.chit-bottom {
   vertical-align: bottom;
 }
 
-ul.omni-list {
+div.omni-list {
   list-style: none;
   display: table;
-  padding: 0.4rem;
-  width: calc(100% - 2rem);
+  padding: 0rem;
+  width: 100%;
 }
 
-ul.omni-list li.omni-row {
+div.omni-list .omni-row {
   display: table-row;
 }
 
-li.omni-row span.omni-column {
+.omni-row span.omni-column {
   display: table-cell;
 }
 
 span.config-name {
   width: 5rem;
   font-weight: bold;
+}
+
+a.omni-config span.config-name {
   border-right: 1px solid #262233;
 }
 
@@ -842,46 +845,50 @@ span.config-bv {
   text-align: right;
 }
 
-li.omni-header span.config-bv {
+.omni-header span.config-bv {
   font-weight: bold;
 }
 
-li.omni-config span.config-bv {
+.omni-config span.config-bv {
   font-size: 80%;
 }
 
-ul.chit-list li.tier0 {
+li.chit.tier0  {
   background-color: #FFFFFF;
 }
 
-ul.chit-list li.tier0 a.chit-row:hover {
+li.chit.tier0 a.chit-row:hover, 
+li.chit.tier0 a.omni-row:hover {
   background-color: #FFFFFF;
   box-shadow: inset 0px 0px 5px #888888;
 }
 
-ul.chit-list li.tier1 {
+li.chit.tier1 {
   background-color: #88FF88;
 }
 
-ul.chit-list li.tier1 a.chit-row:hover {
+li.chit.tier1 a.chit-row:hover, 
+li.chit.tier1 a.omni-row:hover  {
   background-color: #44FF44;
   box-shadow: inset 0px 0px 5px #88FF88;
 }
 
-ul.chit-list li.tier2 {
+li.chit.tier2 {
   background-color: #FFFF88;
 }
 
-ul.chit-list li.tier2 a.chit-row:hover {
+li.chit.tier2 a.chit-row:hover, 
+li.chit.tier2 a.omni-row:hover  {
   background-color: #FFFF44;
   box-shadow: inset 0px 0px 5px #FFFF88;
 }
 
-ul.chit-list li.tier3 { 
+li.chit.tier3 { 
   background-color: #FF8888;
 }
 
-ul.chit-list li.tier3 a.chit-row:hover {
+li.chit.tier3 a.chit-row:hover, 
+li.chit.tier3 a.omni-row:hover {
   background-color: #FF4444;
   box-shadow: inset 0px 0px 5px #FF8888;
 }

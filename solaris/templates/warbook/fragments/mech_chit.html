@@ -12,19 +12,19 @@
      </div>
    </a>
    {% if mech.is_omni %}
-   <ul class="omni-list">
-     <li class="omni-row omni-header">
+   <div class="omni-list">
+     <div class="omni-row omni-header">
        <span class="omni-column config-name">Loadout</span>
        <span class="omni-column config-description"></span>
        <span class="omni-column config-bv">BV</span>
-     </li>
+     </div>
    {% for config in mech.loadouts.all %}
-     <li class="omni-row omni-config">
+     <a class="omni-row omni-config" href="{{config.get_absolute_url}}">
        <span class="omni-column config-name">{{config.omni_loadout}}</span>
        <span class="omni-column config-description">{{config.description}}</span>
        <span class="omni-column config-bv">{{config.bv_value}}</span>
-     </li>
+     </a>
    {% endfor %}
-   </ul></span>
+   </div></span>
    {% endif %}
  </li>
