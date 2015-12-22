@@ -1,6 +1,6 @@
-from django.views.generic import FormView
+from django.views.generic import FormView, ListView
 
-from solaris.stablemanager.views import StableViewMixin
+from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import LedgerItem
 
 from . import forms, models
@@ -29,3 +29,11 @@ class InitialMechPurchaseView(StableViewMixin, FormView):
         context['initial_balance'] = self.stable.get_stableweek().opening_balance
         
         return context
+
+class StableMechsView(StableWeekMixin, ListView):
+    submenu_selected = 'Mechs'
+    template_name = 'stablemanager/stable_mechs.tmpl'
+    model = models.StableMechWeek    
+
+    def get_queryset(self):
+        return self.stableweek.mechs.all()

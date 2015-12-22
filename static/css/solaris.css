@@ -758,10 +758,10 @@ ul.chit-list li.mech-chit {
 }
 
 li.chit span {
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
-  margin-left: 0.4rem;
-  margin-right: 0.4rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
 }
 
 li.chit span.mech-tonnage {
@@ -796,15 +796,26 @@ a.chit-row, a.omni-row {
   color: #000000;
 }
 
-div.chit-section-left {
+div.chit-section {
   display: inline-block;
+}
+
+div.chit-section-left {
   margin-right: 2rem;
+  flex-grow: 1;
 }
 
 div.chit-section-right {
-  display: inline-block;
   text-align: right;
   margin-left: 2rem;
+}
+
+div.chit-section-value {
+	width: 7rem;
+}
+
+div.chit-section-actions {
+	padding: 0.4em 0;
 }
 
 div.chit-toprow {
@@ -957,6 +968,21 @@ dt.ability {
 
 div.modal {
     display:none;
+}
+
+.word-button {
+	display: inline-block;
+
+	border: 1px solid;
+    border-radius: 3px;
+	height: 1.2em;
+	width: 6em;
+	text-align: center;
+    font-weight: bold;
+    
+    text-decoration: none;
+    color: #000000;
+    background-color: #DDDDDD;
 }
 
 input.icon-button {

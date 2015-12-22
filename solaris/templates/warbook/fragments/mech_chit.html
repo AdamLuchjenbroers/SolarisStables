@@ -1,19 +1,20 @@
 
 <li class="chit tier{{mech.tier}} mech-chit">
    <span class="mech-tonnage">{{mech.tonnage}}</span>
-   <span class="mech-body"><a class="chit-row" href="{{mech.get_absolute_url}}">
+   <span class="mech-body">
+   {% block row_container_start %}<a class="chit-row" href="{{mech.get_absolute_url}}"> {% endblock %}
      <div class="chit-section chit-section-left">
        <div class="chit-toprow mech-name">{{mech.mech_name}} {{mech.mech_code}}</div>
        <div class="chit-bottom mech-desc">{{ mech.description }}</div>
      </div>
-     {%block mech_actions%}{%endblock%}
-     <div class="chit-section chit-section-right">
+     {% block mech_actions %}<div class="chit-section chit-section-actions"> </div> {% endblock %}
+     <div class="chit-section chit-section-right chit-section-value">
        <div class="chit-toprow mech-bv">{% if mech.is_omni %}Omni{% else %}BV: {{mech.bv_value}}{% endif %}</div>
        <div class="chit-bottom mech-cost">{{mech.credit_value}} C-Bills</div>
      </div>
-   </a>
-   {% block omni_config_list %}
+   {% block row_container_end %}</a>{% endblock %}
    {% if mech.is_omni %}
+   {% block omni_config_list %}
    <div class="omni-list">
      <div class="omni-row omni-header">
        <span class="omni-column config-name">Loadout</span>
@@ -28,6 +29,6 @@
      </a>
    {% endfor %}
    </div></span>
-   {% endif %}
    {% endblock %}
+   {% endif %}
  </li>

@@ -25,9 +25,10 @@ class StableViewMixin(SolarisViewMixin):
         page_context['submenu'] = [
           {'title' : 'Overview', 'url' : '/stable'},
           {'title' : 'Finances', 'url' : '/stable/ledger'},
-          {'title' : 'Actions', 'url' : '/stable/actions'},
 #          {'title' : 'Training', 'url' : '/stable/training'},
-          {'title' : 'Pilots', 'url' : '/stable/pilots'},          
+          {'title' : 'Mechs', 'url' : '/stable/mechs'},   
+          {'title' : 'Pilots', 'url' : '/stable/pilots'},    
+          {'title' : 'Actions', 'url' : '/stable/actions'},      
         ]
         page_context['submenu_selected'] = self.__class__.submenu_selected
         

@@ -8,7 +8,7 @@ from solaris.stablemanager.ledger.views import StableLedgerView, StableLedgerDel
 from solaris.stablemanager.training.views import StableTrainingView
 from solaris.stablemanager.actions.views import StableActionView
 from solaris.stablemanager.pilots.views import StablePilotsView, StableNewPilotsView, InitialPilotNamingView
-from solaris.stablemanager.mechs.views import InitialMechPurchaseView
+from solaris.stablemanager.mechs.views import InitialMechPurchaseView, StableMechsView
 from solaris.stablemanager.repairs.views import CreateRepairBillView, RepairBillView
 
 urlpatterns = patterns('',
@@ -26,6 +26,8 @@ urlpatterns = patterns('',
 
     url(r'^actions/?$', StableActionView.as_view()),
     url(r'^actions/(?P<week>[0-9]+)/?$', StableActionView.as_view()),
+
+    url(r'^mechs/?$', StableMechsView.as_view()),
 
     url(r'^pilots/?$', StablePilotsView.as_view()),
     url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),

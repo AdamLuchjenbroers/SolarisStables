@@ -1,0 +1,15 @@
+{% extends 'stablemanager/stable_base.html' %}
+ 
+{% block pagebody %}
+<div class="body">
+  <h1>{{stable.stable_name}} Mechs, Week {{week.week_number}}</h1>
+  
+  {% if object_list %}
+    <ul class="stable-mech-list chit-list">
+    {% for mech in object_list %}
+       {% include "stablemanager/fragments/mech_detail_chit.html" with mech=mech.current_design %}
+    {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+{% endblock %}
