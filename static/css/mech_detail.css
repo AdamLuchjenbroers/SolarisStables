@@ -277,6 +277,7 @@ span.mech-criticals-item  {
 
 .mech-repair  .item-crittable:hover {
 	background-color: #FF8888;
+	border-radius: 3px;
 }
 
 .item-critted {
