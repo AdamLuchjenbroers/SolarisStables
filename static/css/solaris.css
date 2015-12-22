@@ -740,12 +740,21 @@ ul.chit-list li.chit {
   border: 2px solid #262233;
   border-radius: 5px;
   box-shadow: 2px 2px 4px #000000;
+}
 
+ul.chit-list li.chit.stable-tech {
+  display: inline-block;
+  width: 16rem;
+  margin: 0.5rem;
+  padding: 0.1rem;
+}
+
+ul.chit-list li.mech-chit {
   width: 80%;
   position: relative;
   display: flex;
   margin: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 1rem;	
 }
 
 li.chit span {
