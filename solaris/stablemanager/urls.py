@@ -33,7 +33,7 @@ urlpatterns = patterns('',
     url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),
 
     url(r'^mechs/repair/(?P<bill>[0-9]+)/?$', RepairBillView.as_view(), name='repair_bill'),
-    url(r'^mechs/repair/new/?$', CreateRepairBillView.as_view(), name='repair_bill_new'),
+    url(r'^mechs/repair/new/(?P<stablemech>[0-9]+)/?$', CreateRepairBillView.as_view(), name='repair_bill_new'),
 
     url(r'^query/list-produced/?$', ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto'),    
     url(r'^query/list-variants/?$', ListProductionVariants.as_view(), name = 'stable_query_mechvariant') 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.urlresolvers import reverse
 
 from decimal import Decimal
 
@@ -102,6 +103,10 @@ class RepairBill(models.Model):
         labourLine.cost = labourCost
 
         labourLine.save()
+        
+            
+    def get_absolute_url(self):
+        return reverse('repair_bill', kwargs={'bill': self.id})
 
 class RepairBillLineManager(models.Manager):
     def line_for_item(self, item, bill):

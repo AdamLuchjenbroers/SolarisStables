@@ -1,5 +1,5 @@
-
 from django.db import models
+from django.core.urlresolvers import reverse
 
 from solaris.stablemanager.models import Stable, StableWeek
 from solaris.stablemanager.ledger.models import LedgerItem
@@ -65,3 +65,17 @@ class StableMechWeek(models.Model):
     class Meta:
         db_table = 'stablemanager_mechweek'
         app_label = 'stablemanager'
+
+    def active_repair_bill(self):
+        from solaris.stablemanager.repairs.models import RepairBill
+        try:
+            return RepairBill.objects.get(mech=self.stablemech, stableweek=self.stableweek, complete=False)
+        except RepairBill.DoesNotExist:
+            return None
+
+    def repair_bill_url(self):
+        bill = self.active_repair_bill()
+        if bill != None:
+            return bill.get_absolute_url
+        else:
+            return reverse('repair_bill_new', kwargs={'stablemech' : self.id})
