@@ -8,7 +8,7 @@
         <span class="mech-criticals_slotnum">{% cycle 1 2 3 4 5 6 %}</span>
       {% if item %}
         {% if item.is_crittable %}
-          <span class="mech-criticals-item item-crittable" slot="{{forloop.counter}}">
+          <span class="mech-criticals-item item-crittable{% if item.is_ammo %} item-ammo{% endif %}" slot="{{forloop.counter}}">
         {% else %}
           <span class="mech-criticals-item item-noncrittable">
         {% endif %}

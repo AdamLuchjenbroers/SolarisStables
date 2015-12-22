@@ -72,6 +72,8 @@ class Equipment(models.Model):
     def is_directfire(self):
         return (self.has_weapon_property('DB') or self.has_weapon_property('DE'))
     
+    def is_ammo(self):
+        return (self.equipment_class == 'A')
     
     def __init__(self, *args, **kwargs):
         super(Equipment, self).__init__(*args, **kwargs)
@@ -173,6 +175,8 @@ class Mounting(models.Model):
     def is_crittable(self):
         return self.equipment.equipment.crittable
     
+    def is_ammo(self):
+        return (self.equipment.equipment.equipment_class == 'A')
         
     class Meta:
         verbose_name_plural = 'Mounting'
