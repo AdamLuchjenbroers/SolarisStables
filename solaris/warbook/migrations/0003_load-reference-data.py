@@ -86,4 +86,5 @@ class Migration(migrations.Migration):
         ),
         migrations.RunPython(load_equipment, reverse_code=clear_equipment),
         migrations.RunPython(load_techtree, reverse_code=clear_techtree),
+        migrations.RunPython(load_tech_x_equipment, reverse_code=noop),
     ]
