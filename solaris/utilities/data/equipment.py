@@ -2,6 +2,8 @@ from csv import DictReader, DictWriter
 from django.forms import ModelForm
 from django.forms.models import model_to_dict
 
+from .csvtools import print_form_errors, handle_booleans, instance_for_row
+
 equipment_fields = ['id', 'name', 'ssw_name', 'equipment_class'
                    , 'tonnage_func', 'tonnage_factor', 'critical_func', 'critical_factor'
                    , 'cost_func', 'cost_factor', 'weapon_properties', 'basic_ammo'
@@ -52,15 +54,12 @@ def load_equipment_csv(csvfile, reassign_id=False, csvfields=equipment_fields, E
             
         if 'id' in row and reassign_id:
             del row['id']
-
-        try:
-            eq_instance = Equipment.objects.get(ssw_name=row['ssw_name'])
-        except Equipment.DoesNotExist:
-            eq_instance = None
-            
-        for boolean_field in ('splittable', 'crittable', 'evaluate_last', 'basic_ammo'
-                             , 'has_ammo', 'fcs_artemis_iv', 'fcs_artemis_v', 'fcs_apollo'):
-            row[boolean_field] = (row[boolean_field].upper() =='TRUE')
+        
+        boolFields = ('splittable', 'crittable', 'evaluate_last', 'basic_ammo'
+                 , 'has_ammo', 'fcs_artemis_iv', 'fcs_artemis_v', 'fcs_apollo')
+        handle_booleans(row, boolFields)
+        
+        eq_instance = instance_for_row(row, Equipment, ['ssw_name'])
         
         eq = EquipmentForm(row, instance=eq_instance)
         if eq.is_valid():
@@ -69,6 +68,7 @@ def load_equipment_csv(csvfile, reassign_id=False, csvfields=equipment_fields, E
         else: 
             loadcounts['failed'] += 1
             print 'Failed to load: %s' % row['ssw_name']
+            print_form_errors(eq)
 
     print 'Equipment load complete: %i new, %i updated, %i failed to load' % (loadcounts['insert'], loadcounts['update'], loadcounts['failed'])           
     fh.close()

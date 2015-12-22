@@ -1,45 +1,14 @@
 from csv import DictReader 
 from django.forms import ModelForm
 
+from .csvtools import csv_import_to_model
 from solaris.warbook.techtree.models import Technology
 from solaris.warbook.equipment.models import Equipment
 
 technology_fields = ['name', 'urlname', 'description', 'base_difficulty', 'tier', 'show']
 
 def load_techtree_csv(csvfile, csvfields=technology_fields, Technology=Technology):
-    csv_fh = open(csvfile,'r')
-    reader = DictReader(csv_fh)
-
-    class TechnologyForm(ModelForm):
-        class Meta:
-            model = Technology
-            fields = csvfields
-    
-    loadcounts = { 'insert' : 0, 'update' : 0, 'failed': 0 }
-    for row in reader:
-        try:
-            tech_instance = Technology.objects.get(name=row['name'])
-        except Technology.DoesNotExist:
-            tech_instance = None
-            
-        for boolean_field in ('show',):
-            row[boolean_field] = (row[boolean_field].upper() =='TRUE')
-            
-        tech = TechnologyForm(row, instance=tech_instance)
-        if tech.is_valid():
-            loadcounts['insert' if tech_instance == None else 'update'] += 1
-            tech.save()
-        else: 
-            loadcounts['failed'] += 1
-            print 'Failed to load: %s' % row['name']
-            for error in tech.non_field_errors():
-                print "\t%s" % error
-            for field, errorList in tech.errors.items():
-                for error in errorList:
-                    print "\t%s:\t%s" % (field, error)
-
-    print 'Technology load complete: %i new, %i updated, %i failed to load' % (loadcounts['insert'], loadcounts['update'], loadcounts['failed'])           
-    csv_fh.close()
+    csv_import_to_model(csvfile, Technology, csvfields, keyFields=('name',), booleanFields=('show',) )
 
 def load_techtree_equipment_csv(csvfile, Equipment=Equipment, Technology=Technology):
     csv_fh = open(csvfile,'r')
@@ -50,7 +19,7 @@ def load_techtree_equipment_csv(csvfile, Equipment=Equipment, Technology=Technol
     for row in reader:
         try:
             equip = Equipment.objects.get(ssw_name=row['ssw_name'])
-            tech = Technology.objects.get(name=row['tech-name'])
+            tech = Technology.objects.get(name=row['tech_name'])
 
             tech.access_to.add(equip)
             count += 1
