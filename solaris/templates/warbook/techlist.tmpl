@@ -7,10 +7,8 @@
  
 {% block pagebody %}
 <div class="body">
-  {% for category in techtree %}
     <div class="techlist">
-    <h2> {{category.name}} </h2>
-    {% for tier in category.tiers %}
+    {% for tier in techtree %}
       <div class="tech_tier{{tier.number}}">
       {% for tech in tier.techs %}
         <div class="tech">
@@ -20,7 +18,6 @@
       {% endfor %}
       </div>
     {% endfor %}
-    </div>  
-  {% endfor %}
+    </div>
 </div>
 {% endblock %}

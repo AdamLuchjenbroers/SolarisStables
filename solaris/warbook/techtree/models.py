@@ -11,7 +11,7 @@ class Technology(models.Model):
     urlname = models.CharField(max_length=20)
     description = MarkupField()
     base_difficulty = models.IntegerField()
-    tier = models.IntegerField(choices=technology_tiers)
+    tier = models.IntegerField(choices=technology_tiers, default=3)
     show = models.BooleanField(default=True)
     access_to = models.ManyToManyField(Equipment, db_table='warbook_tech_x_equipment', related_name='supplied_by')
  
