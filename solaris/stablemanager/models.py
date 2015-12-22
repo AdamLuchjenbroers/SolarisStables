@@ -115,8 +115,7 @@ class StableWeek(models.Model):
             eq_set |= contract.access_to.all()
 
         return eq_set         
-    
-    
+     
     def refresh_supply_mechs(self):
         equipment_list = self.available_equipment()
         
@@ -126,16 +125,12 @@ class StableWeek(models.Model):
             mechList = self.stable.house.produced_designs.all()
         else:
             mechList = self.stable.house.produced_designs.filter(is_omni=False)
-        
-        
+              
         self.supply_mechs.clear()
         
         for mech in mechList:
             if mech.can_be_produced_with(equipment_list):
-                self.supply_mechs.add(mech)
-                
-
-                
+                self.supply_mechs.add(mech)      
 
     class Meta:
         verbose_name_plural = 'Stable Weeks'
