@@ -50,6 +50,10 @@ div.mech-armour {
   margin-right: auto; 
 }
 
+div.mech-repair.mech-armour {
+  width: 500px;
+}
+
 div.mech-armour-location {
   position: absolute;
   width: 40px;
@@ -111,17 +115,9 @@ div#armour_rt {
   top: 120px;
 }
 
-.mech-repair div#armour_rt {
-	left: 180px;
-}
-
 div#armour_lt {
   left: 50px;
   top: 120px;
-}
-
-.mech-repair div#armour_lt {
-  left: 20px;
 }
 
 div#armour_ra {
@@ -129,17 +125,9 @@ div#armour_ra {
   top:  140px;
 }
 
-.mech-repair div#armour_ra {
-  left: 260px;
-}
-
 div#armour_la {
   left:  0px;
   top: 140px;
-}
-
-.mech-repair div#armour_la {
-  left: -60px;
 }
 
 div#armour_rl {
@@ -190,6 +178,23 @@ div#armour_rrt {
 div#armour_rlt {
   left: 280px;
   top: 120px;
+}
+
+
+.mech-repair div#armour_rt {
+	left: 180px;
+}
+
+.mech-repair div#armour_lt {
+  left: 20px;
+}
+
+.mech-repair div#armour_ra {
+  left: 260px;
+}
+
+.mech-repair div#armour_la {
+  left: -60px;
 }
 
 .mech-repair div#armour_rlt {
