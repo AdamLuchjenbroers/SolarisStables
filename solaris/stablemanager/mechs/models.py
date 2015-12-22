@@ -69,13 +69,13 @@ class StableMechWeek(models.Model):
     def active_repair_bill(self):
         from solaris.stablemanager.repairs.models import RepairBill
         try:
-            return self.repairs.get(mech=self.stablemech, stableweek=self.stableweek, complete=False)
+            return self.repairs.get(mech=self.current_design, stableweek=self, complete=False)
         except RepairBill.DoesNotExist:
             return None
 
     def repair_bill_url(self):
         bill = self.active_repair_bill()
         if bill != None:
-            return bill.get_absolute_url
+            return bill.get_absolute_url()
         else:
             return reverse('repair_bill_new', kwargs={'stablemech' : self.id})
