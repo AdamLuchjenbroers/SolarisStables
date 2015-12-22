@@ -4,7 +4,20 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 from django.conf import settings
 
-from solaris.utilities.data.equipment import loadEquipmentCSV
+from markitup.fields import MarkupField
+
+from solaris.utilities.data.equipment import load_equipment_csv
+from solaris.utilities.data.techtree import load_techtree_csv, load_techtree_equipment_csv
+ 
+def clear_model(apps, appName, model):
+    model = apps.get_model(appName, model)
+    model.objects.all().delete()
+    
+def clear_equipment(apps, schema_editor):
+    clear_model(apps,'warbook','equipment')
+    
+def clear_techtree(apps, schema_editor):
+    clear_model(apps,'warbook','technology')
  
 def load_equipment(apps, schema_editor):
     Equipment = apps.get_model('warbook','Equipment')
@@ -15,12 +28,26 @@ def load_equipment(apps, schema_editor):
              , 'evaluate_last', 'record_status', 'fcs_artemis_iv', 'fcs_artemis_v'
              , 'fcs_apollo' ]
 
-    loadEquipmentCSV('%s/data/excluded/warbook.equipment.csv' % settings.BASE_DIR, csvfields=fields, Equipment=Equipment );
+    load_equipment_csv('%s/data/excluded/warbook.equipment.csv' % settings.BASE_DIR, csvfields=fields, Equipment=Equipment );
+
+def load_techtree(apps, schema_editor):
+    # Clean up any old entries
+    clear_techtree(apps, schema_editor)
     
-def clear_equipment(apps, schema_editor):
-    Equipment = apps.get_model('warbook','Equipment')
-    Equipment.objects.all().delete()
+    Technology = apps.get_model('warbook','Technology')    
+    fields = ['name', 'urlname', 'description', 'base_difficulty', 'tier', 'show']
+    load_techtree_csv('%s/data/warbook.technology.csv' % settings.BASE_DIR, csvfields=fields, Technology=Technology)
     
+def load_tech_x_equipment(apps, schema_editor):
+    load_techtree_equipment_csv( '%s/data/warbook.techequipment.csv' % settings.BASE_DIR
+                               , Technology=apps.get_model('warbook','technology')                            
+                               , Equipment=apps.get_model('warbook','equipment') 
+                               )
+    
+def noop(apps, schema_editor):
+    # Why bother to delete from tables that are being dropped in the
+    # same operation.
+    pass
 
 class Migration(migrations.Migration):
 
@@ -41,5 +68,22 @@ class Migration(migrations.Migration):
             field=models.CharField(max_length=40, null=True, choices=[(b'fixed', b'Fixed Tonnage'), (b'jumpjet', b'Jumpjet'), (b'masc', b'MASC'), (b'melee', b'Melee Weapon'), (b'armour', b'Armour'), (b'engine', b'Engine'), (b'gyro', b'Gyro'), (b'structure', b'Internal Structure'), (b'targetting_computer', b'Targetting Computer'), (b'supercharger', b'Supercharger'), (b'retractable', b'Retractable Blade'), (b'turret', b'Mech Turret')]),
             preserve_default=True,
         ),
+        migrations.RemoveField(
+            model_name='technology',
+            name='category',
+        ),
+        migrations.AddField(
+            model_name='technology',
+            name='_description_rendered',
+            field=models.TextField(editable=False, blank=True),
+            preserve_default=True,
+        ),
+        migrations.AlterField(
+            model_name='technology',
+            name='description',
+            field=MarkupField(no_rendered_field=True),
+            preserve_default=True,
+        ),
         migrations.RunPython(load_equipment, reverse_code=clear_equipment),
+        migrations.RunPython(load_techtree, reverse_code=clear_techtree),
     ]

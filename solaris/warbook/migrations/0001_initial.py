@@ -33,12 +33,6 @@ def load_pilottraitgroup(apps, schema_editor):
     
 def load_pilottrait(apps, schema_editor):
     call_command('loaddata', 'data/warbook.pilottrait.json');
-    
-def load_technology(apps, schema_editor):
-    call_command('loaddata', 'data/warbook.technology.json');
-    
-def load_technologyrollmodifier(apps, schema_editor):
-    call_command('loaddata', 'data/warbook.technologyrollmodifier.json');
         
 def load_trainingcost(apps, schema_editor):
     call_command('loaddata', 'data/warbook.trainingcost.json');
@@ -324,7 +318,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(load_pilotranks, reverse_code=noop),
         migrations.RunPython(load_pilottraitgroup, reverse_code=noop),
         migrations.RunPython(load_pilottrait, reverse_code=noop),
-        migrations.RunPython(load_technology, reverse_code=noop),
-        migrations.RunPython(load_technologyrollmodifier, reverse_code=noop),
         migrations.RunPython(load_trainingcost, reverse_code=noop),
     ]

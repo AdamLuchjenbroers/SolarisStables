@@ -1,23 +1,15 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 
+from markitup.fields import MarkupField
+
 from solaris.warbook.refdata import technology_tiers
 from solaris.warbook.equipment.models import Equipment
 
 class Technology(models.Model):
-    
-    categories = (            
-                  ('weap' , 'Weaponry'),
-                  ('equip', 'Equipment'),
-                  ('cons' , 'Construction'),
-                  ('ammo' , 'Ammunition'),
-                  ('phys' , 'Physical Weapons'),
-    )
-  
     name = models.CharField(max_length=40)
-    category = models.CharField(max_length=8, choices=categories)
     urlname = models.CharField(max_length=20)
-    description = models.TextField()
+    description = MarkupField()
     base_difficulty = models.IntegerField()
     tier = models.IntegerField(choices=technology_tiers)
     show = models.BooleanField(default=True)
