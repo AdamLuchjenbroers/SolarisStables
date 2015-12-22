@@ -11,7 +11,7 @@ equipment_fields = ['id', 'name', 'ssw_name', 'equipment_class'
 
 from solaris.warbook.equipment.models import Equipment
 
-def getLauncher(launcher, Equipment=Equipment):
+def get_launcher(launcher, Equipment=Equipment):
     try:
         ammo_for = Equipment.objects.get(id=int(launcher))
         return ammo_for
@@ -30,7 +30,7 @@ def getLauncher(launcher, Equipment=Equipment):
     except Equipment.DoesNotExist:
         pass
 
-def loadEquipmentCSV(csvfile, reassign_id=False, csvfields=equipment_fields, Equipment=Equipment):
+def load_equipment_csv(csvfile, reassign_id=False, csvfields=equipment_fields, Equipment=Equipment):
     fh = open(csvfile,'r')
 
     class EquipmentForm(ModelForm):
@@ -46,7 +46,7 @@ def loadEquipmentCSV(csvfile, reassign_id=False, csvfields=equipment_fields, Equ
             row['name'] = row['ssw_name'].split(' - ')[1]
             
         if 'ammo_for' in row:
-            launcher = getLauncher(row['ammo_for'], Equipment=Equipment)
+            launcher = get_launcher(row['ammo_for'], Equipment=Equipment)
             if launcher:
                 row['ammo_for'] = launcher.id
             
@@ -68,11 +68,12 @@ def loadEquipmentCSV(csvfile, reassign_id=False, csvfields=equipment_fields, Equ
             eq.save()
         else: 
             loadcounts['failed'] += 1
+            print 'Failed to load: %s' % row['ssw_name']
 
     print 'Equipment load complete: %i new, %i updated, %i failed to load' % (loadcounts['insert'], loadcounts['update'], loadcounts['failed'])           
     fh.close()
 
-def dumpEquipmentCSV(csvfile, csvfields=equipment_fields, **kwargs):
+def dump_equipment_csv(csvfile, csvfields=equipment_fields, **kwargs):
     fh = open(csvfile,'w')
 
     to_fill = Equipment.objects.filter(**kwargs)
