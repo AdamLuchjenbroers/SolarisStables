@@ -6,11 +6,13 @@
        <div class="chit-toprow mech-name">{{mech.mech_name}} {{mech.mech_code}}</div>
        <div class="chit-bottom mech-desc">{{ mech.description }}</div>
      </div>
+     {%block mech_actions%}{%endblock%}
      <div class="chit-section chit-section-right">
        <div class="chit-toprow mech-bv">{% if mech.is_omni %}Omni{% else %}BV: {{mech.bv_value}}{% endif %}</div>
        <div class="chit-bottom mech-cost">{{mech.credit_value}} C-Bills</div>
      </div>
    </a>
+   {% block omni_config_list %}
    {% if mech.is_omni %}
    <div class="omni-list">
      <div class="omni-row omni-header">
@@ -27,4 +29,5 @@
    {% endfor %}
    </div></span>
    {% endif %}
+   {% endblock %}
  </li>
