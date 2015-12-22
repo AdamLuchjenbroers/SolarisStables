@@ -2,15 +2,15 @@
 {% load mech_items %}
 
   <div class="mech-armour mech-motive-{{mech.motive_type | lower}} {{detail_class}}">
-    {% for location in mech.locations.all %}
-      <div class="mech-armour-location" id="armour_{{location.location_code}}">
+    {% for location in mech.locations.all %} {% block mech-structure %}
+      <div class="mech-armour-location" id="armour_{{location.location_code | lower}}">
         <div class="mech-section-header">{{location.location_code}}</div>
         <div class="mech-armour-armour">A<span>{{location.armour}}</span></div>
         {% if location.structure %}
           <div class="mech-armour-structure">S<span>{{location.structure}}</span></div>
         {% endif %} 
       </div>
-    {% endfor %}
+    {% endblock %}{% endfor %}
   </div>
   
   <div class="mech-criticals mech-criticals-{{mech.motive_type | lower}} {{detail_class}}">

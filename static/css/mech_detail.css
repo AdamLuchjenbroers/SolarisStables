@@ -65,6 +65,17 @@ div.mech-armour-location {
   padding-right: 2px;
 }
 
+.mech-repair div.mech-armour-location {
+	width: 60px;
+}
+
+.mech-section-row {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.1em 0px;
+	align-items: center;
+}
+
 div.mech-section-header {
   background: #BBBBBB;
   font-weight: bold;
@@ -77,88 +88,120 @@ div.mech-section-header {
 
 div.mech-armour-location span {
 	font-weight: normal;
-	float: right;
 }
 
+input.mech-armour-input {
+	font-weight: normal;
+	
+	width: 40px;
+}
 
-div#armour_HD {
+div#armour_hd {
   left: 100px;
   top: 30px;
 }
 
-div#armour_CT {
+div#armour_ct {
   left: 100px;
   top: 100px;
 }
 
-div#armour_RT {
+div#armour_rt {
   left: 150px;
   top: 120px;
 }
 
-div#armour_LT {
+.mech-repair div#armour_rt {
+	left: 180px;
+}
+
+div#armour_lt {
   left: 50px;
   top: 120px;
 }
 
-div#armour_RA {
+.mech-repair div#armour_lt {
+  left: 20px;
+}
+
+div#armour_ra {
   left: 200px;
   top:  140px;
 }
 
-div#armour_LA {
+.mech-repair div#armour_ra {
+  left: 260px;
+}
+
+div#armour_la {
   left:  0px;
   top: 140px;
 }
 
-div#armour_RL {
+.mech-repair div#armour_la {
+  left: -60px;
+}
+
+div#armour_rl {
   left: 160px;
   top: 200px;
 }
 
-div#armour_LL {
+div#armour_ll {
   left: 40px;
   top: 200px;
 }
 
-div#armour_LRL {
+div#armour_lrl {
   left: 10px;
   top: 200px;
 }
 
-div#armour_LFL {
+div#armour_lfl {
   left: 70px;
   top: 200px;
 }
 
-div#armour_RFL {
+div#armour_rfl {
   left:130px;
   top: 200px;
 }
 
-div#armour_RRL {
+div#armour_rrl {
   left:190px;
   top: 200px;
 }
 
-div#armour_LL {
+div#armour_ll {
   left: 40px;
   top: 200px;
 }
 
-div#armour_RCT {
+div#armour_rct {
   left: 330px;
   top: 100px;
 }
 
-div#armour_RRT {
+div#armour_rrt {
   left: 380px;
   top: 120px;
 }
 
-div#armour_RLT {
+div#armour_rlt {
   left: 280px;
   top: 120px;
+}
+
+.mech-repair div#armour_rlt {
+  left: 370px;
+}
+
+.mech-repair div#armour_rct {
+  left: 450px;
+}
+
+.mech-repair div#armour_rrt {
+  left: 530px;
 }
 
 div#armour_-- {

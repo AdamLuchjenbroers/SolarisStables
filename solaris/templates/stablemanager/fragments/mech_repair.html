@@ -1,1 +1,15 @@
 {% extends 'warbook/fragments/mech_viewer.html' %}
+
+{% block mech-structure %}
+<div class="mech-armour-location" id="armour_{{location.location_code | lower}}">
+  <div class="mech-section-header">{{location.location_code}}</div>
+  <div class="mech-armour-armour mech-section-row">
+    A<input type="number" class="mech-armour-input mech-input-armour" id="input_armour_{{location.location_code | lower}}" class="mech-input-armour" max={{location.armour}}/>
+  </div>
+{% if location.structure %}
+  <div class="mech-armour-structure mech-section-row">
+    S<input type="number" class="mech-armour-input mech-input-structure" id="input_structure_{{location.location_code | lower}}" class="mech-input-structure" max={{location.structure}}/>
+  </div>
+{% endif %} 
+</div>
+{% endblock %}
