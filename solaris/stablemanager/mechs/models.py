@@ -69,7 +69,7 @@ class StableMechWeek(models.Model):
     def active_repair_bill(self):
         from solaris.stablemanager.repairs.models import RepairBill
         try:
-            return RepairBill.objects.get(mech=self.stablemech, stableweek=self.stableweek, complete=False)
+            return self.repairs.get(mech=self.stablemech, stableweek=self.stableweek, complete=False)
         except RepairBill.DoesNotExist:
             return None
 

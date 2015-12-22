@@ -118,6 +118,9 @@ class MechDesign(models.Model):
     def __unicode__(self):
         return '%s %s' % (self.mech_name, self.mech_code)
     
+    def all_locations(self):
+        return { location.location_code() : location for location in self.locations.all() }  
+    
     def get_absolute_url(self):
         if self.omni_loadout == 'Base':
             return reverse('mech_detail_base', kwargs={'name': self.mech_name, 'code': self.mech_code})

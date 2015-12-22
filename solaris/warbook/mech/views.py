@@ -36,8 +36,8 @@ class MechDetailView(ReferenceMechMixin, TemplateView):
                                                 , mech_name__iexact=self.kwargs['name']
                                                 , mech_code__iexact=self.kwargs['code']
                                                 , omni_loadout__iexact=self.kwargs['omni']  
-                                                , production_type='P')
-        page_context['crit_table'] = { location.location_code() : location for location in page_context['mech'].locations.all() }
+                                                , production_type='P')    
+        page_context['detail_class'] = 'mech-view'
         
         return page_context
 

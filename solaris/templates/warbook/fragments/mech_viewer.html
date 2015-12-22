@@ -1,0 +1,40 @@
+
+{% load mech_items %}
+
+  <div class="{{mech.motive_type}}_armour {{detail_class}}">
+    {% for location in mech.locations.all %}
+      <div class="armour_location" id="armour_{{location.location_code}}">
+        <div class="armour_header">{{location.location_code}}</div>
+        <div class="armour_armour">A<span>{{location.armour}}</span></div>
+        {% if location.structure %}
+          <div class="armour_structure">S<span>{{location.structure}}</span></div>
+        {% endif %} 
+      </div>
+    {% endfor %}
+  </div>
+  
+  <div class="{{mech.motive_type}}_criticals {{detail_class}}">
+    <div class="critical_group">
+       {{ crit_table.HD | crit_table }}
+    </div>
+    
+    <div class="critical_group">
+       {% if mech.motive_type == 'B' %} {{ crit_table.LA | crit_table }} {% endif %}
+       {{ crit_table.LT | crit_table }}
+       {{ crit_table.CT | crit_table }}
+       {{ crit_table.RT | crit_table }}
+       {% if mech.motive_type == 'B' %} {{ crit_table.RA | crit_table }} {% endif %}
+    </div>
+    
+    <div class="critical_group">
+      {% if mech.motive_type == 'B' %}
+        {{ crit_table.LL | crit_table }}
+        {{ crit_table.RL | crit_table }}
+      {% else %}
+        {{ crit_table.LRL | crit_table }}
+        {{ crit_table.LFL | crit_table }}
+        {{ crit_table.RFL | crit_table }}
+        {{ crit_table.RRL | crit_table }}
+      {% endif %}
+    </div>
+  </div>
