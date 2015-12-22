@@ -859,8 +859,8 @@ li.chit.tier0  {
 
 li.chit.tier0 a.chit-row:hover, 
 li.chit.tier0 a.omni-row:hover {
-  background-color: #FFFFFF;
-  box-shadow: inset 0px 0px 5px #888888;
+  background-color: #EEEEFF;
+  box-shadow: inset 0px 0px 5px #FFFFFF;
 }
 
 li.chit.tier1 {
