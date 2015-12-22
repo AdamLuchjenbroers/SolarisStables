@@ -1,5 +1,4 @@
 from csv import DictReader 
-from django.conf import settings
 from django.forms import ModelForm
 
 from solaris.warbook.techtree.models import Technology
@@ -23,13 +22,21 @@ def load_techtree_csv(csvfile, csvfields=technology_fields, Technology=Technolog
         except Technology.DoesNotExist:
             tech_instance = None
             
-        tech = TechnologyForm()
+        for boolean_field in ('show',):
+            row[boolean_field] = (row[boolean_field].upper() =='TRUE')
+            
+        tech = TechnologyForm(row, instance=tech_instance)
         if tech.is_valid():
             loadcounts['insert' if tech_instance == None else 'update'] += 1
             tech.save()
         else: 
             loadcounts['failed'] += 1
             print 'Failed to load: %s' % row['name']
+            for error in tech.non_field_errors():
+                print "\t%s" % error
+            for field, errorList in tech.errors.items():
+                for error in errorList:
+                    print "\t%s:\t%s" % (field, error)
 
     print 'Technology load complete: %i new, %i updated, %i failed to load' % (loadcounts['insert'], loadcounts['update'], loadcounts['failed'])           
     csv_fh.close()
