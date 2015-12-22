@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('campaign', '0001_initial'),
-        ('warbook', '0001_initial'),
+        ('warbook', '0003_load-reference-data'),
     ]
 
     operations = [
