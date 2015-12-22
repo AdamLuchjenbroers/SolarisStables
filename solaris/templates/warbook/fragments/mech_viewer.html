@@ -5,9 +5,9 @@
     {% for location in mech.locations.all %} {% block mech-structure %}
       <div class="mech-armour-location" id="armour_{{location.location_code | lower}}">
         <div class="mech-section-header">{{location.location_code}}</div>
-        <div class="mech-armour-armour">A<span>{{location.armour}}</span></div>
+        <div class="mech-section-row mech-armour-armour">A<span>{{location.armour}}</span></div>
         {% if location.structure %}
-          <div class="mech-armour-structure">S<span>{{location.structure}}</span></div>
+          <div class="mech-section-row mech-armour-structure">S<span>{{location.structure}}</span></div>
         {% endif %} 
       </div>
     {% endblock %}{% endfor %}

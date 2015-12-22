@@ -4,17 +4,18 @@
   {% for item in object.get_criticals %}
     {% if forloop.counter0 == 6 %} <hr/> {% endif %}
     
-      <div> {% cycle 1 2 3 4 5 6 %}
+      <div class="mech-criticals-slot">
+        <span class="mech-criticals_slotnum">{% cycle 1 2 3 4 5 6 %}</span>
       {% if item %}
         {% if item.is_crittable %}
-          <span class="item-crittable" slot="{{forloop.counter}}">
+          <span class="mech-criticals-item item-crittable" slot="{{forloop.counter}}">
         {% else %}
-          <span class="item-noncrittable">
+          <span class="mech-criticals-item item-noncrittable">
         {% endif %}
         {{item.get_equipmentname}}
         </span>
       {% else %}
-        <span class="item-noitem">-- No Item --</span>
+        <span class="mech-criticals-item item-noitem">-- No Item --</span>
       {% endif %}
       </div>
   {% endfor %}
