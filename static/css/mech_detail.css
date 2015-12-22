@@ -39,7 +39,7 @@ ul.loadouts li.selected {
   color: #FFFFFF;  
 }
 
-div.B_armour, div.Q_armour {
+div.mech-armour {
   position: relative;
   width: 400px;
   height: 300px;
@@ -50,7 +50,7 @@ div.B_armour, div.Q_armour {
   margin-right: auto; 
 }
 
-div.armour_location {
+div.mech-armour-location {
   position: absolute;
   width: 40px;
 
@@ -65,7 +65,7 @@ div.armour_location {
   padding-right: 2px;
 }
 
-div.armour_header, div.critical_header {
+div.mech-section-header {
   background: #BBBBBB;
   font-weight: bold;
   text-align: center;
@@ -75,7 +75,7 @@ div.armour_header, div.critical_header {
   margin-right: -2px;
 }
 
-div.armour_location span {
+div.mech-armour-location span {
 	font-weight: normal;
 	float: right;
 }
@@ -121,7 +121,6 @@ div#armour_LL {
   top: 200px;
 }
 
-
 div#armour_LRL {
   left: 10px;
   top: 200px;
@@ -142,12 +141,10 @@ div#armour_RRL {
   top: 200px;
 }
 
-
 div#armour_LL {
   left: 40px;
   top: 200px;
 }
-
 
 div#armour_RCT {
   left: 330px;
@@ -168,7 +165,7 @@ div#armour_-- {
   display: none;
 }
 
-div.B_criticals, div.Q_criticals {
+div.mech-criticals {
   position: relative;
   width: 900px;
   height: 100%;
@@ -179,7 +176,7 @@ div.B_criticals, div.Q_criticals {
   margin-right: auto;
 }
 
-div.critical_group {
+div.mech-critical-row {
   margin-left: auto;
   margin-right: auto;
 
@@ -187,7 +184,7 @@ div.critical_group {
   display: table;
 }
 
-div.critical_table {
+div.mech-criticals-table {
   width: 150px;
 
   position: relative;
@@ -204,12 +201,12 @@ div.critical_table {
   border-color: #000000;
 }
 
-div.critical_table div {
+div.mech-criticals-table div {
    height: 18px;
    position: relative;
 }
 
-div.critical_table span {
+div.mech-criticals-table span {
   float: right;
   width: 90%;
   text-align: center;
@@ -225,12 +222,11 @@ div.critical_table span {
   overflow: hidden;
 }
 
-span.item_crittable {
+.item-crittable {
   font-weight: bold;
   
 }
-
-span.item_noncrittable {
+.item-noncrittable, .item-noitem {
   color: #aaaaaa;
   text-align: center;
 }

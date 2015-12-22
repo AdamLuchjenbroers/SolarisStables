@@ -42,3 +42,4 @@ class RepairBillView(StableViewMixin, TemplateView):
         page_context['detail_class'] = 'mech-repair'
         
         return page_context
+    
