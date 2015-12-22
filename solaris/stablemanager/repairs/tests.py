@@ -32,7 +32,35 @@ class RepairBillTestMixin(StableTestMixin):
         for (location, amount) in damagePattern:
             self.bill.setStructureDamage(location, amount)
 
+class DamageResultTests(RepairBillTestMixin, TestCase):
+    def test_armourDamage(self):
+        damage_done = self.bill.setArmourDamage('CT', 15)
+        self.assertEqual(damage_done, 15, 'Expecting damage done to equal 15, got %i' % damage_done)
+        
+    def test_armourDamageMax(self):
+        damage_done = self.bill.setArmourDamage('CT', 25)
+        self.assertEqual(damage_done, 20, 'Expecting damage done to equal 20, got %i' % damage_done)
+        
+    def test_structureDamage(self):
+        damage_done = self.bill.setStructureDamage('CT', 15)
+        self.assertEqual(damage_done, 15, 'Expecting damage done to equal 15, got %i' % damage_done)
+        
+    def test_structureDamageMax(self):
+        damage_done = self.bill.setStructureDamage('CT', 25)
+        self.assertEqual(damage_done, 18, 'Expecting damage done to equal 18, got %i' % damage_done)
 
+    def test_criticalItem(self):
+        critted = self.bill.setCritical('RT',4)
+        self.assertTrue(critted, 'Critical failed to register for Right Torso 4 (LRM-10)')
+
+    def test_criticalItemClear(self):
+        critted = self.bill.setCritical('RT',4, critted=False)
+        self.assertFalse(critted, 'Critical failed to clear for Right Torso 4 (LRM-10)')
+
+    def test_criticalItemEmpty(self):
+        critted = self.bill.setCritical('RT',8, critted=False)
+        self.assertFalse(critted, 'Critical incorrectly registered for empty slot (Right Torso 8)')        
+        
 class BasicRepairBillTests(RepairBillTestMixin, TestCase):
     def test_billIncomplete(self):
         # A freshly created bill should start marked incomplete

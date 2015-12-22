@@ -37,12 +37,15 @@ class RepairBill(models.Model):
             billLocation.structure_lost = max(0, min(structure, billLocation.location.structure))
 
         billLocation.save()
+        return (billLocation.armour_lost, billLocation.structure_lost)
 
     def setArmourDamage(self, location, amount):
-        self.setDamage(location, armour=amount) 
+        (armour_lost, structure_lost) = self.setDamage(location, armour=amount)
+        return armour_lost 
 
     def setStructureDamage(self, location, amount):
-        self.setDamage(location, structure=amount) 
+        (armour_lost, structure_lost) = self.setDamage(location, structure=amount) 
+        return structure_lost
 
     def setCritical(self, location, slot, critted=True):
         billLocation = self.getLocation(location)
@@ -51,9 +54,9 @@ class RepairBill(models.Model):
         if billLine == None:
             return False
  
-        self.setCriticalRecord(billLine, billLocation, slot, critted)
+        critted = self.setCriticalRecord(billLine, billLocation, slot, critted)
         billLine.updateCost()
-        return True
+        return critted
 
     def setCriticalRecord(self, lineitem, location, slot, critted):
         (billCrit, critCreated) = RepairBillCrit.objects.get_or_create(
@@ -74,10 +77,12 @@ class RepairBill(models.Model):
             elif billCrit.critted and not critted:
                 lineitem.count = 0
                 lineitem.tons = 0
-        billCrit.critted = critted
-       
+                
+        billCrit.critted = critted      
         billCrit.save()
-
+        
+        return billCrit.critted
+        
     def updateStructureDamage(self):
         damageTotals = self.locations.all().aggregate(models.Sum('armour_lost'), models.Sum('structure_lost'))
 
@@ -112,7 +117,7 @@ class RepairBillLineManager(models.Manager):
     def line_for_item(self, item, bill):
         billLine = None
 
-        if not item.equipment.crittable:
+        if item == None or not item.equipment.crittable:
             return None
 
         if item.equipment.equipment_class == 'A':
