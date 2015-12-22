@@ -249,22 +249,18 @@ div.mech-criticals-table {
   border-color: #000000;
 }
 
-div.mech-criticals-table div {
+div.mech-criticals-slot {
    height: 18px;
-   position: relative;
+   display: flex;
+   align-items: center;
 }
 
-div.mech-criticals-table span {
-  float: right;
-  width: 90%;
+span.mech-criticals-item  {
   text-align: center;
   
-  position: absolute;
-  top: 50%;  
-  height: 18px;
-  margin-top: -7px;
-  
   font-size: x-small;
+  
+  flex-grow: 1;
   
   text-wrap: none;
   overflow: hidden;
@@ -277,6 +273,14 @@ div.mech-criticals-table span {
 .item-noncrittable, .item-noitem {
   color: #aaaaaa;
   text-align: center;
+}
+
+.mech-repair  .item-crittable:hover {
+	background-color: #FF8888;
+}
+
+.item-critted {
+	text-decoration: line-through;
 }
 
 
