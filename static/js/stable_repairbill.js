@@ -1,9 +1,23 @@
 function crit_item() {
-  if ($(this).hasClass('item-critted')) {
-	  $(this).removeClass('item-critted');
-  } else {
-	  $(this).addClass('item-critted');
-  }
+  var setCrit = !$(this).hasClass('item-critted')
+  item = $(this);
+  
+  $.ajax({
+    type : 'post',
+    url  : window.location.href + '/setcrit',
+    dataType : 'json',
+    data : {
+      location : $(this).attr('location')
+    , slot     : $(this).attr('slot')
+    , critted  : setCrit
+    },
+  }).done(function(newState) {
+	  if (newState == 'true') {
+		  item.addClass('item-critted');
+	  } else {
+		  item.removeClass('item-critted');
+	  }
+  });
 }
 
 $( document ).ready(function() {

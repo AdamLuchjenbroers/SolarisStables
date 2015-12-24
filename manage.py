@@ -1,4 +1,4 @@
-#!/home/notavi/Programming/Solaris/bin/python2.7
+#!/home/notavi/Programming/Sandboxes/Solaris/bin/python2.7
 
 # Recommended Manage.py for Django 1.4+
 #    https://docs.djangoproject.com/en/1.4/releases/1.4/#updated-default-project-layout-and-manage-py
