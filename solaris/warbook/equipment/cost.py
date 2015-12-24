@@ -30,7 +30,7 @@ def engine(self, mech, units=None):
     return (self.cost_factor * mech.tonnage * mech.engine_rating) / 75
 
 def gyro(self, mech, units=None):
-    return self.cost_factor * self.tonnage()
+    return self.cost_factor * self.tonnage(mech=mech, units=units)
    
 def mech(self, mech, units=None):
     return mech.tonnage * self.cost_factor

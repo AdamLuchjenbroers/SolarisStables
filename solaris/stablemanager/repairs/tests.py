@@ -144,6 +144,22 @@ class StructureRepairTests(RepairBillTestMixin, TestCase):
         lineitem = self.bill.lineitems.get(line_type='S')
         self.assertEquals(lineitem.cost, 15000.00, 'Summed structure Line-item has incorrect cost, got %.1f, expected %.1f' % (lineitem.cost, 35000.00))
 
+class GyroRepairTests(RepairBillTestMixin, TestCase):
+    def setUp(self):
+        super(GyroRepairTests, self).setUp()
+       
+        # Gyro
+        self.bill.setCritical('CT',5)
+        
+    def test_expectedCrits(self):
+        count = self.bill.lineitems.filter(line_type='Q', item__equipment__ssw_name = 'Gyro - Standard Gyro').count()
+        self.assertEqual(count, 1, 'Expected a single line for the damaged gyro, found %i' % count)
+    
+    def test_gyroCost(self):
+        line = self.bill.lineitems.get(line_type='Q', item__equipment__ssw_name = 'Gyro - Standard Gyro')
+        # 275 Engine = 3 Ton gyro, (3 x 300000/4) = 225000 per critical slot
+        self.assertEqual(line.cost, 225000, 'Incorrect gyro cost, expected FIXME, found %i' % line.cost)
+
 class EquipmentRepairTests(RepairBillTestMixin, TestCase):
     def setUp(self):
         super(EquipmentRepairTests, self).setUp()
