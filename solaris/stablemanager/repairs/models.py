@@ -114,6 +114,8 @@ class RepairBill(models.Model):
         return reverse('repair_bill', kwargs={'bill': self.id})
 
 class RepairBillLineManager(models.Manager):
+    use_for_related_fields = True
+    
     def line_for_item(self, item, bill):
         billLine = None
 
@@ -123,7 +125,7 @@ class RepairBillLineManager(models.Manager):
         if item.equipment.equipment_class == 'A':
             (billLine, lineCreated) = bill.lineitems.get_or_create(
                 item = item
-              , line_type = 'A'
+              , line_type = 'M'
               , count = item.equipment.ammo_size
               , tons = Decimal(1.0) 
             )
@@ -134,7 +136,14 @@ class RepairBillLineManager(models.Manager):
             )
 
         return billLine
-
+    
+    def construction_lines(self):
+        return self.get_queryset().filter(line_type__in=('A','S'))    
+    
+    def equipment_lines(self):
+        return self.get_queryset().filter(line_type='Q')    
+    
+    
 class RepairBillLineItem(models.Model):
     bill = models.ForeignKey(RepairBill, related_name="lineitems")
     item = models.ForeignKey(MechEquipment, blank=True, null=True)

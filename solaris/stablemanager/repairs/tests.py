@@ -232,7 +232,7 @@ class DestroyedAmmoTests(RepairBillTestMixin, TestCase):
     def setUp(self):
         super(DestroyedAmmoTests, self).setUp()
         self.bill.setCritical('RT',5) # LRM-10 Ammo bin
-        self.lineitem = self.bill.lineitems.get(line_type='A', item__equipment__ssw_name = 'Ammo - (IS) @ LRM-10')
+        self.lineitem = self.bill.lineitems.get(line_type='M', item__equipment__ssw_name = 'Ammo - (IS) @ LRM-10')
 
     def test_checkAmmoCount(self):
         self.assertEqual(self.lineitem.count, 12, 'Ammo Count for a destroyed LRM-10 ammo bin should be 12, got %i' % self.lineitem.count) 

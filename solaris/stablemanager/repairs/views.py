@@ -37,6 +37,14 @@ class RepairBillMixin(StableViewMixin):
             return HttpResponse('Not your mech', 401)  
                    
         return super(RepairBillMixin, self).dispatch(request, *args, **kwargs)     
+    
+    def get_context_data(self, **kwargs):
+        page_context = super(RepairBillMixin, self).get_context_data(**kwargs)
+        
+        page_context['mech'] = self.mech
+        page_context['bill'] = self.bill
+        
+        return page_context
 
 class RepairBillView(RepairBillMixin, TemplateView):
     template_name = 'stablemanager/repair_bill.html'
@@ -49,7 +57,11 @@ class RepairBillView(RepairBillMixin, TemplateView):
         page_context['detail_class'] = 'mech-repair'
         
         return page_context
-    
+
+class RepairBillLineView(RepairBillMixin, TemplateView):
+    template_name = 'stablemanager/fragments/repair_lines.html'
+         
+       
 class AjaxCritObjectView(RepairBillMixin, View):
     def post(self, request):        
         try:
