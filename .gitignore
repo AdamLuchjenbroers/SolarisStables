@@ -1,6 +1,7 @@
 *.pyc
 *~
 *.swp
+manage.py
 
 #Django Settings
 solaris/settings/*
