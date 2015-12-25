@@ -68,6 +68,12 @@ class Migration(migrations.Migration):
             field=models.CharField(max_length=40, null=True, choices=[(b'fixed', b'Fixed Tonnage'), (b'jumpjet', b'Jumpjet'), (b'masc', b'MASC'), (b'melee', b'Melee Weapon'), (b'armour', b'Armour'), (b'engine', b'Engine'), (b'gyro', b'Gyro'), (b'structure', b'Internal Structure'), (b'targetting_computer', b'Targetting Computer'), (b'supercharger', b'Supercharger'), (b'retractable', b'Retractable Blade'), (b'turret', b'Mech Turret')]),
             preserve_default=True,
         ),
+        migrations.AlterField(
+            model_name='equipment',
+            name='critical_func',
+            field=models.CharField(max_length=40, null=True, choices=[(b'fixed', b'Fixed Criticals'), (b'masc', b'MASC'), (b'melee', b'Melee Weapon'), (b'targetting_computer', b'Targetting Computer'), (b'retractable', b'Retractable Blade'), (b'by_class', b'By Weight Class')]),
+            preserve_default=True,
+        ),
         migrations.RemoveField(
             model_name='technology',
             name='category',
@@ -82,6 +88,12 @@ class Migration(migrations.Migration):
             model_name='technology',
             name='description',
             field=MarkupField(no_rendered_field=True),
+            preserve_default=True,
+        ),
+        migrations.AlterField(
+            model_name='technology',
+            name='tier',
+            field=models.IntegerField(default=3, choices=[(0, b'Base Technology'), (1, b'Star-League'), (2, b'Advanced'), (3, b'Experimental')]),
             preserve_default=True,
         ),
         migrations.RunPython(load_equipment, reverse_code=clear_equipment),
