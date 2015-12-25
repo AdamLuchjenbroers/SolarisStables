@@ -122,10 +122,6 @@ class SSWMountedItem(dict):
         return sum(self.mountings[k].size() for k in self.mountings.keys())         
 
     def mount(self, xmlnode, rear_firing=False, turret=False):
-        #Most entries only record a single slot, and require that we 
-        #extrapolate from there.
-        self.extrapolated = self.__class__.default_extrapolated
-        
         locations = xmlnode.xpath('./location|./splitlocation')        
         
         for loc in locations:
@@ -220,7 +216,6 @@ class SSWEnhancement(SSWMountedItem):
         self.mount(xmlnode)       
 
 class SSWEquipment(SSWMountedItem):
-    
     default_type = '?'
     
     def __init__(self, xmlnode, fcs_artemisIV=False, fcs_artemisV=False, fcs_apollo=False):        
@@ -250,13 +245,24 @@ class SSWEquipment(SSWMountedItem):
             equipment_name = equipment_name[4:]
             
         return (equipment_name, rear, turret)
+
+class SSWMultiSlot(SSWMountedItem):
+    default_type = 'Q'
+    default_extrapolated = True
+
+    def __init__(self, xmlnode):
+        name = xmlnode.get('name')
+        self['ssw_name'] = 'Multislot - %s' % name
+        self['name'] = name
+        
+        super(SSWMultiSlot,self).__init__()        
+        self.mount(xmlnode, False, False)
         
 class SSWStructure(SSWMountedItem):
     default_type = 'S'
     default_extrapolated = True
 
     def __init__(self, xmlnode):
-        
         structure_type = xmlnode.xpath('./type/text()')[0]
         self['ssw_name'] = 'Structure - %s' % structure_type
         self['name'] = structure_type

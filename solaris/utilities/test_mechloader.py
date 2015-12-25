@@ -516,3 +516,80 @@ class Quickdraw8XTests(MechTestMixin, TestCase):
     def test_turretItemTonnage(self):
         turret = MechEquipment.objects.get(mech=self.mech, equipment__ssw_name__contains='Turret')
         self.assertNotEqual(turret.tonnage(), 1.0, 'Expected turret tonnage to be 1.0 Tons, got %.1f' % turret.tonnage())
+
+class Hunchback6STests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Hunchback'
+    ,   'mech_code'    : 'HBK-6S'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [6,9,0]
+    directfire_tonnage = 16
+    check_fields = {
+        'production_year'  : 3063
+    ,   'ssw_description'  : 'Hunchback HBK-6S 50t, 6/9/0, XLFE, ES; 10.0T/95% Armor; 10 DHS; 2 ERML, 1 SRM6, 1 LB20'
+    ,   'credit_value'     : 9732000
+    ,   'bv_value'         : 1380
+    }
+    engine = engineLayout['XL']
+
+    def test_lb20Centre(self):
+        self.assertEquipment('CT', '11,12', 'Equipment - (IS) LB 20-X AC')
+
+    def test_lb20Right(self):
+        self.assertEquipment('RT', '4,5,6,7,8,9,10,11,12', 'Equipment - (IS) LB 20-X AC')
+
+class Jenner10XTests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Jenner'
+    ,   'mech_code'    : 'JR10-X'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [7,11,7]
+    directfire_tonnage = 6
+    check_fields = {
+        'production_year'  : 3072
+    ,   'ssw_description'  : 'Jenner JR10-X 35t, 7/11/7, XLFE, Comp, Cmp Gyro; 7.0T/99% LFF Armor; 10 DHS; 6 ML, 1 AECM, NullSig'
+    ,   'credit_value'     : 10748925
+    ,   'bv_value'         : 1452
+    }
+    engine = {
+        'engine' : 'Engine - XL Engine'
+    ,   'slots'  : { 'CT' : '1,2,3,6,7,8'
+                   , 'LT' : '2,3,4'
+                   , 'RT' : '2,3,4' } 
+    }
+    gyro = gyroLayout['Compact']
+
+    cockpit = {
+        'cockpit' : { 'type' : 'Cockpit - Torso-Mounted Cockpit' 
+                    , 'slots' : [ ('CT', '9') ]
+                    }
+    ,   'sensors' : { 'type' : 'Cockpit - Sensors' 
+                    , 'slots' : [ ('HD', '1'), ('HD', '2'), ('CT', '10') ]
+                    }
+    ,   'support' : { 'type' : 'Cockpit - Life Support' 
+                    , 'slots' : [ ('RT', '1'), ('LT', '1') ]
+                    }
+    }
+
+    def test_nullsigCT(self):
+        self.assertEquipment('CT', '12', 'Multislot - Null Signature System')
+
+    def test_nullsigRT(self):
+        self.assertEquipment('RT', '10', 'Multislot - Null Signature System')
+
+    def test_nullsigLT(self):
+        self.assertEquipment('LT', '11', 'Multislot - Null Signature System')
+
+    def test_nullsigLA(self):
+        self.assertEquipment('LA', '5', 'Multislot - Null Signature System')
+
+    def test_nullsigRA(self):
+        self.assertEquipment('RA', '5', 'Multislot - Null Signature System')
+
+    def test_nullsigRL(self):
+        self.assertEquipment('RL', '5', 'Multislot - Null Signature System')
+
+    def test_nullsigLL(self):
+        self.assertEquipment('LL', '5', 'Multislot - Null Signature System')

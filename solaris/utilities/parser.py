@@ -4,7 +4,7 @@ from django.utils.html import strip_tags
 
 
 from solaris.utilities import translate
-from solaris.utilities.equipment import SSWTurret, SSWEquipment, SSWEnhancement, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWActuator, SSWCockpitItem, SSWAttachedItem
+from solaris.utilities.equipment import SSWTurret, SSWEquipment, SSWEnhancement, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWMultiSlot, SSWActuator, SSWCockpitItem, SSWAttachedItem
 
 class SSWParseError(Exception):
     def __init__(self, mech, formerrors):
@@ -103,7 +103,9 @@ class SSWItemList(list):
     
     def __init__(self, xmlnode):
         item_name = xmlnode.xpath('./type/text()')[0]
-        
+        self.parse_items(xmlnode, item_name)
+       
+    def parse_items(self, xmlnode, item_name):
         for location in xmlnode.xpath('./location'):
             self.append(SSWListItem(item_name, self.__class__.item_class, self.__class__.item_group, location))
 
@@ -115,6 +117,14 @@ class SSWJumpjetList(SSWItemList):
     item_class = 'Jumpjet'
     item_group = 'J'
     
+class SSWLegAESList(SSWItemList):
+    item_class = 'AES'
+    item_group = 'Q'
+
+    def __init__(self, xmlnode):
+        self.parse_items('Leg AES', item_name)
+    
+
 class SSWLoadout(list):
     def __init__(self, xmlnode, motive_type='B'):
         xml_heatsinks = xmlnode.xpath('./heatsinks')
@@ -129,12 +139,25 @@ class SSWLoadout(list):
         if xml_jets:
             self += SSWJumpjetList(xml_jets[0])
 
+        xml_legaes = xmlnode.xpath('./leg_aes')
+        if xml_legaes:
+            self += SSWLegAESList(xml_legaes[0]) 
+
         for turretXML in xmlnode.xpath('./turret'):
             turret = SSWTurret(turretXML)
             self.append(turret)
         
-        for item in xmlnode.xpath('./equipment'):
-            item_equip = SSWEquipment(item, fcs_artemisIV=self.fcs_artemis_iv, fcs_artemisV=self.fcs_artemis_v, fcs_apollo=self.fcs_apollo)
+        for item in xmlnode.xpath('./equipment|./multislot|./arm_aes'):
+            item_equip = None
+            if item.tag == 'equipment':
+                item_equip = SSWEquipment(item, fcs_artemisIV=self.fcs_artemis_iv, fcs_artemisV=self.fcs_artemis_v, fcs_apollo=self.fcs_apollo)
+            elif item.tag =='multislot':
+                item_equip = SSWMultiSlot(item)
+            elif item.tag == 'arm_aes':
+                item_equip == None
+            else: 
+                continue
+
             self.append(item_equip)
             
             if (self.fcs_artemis_iv and item_equip.equipment.fcs_artemis_iv):
