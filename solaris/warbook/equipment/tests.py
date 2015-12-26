@@ -121,3 +121,49 @@ class JumpjetTestCases(TestCase):
 
     def test_jumpjetTons90(self):
         self.jumpjetTonnageTest(90, 2.0)
+
+class AESTestCases(TestCase):
+    def setUp(self):
+        self.aes = Equipment.objects.get(ssw_name='AES - Arm AES')
+
+    def aesTonnageTest(self, mech_tons, expect_tons):
+        actual_tons = self.aes.tonnage(mech=MockMech(tonnage=mech_tons))
+        self.assertEquals( actual_tons, expect_tons
+                         , 'Expected AES on a %i ton mech to weigh %.1f tons, got %.1f' 
+                         % (mech_tons, expect_tons, actual_tons)) 
+
+    def aesCriticalsTest(self, mech_tons, expect_crits):
+        actual_crits = self.aes.criticals(mech=MockMech(tonnage=mech_tons))
+        self.assertEquals( actual_crits, expect_crits
+                         , 'Expected AES on a %i ton mech to require %i crits, got %i' 
+                         % (mech_tons, expect_crits, actual_crits)) 
+
+    def test_aesTons35(self):
+        self.aesTonnageTest(35, 1.0)
+
+    def test_aesTons40(self):
+        self.aesTonnageTest(40, 1.5)
+
+    def test_aesTons80(self):
+        self.aesTonnageTest(80, 2.5)
+
+    def test_aesCrits30(self):
+        self.aesCriticalsTest(30, 1)
+
+    def test_aesCrits40(self):
+        self.aesCriticalsTest(40, 2)
+
+    def test_aesCrits55(self):
+        self.aesCriticalsTest(55, 2)
+
+    def test_aesCrits60(self):
+        self.aesCriticalsTest(60, 3)
+
+    def test_aesCrits75(self):
+        self.aesCriticalsTest(75, 3)
+
+    def test_aesCrits80(self):
+        self.aesCriticalsTest(80, 4)
+
+    def test_aesCrits100(self):
+        self.aesCriticalsTest(100, 4)
