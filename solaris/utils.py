@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-
 def get_arg(argument, kwargs, default=None):
     if argument in kwargs:
         return kwargs[argument]
@@ -24,4 +23,3 @@ def determine_selected(request):
         return {'selected' : 'Wiki'}
     else:
         return {}
-    
