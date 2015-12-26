@@ -8,7 +8,7 @@ $( document ).ready(function() {
   $('#id_house').on('change', function() {         
     $.ajax( {
         type : 'get',
-        url  : '/stable/mechs/house_disciplines/' + $('#id_house option:selected').text(),
+        url  : '/reference/ajax/house_disciplines/' + $('#id_house option:selected').text(),
         dataType : 'json'
     }).done(function(json) {
         selected = $('#id_stable_disciplines').val();
