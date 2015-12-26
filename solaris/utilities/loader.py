@@ -22,13 +22,14 @@ class SSWLoader(object):
         self.filename = sswfile            
         self.sswXML = etree.parse(self.xml_fd)
 
-    def load_mechs(self):
+    def load_mechs(self, print_message=True):
         parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename )
             
         if parsed_mechs.type != 'BattleMech' or parsed_mechs['tech_base'] != 'I' or int(parsed_mechs['tonnage']) < 20:
             return 
-            
-        print "Importing %s ( %s / %s )" % (self.filename, parsed_mechs['mech_name'], parsed_mechs['mech_code'])
+        
+        if print_message:
+            print "Importing %s ( %s / %s )" % (self.filename, parsed_mechs['mech_name'], parsed_mechs['mech_code'])
         
         # Load Base Config
         base_config = MechLoader(self.filename, parsed_mechs)
