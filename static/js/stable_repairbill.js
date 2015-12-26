@@ -17,6 +17,7 @@ function crit_item() {
 	  } else {
 		  item.removeClass('item-critted');
 	  }
+          $('#repair-cost-itemised').load(window.location.href + '/itemised')
   });
 }
 

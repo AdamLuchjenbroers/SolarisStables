@@ -1,22 +1,2 @@
-<div class="repair-bill-details">
-  <div class="repair-bill-section repair-bill-construction">
-  <div class="repair-section-header">Structural Costs</div>
-  {% for item in bill.lineitems.construction_lines %}
-     <div class="repair-section-item">
-       <span class="repair-item-name">{{item.item.equipment.name}}</span>
-       <span class="repair-item-quantity">{{item.count}}</span>
-       <span class="repair-item-tons">{% if item.tons %}{{item.tons}}{% endif %}</span>
-       <span class="repair-item-cost">{{item.cost}}</span>
-     </div>
-  {% endfor %}
-  <div class="repair-section-header">Equipment Costs</div>
-  {% for item in bill.lineitems.equipment_lines %}
-     <div class="repair-section-item">
-       <span class="repair-item-name">{{item.item.equipment.name}}</span>
-       <span class="repair-item-quantity">{{item.count}}</span>
-       <span class="repair-item-tons"></span>
-       <span class="repair-item-cost">{{item.cost}}</span>
-     </div>
-  {% endfor %}
-  </div>
-</div>
+{% include 'stablemanager/fragments/repair_line_group.html' with section="Construction" section_lines=bill.lineitems.construction_lines %}
+{% include 'stablemanager/fragments/repair_line_group.html' with section="Equipment" section_lines=bill.lineitems.equipment_lines %}

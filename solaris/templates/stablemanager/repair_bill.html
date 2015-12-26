@@ -10,5 +10,8 @@
 <div class="body">
   <h1>Repair Bill - {{mech.mech_name}} {{mech.mech_code}}</h1>
   {% include "stablemanager/fragments/mech_repair.html" with crit_table=mech.all_locations %}
+  <h2>Ammo</h2><hr/>
+  <h2>Costs</h2><hr/>
+  <div id="repair-cost-itemised"></div>
 </div>
 {% endblock %}
