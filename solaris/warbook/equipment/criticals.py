@@ -28,11 +28,11 @@ def retractable(self, mech=None):
     return int(ceil( mech.tonnage / self.critical_factor )) + 1 
 
 def by_class(self, mech=None):
-    if mech.tonnage <= 40:
+    if mech.tonnage < 40:
         return self.critical_factor
-    elif mech.tonnage <= 60:
+    elif mech.tonnage < 60:
         return self.critical_factor * 2
-    elif mech.tonnage <= 80:
+    elif mech.tonnage < 80:
         return self.critical_factor * 3
     else:
         return self.critical_factor * 4

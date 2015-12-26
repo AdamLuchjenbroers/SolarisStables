@@ -95,7 +95,6 @@ class SSWItemMounting(dict):
             self['slots'].add(start, int(count))
             
 class SSWMountedItem(dict):
-    
     default_type = '?'   
     default_extrapolated = False
     
@@ -166,6 +165,19 @@ class SSWDerivedItem(SSWMountedItem):
         self['ssw_name'] = '%s - %s' % (self.__class__.item_group, name)
         
         super(SSWDerivedItem, self).__init__()        
+        self.mountings[location] = SSWItemMounting(location, [slot])
+
+class SSWArmAES(SSWMountedItem):
+    item_group = 'Q'
+
+    def __init__(self, xmlnode):
+        self['name'] = 'Arm AES'
+        self['ssw_name'] = 'AES - Arm AES'
+        
+        super(SSWArmAES, self).__init__()
+
+        location = xmlnode.get('location').lower()
+        slot = int(xmlnode.get('index')) + 1
         self.mountings[location] = SSWItemMounting(location, [slot])
 
 class SSWTurret(SSWMountedItem):

@@ -159,8 +159,11 @@ class MechTestMixin(object):
         try:
             mount = self.mech.locations.get(location__location=location).criticals.get(slots=slots)
         except ObjectDoesNotExist:
+            listing = ""
+            for item in self.mech.locations.get(location__location=location).criticals.all().order_by('slots'):
+                listing += '\t [%s] %s\n' % (item.slots, item.equipment.equipment.ssw_name)
             #Deliberately fail here, since apparently we couldn't find the object in these slots
-            self.assertTrue(False, "Unable to find mounting in %s, slots %s" % (location, slots))
+            self.assertTrue(False, "Unable to find mounting in %s, slots %s. Location contains:\n%s" % (location, slots, listing))
 
         mounted_name = mount.equipment.equipment.ssw_name
         self.assertEqual(mounted_name, ssw_name, "Object mounted in %s [%s] is %s, not %s" % (location, slots, mounted_name, ssw_name))
@@ -593,3 +596,25 @@ class Jenner10XTests(MechTestMixin, TestCase):
 
     def test_nullsigLL(self):
         self.assertEquipment('LL', '5', 'Multislot - Null Signature System')
+
+class Whitworth5STests(MechTestMixin, TestCase):
+    mech_ident = {
+        'mech_name'    : 'Whitworth'
+    ,   'mech_code'    : 'WTH-5S'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [4,6,4]
+    directfire_tonnage = 4
+    check_fields = {
+        'production_year'  : 3074
+    ,   'ssw_description'  : 'Whitworth WTH-5S 40t, 4/6[8]/4, XLFE, Comp; 8.0T/93% Armor; 10 DHS; 1 ECM, 2 MXPL, 2 SSRM6'
+    ,   'credit_value'     : 7789133
+    ,   'bv_value'         : 1320
+    }
+    engine = engineLayout['XL']
+
+    def test_rightArmAES(self):
+        self.assertEquipment('RA', '5,6', 'AES - Arm AES')
+
+    def test_leftArmAES(self):
+        self.assertEquipment('LA', '8,9', 'AES - Arm AES')

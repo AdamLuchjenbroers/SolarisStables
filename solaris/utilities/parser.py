@@ -4,7 +4,7 @@ from django.utils.html import strip_tags
 
 
 from solaris.utilities import translate
-from solaris.utilities.equipment import SSWTurret, SSWEquipment, SSWEnhancement, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWMultiSlot, SSWActuator, SSWCockpitItem, SSWAttachedItem
+from solaris.utilities.equipment import SSWTurret, SSWEquipment, SSWEnhancement, SSWEngine, SSWGyro, SSWArmour, SSWStructure, SSWListItem, SSWMultiSlot, SSWActuator, SSWCockpitItem, SSWAttachedItem, SSWArmAES
 
 class SSWParseError(Exception):
     def __init__(self, mech, formerrors):
@@ -154,8 +154,9 @@ class SSWLoadout(list):
             elif item.tag =='multislot':
                 item_equip = SSWMultiSlot(item)
             elif item.tag == 'arm_aes':
-                item_equip == None
-            else: 
+                item_equip = SSWArmAES(item)
+            else:
+                #Unrecognised Equipment 
                 continue
 
             self.append(item_equip)
