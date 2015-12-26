@@ -12,6 +12,8 @@
   {% include "stablemanager/fragments/mech_repair.html" with crit_table=mech.all_locations %}
   <h2>Ammo</h2><hr/>
   <h2>Costs</h2><hr/>
-  <div id="repair-cost-itemised"></div>
+  <div id="repair-cost-itemised">
+    {% include "stablemanager/fragments/repair_lines.html" %}
+  </div>
 </div>
 {% endblock %}
