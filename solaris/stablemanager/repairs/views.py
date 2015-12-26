@@ -74,4 +74,21 @@ class AjaxCritObjectView(RepairBillMixin, View):
         except KeyError:
             return HttpResponse('Incomplete AJAX request', 401)
             
-        
+class AjaxDamageLocationView(RepairBillMixin, View): 
+    def post(self, request):        
+        try:
+            location = request.POST['location']
+            damage = int(request.POST['damage'])
+            damage_type = request.POST['type']
+
+            result = None        
+            if damage_type == 'armour':
+                result = self.bill.setArmourDamage(location, damage)
+            elif damage_type == 'structure':
+                result = self.bill.setStructureDamage(location, damage)
+            else:
+                return HttpResponse('Unrecognised type %s' % type, 401)
+
+            return HttpResponse(json.dumps(result))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 401)

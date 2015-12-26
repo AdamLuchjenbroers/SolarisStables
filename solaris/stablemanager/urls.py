@@ -9,7 +9,7 @@ from solaris.stablemanager.training.views import StableTrainingView
 from solaris.stablemanager.actions.views import StableActionView
 from solaris.stablemanager.pilots.views import StablePilotsView, StableNewPilotsView, InitialPilotNamingView
 from solaris.stablemanager.mechs.views import InitialMechPurchaseView, StableMechsView
-from solaris.stablemanager.repairs.views import CreateRepairBillView, RepairBillView, RepairBillLineView, AjaxCritObjectView
+import solaris.stablemanager.repairs.views as repair_views
 
 urlpatterns = patterns('',
     url(r'^/?$', StableOverview.as_view(), name='stable_overview'),
@@ -32,10 +32,11 @@ urlpatterns = patterns('',
     url(r'^pilots/?$', StablePilotsView.as_view()),
     url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),
 
-    url(r'^mechs/repair/(?P<bill>[0-9]+)/?$', RepairBillView.as_view(), name='repair_bill'),
-    url(r'^mechs/repair/new/(?P<stablemech>[0-9]+)/?$', CreateRepairBillView.as_view(), name='repair_bill_new'),
-    url(r'^mechs/repair/(?P<bill>[0-9]+)/itemised', RepairBillLineView.as_view()),
-    url(r'^mechs/repair/(?P<bill>[0-9]+)/setcrit', AjaxCritObjectView.as_view()),
+    url(r'^mechs/repair/(?P<bill>[0-9]+)/?$', repair_views.RepairBillView.as_view(), name='repair_bill'),
+    url(r'^mechs/repair/new/(?P<stablemech>[0-9]+)/?$', repair_views.CreateRepairBillView.as_view(), name='repair_bill_new'),
+    url(r'^mechs/repair/(?P<bill>[0-9]+)/itemised', repair_views.RepairBillLineView.as_view()),
+    url(r'^mechs/repair/(?P<bill>[0-9]+)/setcrit', repair_views.AjaxCritObjectView.as_view()),
+    url(r'^mechs/repair/(?P<bill>[0-9]+)/setdamage', repair_views.AjaxDamageLocationView.as_view()),
 
     url(r'^query/list-produced/?$', ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto'),    
     url(r'^query/list-variants/?$', ListProductionVariants.as_view(), name = 'stable_query_mechvariant') 
