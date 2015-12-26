@@ -27,7 +27,7 @@ def loadMechFolder(path=settings.SSW_STOCK_MECHS_ROOT, relative_path='.', basepa
             except BaseException as e:
                 print '%s > %s ' % (relative_path, e)
                 traceback.print_exc()
-                failures[relative_path] = e
+                failures[fullpath] = e
             finally:
                 #Explicitly free memory, because letting them pile up is a serious memory hog
                 del loader   
