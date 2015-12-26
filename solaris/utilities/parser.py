@@ -121,8 +121,13 @@ class SSWLegAESList(SSWItemList):
     item_class = 'AES'
     item_group = 'Q'
 
-    def __init__(self, xmlnode):
-        self.parse_items('Leg AES', item_name)
+    def __init__(self, xmlnode, motive_type='B'):
+        if motive_type == 'B':
+            self.parse_items(xmlnode, 'Leg AES (Biped)')
+        elif motive_type == 'Q':
+            self.parse_items(xmlnode, 'Leg AES (Quad)')
+        else:
+            self.parse_items(xmlnode, 'Leg AES')
     
 
 class SSWLoadout(list):
@@ -141,7 +146,7 @@ class SSWLoadout(list):
 
         xml_legaes = xmlnode.xpath('./leg_aes')
         if xml_legaes:
-            self += SSWLegAESList(xml_legaes[0]) 
+            self += SSWLegAESList(xml_legaes[0], motive_type=motive_type) 
 
         for turretXML in xmlnode.xpath('./turret'):
             turret = SSWTurret(turretXML)

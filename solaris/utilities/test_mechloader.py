@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.exceptions import ObjectDoesNotExist
 
+from solaris.utilities.loader import SSWLoader
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.equipment.models import MechEquipment
 
@@ -167,6 +168,15 @@ class MechTestMixin(object):
 
         mounted_name = mount.equipment.equipment.ssw_name
         self.assertEqual(mounted_name, ssw_name, "Object mounted in %s [%s] is %s, not %s" % (location, slots, mounted_name, ssw_name))
+
+class LoadedMechTestMixin(MechTestMixin):
+    ssw_filename = 'TestMech.ssw'
+    mechs_path   = 'data/test-mechs/'
+
+    def setUp(self):
+        self.loader = SSWLoader(self.__class__.ssw_filename, basepath=self.__class__.mechs_path)
+        self.loader.load_mechs(print_message=False)
+        super(LoadedMechTestMixin, self).setUp()
 
 class Wolverine7DTests(MechTestMixin, TestCase):
     mech_ident = {
@@ -618,3 +628,56 @@ class Whitworth5STests(MechTestMixin, TestCase):
 
     def test_leftArmAES(self):
         self.assertEquipment('LA', '8,9', 'AES - Arm AES')
+
+class AESQuadMechTests(LoadedMechTestMixin, TestCase):
+    ssw_filename = 'QuadAESTest QAT-1.ssw'
+    mech_ident = {
+        'mech_name'    : 'QuadAESTest'
+    ,   'mech_code'    : 'QAT-1'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [5,8,0]
+    directfire_tonnage = 5
+    check_fields = {
+        'production_year'  : 2750
+    ,   'ssw_description'  : 'QuadAESTest QAT-1 55t, 5/8/0, Std FE, Std Quad; 11.5T/92% Armor; 10 SHS; 1 SSRM6, 1 LL'
+    ,   'credit_value'     : 4597816
+    ,   'bv_value'         : 1218
+    }
+    locations = mechLocations['Quad']
+
+    def test_rightForeAES(self):
+        self.assertEquipment('RFL', '5,6', 'AES - Leg AES (Quad)')
+
+    def test_leftForeAES(self):
+        self.assertEquipment('LFL', '5,6', 'AES - Leg AES (Quad)')
+
+    def test_rightRearAES(self):
+        self.assertEquipment('RRL', '5,6', 'AES - Leg AES (Quad)')
+
+    def test_leftRearAES(self):
+        self.assertEquipment('LRL', '5,6', 'AES - Leg AES (Quad)')
+
+class AESBipedMechTests(LoadedMechTestMixin, TestCase):
+    ssw_filename = 'BipedAESTest BAT-1.ssw'
+    mech_ident = {
+        'mech_name'    : 'BipedAESTest'
+    ,   'mech_code'    : 'BAT-1'
+    ,   'omni_loadout' : 'Base'
+    }
+    movement_profile = [5,8,0]
+    directfire_tonnage = 5
+    check_fields = {
+        'production_year'  : 2750
+    ,   'ssw_description'  : 'BipedAESTest BAT-1 35t, 5/8/0, Std FE, Std; 7.0T/94% Armor; 10 DHS; 1 LL, 1 SSRM6'
+    ,   'credit_value'     : 2500110
+    ,   'bv_value'         : 843
+    }
+    locations = mechLocations['Biped']
+
+    def test_rightLegAES(self):
+        self.assertEquipment('RL', '5', 'AES - Leg AES (Biped)')
+
+    def test_leftForeAES(self):
+        self.assertEquipment('LL', '5', 'AES - Leg AES (Biped)')
+
