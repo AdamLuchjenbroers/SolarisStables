@@ -1,16 +1,16 @@
 <div class="repair-bill-section" id="repair-section-{{section | lower}}">
-  <div class="repair-section-header">
-       <span class="repair-header repair-item-name">{{section}} Costs</span>
-       <span class="repair-header repair-item-quantity"></span>
-       <span class="repair-header repair-item-tons"><span>
-       <span class="repair-header repair-item-cost"></span>
+  <div class="ledger-section-header ledger-row">
+       <span class="ledger-header repair-item-name">{{section}} Costs</span>
+       <span class="ledger-header ledger-rightalign repair-item-quantity">Qty</span>
+       <span class="ledger-header ledger-rightalign repair-item-tons">{% if section == 'Construction' %}Tons{% endif %}</span>
+       <span class="ledger-header ledger-rightalign repair-item-cost">Cost</span>
   </div>
   {% for item in section_lines %}
-     <div class="repair-section-item">
-       <span class="repair-data repair-item-name">{{item.item.equipment.name}}</span>
-       <span class="repair-data repair-item-quantity">{{item.count}}</span>
-       <span class="repair-data repair-item-tons">{% if item.tons %}{{item.tons}}{% endif %}</span>
-       <span class="repair-data repair-item-cost">{{item.cost}}</span>
+     <div class="ledger-section-item ledger-row">
+       <span class="ledger-data repair-item-name">{{item.item.equipment.name}}</span>
+       <span class="ledger-data ledger-rightalign repair-item-quantity">{{item.count}}</span>
+       <span class="ledger-data ledger-rightalign repair-item-tons">{% if item.tons %}{{item.tons}}{% endif %}</span>
+       <span class="ledger-data ledger-rightalign repair-item-cost">{{item.cost}}</span>
      </div>
   {% endfor %}
 </div>
