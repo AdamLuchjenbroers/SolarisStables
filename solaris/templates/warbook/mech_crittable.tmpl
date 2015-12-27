@@ -1,3 +1,5 @@
+{% load mech_items %}
+
 {% block crit-table %}
 <div class="mech-criticals-table" id="criticals_{{object.location_code}}">
   <div class="mech-section-header mech-criticals-header"> {{ object.location_name }} </div>
@@ -7,13 +9,7 @@
       <div class="mech-criticals-slot">
         <span class="mech-criticals_slotnum">{% cycle '1' '2' '3' '4' '5' '6' %}</span>
       {% if item %}
-        {% if item.is_crittable %}
-          <span class="mech-criticals-item item-crittable{% if item.is_ammo %} item-ammo{% endif %}" slot="{{forloop.counter}}" location="{{object.location_code}}">
-        {% else %}
-          <span class="mech-criticals-item item-noncrittable">
-        {% endif %}
-        {{item.get_equipmentname}}
-        </span>
+        {% crit_item %}
       {% else %}
         <span class="mech-criticals-item item-noitem">-- No Item --</span>
       {% endif %}

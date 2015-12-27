@@ -53,7 +53,12 @@ class RepairBill(models.Model):
 
     def getCritical(self, location, slot):
         billLocation = self.getLocation(location)
-    
+        try:
+            billCrit = billLocation.crits.get(slot=slot)
+            return billCrit.critted
+        except RepairBillCrit.DoesNotExist:
+            # No crit entry, therefore not critted
+            return False
 
     def setCritical(self, location, slot, critted=True):
         billLocation = self.getLocation(location)
