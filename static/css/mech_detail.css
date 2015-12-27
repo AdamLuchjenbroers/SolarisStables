@@ -73,6 +73,10 @@ div.mech-armour-location {
 	width: 60px;
 }
 
+.mech-repair div.mech-armour-front div.mech-section-header:hover {
+  background-color: #FF6666;
+}
+
 .mech-section-row {
 	display: flex;
 	justify-content: space-between;
@@ -275,7 +279,7 @@ span.mech-criticals-item  {
   text-align: center;
 }
 
-.mech-repair  .item-crittable:hover {
+.mech-repair .item-crittable:hover {
 	background-color: #FF8888;
 	border-radius: 3px;
 }

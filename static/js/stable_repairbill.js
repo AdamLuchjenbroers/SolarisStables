@@ -16,6 +16,39 @@ function damage_location() {
   });
 }
 
+function do_destroy_location(loc) {
+  $.ajax({
+    type : 'post',
+    url  : window.location.href + '/destroy',
+    dataType : 'json',
+    data : {
+      location : loc
+    },
+  }).done(function(newState) {
+    $('#input_armour_' + loc.toLowerCase()).val(newState['armour']);
+    $('#input_structure_' + loc.toLowerCase()).val(newState['structure']);
+    $.each(newState['criticals'], function(slot, critted) {
+      $('.item-crittable[location=\"' + loc + '\"][slot=\"' + slot + '\"]').setCritted(critted);
+    });
+  });
+}
+
+function destroy_location() {
+  loc = $(this).text();
+
+  $('#dialog-destroy').text('Are you sure you want to mark the ' + loc + ' as destroyed?');
+  $('#dialog-destroy').dialog({
+    title   : 'Destroy Location'
+  , buttons : {
+      'Leave Intact' : function() { $(this).dialog('close'); }
+    , 'Destroy' : function() { 
+         do_destroy_location(loc);
+         $(this).dialog('close');
+       }
+    }
+  });
+}
+
 function crit_item() {
   var setCrit = !$(this).isCritted()
   item = $(this);
@@ -48,6 +81,7 @@ $.fn.extend({
 $( document ).ready(function() {
   $('.item-crittable').click(crit_item);
   $('.mech-armour-location input').change(damage_location);
+  $('.mech-armour-front .mech-section-header').click(destroy_location);
 });
 
 $( document ).ajaxStop( function() {

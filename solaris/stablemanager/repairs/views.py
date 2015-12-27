@@ -92,3 +92,15 @@ class AjaxDamageLocationView(RepairBillMixin, View):
             return HttpResponse(json.dumps(result))
         except KeyError:
             return HttpResponse('Incomplete AJAX request', 401)
+
+class AjaxDestroyLocationView(RepairBillMixin, View): 
+    def post(self, request):        
+        try:
+            location = request.POST['location']
+
+            self.bill.destroyLocation(location)
+            result = self.bill.locationState(location)
+
+            return HttpResponse(json.dumps(result))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 401)

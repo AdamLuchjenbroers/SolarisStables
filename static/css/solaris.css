@@ -487,7 +487,7 @@ div.ui-dialog {
   border: 2px solid #262233;
   border-radius: 5px;
   box-shadow: 2px 2px 4px #000000;
-  background: #888888;
+  background: #DDDDDD;
 }
 
 div.ui-dialog-titlebar {
@@ -499,7 +499,7 @@ div.ui-dialog-titlebar {
 }
 
 div.ui-dialog-buttonpane {
-  background: #888888;
+  background: #DDDDDD;
   border: 0px;
 }
 
@@ -989,7 +989,9 @@ input.icon-button {
     text-shadow: 2px 2px 4px #888888; 
 }
 
-
+.hidden {
+    display: none;
+}
 
 /****************************************
  * Attic
