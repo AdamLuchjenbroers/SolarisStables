@@ -3,7 +3,7 @@
 
   <div class="mech-armour mech-motive-{{mech.motive_type | lower}} {{detail_class}}">
     {% for location in mech.locations.all %} {% block mech-structure %}
-      <div class="mech-armour-location" id="armour_{{location.location_code | lower}}">
+      <div class="mech-armour-location {%if location.is_front %}mech-armour-front{% else %}mech-armour-back{%endif%}" id="armour_{{location.location_code | lower}}">
         <div class="mech-section-header">{{location.location_code}}</div>
         <div class="mech-section-row mech-armour-armour">A<span>{{location.armour}}</span></div>
         {% if location.structure %}

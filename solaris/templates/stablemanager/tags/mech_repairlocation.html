@@ -1,4 +1,4 @@
-<div class="mech-armour-location" id="armour_{{location.location_code | lower}}">
+<div class="mech-armour-location {%if location.is_front%}mech-armour-front{% else %}mech-armour-back{%endif%}" id="armour_{{location.location_code | lower}}">
   <div class="mech-section-header">{{location.location_code}}</div>
   <div class="mech-armour-armour mech-section-row">
     A<input type="number" value="{{armour}}" damage="armour" location="{{location.location_code}}" class="mech-armour-input mech-input-armour" id="input_armour_{{location.location_code | lower}}" class="mech-input-armour" max={{location.armour}}/>

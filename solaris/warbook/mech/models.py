@@ -152,6 +152,9 @@ class MechDesignLocation(models.Model):
     armour = models.IntegerField()
     structure = models.IntegerField(null=True, blank=True)
 
+    def is_front(self):
+        return (self.location.rear_of == None)
+
     def item_at(self, slot):
         for item in self.criticals.all():
             if '%i' % slot in item.get_slots():

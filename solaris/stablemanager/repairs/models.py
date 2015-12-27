@@ -20,10 +20,16 @@ class RepairBill(models.Model):
         app_label = 'stablemanager'
 
     def getLocation(self, location):
-        mechLocation = self.mech.locations.get(location__location=location)
-        (billLocation, created) = self.locations.get_or_create(location=mechLocation)
+        try:
+            mechLocation = self.mech.locations.get(location__location=location)
+            (billLocation, created) = self.locations.get_or_create(location=mechLocation)
         
-        return billLocation   
+            return billLocation
+        except MechDesignLocation.DoesNotExist:
+            return None   
+
+    def locationState(self, location):
+        return self.getLocation(location).locationState()
 
     def destroyLocation(self, location):
         self.getLocation(location).destroyLocation()
@@ -229,6 +235,13 @@ class RepairBillLocation(models.Model):
     armour_lost = models.IntegerField(default=0)
     structure_lost = models.IntegerField(default=0)
     destroyed_line = models.ForeignKey(RepairBillLineItem, blank=True, null=True)
+
+    def locationState(self):
+        return {
+          'armour' : self.armour_lost
+        , 'structure' : self.structure_lost
+        , 'criticals' : dict([(crit.slot, crit.critted) for crit in self.crits.all()])
+        }
 
     def destroyLocation(self):
         self.armour_lost = self.location.armour
