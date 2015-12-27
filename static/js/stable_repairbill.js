@@ -13,7 +13,6 @@ function damage_location() {
     },
   }).done(function(newState) {
     item.val(newState);
-    $('#repair-cost-itemised').load(window.location.href + '/itemised')
   });
 }
 
@@ -31,16 +30,26 @@ function crit_item() {
     , critted  : setCrit
     },
   }).done(function(newState) {
-	  if (newState == 'true') {
-		  item.addClass('item-critted');
-	  } else {
-		  item.removeClass('item-critted');
-	  }
-          $('#repair-cost-itemised').load(window.location.href + '/itemised')
+    if (newState) {
+      item.addClass('item-critted');
+    } else {
+      item.removeClass('item-critted');
+    }
   });
 }
 
 $( document ).ready(function() {
-	$('.item-crittable').click(crit_item);
-        $('.mech-armour-location input').change(damage_location);
+  $('.item-crittable').click(crit_item);
+  $('.mech-armour-location input').change(damage_location);
+});
+
+$( document ).ajaxStop( function() {
+  $.ajax({
+    type : 'get',
+    url  : window.location.href + '/itemised',
+    dataType : 'html',
+    global : false
+  }).done(function(itemised) {
+    $('#repair-cost-itemised').html(itemised);
+  });
 });
