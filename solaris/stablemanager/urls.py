@@ -30,7 +30,7 @@ urlpatterns = patterns('',
     url(r'^pilots/?$', StablePilotsView.as_view()),
     url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),
 
-    url(r'^mechs/repair/?', include('solaris.stablemanager.repairs.urls')),
+    url(r'^mechs/repair/', include('solaris.stablemanager.repairs.urls')),
 
     url(r'^query/list-produced/?$', ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto'),    
     url(r'^query/list-variants/?$', ListProductionVariants.as_view(), name = 'stable_query_mechvariant') 
