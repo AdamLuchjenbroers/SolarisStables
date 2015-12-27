@@ -17,7 +17,7 @@ function damage_location() {
 }
 
 function crit_item() {
-  var setCrit = !$(this).hasClass('item-critted')
+  var setCrit = !$(this).isCritted()
   item = $(this);
   
   $.ajax({
@@ -30,13 +30,20 @@ function crit_item() {
     , critted  : setCrit
     },
   }).done(function(newState) {
-    if (newState) {
-      item.addClass('item-critted');
-    } else {
-      item.removeClass('item-critted');
-    }
+    item.setCritted(newState);
   });
 }
+
+$.fn.extend({
+  isCritted : function () { return this.hasClass('item-critted') }
+, setCritted : function(critted) {
+    if (critted) {
+      this.addClass('item-critted');
+    } else {
+      this.removeClass('item-critted');
+    }
+  },
+});
 
 $( document ).ready(function() {
   $('.item-crittable').click(crit_item);
@@ -53,3 +60,5 @@ $( document ).ajaxStop( function() {
     $('#repair-cost-itemised').html(itemised);
   });
 });
+
+
