@@ -67,8 +67,8 @@ class AjaxCritObjectView(RepairBillMixin, View):
         try:
             location = request.POST['location']
             slot = int(request.POST['slot'])
-            critted = request.POST['critted']
-        
+            critted = (request.POST['critted'].upper() == 'TRUE')
+ 
             result = self.bill.setCritical(location, slot, critted=critted)
             return HttpResponse(json.dumps(result))
         except KeyError:
