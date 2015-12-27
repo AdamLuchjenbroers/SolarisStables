@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                 ('count', models.IntegerField(default=0)),
                 ('tons', models.DecimalField(null=True, max_digits=4, decimal_places=1, blank=True)),
                 ('cost', models.IntegerField(default=0)),
-                ('line_type', models.CharField(max_length=1, choices=[(b'A', b'Armour'), (b'S', b'Structure'), (b'Q', b'Equipment'), (b'M', b'Ammunition'), (b'L', b'Labour Cost')])),
+                ('line_type', models.CharField(max_length=1, choices=[(b'A', b'Armour'), (b'S', b'Structure'), (b'O', b'Location'), (b'Q', b'Equipment'), (b'M', b'Ammunition'), (b'L', b'Labour Cost')])),
                 ('bill', models.ForeignKey(related_name='lineitems', to='stablemanager.RepairBill')),
                 ('item', models.ForeignKey(blank=True, to='warbook.MechEquipment', null=True)),
             ],
@@ -63,6 +63,7 @@ class Migration(migrations.Migration):
                 ('armour_lost', models.IntegerField(default=0)),
                 ('structure_lost', models.IntegerField(default=0)),
                 ('bill', models.ForeignKey(related_name='locations', to='stablemanager.RepairBill')),
+                ('destroyed_line', models.ForeignKey(blank=True, to='stablemanager.RepairBillLineItem', null=True)),
                 ('location', models.ForeignKey(to='warbook.MechDesignLocation')),
             ],
             options={
@@ -82,13 +83,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='repairbillcrit',
             name='lineitem',
-            field=models.ForeignKey(to='stablemanager.RepairBillLineItem'),
+            field=models.ForeignKey(related_name='crits', to='stablemanager.RepairBillLineItem'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='repairbillcrit',
             name='location',
-            field=models.ForeignKey(to='stablemanager.RepairBillLocation'),
+            field=models.ForeignKey(related_name='crits', to='stablemanager.RepairBillLocation'),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(

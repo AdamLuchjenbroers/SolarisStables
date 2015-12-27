@@ -51,6 +51,10 @@ class RepairBill(models.Model):
         (armour_lost, structure_lost) = self.setDamage(location, structure=amount) 
         return structure_lost
 
+    def getCritical(self, location, slot):
+        billLocation = self.getLocation(location)
+    
+
     def setCritical(self, location, slot, critted=True):
         billLocation = self.getLocation(location)
 
@@ -159,6 +163,7 @@ class RepairBillLineItem(models.Model):
     line_groups = (
        ('A', 'Armour'),
        ('S', 'Structure'),
+       ('O', 'Location'),
        ('Q', 'Equipment'),
        ('M', 'Ammunition'),
        ('L', 'Labour Cost'),
@@ -204,8 +209,8 @@ class RepairBillLineItem(models.Model):
 class RepairBillCrit(models.Model):
     slot = models.IntegerField()
     critted = models.BooleanField(default=False)
-    location = models.ForeignKey('RepairBillLocation')
-    lineitem = models.ForeignKey('RepairBillLineItem')
+    location = models.ForeignKey('RepairBillLocation', related_name='crits')
+    lineitem = models.ForeignKey('RepairBillLineItem', related_name='crits')
 
     class Meta:
         verbose_name = 'Repair Bill Crit'
@@ -218,6 +223,7 @@ class RepairBillLocation(models.Model):
     location = models.ForeignKey(MechDesignLocation)
     armour_lost = models.IntegerField(default=0)
     structure_lost = models.IntegerField(default=0)
+    destroyed_line = models.ForeignKey(RepairBillLineItem, blank=True, null=True)
 
     def destroyLocation(self):
         self.armour_lost = self.location.armour
