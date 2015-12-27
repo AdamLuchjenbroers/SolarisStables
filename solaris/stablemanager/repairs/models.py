@@ -28,6 +28,10 @@ class RepairBill(models.Model):
     def destroyLocation(self, location):
         self.getLocation(location).destroyLocation()
 
+    def getDamage(self, location):
+        billLocation = self.getLocation(location)
+        return (billLocation.structure_lost, billLocation.armour_lost)
+
     def setDamage(self, location, armour=None, structure=None):
         billLocation = self.getLocation(location)
         if armour != None:
