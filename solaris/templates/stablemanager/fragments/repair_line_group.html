@@ -7,7 +7,7 @@
   </div>
   {% for item in section_lines %}
      <div class="ledger-section-item ledger-row">
-       <span class="ledger-data repair-item-name">{{item.item.equipment.name}}</span>
+       <span class="ledger-data repair-item-name">{{item.item}}</span>
        <span class="ledger-data ledger-rightalign repair-item-quantity">{{item.count}}</span>
        <span class="ledger-data ledger-rightalign repair-item-tons">{% if item.tons %}{{item.tons}}{% endif %}</span>
        <span class="ledger-data ledger-rightalign repair-item-cost">{{item.cost}}</span>

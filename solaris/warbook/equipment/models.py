@@ -145,6 +145,16 @@ class MechEquipment(models.Model):
         
     def cost(self, units=None):
         return self.equipment.cost(self.mech, units=units)
+
+    def __unicode__(self):
+        primaryMount = self.primary_location()
+        if self.equipment.equipment_class in ('E', 'G', 'C', 'S'):
+            return self.equipment.name
+        elif self.equipment.equipment_class in ('T'):
+            return '%s (%s)' % (self.equipment.name, primaryMount.location.location.location)
+        else:
+            return '%s (%s %s)' % (self.equipment.name, primaryMount.location.location.location, primaryMount.slots)
+
         
     class Meta:
         verbose_name_plural = 'Mech Equipment'
