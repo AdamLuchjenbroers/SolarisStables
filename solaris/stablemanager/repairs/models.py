@@ -79,6 +79,7 @@ class RepairBill(models.Model):
                 lineitem.tons = 0
                 
         billCrit.critted = critted      
+        lineitem.save()
         billCrit.save()
         
         return billCrit.critted

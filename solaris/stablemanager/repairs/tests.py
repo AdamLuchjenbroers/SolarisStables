@@ -228,6 +228,13 @@ class LabourCostTests(RepairBillTestMixin, TestCase):
         # Cost should be 105000 X 0.55 (for 55 ton mech) = 57750
         self.assertEquals(lineitem.cost, 57750, 'Labour cost to repair a jumpjet and LRM should be 57750, got %i' % lineitem.cost)
 
+class UndoItemCritTests(RepairBillTestMixin, TestCase):
+    def test_jumpjetUndoLineItem(self):
+        self.bill.setCritical('RT',1)
+        self.bill.setCritical('RT',1, critted=False)
+        lineitem = self.bill.lineitems.get(line_type='Q', item__equipment__ssw_name = 'Jumpjet - Standard Jump Jet')
+        self.assertEquals(lineitem.count, 0, 'Expected jumpjet count is 0, found %i' % lineitem.count)
+
 class DestroyedAmmoTests(RepairBillTestMixin, TestCase):
     def setUp(self):
         super(DestroyedAmmoTests, self).setUp()
