@@ -139,10 +139,10 @@ class RepairBillLineManager(models.Manager):
         return billLine
     
     def construction_lines(self):
-        return self.get_queryset().filter(line_type__in=('A','S'))    
+        return self.get_queryset().filter(line_type__in=('A','S'), count__gt=0)    
     
     def equipment_lines(self):
-        return self.get_queryset().filter(line_type='Q')    
+        return self.get_queryset().filter(line_type='Q', count__gt=0).order_by('-cost')    
     
     
 class RepairBillLineItem(models.Model):
