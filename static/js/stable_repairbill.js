@@ -25,8 +25,11 @@ function do_destroy_location(loc) {
       location : loc
     },
   }).done(function(newState) {
-    $('#input_armour_' + loc.toLowerCase()).val(newState['armour']);
-    $('#input_structure_' + loc.toLowerCase()).val(newState['structure']);
+    $.each(newState['locations'], function(loc, state) {
+      $('#input_armour_' + loc.toLowerCase()).val(state['armour']);
+      $('#input_structure_' + loc.toLowerCase()).val(state['structure']);
+    });
+
     $.each(newState['criticals'], function(slot, critted) {
       $('.item-crittable[location=\"' + loc + '\"][slot=\"' + slot + '\"]').setCritted(critted);
     });

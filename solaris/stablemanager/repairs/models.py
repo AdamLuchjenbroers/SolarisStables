@@ -236,16 +236,28 @@ class RepairBillLocation(models.Model):
     structure_lost = models.IntegerField(default=0)
     destroyed_line = models.ForeignKey(RepairBillLineItem, blank=True, null=True)
 
-    def locationState(self):
+    def armourState(self):
         return {
           'armour' : self.armour_lost
         , 'structure' : self.structure_lost
+        }
+
+    def locationState(self):
+        locations = { self.location.location_code() : self.armourState() }
+        for rear in self.location.location.front_of.all():
+            rearBill = self.bill.getLocation(rear.location)
+            rearBill.destroyLocation()
+            locations[rear.location] = rearBill.armourState() 
+
+        return {
+          'locations' : locations 
         , 'criticals' : dict([(crit.slot, crit.critted) for crit in self.crits.all()])
         }
 
     def destroyLocation(self):
         self.armour_lost = self.location.armour
-        self.structure_lost = self.location.structure
+        if self.location.structure != None:
+            self.structure_lost = self.location.structure
 
         for item in self.location.criticals.all():
             billLine = RepairBillLineItem.objects.line_for_item(item.equipment, self.bill)
