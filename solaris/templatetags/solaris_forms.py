@@ -15,8 +15,6 @@ class TemplateFieldNode(template.Node):
         node_context = template.Context( {'field' : field_object, 'css_class' : self.css_class }) 
         return mark_safe(self.template.render(node_context))
 
-    
-
 @register.tag(name="basic_field")
 def do_basic_field(parser, token):
     try:
