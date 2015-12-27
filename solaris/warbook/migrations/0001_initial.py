@@ -313,10 +313,10 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(to='warbook.PilotTraitGroup', db_table=b'warbook_house_x_discipline'),
             preserve_default=True,
         ),
-        migrations.RunPython(load_houses, reverse_code=noop),
         migrations.RunPython(load_mechlocations, reverse_code=noop),
         migrations.RunPython(load_pilotranks, reverse_code=noop),
         migrations.RunPython(load_pilottraitgroup, reverse_code=noop),
         migrations.RunPython(load_pilottrait, reverse_code=noop),
         migrations.RunPython(load_trainingcost, reverse_code=noop),
+        migrations.RunPython(load_houses, reverse_code=noop),
     ]
