@@ -14,13 +14,13 @@
  
   <div id="stable-ledger">
    
-  <div id="stable-ledger-header">
+  <div id="stable-ledger-header" class="ledger-row">
     <span class="ledger-desc">Opening Balance</span>
     <span class="ledger-value" id="ledger-opening-balance">{{opening_balance}}</span>
   </div>
   
   {% for group in ledger_groups %}
-    <div class="ledger-subheader">
+    <div class="ledger-row ledger-section-header">
       <span class="ledger-desc">{{group.description}}</span>
       <span class="ledger-value" id="ledger-value-{{group.code | lower}}"> </span>
     </div>
@@ -30,17 +30,19 @@
     {% endfor %}{% endif %}
 
     {% if group.form %}
+    <div class="ledger-item ledger-row">
     {% ledger_add_form group.form %}
+    </div>
     {% endif %}
 
-    <div class="ledger-item ledger-item-summary" id="ledger-summary-{{group.code | lower}}">
+    <div class="ledger-row ledger-item ledger-item-summary" id="ledger-summary-{{group.code | lower}}">
       <span class="ledger-action"></span>
       <span class="ledger-desc">Total</span>
       <span class="ledger-value" id="ledger-sumvalue-{{group.code | lower}}"> </span>
     </div>
   {% endfor %}
 
-  <div id="stable-ledger-footer">
+  <div id="ledger-row stable-ledger-footer">
     <span class="ledger-desc">Closing Balance</span>
     <span class="ledger-value" id="ledger-closing-balance">{{closing_balance}}</span>
   </div>

@@ -935,14 +935,46 @@ li.chit.tier3 a.omni-row:hover {
   border-radius: 5px;
 }
 
+#stable-ledger {
+  width: 80%;
+}
+
+#stable-ledger-header {
+    margin-top: 6px;
+    border-bottom: 4px double #000000;
+}
+
+#stable-ledger-footer {
+    margin-top: 6px;
+    border-top: 4px double #000000;
+    border-bottom: 2px solid #000000;
+}
+
 .ledger-row {
   display: flex;
-  margin: 0.5rem 1rem;
+  margin: 0rem 1rem;
+  vertical-align: bottom;
+}
+
+.ledger-row-inner, form.ledger-item-edit {
+  display: flex;
+  flex-grow: 1;
+  vertical-align: bottom;
+  margin: 0px;
+}
+
+div.ledger-item span:not(.ledger-action) {
+  margin-top: 0.4em;
 }
 
 .ledger-section-header {
   border-bottom: 2px solid #000000;
   font-weight: bold;
+  margin: 0.5rem 1rem 0.5rem 4rem;
+}
+
+div.ledger-section-header + .ledger-item {
+    border-top: none;
 }
 
 .ledger-header:not(.repair-item-name) {
@@ -954,7 +986,12 @@ li.chit.tier3 a.omni-row:hover {
   margin-left: 4rem;
 }
 
-.repair-item-name {
+.ledger-item  {
+    margin-left: 8rem;
+    border-top: 1px dashed #888888;	
+}
+
+.repair-item-name, .ledger-desc {
   flex-grow: 1;
 }
 
@@ -966,9 +1003,14 @@ li.chit.tier3 a.omni-row:hover {
   width: 4rem;
 }
 
-.repair-item-cost {
+.repair-item-cost, .ledger-cost {
   width: 8rem;
 }
+
+span.ledger-negative {
+    color: #AA2222;
+}
+
 
 /****************************************
  * UI Elements 
@@ -990,7 +1032,6 @@ li.chit.tier3 a.omni-row:hover {
 }
 
 input.icon-button {
-    margin-left: 0.5em;
     border: none;
     background: transparent;
     

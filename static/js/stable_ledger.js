@@ -2,7 +2,7 @@
 function recalc_group(group) {
    var grouptotal = 0;
    
-  $('div.item-group-' + group + ' div.ledger-view-display span.ledger-value p').each( function() {
+  $('div.item-group-' + group + ' div.ledger-view-display span.ledger-value').each( function() {
     cost = parseInt( $(this).text());
 
     if (!isNaN(cost)) {
@@ -31,14 +31,14 @@ function recalc_all() {
 
 $.fn.extend ({
 	showForm : function () {
-		this.find('div.ledger-view-display').hide();
-		this.find('form.ledger-item-edit').show();	
+		this.find('.ledger-view-display').hide();
+		this.find('.ledger-item-edit').show();	
 		
 		return this;
 	},
 	showItem : function () {
-		this.find('form.ledger-item-edit').hide();
-		this.find('div.ledger-view-display').show();
+		this.find('.ledger-item-edit').hide();
+		this.find('.ledger-view-display').show();
 		
 		return this;
 	},

@@ -1,6 +1,8 @@
-<form class="ledger-item ledger-item-{{action_text | lower}}" action="{{post_url}}" method="POST">
+<form class="ledger-item-{{action_text | lower}} ledger-item-form"action="{{post_url}}" method="POST">
+<div class="ledger-row-inner">
   <span class="ledger-{{action_text | lower}} ledger-action"><input type="submit" Value="{{action | safe}}" class="icon-button ledger-{{action_text | lower}} submit" tabindex="{{submit_tab}}"/></span>
-  <span class="ledger-value">{{form.cost}}</span>
   <span class="ledger-desc">{{form.description}}</span>
+  <span class="ledger-value">{{form.cost}}</span>
   <span class="ledger-hidden">{{form.type}} {{form.id}}</span>
+</div>
 </form>

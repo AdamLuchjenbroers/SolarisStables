@@ -11,47 +11,20 @@ div#stable-ledger {
  * Header and Footer
  *******************************************/
 
-div#stable-ledger-header, div#stable-ledger-footer {
-    width: 100%;
-    display: block;
-    float: none;
-}
-
-div#stable-ledger-header {
-    margin-top: 6px;
-    border-bottom: 4px double #000000;
-}
-
-div#stable-ledger-footer {
-    margin-top: 6px;
-    border-top: 4px double #000000;
-    border-bottom: 2px solid #000000;
-}
-
-div#stable-ledger-header span, div#stable-ledger-footer span {
-    display: inline-block;
-}
 
 div#stable-ledger-header span, div#stable-ledger-footer span {
     margin: auto;
     height: 100%;
 
     font-weight: bold;
-    font-size: 160%;
-   
-    margin-bottom: 0.2em; 
-    padding: 0px;
-    
-    text-align: left;
-    vertical-align: middle;
-    padding-left: 20px;
+    font-size: 130%;
 }
 
 /*******************************************
  * Subheadings
  *******************************************/
 
-div.ledger-subheader {
+div.ledger-subheaderz {
     display: block;
     float: none;
    
@@ -60,7 +33,7 @@ div.ledger-subheader {
     border-bottom: 2px solid #000000; 
 }
 
-div.ledger-subheader span.ledger-desc { 
+div.ledger-subheaderz span.ledger-desc { 
     display: inline-block;
     font-size: 110%;
     font-weight: bold;
@@ -69,20 +42,6 @@ div.ledger-subheader span.ledger-desc {
 /*******************************************
  * Line Items
  *******************************************/
-
-.ledger-item  {
-    display: block;
-    margin-left: 40px;
-     
-    float: none;
-    position: relative;
-
-    border-top: 1px dashed #888888;	
-}
-
-div.ledger-subheader + .ledger-item {
-    border-top: none;
-}
 
 .ledger-item span {
     display: inline-block;
@@ -108,23 +67,6 @@ div.ledger-item-edit:hover input.ledger-edit {
     visibility: visible;
 }
 
-span.ledger-desc {
-    width: 24em;
-}
-
-span.ledger-value {
-    float: right;
-    width: 100px;
-    margin-right: 2em;
-    
-    text-align: left;
-    vertical-align: middle;
-}
-
-span.ledger-negative {
-    color: #AA2222;
-}
-
 div.ledger-item-summary {
     border-top: 4px double #000000;
     border-bottom: 1px solid #000000;
@@ -143,7 +85,6 @@ form.ledger-form input {
 
 span.ledger-value input {
     align: middle;
-    width: 90%;
 }
 
 span.ledger-action { 
@@ -153,16 +94,8 @@ span.ledger-action {
     vertical-align: middle;
 }
 
-.ledger-item input, .ledger-item p {
-    vertical-align: middle;
-    
-    height: 1.1em;
-    margin-top: 0.2em;
-    margin-bottom: 0.2em;
-}
-
-div.ledger-view-display, div.ledger-view-update {
-    width: 100%
+span.ledger-action input, span.ledger-desc input {
+  margin-left: 0px;
 }
 
 form.ledger-item-edit {
@@ -173,8 +106,6 @@ form.ledger-item-edit {
 form.ledger-item-delete {
     position: absolute;
     display: none;
-    right: 0px;
-    bottom: 0px;
 }
 
 input.ledger-delete {
@@ -185,15 +116,8 @@ div.ledger-item-edit:hover form.ledger-item-delete {
     display: block;
 }
 
-div h1, div h2, div h3, div p {
-    margin: auto;
-    height: 100%;
-    
-    padding: 0px;
-    
-    text-align: left;
-    vertical-align: middle;
-    padding-left: 20px;
-    padding-right: 20px;
+form.ledger-item-add {
+    display: block;
+    width: 100%;
 }
 
