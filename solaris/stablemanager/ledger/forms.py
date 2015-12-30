@@ -28,7 +28,7 @@ class LedgerItemForm(ModelForm):
                 
     class Meta:
         model = LedgerItem
-        fields = ('id', 'description', 'type', 'cost')
+        fields = ('id', 'description', 'type', 'cost', 'ledger')
         
 class LedgerDeleteForm(Form): 
     id = IntegerField(widget=HiddenInput, required=True)

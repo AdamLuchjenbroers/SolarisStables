@@ -62,14 +62,12 @@ class StableLedgerView(StableWeekMixin, TemplateView):
         return page_context
     
     def post(self, request, stable=None, week=None, ledger=None):
-        self.ledger = get_object_or_404(StableWeek, stable=self.stable, week=self.week)
-        
         form_values = deepcopy(request.POST)
-        form_values['ledger'] = self.ledger.id
+        form_values['ledger'] = self.stableweek.id
         form_values['tied'] = False
-                
+        
         try:
-            instance = LedgerItem.objects.get(id=form_values['id'], ledger=self.ledger)
+            instance = LedgerItem.objects.get(id=form_values['id'], ledger=self.stableweek)
         except (LedgerItem.DoesNotExist, KeyError, ValueError):
             instance = None
         
