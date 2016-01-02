@@ -1043,6 +1043,18 @@ input.icon-button {
     text-shadow: 2px 2px 4px #888888; 
 }
 
+#actionbar-weekbrowser {
+    margin-left: -2em;
+}
+
+#actionbar-weekbrowser span {
+  margin: 0px 0.2rem;
+}
+
+#browse-week-current {
+  margin: 0px;
+}
+
 .hidden {
     display: none;
 }
