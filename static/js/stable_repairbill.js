@@ -56,7 +56,7 @@ function crit_item() {
   var setCrit = !$(this).isCritted()
   item = $(this);
  
-  if ( item.isAmmo() ) {
+  if ( item.isAmmo() && !item.isCritted() ) {
     loc = item.attr('location');
     $('#dialog-ammocrit').dialog({
       title   : 'Ammunition Explosion'
