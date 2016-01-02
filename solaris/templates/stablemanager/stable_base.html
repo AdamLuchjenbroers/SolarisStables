@@ -5,7 +5,11 @@
   <img id="actionbar-stable-logo" src="/static/images/blank-80.png" alt="blank"/>
   <span class="actionbar-mainregion">
     <ul class="actionbar-row">
-       <li> X Week {{stableweek.week.week_number}} X </li>
+       <li id="actionbar-weekbrowser">
+         {% if week_navigation %}<span id="browse-prev-week">&#x25C0;</span>{% endif %}
+         <span id="browse-week-current">&nbsp;Week&nbsp;{{stableweek.week.week_number}}&nbsp;</span>
+         {% if week_navigation %}<span id="browse-next-week">&#x25B6;</span>{% endif %}
+       </li>
        <li><a href="/stable/mechs/repair/new">Repairs</a></li>
     </ul>
     <hr class="action-break"/>

@@ -59,6 +59,9 @@ class StableWeekMixin(StableViewMixin):
       If week is provided as a parameter, the provided week is used otherwise
       the view defaults to the current Stable Week
     """
+    # Should this view enable the current week to be changed.
+    week_navigation = True
+
     def dispatch(self, request, *args, **kwargs):
         redirect = self.get_stable(request)
         if redirect:
@@ -77,7 +80,8 @@ class StableWeekMixin(StableViewMixin):
     def get_context_data(self, **kwargs):
         page_context = super(StableWeekMixin, self).get_context_data(**kwargs)
         page_context['stableweek'] = self.stableweek        
-        page_context['week'] = self.week        
+        page_context['week'] = self.week
+        page_context['week_navigation'] = self.__class__.week_navigation        
  
         return page_context            
 
