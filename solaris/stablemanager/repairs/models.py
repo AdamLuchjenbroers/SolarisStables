@@ -89,7 +89,7 @@ class RepairBill(models.Model):
                 lineitem.count += 1
             elif billCrit.critted and not critted:
                 lineitem.count -= 1
-        elif lineitem.line_type == 'A':
+        elif lineitem.line_type == 'M':
             if critted and not billCrit.critted:
                 lineitem.count = lineitem.item.equipment.ammo_size
                 lineitem.tons = 1.0
@@ -119,6 +119,10 @@ class RepairBill(models.Model):
         structureLine.cost = structure.cost(units=structureLine.count)
         structureLine.save()
 
+    def create_ammo_lines(self):
+        for ammo in self.mech.loadout.filter(equipment__equipment_class='A'):
+            self.lineitems.line_for_item(ammo, self)
+
     def update_labour_cost(self):
         partsCost = self.lineitems.exclude(line_type='L').aggregate(models.Sum('cost'))['cost__sum']
         labourFactor = self.mech.tonnage / Decimal(100)
@@ -146,8 +150,6 @@ class RepairBillLineManager(models.Manager):
             (billLine, lineCreated) = bill.lineitems.get_or_create(
                 item = item
               , line_type = 'M'
-              , count = item.equipment.ammo_size
-              , tons = Decimal(1.0) 
             )
             if lineCreated:
                 billLine.ammo_type = billLine.item.equipment
@@ -184,6 +186,9 @@ class RepairBillLineManager(models.Manager):
     def total_cost(self): 
         return self.get_queryset().aggregate(models.Sum('cost'))['cost__sum']
     
+    def ammo_bins(self):
+        return self.get_queryset().filter(line_type='M')    
+    
     
 class RepairBillLineItem(models.Model):
     bill = models.ForeignKey(RepairBill, related_name="lineitems")
@@ -211,6 +216,10 @@ class RepairBillLineItem(models.Model):
         app_label = 'stablemanager'
         unique_together = (('line_type','bill','item'),)
 
+    def location_string(self):
+        primaryMount = self.item.primary_location()
+        return '%s %s' % (primaryMount.get_location_code(), primaryMount.slots)
+
     def description(self):
         if self.line_type == 'M':
             primaryMount = self.item.primary_location()
@@ -219,6 +228,13 @@ class RepairBillLineItem(models.Model):
             return 'Repairs and Installation'
         else:
             return self.item
+
+    def list_ammo_types(self):
+        launcher = self.item.equipment.ammo_for
+        if self.line_type != 'M' or launcher == None:
+            return [self.ammo_type]
+
+        return self.bill.stableweek.stableweek.available_equipment().filter(ammo_for=launcher).distinct().order_by('-basic_ammo')
     
     def updateEquipmentCost(self):
         criticals = self.item.equipment.criticals(mech=self.bill.mech)
@@ -306,6 +322,10 @@ class RepairBillLocation(models.Model):
         app_label = 'stablemanager'
         unique_together = (('bill','location'),)
 
+@receiver(post_save, sender=RepairBill)
+def onBillUpdate(sender, instance=None, created=False, **kwargs):
+    if created:
+        instance.create_ammo_lines()
 
 @receiver(post_save, sender=RepairBillLocation)
 def onLocationUpdate(sender, instance=None, created=False, **kwargs):
