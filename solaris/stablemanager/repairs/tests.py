@@ -247,6 +247,9 @@ class DestroyedAmmoTests(RepairBillTestMixin, TestCase):
     def test_checkAmmoTons(self):
         self.assertEqual(self.lineitem.tons, 1.0, 'Used tonnage a destroyed LRM-10 ammo bin should be 1.0, got %.1f' % self.lineitem.tons) 
 
+    def test_checkAmmoCost(self):
+        self.assertEqual(self.lineitem.cost, 30000, 'Replacement cost for a destroyed LRM-10 ammo bin should be 30000, got %i' % self.lineitem.cost) 
+
     def test_checkAmmoType(self):
         self.assertEqual(self.lineitem.ammo_type.ssw_name, 'Ammo - (IS) @ LRM-10', 'Ammo type should be defaulted to original design type, found %s' % self.lineitem.ammo_type.ssw_name)
 

@@ -1,11 +1,11 @@
 {% include 'stablemanager/fragments/repair_line_group.html' with section="Construction" section_lines=bill.lineitems.construction_lines section_total=bill.lineitems.construction_total %}
-{% include 'stablemanager/fragments/repair_line_group.html' with 
-     section="Equipment" 
-     section_lines=bill.lineitems.equipment_lines 
-     section_total=bill.lineitems.equipment_total
-%}
-{% include 'stablemanager/fragments/repair_line_group.html' with 
-     section="Ammunition" 
-     section_lines=bill.lineitems.ammo_lines 
-     section_total=bill.lineitems.ammo_total
-%}
+{% include 'stablemanager/fragments/repair_line_group.html' with section="Equipment" section_lines=bill.lineitems.equipment_lines section_total=bill.lineitems.equipment_total %}
+{% include 'stablemanager/fragments/repair_line_group.html' with section="Ammunition" section_lines=bill.lineitems.ammo_lines section_total=bill.lineitems.ammo_total %}
+{% include 'stablemanager/fragments/repair_line_group.html' with section="Labour" section_lines=bill.lineitems.labour_lines section_total=None %}
+  <div class="repair-bill-section" id="repair-bill-total">
+  <div class="ledger-section-total ledger-row">
+       <span class="ledger-data repair-item-name">Total Cost</span>
+       <span class="ledger-data ledger-rightalign repair-item-quantity"></span>
+       <span class="ledger-data ledger-rightalign repair-item-tons"><span>
+       <span class="ledger-data ledger-rightalign repair-item-cost">{{bill.lineitems.total_cost}}</span>
+  </div></div>

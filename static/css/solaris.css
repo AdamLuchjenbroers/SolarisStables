@@ -973,7 +973,7 @@ div.ledger-item span:not(.ledger-action) {
   margin: 0.5rem 1rem 0.5rem 4rem;
 }
 
-div.ledger-section-header + .ledger-item {
+div.ledger-section-header + .ledger-item, .ledger-section-header + .ledger-section-item {
     border-top: none;
 }
 
@@ -982,8 +982,21 @@ div.ledger-section-header + .ledger-item {
 }
 
 .ledger-section-item {
-  border-bottom: 1px dashed #888888;
+  border-top: 1px dashed #888888;
   margin-left: 4rem;
+}
+
+.ledger-section-subtotal {
+  border-top: 1px solid #000000;
+  border-bottom: 3px double #000000;
+  margin-left: 4rem;
+}
+
+.ledger-section-total {
+  border-top: 2px solid #000000;
+  border-bottom: 3px double #000000;
+  margin: 0.5rem 1rem 0.5rem 4rem;
+  font-weight: bold;
 }
 
 .ledger-item  {

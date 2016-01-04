@@ -151,9 +151,9 @@ class MechEquipment(models.Model):
         if self.equipment.equipment_class in ('E', 'G', 'C', 'S'):
             return self.equipment.name
         elif self.equipment.equipment_class in ('T'):
-            return '%s (%s)' % (self.equipment.name, primaryMount.location.location.location)
+            return '%s (%s)' % (self.equipment.name, primaryMount.get_location_code() )
         else:
-            return '%s (%s %s)' % (self.equipment.name, primaryMount.location.location.location, primaryMount.slots)
+            return '%s (%s %s)' % (self.equipment.name, primaryMount.get_location_code(), primaryMount.slots)
 
         
     class Meta:
@@ -173,6 +173,9 @@ class Mounting(models.Model):
     def get_equipmentname(self):
         return self.equipment.equipment.name
     
+    def get_location_code(self):
+        return self.location.location.location
+
     def get_slots(self):
         return self.slots.split(',')
         

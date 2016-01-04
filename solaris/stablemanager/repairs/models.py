@@ -178,6 +178,12 @@ class RepairBillLineManager(models.Manager):
     def ammo_total(self):
         return self.ammo_lines().aggregate(models.Sum('cost'))['cost__sum']
     
+    def labour_lines(self):
+        return self.get_queryset().filter(line_type='L')  
+
+    def total_cost(self): 
+        return self.get_queryset().aggregate(models.Sum('cost'))['cost__sum']
+    
     
 class RepairBillLineItem(models.Model):
     bill = models.ForeignKey(RepairBill, related_name="lineitems")
@@ -204,6 +210,15 @@ class RepairBillLineItem(models.Model):
         db_table = 'stablemanager_repairbill_line'
         app_label = 'stablemanager'
         unique_together = (('line_type','bill','item'),)
+
+    def description(self):
+        if self.line_type == 'M':
+            primaryMount = self.item.primary_location()
+            return '[%s %s] %s' % (primaryMount.get_location_code(), primaryMount.slots, self.ammo_type.name)
+        elif self.line_type == 'L':
+            return 'Repairs and Installation'
+        else:
+            return self.item
     
     def updateEquipmentCost(self):
         criticals = self.item.equipment.criticals(mech=self.bill.mech)
@@ -216,8 +231,8 @@ class RepairBillLineItem(models.Model):
         self.save()
 
     def updateAmmoCost(self):
-        baseCost  = self.item.equipment.cost(mech=self.bill.mech)
-        ammoSize  = self.item.equipment.ammo_size
+        baseCost  = self.ammo_type.cost(mech=self.bill.mech)
+        ammoSize  = self.ammo_type.ammo_size
 
         if self.count > (ammoSize / 2):
             self.cost = baseCost
@@ -230,7 +245,7 @@ class RepairBillLineItem(models.Model):
     def updateCost(self):
         if self.line_type == 'Q':
             self.updateEquipmentCost()
-        elif self.line_type == 'A':
+        elif self.line_type == 'M':
             self.updateAmmoCost() 
 
 class RepairBillCrit(models.Model):
