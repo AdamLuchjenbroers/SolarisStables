@@ -47,6 +47,7 @@ class Migration(migrations.Migration):
                 ('tons', models.DecimalField(null=True, max_digits=4, decimal_places=1, blank=True)),
                 ('cost', models.IntegerField(default=0)),
                 ('line_type', models.CharField(max_length=1, choices=[(b'A', b'Armour'), (b'S', b'Structure'), (b'O', b'Location'), (b'Q', b'Equipment'), (b'M', b'Ammunition'), (b'L', b'Labour Cost')])),
+                ('ammo_type', models.ForeignKey(blank=True, to='warbook.Equipment', null=True)),
                 ('bill', models.ForeignKey(related_name='lineitems', to='stablemanager.RepairBill')),
                 ('item', models.ForeignKey(blank=True, to='warbook.MechEquipment', null=True)),
             ],

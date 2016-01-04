@@ -7,7 +7,7 @@ from decimal import Decimal
 
 from solaris.stablemanager.mechs.models import StableMechWeek
 from solaris.warbook.mech.models import MechDesign, MechDesignLocation
-from solaris.warbook.equipment.models import MechEquipment
+from solaris.warbook.equipment.models import MechEquipment, Equipment
 
 class RepairBill(models.Model):
     stableweek = models.ForeignKey(StableMechWeek, related_name='repairs')
@@ -149,6 +149,9 @@ class RepairBillLineManager(models.Manager):
               , count = item.equipment.ammo_size
               , tons = Decimal(1.0) 
             )
+            if lineCreated:
+                billLine.ammo_type = billLine.item.equipment
+                billLine.save()
         else:
             (billLine, lineCreated) = bill.lineitems.get_or_create(
                 item = item
@@ -158,15 +161,28 @@ class RepairBillLineManager(models.Manager):
         return billLine
     
     def construction_lines(self):
-        return self.get_queryset().filter(line_type__in=('A','S'), count__gt=0)    
+        return self.get_queryset().filter(line_type__in=('A','S', 'O'), count__gt=0)
+
+    def construction_total(self):
+        return self.construction_lines().aggregate(models.Sum('cost'))['cost__sum']
     
     def equipment_lines(self):
         return self.get_queryset().filter(line_type='Q', count__gt=0).order_by('-cost')    
+
+    def equipment_total(self):
+        return self.equipment_lines().aggregate(models.Sum('cost'))['cost__sum']
+    
+    def ammo_lines(self):
+        return self.get_queryset().filter(line_type='M', count__gt=0).order_by('-cost')    
+
+    def ammo_total(self):
+        return self.ammo_lines().aggregate(models.Sum('cost'))['cost__sum']
     
     
 class RepairBillLineItem(models.Model):
     bill = models.ForeignKey(RepairBill, related_name="lineitems")
     item = models.ForeignKey(MechEquipment, blank=True, null=True)
+    ammo_type = models.ForeignKey(Equipment, blank=True, null=True)
     count = models.IntegerField(default=0)
     tons = models.DecimalField(max_digits=4, decimal_places=1, blank=True, null=True)
     cost = models.IntegerField(default=0)
