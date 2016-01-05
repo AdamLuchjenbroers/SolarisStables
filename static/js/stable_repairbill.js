@@ -52,6 +52,21 @@ function destroy_location() {
   });
 }
 
+function do_crit_item(item, setCrit) {
+  $.ajax({
+    type : 'post',
+    url  : window.location.href + '/setcrit',
+    dataType : 'json',
+    data : {
+      location : item.attr('location')
+    , slot     : item.attr('slot')
+    , critted  : setCrit
+    },
+  }).done(function(newState) {
+    item.setCritted(newState);
+  });
+}
+
 function crit_item() {
   var setCrit = !$(this).isCritted()
   item = $(this);
@@ -60,27 +75,21 @@ function crit_item() {
     loc = item.attr('location');
     $('#dialog-ammocrit').dialog({
       title   : 'Ammunition Explosion'
+    , minWidth : 500
     , buttons : {
         'Leave Intact' : function() { $(this).dialog('close'); }
+      , 'Just the bin' : function() { 
+           do_crit_item(item, setCrit); 
+           $(this).dialog('close');
+         }
       , 'Destroy' : function() { 
            do_destroy_location(loc);
            $(this).dialog('close');
          }
       }
     });
-  } else { 
-    $.ajax({
-      type : 'post',
-      url  : window.location.href + '/setcrit',
-      dataType : 'json',
-      data : {
-        location : $(this).attr('location')
-      , slot     : $(this).attr('slot')
-      , critted  : setCrit
-      },
-    }).done(function(newState) {
-      item.setCritted(newState);
-    });
+  } else {
+    do_crit_item(item, setCrit); 
   }
 }
 
