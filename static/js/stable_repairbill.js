@@ -84,14 +84,47 @@ function crit_item() {
   }
 }
 
+function ammoform_for_item(item) {
+  loc  = item.attr('location');
+  slot = item.attr('slot');
+  $('.ammo-row[location=' + loc + ' ][slot=' + slot + '] .ammo-amount input').attr('disabled','yes');
+}
+
 $.fn.extend({
-  isCritted  : function () { return this.hasClass('item-critted') }
-, isAmmo     : function () { return this.hasClass('item-ammo') }
-, setCritted : function(critted) {
+  isCritted      : function () { return this.hasClass('item-critted') }
+, isAmmo         : function () { return this.hasClass('item-ammo') }
+, setAmmoCritted : function(item, critted) {
+    loc  = this.attr('location');
+    slot = this.attr('slot');
+    inCount = $('.ammo-row[location=' + loc + ' ][slot=' + slot + '] .ammo-amount input');
+
+    if (critted) {
+       inCount.attr('disabled','yes');
+       inCount.val( inCount.attr('max') );
+    } else {
+       inCount.removeAttr('disabled');
+       inCount.val( '0' );
+    }
+}
+, setCritted     : function(critted) {
     if (critted) {
       this.addClass('item-critted');
     } else {
       this.removeClass('item-critted');
+    }
+
+    if (this.isAmmo()) {
+      loc  = this.attr('location');
+      slot = this.attr('slot');
+      inCount = $('.ammo-row[location=' + loc + ' ][slot=' + slot + '] .ammo-amount input');
+  
+      if (critted) {
+         inCount.attr('disabled','yes');
+         inCount.val( inCount.attr('max') );
+      } else {
+         inCount.removeAttr('disabled');
+         inCount.val( '0' );
+      }
     }
   },
 });
