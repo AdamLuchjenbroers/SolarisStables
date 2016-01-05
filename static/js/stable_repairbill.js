@@ -84,10 +84,25 @@ function crit_item() {
   }
 }
 
-function ammoform_for_item(item) {
-  loc  = item.attr('location');
-  slot = item.attr('slot');
-  $('.ammo-row[location=' + loc + ' ][slot=' + slot + '] .ammo-amount input').attr('disabled','yes');
+function set_ammo_type() {
+  ammo = $(this);
+
+  $.ajax({
+    type : 'post',
+    url  : window.location.href + '/setammo',
+    dataType : 'json',
+    data : {
+      lineid  : ammo.attr('lineid')
+    , ammoid  : ammo.val()
+    },
+  }).done(function(result) {
+    count = ammo.parents('ammo-row').children('.ammo-amount input')
+    if (result['critted']) {
+      count.attr('disabled','yes');
+    }
+  
+    count.val(result['count']);
+  });
 }
 
 $.fn.extend({
@@ -133,6 +148,7 @@ $( document ).ready(function() {
   $('.item-crittable').click(crit_item);
   $('.mech-armour-location input').change(damage_location);
   $('.mech-armour-front .mech-section-header').click(destroy_location);
+  $('.ammo-type select').change(set_ammo_type)
 });
 
 $( document ).ajaxStop( function() {

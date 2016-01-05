@@ -13,9 +13,9 @@
   {% if bill.lineitems.ammo_bins %}<h2>Ammo</h2><hr/>
   <div class="ammo-table">
   {% for ammo in bill.lineitems.ammo_bins %} 
-    <div class="ammo-row" location="{{ammo.item.primary_location.get_location_code}}" slot="{{ammo.item.primary_location.slots}}">
+    <div class="ammo-row" lineid="{{ammo.id}}" location="{{ammo.item.primary_location.get_location_code}}" slot="{{ammo.item.primary_location.slots}}">
       <span class="ammo-column ammo-location">{{ammo.location_string}}</span> 
-      <span class="ammo-column ammo-type"><select value="{{ammo.ammo_type.id}}">
+      <span class="ammo-column ammo-type"><select lineid="{{ammo.id}}" value="{{ammo.ammo_type.id}}">
         {% for type in ammo.list_ammo_types %}<option value="{{type.id}}">{{type.name}}</option>{% endfor %}
       </select></span>
       <span class="ammo-column ammo-amount"><input type="number" max="{{ammo.ammo_type.ammo_size}}" min="0" value="{{ammo.count}}" {%if ammo.is_critted%}disabled="yes"{%endif%}/></span>

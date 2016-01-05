@@ -7,7 +7,8 @@ import json
 from solaris.stablemanager.views import StableViewMixin
 from solaris.stablemanager.ledger.models import LedgerItem
 from solaris.stablemanager.mechs.models import StableMechWeek
-from solaris.stablemanager.repairs.models import RepairBill
+from solaris.stablemanager.repairs.models import RepairBill, RepairBillLineItem
+from solaris.warbook.equipment.models import Equipment
 
 class CreateRepairBillView(StableViewMixin, View):
     def get(self, request, stablemech=0):
@@ -89,11 +90,11 @@ class AjaxDamageLocationView(RepairBillMixin, View):
             elif damage_type == 'structure':
                 result = self.bill.setStructureDamage(location, damage)
             else:
-                return HttpResponse('Unrecognised type %s' % type, 401)
+                return HttpResponse('Unrecognised type %s' % type, 400)
 
             return HttpResponse(json.dumps(result))
         except KeyError:
-            return HttpResponse('Incomplete AJAX request', 401)
+            return HttpResponse('Incomplete AJAX request', 400)
 
 class AjaxDestroyLocationView(RepairBillMixin, View): 
     def post(self, request):        
@@ -105,4 +106,34 @@ class AjaxDestroyLocationView(RepairBillMixin, View):
 
             return HttpResponse(json.dumps(result))
         except KeyError:
-            return HttpResponse('Incomplete AJAX request', 401)
+            return HttpResponse('Incomplete AJAX request', 400)
+
+class AjaxSetAmmunitionTypeView(RepairBillMixin, View): 
+    def post(self, request):        
+        try:
+            line_id = int(request.POST['lineid'])
+            ammo_id = request.POST['ammoid']
+
+            line = get_object_or_404(RepairBillLineItem, id=line_id)
+            if self.bill != line.bill: 
+                return HttpResponse('Line item does not exist in current bill', 400)
+
+            newammo = get_object_or_404(Equipment, id=ammo_id)
+            if line.ammo_type.ammo_for != newammo.ammo_for:
+                return HttpResponse('Invalid Ammunition Type for %s' % line.ammo_type.ammo_for.name, 400)
+
+            line.ammo_type = newammo
+            if line.is_critted() or line.count > newammo.ammo_size:
+                line.count = newammo.ammo_size
+            line.updateAmmoCost()    
+
+            result = {
+              'critted' : line.is_critted()
+            , 'amount'  : line.count
+            }
+
+            line.save()
+ 
+            return HttpResponse(json.dumps(result))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 400)
