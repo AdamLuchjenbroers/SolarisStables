@@ -925,6 +925,36 @@ li.chit.tier3 a.omni-row:hover {
   background-color: #FF4444;
   box-shadow: inset 0px 0px 5px #FF8888;
 }
+/****************************************
+ * Repair Forms
+ ****************************************/
+.ammo-table {
+  display: table;
+  margin-left: 4rem;
+  vertical-align: baseline;
+}
+
+.ammo-row {
+  display: table-row;
+}
+
+.ammo-column {
+  display: table-cell;
+  padding: 0.4rem 1rem;
+  border-bottom: 1px dashed #888888;
+}
+
+.ammo-row:first-child .ammo-column {
+  border-top: 1px dashed #888888;
+}
+
+.ammo-location {
+  font-weight: bold;
+}
+
+.ammo-type select {
+  width: 16rem;
+}
 
 /****************************************
  * Ledgers / Bills

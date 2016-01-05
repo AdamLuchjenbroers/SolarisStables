@@ -11,15 +11,16 @@
   <h1>Repair Bill - {{mech.mech_name}} {{mech.mech_code}}</h1>
   {% include "stablemanager/fragments/mech_repair.html" with crit_table=mech.all_locations bill=bill %}
   {% if bill.lineitems.ammo_bins %}<h2>Ammo</h2><hr/>
+  <div class="ammo-table">
   {% for ammo in bill.lineitems.ammo_bins %} 
-    <div class="ammo-row">
+    <div class="ammo-row" location="{{ammo.item.primary_location.get_location_code}}" slot="{{ammo.item.primary_location.slots}}">
       <span class="ammo-column ammo-location">{{ammo.location_string}}</span> 
       <span class="ammo-column ammo-type"><select value="{{ammo.ammo_type.id}}">
         {% for type in ammo.list_ammo_types %}<option value="{{type.id}}">{{type.name}}</option>{% endfor %}
       </select></span>
-      <span class="ammo-column ammo-amount"><input type="number" max="{{ammo.ammo_type.ammo_size}}" min="0" value="{{ammo.count}}"/></span>
+      <span class="ammo-column ammo-amount"><input type="number" max="{{ammo.ammo_type.ammo_size}}" min="0" value="{{ammo.count}}" {%if ammo.is_critted%}disabled="yes"{%endif%}/></span>
    </div>
-  {% endfor %}{% endif %}
+  {% endfor %} </div> {% endif %}
   <h2>Costs</h2><hr/>
   <div id="repair-cost-itemised">
     {% include "stablemanager/fragments/repair_lines.html" %}

@@ -235,6 +235,9 @@ class RepairBillLineItem(models.Model):
             return [self.ammo_type]
 
         return self.bill.stableweek.stableweek.available_equipment().filter(ammo_for=launcher).distinct().order_by('-basic_ammo')
+
+    def is_critted(self):
+        return (self.crits.filter(critted=True).count() > 0)
     
     def updateEquipmentCost(self):
         criticals = self.item.equipment.criticals(mech=self.bill.mech)
