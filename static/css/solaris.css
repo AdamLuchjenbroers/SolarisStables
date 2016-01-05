@@ -557,6 +557,21 @@ ul.ui-autocomplete li.ui-menu-item.ui-state-focus {
   display: inline-block
 }
 
+#dialog-ammocrit-text {
+  display: inline-block;
+  width: 210px;
+  height: 75px;
+  font-size: 80%;
+  vertical-align: middle;
+  padding: 30px 20px 20px 70px;
+  background-image: url(/static/images/clippy-bubble.png);
+  background-repeat: no-repeat;
+}
+
+#dialog-ammocrit-text * {
+  background-color: #ffffcf;
+}
+
 /****************************************
  * Main Page Body
  ****************************************/
