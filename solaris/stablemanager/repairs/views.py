@@ -137,3 +137,20 @@ class AjaxSetAmmunitionTypeView(RepairBillMixin, View):
             return HttpResponse(json.dumps(result))
         except KeyError:
             return HttpResponse('Incomplete AJAX request', 400)
+
+class AjaxSetAmmunitionCountView(RepairBillMixin, View): 
+    def post(self, request):        
+        try:
+            line_id = int(request.POST['lineid'])
+            new_count = int(request.POST['count'])
+
+            line = get_object_or_404(RepairBillLineItem, id=line_id)
+            if self.bill != line.bill: 
+                return HttpResponse('Line item does not exist in current bill', 400)
+
+            line.count = min(new_count, line.ammo_type.ammo_size)
+            line.updateAmmoCost()
+
+            return HttpResponse(json.dumps(line.count))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 400)

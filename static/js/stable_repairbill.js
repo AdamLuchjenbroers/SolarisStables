@@ -84,12 +84,27 @@ function crit_item() {
   }
 }
 
+function set_ammo_amount() {
+  ammo = $(this);
+  $.ajax({
+    type : 'post',
+    url  : window.location.href + '/setammocount',
+    dataType : 'json',
+    data : {
+      lineid  : ammo.parents('.ammo-row').attr('lineid')
+    , count   : ammo.val()
+    },
+  }).done(function(result) {
+    ammo.val(result);
+  });
+}
+
 function set_ammo_type() {
   ammo = $(this);
 
   $.ajax({
     type : 'post',
-    url  : window.location.href + '/setammo',
+    url  : window.location.href + '/setammotype',
     dataType : 'json',
     data : {
       lineid  : ammo.attr('lineid')
@@ -149,6 +164,7 @@ $( document ).ready(function() {
   $('.mech-armour-location input').change(damage_location);
   $('.mech-armour-front .mech-section-header').click(destroy_location);
   $('.ammo-type select').change(set_ammo_type)
+  $('.ammo-amount input').change(set_ammo_amount)
 });
 
 $( document ).ajaxStop( function() {
