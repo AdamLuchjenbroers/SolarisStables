@@ -187,7 +187,7 @@ class RepairBillLineManager(models.Manager):
         return self.get_queryset().aggregate(models.Sum('cost'))['cost__sum']
     
     def ammo_bins(self):
-        return self.get_queryset().filter(line_type='M')    
+        return self.get_queryset().filter(line_type='M').order_by('item__mountings__location__location', 'item__mountings__slots') 
     
     
 class RepairBillLineItem(models.Model):
