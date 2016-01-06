@@ -21,6 +21,20 @@ class RepairBill(models.Model):
         db_table = 'stablemanager_repairbill'
         app_label = 'stablemanager'
 
+    def insurance_payout(self):
+        if not self.cored:
+            return 0
+        elif self.mech.tier == 0:
+            return "Replacement Mech"
+        elif self.mech.tier == 1:
+            return int(self.mech.credit_value * 0.5)
+        elif self.mech.tier == 2:
+            return int(self.mech.credit_value * 0.3)
+        elif self.mech.tier == 3:
+            return int(self.mech.credit_value * 0.1)
+        else: 
+            return 0
+
     def getLocation(self, location):
         try:
             mechLocation = self.mech.locations.get(location__location=location)
@@ -34,6 +48,10 @@ class RepairBill(models.Model):
         return self.getLocation(location).locationState()
 
     def destroyLocation(self, location):
+        if location == 'CT':
+            self.cored = True
+            self.save()
+            
         self.getLocation(location).destroyLocation()
 
     def getDamage(self, location):
@@ -49,6 +67,10 @@ class RepairBill(models.Model):
             billLocation.structure_lost = max(0, min(structure, billLocation.location.structure))
 
         billLocation.update_location_line()
+
+        if location == 'CT' and billLocation.structure_lost < billLocation.location.structure:
+            self.cored = False
+            self.save()
 
         billLocation.save()
         return (billLocation.armour_lost, billLocation.structure_lost)
