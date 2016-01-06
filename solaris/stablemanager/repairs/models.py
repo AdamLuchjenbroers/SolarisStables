@@ -46,6 +46,8 @@ class RepairBill(models.Model):
         if structure != None:
             billLocation.structure_lost = max(0, min(structure, billLocation.location.structure))
 
+        billLocation.update_location_line()
+
         billLocation.save()
         return (billLocation.armour_lost, billLocation.structure_lost)
 
@@ -163,19 +165,24 @@ class RepairBillLineManager(models.Manager):
         return billLine
     
     def construction_lines(self):
-        return self.get_queryset().filter(line_type__in=('A','S', 'O'), count__gt=0)
+        order_select = {
+           'ordering' : "CASE WHEN line_type = 'A' THEN 1 WHEN line_type = 'S' THEN 2 WHEN line_type = 'O' THEN 3 ELSE 4 END"
+        }
+        lines = self.get_queryset().filter(line_type__in=('A','S','O'), count__gt=0).extra(select=order_select).order_by('ordering', 'repairbilllocation__location__location')
+
+        return lines
 
     def construction_total(self):
         return self.construction_lines().aggregate(models.Sum('cost'))['cost__sum']
     
     def equipment_lines(self):
-        return self.get_queryset().filter(line_type='Q', count__gt=0).order_by('-cost')    
+        return self.get_queryset().filter(line_type='Q', count__gt=0).order_by('item__mountings__location__location', 'item__mountings__slots')
 
     def equipment_total(self):
         return self.equipment_lines().aggregate(models.Sum('cost'))['cost__sum']
     
     def ammo_lines(self):
-        return self.get_queryset().filter(line_type='M', count__gt=0).order_by('-cost')    
+        return self.get_queryset().filter(line_type='M', count__gt=0).order_by('item__mountings__location__location', 'item__mountings__slots')
 
     def ammo_total(self):
         return self.ammo_lines().aggregate(models.Sum('cost'))['cost__sum']
@@ -226,6 +233,9 @@ class RepairBillLineItem(models.Model):
             return '[%s %s] %s' % (primaryMount.get_location_code(), primaryMount.slots, self.ammo_type.name)
         elif self.line_type == 'L':
             return 'Repairs and Installation'
+        elif self.line_type == 'O':
+            location = self.bill.locations.get(destroyed_line=self)
+            return 'Destroyed Location - %s' % location.location.location_name()
         else:
             return self.item
 
@@ -304,10 +314,40 @@ class RepairBillLocation(models.Model):
         , 'criticals' : dict([(crit.slot, crit.critted) for crit in self.crits.all()])
         }
 
+    def update_location_line(self):
+        if not self.location.is_front():
+            # Destruction of a location is managed by the front location
+            return
+
+        if self.destroyed_line == None:
+            self.destroyed_line = self.bill.lineitems.create(line_type='O')
+
+        destroyed = (self.structure_lost >= self.location.structure)
+
+        if destroyed:
+            self.destroyed_line.count = 1
+            loc = self.location.location_code()
+            if loc in ('RT','LT'):
+                self.destroyed_line.cost = 1500 * self.bill.mech.tonnage
+            elif loc in ('RL','LL','RA','LA','RRL','LRL','RFL','LFL'):
+                self.destroyed_line.cost = 1000 * self.bill.mech.tonnage
+            elif loc == 'HD':
+                self.destroyed_line.cost = 500 * self.bill.mech.tonnage
+            else:
+                # We don't know how to handle this one, so just switch off the line.
+                self.destroyed_line.count = 0
+        else:
+            self.destroyed_line.count = 0
+            self.destroyed_line.cost  = 0
+        self.destroyed_line.save()
+        self.save()
+        
+
     def destroyLocation(self):
         self.armour_lost = self.location.armour
         if self.location.structure != None:
             self.structure_lost = self.location.structure
+        self.update_location_line()
 
         for item in self.location.criticals.all():
             billLine = RepairBillLineItem.objects.line_for_item(item.equipment, self.bill)
