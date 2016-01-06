@@ -152,9 +152,14 @@ class MechEquipment(models.Model):
             return self.equipment.name
         elif self.equipment.equipment_class in ('T'):
             return '%s (%s)' % (self.equipment.name, primaryMount.get_location_code() )
-        else:
+        elif len(primaryMount.slots) == 1:
             return '%s (%s %s)' % (self.equipment.name, primaryMount.get_location_code(), primaryMount.slots)
-
+        else:
+            slotlist = [int(slot) for slot in primaryMount.get_slots()]
+            return '%s (%s %i-%i)' % (
+                self.equipment.name, primaryMount.get_location_code()
+              , min(slotlist), max(slotlist)
+          )
         
     class Meta:
         verbose_name_plural = 'Mech Equipment'
