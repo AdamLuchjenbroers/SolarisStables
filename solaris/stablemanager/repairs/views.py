@@ -176,6 +176,11 @@ class AjaxSetFinalView(RepairBillMixin, View):
                 self.bill.complete = complete
                 self.bill.save()
 
+            if complete == True:
+                self.bill.create_ledger_entry()
+            else:
+                self.bill.remove_ledger_entry()
+
             return HttpResponse(json.dumps(self.bill.complete))
         except KeyError:
             return HttpResponse('Incomplete AJAX request', 400)

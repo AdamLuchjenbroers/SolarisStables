@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 
 from decimal import Decimal
 
+from solaris.stablemanager.ledger.models import LedgerItem
 from solaris.stablemanager.mechs.models import StableMechWeek, StableMech
 from solaris.warbook.mech.models import MechDesign, MechDesignLocation
 from solaris.warbook.equipment.models import MechEquipment, Equipment
@@ -43,6 +44,33 @@ class RepairBill(models.Model):
             return int(self.mech.credit_value * 0.1)
         else: 
             return 0
+
+    def create_ledger_entry(self):
+        # Check if it  exists
+        if LedgerItem.objects.filter(ref_repairbill=self).count() > 0: 
+            return
+
+        if not self.cored:
+           LedgerItem.objects.create(
+              description = 'Repair Bill - %s %s' % (self.mech.mech_name, self.mech.mech_code)
+           ,  cost = -self.lineitems.total_cost()
+           ,  type = 'R'
+           ,  tied = True
+           ,  ledger = self.stableweek.stableweek
+           ,  ref_repairbill = self
+           )
+        elif self.mech.tier > 0:
+           LedgerItem.objects.create(
+              description = 'Insurance Payout - %s %s' % (self.mech.mech_name, self.mech.mech_code)
+           ,  cost = self.insurance_payout()
+           ,  type = 'I'
+           ,  tied = True
+           ,  ledger = self.stableweek.stableweek
+           ,  ref_repairbill = self
+           )
+           
+    def remove_ledger_entry(self):
+        LedgerItem.objects.filter(ref_repairbill=self).delete()
 
     def getLocation(self, location):
         try:
