@@ -17,7 +17,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('complete', models.BooleanField(default=False)),
-                ('mech', models.ForeignKey(to='warbook.MechDesign')),
+                ('cored', models.BooleanField(default=False)),
+                ('insurance_replacement', models.ForeignKey(blank=True, to='stablemanager.StableMech', null=True)),
+                ('mech', models.ForeignKey(related_name='repairs', to='warbook.MechDesign')),
                 ('stableweek', models.ForeignKey(related_name='repairs', to='stablemanager.StableMechWeek')),
             ],
             options={

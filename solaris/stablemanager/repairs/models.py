@@ -5,14 +5,16 @@ from django.core.urlresolvers import reverse
 
 from decimal import Decimal
 
-from solaris.stablemanager.mechs.models import StableMechWeek
+from solaris.stablemanager.mechs.models import StableMechWeek, StableMech
 from solaris.warbook.mech.models import MechDesign, MechDesignLocation
 from solaris.warbook.equipment.models import MechEquipment, Equipment
 
 class RepairBill(models.Model):
     stableweek = models.ForeignKey(StableMechWeek, related_name='repairs')
-    mech = models.ForeignKey(MechDesign)
+    mech = models.ForeignKey(MechDesign, related_name='repairs')
     complete = models.BooleanField(default=False)
+    cored = models.BooleanField(default=False)
+    insurance_replacement = models.ForeignKey(StableMech, blank=True, null=True) 
 
     class Meta:
         verbose_name = 'Repair Bill'
