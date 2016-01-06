@@ -978,6 +978,7 @@ li.chit.tier3 a.omni-row:hover {
   background-color: #FFFFFF;
   border: 2px solid #000000;
   border-radius: 5px;
+  padding: 0.5em;
 }
 
 #stable-ledger {
