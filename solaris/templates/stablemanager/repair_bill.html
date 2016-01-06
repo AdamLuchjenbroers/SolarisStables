@@ -9,6 +9,7 @@
 {% block pagebody %}
 <div class="body">
   <h1>Repair Bill - {{mech.mech_name}} {{mech.mech_code}}</h1>
+{% if not bill.complete %}
   {% include "stablemanager/fragments/mech_repair.html" with crit_table=mech.all_locations bill=bill %}
   {% if bill.lineitems.ammo_bins %}<h2>Ammo</h2><hr/>
   <div class="ammo-table">
@@ -21,10 +22,26 @@
       <span class="ammo-column ammo-amount"><input type="number" max="{{ammo.ammo_type.ammo_size}}" min="0" value="{{ammo.count}}" {%if ammo.is_critted%}disabled="yes"{%endif%}/></span>
    </div>
   {% endfor %} </div> {% endif %}
+{% endif %}
   <h2>Costs</h2><hr/>
   <div id="repair-cost-itemised">
     {% include "stablemanager/fragments/repair_lines.html" %}
   </div>
+  <div class="form-action-buttonset">
+  {% if bill.complete %}
+    {% if bill.can_be_reopened %}
+    <button class="form-action" id="button-reopen">Reopen Bill</button>
+    {% endif %}
+  {% else %}
+    {% if bill.cored %}
+    <button class="form-action" id="button-core-mech" undo="yes">Restore Mech</button>
+    {% else %}
+    <button class="form-action" id="button-core-mech" undo="no">Core Mech</button>
+    {% endif %}
+    <button class="form-action" id="button-finalize">Finalize Bill</button>
+  {% endif %}
+  </div>
+ 
   <div class="hidden" id="dialog-collection">
     <div id="dialog-destroy">Are you sure you wish to mark the blah as destroyed</div>
     <div id="dialog-ammocrit">

@@ -21,6 +21,15 @@ class RepairBill(models.Model):
         db_table = 'stablemanager_repairbill'
         app_label = 'stablemanager'
 
+    def can_be_reopened(self):
+        if self.complete == False:
+            return False
+        elif RepairBill.objects.filter(stableweek=self.stableweek, mech=self.mech, complete=False).count() > 0:
+            # Only one active bill is permitted
+            return False
+        else:
+            return True
+
     def insurance_payout(self):
         if not self.cored:
             return 0

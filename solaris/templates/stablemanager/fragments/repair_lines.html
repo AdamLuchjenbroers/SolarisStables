@@ -7,6 +7,7 @@
   <div class="ledger-section-item ledger-row">
        <span class="ledger-header repair-item-name">Insurance Payout</span>
        <span class="ledger-header ledger-rightalign repair-item-cost">{{bill.insurance_payout}}</span>
+  </div>
 </div>
 {% else %}
 {% include 'stablemanager/fragments/repair_line_group.html' with section="Construction" section_lines=bill.lineitems.construction_lines section_total=bill.lineitems.construction_total %}

@@ -154,3 +154,31 @@ class AjaxSetAmmunitionCountView(RepairBillMixin, View):
             return HttpResponse(json.dumps(line.count))
         except KeyError:
             return HttpResponse('Incomplete AJAX request', 400)
+
+class AjaxSetCoredView(RepairBillMixin, View): 
+    def post(self, request):        
+        try:
+            cored = (request.POST['cored'].upper() == 'TRUE')
+
+            self.bill.cored = cored
+            self.bill.save()
+
+            return HttpResponse(json.dumps(self.bill.cored))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 400)
+
+class AjaxSetFinalView(RepairBillMixin, View): 
+    def post(self, request):        
+        try:
+            complete = (request.POST['final'].upper() == 'TRUE')
+
+            if complete == True or self.bill.can_be_reopened():
+                self.bill.complete = complete
+                self.bill.save()
+
+            return HttpResponse(json.dumps(self.bill.complete))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 400)
+
+
+

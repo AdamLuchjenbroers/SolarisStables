@@ -52,6 +52,42 @@ function destroy_location() {
   });
 }
 
+function toggle_cored() {
+  button = $(this);
+
+  $.ajax({
+    type : 'post',
+    url  : window.location.href + '/setcored',
+    dataType : 'json',
+    data : {
+      cored : ($(this).attr('undo') == 'no')
+    },
+  }).done(function(nowCored) {
+    if (nowCored) {
+      button.attr('undo','yes');
+      button.text('Restore Mech');
+    } else {
+      button.attr('undo','no');
+      button.text('Core Mech');
+    }
+  });
+}
+
+function finish_bill() {
+  finish = !($(this).attr('id') == 'button-reopen');
+
+  $.ajax({
+    type : 'post',
+    url  : window.location.href + '/setfinal',
+    dataType : 'json',
+    data : {
+      final : finish
+    },
+  }).done(function(newState) {
+    window.location.reload(true);
+  });
+}
+
 function do_crit_item(item, setCrit) {
   $.ajax({
     type : 'post',
@@ -172,8 +208,11 @@ $( document ).ready(function() {
   $('.item-crittable').click(crit_item);
   $('.mech-armour-location input').change(damage_location);
   $('.mech-armour-front .mech-section-header').click(destroy_location);
-  $('.ammo-type select').change(set_ammo_type)
-  $('.ammo-amount input').change(set_ammo_amount)
+  $('.ammo-type select').change(set_ammo_type);
+  $('.ammo-amount input').change(set_ammo_amount);
+  $('#button-core-mech').click(toggle_cored);
+  $('#button-finalize').click(finish_bill);
+  $('#button-reopen').click(finish_bill);
 });
 
 $( document ).ajaxStop( function() {
