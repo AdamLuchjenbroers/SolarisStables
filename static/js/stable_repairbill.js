@@ -144,6 +144,25 @@ function set_ammo_amount() {
   });
 }
 
+function delete_bill() {
+  $('#dialog-destroy').text('Are you sure you want to delete this bill and all related records?');
+  $('#dialog-destroy').dialog({
+    title   : 'Delete Repair Bill'
+  , buttons : {
+      'Keep' : function() { $(this).dialog('close'); }
+    , 'Delete' : function() { 
+        $.ajax({
+          type : 'post',
+          url  : window.location.href + '/delete',
+          dataType : 'json',
+        }).done(function(result) {
+          window.location.href = result;
+        });
+      }
+    }
+  });
+}
+
 function set_ammo_type() {
   ammo = $(this);
 
@@ -213,6 +232,7 @@ $( document ).ready(function() {
   $('#button-core-mech').click(toggle_cored);
   $('#button-finalize').click(finish_bill);
   $('#button-reopen').click(finish_bill);
+  $('#button-delete-bill').click(delete_bill);
 });
 
 $( document ).ajaxStop( function() {

@@ -28,6 +28,7 @@
     {% include "stablemanager/fragments/repair_lines.html" %}
   </div>
   <div class="form-action-buttonset">
+    <button class="form-action" id="button-delete-bill">Delete Bill</button>
   {% if bill.complete %}
     {% if bill.can_be_reopened %}
     <button class="form-action" id="button-reopen">Reopen Bill</button>

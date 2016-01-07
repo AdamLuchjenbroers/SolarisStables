@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^(?P<bill>[0-9]+)/setammocount', views.AjaxSetAmmunitionCountView.as_view()),
     url(r'^(?P<bill>[0-9]+)/setcored', views.AjaxSetCoredView.as_view()),
     url(r'^(?P<bill>[0-9]+)/setfinal', views.AjaxSetFinalView.as_view()),
+    url(r'^(?P<bill>[0-9]+)/delete', views.AjaxDeleteBillView.as_view()),
 )

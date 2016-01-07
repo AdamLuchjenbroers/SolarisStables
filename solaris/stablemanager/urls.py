@@ -10,7 +10,8 @@ from solaris.stablemanager.pilots.views import StablePilotsView, StableNewPilots
 from solaris.stablemanager.mechs.views import InitialMechPurchaseView, StableMechsView
 
 urlpatterns = patterns('',
-    url(r'^/?$', StableOverview.as_view(), name='stable_overview'),
+    url(r'^/?$', StableOverview.as_view(), name='stable_overview_now'),
+    url(r'^/(?P<week>[0-9]+)/?$', StableOverview.as_view(), name='stable_overview'),
     url(r'^register/?$', StableRegistrationView.as_view(), name='stable_registration'),
     url(r'^initial-mechs/?$', InitialMechPurchaseView.as_view(), name='stable_initialmechs'),
     url(r'^initial-pilots/?$', InitialPilotNamingView.as_view(), name='stable_initialpilots'),
@@ -22,12 +23,13 @@ urlpatterns = patterns('',
     url(r'^training/?$', StableTrainingView.as_view(), name='stable_training_now'),
     url(r'^training/(?P<week>[0-9]+)/?$', StableTrainingView.as_view(), name='stable_training'),
 
-    url(r'^actions/?$', StableActionView.as_view()),
-    url(r'^actions/(?P<week>[0-9]+)/?$', StableActionView.as_view()),
+    url(r'^actions/?$', StableActionView.as_view(), name='stable_actions_now'),
+    url(r'^actions/(?P<week>[0-9]+)/?$', StableActionView.as_view(), name='stable_actions'),
 
-    url(r'^mechs/?$', StableMechsView.as_view()),
+    url(r'^mechs/?$', StableMechsView.as_view(), name='stable_mechs_now'),
+    url(r'^mechs/(?P<week>[0-9]+)/?$', StableMechsView.as_view(), name='stable_mechs'),
 
-    url(r'^pilots/?$', StablePilotsView.as_view()),
+    url(r'^pilots/?$', StablePilotsView.as_view(), name='stable_pilots_now'),
     url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),
 
     url(r'^mechs/repair/', include('solaris.stablemanager.repairs.urls')),

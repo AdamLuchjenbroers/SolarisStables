@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView, View
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 import json
 
@@ -185,5 +186,10 @@ class AjaxSetFinalView(RepairBillMixin, View):
         except KeyError:
             return HttpResponse('Incomplete AJAX request', 400)
 
-
-
+class AjaxDeleteBillView(RepairBillMixin, View): 
+    def post(self, request):
+        week = self.bill.stableweek.stableweek.week.week_number      
+        self.bill.delete()
+        
+        destination = reverse('stable_mechs', kwargs={'week' : week})
+        return HttpResponse(json.dumps(destination))
