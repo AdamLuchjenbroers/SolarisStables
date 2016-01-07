@@ -2,6 +2,7 @@ from django.views.generic import FormView, ListView
 
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import LedgerItem
+from solaris.stablemanager.repairs.models import RepairBill
 
 from . import forms, models
 
@@ -37,3 +38,11 @@ class StableMechsView(StableWeekMixin, ListView):
 
     def get_queryset(self):
         return self.stableweek.mechs.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(StableMechsView, self).get_context_data(**kwargs)
+        
+        context['completed_bills'] = RepairBill.objects.filter(stableweek__stableweek=self.stableweek, complete=True).order_by('cored')
+        
+        return context
+

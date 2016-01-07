@@ -940,6 +940,7 @@ li.chit.tier3 a.omni-row:hover {
   background-color: #FF4444;
   box-shadow: inset 0px 0px 5px #FF8888;
 }
+
 /****************************************
  * Repair Forms
  ****************************************/
@@ -970,6 +971,43 @@ li.chit.tier3 a.omni-row:hover {
 .ammo-type select {
   width: 16rem;
 }
+
+ul.bill-list {
+  list-style: none;
+}
+
+ul.bill-list li {
+  border-top: 1px dashed #888888;
+  text-decoration: none;
+  width: 80%;
+  padding: 0.2em;
+}
+
+ul.bill-list li a {
+  display: flex;
+  text-decoration: none;
+  color: #000000;
+}
+
+ul.bill-list li:last-child {
+  border-bottom: 1px dashed #888888;
+}
+
+ul.bill-list li:hover {
+  background: #8888FF;
+}
+
+ul.bill-list .bill-name {
+  flex-grow: 1;
+  font-size: 110%;
+  font-weight: bold;
+}
+
+ul.bill-list .bill-cost {
+  text-align: right;
+  width: 8em;
+}
+
 
 /****************************************
  * Ledgers / Bills

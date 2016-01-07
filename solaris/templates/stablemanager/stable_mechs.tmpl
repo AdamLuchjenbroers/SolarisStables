@@ -11,5 +11,25 @@
     {% endfor %}
     </ul>
   {% endif %}
+  <h2 class="section-divider">Add Mech</h2>
+  TODO
+  {% if completed_bills %}
+  <h2 class="section-divider">Completed Bills</h2>
+  <ul class="bill-list">
+    {% for bill in completed_bills %}
+    {% if bill.cored %}
+    <li><a href="{{bill.get_absolute_url}}">
+       <span class="bill-name">Insurance Payout - {{bill.mech.mech_name}} {{bill.mech.mech_code}}</span>
+       <span class="bill-cost">{{bill.insurance_payout}}</span>
+    </a></li>
+    {% else %}
+    <li><a href="{{bill.get_absolute_url}}">
+       <span class="bill-name">Repairs - {{bill.mech.mech_name}} {{bill.mech.mech_code}}</span>
+       <span class="bill-cost">-{{bill.lineitems.total_cost}}</span>
+    </a></li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+  {% endif %}
 </div>
 {% endblock %}
