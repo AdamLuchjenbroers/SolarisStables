@@ -23,12 +23,12 @@ class StableViewMixin(SolarisViewMixin):
         page_context['stable'] = self.stable
         page_context['selected'] = 'Stable'
         page_context['submenu'] = [
-          {'title' : 'Overview', 'url' : '/stable'},
-          {'title' : 'Finances', 'url' : '/stable/ledger'},
-#          {'title' : 'Training', 'url' : '/stable/training'},
-          {'title' : 'Mechs', 'url' : '/stable/mechs'},   
-          {'title' : 'Pilots', 'url' : '/stable/pilots'},    
-          {'title' : 'Actions', 'url' : '/stable/actions'},      
+          {'title' : 'Overview', 'url' : reverse('stable_overview_now')},
+          {'title' : 'Finances', 'url' : reverse('stable_ledger_now')},
+#          {'title' : 'Training', 'url' : reverse('stable_training_now')},
+          {'title' : 'Mechs', 'url' : reverse('stable_mechs_now')},   
+          {'title' : 'Pilots', 'url' : reverse('stable_pilots_now')},    
+          {'title' : 'Actions', 'url' : reverse('stable_actions_now')},      
         ]
         page_context['submenu_selected'] = self.__class__.submenu_selected
         
@@ -76,12 +76,21 @@ class StableWeekMixin(StableViewMixin):
                    
         return super(StableWeekMixin, self).dispatch(request, *args, **kwargs) 
     
-    
     def get_context_data(self, **kwargs):
         page_context = super(StableWeekMixin, self).get_context_data(**kwargs)
         page_context['stableweek'] = self.stableweek        
         page_context['week'] = self.week
         page_context['week_navigation'] = self.__class__.week_navigation        
+
+        week_args = { 'week' : self.week.week_number }
+        page_context['submenu'] = [
+          {'title' : 'Overview', 'url' : reverse('stable_overview', kwargs=week_args)},
+          {'title' : 'Finances', 'url' : reverse('stable_ledger', kwargs=week_args)},
+#          {'title' : 'Training', 'url' : reverse('stable_training', kwargs=week_args)},
+          {'title' : 'Mechs', 'url' : reverse('stable_mechs', kwargs=week_args)},   
+          {'title' : 'Pilots', 'url' : reverse('stable_pilots', kwargs=week_args)},    
+          {'title' : 'Actions', 'url' : reverse('stable_actions', kwargs=week_args)},      
+        ]
  
         return page_context            
 

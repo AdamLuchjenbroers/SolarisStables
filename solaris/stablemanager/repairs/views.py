@@ -59,6 +59,16 @@ class RepairBillView(RepairBillMixin, TemplateView):
         page_context['mech'] = self.mech
         page_context['crit_table'] = self.mech.all_locations()     
         page_context['detail_class'] = 'mech-repair'
+
+        week_args = { 'week' : self.bill.stableweek.stableweek.week.week_number }
+        page_context['submenu'] = [
+          {'title' : 'Overview', 'url' : reverse('stable_overview', kwargs=week_args)},
+          {'title' : 'Finances', 'url' : reverse('stable_ledger', kwargs=week_args)},
+#          {'title' : 'Training', 'url' : reverse('stable_training', kwargs=week_args)},
+          {'title' : 'Mechs', 'url' : reverse('stable_mechs', kwargs=week_args)},   
+          {'title' : 'Pilots', 'url' : reverse('stable_pilots', kwargs=week_args)},    
+          {'title' : 'Actions', 'url' : reverse('stable_actions', kwargs=week_args)},      
+        ]
         
         return page_context
 

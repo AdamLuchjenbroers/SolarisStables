@@ -30,6 +30,7 @@ urlpatterns = patterns('',
     url(r'^mechs/(?P<week>[0-9]+)/?$', StableMechsView.as_view(), name='stable_mechs'),
 
     url(r'^pilots/?$', StablePilotsView.as_view(), name='stable_pilots_now'),
+    url(r'^pilots/(?P<week>[0-9]+)/?$', StablePilotsView.as_view(), name='stable_pilots'),
     url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),
 
     url(r'^mechs/repair/', include('solaris.stablemanager.repairs.urls')),
