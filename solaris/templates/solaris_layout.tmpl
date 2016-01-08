@@ -29,8 +29,11 @@
            
            {% if user.is_authenticated %}
                {% menuitem Stable /stable %}
-               
-               {% if perms.is_admin %}
+ 
+               {% if perms.is_admin or perms.campaign.change_campaign %}
+                   {% menuitem Campaign /campaign %}
+               {% endif %}
+               {% if perms.is_admin or perms.is_staff %}
                    {% menuitem Admin /admin %}
                {% endif %}
            {% endif %} 
