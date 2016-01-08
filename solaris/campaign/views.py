@@ -8,6 +8,7 @@ from solaris.views import SolarisViewMixin
 from .models import Campaign, BroadcastWeek
 
 class CampaignWeekMixin(SolarisViewMixin):
+    week_navigation = True
 
     def dispatch(self, request, week=None, *args, **kwargs):
         if not request.user.is_authenticated():
@@ -30,6 +31,7 @@ class CampaignWeekMixin(SolarisViewMixin):
 
         page_context['campaign'] = self.campaign
         page_context['week'] = self.week
+        page_context['week_navigation'] = self.__class__.week_navigation
 
         return page_context
 

@@ -229,7 +229,7 @@ ul.submenu li#selected, ul.wiki-submenu li#selected {
 /****************************************
  * Action Bar
  ****************************************/
-ul.actionbar, div.actionbar {
+.actionbar {
   border-width: 2px;
   border-style: solid;
   border-color: #BBBBBB;
@@ -238,6 +238,7 @@ ul.actionbar, div.actionbar {
 
   display: block;
   font-family: arial,sans-serif;
+  font-weight: bold;
   
   margin-top: 0.8em;
   margin-left: auto;
@@ -245,6 +246,25 @@ ul.actionbar, div.actionbar {
   width: 80%;
   
   background-color: #262233;
+  color: #BBBBBB;
+}
+
+.actionbar-weekbrowser {
+  display: flex;
+  font-size: 120%;
+  margin: 0.2em 0.5em;
+}
+
+#browse-week-current {
+  padding: 0px 1em;
+}
+
+#browse-prev-week {
+  text-align: right;
+}
+
+#browse-prev-week, #browse-next-week {
+  flex-grow: 1;
 }
 
 ul.actionbar, ul.actionbar-inner {

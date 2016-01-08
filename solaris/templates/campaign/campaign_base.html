@@ -1,1 +1,11 @@
 {% extends 'solaris_layout.tmpl' %}
+
+{% block pageactions %}
+<div class="actionbar">
+  <span class="actionbar-weekbrowser">
+    {% if week_navigation %}<span id="browse-prev-week">&#x25C0;</span>{% endif %}
+    <span id="browse-week-current">&nbsp;Week&nbsp;{{week.week_number}}&nbsp;</span>
+    {% if week_navigation %}<span id="browse-next-week">&#x25B6;</span>{% endif %}
+  </span>
+</div>
+{% endblock %}
