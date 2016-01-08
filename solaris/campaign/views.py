@@ -16,17 +16,20 @@ class CampaignWeekMixin(SolarisViewMixin):
         if not (request.user.has_perm('campaign.change_campaign') or request.user.is_superuser):
             return HttpResponse('You do not have access to the campaign screen', 400)
 
+        self.campaign = Campaign.objects.get_current_campaign()
+
         if week == None:
             self.week = BroadcastWeek.objects.current_week()
         else:
-            self.week = get_object_or_404(BroadcastWeek, week_number=week)
+            self.week = get_object_or_404(BroadcastWeek, week_number=week, campaign=self.campaign)
 
         return super(CampaignWeekMixin, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         page_context = super(CampaignWeekMixin, self).get_context_data(**kwargs)
 
-        page_context['campaign'] = Campaign.objects.get_current_campaign()
+        page_context['campaign'] = self.campaign
+        page_context['week'] = self.week
 
         return page_context
 
