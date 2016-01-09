@@ -255,6 +255,11 @@ ul.submenu li#selected, ul.wiki-submenu li#selected {
   margin: 0.2em 0.5em;
 }
 
+.actionbar-weekbrowser a {
+  text-decoration: none;
+  color: #BBBBBB;
+}
+
 #browse-week-current {
   padding: 0px 1em;
 }
@@ -265,6 +270,10 @@ ul.submenu li#selected, ul.wiki-submenu li#selected {
 
 #browse-prev-week, #browse-next-week {
   flex-grow: 1;
+}
+
+#browse-next-week.create-post {
+  cursor: pointer;
 }
 
 ul.actionbar, ul.actionbar-inner {
