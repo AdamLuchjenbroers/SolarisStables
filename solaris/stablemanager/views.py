@@ -61,6 +61,24 @@ class StableWeekMixin(StableViewMixin):
     """
     # Should this view enable the current week to be changed.
     week_navigation = True
+    view_url_name = 'stable_overview'
+
+    def prev_week_url(self):
+        if self.stableweek.has_prev_week():
+            prev_week_no = self.stableweek.prev_week.week.week_number
+            return reverse(self.__class__.view_url_name, kwargs={'week' : prev_week_no})
+        else:
+            return None
+
+    def next_week_url(self):
+        if self.stableweek.next_week != None:
+            next_week_no = self.stableweek.next_week.week.week_number
+            return reverse(self.__class__.view_url_name, kwargs={'week' : next_week_no})
+        else:
+            return None
+
+    def next_week_available(self):
+        return (self.stableweek.week.next_week != None)
 
     def dispatch(self, request, *args, **kwargs):
         redirect = self.get_stable(request)
@@ -92,6 +110,10 @@ class StableWeekMixin(StableViewMixin):
           {'title' : 'Actions', 'url' : reverse('stable_actions', kwargs=week_args)},      
         ]
  
+        page_context['prev_week_url'] = self.prev_week_url()
+        page_context['next_week_url'] = self.next_week_url()
+        page_context['view_url_name'] = self.__class__.view_url_name
+
         return page_context            
 
 class StableOverview(StableWeekMixin, TemplateView):       

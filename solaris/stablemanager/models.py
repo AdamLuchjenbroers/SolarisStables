@@ -84,6 +84,10 @@ class StableWeek(models.Model):
     def prominence(self):
         #TODO: Compute this using underlying pilots
         return 0
+
+    def can_advance(self):
+        # We can advance if the next stableweek doesn't exist, but the next week does
+        return (self.next_week == None and self.week.next_week != None)
     
     def advance(self):
         if self.week.next_week == None:

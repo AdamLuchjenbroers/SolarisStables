@@ -4,14 +4,21 @@
 <div class="actionbar">
   <img id="actionbar-stable-logo" src="/static/images/blank-80.png" alt="blank"/>
   <span class="actionbar-mainregion">
-    <ul class="actionbar-row">
-       <li id="actionbar-weekbrowser">
-         {% if week_navigation %}<span id="browse-prev-week">&#x25C0;</span>{% endif %}
-         <span id="browse-week-current">&nbsp;Week&nbsp;{{stableweek.week.week_number}}&nbsp;</span>
-         {% if week_navigation %}<span id="browse-next-week">&#x25B6;</span>{% endif %}
-       </li>
-       <li><a href="/stable/mechs/repair/new">Repairs</a></li>
-    </ul>
+    <span class="actionbar-weekbrowser actionbar-toprow">
+      <span id="browse-prev-week">
+      {% if week_navigation and stableweek.has_prev_week %}
+        <a href="{{prev_week_url}}">&#x25C0;</a>
+      {% endif %}
+      </span>
+      <span id="browse-week-current">Week {{week.week_number}}</span>
+      <span id="browse-next-week">
+      {% if week_navigation and stableweek.next_week != None %}
+        <a href="{{next_week_url}}">&#x25B6;</a>
+      {% elif week_navigation and stableweek.can_advance %}
+        <span id="browse-next-week" class="create-post" week="{{week.week_number}}" viewname="{{view_url_name}}">&#x2795;</span>
+      {% endif %}
+      </span>
+    </span>
     <hr class="action-break"/>
     <dl class="actionbar-summary">
       <dt>Funds</dt><dd>{{stableweek.closing_balance}} CBills</dd>
