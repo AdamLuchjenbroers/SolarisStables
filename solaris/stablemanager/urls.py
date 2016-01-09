@@ -12,6 +12,7 @@ from solaris.stablemanager.mechs.views import InitialMechPurchaseView, StableMec
 urlpatterns = patterns('',
     url(r'^/?$', StableOverview.as_view(), name='stable_overview_now'),
     url(r'^/(?P<week>[0-9]+)/?$', StableOverview.as_view(), name='stable_overview'),
+
     url(r'^register/?$', StableRegistrationView.as_view(), name='stable_registration'),
     url(r'^initial-mechs/?$', InitialMechPurchaseView.as_view(), name='stable_initialmechs'),
     url(r'^initial-pilots/?$', InitialPilotNamingView.as_view(), name='stable_initialpilots'),
