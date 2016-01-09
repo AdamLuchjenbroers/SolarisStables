@@ -68,9 +68,15 @@ class RepairBill(models.Model):
            ,  ledger = self.stableweek.stableweek
            ,  ref_repairbill = self
            )
+
+        self.stableweek.cored = self.cored
+        self.stableweek.save()
            
     def remove_ledger_entry(self):
         LedgerItem.objects.filter(ref_repairbill=self).delete()
+
+        self.stableweek.cored = False
+        self.stableweek.save()
 
     def getLocation(self, location):
         try:
