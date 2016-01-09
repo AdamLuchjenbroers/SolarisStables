@@ -59,6 +59,8 @@ class StableMechWeek(models.Model):
     stablemech = models.ForeignKey(StableMech, related_name='weeks')
     current_design = models.ForeignKey('warbook.MechDesign')
     signature_of = models.ForeignKey('Pilot', related_name='signature_mechs', blank=True, null=True)
+    next_week = models.OneToOneField('StableMechWeek', related_name='prev_week', blank=True, null=True)
+    cored = models.BooleanField(default=False)
 
     objects = StableMechWeekManager()
     

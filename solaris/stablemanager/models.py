@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.dispatch import receiver
+from django.forms.models import model_to_dict
 
 from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
@@ -57,7 +58,10 @@ class StableWeek(models.Model):
     opening_balance = models.IntegerField()
     supply_contracts = models.ManyToManyField('warbook.Technology')
     supply_mechs = models.ManyToManyField('warbook.MechDesign')
-    next_week = models.ForeignKey('StableWeek', null=True, related_name='prev_week')
+    next_week = models.OneToOneField('StableWeek', null=True, related_name='prev_week')
+
+    def has_prev_week(self):
+        return hasattr(self, 'prev_week')
     
     def closing_balance(self):
         balance = self.opening_balance
@@ -84,6 +88,10 @@ class StableWeek(models.Model):
     def advance(self):
         if self.week.next_week == None:
             return
+
+        # Has already been done.
+        if self.next_week != None:
+            return
         
         try:
             # Try to get the next week along after this one, in case it already exists
@@ -102,6 +110,13 @@ class StableWeek(models.Model):
         ,   opening_balance = self.closing_balance()
         )
         self.save()
+
+        for mech in self.mechs.all():
+            fields = model_to_dict(mech)
+
+            del fields['id']
+            del fields['stableweek']
+            self.next_week.mechs.create(**fields)    
         
         return self.next_week
             
