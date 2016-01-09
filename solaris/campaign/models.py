@@ -71,18 +71,6 @@ class BroadcastWeek(models.Model):
 
     def has_prev_week(self):
        return hasattr(self, 'prev_week')
-
-    def prev_week_url(self):
-        if self.has_prev_week():
-            return self.prev_week.get_absolute_url()
-        else:
-            return None
-
-    def next_week_url(self):
-        if self.next_week != None:
-            return self.next_week.get_absolute_url()
-        else:
-            return None
             
     def get_absolute_url(self):
         return reverse('campaign_overview', kwargs={'week': self.week_number})

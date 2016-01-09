@@ -51,10 +51,24 @@ class CampaignWeekMixin(CampaignViewMixin):
 
         return super(CampaignWeekMixin, self).dispatch(request, *args, **kwargs)
 
+    def next_week_url(self):
+        if self.week.next_week != None:
+            return reverse(self.__class__.view_url_name, kwargs={'week' : self.week.next_week.week_number})
+        else:
+            return ''
+
+    def prev_week_url(self):
+        if self.week.has_prev_week(): 
+            return reverse(self.__class__.view_url_name, kwargs={'week' : self.week.prev_week.week_number})
+        else:
+            return ''
+
     def get_context_data(self, **kwargs):
         page_context = super(CampaignWeekMixin, self).get_context_data(**kwargs)
 
         page_context['week'] = self.week
+        page_context['prev_week_url'] = self.prev_week_url()
+        page_context['next_week_url'] = self.next_week_url()
 
         return page_context
 
