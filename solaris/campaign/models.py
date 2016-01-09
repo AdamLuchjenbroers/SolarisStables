@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 class CampaignManager(models.Manager):
     def get_current_campaign(self):
@@ -11,6 +12,9 @@ class Campaign(models.Model):
     initial_contracts = models.ManyToManyField('warbook.Technology')
 
     objects = CampaignManager()
+
+    def current_week(self):
+        return self.weeks.get(next_week=None)
 
     def __unicode__(self):
         return self.name
@@ -41,8 +45,8 @@ class BroadcastWeekManager(models.Manager):
 class BroadcastWeek(models.Model):
     week_number = models.IntegerField()
     sign = models.ForeignKey(Zodiac)
-    next_week = models.OneToOneField('BroadcastWeek', null=True, blank=True, related_name='prev_week')
-    campaign = models.ForeignKey(Campaign, null=True, blank=True)
+    next_week = models.OneToOneField('BroadcastWeek', on_delete=models.SET_NULL, null=True, blank=True, related_name='prev_week')
+    campaign = models.ForeignKey(Campaign, related_name="weeks")
   
     objects = BroadcastWeekManager()  
 
@@ -56,14 +60,32 @@ class BroadcastWeek(models.Model):
 
     def advance(self):
         if self.next_week == None:            
-            self.next_week = BroadcastWeek(
+            self.next_week = BroadcastWeek.objects.create(
                 week_number = self.week_number + 1
               , sign = self.sign.next
+              , campaign = self.campaign
             )
-            self.next_week.save()
             self.save()
         
         return self.next_week
+
+    def has_prev_week(self):
+       return hasattr(self, 'prev_week')
+
+    def prev_week_url(self):
+        if self.has_prev_week():
+            return self.prev_week.get_absolute_url()
+        else:
+            return None
+
+    def next_week_url(self):
+        if self.next_week != None:
+            return self.next_week.get_absolute_url()
+        else:
+            return None
+            
+    def get_absolute_url(self):
+        return reverse('campaign_overview', kwargs={'week': self.week_number})
 
 def createInitialPilots(stable):
     from solaris.stablemanager.pilots.models import Pilot, PilotWeek

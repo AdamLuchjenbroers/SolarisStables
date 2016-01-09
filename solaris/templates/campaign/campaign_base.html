@@ -1,11 +1,22 @@
 {% extends 'solaris_layout.tmpl' %}
 
+{% block pageheader %}
+  {{ block.super }}
+  <script src="/static/js/campaign.js" type="text/javascript" > </script>
+{% endblock %}
+
 {% block pageactions %}
 <div class="actionbar">
   <span class="actionbar-weekbrowser">
-    {% if week_navigation %}<span id="browse-prev-week">&#x25C0;</span>{% endif %}
+    <span id="browse-prev-week">&nbsp;{% if week_navigation and week.has_prev_week %}
+      <a href="{{week.prev_week_url}}">&#x25C0;</a>
+    {% endif %}</span>
     <span id="browse-week-current">&nbsp;Week&nbsp;{{week.week_number}}&nbsp;</span>
-    {% if week_navigation %}<span id="browse-next-week">&#x25B6;</span>{% endif %}
+    {% if week_navigation and week.next_week != None %}
+       <span id="browse-next-week"><a href="{{week.next_week_url}}">&#x25B6;</a></span>
+    {% else %}
+       <span id="browse-next-week" class="create-post" week="{{week.week_number}}" viewname="{{view_url_name}}">&#x2795;</span>
+    {% endif %}
   </span>
 </div>
 {% endblock %}
