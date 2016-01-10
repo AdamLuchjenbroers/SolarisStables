@@ -7,7 +7,7 @@ from solaris.stablemanager.ledger.views import StableLedgerView, StableLedgerDel
 from solaris.stablemanager.training.views import StableTrainingView
 from solaris.stablemanager.actions.views import StableActionView
 from solaris.stablemanager.pilots.views import StablePilotsView, StableNewPilotsView, InitialPilotNamingView
-from solaris.stablemanager.mechs.views import InitialMechPurchaseView, StableMechsView
+from solaris.stablemanager.mechs.views import InitialMechPurchaseView
 
 urlpatterns = patterns('',
     url(r'^/?$', StableOverview.as_view(), name='stable_overview_now'),
@@ -28,14 +28,11 @@ urlpatterns = patterns('',
     url(r'^actions/?$', StableActionView.as_view(), name='stable_actions_now'),
     url(r'^actions/(?P<week>[0-9]+)/?$', StableActionView.as_view(), name='stable_actions'),
 
-    url(r'^mechs/?$', StableMechsView.as_view(), name='stable_mechs_now'),
-    url(r'^mechs/(?P<week>[0-9]+)/?$', StableMechsView.as_view(), name='stable_mechs'),
+    url(r'^mechs/', include('solaris.stablemanager.mechs.urls')),
 
     url(r'^pilots/?$', StablePilotsView.as_view(), name='stable_pilots_now'),
     url(r'^pilots/(?P<week>[0-9]+)/?$', StablePilotsView.as_view(), name='stable_pilots'),
     url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),
-
-    url(r'^mechs/repair/', include('solaris.stablemanager.repairs.urls')),
 
     url(r'^query/list-produced/?$', ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto'),    
     url(r'^query/list-variants/?$', ListProductionVariants.as_view(), name = 'stable_query_mechvariant') 
