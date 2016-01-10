@@ -127,6 +127,9 @@ class StableWeek(models.Model):
         for mech in self.mechs.filter(cored=False):
             mech.advance()
 
+        for pilot in self.pilots.filter(wounds__lt=6):
+            pilot.advance()
+
         return self.next_week
             
     def get_absolute_url(self):

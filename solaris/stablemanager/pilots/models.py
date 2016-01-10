@@ -84,7 +84,55 @@ class PilotWeek(models.Model):
     wounds = models.IntegerField(default=0)
     
     traits = models.ManyToManyField(PilotTrait, blank=True, through=PilotWeekTraits)
-    
+    next_week = models.OneToOneField('PilotWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
+
+    def advance(self):
+        if self.week.next_week == None:
+            return None
+        
+        if self.next_week != None:
+            return self.next_week
+
+        try:
+            # Try to get the next week along after this one, in case it already exists
+            # Should rarely return anything, but this is included as a safety feature
+            self.next_week = PilotWeek.objects.get(pilot=self.pilot, week=self.week.next_week)
+            self.save()
+            return self.next_week
+        except ObjectDoesNotExist:
+            pass
+ 
+        self.next_week = PilotWeek.objects.create(
+          pilot = self.pilot
+        , week = self.week.next_week 
+        , start_character_points = self.character_points()
+        , wounds = max(self.wounds - 1, 0)
+        , rank = self.rank
+        )
+        self.save()
+
+        pilot_training = self.training.filter(training__training='P')
+        if pilot_training.count() > 0:
+            self.next_week.skill_piloting = pilot_training.aggregate(models.Min('training__train_to'))['training__train_to__min'] 
+        else:
+            self.next_week.skill_piloting = self.skill_piloting 
+
+        gunnery_training = self.training.filter(training__training='G')
+        if gunnery_training.count() > 0:
+            self.next_week.skill_gunnery = gunnery_training.aggregate(models.Min('training__train_to'))['training__train_to__min'] 
+        else:
+            self.next_week.skill_gunnery = self.skill_gunnery 
+        
+        for trait in self.traits.all():
+            PilotWeekTraits.objects.create(
+               pilot_week = self.next_week
+            ,  trait = trait.trait
+            ,  notes = trait.notes
+            )
+        # TODO: Parse training events to add any new skills.
+        self.next_week.save()
+        return self.next_week
+        
     class Meta:
         db_table = 'stablemanager_pilotweek'
         app_label = 'stablemanager'  
@@ -113,42 +161,6 @@ class PilotWeek(models.Model):
 
     def bv_formatted(self):
         return '%0.2f' % self.bv()
-
-    def advance(self):
-        if self.week.next_week == None:
-            return       
-        
-        try:
-            # Try to get the next week along after this one, in case it already exists
-            # Should rarely return anything, but this is included as a safety feature
-            return self.objects.get(pilot=self.pilot, week=self.week.next_week)
-        except ObjectDoesNotExist:
-            pass
-        
-        # TODO - Apply Training
-        new_rank = self.rank
-        new_gunnery = self.skill_gunnery
-        new_piloting = self.skill_piloting
-        new_skill = self.skill
-        
-        if self.wounds > 0 and self.wounds < 6:        
-            new_wounds = self.wounds - 1
-        elif self.wounds == 0:
-            new_wounds = self.wounds
-        else:
-            #Pilot is dead, and should not be advanced
-            return            
-        
-        return PilotWeek.objects.create(
-            pilot=self.pilot
-        ,   week=self.week.next_week
-        ,   start_character_points=self.character_points()
-        ,   rank = new_rank
-        ,   skill_gunnery = new_gunnery
-        ,   skill_piloting = new_piloting
-        ,   wounds = new_wounds
-        ,   skill = new_skill
-        )
         
     
 class PilotTrainingEvent(models.Model):
