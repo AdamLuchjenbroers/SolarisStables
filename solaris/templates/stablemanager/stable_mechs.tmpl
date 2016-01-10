@@ -1,5 +1,11 @@
 {% extends 'stablemanager/stable_base.html' %}
  
+{% block pageheader %}
+  {{ block.super }}
+  <script src="/static/js/stable_mechs.js" type="text/javascript" > </script>
+  <link rel="stylesheet" type="text/css" href="/static/css/mech_detail.css" />
+{% endblock %}
+
 {% block pagebody %}
 <div class="body">
   <h1>{{stable.stable_name}} Mechs, Week {{week.week_number}}</h1>
@@ -12,7 +18,37 @@
     </ul>
   {% endif %}
   <h2 class="section-divider">Add Mech</h2>
-  TODO
+  <form id="mech-purchase-form" action="{{purchase_url}}" method="POST">
+    {{purchase_form.week_no}}
+    <span id="mech-purchase-prod" class="mech-purchase-row">
+      <span class="mech-purchase-select">
+        <input type="radio" name="mech_source" value="C"></input>
+      </span><span class="mech-purchase-label">
+        Production Mech
+      </span>
+      <span class="mech-purchase-chassis">{{purchase_form.mech_name}}</span>
+      <span class="mech-purchase-model">{{purchase_form.mech_code}}</span>
+      <span class="mech-purchase-preview"><span class="word-button">Preview</span></span>
+      <span class="mech-purchase-cost"></span>
+    </span>
+    <span class="label-divider">
+      <hr class="label-divider-left"/>
+      <span class="label-divider-text">OR</span>
+      <hr class="label-divider-right"/>
+    </span>
+    <span class="mech-purchase-row">
+      <span class="mech-purchase-select">
+        <input type="radio" name="mech_source" value="U"></input>
+      </span><span class="mech-purchase-label">
+        Custom Design
+      </span>
+      <span class="mech-purchase-upload">{{purchase_form.mech_ssw}}</span>
+    </span>
+    <span class="mech-purchase-row">
+      <span class="mech-purchase-addledger">{{purchase_form.as_purchase}} Add as purchase</span>
+      <span class="mech-purchase-submit"><button type="submit" value="submit" disabled="yes">Submit</button>
+    </span>
+  </form>
   {% if completed_bills %}
   <h2 class="section-divider">Completed Bills</h2>
   <ul class="bill-list">
@@ -31,5 +67,8 @@
     {% endfor %}
   </ul>
   {% endif %}
+</div>
+<div title="Preview Mech Design" id="dialog-mechpreview" class="preview-dialog hidden">
+  <p>Content to go here </p>
 </div>
 {% endblock %}

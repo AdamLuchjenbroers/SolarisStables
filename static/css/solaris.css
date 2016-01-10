@@ -986,6 +986,57 @@ li.chit.tier3 a.omni-row:hover {
 }
 
 /****************************************
+ * Mech Forms
+ ****************************************/
+#mech-purchase-form {
+  margin-left: 4em;
+  width: 80%;
+}
+
+.mech-purchase-row {
+  display: flex;
+}
+
+.mech-purchase-select {
+  width: 4em;
+  text-align: middle;
+}
+
+.mech-purchase-chassis {
+  width: 17em;
+}
+
+.mech-purchase-chassis input {
+  width: 16em;
+}
+
+.mech-purchase-model select {
+  width: 12em;
+}
+
+.mech-purchase-preview {
+  padding: 0px 0.5em;
+}
+
+.mech-purchase-cost {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.mech-purchase-upload input {
+  width: 30em;
+}
+
+.mech-purchase-label {
+  width: 10em;
+  font-weight: bold;
+}
+
+.mech-purchase-addledger {
+  flex-grow: 1;
+}
+
+/****************************************
  * Repair Forms
  ****************************************/
 .ammo-table {
@@ -1219,6 +1270,24 @@ button.form-action {
 
 .hidden {
     display: none;
+}
+
+.label-divider {
+  display: flex;
+  font-weight: bold;
+  padding: 0.2em 2em;
+}
+
+.label-divider-left {
+  flex-grow: 1;
+}
+
+.label-divider-text {
+  padding: 0px 0.5em;
+}
+
+.label-divider-right {
+  flex-grow: 3;
 }
 
 /****************************************
