@@ -79,6 +79,9 @@ class StableMechWeek(models.Model):
         if self.stableweek.next_week == None:
             return None
 
+        if self.next_week != None:
+            return self.next_week
+
         self.next_week = StableMechWeek.objects.create(
            stableweek = self.stableweek.next_week
         ,  stablemech = self.stablemech
