@@ -44,6 +44,7 @@ class StableMechsView(StableWeekMixin, ListView):
         context = super(StableMechsView, self).get_context_data(**kwargs)
         
         context['completed_bills'] = RepairBill.objects.filter(stableweek__stableweek=self.stableweek, complete=True).order_by('cored')
+        context['purchase_form'] = forms.MechUploadOrPurchaseForm(self.week.week_number)
         
         return context
 

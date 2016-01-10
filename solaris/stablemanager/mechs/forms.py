@@ -1,14 +1,14 @@
 from django.forms.models import formset_factory
-from django.forms import Form, CharField, IntegerField, HiddenInput, Select, ValidationError
+from django import forms 
 
 from . import models
 from solaris.warbook.mech.models import MechDesign
 from solaris.campaign.models import BroadcastWeek
 
-class SimpleMechPurchaseForm(Form):
-    mech_name = CharField()
-    mech_code = CharField(widget=Select)
-    week_no = IntegerField(widget=HiddenInput(), initial=BroadcastWeek.objects.current_week().week_number)
+class SimpleMechPurchaseForm(forms.Form):
+    mech_name = forms.CharField()
+    mech_code = forms.CharField(widget=forms.Select)
+    week_no = forms.IntegerField(widget=forms.HiddenInput(), initial=BroadcastWeek.objects.current_week().week_number)
         
     def to_mech(self):
         pass
@@ -33,4 +33,19 @@ class SimpleMechPurchaseForm(Form):
     
         return cleaned
 
-InitialMechsForm = formset_factory(SimpleMechPurchaseForm)
+class MechUploadOrPurchaseForm(forms.Form):
+    mech_name = forms.CharField(required=False)
+    mech_code = forms.CharField(widget=forms.Select, required=False)
+
+    mech_ssw = forms.FileField(required=False)
+    
+    mech_source = forms.ChoiceField(choices=[('Uploaded','U'), ('Catalog','C')])
+    week_no = forms.IntegerField(widget=forms.HiddenInput)
+    as_purchase = forms.BooleanField(required=False, initial=True)
+
+    def __init__(self, week):
+        super(MechUploadOrPurchaseForm, self).__init__(initial={
+           'week_no' : week
+        })
+
+InitialMechsForm = forms.formset_factory(SimpleMechPurchaseForm)
