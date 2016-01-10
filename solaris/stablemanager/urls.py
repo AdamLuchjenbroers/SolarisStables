@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-from .views import StableRegistrationView, StableOverview
+from .views import StableRegistrationView, StableOverview, AjaxCreateStableWeekView
 from .ajax import ProductionChassisAutocomplete, ListProductionVariants
 
 from solaris.stablemanager.ledger.views import StableLedgerView, StableLedgerDeleteView
@@ -11,7 +11,8 @@ from solaris.stablemanager.mechs.views import InitialMechPurchaseView, StableMec
 
 urlpatterns = patterns('',
     url(r'^/?$', StableOverview.as_view(), name='stable_overview_now'),
-    url(r'^/(?P<week>[0-9]+)/?$', StableOverview.as_view(), name='stable_overview'),
+    url(r'^(?P<week>[0-9]+)/?$', StableOverview.as_view(), name='stable_overview'),
+    url(r'^create/?$', AjaxCreateStableWeekView.as_view(), name='stable_createweek'),
 
     url(r'^register/?$', StableRegistrationView.as_view(), name='stable_registration'),
     url(r'^initial-mechs/?$', InitialMechPurchaseView.as_view(), name='stable_initialmechs'),

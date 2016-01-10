@@ -26,8 +26,12 @@ class Stable(models.Model):
         if week == None:
             # No week selected, so get the latest
             return self.ledger.get(next_week = None)
-        else:
+        elif type(week) == BroadcastWeek:
             return self.ledger.get(week = week)
+        elif type(week) == int:
+            return self.ledger.get(week__week_number=week)
+        else:
+            raise ValueError('Week parameter does not identify a week')
     
     def current_balance(self):
         try:
@@ -58,7 +62,7 @@ class StableWeek(models.Model):
     opening_balance = models.IntegerField()
     supply_contracts = models.ManyToManyField('warbook.Technology')
     supply_mechs = models.ManyToManyField('warbook.MechDesign')
-    next_week = models.OneToOneField('StableWeek', null=True, related_name='prev_week')
+    next_week = models.OneToOneField('StableWeek', on_delete=models.SET_NULL, null=True, related_name='prev_week')
 
     def has_prev_week(self):
         return hasattr(self, 'prev_week')
@@ -70,6 +74,10 @@ class StableWeek(models.Model):
             balance += item.get_cost()
             
         return balance
+
+    def closing_reputation(self):
+        #TODO - Process pilot ledger and update stable reputation
+        return self.reputation
 
     def recalculate(self):
         try:
@@ -100,28 +108,25 @@ class StableWeek(models.Model):
         try:
             # Try to get the next week along after this one, in case it already exists
             # Should rarely return anything, but this is included as a safety feature
-            self.next_week = self.objects.get(stable=self.stable, week=self.week.next_week)
+            self.next_week = StableWeek.objects.get(stable=self.stable, week=self.week.next_week)
             self.save()
             return self.next_week
         except ObjectDoesNotExist:
             pass
         
-        self.next_week = self.objects.create(
+        self.next_week = StableWeek.objects.create(
             stable = self.stable
         ,   week = self.week.next_week
-        ,   supply_contracts = self.supply_contracts
-        ,   reputation = self.reputation
+        ,   reputation = self.closing_reputation()
         ,   opening_balance = self.closing_balance()
         )
+        self.next_week.supply_contracts.add(*self.supply_contracts.all())
         self.save()
+        self.next_week.save()
 
-        for mech in self.mechs.all():
-            fields = model_to_dict(mech)
+        for mech in self.mechs.filter(cored=False):
+            mech.advance()
 
-            del fields['id']
-            del fields['stableweek']
-            self.next_week.mechs.create(**fields)    
-        
         return self.next_week
             
     def get_absolute_url(self):
@@ -150,6 +155,9 @@ class StableWeek(models.Model):
         for mech in mechList:
             if mech.can_be_produced_with(equipment_list):
                 self.supply_mechs.add(mech)      
+   
+    def __unicode__(self):
+        return '%s - Week %i' % (self.stable.stable_name, self.week.week_number)
 
     class Meta:
         verbose_name_plural = 'Stable Weeks'

@@ -1,5 +1,10 @@
 {% extends 'solaris_layout.tmpl' %}
 
+{% block pageheader %}
+  {{ block.super }}
+  <script src="/static/js/stablemanager.js" type="text/javascript" > </script>
+{% endblock %}
+
 {% block pageactions %}
 <div class="actionbar">
   <img id="actionbar-stable-logo" src="/static/images/blank-80.png" alt="blank"/>

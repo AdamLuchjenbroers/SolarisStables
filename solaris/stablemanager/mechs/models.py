@@ -35,7 +35,7 @@ class StableMech(models.Model):
     objects = StableMechManager()
  
     def get_mechweek(self, week=None):
-        if week == None or type(week, solaris.campaign.models.BroadcastWeek):
+        if week == None or type(week) == solaris.campaign.models.BroadcastWeek:
             stableweek = self.stable.get_stableweek(week=week)
         else:
             stableweek = week
@@ -59,7 +59,7 @@ class StableMechWeek(models.Model):
     stablemech = models.ForeignKey(StableMech, related_name='weeks')
     current_design = models.ForeignKey('warbook.MechDesign')
     signature_of = models.ForeignKey('Pilot', related_name='signature_mechs', blank=True, null=True)
-    next_week = models.OneToOneField('StableMechWeek', related_name='prev_week', blank=True, null=True)
+    next_week = models.OneToOneField('StableMechWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
     cored = models.BooleanField(default=False)
 
     objects = StableMechWeekManager()
@@ -74,6 +74,20 @@ class StableMechWeek(models.Model):
             return self.repairs.get(mech=self.current_design, stableweek=self, complete=False)
         except RepairBill.DoesNotExist:
             return None
+
+    def advance(self):
+        if self.stableweek.next_week == None:
+            return None
+
+        self.next_week = StableMechWeek.objects.create(
+           stableweek = self.stableweek.next_week
+        ,  stablemech = self.stablemech
+        ,  current_design = self.current_design
+        ,  signature_of = self.signature_of
+        ,  cored = self.cored
+        )
+        self.save()
+        return self.next_week
 
     def repair_bill_url(self):
         bill = self.active_repair_bill()

@@ -2,9 +2,12 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import View, TemplateView, CreateView
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
+from django.http import HttpResponse 
+
+import json
 
 from solaris.views import SolarisViewMixin
 from solaris.campaign.models import BroadcastWeek, Campaign
@@ -148,3 +151,22 @@ class StableRegistrationView(SolarisViewMixin, CreateView):
         page_context['form_class'] = 'registration'
         
         return page_context
+
+class AjaxCreateStableWeekView(StableWeekMixin, View):
+    def post(self, request):
+        view = self.__class__.view_url_name
+        if 'view' in request.POST:
+            view = request.POST['view']
+
+        try:
+            week_no = int(request.POST['week'])
+            week = self.stable.get_stableweek(week=week_no)
+
+            nextweek = week.advance()
+            nexturl = reverse(view, kwargs={'week' : nextweek.week.week_number})
+
+            return HttpResponse(json.dumps(nexturl))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 400)
+        except StableWeek.DoesNotExist:
+            return HttpResponse('Source Stable Week not found', 404)
