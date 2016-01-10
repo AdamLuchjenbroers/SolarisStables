@@ -505,12 +505,19 @@ dl.actionbar-summary {
 dl.actionbar-summary dt {
   display: inline-block;
   font-weight: bold;
+  width: 7%;
+  padding: 0.5em 0px 0.5em 1%;
 }
 
 dl.actionbar-summary dd {
   display: inline-block;
-  margin-right: 0.4em;
-  padding-right: 1em;
+  width: 11%;
+  text-align: right;
+  padding: 0.5em 1% 0.5em 0px;
+}
+
+dd.small-text {
+  font-size: 80%;
 }
 
 dl.actionbar-summary dd:not(:last-of-type) {
