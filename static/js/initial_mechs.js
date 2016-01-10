@@ -20,7 +20,7 @@ $(window).unload(function() {
 
 $( document ).ready(function() {
 
-    attach_mechlist_autocomplete( $('input#id_form-0-mech_name'), '.mech-purchase' );
+    attach_mechlist_autocomplete( $('input#id_form-0-mech_name'), '.mech-purchase', '.mech-code select' );
 
     $('.mech-purchase span.mech-code select').change(
       select_chassis_handler('.mech-purchase', 'span.mech-name input', '.mech-cost', '.mech-preview input')

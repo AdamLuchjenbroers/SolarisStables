@@ -1,4 +1,4 @@
-function attach_mechlist_autocomplete(mech_input, parent_class) {
+function attach_mechlist_autocomplete(mech_input, parent_class, model_select_class) {
   mech_input.autocomplete({
     source: "/stable/query/list-produced",
     minLength: 3,
@@ -18,7 +18,7 @@ function attach_mechlist_autocomplete(mech_input, parent_class) {
           option_html += "<option value=\"" + val + "\">" + val + "</value>";
         }); 
                                                              
-        inputbox.parents(parent_class).find('span.mech-code select').html(option_html);               
+        inputbox.parents(parent_class).find(model_select_class).html(option_html);               
       });
     }
   });
