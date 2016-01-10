@@ -1,3 +1,64 @@
+function attach_mechlist_autocomplete(mech_input, parent_class) {
+  mech_input.autocomplete({
+    source: "/stable/query/list-produced",
+    minLength: 3,
+    select: function (event, ui) {
+      var inputbox = $(this);
+                
+      $.ajax( {
+        type : 'get',
+        url  : '/stable/query/list-variants',
+        dataType : 'json',
+        data : {
+          mech : ui.item.value
+        },
+      }).done(function(json) {
+        var option_html="<option value=\"\">--</value>";
+        $.each(json, function(index, val) {
+          option_html += "<option value=\"" + val + "\">" + val + "</value>";
+        }); 
+                                                             
+        inputbox.parents(parent_class).find('span.mech-code select').html(option_html);               
+      });
+    }
+  });
+}
+
+function select_chassis_handler(parent_class, chassis_input_css, cost_class, preview_class) {
+  return function() {
+    type = $(this).val();
+    chassis = $(this).parents(parent_class).find(chassis_input_css).val();
+    cost = $(this).parents(parent_class).find(cost_class);
+
+    $.ajax( {
+      type : 'get',
+      url  : '/reference/ajax/mech/price-of',
+      dataType : 'json',
+      data : {
+        chassis : chassis,
+        type    : type
+      },
+    }).done(function(json) {
+      cost.html('-' + json);
+
+      preview = cost.parents(parent_class).find(preview_class);
+      preview.prop('disabled', false);
+
+      preview.click(function() {
+        $('#dialog-mechpreview').load('/reference/mechs/' + chassis + '/' + type + ' div.body');
+        $('#dialog-mechpreview').dialog ({
+          modal: true,
+          width: (window.innerWidth * 0.75),
+          height: (window.innerHeight * 0.75),
+          buttons: {
+            Close: function() { $( this ).dialog("close"); }
+          }
+        });
+      });
+    }); 
+  }
+}
+
 $( document ).ready(function() {
   $('#browse-next-week.create-post').click( function() {
     $.ajax({
