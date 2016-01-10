@@ -46,6 +46,7 @@ class RepairBillMixin(StableViewMixin):
         page_context['mech'] = self.mech
         page_context['bill'] = self.bill
         page_context['stableweek'] = self.bill.stableweek.stableweek
+        page_context['week'] = self.bill.stableweek.stableweek.week
         page_context['week_navigation'] = False       
         
         return page_context
