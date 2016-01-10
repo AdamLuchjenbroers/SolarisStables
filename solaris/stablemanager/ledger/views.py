@@ -12,6 +12,7 @@ from .forms import LedgerItemForm, LedgerDeleteForm
 class StableLedgerView(StableWeekMixin, TemplateView):
     submenu_selected = 'Finances'
     template_name = 'stablemanager/stable_ledger.tmpl'
+    view_url_name = 'stable_ledger'
         
     def get_context_data(self, **kwargs):
         page_context = super(StableLedgerView,self).get_context_data(**kwargs)

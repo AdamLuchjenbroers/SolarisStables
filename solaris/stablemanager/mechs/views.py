@@ -35,6 +35,7 @@ class StableMechsView(StableWeekMixin, ListView):
     submenu_selected = 'Mechs'
     template_name = 'stablemanager/stable_mechs.tmpl'
     model = models.StableMechWeek    
+    view_url_name = 'stable_mechs'
 
     def get_queryset(self):
         return self.stableweek.mechs.all()

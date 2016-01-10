@@ -11,6 +11,7 @@ class StablePilotsView(StableWeekMixin, ListView):
     submenu_selected = 'Pilots'
     template_name = 'stablemanager/stable_pilots.tmpl'
     model = models.PilotWeek    
+    view_url_name = 'stable_pilots'
 
     def get_queryset(self):
         return models.PilotWeek.objects.filter(week=self.stableweek)
