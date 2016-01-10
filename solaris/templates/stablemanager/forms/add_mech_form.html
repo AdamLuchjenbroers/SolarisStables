@@ -1,0 +1,32 @@
+
+<form id="mech-purchase-form" action="{{purchase_url}}" method="POST">
+  {{form.week_no}}
+  <span id="mech-purchase-prod" class="mech-purchase-row">
+    <span class="mech-purchase-select">
+      <input type="radio" name="mech_source" value="C"></input>
+    </span><span class="mech-purchase-label">
+      Production Mech
+    </span>
+    <span class="mech-purchase-chassis">{{form.mech_name}}</span>
+    <span class="mech-purchase-model">{{form.mech_code}}</span>
+    <span class="mech-purchase-preview"><span class="word-button">Preview</span></span>
+    <span class="mech-purchase-cost"></span>
+  </span>
+  <span class="label-divider">
+    <hr class="label-divider-left"/>
+    <span class="label-divider-text">OR</span>
+    <hr class="label-divider-right"/>
+  </span>
+  <span class="mech-purchase-row">
+    <span class="mech-purchase-select">
+      <input type="radio" name="mech_source" value="U"></input>
+    </span><span class="mech-purchase-label">
+      Custom Design
+    </span>
+    <span class="mech-purchase-upload">{{form.mech_ssw}}</span>
+  </span>
+  <span class="mech-purchase-row">
+    <span class="mech-purchase-addledger">{{form.as_purchase}} Add as purchase</span>
+    <span class="mech-purchase-submit"><button id="mech-purchase-submit" type="submit" value="submit" disabled="yes">Submit</button>
+  </span>
+</form>
