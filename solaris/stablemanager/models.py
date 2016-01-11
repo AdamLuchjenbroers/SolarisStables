@@ -80,11 +80,8 @@ class StableWeek(models.Model):
         return self.reputation
 
     def recalculate(self):
-        try:
-            prev_week = self.prev_week.get(next_week=self)
-            self.opening_balance = prev_week.closing_balance()
-        except StableWeek.DoesNotExist:
-            pass
+        if hasattr(self, 'prev_week'):
+            self.opening_balance = self.prev_week.closing_balance()
 
         if self.next_week != None:
             self.next_week.recalculate()
