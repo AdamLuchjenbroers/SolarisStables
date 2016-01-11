@@ -39,13 +39,32 @@ class MechUploadOrPurchaseForm(forms.Form):
 
     mech_ssw = forms.FileField(required=False)
     
-    mech_source = forms.ChoiceField(choices=[('Uploaded','U'), ('Catalog','C')])
-    week_no = forms.IntegerField(widget=forms.HiddenInput)
+    mech_source = forms.CharField()
     as_purchase = forms.BooleanField(required=False, initial=True)
 
-    def __init__(self, week):
-        super(MechUploadOrPurchaseForm, self).__init__(initial={
-           'week_no' : week
-        })
+    def clean_mech_source(self):
+        mech_source = self.cleaned_data['mech_source']
+        if mech_source not in ('U', 'C'):
+            raise ValidationError('Unexpected value for mech source')
+        return mech_source
+
+    def clean_as_purchase(self):
+        return (self.cleaned_data['as_purchase'] == True)
+
+    def clean(self):
+        cleaned_data = super(MechUploadOrPurchaseForm, self).clean()
+
+        if cleaned_data['mech_source'] == 'C':
+            #Mech from existing catalog
+            (mn, mc) = (cleaned_data['mech_name'], cleaned_data['mech_code'])
+            try:
+                self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc)
+                return cleaned_data
+            except MechDesign.DoesNotExist:
+                raise ValidationError('Unable to match design %s %s' % (mn, mc))
+        elif self.cleaned_data['mech_source'] == 'U': 
+            raise ValidationError('Upload currently unimplemented')
+        else:
+            raise ValidationError('Unable to load mech, source unspecified')         
 
 InitialMechsForm = forms.formset_factory(SimpleMechPurchaseForm)

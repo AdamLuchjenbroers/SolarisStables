@@ -1,6 +1,10 @@
 
 <form id="mech-purchase-form" action="{{purchase_url}}" method="POST">
-  {{form.week_no}}
+  {% if week.week_number %}
+    <input type="hidden" name="week_no" value="{{week.week_number}}"></input>
+  {% else %}
+    {{form.week_no}}
+  {% endif %}
   <span id="mech-purchase-prod" class="mech-purchase-row">
     <span class="mech-purchase-select">
       <input type="radio" name="mech_source" value="C"></input>
@@ -27,6 +31,6 @@
   </span>
   <span class="mech-purchase-row">
     <span class="mech-purchase-addledger">{{form.as_purchase}} Add as purchase</span>
-    <span class="mech-purchase-submit"><button id="mech-purchase-submit" type="submit" value="submit" disabled="yes">Submit</button>
+    <span class="mech-purchase-submit"><button id="mech-purchase-submit" type="button" value="submit" disabled="yes">Purchase</button>
   </span>
 </form>

@@ -21,6 +21,26 @@ function check_purchase_form_ready() {
   }
 }
 
+function submit_purchase_form() {
+  form = $('#mech-purchase-form');
+
+  submit_type = form.find('.mech-purchase-select input:checked').val();
+  if (submit_type = 'C') {
+    $.ajax({
+      type : 'post'
+    , url  : window.location.href + '/purchase'
+    , dataType : 'json'
+    , data : {
+        mech_source : 'C'
+      , mech_name   : form.find('#id_mech_name').val()
+      , mech_code   : form.find('#id_mech_code').val()
+      , as_purchase : form.find('#id_as_purchase').is(':checked')
+      },
+    }).done(function(response) {
+      window.location.reload(true);
+    });
+  }
+}
 
 $( document ).ready(function() {
 
@@ -42,4 +62,6 @@ $( document ).ready(function() {
     $('#mech-purchase-prod .mech-purchase-model select').change( check_purchase_form_ready );
     $('#mech-purchase-form .mech-purchase-select input').change( check_purchase_form_ready );
     $('#mech-purchase-form input#id_mech_ssw').change( check_purchase_form_ready );
+
+    $('#mech-purchase-submit').click( submit_purchase_form );
 });

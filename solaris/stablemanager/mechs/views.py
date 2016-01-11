@@ -1,4 +1,6 @@
 from django.views.generic import FormView, ListView
+from django.http import HttpResponse
+import json
 
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import LedgerItem
@@ -19,7 +21,7 @@ class InitialMechPurchaseView(StableViewMixin, FormView):
                                                  , purchased_on = self.stable.get_stableweek()
                                                  , create_ledger = True
                                                  )
- 
+         
         return super(InitialMechPurchaseView, self).form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -44,7 +46,29 @@ class StableMechsView(StableWeekMixin, ListView):
         context = super(StableMechsView, self).get_context_data(**kwargs)
         
         context['completed_bills'] = RepairBill.objects.filter(stableweek__stableweek=self.stableweek, complete=True).order_by('cored')
-        context['purchase_form'] = forms.MechUploadOrPurchaseForm(self.week.week_number)
+        context['purchase_form'] = forms.MechUploadOrPurchaseForm()
         
         return context
 
+class MechPurchaseFormView(StableWeekMixin, FormView):
+    template_name = 'stablemanager/forms/add_mech_form.html'
+    form_class = forms.MechUploadOrPurchaseForm
+
+    def form_valid(self, form):
+        models.StableMech.objects.create_mech( stable = self.stable
+                                             , purchased_as = form.design
+                                             , purchased_on = self.stableweek
+                                             , create_ledger = form.cleaned_data['as_purchase']
+                                             )
+        result = { 'success' : True }
+        return HttpResponse(json.dumps(result))       
+
+    def form_invalid(self, form):
+        for error in form.errors:
+            print error
+
+        result = {
+          'success' : False
+        , 'non_field_errors'  : [error for error in form.non_field_errors()]
+        }
+        return HttpResponse(json.dumps(result))       
