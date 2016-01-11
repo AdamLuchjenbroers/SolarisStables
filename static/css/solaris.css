@@ -883,11 +883,12 @@ div.chit-section-right {
 }
 
 div.chit-section-value {
-	width: 7rem;
+  width: 7rem;
 }
 
 div.chit-section-actions {
-	padding: 0.4em 0;
+  padding: 0.4em 0;
+  width: 14rem;
 }
 
 div.chit-toprow {
