@@ -75,6 +75,9 @@ class StableMechWeek(models.Model):
         except RepairBill.DoesNotExist:
             return None
 
+    def completed_bill_count(self):
+        return self.repairs.filter(complete=True).count()
+
     def advance(self):
         if self.stableweek.next_week == None:
             return None

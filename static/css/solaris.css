@@ -759,6 +759,10 @@ span.mech-name {
     width: 35%;
 }
 
+.mech-cored .mech-name {
+    text-decoration: line-through;
+}
+
 span.mech-name input, div.initial-pilots-row input {
     margin-left: 0px;
 }

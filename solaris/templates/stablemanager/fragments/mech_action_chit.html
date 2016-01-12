@@ -1,0 +1,25 @@
+{% extends 'stablemanager/fragments/mech_chit.html' %}
+
+{% block row_container_start %}
+  <span class="chit-row{% if stablemech.cored %} mech-cored {% endif %}">
+{% endblock %}
+
+{% block mech_info %}
+<div class="chit-section chit-section-left">
+  <div class="chit-toprow mech-name{% if stablemech.cored %} mech-cored{% endif %}">{{mech.mech_name}} {{mech.mech_code}}</div>
+  <div class="chit-bottom mech-desc">
+    {% if stablemech.completed_bill_count == 1 %}Bill recorded.
+    {% elif stablemech.completed_bill_count > 1 %}{{stablemech.completed_bill_count}} Bills recorded.{% endif %}
+    {% if stablemech.cored %}Mech Cored.{% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block mech_actions %}
+<div class="chit-section chit-section-actions chit-section-right">
+  <a class="word-button" href="{{stablemech.repair_bill_url}}">Repair</a>
+  <a class="word-button" href="">Refit</a>
+</div>
+{% endblock %}
+
+{% block row_container_end %}</span><span class="refit-panel"></span>{% endblock %}

@@ -1,5 +1,5 @@
 <ul id="stable-mech-list" class="stable-mech-list chit-list">
   {% for stablemech in object_list %}
-    {% include "stablemanager/fragments/mech_detail_chit.html" with mech=stablemech.current_design %}
+    {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design %}
   {% endfor %}
 </ul>

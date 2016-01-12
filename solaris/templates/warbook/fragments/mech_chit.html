@@ -3,10 +3,12 @@
    <span class="mech-tonnage">{{mech.tonnage}}</span>
    <span class="mech-body">
    {% block row_container_start %}<a class="chit-row" href="{{mech.get_absolute_url}}"> {% endblock %}
+   {% block mech_info %}
      <div class="chit-section chit-section-left">
        <div class="chit-toprow mech-name">{{mech.mech_name}} {{mech.mech_code}}</div>
        <div class="chit-bottom mech-desc">{{ mech.description }}</div>
      </div>
+   {% endblock %}
      {% block mech_actions %}<div class="chit-section chit-section-actions"> </div> {% endblock %}
      <div class="chit-section chit-section-right chit-section-value">
        <div class="chit-toprow mech-bv">{% if mech.is_omni %}Omni{% else %}BV: {{mech.bv_value}}{% endif %}</div>
