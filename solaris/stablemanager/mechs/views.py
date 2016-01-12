@@ -33,14 +33,16 @@ class InitialMechPurchaseView(StableViewMixin, FormView):
         
         return context
 
-class StableMechsView(StableWeekMixin, ListView):
-    submenu_selected = 'Mechs'
-    template_name = 'stablemanager/stable_mechs.tmpl'
+class StableMechsCommon(StableWeekMixin, ListView):
     model = models.StableMechWeek    
-    view_url_name = 'stable_mechs'
 
     def get_queryset(self):
-        return self.stableweek.mechs.all()
+        return self.stableweek.mechs.all().order_by('current_design__tonnage','current_design__mech_name', 'current_design__mech_code')
+
+class StableMechsView(StableMechsCommon):
+    submenu_selected = 'Mechs'
+    template_name = 'stablemanager/stable_mechs.tmpl'
+    view_url_name = 'stable_mechs'
 
     def get_context_data(self, **kwargs):
         context = super(StableMechsView, self).get_context_data(**kwargs)
@@ -49,6 +51,10 @@ class StableMechsView(StableWeekMixin, ListView):
         context['purchase_form'] = forms.MechUploadOrPurchaseForm()
         
         return context
+
+class StableMechsListPart(StableMechsCommon):
+    template_name = 'stablemanager/fragments/mech_action_list.html'
+
 
 class MechPurchaseFormView(StableWeekMixin, FormView):
     template_name = 'stablemanager/forms/add_mech_form.html'

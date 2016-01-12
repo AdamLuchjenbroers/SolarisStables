@@ -21,6 +21,10 @@ function check_purchase_form_ready() {
   }
 }
 
+function refresh_mechlist() {
+  $('#stable-mech-list').load(window.location.href + '/list #stable-mech-list');
+}
+
 function submit_purchase_form() {
   form = $('#mech-purchase-form');
 
@@ -37,7 +41,12 @@ function submit_purchase_form() {
       , as_purchase : form.find('#id_as_purchase').is(':checked')
       },
     }).done(function(response) {
-      window.location.reload(true);
+      refresh_mechlist();
+
+      if (response['success']) {
+        form.find('input').val('');
+        form.find('#id_mech_code').html('');
+      }
     });
   }
 }
