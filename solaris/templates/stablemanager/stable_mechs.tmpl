@@ -9,14 +9,7 @@
 {% block pagebody %}
 <div class="body">
   <h1>{{stable.stable_name}} Mechs, Week {{week.week_number}}</h1>
-  
-  {% if object_list %}
-    <ul class="stable-mech-list chit-list">
-    {% for stablemech in object_list %}
-       {% include "stablemanager/fragments/mech_detail_chit.html" with mech=stablemech.current_design %}
-    {% endfor %}
-    </ul>
-  {% endif %}
+  {% include 'stablemanager/fragments/mech_action_list.html' with object_list=object_list %} 
   <h2 class="section-divider">Add Mech</h2>
   {% include 'stablemanager/forms/add_mech_form.html' with form=purchase_form %}
   {% if completed_bills %}
