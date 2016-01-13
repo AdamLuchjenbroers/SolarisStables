@@ -29,7 +29,7 @@ class SimpleMechPurchaseForm(forms.Form):
         try:
             self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc)
         except MechDesign.DoesNotExist:
-            raise ValidationError('Unable to match design %s %s' % (mn, mc))
+            raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))
     
         return cleaned
 
@@ -45,7 +45,7 @@ class MechUploadOrPurchaseForm(forms.Form):
     def clean_mech_source(self):
         mech_source = self.cleaned_data['mech_source']
         if mech_source not in ('U', 'C'):
-            raise ValidationError('Unexpected value for mech source')
+            raise forms.ValidationError('Unexpected value for mech source')
         return mech_source
 
     def clean_as_purchase(self):
@@ -61,10 +61,10 @@ class MechUploadOrPurchaseForm(forms.Form):
                 self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc)
                 return cleaned_data
             except MechDesign.DoesNotExist:
-                raise ValidationError('Unable to match design %s %s' % (mn, mc))
+                raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))
         elif self.cleaned_data['mech_source'] == 'U': 
-            raise ValidationError('Upload currently unimplemented')
+            raise forms.ValidationError('Upload currently unimplemented')
         else:
-            raise ValidationError('Unable to load mech, source unspecified')         
+            raise forms.ValidationError('Unable to load mech, source unspecified')         
 
 InitialMechsForm = forms.formset_factory(SimpleMechPurchaseForm)
