@@ -1,6 +1,9 @@
 from django.views.generic import FormView, ListView
 from django.http import HttpResponse
+from django.conf import settings
+
 import json
+import uuid
 
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import LedgerItem
@@ -62,7 +65,11 @@ class MechPurchaseFormView(StableWeekMixin, FormView):
 
     def post(self, request, *args, **kwargs):
         if 'mech_ssw' in request.FILES:
-          self.ssw_data = request.FILES['mech_ssw']
+            self.mech_temp_file = '%s%s' % (settings.SSW_UPLOAD_TEMP, uuid.uuid4())
+            with open(self.mech_temp_file, 'wb+') as sswtemp:
+                for chunk in request.FILES['mech_ssw'].chunks():
+                    sswtemp.write(chunk)
+
         return super(MechPurchaseFormView, self).post(request, *args, **kwargs)
 
     def add_catalog_mech(self, form):

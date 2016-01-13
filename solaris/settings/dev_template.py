@@ -33,6 +33,8 @@ MEDIA_URL = ''
 
 # Path to Solaris Skunkwerks mech files
 SSW_STOCK_MECHS_ROOT = '/path/to/ssw/mech/files/'
+SSW_UPLOAD_MECHS_ROOT = '/path/to/ssw/upload/folder/'
+SSW_UPLOAD_TEMP = '/var/tmp/ssw/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
