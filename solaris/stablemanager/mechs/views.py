@@ -8,6 +8,7 @@ import uuid
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import LedgerItem
 from solaris.stablemanager.repairs.models import RepairBill
+from solaris.utilities.loader import SSWLoader
 
 from . import forms, models
 
@@ -63,37 +64,19 @@ class MechPurchaseFormView(StableWeekMixin, FormView):
     template_name = 'stablemanager/forms/add_mech_form.html'
     form_class = forms.MechUploadOrPurchaseForm
 
-    def post(self, request, *args, **kwargs):
-        if 'mech_ssw' in request.FILES:
-            self.mech_temp_file = '%s%s' % (settings.SSW_UPLOAD_TEMP, uuid.uuid4())
-            with open(self.mech_temp_file, 'wb+') as sswtemp:
-                for chunk in request.FILES['mech_ssw'].chunks():
-                    sswtemp.write(chunk)
+    def form_valid(self, form):
+        if form.cleaned_data['mech_source'] == 'U':
+            self.stableweek.custom_designs.add(form.design) 
 
-        return super(MechPurchaseFormView, self).post(request, *args, **kwargs)
-
-    def add_catalog_mech(self, form):
         models.StableMech.objects.create_mech( stable = self.stable
                                              , purchased_as = form.design
                                              , purchased_on = self.stableweek
                                              , create_ledger = form.cleaned_data['as_purchase']
                                              )
-
-    def form_valid(self, form):
         result = { 'success' : True }
-        if form.cleaned_data['mech_source'] == 'C':
-            self.add_catalog_mech(form)
-        elif form.cleaned_data['mech_source'] == 'U':
-            print self.request.FILES['mech_ssw']
-        else:
-            result['success'] = False
-
         return HttpResponse(json.dumps(result))       
 
     def form_invalid(self, form):
-        for error in form.errors:
-            print error
-
         result = {
           'success' : False
         , 'non_field_errors'  : [error for error in form.non_field_errors()]

@@ -62,6 +62,7 @@ class StableWeek(models.Model):
     opening_balance = models.IntegerField()
     supply_contracts = models.ManyToManyField('warbook.Technology')
     supply_mechs = models.ManyToManyField('warbook.MechDesign')
+    custom_designs = models.ManyToManyField('warbook.MechDesign', related_name='produced_by')
     next_week = models.OneToOneField('StableWeek', on_delete=models.SET_NULL, null=True, related_name='prev_week')
 
     def has_prev_week(self):

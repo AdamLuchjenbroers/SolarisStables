@@ -22,8 +22,13 @@ class SSWLoader(object):
         self.filename = sswfile            
         self.sswXML = etree.parse(self.xml_fd)
 
-    def load_mechs(self, print_message=True):
-        parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename )
+    def get_model_details(self):
+        mech_name = self.sswXML.xpath('/mech/@name')[0]
+        mech_code = self.sswXML.xpath('/mech/@model')[0]
+        return (mech_name, mech_code)
+
+    def load_mechs(self, production_type='P', print_message=True):
+        parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename, production_type=production_type )
             
         if parsed_mechs.type != 'BattleMech' or parsed_mechs['tech_base'] != 'I' or int(parsed_mechs['tonnage']) < 20:
             return 
