@@ -25,29 +25,36 @@ function refresh_mechlist() {
   $('#stable-mech-list').load(window.location.href + '/list #stable-mech-list');
 }
 
+function submit_purchase_data(form, mech_data) {
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/purchase'
+  , dataType : 'json'
+  , contentType : false
+  , processData : false
+  , data : mech_data
+  }).done(function(response) {
+    refresh_mechlist();
+
+    if (response['success']) {
+      form.find('input').val('');
+      form.find('#id_mech_code').html('');
+    }
+  });
+}
+
 function submit_purchase_form() {
   form = $('#mech-purchase-form');
 
   submit_type = form.find('.mech-purchase-select input:checked').val();
-  if (submit_type = 'C') {
-    $.ajax({
-      type : 'post'
-    , url  : window.location.href + '/purchase'
-    , dataType : 'json'
-    , data : {
-        mech_source : 'C'
-      , mech_name   : form.find('#id_mech_name').val()
-      , mech_code   : form.find('#id_mech_code').val()
-      , as_purchase : form.find('#id_as_purchase').is(':checked')
-      },
-    }).done(function(response) {
-      refresh_mechlist();
+  if (submit_type == 'C' || submit_type == 'U') {
+    var mech_data = new FormData(form[0]);
+    mech_data.append('mech_source', submit_type);
 
-      if (response['success']) {
-        form.find('input').val('');
-        form.find('#id_mech_code').html('');
-      }
-    });
+    submit_purchase_data(form, mech_data);
+  } else {
+    //No submit type selected, abandon attempt
+    return;
   }
 }
 
