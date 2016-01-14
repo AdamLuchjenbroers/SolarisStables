@@ -94,4 +94,7 @@ class MechUploadOrPurchaseForm(forms.Form):
         except MechDesign.DoesNotExist:
             raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))
 
+class MechRefitForm(forms.Form):
+    pass
+
 InitialMechsForm = forms.formset_factory(SimpleMechPurchaseForm)

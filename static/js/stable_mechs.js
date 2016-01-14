@@ -43,6 +43,14 @@ function submit_purchase_data(form, mech_data) {
   });
 }
 
+function show_refit_form() {
+  $('#mech_refit_form').slideUp( function() { $(this).remove() } );
+
+  button = $(this);
+  refit = button.parents('.mech-body').find('.refit-panel');
+  refit.slideUp(0).load(button.attr('form_url'), function() { $(this).slideDown() });
+}
+
 function submit_purchase_form() {
   form = $('#mech-purchase-form');
 
@@ -79,5 +87,6 @@ $( document ).ready(function() {
     $('#mech-purchase-form .mech-purchase-select input').change( check_purchase_form_ready );
     $('#mech-purchase-form input#id_mech_ssw').change( check_purchase_form_ready );
 
+    $('.refit-button').click( show_refit_form );
     $('#mech-purchase-submit').click( submit_purchase_form );
 });

@@ -1,5 +1,6 @@
 from django.views.generic import FormView, ListView
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.conf import settings
 
 import json
@@ -81,4 +82,29 @@ class MechPurchaseFormView(StableWeekMixin, FormView):
           'success' : False
         , 'non_field_errors'  : [error for error in form.non_field_errors()]
         }
-        return HttpResponse(json.dumps(result))       
+        return HttpResponse(json.dumps(result))     
+
+class MechRefitFormView(StableViewMixin, FormView):
+    template_name = 'stablemanager/forms/refit_mech_form.html'
+    form_class = forms.MechRefitForm
+
+    def dispatch(self, request, smw_id=0, *args, **kwargs):
+        redirect = self.get_stable(request)
+        if redirect:
+            return redirect
+
+        self.stablemechweek = get_object_or_404(models.StableMechWeek, id=smw_id)
+        self.stablemech = self.stablemechweek.stablemech
+
+        self.stableweek = self.stablemechweek.stableweek
+        if self.stableweek.stable != self.stable:
+            return HttpResponse('Not your mech!', 401)
+
+        return super(MechRefitFormView, self).dispatch(request, *args, **kwargs) 
+
+    def get_context_data(self, **kwargs):
+        context = super(MechRefitFormView, self).get_context_data(**kwargs)
+        
+        context['stablemechweek'] = self.stablemechweek
+        return context
+        

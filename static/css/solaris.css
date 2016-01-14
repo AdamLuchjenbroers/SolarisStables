@@ -840,6 +840,11 @@ li.chit span {
   margin-right: 0.2rem;
 }
 
+.chit-divider {
+  border: 0px;
+  border-top: 1px solid #000000;
+}
+
 li.chit span.mech-tonnage {
   border-right: 2px solid #262233;
   display: inline-block;

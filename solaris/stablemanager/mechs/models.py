@@ -78,6 +78,9 @@ class StableMechWeek(models.Model):
     def completed_bill_count(self):
         return self.repairs.filter(complete=True).count()
 
+    def refit_options(self):
+        return self.stableweek.supply_mechs.exclude(id=self.current_design.id).filter(mech_name=self.current_design.mech_name)
+
     def advance(self):
         if self.stableweek.next_week == None:
             return None
@@ -94,6 +97,9 @@ class StableMechWeek(models.Model):
         )
         self.save()
         return self.next_week
+
+    def refit_url(self):
+        return reverse('refit_mech', kwargs={'smw_id' : self.id})
 
     def repair_bill_url(self):
         bill = self.active_repair_bill()
