@@ -16,7 +16,7 @@ class LedgerItem(models.Model):
                  ,)
     
     ledger = models.ForeignKey(StableWeek, related_name='entries')
-    description = models.CharField(max_length=40)
+    description = models.CharField(max_length=100)
     cost = models.IntegerField()
     type = models.CharField(max_length=1, choices=item_types)
 
