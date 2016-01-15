@@ -67,15 +67,17 @@ class StableWeek(models.Model):
 
     def has_prev_week(self):
         return hasattr(self, 'prev_week')
+
+    def add_custom_design(self, design):
+        self.custom_designs.add(design)
+        self.supply_mechs.add(design)
+
+        if self.next_week != None:
+            self.next_week.add_custom_design(design)
     
     def closing_balance(self):
-        balance = self.opening_balance
-        
-        for item in self.entries.all():
-            balance += item.get_cost()
+        return self.opening_balance + self.entries.all().aggregate(models.Sum('cost'))['cost__sum']
             
-        return balance
-
     def closing_reputation(self):
         #TODO - Process pilot ledger and update stable reputation
         return self.reputation
@@ -147,9 +149,9 @@ class StableWeek(models.Model):
         mechList = None
         
         if self.supply_contracts.filter(name='Omnimechs').exists():
-            mechList = self.stable.house.produced_designs.all()
+            mechList = self.stable.house.produced_designs.all() | self.custom_designs.all()
         else:
-            mechList = self.stable.house.produced_designs.filter(is_omni=False)
+            mechList = self.stable.house.produced_designs.filter(is_omni=False) | self.custom_designs.filter(is_omni=False)
               
         self.supply_mechs.clear()
         
