@@ -55,6 +55,12 @@ class MechDesign(models.Model):
         for mount in self.loadout.all():
             mount.delete()
 
+    def refresh_tier(self):
+        self.tier = self.all_equipment().aggregate(models.Max('tier'))['tier__max'] 
+        self.save()
+ 
+        return self.tier
+
     def get_loadouts(self):
         if self.is_omni:
             if self.omni_basechassis:

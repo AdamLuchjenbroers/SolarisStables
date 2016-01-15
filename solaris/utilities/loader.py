@@ -150,6 +150,7 @@ class MechLoader(object):
                 self.load_equipment(gear)
             
             mech_form.save()
+            self.mech.refresh_tier()
         finally:
             #Free Resources
             if self.parsed_mech:
