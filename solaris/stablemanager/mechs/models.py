@@ -98,6 +98,34 @@ class StableMechWeek(models.Model):
         self.save()
         return self.next_week
 
+    def refit_to(self, newdesign, add_ledger=False, failed_by=0):
+        olddesign = self.current_design
+        self.current_design = newdesign
+        self.save()
+
+        if add_ledger:
+            cost = max(newdesign.credit_value - olddesign.credit_value, 0)
+            if failed_by > 0:
+                cost += int (newdesign.credit_value * (failed_by / 10.0))
+
+            self.ledgeritem = LedgerItem.objects.create (
+              ledger = self.stableweek
+            , description = 'Refit - Upgrade %s %s to %s' % (olddesign.mech_name, olddesign.mech_code, newdesign.mech_code)
+            , cost = -cost
+            , type = 'P'
+            , tied = True
+            , ref_mechdesign = newdesign
+            , ref_stablemech = self.stablemech
+            , ref_stablemech_week = self
+            )
+
+        if self.next_week != None:
+            self.next_week.refit_to(newdesign, add_ledger=False)
+
+
+
+         
+
     def refit_url(self):
         return reverse('refit_mech', kwargs={'smw_id' : self.id})
 

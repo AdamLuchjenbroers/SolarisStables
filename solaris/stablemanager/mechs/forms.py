@@ -48,13 +48,13 @@ class MechUploadOrPurchaseForm(forms.Form):
     as_purchase = forms.BooleanField(required=False, initial=True)
 
     def clean_mech_ssw(self):
-        if 'mech_ssw' not in self.cleaned_data:
+        if 'mech_ssw' not in self.cleaned_data or self.cleaned_data['mech_ssw'] == None:
             return None
 
         ssw_upload_file = '%s' % uuid.uuid4()
         ssw_upload_tmp = '%s%s' % (settings.SSW_UPLOAD_TEMP, ssw_upload_file)
         with open(ssw_upload_tmp, 'wb+') as tmp_output:
-            for chunk in self.cleaned_data['mech_ssw']:
+            for chunk in self.cleaned_data['mech_ssw'].chunks():
                 tmp_output.write(chunk)
 
         mech = SSWLoader(ssw_upload_file, basepath=settings.SSW_UPLOAD_TEMP)
@@ -76,17 +76,18 @@ class MechUploadOrPurchaseForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(MechUploadOrPurchaseForm, self).clean()
-        (mn, mc) = (cleaned_data['mech_name'], cleaned_data['mech_code'])
+        (mn, mc) = (None, None)
 
-        if cleaned_data['mech_source'] not in ('C', 'U'):
-            raise forms.ValidationError('Unable to load mech, source unspecified')         
-
-        if cleaned_data['mech_source'] == 'U':
+        if cleaned_data['mech_source'] == 'C':
+             (mn, mc) = (cleaned_data['mech_name'], cleaned_data['mech_code'])
+        elif cleaned_data['mech_source'] == 'U':
             if 'mech_ssw' in cleaned_data:
                 cleaned_data['mech_ssw'].load_mechs(print_message=False, production_type='C') 
                 (mn, mc) = self.cleaned_data['mech_ssw'].get_model_details()
             else:
                 raise forms.ValidationError('Uploaded mech data not found')
+        else:
+            raise forms.ValidationError('Unable to load mech, source unspecified')         
 
         try:
             self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc)
@@ -94,7 +95,48 @@ class MechUploadOrPurchaseForm(forms.Form):
         except MechDesign.DoesNotExist:
             raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))
 
-class MechRefitForm(forms.Form):
-    pass
+class MechRefitForm(MechUploadOrPurchaseForm):
+    add_ledger = forms.BooleanField(required=False, initial=True)
+    failed_by  = forms.IntegerField(required=False, initial=0)
+
+    def __init__(self, instance=None, *args, **kwargs):
+        self.instance = instance
+        super(MechRefitForm, self).__init__(*args, **kwargs)
+  
+    def clean_failed_by(self):
+        if 'failed_by' not in self.cleaned_data or self.cleaned_data['failed_by'] == None:
+            return 0
+
+        try:
+            return max(0, int(self.cleaned_data['failed_by']))
+        except ValueError:
+            raise forms.ValidationError('Roll Failure Margin should be a number')
+
+    def clean_mech_name(self):
+        # Won't be present for uploaded mechs, so this isn't necessarily a problem
+        if 'mech_name' not in self.cleaned_data or self.cleaned_data['mech_name'] == "":
+            return None
+
+        print self.cleaned_data['mech_name']
+
+        if self.instance.current_design.mech_name != self.cleaned_data['mech_name']:
+            raise forms.ValidationError('Mech Chassis must match chassis of existing mech')
+
+        return self.cleaned_data['mech_name']
+
+    def clean_add_ledger(self):
+        return (self.cleaned_data['add_ledger'] == True)
+
+    def clean_mech_ssw(self):
+        ssw = super(MechRefitForm, self).clean_mech_ssw()
+
+        if ssw == None:
+            return None
+
+        (mech_name, mech_code) = ssw.get_model_details()
+        if self.instance.current_design.mech_name != mech_name:
+            raise forms.ValidationError('Mech Chassis must match chassis of existing mech')
+
+        return ssw
 
 InitialMechsForm = forms.formset_factory(SimpleMechPurchaseForm)

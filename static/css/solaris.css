@@ -1046,6 +1046,33 @@ li.chit.tier3 a.omni-row:hover {
   flex-grow: 1;
 }
 
+ul.refit-mechs {
+  list-style: none;
+}
+
+ul.refit-mechs li {
+  padding-bottom: 0.2rem;
+}
+
+#mech_refit_form .mech-model {
+  display: inline-block;
+  font-weight: bold;
+  width: 16rem;
+}
+
+.refit-option-item {
+  display: inline-block;
+  width: 30%;
+}
+
+#id_failed_by {
+  width: 2rem;
+}
+
+#refit-button-submit {
+  margin: 0.1rem 0.2rem;
+}
+
 /****************************************
  * Repair Forms
  ****************************************/

@@ -1,4 +1,4 @@
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView, ListView, UpdateView
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -67,7 +67,7 @@ class MechPurchaseFormView(StableWeekMixin, FormView):
 
     def form_valid(self, form):
         if form.cleaned_data['mech_source'] == 'U':
-            self.stableweek.custom_designs.add(form.design) 
+            self.stableweek.add_custom_design(form.design) 
 
         models.StableMech.objects.create_mech( stable = self.stable
                                              , purchased_as = form.design
@@ -82,6 +82,9 @@ class MechPurchaseFormView(StableWeekMixin, FormView):
           'success' : False
         , 'non_field_errors'  : [error for error in form.non_field_errors()]
         }
+        for field in form.fields:
+            result['field_errors'][field.name] = field.errors
+
         return HttpResponse(json.dumps(result))     
 
 class MechRefitFormView(StableViewMixin, FormView):
@@ -101,6 +104,36 @@ class MechRefitFormView(StableViewMixin, FormView):
             return HttpResponse('Not your mech!', 401)
 
         return super(MechRefitFormView, self).dispatch(request, *args, **kwargs) 
+
+    def get_object(self, queryset=None):
+        return self.stablemechweek
+
+    def get_form(self, form_class):
+        return form_class(instance=self.get_object(), **self.get_form_kwargs())
+
+    def form_invalid(self, form):
+        result = {
+          'success' : False
+        , 'non_field_errors'  : [error for error in form.non_field_errors()]
+        , 'field_errors'  : dict([(field, error) for (field, error) in form.errors.items()])
+        }
+
+        for (field, errors) in form.errors.items(): 
+            print '%s: %s' % (field, errors) 
+
+        return HttpResponse(json.dumps(result))       
+
+    def form_valid(self, form):
+        if form.cleaned_data['mech_source'] == 'U':
+            self.stableweek.add_custom_design(form.design) 
+
+        self.stablemechweek.refit_to( form.design
+                                    , add_ledger = form.cleaned_data['add_ledger']
+                                    , failed_by  = form.cleaned_data['failed_by']
+                                    )
+
+        result = { 'success' : True }
+        return HttpResponse(json.dumps(result))       
 
     def get_context_data(self, **kwargs):
         context = super(MechRefitFormView, self).get_context_data(**kwargs)

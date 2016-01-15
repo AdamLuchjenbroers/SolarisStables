@@ -22,7 +22,11 @@ function check_purchase_form_ready() {
 }
 
 function refresh_mechlist() {
-  $('#stable-mech-list').load(window.location.href + '/list #stable-mech-list');
+  $('#stable-mech-list').load(window.location.href + '/list #stable-mech-list'
+  , function() {
+    $('#stable-mech-list .refit-button').click( show_refit_form );
+  });
+
 }
 
 function submit_purchase_data(form, mech_data) {
@@ -48,7 +52,38 @@ function show_refit_form() {
 
   button = $(this);
   refit = button.parents('.mech-body').find('.refit-panel');
-  refit.slideUp(0).load(button.attr('form_url'), function() { $(this).slideDown() });
+  refit.hide().load(button.attr('form_url'), function() { 
+    $(this).slideDown() 
+
+    refit.find('#id_add_ledger').change( function () {
+      if ($(this).prop('checked')) {
+         refit.find('#id_failed_by').removeAttr('disabled');
+      } else {
+         refit.find('#id_failed_by').attr('disabled','yes');
+      }
+    });
+
+    refit.find('#refit-button-submit').click( function() {
+      var refit_data = new FormData(refit.find('#mech_refit_form')[0]);
+
+      chosen = refit.find('.mech-source-radio:checked');
+      if (chosen.val() == 'C') {
+        refit_data.append('mech_name', chosen.attr('mech_name'));     
+        refit_data.append('mech_code', chosen.attr('mech_code'));
+      }  
+
+      $.ajax({
+        type : 'post'
+      , url  : button.attr('form_url')
+      , dataType : 'json'
+      , contentType : false
+      , processData : false
+      , data : refit_data
+      }).done(function(response) { 
+        refresh_mechlist();
+      });
+    });
+  });
 }
 
 function submit_purchase_form() {
