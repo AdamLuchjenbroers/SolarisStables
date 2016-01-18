@@ -24,6 +24,18 @@ function attach_mechlist_autocomplete(mech_input, parent_class, model_select_cla
   });
 }
 
+function preview_mech(chassis, model) {
+  $('#dialog-mechpreview').load('/reference/mechs/' + chassis + '/' + model + ' div.body');
+  $('#dialog-mechpreview').dialog ({
+    modal: true,
+    width: (window.innerWidth * 0.75),
+    height: (window.innerHeight * 0.75),
+    buttons: {
+      Close: function() { $( this ).dialog("close"); }
+    }
+  });
+}
+
 function select_chassis_handler(parent_class, chassis_input_css, cost_class, preview_class) {
   return function() {
     type = $(this).val();
@@ -45,15 +57,7 @@ function select_chassis_handler(parent_class, chassis_input_css, cost_class, pre
       preview.prop('disabled', false);
 
       preview.click(function() {
-        $('#dialog-mechpreview').load('/reference/mechs/' + chassis + '/' + type + ' div.body');
-        $('#dialog-mechpreview').dialog ({
-          modal: true,
-          width: (window.innerWidth * 0.75),
-          height: (window.innerHeight * 0.75),
-          buttons: {
-            Close: function() { $( this ).dialog("close"); }
-          }
-        });
+        preview_mech(chassis, type);
       });
     }); 
   }

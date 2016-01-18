@@ -26,7 +26,6 @@ function refresh_mechlist() {
   , function() {
     $('#stable-mech-list .refit-button').click( show_refit_form );
   });
-
 }
 
 function submit_purchase_data(form, mech_data) {
@@ -61,6 +60,11 @@ function show_refit_form() {
       } else {
          refit.find('#id_failed_by').attr('disabled','yes');
       }
+    });
+
+    refit.find('.action-preview').click( function() {
+      radio = $(this).siblings('.mech-source-radio');
+      preview_mech(radio.attr('mech_name'), radio.attr('mech_code'));
     });
 
     refit.find('#refit-button-submit').click( function() {
