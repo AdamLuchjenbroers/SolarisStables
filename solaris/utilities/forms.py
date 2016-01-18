@@ -23,6 +23,10 @@ class MechValidationForm(ModelForm):
             return mech_names_xref[old_name]
         else:
             return old_name
+
+    def clean_mech_code(self):
+        old_code = self.cleaned_data.get('mech_code')
+        return old_code.replace('/','-')
  
     class Meta:
         model = MechDesign
