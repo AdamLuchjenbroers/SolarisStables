@@ -1,0 +1,7 @@
+<ul id="stable-tech-list" class="stable-tech-list chit-list">
+  {% for tech in techlist %}
+  {% if tech.show %}
+  <li class="stable-tech chit tier{{tech.tier}}">{{tech.name}}</li>
+  {% endif %}
+  {% endfor %}
+</ul>

@@ -8,13 +8,7 @@
   <p><em>Current Balance: </em>{{stableweek.closing_balance}}</p>
 
   <h2>Supply Contracts</h2>
-  <ul class="stable-tech-list chit-list">
-    {% for tech in stableweek.supply_contracts.all %}
-    {% if tech.show %}
-    <li class="stable-tech chit tier{{tech.tier}}">{{tech.name}}</li>
-    {% endif %}
-    {% endfor %}
-  </ul>
+  {% include "stablemanager/fragments/stable_tech_list.html" with techlist=stableweek.supply_contracts.all %}
 
   <h2>Mechs</h2>
   <h3>Non-Signature Mechs</h3>
