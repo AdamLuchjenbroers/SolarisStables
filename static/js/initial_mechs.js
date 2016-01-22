@@ -33,7 +33,6 @@ $( document ).ready(function() {
         new_form.removeClass('template-form');
         new_form.removeAttr('id');
 
-
         new_form.find(':input[name]').each(function() {
             var name = $(this).attr('name').replace('__prefix__',form_id);
             
