@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-from .views import StableRegistrationView, StableOverview, AjaxCreateStableWeekView
-from .ajax import ProductionChassisAutocomplete, ListProductionVariants
+from . import ajax, views
 
 from solaris.stablemanager.ledger.views import StableLedgerView, StableLedgerDeleteView
 from solaris.stablemanager.training.views import StableTrainingView
@@ -10,11 +9,17 @@ from solaris.stablemanager.pilots.views import StablePilotsView, StableNewPilots
 from solaris.stablemanager.mechs.views import InitialMechPurchaseView
 
 urlpatterns = patterns('',
-    url(r'^/?$', StableOverview.as_view(), name='stable_overview_now'),
-    url(r'^(?P<week>[0-9]+)/?$', StableOverview.as_view(), name='stable_overview'),
-    url(r'^create/?$', AjaxCreateStableWeekView.as_view(), name='stable_createweek'),
+    url(r'^/?$', views.StableOverview.as_view(), name='stable_overview_now'),
+    url(r'^(?P<week>[0-9]+)/?$', views.StableOverview.as_view(), name='stable_overview'),
+    url(r'^create/?$', views.AjaxCreateStableWeekView.as_view(), name='stable_createweek'),
 
-    url(r'^register/?$', StableRegistrationView.as_view(), name='stable_registration'),
+    url(r'^/?add-tech/?$', views.AjaxAddStableTech.as_view()),
+    url(r'^(?P<week>[0-9]+)/add-tech/?$', views.AjaxAddStableTech.as_view()),
+
+    url(r'^tech-list/?', views.StableTechListPart.as_view()),
+    url(r'^(?P<week>[0-9]+)/tech-list/?', views.StableTechListPart.as_view()),
+
+    url(r'^register/?$', views.StableRegistrationView.as_view(), name='stable_registration'),
     url(r'^initial-mechs/?$', InitialMechPurchaseView.as_view(), name='stable_initialmechs'),
     url(r'^initial-pilots/?$', InitialPilotNamingView.as_view(), name='stable_initialpilots'),
 
@@ -34,6 +39,12 @@ urlpatterns = patterns('',
     url(r'^pilots/(?P<week>[0-9]+)/?$', StablePilotsView.as_view(), name='stable_pilots'),
     url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),
 
-    url(r'^query/list-produced/?$', ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto'),    
-    url(r'^query/list-variants/?$', ListProductionVariants.as_view(), name = 'stable_query_mechvariant') 
+    url(r'^query/list-produced/?$', ajax.ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto_now'), 
+#    url(r'^(?P<week>[0-9]+)/list-produced/?$', ajax.ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto'), 
+   
+    url(r'^query/list-variants/?$', ajax.ListProductionVariants.as_view(), name = 'stable_query_mechvariant_now'), 
+#    url(r'^(?P<week>[0-9]+)/list-variants/?$', ajax.ListProductionVariants.as_view(), name = 'stable_query_mechvariant'),
+ 
+    url(r'^/?list-techs/?$', ajax.ListAvailableTechContracts.as_view(), name = 'stable_query_availtechs_now'), 
+    url(r'^(?P<week>[0-9]+)/list-techs/?$', ajax.ListAvailableTechContracts.as_view(), name = 'stable_query_availtechs'), 
 )
