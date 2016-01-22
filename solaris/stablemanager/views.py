@@ -12,6 +12,7 @@ import json
 from solaris.views import SolarisViewMixin
 from solaris.campaign.models import BroadcastWeek, Campaign
 from solaris.warbook.pilotskill.models import PilotTraitGroup
+from solaris.warbook.techtree.models import Technology
 
 from .models import Stable
 from .ledger.models import StableWeek
@@ -152,8 +153,28 @@ class StableRegistrationView(SolarisViewMixin, CreateView):
         
         return page_context
 
+class StableTechListPart(StableWeekMixin, TemplateView):
+    template_name = 'stablemanager/fragments/stable_tech_list.html'
+
+    def get_context_data(self, **kwargs):
+        page_context = super(StableTechListPart, self).get_context_data(**kwargs)
+        
+        page_context['techlist'] = self.stableweek.supply_contracts.all()
+        
+        return page_context
+  
+class AjaxAddStableTech(StableWeekMixin, View):
+    def post(self, request, week=None):
+        try:
+            tech = get_object_or_404(Technology, name=request.POST['tech'])
+            self.stableweek.add_technology(tech)
+
+            return HttpResponse(json.dumps(True))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 400)
+
 class AjaxCreateStableWeekView(StableWeekMixin, View):
-    def post(self, request):
+    def post(self, request, week=None):
         view = self.__class__.view_url_name
         if 'view' in request.POST:
             view = request.POST['view']
