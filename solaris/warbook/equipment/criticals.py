@@ -13,7 +13,7 @@ def fixed(self, mech=None):
     return int(self.critical_factor)
     
 def masc(self, mech=None):
-    return int(ceil( mech.tonnage * 0.05 ))
+    return int(mech.tonnage * 0.05 )
 
 def melee(self, mech=None):
     return int(ceil( mech.tonnage / self.critical_factor ))   
