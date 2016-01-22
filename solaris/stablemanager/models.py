@@ -120,6 +120,8 @@ class StableWeek(models.Model):
         ,   reputation = self.closing_reputation()
         ,   opening_balance = self.closing_balance()
         )
+
+        self.next_week.custom_designs.add(*self.custom_designs.all())
         self.next_week.supply_contracts.add(*self.supply_contracts.all())
         self.save()
         self.next_week.save()
@@ -131,6 +133,11 @@ class StableWeek(models.Model):
             pilot.advance()
 
         return self.next_week
+
+    def add_technology(self, tech):
+        self.supply_contracts.add(tech)
+        if self.next_week != None:
+            self.next_week.add_technology(tech)
             
     def get_absolute_url(self):
         return reverse('stable_ledger', kwargs={'week': self.week.week_number})
@@ -156,7 +163,7 @@ class StableWeek(models.Model):
         self.supply_mechs.clear()
         
         for mech in mechList:
-            if mech.can_be_produced_with(equipment_list):
+            if mech.required_techs.exclude(id__in=self.supply_contracts.all()).count() == 0:
                 self.supply_mechs.add(mech)      
    
     def __unicode__(self):

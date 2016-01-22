@@ -16,9 +16,12 @@ class MechDesign(models.Model):
     engine_rating = models.IntegerField()
     is_omni = models.BooleanField(default=False)
     omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True, related_name="loadouts")
+
     ssw_filename = models.CharField(max_length=1024, blank=True, null=True)
-    ssw_description = models.CharField(max_length=256, blank=True, null=True)
+    ssw_description = models.CharField(max_length=256, blank=True, null=True) 
     production_year = models.IntegerField(blank=True, null=True)
+
+    required_techs = models.ManyToManyField('Technology', null=True, blank=True)
     
     motive_options = (
         ('B', 'Biped')
@@ -107,7 +110,21 @@ class MechDesign(models.Model):
     def all_equipment(self):
         from solaris.warbook.equipment.models import Equipment
         return Equipment.objects.filter(id__in=self.loadout.all().values('equipment'))   
+
+    def equipment_manifest(self):
+        manifest = {}
+        for equip in self.all_equipment().exclude(equipment_class__in=('S','A')):
+            manifest[equip] = self.loadout.filter(equipment=equip).count()
+
+        return manifest
     
+    def update_required_techs(self):
+        # TODO: Clear list first
+        self.required_techs.clear()
+
+        for item in self.all_equipment():
+            self.required_techs.add(*item.supplied_by.all())
+
     def can_be_produced_with(self, equipment_list):
         # Check that all equipment on this mech can be found in the provided
         # list of available equipment
