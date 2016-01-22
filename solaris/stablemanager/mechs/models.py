@@ -13,6 +13,10 @@ class StableMechManager(models.Manager):
         , stablemech = stablemech
         , current_design = purchased_as
         )
+
+        adv_smw = stablemechweek
+        while adv_smw.can_advance():
+            adv_smw = adv_smw.advance()
         
         if create_ledger:
             self.ledgeritem = LedgerItem.objects.create (
@@ -81,6 +85,9 @@ class StableMechWeek(models.Model):
     def refit_options(self):
         return self.stableweek.supply_mechs.exclude(id=self.current_design.id).filter(mech_name=self.current_design.mech_name)
 
+    def can_advance(self):
+        return (self.stableweek.next_week != None)
+
     def advance(self):
         if self.stableweek.next_week == None:
             return None
@@ -121,10 +128,6 @@ class StableMechWeek(models.Model):
 
         if self.next_week != None:
             self.next_week.refit_to(newdesign, add_ledger=False)
-
-
-
-         
 
     def refit_url(self):
         return reverse('refit_mech', kwargs={'smw_id' : self.id})
