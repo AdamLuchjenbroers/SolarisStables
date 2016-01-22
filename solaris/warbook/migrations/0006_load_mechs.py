@@ -68,6 +68,12 @@ class Migration(migrations.Migration):
             field=models.CharField(max_length=256, null=True, blank=True),
             preserve_default=True,
         ),
+        migrations.AddField(
+            model_name='mechdesign',
+            name='required_techs',
+            field=models.ManyToManyField(to='warbook.Technology', null=True, blank=True),
+            preserve_default=True,
+        ),
         migrations.RunPython(load_mechs, reverse_code=noop),
         migrations.RunPython(load_productionlists, reverse_code=noop),
         migrations.RunPython(derive_mech_tiers, reverse_code=noop),
