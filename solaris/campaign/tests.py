@@ -10,7 +10,8 @@ class BroadcastWeekTests(TestCase):
     
     def setUp(self):
         self.week_past = BroadcastWeek.objects.get(week_number=1)
-        self.week_now = BroadcastWeek.objects.create(week_number=2, sign=self.week_past.sign.next)
+        # Manual setup, since we aren't testing advance()
+        self.week_now = BroadcastWeek.objects.create(week_number=2, sign=self.week_past.sign.next, campaign=self.week_past.campaign)
         
         self.week_past.next_week = self.week_now
         self.week_past.save()
