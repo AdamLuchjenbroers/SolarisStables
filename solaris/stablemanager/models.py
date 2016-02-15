@@ -76,7 +76,10 @@ class StableWeek(models.Model):
             self.next_week.add_custom_design(design)
     
     def closing_balance(self):
-        return self.opening_balance + self.entries.all().aggregate(models.Sum('cost'))['cost__sum']
+        if self.entries.count() > 0:
+            return self.opening_balance + self.entries.all().aggregate(models.Sum('cost'))['cost__sum']
+        else:
+            return self.opening_balance
             
     def closing_reputation(self):
         #TODO - Process pilot ledger and update stable reputation
