@@ -79,7 +79,7 @@ class MechDesign(models.Model):
             return loadouts
         else:
             return None
-        
+      
     def move_walk(self):
         return int(ceil(self.engine_rating / self.tonnage))
       
@@ -111,9 +111,25 @@ class MechDesign(models.Model):
         from solaris.warbook.equipment.models import Equipment
         return Equipment.objects.filter(id__in=self.loadout.all().values('equipment'))   
 
+    def get_engine_info(self):
+        engine = self.loadout.filter(equipment__equipment_class='E').first()
+        return (engine.equipment, self.engine_rating) 
+
+    def get_gyro_info(self):
+        gyro = self.loadout.filter(equipment__equipment_class='G').first()
+        return (gyro.equipment, gyro.equipment.tonnage(self, units=1)) 
+
+    def get_armour_info(self):
+        armour = self.loadout.filter(equipment__equipment_class='S', equipment__ssw_name__istartswith='Armour').first() 
+        return (armour.equipment, self.total_armour())
+
+    def get_structure_info(self):
+        structure = self.loadout.filter(equipment__equipment_class='S', equipment__ssw_name__istartswith='Structure').first() 
+        return structure.equipment
+
     def equipment_manifest(self):
         manifest = {}
-        for equip in self.all_equipment().exclude(equipment_class__in=('S','A')):
+        for equip in self.all_equipment().exclude(equipment_class__in=('S','E','G')):
             manifest[equip] = self.loadout.filter(equipment=equip).count()
 
         return manifest

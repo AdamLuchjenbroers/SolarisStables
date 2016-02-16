@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding ="UTF-8"?>
+<mech name="RefitTest" model="RFT-0" tons="30" omnimech="FALSE" solaris7id="0" solaris7imageid="0" sswimage="">
+    <ssw_savefile_version>3</ssw_savefile_version>
+    <battle_value>783</battle_value>
+    <cost>2116140.0</cost>
+    <rules_level>1</rules_level>
+    <era>0</era>
+    <productionera>0</productionera>
+    <mech_type>BattleMech</mech_type>
+    <techbase manufacturer="Unknown" location="Unknown">Inner Sphere</techbase>
+    <year restricted="FALSE">2750</year>
+    <motive_type>Biped</motive_type>
+    <structure manufacturer="Unknown" techbase="2">
+        <type>Standard Structure</type>
+    </structure>
+    <engine rating="150" manufacturer="Unknown" lsstart="-1" rsstart="-1" techbase="2">Fusion Engine</engine>
+    <gyro techbase="2">Standard Gyro</gyro>
+    <cockpit>
+        <type ejectionseat="FALSE" commandconsole="FALSE" fhes="FALSE">Standard Cockpit</type>
+    </cockpit>
+    <armor manufacturer="Unknown" techbase="2">
+        <type>Standard Armor</type>
+        <hd>9</hd>
+        <ct>10</ct>
+        <ctr>3</ctr>
+        <lt>9</lt>
+        <ltr>2</ltr>
+        <rt>9</rt>
+        <rtr>2</rtr>
+        <la>6</la>
+        <ra>6</ra>
+        <ll>8</ll>
+        <rl>8</rl>
+    </armor>
+    <baseloadout fcsa4="FALSE" fcsa5="FALSE" fcsapollo="FALSE">
+        <source></source>
+        <info>RefitTest RFT-0 30t, 5/8/0, Std FE, Std; 4.5T/69% Armor; 13 SHS; 4 ML, 1 LL</info>
+        <battleforce pv="8" wt="1" mv="5" s="3" m="3" l="0" e="0" ov="0" armor="2" internal="3" abilities="ENE, SRCH, ES, SEAL, SOA" />
+        <actuators lla="TRUE" lh="TRUE" rla="TRUE" rh="TRUE"/>
+        <clancase>FALSE</clancase>
+        <heatsinks number="13" techbase="2">
+            <type>Single Heat Sink</type>
+
+            <location index="3">LT</location>
+            <location index="2">LT</location>
+            <location index="10">CT</location>
+            <location index="4">LT</location>
+            <location index="5">LT</location>
+            <location index="4">RT</location>
+            <location index="5">RT</location>
+        </heatsinks>
+        <equipment>
+            <name manufacturer="">(IS) Large Laser</name>
+            <type>energy</type>
+            <location index="0">RT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) Medium Laser</name>
+            <type>energy</type>
+            <location index="1">LT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) Medium Laser</name>
+            <type>energy</type>
+            <location index="0">LT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) Medium Laser</name>
+            <type>energy</type>
+            <location index="3">RT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) Medium Laser</name>
+            <type>energy</type>
+            <location index="2">RT</location>
+        </equipment>
+    </baseloadout>
+    <fluff>
+        <overview></overview>
+        <capabilities></capabilities>
+        <battlehistory></battlehistory>
+        <deployment></deployment>
+        <variants></variants>
+        <notables></notables>
+        <additional></additional>
+        <jumpjet_model>None</jumpjet_model>
+        <commsystem>Unknown</commsystem>
+        <tandtsystem>Unknown</tandtsystem>
+    </fluff>
+</mech>
