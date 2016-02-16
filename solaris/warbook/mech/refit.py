@@ -30,8 +30,13 @@ def armour_cost(oldmech, newmech):
         return 0
 
 def structure_cost(oldmech, newmech):
-    # TODO
-    return 0
+    oldstructure = oldmech.get_structure_info()
+    newstructure = newmech.get_structure_info()
+    
+    if oldstructure != newstructure:
+        return newstructure.cost(newmech, units=1, refit=True)
+    else:
+        return 0
 
 def refit_cost(oldmech, newmech):
     parts_cost = 0

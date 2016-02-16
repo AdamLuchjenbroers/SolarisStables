@@ -14,32 +14,35 @@ cost_funcs = (
 	('retract'   , 'Retractable Blade')
 )
 
-def fixed(self, mech, units=None):
+def fixed(self, mech, units=None, refit=False):
     return self.cost_factor
 
-def per_ton(self, mech, units=None):
+def per_ton(self, mech, units=None, refit=False):
     return self.cost_factor * Decimal(self.tonnage(units=units))
    
-def retract(self, mech, units=None):   
+def retract(self, mech, units=None, refit=False):   
     return self.cost_factor * ( Decimal(self.tonnage(units=units)) + 1)
    
-def structure(self, mech, units=None):
-    return self.cost_factor * Decimal(ceil(units/8) / 2)
+def structure(self, mech, units=None, refit=False):
+    if refit:
+        return self.cost_factor * 400 * mech.tonnage
+    else:
+        return self.cost_factor * 10000 * Decimal(ceil(units/8) / 2)
    
-def engine(self, mech, units=None):
+def engine(self, mech, units=None, refit=False):
     return (self.cost_factor * mech.tonnage * mech.engine_rating) / 75
 
-def gyro(self, mech, units=None):
+def gyro(self, mech, units=None, refit=False):
     return self.cost_factor * self.tonnage(mech=mech, units=units)
    
-def mech(self, mech, units=None):
+def mech(self, mech, units=None, refit=False):
     return mech.tonnage * self.cost_factor
    
-def jumpjet(self, mech, units=None):
+def jumpjet(self, mech, units=None, refit=False):
     return mech.move_jump() * mech.tonnage * self.cost_factor
    
-def per_er(self, mech, units=None):
+def per_er(self, mech, units=None, refit=False):
     return self.cost_factor * mech.engine_rating
 
-def masc(self, mech, units=None):
+def masc(self, mech, units=None, refit=False):
     return self.cost_factor * mech.engine_rating * self.tonnage(mech, units=units)

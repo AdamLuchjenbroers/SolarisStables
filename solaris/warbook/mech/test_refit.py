@@ -94,7 +94,7 @@ class RefitTestBaseToXL(RefitTestMixin, TestCase):
     # 984000 x 1.3 = 1279200
     second_to_first = 1279200
 
-class RefitTesXLToXLG(RefitTestMixin, TestCase):
+class RefitTestXLToXLG(RefitTestMixin, TestCase):
     first_code = 'RFT-XL'
     second_code = 'RFT-XLG'
 
@@ -108,3 +108,22 @@ class RefitTesXLToXLG(RefitTestMixin, TestCase):
     # 3 Ton Standard Gyro   : 300000 x 3 = 900000
     # 900000 x 1.3 = 1170000
     second_to_first = 1170000 
+
+class RefitTestBaseToEndo(RefitTestMixin, TestCase):
+    first_code = 'RFT-0'
+    second_code = 'RFT-ES'
+
+    # 30T Endo-Steel Chassis : 1600 x 30  = 48000
+    # 2 Tons Standard Armor  : 10000 x 2  = 20000
+    # 1 Small Laser          : 11250      = 11250
+    #                               Total : 79250
+    # 79250 x 1.3 = 103025
+    first_to_second = 103025
+
+    # 30T Standard Chassis : 400 x 30  = 12000
+    # 1 Medium Laser       : 40000     = 40000 
+    # 52000 x 1.3 = 67600
+    second_to_first = 67600
+
+
+    
