@@ -159,7 +159,7 @@ class MechEquipment(models.Model):
             return '%s (%s %i-%i)' % (
                 self.equipment.name, primaryMount.get_location_code()
               , min(slotlist), max(slotlist)
-          )
+            )
         
     class Meta:
         verbose_name_plural = 'Mech Equipment'
