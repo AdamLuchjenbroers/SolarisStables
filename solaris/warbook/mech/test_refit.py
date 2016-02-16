@@ -76,6 +76,35 @@ class RefitTestBaseToEN(RefitTestMixin, TestCase):
     # 382000 x 1.3 = 496600
     second_to_first = 496600
 
-# XL Engine Cost Factor 20000
-# Standard Gyro Cost Factor 300000
-# XL Gyro Cost Factor 750000
+class RefitTestBaseToXL(RefitTestMixin, TestCase):
+    first_code = 'RFT-0'
+    second_code = 'RFT-XL'
+
+    # 210 XL Engine         : (20000 x 30 x 210) / 75 = 1680000
+    # 3 Ton Standard Gyro   : 300000 x 3              =  900000 
+    # 2 Tons Standard Armor : 2 x 10000               =   20000
+    # 2600000 x 1.3 = 3380000
+    first_to_second = 3380000
+
+    # 150 Standard Engine      : (5000 x 30 x 150) / 75 = 300000   
+    # 2 Ton Standard Gyro      : 300000 x 2             = 600000
+    # 2 Medium Lasers          : 2 x 40000              =  80000
+    # 2 Heatsinks	       : 2 x 2000               =   4000
+    #                                            Total:   984000 
+    # 984000 x 1.3 = 1279200
+    second_to_first = 1279200
+
+class RefitTesXLToXLG(RefitTestMixin, TestCase):
+    first_code = 'RFT-XL'
+    second_code = 'RFT-XLG'
+
+    # 1.5 Ton XL Gyro : 750000 x 1.5 = 1125000
+    # 1 Medium Laser                 =   40000
+    # 1 Small Laser                  =   11250
+    #                          Total : 1176250
+    # 1176250 x 1.3 = 1529125
+    first_to_second = 1529125
+  
+    # 3 Ton Standard Gyro   : 300000 x 3 = 900000
+    # 900000 x 1.3 = 1170000
+    second_to_first = 1170000 
