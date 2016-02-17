@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^register/?$', SolarisRegistrationView.as_view(), name='account_signup'),
     
     url('^account/', include('solaris.account.urls')),
+    url('^invite/', include('solaris.account.invite_urls', namespace='invitations')),
         
     (r'^admin/', include(admin.site.urls)),
     (r'^reference/', include('solaris.warbook.urls')),

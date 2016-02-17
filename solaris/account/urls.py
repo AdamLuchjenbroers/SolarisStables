@@ -3,7 +3,6 @@ from django.conf.urls import patterns, url
 from . import views
 
 urlpatterns = patterns('',
-
     url(r'^email-sent/$', views.SolarisRegistrationEmailSentView.as_view(),
         name='account_email_verification_sent'),
     url(r"^confirm-email/(?P<key>\w+)/$", views.SolarisConfirmEmailView.as_view(),
@@ -17,11 +16,6 @@ urlpatterns = patterns('',
     url(r"^reset-password/key/(?P<uidb36>[0-9A-Za-z]+)-(?P<key>.+)/$",
         views.SolarisPasswordResetFromKeyView.as_view(),
         name="account_reset_password_from_key"),
-                                             
-    # These need to be in the invitations namespace so the django-invitations
-    # module can derive the correct URLs
-    url(r'^invite/$', views.SolarisSendInvite.as_view(),
-        name='send-invite'),
-    url(r'^accept-invite/(?P<key>\w+)/$', views.SolarisAcceptInvite.as_view(),
-        name='accept-invite'),
+
+    url(r'^register/?$', views.SolarisRegistrationView.as_view()), 
 )
