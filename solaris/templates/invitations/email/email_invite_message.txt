@@ -1,0 +1,5 @@
+Hi,
+
+You've been invited to use the Solaris StableManager app hosted at {{site_name}}. It's still a work in progress, but there's a few useful tools there for managing your BattleTech Stable.
+
+You can accept the invite by browsing to {{invite_url}}
