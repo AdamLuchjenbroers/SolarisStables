@@ -7,6 +7,7 @@ critical_funcs = (
 	('targetting_computer', 'Targetting Computer'),
         ('retractable', 'Retractable Blade'),
         ('by_class', 'By Weight Class'),
+        ('per_leg', 'Per Leg'),
 )
 
 def fixed(self, mech=None):
@@ -37,3 +38,8 @@ def by_class(self, mech=None):
     else:
         return self.critical_factor * 4
 
+def per_leg(self, mech=None):
+    if mech.motive_type == 'Q':
+        return 4 * self.critical_factor
+    else:
+        return 2 * self.critical_factor
