@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 
 from solaris.stablemanager.models import Stable, StableWeek
 from solaris.stablemanager.ledger.models import LedgerItem
+from solaris.warbook.mech.refit import refit_cost
 
 class StableMechManager(models.Manager):
     def create_mech(self, stable=None, purchased_as=None, purchased_on=None, create_ledger=True):
@@ -65,6 +66,7 @@ class StableMechWeek(models.Model):
     signature_of = models.ForeignKey('Pilot', related_name='signature_mechs', blank=True, null=True)
     next_week = models.OneToOneField('StableMechWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
     cored = models.BooleanField(default=False)
+    #removed = models.BooleanField(default=False)
 
     objects = StableMechWeekManager()
     
@@ -84,6 +86,21 @@ class StableMechWeek(models.Model):
 
     def refit_options(self):
         return self.stableweek.supply_mechs.exclude(id=self.current_design.id).filter(mech_name=self.current_design.mech_name)
+
+    def is_locked(self):
+        if self.next_week == None:
+            return False
+
+        # Is there already a repairbill against next week?
+        if self.next_week.repairs.count() > 0:
+            return True
+
+        # Do any ledger items refer to next week?
+        if LedgerItem.objects.filter(ref_stablemech_week=self.next_week).count() > 0:
+            return True
+
+        # Check if the next week is locked too
+        return self.next_week.is_locked()
 
     def can_advance(self):
         return (self.stableweek.next_week != None)
@@ -111,7 +128,7 @@ class StableMechWeek(models.Model):
         self.save()
 
         if add_ledger:
-            cost = max(newdesign.credit_value - olddesign.credit_value, 0)
+            cost = refit_cost(olddesign, newdesign)
             if failed_by > 0:
                 cost += int (newdesign.credit_value * (failed_by / 10.0))
 
