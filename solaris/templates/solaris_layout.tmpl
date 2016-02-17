@@ -44,9 +44,9 @@
          <ul class='menu menu-login'>
          {% if user.is_authenticated %}
            <li class="login"><a href="/logout">Logout</a></li>
+           <li class="login"><a href="/invite">Invite</a></li>
          {% else %}
            <li class="login"><a href="/login">Login</a></li>
-           <li class="login"><a href="/register">Register</a></li>
          {% endif %}
          </ul>
          {% endblock %}
