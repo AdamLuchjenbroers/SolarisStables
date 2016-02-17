@@ -6,7 +6,7 @@
   {% if success_message %}
   <div class="field-info">{{success_message}}</div>
   {% endif %}
-  <form action= "{% url 'send-invite' %}" method="POST" class="invite-form">
+  <form action= "{% url 'invitations:send-invite' %}" method="POST" class="invite-form">
     {% if form.non_field_errors %} <div class="form_error"> {{ form.non_field_errors }} </div> {% endif %}
     {% for field in form %}
       {% basic_field field %}
