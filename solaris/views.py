@@ -4,6 +4,7 @@ class SolarisViewMixin(object):
     menu_selected = None
     submenu = None
     submenu_selected = None     
+    login_url = '/login'
         
     def get_context_data(self, **kwargs):
         try:
