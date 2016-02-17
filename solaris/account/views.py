@@ -53,7 +53,6 @@ class SolarisAcceptInvite(SolarisViewMixin, AcceptInvite):
         
         page_context['submit'] = 'Invite'
         return page_context
-
             
 def logout_user(request):
     logout(request)
