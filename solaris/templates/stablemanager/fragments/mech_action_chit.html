@@ -20,6 +20,8 @@
   <a class="word-button" href="{{stablemech.repair_bill_url}}">Repair</a>
   {% if not stablemech.is_locked %}
     <span class="word-button refit-button" form_url="{{stablemech.refit_url}}">Refit</span>
+  {% else %}
+    <span class="word-button no-button"></span>
   {% endif %}
 </div>
 {% endblock %}

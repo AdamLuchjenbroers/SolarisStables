@@ -1246,55 +1246,59 @@ span.ledger-negative {
  ****************************************/
 
 .word-button {
-	display: inline-block;
+  display: inline-block;
 
-	border: 1px solid;
-    border-radius: 3px;
-	height: 1.2em;
-	width: 6em;
-	text-align: center;
-    font-weight: bold;
+  border: 1px solid;
+  border-radius: 3px;
+  height: 1.2em;
+  width: 6em;
+  text-align: center;
+  font-weight: bold;
     
-    text-decoration: none;
-    color: #000000;
-    background-color: #CDCCFF;
+  text-decoration: none;
+  color: #000000;
+  background-color: #CDCCFF;
+}
+
+.no-button {
+  visibility: hidden;
 }
 
 input.icon-button {
-    border: none;
-    background: transparent;
-    
-    height: 100%;
-    font-size: 120%;
-    font-weight: bold;
-    color: #262233;
-    
-    text-shadow: 2px 2px 4px #888888; 
+  border: none;
+  background: transparent;
+  
+  height: 100%;
+  font-size: 120%;
+  font-weight: bold;
+  color: #262233;
+  
+  text-shadow: 2px 2px 4px #888888; 
 }
 
 .form-action-buttonset {
-    text-align: right;
+  text-align: right;
 }
 
 button.form-action {
-    font-size: 120%;
-    font-weight: bold;
+  font-size: 120%;
+  font-weight: bold;
 
-    display: inline-block;
-    margin: 0.5em 0.4em 0.5em 0px;
-    padding: 0.2em 0.5em;
+  display: inline-block;
+  margin: 0.5em 0.4em 0.5em 0px;
+  padding: 0.2em 0.5em;
 
-    background: #262233 none repeat scroll 0% 0%;
-    color: #DDDDDD;
+  background: #262233 none repeat scroll 0% 0%;
+  color: #DDDDDD;
 
-    border: 2px solid #DDD;
-    border-radius: 5px;
-    box-shadow: 2px 2px 4px #000;
-    cursor: pointer;
+  border: 2px solid #DDD;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #000;
+  cursor: pointer;
 }
 
 #actionbar-weekbrowser {
-    margin-left: -2em;
+  margin-left: -2em;
 }
 
 #actionbar-weekbrowser span {
@@ -1306,7 +1310,7 @@ button.form-action {
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .label-divider {
