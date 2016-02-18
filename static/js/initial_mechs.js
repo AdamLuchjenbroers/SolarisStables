@@ -43,7 +43,7 @@ $( document ).ready(function() {
         $('#id_form-TOTAL_FORMS').val(form_id + 1);
  
         $('#initial-mechs-formbody').append(new_form);
-        attach_mechlist_autocomplete( $('input#id_form-' + form_id + '-mech_name'), '.mech-purchase' );
+        attach_mechlist_autocomplete( $('input#id_form-' + form_id + '-mech_name'), '.mech-purchase', '.mech-code select' );
         $(this).hide();
     });
 });
