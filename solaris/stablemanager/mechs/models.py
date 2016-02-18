@@ -87,6 +87,15 @@ class StableMechWeek(models.Model):
     def refit_options(self):
         return self.stableweek.supply_mechs.exclude(id=self.current_design.id).filter(mech_name=self.current_design.mech_name)
 
+    def is_visible(self):
+        if hasattr(self, 'prev_week'):
+            if self.prev_week.cored:
+                return False
+            else:
+                return self.prev_week.is_visible()
+        else:
+            return True    
+
     def is_locked(self):
         if self.next_week == None:
             return False

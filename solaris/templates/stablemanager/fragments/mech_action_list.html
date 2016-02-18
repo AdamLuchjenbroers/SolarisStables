@@ -1,5 +1,7 @@
 <ul id="stable-mech-list" class="stable-mech-list chit-list">
   {% for stablemech in object_list %}
-    {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design %}
+    {% if stablemech.is_visible %}
+      {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design %}
+    {% endif %}
   {% endfor %}
 </ul>
