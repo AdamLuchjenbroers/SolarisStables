@@ -25,6 +25,7 @@ function refresh_mechlist() {
   $('#stable-mech-list').load(window.location.href + '/list #stable-mech-list'
   , function() {
     $('#stable-mech-list .refit-button').click( show_refit_form );
+    $('#stable-mech-list .remove-button').click( show_removal_dialog );
   });
 }
 
@@ -90,6 +91,36 @@ function show_refit_form() {
   });
 }
 
+function send_removal(submit_url, instruction) {
+  $.ajax({
+    type : 'post'
+  , url  : submit_url
+  , dataType : 'json'
+  , data : { 'action' : instruction }
+  }).done(function(response) { 
+    refresh_mechlist();
+  });
+}
+
+function show_removal_dialog() {
+  form_url = $(this).attr("form_url");
+  mech_name = $(this).attr("mech_name");
+
+  dialog = $('#dialog-removemech');
+  dialog.attr('title', "Remove " + mech_name);
+  dialog.find('p').text("Remove " + mech_name + " from your stable?");
+
+  dialog.dialog({
+    modal: true,
+    width: (window.innerWidth * 0.5),
+    buttons: {
+      Core   : function() { send_removal(form_url, 'core'); $( this ).dialog("close"); } 
+    , Remove : function() { send_removal(form_url, 'remove'); $( this ).dialog("close"); } 
+    , Keep   : function() { $( this ).dialog("close"); }
+    } 
+  });
+}
+
 function submit_purchase_form() {
   form = $('#mech-purchase-form');
 
@@ -127,5 +158,6 @@ $( document ).ready(function() {
     $('#mech-purchase-form input#id_mech_ssw').change( check_purchase_form_ready );
 
     $('.refit-button').click( show_refit_form );
+    $('.remove-button').click( show_removal_dialog );
     $('#mech-purchase-submit').click( submit_purchase_form );
 });
