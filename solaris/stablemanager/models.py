@@ -191,7 +191,7 @@ def setup_initial_ledger(sender, instance=None, created=False, **kwargs):
     if created:
         stable_week = StableWeek.objects.create(
           stable=instance
-        , week=BroadcastWeek.objects.current_week()
+        , week=BroadcastWeek.objects.get(campaign=instance.campaign, week_number=1)
         , opening_balance=instance.campaign.initial_balance
         )
         stable_week.save()
