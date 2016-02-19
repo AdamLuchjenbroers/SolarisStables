@@ -1,6 +1,6 @@
 {% extends 'stablemanager/fragments/mech_chit.html' %}
 {% block row_container_start %}
-  <span class="chit-row{% if stablemech.cored %} mech-cored {% endif %}">
+  <span class="chit-row{% if stablemech.cored or stablemech.removed %} mech-cored {% endif %}">
 {% endblock %}
 
 {% block mech_info %}
@@ -21,7 +21,7 @@
   <a class="word-button" href="{{stablemech.repair_bill_url}}">Repair</a>
   {% if not stablemech.is_locked %}
     <span class="word-button refit-button" form_url="{{stablemech.refit_url}}">Refit</span>
-    <span class="word-button remove-button" mech="{{stablemech.id}}">Remove</span>
+    <span class="word-button remove-button" mech_name="{{mech.mech_name}} {{mech.mech_code}}" form_url="{{stablemech.remove_url}}">Remove</span>
   {% else %}
     <span class="word-button no-button"></span>
     <span class="word-button no-button"></span>

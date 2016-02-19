@@ -66,7 +66,7 @@ class StableMechWeek(models.Model):
     signature_of = models.ForeignKey('Pilot', related_name='signature_mechs', blank=True, null=True)
     next_week = models.OneToOneField('StableMechWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
     cored = models.BooleanField(default=False)
-    #removed = models.BooleanField(default=False)
+    removed = models.BooleanField(default=False)
 
     objects = StableMechWeekManager()
     
@@ -80,6 +80,24 @@ class StableMechWeek(models.Model):
             return self.repairs.get(mech=self.current_design, stableweek=self, complete=False)
         except RepairBill.DoesNotExist:
             return None
+
+    def set_removed(self, value):
+        if value == True and (self.next_week == None and not hasattr(self, 'prev_week')):
+            self.delete()
+        else:
+            self.removed = value
+            self.save()
+            if self.next_week != None:
+                self.next_week.set_removed(value)
+
+    def set_cored(self, value):
+        self.cored = value
+        if value == True:
+            self.removed = True
+        self.save()
+
+        if self.next_week != None:
+            self.next_week.set_cored(value)
 
     def completed_bill_count(self):
         return self.repairs.filter(complete=True).count()
@@ -157,6 +175,9 @@ class StableMechWeek(models.Model):
 
     def refit_url(self):
         return reverse('refit_mech', kwargs={'smw_id' : self.id})
+
+    def remove_url(self):
+        return reverse('remove_mech', kwargs={'smw_id' : self.id})
 
     def repair_bill_url(self):
         bill = self.active_repair_bill()

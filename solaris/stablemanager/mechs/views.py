@@ -1,4 +1,4 @@
-from django.views.generic import FormView, ListView, UpdateView
+from django.views.generic import View, FormView, ListView, UpdateView
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -87,10 +87,7 @@ class MechPurchaseFormView(StableWeekMixin, FormView):
 
         return HttpResponse(json.dumps(result))     
 
-class MechRefitFormView(StableViewMixin, FormView):
-    template_name = 'stablemanager/forms/refit_mech_form.html'
-    form_class = forms.MechRefitForm
-
+class MechModifyMixin(StableViewMixin):
     def dispatch(self, request, smw_id=0, *args, **kwargs):
         redirect = self.get_stable(request)
         if redirect:
@@ -103,13 +100,33 @@ class MechRefitFormView(StableViewMixin, FormView):
         if self.stableweek.stable != self.stable:
             return HttpResponse('Not your mech!', 401)
 
-        return super(MechRefitFormView, self).dispatch(request, *args, **kwargs) 
+        return super(MechModifyMixin, self).dispatch(request, *args, **kwargs) 
 
     def get_object(self, queryset=None):
         return self.stablemechweek
 
     def get_form(self, form_class):
         return form_class(instance=self.get_object(), **self.get_form_kwargs())
+
+class MechRemoveAjaxView(MechModifyMixin, View):
+    def post(self, request, smw_id=0):
+        try:
+            action = request.POST['action']
+            if action == 'remove':
+                self.stablemechweek.set_removed(True)
+            elif action == 'core':
+                self.stablemechweek.set_cored(True)
+            else:
+                return HttpResponse('Unrecognised action %s' % action, 400)
+
+            result = { 'success' : True } 
+            return HttpResponse(json.dumps(result))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 401)
+
+class MechRefitFormView(MechModifyMixin, FormView):
+    template_name = 'stablemanager/forms/refit_mech_form.html'
+    form_class = forms.MechRefitForm
 
     def form_invalid(self, form):
         result = {
