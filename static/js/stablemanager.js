@@ -15,7 +15,7 @@ function attach_mechlist_autocomplete(mech_input, parent_class, model_select_cla
       }).done(function(json) {
         var option_html="<option value=\"\">--</value>";
         $.each(json, function(index, val) {
-          option_html += "<option value=\"" + val + "\">" + val + "</value>";
+          option_html += "<option value=\"" + encodeURIComponent(val) + "\">" + val + "</value>";
         }); 
                                                              
         inputbox.parents(parent_class).find(model_select_class).html(option_html);               
@@ -47,8 +47,8 @@ function select_chassis_handler(parent_class, chassis_input_css, cost_class, pre
       url  : '/reference/ajax/mech/price-of',
       dataType : 'json',
       data : {
-        chassis : chassis,
-        type    : type
+        chassis : encodeURIComponent(chassis)
+      , type    : type 
       },
     }).done(function(json) {
       cost.html('-' + json);

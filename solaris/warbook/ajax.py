@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import View
 
+from urllib import unquote
+
 from .models import House
 from .mech.models import MechDesign
 
@@ -31,7 +33,12 @@ class JsonMechInformationView(AjaxView):
         if not request.user.is_authenticated():
             return HttpResponse(status=403)
         
-        self.mech  = get_object_or_404(MechDesign, mech_name=request.GET['chassis'], mech_code=request.GET['type'])
+        try:
+            mech_name = unquote(request.GET['chassis'])
+            mech_code = unquote(request.GET['type'])
+            self.mech = get_object_or_404(MechDesign, mech_name=mech_name, mech_code=mech_code)
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 401)
         
         return super(JsonMechInformationView, self).dispatch(request, **kwargs)
         
