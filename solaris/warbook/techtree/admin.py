@@ -21,7 +21,7 @@ class HasEquipmentFilter(admin.SimpleListFilter):
             return queryset
   
 class TechnologyAdmin(admin.ModelAdmin):
-    fields = ['name', 'urlname', 'description', 'tier', 'category', 'base_difficulty', 'show', 'access_to']
+    fields = ['name', 'urlname', 'description', 'tier', 'base_difficulty', 'show', 'access_to']
     filter_horizontal = ('access_to',)
     inlines = [TechnologyRollModifierInline,]
     list_filter = ('tier', HasEquipmentFilter )
