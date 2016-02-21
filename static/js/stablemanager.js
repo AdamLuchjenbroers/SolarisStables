@@ -73,8 +73,17 @@ $( document ).ready(function() {
         view : $(this).attr('viewname')
       , week : $(this).attr('week')
       }
+    , beforeSend: function(jqXHR, plainObj) {
+        $('#browse-next-week .spinner').show();
+        $('#browse-next-week .action').hide();
+      } 
+    , complete: function(jqXJR, plainObj) {
+        $('#browse-next-week .spinner').hide();
+        $('#browse-next-week .action').show();
+      } 
     }).done( function(newpage) {
       window.location.href = newpage;
     });
   });
+
 });
