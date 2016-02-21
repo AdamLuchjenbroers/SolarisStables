@@ -5,13 +5,13 @@ function check_purchase_form_ready() {
   submit_type = form.find('.mech-purchase-select input:checked').val();
 
   if (submit_type == 'C') {
-    if (form.find('select#id_mech_code').val() != "") {
+    if (form.find('select#id_mech_code').val()) {
       submit.removeAttr('disabled');
     } else {
       submit.attr('disabled','yes');
     }
   } else if (submit_type == 'U') {
-    if (form.find('input#id_mech_ssw').val() != "") {
+    if (form.find('input#id_mech_ssw').val()) {
       submit.removeAttr('disabled');
     } else {
       submit.attr('disabled','yes');
@@ -41,10 +41,12 @@ function submit_purchase_data(form, mech_data) {
     refresh_mechlist();
 
     if (response['success']) {
-      form.find('input').val('');
-      form.find('#id_mech_code').html('');
+      form.find('#id_mech_code').html('')
+      form.find('input:not([type=radio])').val('');
     }
   });
+
+  form.find('#mech-purchase-submit').attr('disabled','yes');
 }
 
 function show_refit_form() {
