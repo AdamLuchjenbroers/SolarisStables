@@ -280,7 +280,11 @@ ul.submenu li#selected, ul.wiki-submenu li#selected {
   flex-grow: 1;
 }
 
-#browse-next-week.create-post {
+#browse-next-week .spinner {
+  display:none;
+}
+
+#browse-next-week.create-post .action {
   cursor: pointer;
 }
 
