@@ -680,10 +680,9 @@ div.news-item div.header span.byline {
   border-left: 1px solid #222633;
 }
 
-div.news div.content {
+div.news-item div.news-content {
   padding: 5px 5px 5px 5px;
   margin: 0px 10px 10px 10px;
-  background-color: #F0F0F0;
 }
 
 div.news_form input {

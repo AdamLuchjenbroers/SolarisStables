@@ -15,7 +15,7 @@
       <span class="title">{{post.title}}</span>
       <span class="byline">Posted by {% firstof post.poster.first_name post.poster.username %} on {{post.post_date}}</span>
     </div> <hr class="news-sep" />
-    <div class="content">
+    <div class="news-content">
       {{post.content.rendered | safe}}
     </div>
   </div>
