@@ -25,6 +25,9 @@ Basic Technologies,Equipment - Hatchet
 Basic Technologies,Equipment - (IS) Small Laser
 Basic Technologies,Equipment - (IS) Medium Laser
 Basic Technologies,Equipment - (IS) Large Laser
+Basic Technologies,Equipment - (IS) Small Laser (Insulated)
+Basic Technologies,Equipment - (IS) Medium Laser (Insulated)
+Basic Technologies,Equipment - (IS) Large Laser (Insulated)
 Basic Technologies,Equipment - (IS) Machine Gun
 Basic Technologies,Ammo - @ Machine Gun
 Basic Technologies,Ammo - @ Machine Gun (1/2)
@@ -77,6 +80,7 @@ Basic Technologies,Ammo - @ Sniper
 Basic Technologies,Ammo - @ Thumper
 Basic Technologies,Ammo - @ Thumper Artillery Cannon
 Basic Technologies,Equipment - (IS) PPC
+Basic Technologies,Equipment - (IS) PPC + PPC Capacitor
 Basic Technologies,Equipment - (IS) Flamer
 Basic Technologies,Equipment - Vehicle Flamer
 Basic Technologies,Ammo - (IS) @ Vehicle Flamer
@@ -90,8 +94,6 @@ Basic Technologies,Equipment - Recon Camera
 Basic Technologies,Engine - Primitive Fusion Engine
 Basic Technologies,Armour - Primitive Armor
 Basic Technologies,Structure - Primitive Structure
-Star-League Technologies,Equipment - (IS) Medium Pulse Laser
-Star-League Technologies,Equipment - (IS) Small Pulse Laser
 Star-League Technologies,Equipment - (IS) LB 10-X AC
 Star-League Technologies,Ammo - (IS) @ LB 10-X AC (Cluster)
 Star-League Technologies,Ammo - (IS) @ LB 10-X AC (Slug)
@@ -100,7 +102,11 @@ Star-League Technologies,Ammo - (IS) @ Ultra AC/5
 Star-League Technologies,Equipment - (IS) Small Pulse Laser
 Star-League Technologies,Equipment - (IS) Medium Pulse Laser
 Star-League Technologies,Equipment - (IS) Large Pulse Laser
+Star-League Technologies,Equipment - (IS) Small Pulse Laser (Insulated)
+Star-League Technologies,Equipment - (IS) Medium Pulse Laser (Insulated)
+Star-League Technologies,Equipment - (IS) Large Pulse Laser (Insulated)
 Star-League Technologies,Equipment - (IS) ER Large Laser
+Star-League Technologies,Equipment - (IS) ER Large Laser (Insulated)
 Star-League Technologies,Ammo - @ SRM-2 (Artemis IV Capable)
 Star-League Technologies,Ammo - @ SRM-2 (Narc Capable)
 Star-League Technologies,Ammo - @ SRM-4 (Artemis IV Capable)
@@ -130,6 +136,7 @@ Star-League Technologies,Equipment - TAG
 Star-League Technologies,Equipment - (IS) Gauss Rifle
 Star-League Technologies,Ammo - @ Gauss Rifle
 Star-League Technologies,Equipment - (IS) ER PPC
+Star-League Technologies,Equipment - (IS) ER PPC + PPC Capacitor
 Star-League Technologies,Equipment - Guardian ECM Suite
 Star-League Technologies,Equipment - Beagle Active Probe
 Star-League Technologies,Engine - XL Engine
@@ -183,6 +190,7 @@ Industrial Equipment,Equipment - Extended Fuel Tank
 Industrial Equipment,"Equipment - Fluid Suction System, Light"
 Industrial Equipment,Armour - Commercial Armor
 Industrial Equipment,Structure - Primitive Industrial Structure
+Industrial Equipment,Multislot - Environmental Sealing
 Shrapnel Pods,Equipment - B-Pod
 Shrapnel Pods,Equipment - A-Pod
 Shrapnel Pods,Equipment - M-Pod
@@ -221,6 +229,8 @@ Rocket Launchers,Equipment - (IS) Rocket Launcher 15
 Rocket Launchers,Equipment - (IS) Rocket Launcher 20
 ER Lasers,Equipment - (IS) ER Small Laser
 ER Lasers,Equipment - (IS) ER Medium Laser
+ER Lasers,Equipment - (IS) ER Small Laser (Insulated)
+ER Lasers,Equipment - (IS) ER Medium Laser (Insulated)
 Advanced Gauss,Equipment - (IS) Light Gauss Rifle
 Advanced Gauss,Equipment - (IS) Heavy Gauss Rifle
 Advanced Gauss,Ammo - (IS) @ Light Gauss Rifle
@@ -292,8 +302,11 @@ Machine Guns,Ammo - @ Heavy Machine Gun (1/2)
 Machine Guns,Ammo - @ Light Machine Gun
 Machine Guns,Ammo - @ Light Machine Gun (1/2)
 Advanced PPCs,Equipment - (IS) Heavy PPC
+Advanced PPCs,Equipment - (IS) Heavy PPC + PPC Capacitor
 Advanced PPCs,Equipment - (IS) Light PPC
+Advanced PPCs,Equipment - (IS) Light PPC + PPC Capacitor
 Snubnose PPC,Equipment - (IS) Snub-Nose PPC
+Snubnose PPC,Equipment - (IS) Snub-Nose PPC + PPC Capacitor
 Plasma Rifle,Equipment - (IS) Plasma Rifle
 Plasma Rifle,Ammo - (IS) @ Plasma Rifle
 Advanced Ferro-Fibrous,Armour - Heavy Ferro-Fibrous
@@ -304,7 +317,6 @@ Improved JumpJets,Jumpjet - Improved Jump Jet
 Advanced Missiles,Ammo - (IS) @ Arrow IV (ADA)
 Advanced Missiles,Ammo - (IS) @ Arrow IV (Cluster)
 Advanced Missiles,Ammo - (IS) @ Arrow IV (Inferno)
-Advanced Missiles,Ammo - (IS) @ Arrow IV (Laser-Inhibiting)
 Advanced Missiles,Ammo - (IS) @ Arrow IV (Smoke)
 Advanced Missiles,Ammo - (IS) @ Arrow IV (Thunder Active)
 Advanced Missiles,Ammo - (IS) @ Arrow IV (Thunder Vibrabomb)
@@ -312,12 +324,9 @@ Advanced Missiles,Ammo - (IS) @ Arrow IV (Thunder)
 Advanced Missiles,Ammo - (IS) @ Arrow IV (Illumination)
 Advanced Missiles,Ammo - (IS) @ Narc (Bola)
 Advanced Missiles,Ammo - (IS) @ Narc (Explosive)
-Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Flare)
-Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Follow-The-Leader)
 Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Fragmentation)
 Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Semi-Guided)
 Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Smoke)
@@ -328,24 +337,28 @@ Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Thunder-Augmented)
 Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Thunder-Inferno)
 Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Thunder-Vibrabomb)
 Advanced Missiles,Ammo - (IS) @ MML-9 (LRM Thunder)
-Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Acid)
-Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Artemis IV Capable)
 Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Fragmentation)
 Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Harpoon)
 Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Narc Capable)
 Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Smoke)
-Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Tandem Charge)
 Advanced Missiles,Ammo - (IS) @ MML-9 (SRM Tear Gas)
-Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Flare)
-Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Follow-The-Leader)
 Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Fragmentation)
 Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ Arrow IV (Laser-Inhibiting)
+Experimental Missiles,Ammo - (IS) @ MML-9 (LRM Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ MML-9 (LRM Follow-The-Leader)
+Experimental Missiles,Ammo - (IS) @ MML-9 (LRM Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ MML-9 (SRM Acid)
+Experimental Missiles,Ammo - (IS) @ MML-9 (SRM Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ MML-9 (SRM Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ MML-9 (SRM Tandem Charge)
+Experimental Missiles,Ammo - (IS) @ MML-7 (LRM Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ MML-7 (LRM Follow-The-Leader)
+Experimental Missiles,Ammo - (IS) @ MML-7 (LRM Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Semi-Guided)
 Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Smoke)
@@ -356,23 +369,23 @@ Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Thunder-Augmented)
 Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Thunder-Inferno)
 Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Thunder-Vibrabomb)
 Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Thunder)
-Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Acid)
-Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ MML-7 (SRM Acid)
+Experimental Missiles,Ammo - (IS) @ MML-7 (SRM Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Fragmentation)
 Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Harpoon)
 Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ MML-7 (SRM Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Narc Capable)
 Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Smoke)
-Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Tandem Charge)
+Experimental Missiles,Ammo - (IS) @ MML-7 (SRM Tandem Charge)
 Advanced Missiles,Ammo - (IS) @ MML-7 (SRM Tear Gas)
-Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ MML-5 (LRM Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Flare)
-Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Follow-The-Leader)
+Experimental Missiles,Ammo - (IS) @ MML-5 (LRM Follow-The-Leader)
 Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Fragmentation)
 Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ MML-5 (LRM Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Semi-Guided)
 Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Smoke)
@@ -383,52 +396,52 @@ Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Thunder-Augmented)
 Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Thunder-Inferno)
 Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Thunder-Vibrabomb)
 Advanced Missiles,Ammo - (IS) @ MML-5 (LRM Thunder)
-Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Acid)
-Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ MML-5 (SRM Acid)
+Experimental Missiles,Ammo - (IS) @ MML-5 (SRM Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Artemis IV Capable)
 Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Fragmentation)
 Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Harpoon)
 Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ MML-5 (SRM Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Narc Capable)
 Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Smoke)
-Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Tandem Charge)
+Experimental Missiles,Ammo - (IS) @ MML-5 (SRM Tandem Charge)
 Advanced Missiles,Ammo - (IS) @ MML-5 (SRM Tear Gas)
-Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ MML-3 (LRM Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Flare)
-Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Follow-The-Leader)
+Experimental Missiles,Ammo - (IS) @ MML-3 (LRM Follow-The-Leader)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Fragmentation)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ MML-3 (LRM Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Semi-Guided)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Smoke)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Swarm-I)
-Advanced Missiles,Ammo - (IS) @ MML-7 (LRM Incendiary)
+Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Incendiary)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Thunder-Active)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Thunder-Augmented)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Thunder-Inferno)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Thunder-Vibrabomb)
 Advanced Missiles,Ammo - (IS) @ MML-3 (LRM Thunder)
-Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Acid)
-Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ MML-3 (SRM Acid)
+Experimental Missiles,Ammo - (IS) @ MML-3 (SRM Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Artemis IV Capable)
 Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Fragmentation)
 Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Harpoon)
 Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ MML-3 (SRM Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Narc Capable)
 Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Smoke)
-Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Tandem Charge)
+Experimental Missiles,Ammo - (IS) @ MML-3 (SRM Tandem Charge)
 Advanced Missiles,Ammo - (IS) @ MML-3 (SRM Tear Gas)
-Advanced Missiles,Ammo - (IS) @ LRM-5 (Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ LRM-5 (Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ LRM-5 (Flare)
-Advanced Missiles,Ammo - (IS) @ LRM-5 (Follow-The-Leader)
+Experimental Missiles,Ammo - (IS) @ LRM-5 (Follow-The-Leader)
 Advanced Missiles,Ammo - (IS) @ LRM-5 (Fragmentation)
 Advanced Missiles,Ammo - (IS) @ LRM-5 (Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ LRM-5 (Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ LRM-5 (Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ LRM-5 (Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ LRM-5 (Semi-Guided)
 Advanced Missiles,Ammo - (IS) @ LRM-5 (Smoke)
@@ -439,12 +452,12 @@ Advanced Missiles,Ammo - (IS) @ LRM-5 (Thunder-Augmented)
 Advanced Missiles,Ammo - (IS) @ LRM-5 (Thunder-Inferno)
 Advanced Missiles,Ammo - (IS) @ LRM-5 (Thunder-Vibrabomb)
 Advanced Missiles,Ammo - (IS) @ LRM-5 (Thunder)
-Advanced Missiles,Ammo - (IS) @ LRM-10 (Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ LRM-10 (Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ LRM-10 (Flare)
-Advanced Missiles,Ammo - (IS) @ LRM-10 (Follow-The-Leader)
+Experimental Missiles,Ammo - (IS) @ LRM-10 (Follow-The-Leader)
 Advanced Missiles,Ammo - (IS) @ LRM-10 (Fragmentation)
 Advanced Missiles,Ammo - (IS) @ LRM-10 (Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ LRM-10 (Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ LRM-10 (Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ LRM-10 (Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ LRM-10 (Semi-Guided)
 Advanced Missiles,Ammo - (IS) @ LRM-10 (Smoke)
@@ -455,12 +468,12 @@ Advanced Missiles,Ammo - (IS) @ LRM-10 (Thunder-Augmented)
 Advanced Missiles,Ammo - (IS) @ LRM-10 (Thunder-Inferno)
 Advanced Missiles,Ammo - (IS) @ LRM-10 (Thunder-Vibrabomb)
 Advanced Missiles,Ammo - (IS) @ LRM-10 (Thunder)
-Advanced Missiles,Ammo - (IS) @ LRM-15 (Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ LRM-15 (Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ LRM-15 (Flare)
-Advanced Missiles,Ammo - (IS) @ LRM-15 (Follow-The-Leader)
+Experimental Missiles,Ammo - (IS) @ LRM-15 (Follow-The-Leader)
 Advanced Missiles,Ammo - (IS) @ LRM-15 (Fragmentation)
 Advanced Missiles,Ammo - (IS) @ LRM-15 (Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ LRM-15 (Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ LRM-15 (Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ LRM-15 (Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ LRM-15 (Semi-Guided)
 Advanced Missiles,Ammo - (IS) @ LRM-15 (Smoke)
@@ -471,12 +484,12 @@ Advanced Missiles,Ammo - (IS) @ LRM-15 (Thunder-Augmented)
 Advanced Missiles,Ammo - (IS) @ LRM-15 (Thunder-Inferno)
 Advanced Missiles,Ammo - (IS) @ LRM-15 (Thunder-Vibrabomb)
 Advanced Missiles,Ammo - (IS) @ LRM-15 (Thunder)
-Advanced Missiles,Ammo - (IS) @ LRM-20 (Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ LRM-20 (Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ LRM-20 (Flare)
-Advanced Missiles,Ammo - (IS) @ LRM-20 (Follow-The-Leader)
+Experimental Missiles,Ammo - (IS) @ LRM-20 (Follow-The-Leader)
 Advanced Missiles,Ammo - (IS) @ LRM-20 (Fragmentation)
 Advanced Missiles,Ammo - (IS) @ LRM-20 (Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ LRM-20 (Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ LRM-20 (Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ LRM-20 (Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ LRM-20 (Semi-Guided)
 Advanced Missiles,Ammo - (IS) @ LRM-20 (Smoke)
@@ -524,35 +537,35 @@ Advanced Missiles,Ammo - (IS) @ NLRM-20 (Thunder-Augmented)
 Advanced Missiles,Ammo - (IS) @ NLRM-20 (Thunder-Inferno)
 Advanced Missiles,Ammo - (IS) @ NLRM-20 (Thunder-Vibrabomb)
 Advanced Missiles,Ammo - (IS) @ NLRM-20 (Thunder)
-Advanced Missiles,Ammo - (IS) @ SRM-2 (Acid)
-Advanced Missiles,Ammo - (IS) @ SRM-2 (Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ SRM-2 (Acid)
+Experimental Missiles,Ammo - (IS) @ SRM-2 (Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ SRM-2 (Fragmentation)
 Advanced Missiles,Ammo - (IS) @ SRM-2 (Harpoon)
 Advanced Missiles,Ammo - (IS) @ SRM-2 (Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ SRM-2 (Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ SRM-2 (Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ SRM-2 (Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ SRM-2 (Smoke)
-Advanced Missiles,Ammo - (IS) @ SRM-2 (Tandem Charge)
+Experimental Missiles,Ammo - (IS) @ SRM-2 (Tandem Charge)
 Advanced Missiles,Ammo - (IS) @ SRM-2 (Tear Gas)
-Advanced Missiles,Ammo - (IS) @ SRM-4 (Acid)
-Advanced Missiles,Ammo - (IS) @ SRM-4 (Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ SRM-4 (Acid)
+Experimental Missiles,Ammo - (IS) @ SRM-4 (Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ SRM-4 (Fragmentation)
 Advanced Missiles,Ammo - (IS) @ SRM-4 (Harpoon)
 Advanced Missiles,Ammo - (IS) @ SRM-4 (Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ SRM-4 (Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ SRM-4 (Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ SRM-4 (Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ SRM-4 (Smoke)
-Advanced Missiles,Ammo - (IS) @ SRM-4 (Tandem Charge)
+Experimental Missiles,Ammo - (IS) @ SRM-4 (Tandem Charge)
 Advanced Missiles,Ammo - (IS) @ SRM-4 (Tear Gas)
-Advanced Missiles,Ammo - (IS) @ SRM-6 (Acid)
-Advanced Missiles,Ammo - (IS) @ SRM-6 (Anti-Radiation)
+Experimental Missiles,Ammo - (IS) @ SRM-6 (Acid)
+Experimental Missiles,Ammo - (IS) @ SRM-6 (Anti-Radiation)
 Advanced Missiles,Ammo - (IS) @ SRM-6 (Fragmentation)
 Advanced Missiles,Ammo - (IS) @ SRM-6 (Harpoon)
 Advanced Missiles,Ammo - (IS) @ SRM-6 (Heat Seeking)
-Advanced Missiles,Ammo - (IS) @ SRM-6 (Magnetic Pulse)
+Experimental Missiles,Ammo - (IS) @ SRM-6 (Magnetic Pulse)
 Advanced Missiles,Ammo - (IS) @ SRM-6 (Mine Clearance)
 Advanced Missiles,Ammo - (IS) @ SRM-6 (Smoke)
-Advanced Missiles,Ammo - (IS) @ SRM-6 (Tandem Charge)
+Experimental Missiles,Ammo - (IS) @ SRM-6 (Tandem Charge)
 Advanced Missiles,Ammo - (IS) @ SRM-6 (Tear Gas)
 Advanced Missiles,Ammo - @ Thumper (Cluster)
 Advanced Missiles,Ammo - @ Thumper (Copperhead)
@@ -629,6 +642,7 @@ I-Narc,Ammo - (IS) @ iNarc (ECM)
 I-Narc,Ammo - (IS) @ iNarc (Explosive)
 I-Narc,Ammo - (IS) @ iNarc (Haywire)
 I-Narc,Ammo - (IS) @ iNarc (Haywire)
+Sword,Equipment - Sword
 Bloodhound Probe,Equipment - Bloodhound Active Probe
 Boosted C3 System,Equipment - C3 Boosted Computer (Master)
 Boosted C3 System,Equipment - C3 Boosted Computer (Slave)
@@ -655,9 +669,15 @@ PPC Capacitors,Equipment - (IS) PPC + PPC Capacitor
 X-Pulse Lasers,Equipment - (IS) Large X-Pulse Laser
 X-Pulse Lasers,Equipment - (IS) Medium X-Pulse Laser
 X-Pulse Lasers,Equipment - (IS) Small X-Pulse Laser
+X-Pulse Lasers,Equipment - (IS) Large X-Pulse Laser (Insulated)
+X-Pulse Lasers,Equipment - (IS) Medium X-Pulse Laser (Insulated)
+X-Pulse Lasers,Equipment - (IS) Small X-Pulse Laser (Insulated)
 Variable Speed Pulse Lasers,Equipment - (IS) Large Variable Speed Pulse Laser
 Variable Speed Pulse Lasers,Equipment - (IS) Medium Variable Speed Pulse Laser
 Variable Speed Pulse Lasers,Equipment - (IS) Small Variable Speed Pulse Laser
+Variable Speed Pulse Lasers,Equipment - (IS) Large Variable Speed Pulse Laser (Insulated)
+Variable Speed Pulse Lasers,Equipment - (IS) Medium Variable Speed Pulse Laser (Insulated)
+Variable Speed Pulse Lasers,Equipment - (IS) Small Variable Speed Pulse Laser (Insulated)
 Extended LRM Launchers,Equipment - (IS) Extended LRM-5
 Extended LRM Launchers,Equipment - (IS) Extended LRM-10
 Extended LRM Launchers,Equipment - (IS) Extended LRM-15
@@ -725,6 +745,80 @@ Museum Pieces,Ammo - (IS) @ Heavy Rifle
 Museum Pieces,Equipment - Collapsible Command Module (CCM)
 Museum Pieces,Equipment - Communications Equipment
 Museum Pieces,Equipment - Electronic Warfare Equipment
+Actuator Enhancement System,AES - Arm AES
+Actuator Enhancement System,AES - Leg AES (Biped)
+Actuator Enhancement System,AES - Leg AES (Quad)
+Chain Whip,Equipment - Chain Whip
+Claws,Equipment - Claws
+Flail,Equipment - Flail
+Lance,Equipment - Lance
+Mace,Equipment - Mace
+Shield,Equipment - Large Shield
+Shield,Equipment - Medium Shield
+Shield,Equipment - Small Shield
+Spikes,Equipment - Spikes
+Battlemech UMU,Jumpjet - Mech UMU
+Aquatic Survival System,Equipment - MW Aquatic Survival System
+Blue Shield Particle Field Damper,Multislot - Blue Shield PFD
+Null signature system,Multislot - Null Signature System
+Void-Signature System,Multislot - Void Signature System
+Chameleon Light Polarization System,Multislot - Chameleon LPS
+Binary Lasers,Equipment - (IS) Binary Laser Cannon
+Binary Lasers,Equipment - (IS) Binary Laser Cannon (Insulated)
+Bombast Laser,Equipment - (IS) Bombast Laser
+Bombast Laser,Equipment - (IS) Bombast Laser (Insulated)
+Museum Pieces,Equipment - (IS) Light Rifle
+Museum Pieces,Equipment - (IS) Medium Rifle
+Museum Pieces,Equipment - (IS) Heavy Rifle
+Museum Pieces,Ammo - (IS) @ Light Rifle
+Museum Pieces,Ammo - (IS) @ Medium Rifle
+Museum Pieces,Ammo - (IS) @ Heavy Rifle
+Mech Sprayer,Equipment - (IS) Fluid Gun
+Mech Sprayer,Ammo - @ Fluid Gun (Coolant)
+Mech Sprayer,Ammo - @ Fluid Gun (Corrosive)
+Mech Sprayer,Ammo - @ Fluid Gun (Flame Retardant Foam)
+Mech Sprayer,Ammo - @ Fluid Gun (Inferno Fuel)
+Mech Sprayer,Ammo - @ Fluid Gun (Oil Slick)
+Mech Sprayer,Ammo - @ Fluid Gun (Paint/Obscurant)
+Mech Sprayer,Ammo - @ Fluid Gun (Water)
+Mech Sprayer,Equipment - Sprayer
+Mech Sprayer,Ammo - @ Sprayer (Coolant)
+Mech Sprayer,Ammo - @ Sprayer (Corrosive)
+Mech Sprayer,Ammo - @ Sprayer (Flame Retardant Foam)
+Mech Sprayer,Ammo - @ Sprayer (Oil Slick)
+Mech Sprayer,Ammo - @ Sprayer (Paint/Obscurant)
+Mech Sprayer,Ammo - @ Sprayer (Water)
+Enhanced Flamers,Equipment - Heavy Flamer
+Enhanced Flamers,Ammo - @ Heavy Flamer
+Laser Insulators,Equipment - (IS) Bombast Laser (Insulated)
+Laser Insulators,Equipment - (IS) Small Laser (Insulated)
+Laser Insulators,Equipment - (IS) Medium Laser (Insulated)
+Laser Insulators,Equipment - (IS) Large Laser (Insulated)
+Laser Insulators,Equipment - (IS) Small Pulse Laser (Insulated)
+Laser Insulators,Equipment - (IS) Medium Pulse Laser (Insulated)
+Laser Insulators,Equipment - (IS) Large Pulse Laser (Insulated)
+Laser Insulators,Equipment - (IS) Large Variable Speed Pulse Laser (Insulated)
+Laser Insulators,Equipment - (IS) Medium Variable Speed Pulse Laser (Insulated)
+Laser Insulators,Equipment - (IS) Small Variable Speed Pulse Laser (Insulated)
+Laser Insulators,Equipment - (IS) Large X-Pulse Laser (Insulated)
+Laser Insulators,Equipment - (IS) Medium X-Pulse Laser (Insulated)
+Laser Insulators,Equipment - (IS) Small X-Pulse Laser (Insulated)
+Laser Insulators,Equipment - (IS) ER Small Laser (Insulated)
+Laser Insulators,Equipment - (IS) ER Medium Laser (Insulated)
+Laser Insulators,Equipment - (IS) ER Large Laser (Insulated)
+Laser Insulators,Equipment - (IS) Binary Laser Cannon (Insulated)
+Chaff Pods,Equipment - Chaff Pod
+Unallocated Items,Multislot - Tracks
+Unallocated Items,Equipment - Retractable Blade
+Unallocated Items,Equipment - Modular Armor
+Unallocated Items,Equipment - Remote Sensor Dispenser
+Unallocated Items,Equipment - ER Flamer
+Unallocated Items,Equipment - Vehicular Grenade Launcher
+Unallocated Items,Equipment - C3 Remote Sensor Launcher
+Unallocated Items,Ammo - @ C3 Remote Launcher
+Unallocated Items,Equipment - (IS) Enhanced ER PPC
+Unallocated Items,Equipment - Ground Mobile HPG
+Drone OS,Equipment - Drone Operating System
 Clan Technologies,Equipment - (CL) CASE II
 Clan Technologies,Equipment - (CL) ER Large Pulse Laser (Insulated)
 Clan Technologies,Equipment - (CL) ER Medium Pulse Laser (Insulated)
