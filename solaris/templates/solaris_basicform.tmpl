@@ -3,12 +3,12 @@
  
 {% block pagebody %}
 <div class="body">
-  <form action="{{post_url}}" method="POST" class="{{form_class}}">
+  <form id="{{form_class}}_form" action="{{post_url}}" method="POST" class="{{form_class}}">
     {% if form.non_field_errors %} <div class="form_error"> {{ form.non_field_errors }} </div> {% endif %}
     {% for field in form %}
       {% basic_field field %}
     {% endfor %}
-    <p><input type="submit" Value="{{submit}}" class="submit"/></p>
+    <p class="form-buttons"><input id="{{form_class}}_submit" type="submit" Value="{{submit}}" class="word-button submit"/><img class="spinner" src="/static/images/loading_grey.gif"></p>
   </form>
 </div>
 {% endblock %}

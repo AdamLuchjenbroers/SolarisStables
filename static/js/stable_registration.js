@@ -31,6 +31,11 @@ $( document ).ready(function() {
         $('#id_stable_disciplines').val(selected)
      });
   });
+
+  $('#registration_form').on('submit', function() {
+    $('#registration_form .spinner').show();
+    $('#registration_submit').attr('disabled','yes');
+  });
   
   $('#id_stable_disciplines').on('change', function() {
         if ($(this).val().length > choose_limit) {

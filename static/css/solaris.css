@@ -280,10 +280,6 @@ ul.submenu li#selected, ul.wiki-submenu li#selected {
   flex-grow: 1;
 }
 
-#browse-next-week .spinner {
-  display:none;
-}
-
 #browse-next-week.create-post .action {
   cursor: pointer;
 }
@@ -1254,7 +1250,6 @@ span.ledger-negative {
 
   border: 1px solid;
   border-radius: 3px;
-  height: 1.2em;
   width: 6em;
   text-align: center;
   font-weight: bold;
@@ -1264,8 +1259,24 @@ span.ledger-negative {
   background-color: #CDCCFF;
 }
 
+.word-button:disabled {
+  color: #444444;
+  background-color: #CCCCCC;
+}
+
+p.form-buttons {
+  height: 22px;
+}
+
+p.form-buttons input {
+  vertical-align: top;
+  margin-right: 0.5em;
+}
+
 .spinner {
   display: none;
+  width: 22px;
+  height: 22px;
 }
 
 .no-button {
