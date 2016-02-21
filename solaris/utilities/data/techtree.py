@@ -26,6 +26,6 @@ def load_techtree_equipment_csv(csvfile, Equipment=Equipment, Technology=Technol
         except Equipment.DoesNotExist:
             print "Unable to find Equipment '%s'" % row['ssw_name']
         except Technology.DoesNotExist:
-            print "Unable to find Technology '%s'" % row['tech-name']
+            print "Unable to find Technology '%s'" % row['tech_name']
 
     print 'Loaded %i Technology - Equipment relationships' % count
