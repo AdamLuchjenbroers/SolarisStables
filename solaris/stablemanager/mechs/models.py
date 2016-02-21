@@ -91,9 +91,21 @@ class StableMechWeek(models.Model):
                 self.next_week.set_removed(value)
 
     def set_cored(self, value):
+        from solaris.stablemanager.repairs.models import RepairBill
+
         self.cored = value
         if value == True:
             self.removed = True
+
+            bill = self.active_repair_bill()
+            if bill == None:
+                bill = RepairBill.objects.create(mech = self.current_design, stableweek=self)
+
+            bill.cored = True
+            bill.complete = True
+            bill.save()
+            bill.create_ledger_entry()
+
         self.save()
 
         if self.next_week != None:
