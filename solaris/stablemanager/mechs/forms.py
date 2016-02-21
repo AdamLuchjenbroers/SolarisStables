@@ -3,6 +3,7 @@ from django import forms
 from django.conf import settings
 
 import uuid
+from urllib import unquote
 
 from . import models
 from solaris.warbook.mech.models import MechDesign
@@ -17,6 +18,12 @@ class SimpleMechPurchaseForm(forms.Form):
     def to_mech(self):
         pass
 
+    def clean_mech_name(self):
+        return unquote(self.cleaned_data['mech_name'])
+
+    def clean_mech_code(self):
+        return unquote(self.cleaned_data['mech_code'])
+
     def clean_week_no(self):
         week_no = self.cleaned_data['week_no']
         try:
@@ -24,7 +31,7 @@ class SimpleMechPurchaseForm(forms.Form):
         except BroadcastWeek.DoesNotExist:
             self.week = BroadcastWeek.objects.current_week()
             self.cleaned_data['week_no'] = self.week.week_number
-        
+        return self.week
 
     def clean(self):
         cleaned = super(SimpleMechPurchaseForm, self).clean()
