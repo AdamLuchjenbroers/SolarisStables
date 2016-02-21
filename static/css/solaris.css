@@ -1264,6 +1264,10 @@ span.ledger-negative {
   background-color: #CDCCFF;
 }
 
+.spinner {
+  display: none;
+}
+
 .no-button {
   visibility: hidden;
 }
