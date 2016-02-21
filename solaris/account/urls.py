@@ -13,9 +13,13 @@ urlpatterns = patterns('',
 
     url(r'^reset-password/$', views.SolarisPasswordResetView.as_view(),
         name='account_reset_password'),
+    url(r"^reset-done/$", views.SolarisPasswordResetDoneView.as_view(),
+        name="account_reset_password_done"),
     url(r"^reset-password/key/(?P<uidb36>[0-9A-Za-z]+)-(?P<key>.+)/$",
         views.SolarisPasswordResetFromKeyView.as_view(),
         name="account_reset_password_from_key"),
+    url(r"^reset-password/key/done/$", views.SolarisPasswordResetFromKeyDoneView.as_view(),
+        name="account_reset_password_from_key_done"),
 
     url(r'^register/?$', views.SolarisRegistrationView.as_view()), 
 )
