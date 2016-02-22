@@ -38,6 +38,9 @@ class MechDetailView(ReferenceMechMixin, TemplateView):
                                                 , omni_loadout__iexact=self.kwargs['omni']  
                                                 , production_type='P')    
         page_context['detail_class'] = 'mech-view'
+        page_context['required_techs'] = page_context['mech'].required_techs.all()
+        if hasattr(self, 'stable'):
+            page_context['stable_techs'] = self.stable.get_stableweek().supply_contracts.all()
         
         return page_context
 

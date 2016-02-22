@@ -26,6 +26,21 @@
   {% endif %}
 
   {% include "warbook/fragments/mech_viewer.html" with crit_table=mech.all_locations %}
-  
+
+  <div id="mech-required-contracts">
+  <hr/>
+  <h2>Required Supply Contracts</h2>
+  <ul class="chit-list">
+  {% for tech in required_techs %} 
+    <li class="stable-tech chit tier{{tech.tier}}">
+      {% if tech in stable_techs %}
+         <span class="symbol tick">&#x2713;</span>
+      {% else %}
+         <span class="symbol cross">&#x2717;</span>
+      {% endif %} 
+      {{tech.name}}
+    </li>
+  {% endfor %}
+  </div>
 </div>
 {% endblock %}

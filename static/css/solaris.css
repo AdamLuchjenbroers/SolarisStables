@@ -1072,6 +1072,10 @@ ul.refit-mechs li {
   margin: 0.1rem 0.2rem;
 }
 
+#dialog-mechpreview #mech-required-contracts {
+  display: none;
+}
+
 /****************************************
  * Repair Forms
  ****************************************/
@@ -1280,6 +1284,11 @@ p.form-buttons input {
 
 .no-button {
   visibility: hidden;
+}
+
+.symbol {
+  text-shadow: 2px 2px 4px #888888; 
+  font-size: 110%;
 }
 
 input.icon-button {
