@@ -1,6 +1,11 @@
 function attach_mechlist_autocomplete(mech_input, parent_class, model_select_class) {
+  src_url = "/stable/query/list-produced";
+  if ($('#id_allmechs:checked').length > 0) {
+    src_url = "/stable/query/list-produced?all=T";
+  }
+
   mech_input.autocomplete({
-    source: "/stable/query/list-produced",
+    source: src_url,
     minLength: 3,
     select: function (event, ui) {
       var inputbox = $(this);
@@ -11,6 +16,7 @@ function attach_mechlist_autocomplete(mech_input, parent_class, model_select_cla
         dataType : 'json',
         data : {
           mech : ui.item.value
+        , all  : ($('#id_allmechs:checked').length > 0)
         },
       }).done(function(json) {
         var option_html="<option value=\"\">--</value>";

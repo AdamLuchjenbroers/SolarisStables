@@ -53,6 +53,7 @@ class MechUploadOrPurchaseForm(forms.Form):
  
     mech_source = forms.CharField()
     as_purchase = forms.BooleanField(required=False, initial=True)
+    allmechs = forms.BooleanField(required=False, initial=False)
 
     def clean_mech_ssw(self):
         if 'mech_ssw' not in self.cleaned_data or self.cleaned_data['mech_ssw'] == None:
