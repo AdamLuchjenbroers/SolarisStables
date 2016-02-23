@@ -29,7 +29,7 @@
        <td class="experience">{{pilotweek.start_character_points}}</td>
        <td class="rank-xp">{{pilotweek.rank.auto_train_cp}}</td>
        <td class="gained-xp editable">{{pilotweek.adjust_character_points}}</td>
-       <td class="assigned-tp editable">{{pilotweek.assigned_training_points}}</td>
+       <td class="assigned-tp {% if pilotweek.rank.receive_tp %}editable{% endif %}">{{pilotweek.assigned_training_points}}</td>
        <td class="spent-xp">{{pilotweek.training_cost}}</td>
        <td class="final-xp">{{pilotweek.character_points}}</td>
        <td class="wounds editable">{{pilotweek.wounds}}</td>
