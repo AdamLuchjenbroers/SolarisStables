@@ -41,7 +41,8 @@ class PilotRank(models.Model):
     skills_limit = models.IntegerField()
     auto_train_cp = models.IntegerField(default=0)
     promotion = models.ForeignKey('PilotRank', null=True, blank=True)
-        
+    receive_tp = models.BooleanField(default=False) 
+       
     class Meta:
         verbose_name_plural = 'Pilot Ranks'
         verbose_name = 'Pilot Rank'

@@ -11,7 +11,8 @@ cost_funcs = (
 	('jumpjet'   , 'Jumpjet'),
 	('per_er'    , 'By Engine Rating'),
 	('masc'      , 'MASC'),
-	('retract'   , 'Retractable Blade')
+	('retract'   , 'Retractable Blade'),
+	('drone'     , 'Drone OS')
 )
 
 def fixed(self, mech, units=None, refit=False):
@@ -46,3 +47,6 @@ def per_er(self, mech, units=None, refit=False):
 
 def masc(self, mech, units=None, refit=False):
     return self.cost_factor * mech.engine_rating * self.tonnage(mech, units=units)
+
+def drone(self, mech, units=None, refit=False):
+    return 5000 + ( self.cost_factor * self.tonnage(mech, units=units) )
