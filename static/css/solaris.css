@@ -1340,6 +1340,10 @@ button.form-action {
   display: none;
 }
 
+.icon-right {
+  float: right;
+}
+
 .label-divider {
   display: flex;
   font-weight: bold;
@@ -1367,9 +1371,13 @@ table tr td {
   padding-right: 8px;
 }
 
-table tr.header {
+table .header {
   font-weight: bold;
   background-color: #BBBBBB;
+}
+
+table .editable:hover {
+  background-color: #BBBBFF;
 }
 
 table.pilots tr.header td {
@@ -1397,9 +1405,22 @@ table.pilots tr.odd {
   font-size : small;
 }
 
+table.pilots tr.odd .editable:hover {
+  background-color: #C8FFFF;
+}
+
 table.pilots tr.even {
   background-color: #B0B0FF;
   font-size : small;
+}
+
+table.pilots tr.even .editable:hover {
+  background-color: #B0FFFF;
+}
+
+table.pilots td.total {
+  border-top : 1px solid;
+  border-bottom: 3px double;
 }
 
 dl.skill-list {

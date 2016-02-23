@@ -5,9 +5,13 @@
   <h1>{{stable.stable_name}} Pilots, Week {{week.week_number}}</h1>
   
   {% if object_list %}
-  <table class="pilots">
-    <tr class="header"><td rowspan=2 class="name">Pilot</td><td rowspan=2 class="talents">Traits</td><td colspan=2 class="abilities">Abilities</td><td rowspan=2 class="bv">BV</td><td rowspan=2 class="experience">Experience</td><td rowspan=2 class="wounds">Wounds</td></tr>
-    <tr class="header"><td class="subheader">G</td><td class="subheader">P</td></tr>
+  <table id="stable-pilot-table" class="pilots">
+    <tr class="header"><td rowspan=2 class="name">Pilot</td><td rowspan=2 class="talents">Traits</td><td colspan=2 class="abilities">Abilities</td><td rowspan=2 class="bv">BV</td>
+      <td colspan=6 class="experience">Experience<span class="icon-right">&#x270E;</span></td>
+      <td rowspan=2 class="wounds">Wounds<span class="icon-right">&#x270E;</span></td>
+    </tr>
+    <tr class="header"><td class="subheader">G</td><td class="subheader">P</td>
+    <td class="subheader"></td><td class="subheader">R</td><td class="subheader">XP</td><td class="subheader">TP</td><td class="subheader">-</td><td class="subheader">=</td></tr>
     {% for pilotweek in object_list %}
      <tr class="{%cycle 'odd' 'even' %}" id="{{pilotweek.pilot.pilot_callsign}}">
        <td class="name">{{pilotweek.pilot.full_name}}</td>
@@ -17,11 +21,26 @@
         {% endfor %}</td>
        <td class="gunnery">{{pilotweek.skill_gunnery}}</td><td class="piloting">{{pilotweek.skill_piloting}}</td>
        <td class="bv">{{pilotweek.bv_formatted}}</td>
-       <td class="experience">{{pilotweek.character_points}}</td>
-       <td class="wounds">{{pilotweek.wounds}}</td>
+       <td class="experience">{{pilotweek.start_character_points}}</td>
+       <td class="rank-xp">{{pilotweek.rank.auto_train_cp}}</td>
+       <td class="gained-xp editable">{{pilotweek.adjust_character_points}}</td>
+       <td class="assigned-tp editable">{{pilotweek.assigned_training_points}}</td>
+       <td class="spent-xp">{{pilotweek.training_cost}}</td>
+       <td class="final-xp">{{pilotweek.character_points}}</td>
+       <td class="wounds editable">{{pilotweek.wounds}}</td>
        </tr>
     {% endfor %}
   </table>
+  <h2>Training Points</h2>
+  <table id="stable-pilots-training" class="pilots">
+    <tr class="header"><td></td><td>Gained</td><td>Assigned</td></tr>
+    <tr class="odd"><td class="header">Rookies</td><td>{{stableweek.rookie_tp}}</td><td>0</td></tr>
+    <tr class="even"><td class="header">Contenders</td><td>{{stableweek.contender_tp}}</td><td>0</td></tr>
+    <tr class="odd"><td class="header">Total</td><td class="total editable">{{stableweek.training_points}}<span class="icon-right">&#x270E;</span></td><td class="total">0</td></tr>
+  </table>
+  <h2>Pilot Training</h2>
+    <p>All pilot training performed will be applied from the next Stable Week onwards</p>
+    <p>Coming Soon</p>
   {% else %}
     <p>No pilots in stable</p>
   {% endif %}

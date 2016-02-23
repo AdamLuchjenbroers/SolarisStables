@@ -136,11 +136,11 @@ class PilotWeek(models.Model):
     class Meta:
         db_table = 'stablemanager_pilotweek'
         app_label = 'stablemanager'  
-    
-    def earned_training_points(self):
-        # TODO: Derive based on battle participation
-        return 0
-    
+
+    def training_cost(self):
+        #TODO: Sum up training costs
+        return 0   
+ 
     def gained_character_points(self):
         return self.adjust_character_points + self.assigned_training_points + self.rank.auto_train_cp
     

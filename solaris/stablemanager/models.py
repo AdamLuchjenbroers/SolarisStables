@@ -6,6 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.dispatch import receiver
 from django.forms.models import model_to_dict
 
+from math import ceil, floor
+
 from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
 from solaris.warbook.equipment.models import Equipment
@@ -64,6 +66,7 @@ class StableWeek(models.Model):
     supply_mechs = models.ManyToManyField('warbook.MechDesign')
     custom_designs = models.ManyToManyField('warbook.MechDesign', related_name='produced_by')
     next_week = models.OneToOneField('StableWeek', on_delete=models.SET_NULL, null=True, related_name='prev_week')
+    training_points = models.IntegerField(default=0)
 
     def has_prev_week(self):
         return hasattr(self, 'prev_week')
@@ -168,6 +171,12 @@ class StableWeek(models.Model):
         for mech in mechList:
             if mech.required_techs.exclude(id__in=self.supply_contracts.all()).count() == 0:
                 self.supply_mechs.add(mech)      
+
+    def contender_tp(self):
+        return int(floor(self.training_points / 2.0))
+
+    def rookie_tp(self):
+        return int(ceil(self.training_points / 2.0))
    
     def __unicode__(self):
         return '%s - Week %i' % (self.stable.stable_name, self.week.week_number)
