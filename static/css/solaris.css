@@ -1383,6 +1383,12 @@ table .editable:hover {
 table .editable input {
   width: 100%;
   height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+#stable-pilot-table .pilot-row .editable input {
+  width: 3em;
 }
 
 table.pilots tr.header td {

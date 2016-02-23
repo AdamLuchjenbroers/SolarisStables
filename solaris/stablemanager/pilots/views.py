@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse 
 
 import json
+from urllib import unquote
 
 from solaris.warbook.pilotskill.models import PilotRank
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
@@ -58,6 +59,46 @@ class AjaxSetTrainingPoints(StableWeekMixin, View):
             return HttpResponse(json.dumps(result))
         except KeyError:
             return HttpResponse('Incomplete AJAX request', status=400)
+        except ValueError:
+            return HttpResponse('Invalid AJAX request', status=400)
+
+class AjaxSetPilotAttribute(StableWeekMixin, View):
+    def post(self, request, week=None):
+        try:
+            pilot = models.Pilot.objects.get(pilot_callsign=unquote(request.POST['callsign']), stable=self.stable)
+            pilotweek = models.PilotWeek.objects.get(pilot=pilot, week=self.stableweek)
+
+            attribute = request.POST['attribute']
+            value = int(request.POST['value']) 
+            if attribute == 'cp':
+                pilotweek.adjust_character_points = value
+            elif attribute == 'tp':
+                pilotweek.assigned_training_points = value
+            elif attribute == 'wounds':
+                value = max(0,min(value,6))
+                pilotweek.wounds = value
+            else:
+                return HttpResponse('Unrecognised Attribute: %s' % attribute, status=400)
+
+            pilotweek.save()
+
+            result = {
+              'callsign' : pilot.pilot_callsign
+            , 'value'    : value
+            , 'total-cp' : pilotweek.character_points()
+            }
+
+            return HttpResponse(json.dumps(result))
+  
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', status=400)
+        except ValueError:
+            return HttpResponse('Invalid AJAX request', status=400)
+        except models.Pilot.DoesNotExist:
+            return HttpResponse('Unrecognised Callsign', status=404)
+        except models.PilotWeek.DoesNotExist:
+            return HttpResponse('Cannot find Pilot Week', status=404)
+
 
 class StableNewPilotsView(StableWeekMixin, TemplateView):
     submenu_selected = 'Pilots'

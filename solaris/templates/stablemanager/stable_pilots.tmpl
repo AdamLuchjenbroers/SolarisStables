@@ -18,7 +18,7 @@
     <tr class="header"><td class="subheader">G</td><td class="subheader">P</td>
     <td class="subheader"></td><td class="subheader">R</td><td class="subheader">XP</td><td class="subheader">TP</td><td class="subheader">-</td><td class="subheader">=</td></tr>
     {% for pilotweek in object_list %}
-     <tr class="{%cycle 'odd' 'even' %}" id="{{pilotweek.pilot.pilot_callsign}}">
+     <tr class="pilot-row {%cycle 'odd' 'even' %}" id="{{pilotweek.pilot.pilot_callsign | slugify}}" callsign="{{pilotweek.pilot.pilot_callsign}}">
        <td class="name">{{pilotweek.pilot.full_name}}</td>
        <td class="talents">{% for training in pilotweek.skills.all %} 
          {{training.skill}} 
@@ -28,11 +28,11 @@
        <td class="bv">{{pilotweek.bv_formatted}}</td>
        <td class="experience">{{pilotweek.start_character_points}}</td>
        <td class="rank-xp">{{pilotweek.rank.auto_train_cp}}</td>
-       <td class="gained-xp editable">{{pilotweek.adjust_character_points}}</td>
-       <td class="assigned-tp {% if pilotweek.rank.receive_tp %}editable{% endif %}">{{pilotweek.assigned_training_points}}</td>
+       <td class="gained-xp editable" field="cp">{{pilotweek.adjust_character_points}}</td>
+       <td class="assigned-tp {% if pilotweek.rank.receive_tp %}editable{% endif %}" field="tp">{{pilotweek.assigned_training_points}}</td>
        <td class="spent-xp">{{pilotweek.training_cost}}</td>
        <td class="final-xp">{{pilotweek.character_points}}</td>
-       <td class="wounds editable">{{pilotweek.wounds}}</td>
+       <td class="wounds editable" field="wounds">{{pilotweek.wounds}}</td>
        </tr>
     {% endfor %}
   </table>

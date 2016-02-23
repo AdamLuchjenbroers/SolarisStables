@@ -5,8 +5,35 @@ function to_number_input(field, sender) {
   input = "<input type=\"number\" value=\"" + value +"\"></input>";
   field.html(input);
   input = field.find('input');
-  input.focusout(function() {
+  input.on('focusout', function() {
     sender(field, value);
+  });
+}
+
+function send_changed_pilot_attrib(field, oldvalue) {
+  newvalue = field.find('input').val();
+  callsign = field.parents('tr.pilot-row').attr('callsign');
+  attribute = field.attr('field');
+
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/set-attrib'
+  , dataType : 'json'
+  , data : { 
+      'callsign'  : encodeURIComponent(callsign)
+    , 'attribute' : attribute
+    , 'value'     : newvalue
+    }
+  }).success(function(response) { 
+    field.text(response['value']);
+
+    field.siblings('.final-xp').text(response['total-cp']);
+  }).fail(function(response) {
+    field.text(oldvalue);
+  }).always(function() {
+    field.one('click', function() {
+      to_number_input( $(this), send_changed_pilot_attrib );
+    });
   });
 }
 
@@ -36,5 +63,8 @@ function send_changed_tp(field, oldvalue) {
 $( document ).ready(function() {
   $('#training-total.editable').one('click', function() {
     to_number_input( $(this), send_changed_tp );
+  });
+  $('#stable-pilot-table .pilot-row .editable').one('click', function() {
+    to_number_input( $(this), send_changed_pilot_attrib );
   });
 });
