@@ -37,6 +37,8 @@ urlpatterns = patterns('',
 
     url(r'^pilots/?$', StablePilotsView.as_view(), name='stable_pilots_now'),
     url(r'^pilots/(?P<week>[0-9]+)/?$', StablePilotsView.as_view(), name='stable_pilots'),
+    url(r'^pilots/set-tp', views.AjaxSetTrainingPoints.as_view(), name="stable_set_tp_now"),
+    url(r'^pilots/(?P<week>[0-9]+)/set-tp', views.AjaxSetTrainingPoints.as_view(), name="stable_set_tp"),
     url(r'^add-pilot/?$', StableNewPilotsView.as_view(), name='pilots_add'),
 
     url(r'^query/list-produced/?$', ajax.ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto_now'), 
@@ -47,4 +49,5 @@ urlpatterns = patterns('',
  
     url(r'^/?list-techs/?$', ajax.ListAvailableTechContracts.as_view(), name = 'stable_query_availtechs_now'), 
     url(r'^(?P<week>[0-9]+)/list-techs/?$', ajax.ListAvailableTechContracts.as_view(), name = 'stable_query_availtechs'), 
+
 )

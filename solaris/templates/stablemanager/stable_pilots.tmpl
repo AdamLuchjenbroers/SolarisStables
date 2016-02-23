@@ -1,4 +1,9 @@
 {% extends 'stablemanager/stable_base.html' %}
+
+{% block pageheader %}
+  {{ block.super }}
+  <script src="/static/js/stable_pilots.js" type="text/javascript" > </script>
+{% endblock %}
  
 {% block pagebody %}
 <div class="body">
@@ -34,9 +39,21 @@
   <h2>Training Points</h2>
   <table id="stable-pilots-training" class="pilots">
     <tr class="header"><td></td><td>Gained</td><td>Assigned</td></tr>
-    <tr class="odd"><td class="header">Rookies</td><td>{{stableweek.rookie_tp}}</td><td>0</td></tr>
-    <tr class="even"><td class="header">Contenders</td><td>{{stableweek.contender_tp}}</td><td>0</td></tr>
-    <tr class="odd"><td class="header">Total</td><td class="total editable">{{stableweek.training_points}}<span class="icon-right">&#x270E;</span></td><td class="total">0</td></tr>
+    <tr class="odd">
+      <td class="header">Rookies</td>
+      <td id="training-rookie-tp">{{stableweek.rookie_tp}}</td>
+      <td id="training-rookie-assigned">0</td>
+    </tr>
+    <tr class="even">
+      <td class="header">Contenders</td>
+      <td id="training-contender-tp">{{stableweek.contender_tp}}</td>
+      <td id="training-contender-assigned">0</td>
+    </tr>
+    <tr class="odd">
+      <td class="header">Total</td>
+      <td id="training-total" class="total editable">{{stableweek.training_points}}<span class="icon-right">&#x270E;</span></td>
+      <td id="training-total-assigned" class="total">0</td>
+    </tr>
   </table>
   <h2>Pilot Training</h2>
     <p>All pilot training performed will be applied from the next Stable Week onwards</p>

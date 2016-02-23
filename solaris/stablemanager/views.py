@@ -162,6 +162,23 @@ class StableTechListPart(StableWeekMixin, TemplateView):
         page_context['techlist'] = self.stableweek.supply_contracts.all()
         
         return page_context
+
+class AjaxSetTrainingPoints(StableWeekMixin, View):
+    def post(self, request, week=None):
+        try:
+            self.stableweek.training_points = int(request.POST['training-points'])
+            self.stableweek.save()
+
+            result = {
+              'rookie-tp'    : self.stableweek.rookie_tp()
+            , 'contender-tp' : self.stableweek.contender_tp()
+            , 'total-tp'     : self.stableweek.training_points
+            }
+
+            return HttpResponse(json.dumps(result))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 400)
+
   
 class AjaxAddStableTech(StableWeekMixin, View):
     def post(self, request, week=None):
