@@ -162,23 +162,6 @@ class StableTechListPart(StableWeekMixin, TemplateView):
         page_context['techlist'] = self.stableweek.supply_contracts.all()
         
         return page_context
-
-class AjaxSetTrainingPoints(StableWeekMixin, View):
-    def post(self, request, week=None):
-        try:
-            self.stableweek.training_points = int(request.POST['training-points'])
-            self.stableweek.save()
-
-            result = {
-              'rookie-tp'    : self.stableweek.rookie_tp()
-            , 'contender-tp' : self.stableweek.contender_tp()
-            , 'total-tp'     : self.stableweek.training_points
-            }
-
-            return HttpResponse(json.dumps(result))
-        except KeyError:
-            return HttpResponse('Incomplete AJAX request', 400)
-
   
 class AjaxAddStableTech(StableWeekMixin, View):
     def post(self, request, week=None):
@@ -188,7 +171,7 @@ class AjaxAddStableTech(StableWeekMixin, View):
 
             return HttpResponse(json.dumps(True))
         except KeyError:
-            return HttpResponse('Incomplete AJAX request', 400)
+            return HttpResponse('Incomplete AJAX request', status=400)
 
 class AjaxCreateStableWeekView(StableWeekMixin, View):
     def post(self, request, week=None):
@@ -205,6 +188,6 @@ class AjaxCreateStableWeekView(StableWeekMixin, View):
 
             return HttpResponse(json.dumps(nexturl))
         except KeyError:
-            return HttpResponse('Incomplete AJAX request', 400)
+            return HttpResponse('Incomplete AJAX request', status=400)
         except StableWeek.DoesNotExist:
-            return HttpResponse('Source Stable Week not found', 404)
+            return HttpResponse('Source Stable Week not found', status=404)

@@ -1,6 +1,9 @@
-from django.views.generic import TemplateView, ListView, FormView
+from django.views.generic import View, TemplateView, ListView, FormView
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
+from django.http import HttpResponse 
+
+import json
 
 from solaris.warbook.pilotskill.models import PilotRank
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
@@ -40,8 +43,23 @@ class InitialPilotNamingView(StableViewMixin, FormView):
         page_context['submit'] = 'Rename All'
         return page_context
         
+class AjaxSetTrainingPoints(StableWeekMixin, View):
+    def post(self, request, week=None):
+        try:
+            self.stableweek.training_points = int(request.POST['training-points'])
+            self.stableweek.save()
 
-class StableNewPilotsView(StableViewMixin, TemplateView):
+            result = {
+              'rookie-tp'    : self.stableweek.rookie_tp()
+            , 'contender-tp' : self.stableweek.contender_tp()
+            , 'total-tp'     : self.stableweek.training_points
+            }
+
+            return HttpResponse(json.dumps(result))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', status=400)
+
+class StableNewPilotsView(StableWeekMixin, TemplateView):
     submenu_selected = 'Pilots'
     template_name = 'stablemanager/forms/form_pilots.tmpl'
 
@@ -59,7 +77,7 @@ class StableNewPilotsView(StableViewMixin, TemplateView):
         ,   'skill_gunnery' : 5
         ,   'skill_pilotting' : 6
         ,   'start_character_points' : 0
-        ,   'week' : self.stable.current_week
+        ,   'week' : self.stableweek
         }        
                 
         if pilot:
