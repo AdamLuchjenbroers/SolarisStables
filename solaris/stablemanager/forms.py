@@ -4,10 +4,9 @@ from django.db.models import Max
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.stablemanager.models import Stable
 from solaris.campaign.models import BroadcastWeek
-
+from solaris.warbook.models import House
 
 class StableRegistrationForm(ModelForm):
-
     stable_disciplines = ModelMultipleChoiceField(label='Disciplines', required=True, queryset=PilotTraitGroup.objects.filter(discipline_type='T'))
     
     def __init__(self, **kwargs):
@@ -21,22 +20,23 @@ class StableRegistrationForm(ModelForm):
     class Meta:
         model = Stable
         fields = ('stable_name', 'house', 'stable_disciplines')       
-  
-    def clean_stable_disciplines(self):
-        data = self.cleaned_data['stable_disciplines']
-        if len(data) < 2:
-            raise ValidationError('You must select two stable disciplines')
-        if len(data) > 2: 
-            raise ValidationError('You cannot select more than two stable disciplines')
-        
-        return data
+
+    def clean_house(self):
+        name = self.cleaned_data['house']
+        try:
+            self.house = House.objects.get(house=name) 
+        except House.DoesNotExist:
+            raise ValidationError('House Name %s is unrecognised' % name)
+
+        return name
     
     def clean(self):
         super(StableRegistrationForm,self).clean()
         
+        if len(self.cleaned_data['stable_disciplines']) != self.house.selectable_disciplines:
+            raise ValidationError('%s should have %i selected disciplines, received %i.' 
+                % (self.house.house, self.house.selectable_disciplines, len(self.cleaned_data['stable_disciplines'])))
         aggr = BroadcastWeek.objects.aggregate(Max('week_number'))
         self.week = BroadcastWeek.objects.get(week_number=aggr['week_number__max'])
-        
- 
         
         return self.cleaned_data
