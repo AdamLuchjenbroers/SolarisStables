@@ -18,7 +18,7 @@ class JsonHouseDisciplines(AjaxView):
         house = get_object_or_404(House, house__iexact=house_name)
         
         house_disciplines = []
-        house_disciplines.append({'choose-limit': 2})
+        house_disciplines.append({'choose-limit': house.selectable_disciplines})
         
         for discipline in house.house_disciplines.all():
             d = dict()
