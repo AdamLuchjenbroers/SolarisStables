@@ -178,6 +178,22 @@ class StableWeek(models.Model):
     def rookie_tp(self):
         return int(ceil(self.training_points / 2.0))
    
+    def assigned_tp_counts(self):
+        raw_counts = self.pilots.values('rank__rank').annotate(models.Sum('assigned_training_points'))
+        counts = dict([(row['rank__rank'], row['assigned_training_points__sum']) for row in raw_counts])
+        counts['Total'] = sum(counts.values())
+
+        return counts
+
+    def contender_assigned_tp(self):
+        return self.assigned_tp_counts()['Contender']
+
+    def rookie_assigned_tp(self):
+        return self.assigned_tp_counts()['Rookie']
+
+    def total_assigned_tp(self):
+        return self.assigned_tp_counts()['Total']
+
     def __unicode__(self):
         return '%s - Week %i' % (self.stable.stable_name, self.week.week_number)
 

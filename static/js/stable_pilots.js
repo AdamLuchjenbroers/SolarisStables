@@ -28,6 +28,10 @@ function send_changed_pilot_attrib(field, oldvalue) {
     field.text(response['value']);
 
     field.siblings('.final-xp').text(response['total-cp']);
+
+    $('#training-rookie-assigned').text(response['tp-table']['Rookie'])
+    $('#training-contender-assigned').text(response['tp-table']['Contender'])
+    $('#training-total-assigned').text(response['tp-table']['Total'])
   }).fail(function(response) {
     field.text(oldvalue);
   }).always(function() {
