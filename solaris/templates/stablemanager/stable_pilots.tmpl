@@ -18,8 +18,8 @@
     <tr class="header"><td class="subheader">G</td><td class="subheader">P</td>
     <td class="subheader"></td><td class="subheader">R</td><td class="subheader">XP</td><td class="subheader">TP</td><td class="subheader">-</td><td class="subheader">=</td></tr>
     {% for pilotweek in object_list %}
-     <tr class="pilot-row {%cycle 'odd' 'even' %}{% if pilotweek.is_dead %} dead{% endif %}" id="{{pilotweek.pilot.pilot_callsign | slugify}}" callsign="{{pilotweek.pilot.pilot_callsign}}">
-       <td class="name">{{pilotweek.pilot.full_name}}</td>
+     <tr class="pilot-row {%cycle 'odd' 'even' %}{% if pilotweek.is_dead %} dead{% endif %}" id="{{pilotweek.pilot.pilot_callsign | slugify}}" callsign="{{pilotweek.pilot.pilot_callsign}}" rank="{{pilotweek.rank.rank | lower}}">
+       <td class="name">{{pilotweek.pilot.full_name}}<span class="icon-right icon-dead">&#x2620;</span></td>
        <td class="rank">{{pilotweek.rank.rank}}</td>
        <td class="talents">{% for training in pilotweek.skills.all %} 
          {{training.skill}} 
