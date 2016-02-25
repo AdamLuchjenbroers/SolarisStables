@@ -11,15 +11,16 @@
   
   {% if object_list %}
   <table id="stable-pilot-table" class="pilots">
-    <tr class="header"><td rowspan=2 class="name">Pilot</td><td rowspan=2 class="talents">Traits</td><td colspan=2 class="abilities">Abilities</td><td rowspan=2 class="bv">BV</td>
+    <tr class="header"><td rowspan=2 class="name">Pilot</td><td rowspan="2" class="rank">Rank</td><td rowspan=2 class="talents">Traits</td><td colspan=2 class="abilities">Abilities</td><td rowspan=2 class="bv">BV</td>
       <td colspan=6 class="experience">Experience<span class="icon-right">&#x270E;</span></td>
       <td rowspan=2 class="wounds">Wounds<span class="icon-right">&#x270E;</span></td>
     </tr>
     <tr class="header"><td class="subheader">G</td><td class="subheader">P</td>
     <td class="subheader"></td><td class="subheader">R</td><td class="subheader">XP</td><td class="subheader">TP</td><td class="subheader">-</td><td class="subheader">=</td></tr>
     {% for pilotweek in object_list %}
-     <tr class="pilot-row {%cycle 'odd' 'even' %}" id="{{pilotweek.pilot.pilot_callsign | slugify}}" callsign="{{pilotweek.pilot.pilot_callsign}}">
+     <tr class="pilot-row {%cycle 'odd' 'even' %}{% if pilotweek.is_dead %} dead{% endif %}" id="{{pilotweek.pilot.pilot_callsign | slugify}}" callsign="{{pilotweek.pilot.pilot_callsign}}">
        <td class="name">{{pilotweek.pilot.full_name}}</td>
+       <td class="rank">{{pilotweek.rank.rank}}</td>
        <td class="talents">{% for training in pilotweek.skills.all %} 
          {{training.skill}} 
          {% if forloop.last == False %}, {% endif %}

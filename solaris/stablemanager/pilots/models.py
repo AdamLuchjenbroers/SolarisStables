@@ -13,9 +13,6 @@ class Pilot(models.Model):
     pilot_callsign = models.CharField(max_length=20)
     affiliation = models.ForeignKey(House)
     is_active = models.BooleanField(default=True)
-    
-    def isDead(self):
-        return (self.exp_wounds >= 6)
         
     class Meta:
         verbose_name_plural = 'Pilots'
@@ -85,6 +82,9 @@ class PilotWeek(models.Model):
     
     traits = models.ManyToManyField(PilotTrait, blank=True, through=PilotWeekTraits)
     next_week = models.OneToOneField('PilotWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
+    
+    def is_dead(self):
+        return (self.wounds >= 6)
 
     def advance(self):
         if self.week.next_week == None:
@@ -135,7 +135,9 @@ class PilotWeek(models.Model):
         
     class Meta:
         db_table = 'stablemanager_pilotweek'
-        app_label = 'stablemanager'  
+        app_label = 'stablemanager' 
+
+        ordering = ['rank__id', 'skill_gunnery', 'skill_piloting', 'pilot__pilot_callsign']
 
     def training_cost(self):
         #TODO: Sum up training costs
