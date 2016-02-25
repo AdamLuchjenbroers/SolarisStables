@@ -86,6 +86,7 @@ class AjaxSetPilotAttribute(StableWeekMixin, View):
               'callsign' : pilot.pilot_callsign
             , 'value'    : value
             , 'total-cp' : pilotweek.character_points()
+            , 'is-dead'  : pilotweek.is_dead()
             , 'tp-table' : pilotweek.week.assigned_tp_counts()
             }
 
