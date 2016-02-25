@@ -1424,6 +1424,10 @@ table.pilots tr.odd.dead {
   background-color: #C8C8C8;
 }
 
+table.pilots tr.pilot-row:not(.dead) .icon-dead {
+  display: none;
+}
+
 @keyframes pilot-wrong-odd {
   0%   { background-color: #FF6464; }
   50%  { background-color: #FFFF64; }

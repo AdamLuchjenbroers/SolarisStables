@@ -10,6 +10,24 @@ function to_number_input(field, sender) {
   });
 }
 
+function check_tp_assignment() {
+  tp_check('#training-contender-tp','#training-contender-assigned', '[rank=contender]', '');
+  tp_check('#training-rookie-tp','#training-rookie-assigned', '[rank=rookie]', '');
+}
+
+function tp_check(id_points, id_assigned, attr_select, message) {
+
+  if (parseInt($(id_points).text()) < parseInt($(id_assigned).text())) {
+    $(id_points).addClass('wrong');
+    $(id_assigned).addClass('wrong');
+    $('#stable-pilot-table .pilot-row' + attr_select + ' .assigned-tp').addClass('wrong');
+  } else {
+    $(id_points).removeClass('wrong');
+    $(id_assigned).removeClass('wrong');
+    $('#stable-pilot-table .pilot-row' + attr_select + ' .assigned-tp').removeClass('wrong');
+  }
+}
+
 function send_changed_pilot_attrib(field, oldvalue) {
   newvalue = field.find('input').val();
   callsign = field.parents('tr.pilot-row').attr('callsign');
@@ -32,6 +50,8 @@ function send_changed_pilot_attrib(field, oldvalue) {
     $('#training-rookie-assigned').text(response['tp-table']['Rookie'])
     $('#training-contender-assigned').text(response['tp-table']['Contender'])
     $('#training-total-assigned').text(response['tp-table']['Total'])
+
+    check_tp_assignment();
   }).fail(function(response) {
     field.text(oldvalue);
   }).always(function() {
@@ -55,6 +75,8 @@ function send_changed_tp(field, oldvalue) {
 
     total_html = response['total-tp'] + "<span class=\"icon-right\">&#x270E;</span>";        
     $('#training-total').html(total_html);    
+
+    check_tp_assignment();
   }).fail(function(response) {
     field.text(oldvalue);
   }).always(function() {
@@ -71,4 +93,6 @@ $( document ).ready(function() {
   $('#stable-pilot-table .pilot-row .editable').one('click', function() {
     to_number_input( $(this), send_changed_pilot_attrib );
   });
+
+  check_tp_assignment();
 });
