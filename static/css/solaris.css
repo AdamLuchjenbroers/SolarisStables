@@ -1420,6 +1420,20 @@ table.pilots tr.odd .editable:hover {
   background-color: #C8FFFF;
 }
 
+table.pilots tr.odd.dead {
+  background-color: #C8C8C8;
+}
+
+@keyframes pilot-wrong-odd {
+  0%   { background-color: #FF6464; }
+  50%  { background-color: #FFFF64; }
+  100% { background-color: #FF6464; }
+}
+
+table.pilots tr.odd td.wrong {
+  animation-name: pilot-wrong-odd;
+}
+
 table.pilots tr.even {
   background-color: #B0B0FF;
   font-size : small;
@@ -1429,8 +1443,31 @@ table.pilots tr.even .editable:hover {
   background-color: #B0FFFF;
 }
 
+table.pilots tr.even.dead {
+  background-color: #B0B0B0;
+}
+
+@keyframes pilot-wrong-even {
+  0%   { background-color: #FF5858; }
+  50%  { background-color: #FFFF58; }
+  100% { background-color: #FF5858; }
+}
+
+table.pilots tr.even td.wrong {
+  animation-name: pilot-wrong-even;
+}
+
+table.pilots tr.dead td:not(.wounds) {
+  text-decoration: line-through;
+}
+
 table.pilots .editable input {
   font-size : small;
+}
+
+table.pilots td.wrong {
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
 }
 
 table.pilots td.total {
