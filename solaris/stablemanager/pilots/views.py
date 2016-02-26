@@ -20,6 +20,14 @@ class StablePilotsView(StableWeekMixin, ListView):
     def get_queryset(self):
         return models.PilotWeek.objects.filter(week=self.stableweek)
 
+    def get_context_data(self, **kwargs):
+        page_context = super(StablePilotsView, self).get_context_data(**kwargs)
+
+        available_disciplines = self.stable.stable_disciplines.all() | self.stable.house.house_disciplines.all()
+        page_context['available_disciplines'] = available_disciplines.distinct().order_by('name')
+
+        return page_context
+        
 class InitialPilotNamingView(StableViewMixin, FormView):
     template_name = 'stablemanager/initial_pilots.tmpl'
     form_class = forms.PilotNamingFormSet
