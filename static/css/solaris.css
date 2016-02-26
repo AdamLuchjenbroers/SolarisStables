@@ -1340,6 +1340,10 @@ button.form-action {
   display: none;
 }
 
+.invisible {
+  visibility: none;
+}
+
 .icon-right {
   float: right;
 }
@@ -1409,6 +1413,11 @@ table.pilots tr.header td.subheader {
 
 table.pilots tr.header td.name, table.pilots tr.header td.talents {
   width: 200px;
+}
+
+table.pilots .annotation {
+  background-color: #DDDDDD;
+  width: 40em;
 }
 
 table.pilots tr.odd {

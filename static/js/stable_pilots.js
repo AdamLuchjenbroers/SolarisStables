@@ -11,20 +11,23 @@ function to_number_input(field, sender) {
 }
 
 function check_tp_assignment() {
-  tp_check('#training-contender-tp','#training-contender-assigned', '[rank=contender]', '');
-  tp_check('#training-rookie-tp','#training-rookie-assigned', '[rank=rookie]', '');
+  tp_check('#training-contender-tp','#training-contender-assigned', '[rank=contender]', '#training-contender-warning', 'You\'ve assigned more training points to your contenders than your stable has earned.');
+  tp_check('#training-rookie-tp','#training-rookie-assigned', '[rank=rookie]', '#training-rookie-warning', 'You\'ve assigned more training points to your rookies than your stable has earned.');
 }
 
-function tp_check(id_points, id_assigned, attr_select, message) {
+function tp_check(id_points, id_assigned, attr_select, id_warning, message) {
 
   if (parseInt($(id_points).text()) < parseInt($(id_assigned).text())) {
     $(id_points).addClass('wrong');
     $(id_assigned).addClass('wrong');
     $('#stable-pilot-table .pilot-row' + attr_select + ' .assigned-tp').addClass('wrong');
+
+    $(id_warning).html('&#x26A0; ' + message);
   } else {
     $(id_points).removeClass('wrong');
     $(id_assigned).removeClass('wrong');
     $('#stable-pilot-table .pilot-row' + attr_select + ' .assigned-tp').removeClass('wrong');
+    $(id_warning).text('');
   }
 }
 
