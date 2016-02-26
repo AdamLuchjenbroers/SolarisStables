@@ -11,7 +11,7 @@ from math import ceil, floor
 from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
 from solaris.warbook.equipment.models import Equipment
-from solaris.warbook.pilotskill.models import PilotTraitGroup
+from solaris.warbook.pilotskill.models import PilotTraitGroup, PilotRank
 from solaris.campaign.models import BroadcastWeek, Campaign, createInitialPilots
 
 class Stable(models.Model):
@@ -179,8 +179,9 @@ class StableWeek(models.Model):
         return int(ceil(self.training_points / 2.0))
    
     def assigned_tp_counts(self):
-        raw_counts = self.pilots.values('rank__rank').annotate(models.Sum('assigned_training_points'))
-        counts = dict([(row['rank__rank'], row['assigned_training_points__sum']) for row in raw_counts])
+        counts = {}
+        for rank in PilotRank.objects.filter(receive_tp=True):
+            counts[rank.rank] = self.pilots.filter(rank=rank).aggregate(models.Sum('assigned_training_points'))['assigned_training_points__sum']
         counts['Total'] = sum(counts.values())
 
         return counts

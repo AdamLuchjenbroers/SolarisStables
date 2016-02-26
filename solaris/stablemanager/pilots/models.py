@@ -79,12 +79,33 @@ class PilotWeek(models.Model):
     skill_gunnery = models.IntegerField(default=5)
     skill_piloting = models.IntegerField(default=6)
     wounds = models.IntegerField(default=0)
+    wounds_set = models.BooleanField(default=False)
+    fame = models.IntegerField(default=0)
+    fame_set = models.BooleanField(default=False)
     
     traits = models.ManyToManyField(PilotTrait, blank=True, through=PilotWeekTraits)
     next_week = models.OneToOneField('PilotWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
     
     def is_dead(self):
         return (self.wounds >= 6)
+
+    def set_wounds(self, wounds, direct=True):
+        self.wounds = wounds
+        if direct:
+            self.wounds_set = True
+        self.save()
+
+        if self.next_week != None and self.next_week.wounds_set == False and wounds > 1:
+            self.next_week.set_wounds(wounds-1, direct=False)
+
+    def set_fame(self, fame, direct=True):
+        self.fame = fame
+        if direct:
+            self.fame_set = True
+        self.save()
+
+        if self.next_week != None and self.next_week.fame_set == False:
+            self.next_week.set_fame(fame, direct=False)
 
     def advance(self):
         if self.week.next_week == None:
@@ -108,6 +129,7 @@ class PilotWeek(models.Model):
         , start_character_points = self.character_points()
         , wounds = max(self.wounds - 1, 0)
         , rank = self.rank
+        , fame = self.fame
         )
         self.save()
 
