@@ -19,7 +19,7 @@ class House(models.Model):
     produced_designs = models.ManyToManyField(MechDesign, blank=True, db_table='warbook_house_x_mechdesign')
 
     house_group = models.CharField(max_length=1, choices=house_group_options, default='I')
-    stable_valid = models.BooleanField(default=True)
+    stable_valid = models.BooleanField(default=True, verbose_name="Available for Stables")
 
     class Meta:
         verbose_name_plural = 'Houses'
