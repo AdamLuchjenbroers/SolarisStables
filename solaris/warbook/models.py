@@ -11,6 +11,17 @@ house_group_options = (
 
 HouseGroups = dict(house_group_options)
 
+def house_list_as_opttree():
+    #Reformats the list of available houses so that they are 
+    #grouped properly in the dropdown list.
+    group_order = ('I','P','M')
+    opttree = ()
+    for group in group_order:
+        house_list = tuple([(house.id, house.house) for house in House.objects.filter(house_group=group,stable_valid=True)])
+        opttree += ((HouseGroups[group], house_list),)
+
+    return opttree
+
 class House(models.Model):
     house = models.CharField(max_length=50, unique=True)
     blurb = models.TextField()

@@ -4,18 +4,7 @@ from django.db.models import Max
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.stablemanager.models import Stable
 from solaris.campaign.models import BroadcastWeek
-from solaris.warbook.models import House, HouseGroups
-
-def house_list_as_opttree():
-    #Reformats the list of available houses so that they are 
-    #grouped properly in the dropdown list.
-    group_order = ('I','P','M')
-    opttree = ()
-    for group in group_order:
-        house_list = tuple([(house.id, house.house) for house in House.objects.filter(house_group=group,stable_valid=True)])
-        opttree += ((HouseGroups[group], house_list),)
-
-    return opttree
+from solaris.warbook.models import House, house_list_as_opttree
 
 class StableRegistrationForm(ModelForm):
     stable_disciplines = ModelMultipleChoiceField(label='Disciplines', required=True, queryset=PilotTraitGroup.objects.filter(discipline_type='T'))
