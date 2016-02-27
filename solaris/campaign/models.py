@@ -93,7 +93,8 @@ def createInitialPilots(stable):
             ,   week = week
             ,   rank = t.rank
             ,   skill_gunnery = t.gunnery
-            ,   skill_piloting = t.piloting  
+            ,   skill_piloting = t.piloting
+            ,   fame = t.fame  
             )
 
 class StartingPilotTemplate(models.Model):
@@ -103,4 +104,5 @@ class StartingPilotTemplate(models.Model):
     rank = models.ForeignKey('warbook.PilotRank')
     piloting = models.IntegerField()
     gunnery = models.IntegerField()
+    fame = models.IntegerField(default=0)
 
