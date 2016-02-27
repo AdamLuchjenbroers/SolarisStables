@@ -12,6 +12,6 @@ class MechSearchForm(Form):
     bv_low = IntegerField(label='Min BV', required=False)
     bv_high = IntegerField(label='Max BV', required=False)
     
-    available_opts = (('-', 'All Production Models'), ('me', 'My Stable'),) \
+    available_opts = (('-', 'All Production Models'), ('me', 'My Stable')) \
                    + house_list_as_opttree()
     available_to = ChoiceField(label='Availability', choices=available_opts, required=False)
