@@ -1,11 +1,12 @@
 
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 from solaris.stablemanager.models import Stable, StableWeek
 from solaris.warbook.pilotskill.models import PilotTrait, PilotRank, TrainingCost
 from solaris.warbook.models import House
-
     
 class Pilot(models.Model):    
     stable = models.ForeignKey(Stable, blank=True, related_name='pilots')
@@ -90,22 +91,18 @@ class PilotWeek(models.Model):
         return (self.wounds >= 6)
 
     def set_wounds(self, wounds, direct=True):
-        self.wounds = wounds
-        if direct:
-            self.wounds_set = True
+        self.wounds = min(6,max(0,wounds))
+        self.wounds_set = True
         self.save()
 
-        if self.next_week != None and self.next_week.wounds_set == False and wounds > 1:
-            self.next_week.set_wounds(wounds-1, direct=False)
-
+        return self.wounds
+   
     def set_fame(self, fame, direct=True):
         self.fame = fame
-        if direct:
-            self.fame_set = True
+        self.fame_set = True
         self.save()
 
-        if self.next_week != None and self.next_week.fame_set == False:
-            self.next_week.set_fame(fame, direct=False)
+        return self.fame
 
     def advance(self):
         if self.week.next_week == None:
@@ -170,7 +167,7 @@ class PilotWeek(models.Model):
     
     def character_points(self):
         # TODO: Add earned character-points from battles.
-        return self.start_character_points + self.gained_character_points()
+        return self.start_character_points + self.gained_character_points() - self.training_cost()
     
     def bv(self):
         base_bv = 1.0
@@ -195,3 +192,17 @@ class PilotTrainingEvent(models.Model):
     class Meta:
         db_table = 'stablemanager_trainingevent'
         app_label = 'stablemanager'   
+
+@receiver(post_save, sender=PilotWeek)
+def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
+    if instance.next_week != None:
+        instance.next_week.start_character_points = instance.character_points()
+
+        if not instance.next_week.fame_set:
+            instance.next_week.fame = instance.fame
+
+        if instance.wounds > 1 and not instance.next_week.wounds_set:
+            instance.next_week.wounds = max(0, instance.wounds-1)
+
+        instance.next_week.save()
+   

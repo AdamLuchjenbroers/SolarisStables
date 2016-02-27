@@ -83,10 +83,9 @@ class AjaxSetPilotAttribute(StableWeekMixin, View):
             elif attribute == 'tp':
                 pilotweek.assigned_training_points = value
             elif attribute == 'wounds':
-                value = max(0,min(value,6))
-                pilotweek.set_wounds(value)
+                value = pilotweek.set_wounds(value)
             elif attribute == 'fame':
-                pilotweek.set_fame(value)
+                value = pilotweek.set_fame(value)
             else:
                 return HttpResponse('Unrecognised Attribute: %s' % attribute, status=400)
 
