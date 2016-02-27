@@ -12,7 +12,7 @@ def house_list_as_opttree():
     group_order = ('I','P','M')
     opttree = ()
     for group in group_order:
-        house_list = tuple([(house.id, house.house) for house in House.objects.filter(house_group=group)])
+        house_list = tuple([(house.id, house.house) for house in House.objects.filter(house_group=group,stable_valid=True)])
         opttree += ((HouseGroups[group], house_list),)
 
     return opttree
