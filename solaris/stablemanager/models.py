@@ -156,9 +156,7 @@ class StableWeek(models.Model):
 
         return eq_set         
      
-    def refresh_supply_mechs(self):
-        equipment_list = self.available_equipment()
-        
+    def refresh_supply_mechs(self):        
         mechList = None
         
         if self.supply_contracts.filter(name='Omnimechs').exists():
