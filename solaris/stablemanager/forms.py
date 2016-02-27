@@ -1,10 +1,21 @@
-from django.forms import ModelMultipleChoiceField, ModelForm, ValidationError
+from django.forms import ModelChoiceField, ModelMultipleChoiceField, ModelForm, ValidationError
 from django.db.models import Max
 
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.stablemanager.models import Stable
 from solaris.campaign.models import BroadcastWeek
-from solaris.warbook.models import House
+from solaris.warbook.models import House, HouseGroups
+
+def house_list_as_opttree():
+    #Reformats the list of available houses so that they are 
+    #grouped properly in the dropdown list.
+    group_order = ('I','P','M')
+    opttree = ()
+    for group in group_order:
+        house_list = tuple([(house.id, house.house) for house in House.objects.filter(house_group=group)])
+        opttree += ((HouseGroups[group], house_list),)
+
+    return opttree
 
 class StableRegistrationForm(ModelForm):
     stable_disciplines = ModelMultipleChoiceField(label='Disciplines', required=True, queryset=PilotTraitGroup.objects.filter(discipline_type='T'))
@@ -14,6 +25,7 @@ class StableRegistrationForm(ModelForm):
         
         self.fields['stable_name'].label = 'Name'
         self.fields['house'].label = 'House'
+        self.fields['house'].choices = house_list_as_opttree()
         self.fields['stable_disciplines'].label = 'Disciplines'    
         self.fields['stable_disciplines'].classname = 'select_discipline'
  
