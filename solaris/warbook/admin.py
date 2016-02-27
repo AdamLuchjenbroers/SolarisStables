@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django import forms
+
 import solaris.warbook.techtree.models as tech_models
 import solaris.warbook.techtree.admin as tech_admin
 
@@ -10,8 +12,25 @@ import solaris.warbook.equipment.admin as equipment_admin
 
 import solaris.warbook.models as base_models
 
+class HouseForm(forms.ModelForm):
+    house_disciplines = forms.ModelMultipleChoiceField(
+                   queryset = pilot_models.PilotTraitGroup.objects.filter(discipline_type='T')
+                 , label = 'House Training Disciplines'
+                 , widget = admin.widgets.FilteredSelectMultiple('PilotTraitGroup', False)
+                 , required = False
+                 )
+    class Meta:
+        model = base_models.House
+        fields = ('house','blurb','house_disciplines','selectable_disciplines','house_group','stable_valid') 
+
+class HouseAdmin(admin.ModelAdmin):
+    model = base_models.House
+    form = HouseForm
+
+    fields = ('house','blurb','house_disciplines','selectable_disciplines',('house_group','stable_valid')) 
+
 # Import Houses
-admin.site.register(base_models.House)
+admin.site.register(base_models.House, HouseAdmin)
 
 # Import Techtree
 admin.site.register(tech_models.Technology, tech_admin.TechnologyAdmin)
