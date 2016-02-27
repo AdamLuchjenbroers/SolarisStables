@@ -11,7 +11,7 @@ from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.models import House
 
 
-def createMatchingDict():
+def createMatchingDict(MechDesign=MechDesign):
     designs = MechDesign.objects.all()
     matching = {}
     
@@ -28,7 +28,7 @@ def createMatchingDict():
         
     return matching
 
-def matchFromListFile(house_name, house_list, match_dict=None, live=False):
+def matchFromListFile(house_name, house_list, match_dict=None, live=False, House=House):
     if match_dict == None:
         match_dict = createMatchingDict()
     

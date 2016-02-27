@@ -28,12 +28,14 @@ productionLists = [
 ]
     
 def load_productionlists(apps, schema_editor):
-    match_dict = createMatchingDict()
+    mech_class = apps.get_model('warbook', 'MechDesign')
+    match_dict = createMatchingDict(MechDesign=mech_class)
+    house_class = apps.get_model('warbook', 'House')
     
     for (house, filename) in productionLists:
         print "Loading mech list for %s [%s]" % (house, filename)
         full_path = '%s/data/excluded/%s' % (settings.BASE_DIR, filename)
-        matchFromListFile(house, full_path, match_dict=match_dict, live=True)  
+        matchFromListFile(house, full_path, match_dict=match_dict, live=True, House=house_class)  
 
 def derive_mech_tiers(apps, schema_editor):
     Equipment = apps.get_model('warbook','Equipment')

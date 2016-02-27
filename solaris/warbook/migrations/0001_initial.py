@@ -8,7 +8,23 @@ from django.core.management import call_command
 
     
 def load_houses(apps, schema_editor):
-    call_command('loaddata', 'data/warbook.house.json');
+    House = apps.get_model('warbook','House')   
+    PilotTraitGroup = apps.get_model('warbook','PilotTraitGroup')   
+
+    srcfile = open('data/warbook.house.json','r')
+    house_json = srcfile.read()
+    srcfile.close()
+
+    data = json.loads(house_json)
+    for row in data:
+        ids = row['fields']['house_disciplines']
+        del row['fields']['house_disciplines']
+
+        house = House.objects.create(**row['fields']) 
+
+        for discipline in PilotTraitGroup.objects.filter(id__in=ids):
+            house.house_disciplines.add(discipline)
+ 
   
 def load_mechlocations(apps, schema_editor):
     from solaris.warbook.mech import refdata
@@ -26,7 +42,18 @@ def load_mechlocations(apps, schema_editor):
         locations[rear].save()
          
 def load_pilotranks(apps, schema_editor):
-    call_command('loaddata', 'data/warbook.pilotrank.json');
+    PilotRank = apps.get_model('warbook', 'PilotRank')
+    ranks = [
+      { 'rank' : 'Champion', 'min_piloting' : 0, 'min_gunnery' : 0, 'skills_limit' : 0 }
+    , { 'rank' : 'Star', 'promotion': 'Champion', 'min_piloting' : 0, 'min_gunnery' : 0, 'skills_limit' : 0 }
+    , { 'rank' : 'Contender', 'min_gunnery' : 3, 'min_piloting': 4, 'skills_limit': 2, 'auto_train_cp': 1, 'promotion': 'Star' }
+    , { 'rank' : 'Rookie', 'min_gunnery' : 4, 'min_piloting': 5, 'skills_limit': 1, 'auto_train_cp': 2, 'promotion': 'Contender' }
+    ]
+
+    for rank in ranks:
+        if 'promotion' in rank:
+            rank['promotion'] = PilotRank.objects.get(rank=rank['promotion'])
+        PilotRank.objects.create(**rank)
     
 def load_pilottraitgroup(apps, schema_editor):
     call_command('loaddata', 'data/warbook.pilottraitgroup.json');
