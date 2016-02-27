@@ -49,6 +49,11 @@ function send_changed_pilot_attrib(field, oldvalue) {
     field.text(response['value']);
 
     field.siblings('.final-xp').text(response['total-cp']);
+    if (response['is-dead']) {
+        field.parents('tr.pilot-row').addClass('dead');
+    } else {
+        field.parents('tr.pilot-row').removeClass('dead');
+    }
 
     $('#training-rookie-assigned').text(response['tp-table']['Rookie'])
     $('#training-contender-assigned').text(response['tp-table']['Contender'])
