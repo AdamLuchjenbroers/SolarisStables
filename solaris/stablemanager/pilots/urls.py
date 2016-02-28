@@ -11,6 +11,4 @@ urlpatterns = patterns('',
 
     url(r'^set-attrib', views.AjaxSetPilotAttribute.as_view(), name="stable_set_attrib_now"),
     url(r'^(?P<week>[0-9]+)/set-attrib', views.AjaxSetPilotAttribute.as_view(), name="stable_set_attrib"),
-
-    url(r'^add?$', views.StableNewPilotsView.as_view(), name='pilots_add'),
 )
