@@ -80,8 +80,13 @@ class AjaxPilotMixin(StableWeekMixin, View):
 
         self.get_stableweek()
 
+        if request.method == 'POST':
+            callsign = request.POST['callsign']
+        else:
+            callsign = request.GET['callsign']
+
         try:
-            self.pilot = models.Pilot.objects.get(pilot_callsign=unquote(request.POST['callsign']), stable=self.stable)
+            self.pilot = models.Pilot.objects.get(pilot_callsign=unquote(callsign), stable=self.stable)
             self.pilotweek = models.PilotWeek.objects.get(pilot=self.pilot, week=self.stableweek)
         except KeyError:
             return HttpResponse('Incomplete AJAX request', status=400)
