@@ -84,17 +84,24 @@ class StableWeekMixin(StableViewMixin):
     def next_week_available(self):
         return (self.stableweek.week.next_week != None)
 
-    def dispatch(self, request, *args, **kwargs):
-        redirect = self.get_stable(request)
-        if redirect:
-            return redirect        
-        
+    def get_stableweek(self):
         if 'week' in self.kwargs:
             self.week = get_object_or_404(BroadcastWeek, week_number=self.kwargs['week'])
             self.stableweek = get_object_or_404(StableWeek, stable=self.stable, week=self.week)
         else:
             self.stableweek = self.stable.get_stableweek()
             self.week = self.stableweek.week
+
+    def dispatch(self, request, *args, **kwargs):
+        if not hasattr(self, 'stable'):
+            # get_stable hasn't already been called
+            redirect = self.get_stable(request)
+            if redirect:
+                return redirect
+        
+        if not hasattr(self, 'stableweek'):
+            # get_stableweek hasn't already been called
+            self.get_stableweek()
                    
         return super(StableWeekMixin, self).dispatch(request, *args, **kwargs) 
     

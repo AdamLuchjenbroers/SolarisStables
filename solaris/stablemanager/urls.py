@@ -5,7 +5,7 @@ from . import ajax, views
 from solaris.stablemanager.ledger.views import StableLedgerView, StableLedgerDeleteView
 from solaris.stablemanager.training.views import StableTrainingView
 from solaris.stablemanager.actions.views import StableActionView
-from solaris.stablemanager.pilots.views import StablePilotsView, StableNewPilotsView, InitialPilotNamingView
+from solaris.stablemanager.pilots.views import InitialPilotNamingView
 from solaris.stablemanager.mechs.views import InitialMechPurchaseView
 
 urlpatterns = patterns('',
