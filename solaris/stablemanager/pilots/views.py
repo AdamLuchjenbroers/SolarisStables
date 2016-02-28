@@ -26,6 +26,8 @@ class StablePilotsView(StableWeekMixin, ListView):
         available_disciplines = self.stable.stable_disciplines.all() | self.stable.house.house_disciplines.all()
         page_context['available_disciplines'] = available_disciplines.distinct().order_by('name')
 
+        page_context['training_form'] = forms.PilotTrainingForm(stableweek=self.stableweek)
+
         return page_context
         
 class InitialPilotNamingView(StableViewMixin, FormView):
@@ -138,11 +140,11 @@ class StableNewPilotsView(StableWeekMixin, TemplateView):
         if self.request.POST:
             self.form_pilot = forms.PilotForm(self.request.POST, initial=pilot_initial, instance=pilot)
             self.form_pilotweek = forms.PilotWeekForm(self.request.POST, initial=pilotweek_initial)
-            self.form_skillset = forms.PilotInlineSkillsForm(self.request.POST)
+            #self.form_skillset = forms.PilotInlineSkillsForm(self.request.POST)
         else:
             self.form_pilot = forms.PilotForm(initial=pilot_initial, instance=pilot)
             self.form_pilotweek = forms.PilotWeekForm(initial=pilotweek_initial)
-            self.form_skillset = forms.PilotInlineSkillsForm()
+            #self.form_skillset = forms.PilotInlineSkillsForm()
         return self.form_pilot, self.form_pilotweek, self.form_skillset 
    
     def get_context_data(self, **kwargs):

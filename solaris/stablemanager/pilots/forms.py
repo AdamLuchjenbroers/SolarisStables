@@ -1,12 +1,11 @@
 from django.forms.models import inlineformset_factory
-from django.forms import ModelForm, ModelChoiceField, HiddenInput, CharField, modelformset_factory
+from django.forms import Form, ModelForm, ChoiceField, ModelChoiceField, HiddenInput, CharField, modelformset_factory
 
 from . import models
 
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 
 class PilotForm(ModelForm):
-    
     def __init__(self, *args, **kwargs):
         super(PilotForm, self).__init__(*args, **kwargs)
         self.fields['stable'].widget = HiddenInput()
@@ -45,14 +44,19 @@ class PilotWeekForm(ModelForm):
     class Meta:
         model = models.PilotWeek
         fields = ('rank','skill_gunnery', 'skill_piloting', 'start_character_points')
-
-    
         
-class PilotTrainingForm(ModelForm):
-    discipline = ModelChoiceField(queryset=PilotTraitGroup.objects.filter(discipline_type='T'))
+class PilotTrainingForm(Form):
+    pilot = ChoiceField()
+    training = ChoiceField()
+    skill = ChoiceField()
+    notes = CharField(max_length=50)
     
-    class Meta:
-        model = models.PilotWeekTraits
-        fields = ('discipline', 'trait', 'notes')        
+    def __init__(self, stableweek=None, *args, **kwargs):
+        super(PilotTrainingForm, self).__init__(*args, **kwargs)
+        self.fields['pilot'].choices =[(0,'--')] + [(pw.id, pw.pilot.pilot_callsign) for pw in stableweek.pilots.filter(wounds__lt=6)]
 
-PilotInlineSkillsForm = inlineformset_factory(models.PilotWeek, models.PilotWeekTraits, form=PilotTrainingForm, extra=1 )
+        self.fields['training'].widget.attrs['disabled'] = True
+        self.fields['skill'].widget.attrs['disabled'] = True
+        self.fields['notes'].widget.attrs['disabled'] = True
+
+
