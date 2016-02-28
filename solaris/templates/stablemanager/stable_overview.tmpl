@@ -11,6 +11,14 @@
 
   <h2>Finances</h2>
   <p><em>Current Balance: </em>{{stableweek.closing_balance}}</p>
+  <h2>Reputation</h2>
+  {% if stableweek.reputation > 0 %}
+    <p class="face" reputation="{{stableweek.reputation}}">Face ({{stableweek.abs_reputation}})</p>
+  {% elif stableweek.reputation < 0 %} 
+    <p class="heel" reputation="{{stableweek.reputation}}">Heel ({{stableweek.abs_reputation}})<p>
+  {% else %}
+    <p reputation="{{stableweek.reputation}}">Neutral</p>
+  {% endif %}
 
   <h2>Supply Contracts</h2>
   {% include "stablemanager/fragments/stable_tech_list.html" with techlist=stableweek.supply_contracts.all %}
