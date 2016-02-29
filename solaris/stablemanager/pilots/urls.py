@@ -11,4 +11,10 @@ urlpatterns = patterns('',
 
     url(r'^set-attrib', views.AjaxSetPilotAttribute.as_view(), name="stable_set_attrib_now"),
     url(r'^(?P<week>[0-9]+)/set-attrib', views.AjaxSetPilotAttribute.as_view(), name="stable_set_attrib"),
+
+    url(r'^training-opts', views.AjaxGetAvailableTraining.as_view(), name="stable_training_options_now"),
+    url(r'^(?P<week>[0-9]+)/training-opts', views.AjaxGetAvailableTraining.as_view(), name="stable_training_options"),
+
+    url(r'^skill-list', views.AjaxGetPilotSkillsList.as_view(), name="stable_skill_list_now"),
+    url(r'^(?P<week>[0-9]+)/skill-list', views.AjaxGetPilotSkillsList.as_view(), name="stable_skill_list"),
 )

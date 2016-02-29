@@ -1243,153 +1243,9 @@ span.ledger-negative {
     color: #AA2222;
 }
 
-
 /****************************************
- * UI Elements 
+ * Pilot Management 
  ****************************************/
-
-.word-button {
-  display: inline-block;
-
-  border: 1px solid;
-  border-radius: 3px;
-  width: 6em;
-  text-align: center;
-  font-weight: bold;
-    
-  text-decoration: none;
-  color: #000000;
-  background-color: #CDCCFF;
-}
-
-.word-button:disabled {
-  color: #444444;
-  background-color: #CCCCCC;
-}
-
-p.form-buttons {
-  height: 22px;
-}
-
-p.form-buttons input {
-  vertical-align: top;
-  margin-right: 0.5em;
-}
-
-.spinner {
-  display: none;
-  width: 22px;
-  height: 22px;
-}
-
-.no-button {
-  visibility: hidden;
-}
-
-.symbol {
-  text-shadow: 2px 2px 4px #888888; 
-  font-size: 110%;
-}
-
-input.icon-button {
-  border: none;
-  background: transparent;
-  
-  height: 100%;
-  font-size: 120%;
-  font-weight: bold;
-  color: #262233;
-  
-  text-shadow: 2px 2px 4px #888888; 
-}
-
-.form-action-buttonset {
-  text-align: right;
-}
-
-button.form-action {
-  font-size: 120%;
-  font-weight: bold;
-
-  display: inline-block;
-  margin: 0.5em 0.4em 0.5em 0px;
-  padding: 0.2em 0.5em;
-
-  background: #262233 none repeat scroll 0% 0%;
-  color: #DDDDDD;
-
-  border: 2px solid #DDD;
-  border-radius: 5px;
-  box-shadow: 2px 2px 4px #000;
-  cursor: pointer;
-}
-
-#actionbar-weekbrowser {
-  margin-left: -2em;
-}
-
-#actionbar-weekbrowser span {
-  margin: 0px 0.2rem;
-}
-
-#browse-week-current {
-  margin: 0px;
-}
-
-.hidden {
-  display: none;
-}
-
-.invisible {
-  visibility: none;
-}
-
-.icon-right {
-  float: right;
-}
-
-.label-divider {
-  display: flex;
-  font-weight: bold;
-  padding: 0.2em 2em;
-}
-
-.label-divider-left {
-  flex-grow: 1;
-}
-
-.label-divider-text {
-  padding: 0px 0.5em;
-}
-
-.label-divider-right {
-  flex-grow: 3;
-}
-
-/****************************************
- * Attic
- ****************************************/
-
-table tr td {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-table .header {
-  font-weight: bold;
-  background-color: #BBBBBB;
-}
-
-table .editable:hover {
-  background-color: #BBBBFF;
-}
-
-table .editable input {
-  width: 100%;
-  height: 100%;
-  margin: 0px;
-  padding: 0px;
-}
 
 #stable-pilot-table .pilot-row .editable input {
   width: 3em;
@@ -1486,6 +1342,168 @@ table.pilots td.wrong {
 table.pilots td.total {
   border-top : 1px solid;
   border-bottom: 3px double;
+}
+
+#pilot-training-form span.pilot select ,
+#pilot-training-form span.training select,
+#pilot-training-form span.notes input {
+  width: 12em;
+}
+
+#pilot-training-form span.skill select {
+  width: 16em;
+}
+
+/****************************************
+ * UI Elements 
+ ****************************************/
+
+.word-button {
+  display: inline-block;
+
+  border: 1px solid;
+  border-radius: 3px;
+  width: 6em;
+  text-align: center;
+  font-weight: bold;
+    
+  text-decoration: none;
+  color: #000000;
+  background-color: #CDCCFF;
+}
+
+.word-button:disabled {
+  color: #444444;
+  background-color: #CCCCCC;
+}
+
+p.form-buttons {
+  height: 22px;
+}
+
+p.form-buttons input {
+  vertical-align: top;
+  margin-right: 0.5em;
+}
+
+.spinner {
+  display: none;
+  width: 22px;
+  height: 22px;
+}
+
+.no-button {
+  visibility: hidden;
+}
+
+.symbol {
+  text-shadow: 2px 2px 4px #888888; 
+  font-size: 110%;
+}
+
+input.icon-button {
+  border: none;
+  background: transparent;
+  
+  height: 100%;
+  font-size: 120%;
+  font-weight: bold;
+  color: #262233;
+  
+  text-shadow: 2px 2px 4px #888888; 
+}
+
+input.icon-button:disabled {
+  color: #726699;
+  text-shadow: none;
+}
+
+.form-action-buttonset {
+  text-align: right;
+}
+
+button.form-action {
+  font-size: 120%;
+  font-weight: bold;
+
+  display: inline-block;
+  margin: 0.5em 0.4em 0.5em 0px;
+  padding: 0.2em 0.5em;
+
+  background: #262233 none repeat scroll 0% 0%;
+  color: #DDDDDD;
+
+  border: 2px solid #DDD;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #000;
+  cursor: pointer;
+}
+
+#actionbar-weekbrowser {
+  margin-left: -2em;
+}
+
+#actionbar-weekbrowser span {
+  margin: 0px 0.2rem;
+}
+
+#browse-week-current {
+  margin: 0px;
+}
+
+.hidden {
+  display: none;
+}
+
+.invisible {
+  visibility: none;
+}
+
+.icon-right {
+  float: right;
+}
+
+.label-divider {
+  display: flex;
+  font-weight: bold;
+  padding: 0.2em 2em;
+}
+
+.label-divider-left {
+  flex-grow: 1;
+}
+
+.label-divider-text {
+  padding: 0px 0.5em;
+}
+
+.label-divider-right {
+  flex-grow: 3;
+}
+
+/****************************************
+ * Attic
+ ****************************************/
+
+table tr td {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+table .header {
+  font-weight: bold;
+  background-color: #BBBBBB;
+}
+
+table .editable:hover {
+  background-color: #BBBBFF;
+}
+
+table .editable input {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
 }
 
 dl.skill-list {

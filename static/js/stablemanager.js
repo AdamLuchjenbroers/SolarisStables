@@ -42,6 +42,18 @@ function preview_mech(chassis, model) {
   });
 }
 
+function to_ordinal(number) {
+  if (number == 1) {
+    return number + 'st';
+  } else if (number == 2) {
+    return number + 'nd';
+  } else if (number == 3) {
+    return number + 'rd';
+  } else {
+    return number + 'th';
+  }
+}
+
 function select_chassis_handler(parent_class, chassis_input_css, cost_class, preview_class) {
   return function() {
     type = $(this).val();
