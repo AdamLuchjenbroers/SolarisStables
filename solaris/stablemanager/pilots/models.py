@@ -133,23 +133,32 @@ class PilotWeek(models.Model):
 
         self.next_week.skill_piloting = self.applied_piloting()
         self.next_week.skill_gunnery = self.applied_gunnery()
-        
-        for trait in self.traits.all():
-            PilotWeekTraits.objects.create(
-               pilot_week = self.next_week
-            ,  trait = trait.trait
-            ,  notes = trait.notes
-            )
 
-        for training in self.training.filter(training__training__in=('S','T')):
-            PilotWeekTraits.objects.create(
-               pilot_week = self.next_week
-            ,  trait = training.trait
-            ,  notes = training.notes
-            )
+        self.copy_training()
+        
         # TODO: Parse training events to add any new skills.
         self.next_week.save()
         return self.next_week
+
+    def copy_training(self):
+        if self.next_week == None:
+            return
+
+        for trait in self.traits.all():
+            (new, created) = PilotWeekTraits.objects.get_or_create(
+               pilot_week = self.next_week
+            ,  trait = trait.trait
+            )
+            new.notes = trait.notes
+            new.save()
+
+        for training in self.training.filter(training__training__in=('S','T')):
+            (new, created) = PilotWeekTraits.objects.get_or_create(
+               pilot_week = self.next_week
+            ,  trait = training.trait
+            )
+            new.notes = training.notes
+            new.save()
         
     class Meta:
         db_table = 'stablemanager_pilotweek'
@@ -221,7 +230,6 @@ class PilotWeek(models.Model):
             return True
 
         return False
-      
     
 class PilotTrainingEvent(models.Model):
     pilot_week = models.ForeignKey('PilotWeek', related_name='training')
@@ -246,6 +254,11 @@ def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
 
         if instance.wounds > 1 and not instance.next_week.wounds_set:
             instance.next_week.wounds = max(0, instance.wounds-1)
+
+        instance.next_week.skill_piloting = instance.applied_piloting()
+        instance.next_week.skill_gunnery = instance.applied_gunnery()
+
+        instance.copy_training()
 
         instance.next_week.save()
    

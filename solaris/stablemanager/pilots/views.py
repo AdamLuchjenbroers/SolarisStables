@@ -177,6 +177,8 @@ class AjaxAddPilotTraining(AjaxPilotMixin, View):
             else:
                 models.PilotTrainingEvent.objects.create(pilot_week=self.pilotweek, training=train_cost)
 
+            self.pilotweek.save()
+
             result = {
               'callsign' : self.pilot.pilot_callsign
             , 'spent-xp' : self.pilotweek.training_cost()
