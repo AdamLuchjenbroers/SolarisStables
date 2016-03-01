@@ -28,8 +28,8 @@
        <td class="name">{{pilotweek.pilot.full_name}}<span class="icon-right icon-dead">&#x2620;</span></td>
        <td class="rank">{{pilotweek.rank.rank}}</td>
        <td class="fame editable" field="fame">{{pilotweek.fame}}</td>
-       <td class="talents">{% for training in pilotweek.skills.all %} 
-         {{training.skill}} 
+       <td class="talents">{% for training in pilotweek.traits.all %} 
+         {{training}} 
          {% if forloop.last == False %}, {% endif %}
         {% endfor %}</td>
        <td class="gunnery">{{pilotweek.skill_gunnery}}</td><td class="piloting">{{pilotweek.skill_piloting}}</td>
@@ -79,7 +79,7 @@
     <h3>Training Assignments</h3>
     <p>All pilot training performed will be applied from the next Stable Week onwards</p>
     <form id="pilot-training-form">
-      <input id="pilot-trainig-submit" type="button" disabled="yes" class="icon-button submit" value="&#x2795;"></input>
+      <input id="pilot-training-submit" type="button" disabled="yes" class="icon-button submit" value="&#x2795;"></input>
       <span class="pilot">{{training_form.pilot}}</span>
       <span class="training">{{training_form.training}}</span>
       <span class="skill">{{training_form.skill}}</span>

@@ -15,6 +15,7 @@ class TrainingCost(models.Model):
         ('P', 'Piloting'),
         ('G', 'Gunnery'),
         ('S', 'Skills'),
+        ('T', 'Other Traits'),
     )
     training = models.CharField(max_length=1, choices=training_options)
     train_from = models.IntegerField()

@@ -17,4 +17,7 @@ urlpatterns = patterns('',
 
     url(r'^skill-list', views.AjaxGetPilotSkillsList.as_view(), name="stable_skill_list_now"),
     url(r'^(?P<week>[0-9]+)/skill-list', views.AjaxGetPilotSkillsList.as_view(), name="stable_skill_list"),
+
+    url(r'^add-training', views.AjaxAddPilotTraining.as_view(), name="stable_add_training_now"),
+    url(r'^(?P<week>[0-9]+)/add-training', views.AjaxAddPilotTraining.as_view(), name="stable_add_training"),
 )

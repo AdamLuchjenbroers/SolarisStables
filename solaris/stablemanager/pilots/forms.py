@@ -53,7 +53,7 @@ class PilotTrainingForm(Form):
     
     def __init__(self, stableweek=None, *args, **kwargs):
         super(PilotTrainingForm, self).__init__(*args, **kwargs)
-        self.fields['pilot'].choices =[(0,'--')] + [(pw.id, pw.pilot.pilot_callsign) for pw in stableweek.pilots.filter(wounds__lt=6)]
+        self.fields['pilot'].choices =[("",'--')] + [(pw.id, pw.pilot.pilot_callsign) for pw in stableweek.pilots.filter(wounds__lt=6)]
 
         self.fields['training'].widget.attrs['disabled'] = True
         self.fields['skill'].widget.attrs['disabled'] = True

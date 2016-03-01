@@ -50,7 +50,7 @@ class Pilot(models.Model):
             self.deactivate() # Dead or otherwise obsolete pilot
     
 class PilotWeekTraits(models.Model):
-    pilot_week = models.ForeignKey('PilotWeek')
+    pilot_week = models.ForeignKey('PilotWeek', related_name='traits')
     trait = models.ForeignKey(PilotTrait)
     notes = models.CharField(max_length=50, blank=True, null=True)
     
@@ -65,7 +65,9 @@ class PilotWeekTraits(models.Model):
     
     class Meta:
         db_table = 'stablemanager_pilotweektraits'
-        app_label = 'stablemanager'   
+        app_label = 'stablemanager'  
+
+        unique_together = [('pilot_week', 'trait')] 
     
 class PilotWeek(models.Model):
     pilot = models.ForeignKey(Pilot, related_name='weeks')
@@ -84,7 +86,6 @@ class PilotWeek(models.Model):
     fame = models.IntegerField(default=0)
     fame_set = models.BooleanField(default=False)
     
-    traits = models.ManyToManyField(PilotTrait, blank=True, through=PilotWeekTraits)
     next_week = models.OneToOneField('PilotWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
     
     def is_dead(self):
@@ -130,23 +131,21 @@ class PilotWeek(models.Model):
         )
         self.save()
 
-        pilot_training = self.training.filter(training__training='P')
-        if pilot_training.count() > 0:
-            self.next_week.skill_piloting = pilot_training.aggregate(models.Min('training__train_to'))['training__train_to__min'] 
-        else:
-            self.next_week.skill_piloting = self.skill_piloting 
-
-        gunnery_training = self.training.filter(training__training='G')
-        if gunnery_training.count() > 0:
-            self.next_week.skill_gunnery = gunnery_training.aggregate(models.Min('training__train_to'))['training__train_to__min'] 
-        else:
-            self.next_week.skill_gunnery = self.skill_gunnery 
+        self.next_week.skill_piloting = self.applied_piloting()
+        self.next_week.skill_gunnery = self.applied_gunnery()
         
         for trait in self.traits.all():
             PilotWeekTraits.objects.create(
                pilot_week = self.next_week
             ,  trait = trait.trait
             ,  notes = trait.notes
+            )
+
+        for training in self.training.filter(training__training__in=('S','T')):
+            PilotWeekTraits.objects.create(
+               pilot_week = self.next_week
+            ,  trait = training.trait
+            ,  notes = training.notes
             )
         # TODO: Parse training events to add any new skills.
         self.next_week.save()
@@ -159,8 +158,11 @@ class PilotWeek(models.Model):
         ordering = ['rank__id', 'skill_gunnery', 'skill_piloting', 'pilot__pilot_callsign']
 
     def training_cost(self):
-        #TODO: Sum up training costs
-        return 0   
+        cost = self.training.aggregate(models.Sum('training__cost'))['training__cost__sum']
+        if cost != None:
+            return cost
+        else:
+            return 0
  
     def gained_character_points(self):
         return self.adjust_character_points + self.assigned_training_points + self.rank.auto_train_cp
@@ -174,7 +176,7 @@ class PilotWeek(models.Model):
         base_bv += (4-self.skill_gunnery) * 0.20
         base_bv += (5-self.skill_piloting) * 0.05
         
-        skills_bv = self.traits.aggregate( models.Sum('bv_mod'))['bv_mod__sum']
+        skills_bv = self.traits.aggregate( models.Sum('trait__bv_mod'))['trait__bv_mod__sum']
         if skills_bv != None:
             base_bv += float(skills_bv)
 
@@ -182,16 +184,57 @@ class PilotWeek(models.Model):
 
     def bv_formatted(self):
         return '%0.2f' % self.bv()
-        
+
+    def applied_piloting(self):
+        pilot_training = self.training.filter(training__training='P')
+        if pilot_training.count() > 0:
+            return pilot_training.aggregate(models.Min('training__train_to'))['training__train_to__min'] 
+        else:
+            return self.skill_piloting 
+
+    def next_piloting(self):
+        return TrainingCost.objects.get(training='P', train_from=self.applied_piloting())
+
+    def applied_gunnery(self):         
+        gunnery_training = self.training.filter(training__training='G')
+        if gunnery_training.count() > 0:
+            return gunnery_training.aggregate(models.Min('training__train_to'))['training__train_to__min'] 
+        else:
+            return self.skill_gunnery
+
+    def next_gunnery(self):
+        return TrainingCost.objects.get(training='G', train_from=self.applied_gunnery())
+
+    def next_skills(self):
+        skills = self.traits.exclude(trait__discipline__discipline_type='T').count() \
+               + self.training.filter(training__training='S').count()
+        if skills == None:
+            return TrainingCost.objects.get(training='S', train_from=0)
+        else:
+            return TrainingCost.objects.get(training='S', train_from=skills)
+
+    def has_discipline(self, discipline):
+        if self.traits.filter(trait__discipline=discipline).count() > 0:
+            return True
+
+        if self.training.filter(trait__discipline=discipline).count() > 0:
+            return True
+
+        return False
+      
     
 class PilotTrainingEvent(models.Model):
     pilot_week = models.ForeignKey('PilotWeek', related_name='training')
     training = models.ForeignKey(TrainingCost)
+    trait = models.ForeignKey(PilotTrait, blank=True, null=True)
     notes = models.CharField(max_length=50, blank=True, null=True)
+
+    def __unicode__(self):
+        return 'Train %s [%s -> %i]' % (self.pilot_week.pilot.pilot_callsign, self.training.get_training_value(), self.training.train_to) 
         
     class Meta:
         db_table = 'stablemanager_trainingevent'
-        app_label = 'stablemanager'   
+        app_label = 'stablemanager'
 
 @receiver(post_save, sender=PilotWeek)
 def perform_cascading_updates(sender, instance=None, created=False, **kwargs):

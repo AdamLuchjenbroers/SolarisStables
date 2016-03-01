@@ -101,7 +101,7 @@ function get_pilot_skills_list(callsign) {
   , dataType : 'json'
   , data : { 'callsign' : encodeURIComponent(callsign) }
   }).success(function(response) {
-    opthtml = '<option>-- Select Skill --</option>'
+    opthtml = '<option value=\"\">-- Select Skill --</option>'
 
     $.each(response, function(group, list) {
       opthtml += "<optgroup label=\"" + group + "\">"
@@ -111,8 +111,8 @@ function get_pilot_skills_list(callsign) {
       opthtml += "</optgroup>"
     });
 
-    $('#pilot-training-form span.skill select').html(opthtml);
-    $('#pilot-training-form span.skill select').removeAttr('disabled');
+    $('#pilot-training-skill').html(opthtml);
+    $('#pilot-training-skill').removeAttr('disabled');
   });
 }
 
@@ -135,7 +135,7 @@ function get_pilot_training_options(field) {
   , dataType : 'json'
   , data : { 'callsign' : encodeURIComponent(callsign) }
   }).success(function(response) {
-    opthtml = ''
+    opthtml = '<option value=\"\">-- Select Training --</option>'
     opthtml += render_option( 'Piloting ' + response['piloting']['skill']
                             , response['piloting']['cost']
                             , 'P|' + response['piloting']['skill']
@@ -149,30 +149,84 @@ function get_pilot_training_options(field) {
                             , 'S|' + response['skills']['skill']
                             , response['skills']['available']);
 
-    field = $('#pilot-training-form span.training select');
+    field = $('#pilot-training-training');
     field.html(opthtml);
     field.removeAttr('disabled');
+    $('#pilot-training-submit').attr('disabled', 'yes');
 
     field.change( function() {
-      skills = $('#pilot-training-form span.skill select');
-      notes = $('#pilot-training-form span.notes input');
+      skills = $('#pilot-training-skill');
+      notes = $('#pilot-training-notes');
+      submit = $('#pilot-training-submit');
 
       if (field.val().charAt(0) == 'S') {
         notes.removeAttr('disabled');
+        submit.attr('disabled', 'yes');
 
         get_pilot_skills_list(callsign);
+
+        skills.change( function() {
+          if (skills.val() == "") {
+            submit.attr('disabled', 'yes');
+          } else {
+            submit.removeAttr('disabled');
+          }
+        });
       } else {
         skills.html('');
         skills.attr('disabled','yes');
         notes.attr('disabled','yes');
+        if (field.val() == "") {
+          submit.attr('disabled', 'yes');
+        } else {
+          submit.removeAttr('disabled');
+        }
       } 
     });
 
   }).fail(function(response) {
-    $('#pilot-training-form span.training select').html = '';
-    $('#pilot-training-form span.training select').attr('disabled','yes');
+    $('#pilot-training-training').html('');
+    $('#pilot-training-training').attr('disabled','yes');
   });
 }
+
+function submit_pilot_training() {
+  training = {
+    'callsign' : $('#pilot-training-pilot option:selected').text()
+  , 'training' : $('#pilot-training-training').val()
+  };
+
+  if (training['training'].charAt(0) == 'S') {
+    training['skill'] = $('#pilot-training-skill').val();
+    training['notes'] = $('#pilot-training-notes').val();
+  };  
+
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/add-training'
+  , dataType : 'json'
+  , data : training
+  }).done(function(response) { 
+     pilot = $('#stable-pilot-table tr[callsign=\"' + response['callsign'] + '\"]');
+
+     pilot.children('.spent-xp').text(response['spent-xp']);
+     pilot.children('.final-xp').text(response['final-xp']);
+     reset_training_form();
+  }); 
+}
+
+function reset_training_form() {
+  $('#pilot-training-pilot').val("");
+
+  $('#pilot-training-training').val("");
+  $('#pilot-training-training').attr("disabled","yes");
+
+  $('#pilot-training-skill').val("");
+  $('#pilot-training-skill').attr("disabled","yes");
+
+  $('#pilot-training-notes').val("");
+  $('#pilot-training-notes').attr("disabled","yes");
+} 
 
 $( document ).ready(function() {
   $('#training-total.editable').one('click', function() {
@@ -182,7 +236,9 @@ $( document ).ready(function() {
     to_number_input( $(this), send_changed_pilot_attrib );
   });
 
-  $('#pilot-training-form span.pilot select').change( function() { get_pilot_training_options(this); } )
+  reset_training_form();
+  $('#pilot-training-pilot').change( function() { get_pilot_training_options(this); } );
 
+  $('#pilot-training-submit').click( function() { submit_pilot_training(); } );
   check_tp_assignment();
 });

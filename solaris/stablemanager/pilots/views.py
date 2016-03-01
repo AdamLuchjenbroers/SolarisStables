@@ -8,7 +8,7 @@ from urllib import unquote
 
 from solaris.warbook.pilotskill.models import PilotRank
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
-from solaris.warbook.pilotskill.models import TrainingCost
+from solaris.warbook.pilotskill.models import TrainingCost, PilotTrait
 
 from . import forms, models
 
@@ -27,7 +27,7 @@ class StablePilotsView(StableWeekMixin, ListView):
         available_disciplines = self.stable.stable_disciplines.all() | self.stable.house.house_disciplines.all()
         page_context['available_disciplines'] = available_disciplines.distinct().order_by('name')
 
-        page_context['training_form'] = forms.PilotTrainingForm(stableweek=self.stableweek)
+        page_context['training_form'] = forms.PilotTrainingForm(stableweek=self.stableweek, auto_id='pilot-training-%s')
 
         return page_context
         
@@ -135,12 +135,9 @@ class AjaxSetPilotAttribute(AjaxPilotMixin, View):
 
 class AjaxGetAvailableTraining(AjaxPilotMixin, View):
     def get(self, request, week=None):
-        gunnery_training = TrainingCost.objects.get(training='G', train_from=self.pilotweek.skill_gunnery) 
-        piloting_training = TrainingCost.objects.get(training='P', train_from=self.pilotweek.skill_piloting)
-       
-        skills_count = self.pilotweek.traits.filter(discipline__discipline_type='T').count() \
-                    + self.pilotweek.training.filter(training__training='S').count()
-        skills_training = TrainingCost.objects.get(training='S', train_from=skills_count)
+        gunnery_training = self.pilotweek.next_gunnery() 
+        piloting_training = self.pilotweek.next_piloting()
+        skills_training = self.pilotweek.next_skills()
 
         options = {
           'gunnery'  : { 'cost' : gunnery_training.cost, 'skill' : gunnery_training.train_to 
@@ -158,6 +155,39 @@ class AjaxGetPilotSkillsList(AjaxPilotMixin, View):
 
         skill_list = {}
         for group in disciplines:
-            skill_list[group.name] = [ { 'id' : skill.id, 'name' : skill.name } for skill in group.traits.all()]
+            if not self.pilotweek.has_discipline(group):
+                skill_list[group.name] = [ { 'id' : skill.id, 'name' : skill.name } for skill in group.traits.all()]
 
         return HttpResponse(json.dumps(skill_list))
+
+class AjaxAddPilotTraining(AjaxPilotMixin, View):
+    def post(self, request, week=None):
+        try:
+            (train_type, skill) = request.POST['training'].split('|')
+            train_cost = TrainingCost.objects.get(training=train_type, train_to=int(skill))
+ 
+            if 'skill' in request.POST:
+                skill = PilotTrait.objects.get(id=int(request.POST['skill']))
+                if request.POST['notes'] != "":
+                    notes = request.POST['notes']
+                else:
+                    notes = None
+
+                models.PilotTrainingEvent.objects.create(pilot_week=self.pilotweek, training=train_cost, trait=skill, notes=notes)
+            else:
+                models.PilotTrainingEvent.objects.create(pilot_week=self.pilotweek, training=train_cost)
+
+            result = {
+              'callsign' : self.pilot.pilot_callsign
+            , 'spent-xp' : self.pilotweek.training_cost()
+            , 'final-xp' : self.pilotweek.character_points()
+            }
+            return HttpResponse(json.dumps(result))
+        except PilotTrait.DoesNotExist:
+            return HttpResponse('Invalid Skill ID', status=400)
+        except TrainingCost.DoesNotExist:
+            return HttpResponse('Malformed Training Type ID', status=400)
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', status=400)
+        except ValueError:
+            return HttpResponse('Invalid AJAX request', status=400)
