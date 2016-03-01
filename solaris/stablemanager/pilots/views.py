@@ -166,6 +166,7 @@ class AjaxAddPilotTraining(AjaxPilotMixin, View):
             (train_type, skill) = request.POST['training'].split('|')
             train_cost = TrainingCost.objects.get(training=train_type, train_to=int(skill))
  
+            (training, created) = models.PilotTrainingEvent.objects.get_or_create(pilot_week=self.pilotweek, training=train_cost)
             if 'skill' in request.POST:
                 skill = PilotTrait.objects.get(id=int(request.POST['skill']))
                 if request.POST['notes'] != "":
@@ -173,10 +174,10 @@ class AjaxAddPilotTraining(AjaxPilotMixin, View):
                 else:
                     notes = None
 
-                models.PilotTrainingEvent.objects.create(pilot_week=self.pilotweek, training=train_cost, trait=skill, notes=notes)
-            else:
-                models.PilotTrainingEvent.objects.create(pilot_week=self.pilotweek, training=train_cost)
+                training.trait = skill
+                training.notes = notes    
 
+            training.save()        
             self.pilotweek.save()
 
             result = {

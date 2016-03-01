@@ -238,11 +238,13 @@ class PilotTrainingEvent(models.Model):
     notes = models.CharField(max_length=50, blank=True, null=True)
 
     def __unicode__(self):
-        return 'Train %s [%s -> %i]' % (self.pilot_week.pilot.pilot_callsign, self.training.get_training_value(), self.training.train_to) 
+        return 'Train %s [%s -> %i]' % (self.pilot_week.pilot.pilot_callsign, self.training.get_training_display(), self.training.train_to) 
         
     class Meta:
         db_table = 'stablemanager_trainingevent'
         app_label = 'stablemanager'
+
+        unique_together = [('pilot_week','training')]
 
 @receiver(post_save, sender=PilotWeek)
 def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
