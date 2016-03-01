@@ -1267,8 +1267,13 @@ table.pilots tr.header td.subheader {
   width: 20px;
 }
 
-table.pilots tr.header td.name, table.pilots tr.header td.talents {
+table.pilots tr.header td.name, 
+table.pilots tr.header td.talents { 
   width: 200px;
+}
+
+table.pilots tr.header td.train-skill {
+  width: 20em;
 }
 
 table.pilots .annotation {
@@ -1280,6 +1285,7 @@ table.pilots tr.odd {
   background-color: #C8C8FF;
   font-size : small;
 }
+
 
 table.pilots tr.odd .editable:hover {
   background-color: #C8FFFF;

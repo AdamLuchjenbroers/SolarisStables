@@ -239,6 +239,14 @@ class PilotTrainingEvent(models.Model):
 
     def __unicode__(self):
         return 'Train %s [%s -> %i]' % (self.pilot_week.pilot.pilot_callsign, self.training.get_training_display(), self.training.train_to) 
+
+    def description(self):
+        if self.training.training in ('P','G'):
+            return 'Upgrade %s to %i' % (self.training.get_training_display(), self.training.train_to)
+        elif self.training.training == 'S':
+            return 'Acquire %s (%s)' % (self.trait, self.notes)
+        else:
+            return 'Develop %s (%s)' % (self.trait, self.notes)
         
     class Meta:
         db_table = 'stablemanager_trainingevent'

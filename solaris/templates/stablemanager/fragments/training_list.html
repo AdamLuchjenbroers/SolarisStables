@@ -1,0 +1,19 @@
+<table id="pilot-training-list" class="pilots">
+  <tr class="header">
+    <td class="name">Pilot</td><td class="train-skill">Training</td><td>Cost</td>
+  </tr>
+  {% for pilotweek in object_list %}
+    {%if pilotweek.training.count > 0 %}
+    <tr class="pilot-row {%cycle 'odd' 'even' as rowclass %}">
+     <td class="name" rowspan="{{pilotweek.training.count}}">{{pilotweek.pilot.full_name}}
+        {% for training in pilotweek.training.all %}
+          {% if not forloop.first %}<tr class="pilot-row {{rowclass}}">{%endif%}
+          <td>{{training.description}}</td>
+          <td>{{training.training.cost}}</td>
+        </tr>
+        {% endfor %}
+    </tr>
+  {% endif %}
+  {% endfor %}
+</table>
+
