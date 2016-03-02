@@ -1350,6 +1350,10 @@ table.pilots td.total {
   border-bottom: 3px double;
 }
 
+#pilot-training-form span {
+  display: inline-block;
+}
+
 #pilot-training-form span.pilot select ,
 #pilot-training-form span.training select,
 #pilot-training-form span.notes input {
@@ -1435,6 +1439,11 @@ input.icon-button:disabled {
 
 .form-action-buttonset {
   text-align: right;
+}
+
+.label-small {
+  display: block;
+  font-size: x-small;
 }
 
 button.form-action {
