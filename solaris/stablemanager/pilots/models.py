@@ -2,7 +2,7 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import pre_save, post_save
 
 from solaris.stablemanager.models import Stable, StableWeek
 from solaris.warbook.pilotskill.models import PilotTrait, PilotRank, TrainingCost
@@ -90,6 +90,16 @@ class PilotWeek(models.Model):
     
     def is_dead(self):
         return (self.wounds >= 6)
+
+    def is_locked(self):
+        if self.next_week == None:
+            # Cannot be locked if it's the most recent week.
+            return False
+        elif self.next_week.training.count() > 0:
+            return True
+        else:
+            return self.next_week.is_locked()
+      
 
     def set_wounds(self, wounds, direct=True):
         self.wounds = min(6,max(0,wounds))
@@ -214,13 +224,17 @@ class PilotWeek(models.Model):
     def next_gunnery(self):
         return TrainingCost.objects.get(training='G', train_from=self.applied_gunnery())
 
-    def next_skills(self):
-        skills = self.traits.exclude(trait__discipline__discipline_type='T').count() \
+    def applied_skill_count(self):
+        skills = self.traits.filter(trait__discipline__discipline_type='T').count() \
                + self.training.filter(training__training='S').count()
         if skills == None:
-            return TrainingCost.objects.get(training='S', train_from=0)
+            return 0
         else:
-            return TrainingCost.objects.get(training='S', train_from=skills)
+            return skills
+
+    def next_skills(self):
+        skills = self.applied_skill_count() 
+        return TrainingCost.objects.get(training='S', train_from=skills)
 
     def has_discipline(self, discipline):
         if self.traits.filter(trait__discipline=discipline).count() > 0:
@@ -247,11 +261,25 @@ class PilotTrainingEvent(models.Model):
             return 'Acquire %s (%s)' % (self.trait, self.notes)
         else:
             return 'Develop %s (%s)' % (self.trait, self.notes)
+
+    def is_locked(self):
+        if self.pilot_week.is_locked():
+            return True
+
+        if self.training.training == 'P':
+            return self.training.train_to != self.pilot_week.applied_piloting()
+        elif self.training.training == 'G':
+            return self.training.train_to != self.pilot_week.applied_gunnery()
+        elif self.training.training == 'S':
+            return self.training.train_to != self.pilot_week.applied_skill_count()
+        else:
+            return False
         
     class Meta:
         db_table = 'stablemanager_trainingevent'
         app_label = 'stablemanager'
 
+        ordering = ('training__training', 'training__cost')
         unique_together = [('pilot_week','training')]
 
 @receiver(post_save, sender=PilotWeek)
