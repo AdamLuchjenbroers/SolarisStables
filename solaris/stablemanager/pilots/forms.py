@@ -2,6 +2,7 @@ from django.forms.models import inlineformset_factory
 from django.forms import Form, ModelForm, ChoiceField, ModelChoiceField, HiddenInput, CharField, modelformset_factory
 
 from . import models
+from snippets.widgets import SelectWithDisabled
 
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 
@@ -53,7 +54,11 @@ class PilotTrainingForm(Form):
     
     def __init__(self, stableweek=None, *args, **kwargs):
         super(PilotTrainingForm, self).__init__(*args, **kwargs)
-        self.fields['pilot'].choices =[("",'--')] + [(pw.id, pw.pilot.pilot_callsign) for pw in stableweek.pilots.filter(wounds__lt=6)]
+        pilots = []
+        for pw in stableweek.pilots.filter(wounds__lt=6):
+            pilots.append((pw.id, {'label' : pw.pilot.pilot_callsign, 'disabled': pw.is_locked()}))
+
+        self.fields['pilot'] = ChoiceField(choices=pilots, widget=SelectWithDisabled)
 
         self.fields['training'].widget.attrs['disabled'] = True
         self.fields['skill'].widget.attrs['disabled'] = True
