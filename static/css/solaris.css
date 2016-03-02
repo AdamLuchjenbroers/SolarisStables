@@ -1419,6 +1419,15 @@ input.icon-button {
   text-shadow: 2px 2px 4px #888888; 
 }
 
+input.icon-button.icon-small {
+  font-size: 0.9em;
+  font-weight: normal;
+}
+
+input.icon-delete {
+  color: #AA0000;
+}
+
 input.icon-button:disabled {
   color: #726699;
   text-shadow: none;

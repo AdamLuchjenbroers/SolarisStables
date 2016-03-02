@@ -204,6 +204,12 @@ class PilotWeek(models.Model):
     def bv_formatted(self):
         return '%0.2f' % self.bv()
 
+    def remove_trait(self, trait):
+        self.traits.filter(trait=trait).delete()
+
+        if self.next_week != None:
+            self.next_week.remove_trait(trait)
+
     def applied_piloting(self):
         pilot_training = self.training.filter(training__training='P')
         if pilot_training.count() > 0:

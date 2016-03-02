@@ -216,8 +216,34 @@ function submit_pilot_training() {
   }); 
 }
 
+function training_table_setup() {
+  table = $('#pilot-training-list');
+
+  if (table.find('tr:not(.header)').length > 0) {
+    table.show();
+  } else {
+    table.hide();
+  }
+
+  table.find('input.icon-delete').click( function() {
+    $.ajax({
+      type : 'post'
+    , url  : window.location.href + '/remove-training'
+    , dataType : 'json'
+    , data : { 'train_id' : $(this).attr('train_id'), 'callsign' : $(this).attr('callsign') }
+    }).done(function(response) { 
+      pilot = $('#stable-pilot-table tr[callsign=\"' + response['callsign'] + '\"]');
+
+      pilot.children('.spent-xp').text(response['spent-xp']);
+      pilot.children('.final-xp').text(response['final-xp']);
+
+      reload_training_table();
+    });
+  });
+}
+
 function reload_training_table() {
- $('#pilot-training-list').load(window.location.href + '/training #pilot-training-list');
+  $('#pilot-training-list').load(window.location.href + '/training #pilot-training-list', training_table_setup);
 }
 
 function reset_training_form() {
@@ -245,5 +271,7 @@ $( document ).ready(function() {
   $('#pilot-training-pilot').change( function() { get_pilot_training_options(this); } );
 
   $('#pilot-training-submit').click( function() { submit_pilot_training(); } );
+  training_table_setup();
+
   check_tp_assignment();
 });

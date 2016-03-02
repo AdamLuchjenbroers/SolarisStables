@@ -23,4 +23,7 @@ urlpatterns = patterns('',
 
     url(r'^add-training', views.AjaxAddPilotTraining.as_view(), name="stable_add_training_now"),
     url(r'^(?P<week>[0-9]+)/add-training', views.AjaxAddPilotTraining.as_view(), name="stable_add_training"),
+
+    url(r'^remove-training', views.AjaxRemovePilotTraining.as_view(), name="stable_remove_training_now"),
+    url(r'^(?P<week>[0-9]+)/remove-training', views.AjaxRemovePilotTraining.as_view(), name="stable_remove_training"),
 )

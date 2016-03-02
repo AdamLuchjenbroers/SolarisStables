@@ -9,7 +9,11 @@
         {% for training in pilotweek.training.all %}
           {% if not forloop.first %}<tr class="pilot-row {{rowclass}}">{%endif%}
           <td>{{training.description}}</td>
-          <td>{{training.training.cost}}<span class="icon-button icon-right">{%if not training.is_locked%}X{%endif%}</span></td>
+          <td>
+            {{training.training.cost}} 
+            {% if not training.is_locked %}
+            <input train_id="{{training.id}}" callsign="{{pilotweek.pilot.pilot_callsign}}" type="button" class="icon-button icon-small icon-delete icon-right" value="&#x2716;"/>{%endif%}
+          </td>
         </tr>
         {% endfor %}
     </tr>

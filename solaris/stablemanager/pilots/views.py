@@ -203,3 +203,25 @@ class AjaxAddPilotTraining(AjaxPilotMixin, View):
             return HttpResponse('Incomplete AJAX request', status=400)
         except ValueError:
             return HttpResponse('Invalid AJAX request', status=400)
+
+class AjaxRemovePilotTraining(AjaxPilotMixin, View):
+    def post(self, request, week=None):
+        try:
+            train = self.pilotweek.training.get(id=int(request.POST['train_id']))
+            self.pilotweek.remove_trait(train.trait)
+            train.delete()
+
+            self.pilotweek.save()
+    
+            result = {
+              'callsign' : self.pilot.pilot_callsign
+            , 'spent-xp' : self.pilotweek.training_cost()
+            , 'final-xp' : self.pilotweek.character_points()
+            }
+            return HttpResponse(json.dumps(result))
+        except models.PilotTrainingEvent.DoesNotExist:
+            return HttpResponse('Training Event Does Not Exist', status=404)
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', status=400)
+        except ValueError:
+            return HttpResponse('Invalid AJAX request', status=400)
