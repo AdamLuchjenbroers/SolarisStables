@@ -6,6 +6,9 @@ urlpatterns = patterns('',
     url(r'^/?$', views.StablePilotsView.as_view(), name='stable_pilots_now'),
     url(r'^(?P<week>[0-9]+)/?$', views.StablePilotsView.as_view(), name='stable_pilots'),
 
+    url(r'^/?training$', views.StablePilotsTrainingPartView.as_view(), name="stable_training_now"),
+    url(r'^/?(?P<week>[0-9]+)/training$', views.StablePilotsTrainingPartView.as_view(), name="stable_training"),
+
     url(r'^set-tp', views.AjaxSetTrainingPoints.as_view(), name="stable_set_tp_now"),
     url(r'^(?P<week>[0-9]+)/set-tp', views.AjaxSetTrainingPoints.as_view(), name="stable_set_tp"),
 

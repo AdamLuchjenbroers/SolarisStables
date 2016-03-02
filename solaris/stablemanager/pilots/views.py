@@ -30,6 +30,15 @@ class StablePilotsView(StableWeekMixin, ListView):
         page_context['training_form'] = forms.PilotTrainingForm(stableweek=self.stableweek, auto_id='pilot-training-%s')
 
         return page_context
+
+class StablePilotsTrainingPartView(StableWeekMixin, ListView):
+    template_name = 'stablemanager/fragments/training_list.html'
+    model = models.PilotWeek    
+    view_url_name = 'stable_pilots'
+
+    def get_queryset(self):
+        return models.PilotWeek.objects.filter(week=self.stableweek)
+
         
 class InitialPilotNamingView(StableViewMixin, FormView):
     template_name = 'stablemanager/initial_pilots.tmpl'

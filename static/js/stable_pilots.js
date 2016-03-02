@@ -212,7 +212,12 @@ function submit_pilot_training() {
      pilot.children('.spent-xp').text(response['spent-xp']);
      pilot.children('.final-xp').text(response['final-xp']);
      reset_training_form();
+     reload_training_table();
   }); 
+}
+
+function reload_training_table() {
+ $('#pilot-training-list').load(window.location.href + '/training #pilot-training-list');
 }
 
 function reset_training_form() {
