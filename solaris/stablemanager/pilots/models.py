@@ -81,8 +81,11 @@ class PilotWeek(models.Model):
     rank = models.ForeignKey(PilotRank)
     skill_gunnery = models.IntegerField(default=5)
     skill_piloting = models.IntegerField(default=6)
+
     wounds = models.IntegerField(default=0)
     wounds_set = models.BooleanField(default=False)
+    blackmarks = models.IntegerField(default=0)
+
     fame = models.IntegerField(default=0)
     fame_set = models.BooleanField(default=False)
     
@@ -99,7 +102,6 @@ class PilotWeek(models.Model):
             return True
         else:
             return self.next_week.is_locked()
-      
 
     def set_wounds(self, wounds, direct=True):
         self.wounds = min(6,max(0,wounds))
@@ -146,7 +148,6 @@ class PilotWeek(models.Model):
 
         self.copy_training()
         
-        # TODO: Parse training events to add any new skills.
         self.next_week.save()
         return self.next_week
 
@@ -154,21 +155,20 @@ class PilotWeek(models.Model):
         if self.next_week == None:
             return
 
-        for trait in self.traits.all():
-            (new, created) = PilotWeekTraits.objects.get_or_create(
-               pilot_week = self.next_week
-            ,  trait = trait.trait
-            )
-            new.notes = trait.notes
-            new.save()
+        to_copy = (
+          self.traits.all()
+        , self.training.filter(training__training__in=('S','T'))
+        , self.new_traits.all()
+        )
 
-        for training in self.training.filter(training__training__in=('S','T')):
-            (new, created) = PilotWeekTraits.objects.get_or_create(
-               pilot_week = self.next_week
-            ,  trait = training.trait
-            )
-            new.notes = training.notes
-            new.save()
+        for dataset in to_copy:
+            for trait in dataset:
+                (new, created) = PilotWeekTraits.objects.get_or_create(
+                   pilot_week = self.next_week
+                ,  trait = trait.trait
+                )
+                new.notes = trait.notes
+                new.save()
         
     class Meta:
         db_table = 'stablemanager_pilotweek'
@@ -264,7 +264,10 @@ class PilotTrainingEvent(models.Model):
         if self.training.training in ('P','G'):
             return 'Upgrade %s to %i' % (self.training.get_training_display(), self.training.train_to)
         elif self.training.training == 'S':
-            return 'Acquire %s (%s)' % (self.trait, self.notes)
+            if self.notes != None:
+                return 'Acquire %s (%s)' % (self.trait, self.notes)
+            else:
+                return 'Acquire %s' % self.trait
         else:
             return 'Develop %s (%s)' % (self.trait, self.notes)
 
@@ -286,7 +289,61 @@ class PilotTrainingEvent(models.Model):
         app_label = 'stablemanager'
 
         ordering = ('training__training', 'training__cost')
-        unique_together = [('pilot_week','training')]
+        unique_together = [('pilot_week','training'), ('pilot_week', 'trait'),]
+
+class PilotTraitEvent(models.Model):
+    pilot_week = models.ForeignKey('PilotWeek', related_name='new_traits')
+    trait = models.ForeignKey(PilotTrait)
+    notes = models.CharField(max_length=50, blank=True, null=True)
+
+    def __unicode__(self):
+        return 'Pilot %s develops %s' % (self.pilot_week.pilot.pilot_callsign, self.trait.trait) 
+
+    def is_locked(self):
+        return self.pilot_week.is_locked()
+    
+    def description(self):
+        if self.notes != None:
+            return 'Developed %s (%s)' % (self.trait, self.notes)
+        else:
+            return 'Developed %s' % self.trait
+
+    class Meta:
+        db_table = 'stablemanager_traitevent'
+        app_label = 'stablemanager'
+
+        ordering = ('pilot_week__pilot__pilot_callsign', 'trait')
+        unique_together = [('pilot_week', 'trait'),]
+
+class PilotDeferment(models.Model):
+    pilot_week = models.ForeignKey('PilotWeek', related_name='deferred')
+    deferred = models.CharField(max_length=100)
+    duration = models.IntegerField()
+    duration_set = models.BooleanField(default=False)
+    next_week = models.OneToOneField('PilotDeferment', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
+
+    def __unicode__(self):
+        return '%s - %s deferred for %i weeks' % (self.pilot_week.pilot.pilot_callsign, self.deferred, self.duration) 
+
+    class Meta:
+        db_table = 'stablemanager_issuedeferred'
+        app_label = 'stablemanager'
+
+        ordering = ('pilot_week__pilot__pilot_callsign', '-duration')
+        unique_together = [('pilot_week', 'deferred'),]
+
+@receiver(post_save, sender=PilotDeferment)
+def cascade_deferment_update(sender, instance=None, created=False, **kwargs):
+    if instance.duration > 1:
+        if instance.next_week == None:
+            instance.next_week = PilotDeferment.objects.create(
+                pilot_week = instance.pilot_week
+            ,   deferred = instance.deferred
+            ,   duration = instance.duration - 1
+            )
+        elif not instance.next_week.duration_set:
+            instance.next_week.duration = instance.duration - 1
+            instance.next_week.save()
 
 @receiver(post_save, sender=PilotWeek)
 def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
@@ -296,8 +353,10 @@ def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
         if not instance.next_week.fame_set:
             instance.next_week.fame = instance.fame
 
-        if instance.wounds > 1 and not instance.next_week.wounds_set:
+        if instance.wounds > 1 and not instance.is_dead() and not instance.next_week.wounds_set:
             instance.next_week.wounds = max(0, instance.wounds-1)
+        elif instance.is_dead():
+            instance.next_week.wounds = 6
 
         instance.next_week.skill_piloting = instance.applied_piloting()
         instance.next_week.skill_gunnery = instance.applied_gunnery()
