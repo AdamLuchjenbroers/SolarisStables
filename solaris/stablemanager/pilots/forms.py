@@ -1,5 +1,5 @@
 from django.forms.models import inlineformset_factory
-from django.forms import Form, ModelForm, ChoiceField, ModelChoiceField, HiddenInput, CharField, modelformset_factory
+from django.forms import Form, ModelForm, ChoiceField, ModelChoiceField, HiddenInput, CharField, IntegerField, modelformset_factory
 
 from . import models
 from snippets.widgets import SelectWithDisabled
@@ -45,23 +45,35 @@ class PilotWeekForm(ModelForm):
     class Meta:
         model = models.PilotWeek
         fields = ('rank','skill_gunnery', 'skill_piloting', 'start_character_points')
-        
-class PilotTrainingForm(Form):
+
+class PilotActionForm(Form):
     pilot = ChoiceField()
-    training = ChoiceField()
-    skill = ChoiceField()
-    notes = CharField(max_length=50)
-    
+
     def __init__(self, stableweek=None, *args, **kwargs):
-        super(PilotTrainingForm, self).__init__(*args, **kwargs)
+        super(PilotActionForm, self).__init__(*args, **kwargs)
+
         pilots = []
         for pw in stableweek.pilots.filter(wounds__lt=6):
             pilots.append((pw.id, {'label' : pw.pilot.pilot_callsign, 'disabled': pw.is_locked()}))
 
         self.fields['pilot'] = ChoiceField(choices=pilots, widget=SelectWithDisabled)
+        
+class PilotTrainingForm(PilotActionForm):
+    training = ChoiceField()
+    skill = ChoiceField()
+    notes = CharField(max_length=50)
+    
+    def __init__(self, *args, **kwargs):
+        super(PilotTrainingForm, self).__init__(*args, **kwargs)
 
         self.fields['training'].widget.attrs['disabled'] = True
         self.fields['skill'].widget.attrs['disabled'] = True
         self.fields['notes'].widget.attrs['disabled'] = True
 
+class PilotTraitForm(PilotActionForm):
+    trait = ChoiceField()
+    notes = CharField(max_length=50)
 
+class PilotDefermentForm(PilotActionForm):
+    deferred = CharField(max_length=100)
+    duration = IntegerField()
