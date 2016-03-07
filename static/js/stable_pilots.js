@@ -2,7 +2,7 @@ function to_number_input(field, sender) {
   oldvalue = field.html();
   value = parseInt(field.text());
 
-  input = "<input type=\"number\" value=\"" + value +"\"></input>";
+  input = '<input type=\'number\' value=\'' + value +'\'></input>';
   field.html(input);
   input = field.find('input');
   input.on('focusout', function() {
@@ -81,7 +81,7 @@ function send_changed_tp(field, oldvalue) {
     $('#training-rookie-tp').text(response['rookie-tp']);    
     $('#training-contender-tp').text(response['contender-tp']);
 
-    total_html = response['total-tp'] + "<span class=\"icon-right\">&#x270E;</span>";        
+    total_html = response['total-tp'] + '<span class=\'icon-right\'>&#x270E;</span>';        
     $('#training-total').html(total_html);    
 
     check_tp_assignment();
@@ -101,14 +101,14 @@ function get_pilot_skills_list(callsign) {
   , dataType : 'json'
   , data : { 'callsign' : encodeURIComponent(callsign) }
   }).success(function(response) {
-    opthtml = '<option value=\"\">-- Select Skill --</option>'
+    opthtml = '<option value=\'\'>-- Select Skill --</option>'
 
     $.each(response, function(group, list) {
-      opthtml += "<optgroup label=\"" + group + "\">"
+      opthtml += '<optgroup label=\'' + group + '\'>'
       $.each(list, function(index, skill) {
-        opthtml += "<option value=\"" + skill['id'] +"\">" + skill['name'] + "</option>"
+        opthtml += '<option value=\'' + skill['id'] +'\'>' + skill['name'] + '</option>'
       });
-      opthtml += "</optgroup>"
+      opthtml += '</optgroup>'
     });
 
     $('#pilot-training-skill').html(opthtml);
@@ -117,9 +117,9 @@ function get_pilot_skills_list(callsign) {
 }
 
 function render_option(text, cost, key, available) {
-   opthtml = '<option value=\"' + key + '\"';
+   opthtml = '<option value=\'' + key + '\'';
    if (!available) {
-      opthtml += ' disabled=\"yes\"';
+      opthtml += ' disabled=\'yes\'';
    }
    opthtml += '> [' + cost + '] ' + text + '</option>';
 
@@ -135,7 +135,7 @@ function get_pilot_training_options(field) {
   , dataType : 'json'
   , data : { 'callsign' : encodeURIComponent(callsign) }
   }).success(function(response) {
-    opthtml = '<option value=\"\">-- Select Training --</option>'
+    opthtml = '<option value=\'\'>-- Select Training --</option>'
     opthtml += render_option( 'Piloting ' + response['piloting']['skill']
                             , response['piloting']['cost']
                             , 'P|' + response['piloting']['skill']
@@ -161,26 +161,11 @@ function get_pilot_training_options(field) {
 
       if (field.val().charAt(0) == 'S') {
         notes.removeAttr('disabled');
-        submit.attr('disabled', 'yes');
-
         get_pilot_skills_list(callsign);
-
-        skills.change( function() {
-          if (skills.val() == "") {
-            submit.attr('disabled', 'yes');
-          } else {
-            submit.removeAttr('disabled');
-          }
-        });
       } else {
         skills.html('');
         skills.attr('disabled','yes');
         notes.attr('disabled','yes');
-        if (field.val() == "") {
-          submit.attr('disabled', 'yes');
-        } else {
-          submit.removeAttr('disabled');
-        }
       } 
     });
 
@@ -207,13 +192,18 @@ function submit_pilot_training() {
   , dataType : 'json'
   , data : training
   }).done(function(response) { 
-     pilot = $('#stable-pilot-table tr[callsign=\"' + response['callsign'] + '\"]');
+     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'])
 
-     pilot.children('.spent-xp').text(response['spent-xp']);
-     pilot.children('.final-xp').text(response['final-xp']);
      reset_training_form();
      reload_training_table();
   }); 
+}
+
+function pilot_row_update(callsign, spent_xp, final_xp) {
+  pilot = $('#stable-pilot-table tr[callsign=\'' + callsign + '\']');
+
+  pilot.children('.spent-xp').text(spent_xp);
+  pilot.children('.final-xp').text(final_xp);
 }
 
 function training_table_setup() {
@@ -232,10 +222,7 @@ function training_table_setup() {
     , dataType : 'json'
     , data : { 'train_id' : $(this).attr('train_id'), 'callsign' : $(this).attr('callsign') }
     }).done(function(response) { 
-      pilot = $('#stable-pilot-table tr[callsign=\"' + response['callsign'] + '\"]');
-
-      pilot.children('.spent-xp').text(response['spent-xp']);
-      pilot.children('.final-xp').text(response['final-xp']);
+      pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'])
 
       reload_training_table();
     });
@@ -246,18 +233,68 @@ function reload_training_table() {
   $('#pilot-training-list').load(window.location.href + '/training #pilot-training-list', training_table_setup);
 }
 
+function validate_training_form() {
+  if (($('#pilot-training-pilot').val() == '')) {
+    $('#pilot-training-submit').attr('disabled','yes');
+    return false;
+  }
+  
+  training = $('#pilot-training-training').val();
+  if (training == null || training == '') {
+    $('#pilot-training-submit').attr('disabled','yes');
+    return false;
+  } else if (training.charAt(0) != 'S') {
+    $('#pilot-training-submit').removeAttr('disabled');
+    return true;
+  } else {
+    skill = $('#pilot-training-skill').val();
+    if (skill == null || skill == '') {
+      $('#pilot-training-submit').attr('disabled','yes');
+      return false;
+    } else {
+      $('#pilot-training-submit').removeAttr('disabled');
+      return true;
+    }
+  }
+  // Shouldn't be reachable, but if it does consider the form invalid
+  $('#pilot-training-submit').attr('disabled','yes');
+  return false;
+}
+
 function reset_training_form() {
-  $('#pilot-training-pilot').val("");
+  $('#pilot-training-pilot').val('');
 
-  $('#pilot-training-training').val("");
-  $('#pilot-training-training').attr("disabled","yes");
+  $('#pilot-training-training').html('');
+  $('#pilot-training-training').attr('disabled','yes');
 
-  $('#pilot-training-skill').val("");
-  $('#pilot-training-skill').attr("disabled","yes");
+  $('#pilot-training-skill').html('');
+  $('#pilot-training-skill').attr('disabled','yes');
 
-  $('#pilot-training-notes').val("");
-  $('#pilot-training-notes').attr("disabled","yes");
+  $('#pilot-training-notes').val('');
+  $('#pilot-training-notes').attr('disabled','yes');
+
+  $('#pilot-training-submit').attr('disabled','yes');
 } 
+
+function validate_trait_form() {
+  pilot = $('#pilot-trait-pilot').val();
+  trait = $('#pilot-trait-trait').val();
+
+  if (pilot == null || pilot == '' || trait == null || trait == '') {
+    $('#pilot-trait-submit').attr('disabled', 'yes');
+    return false;
+  } else {
+    $('#pilot-trait-submit').removeAttr('disabled');
+    return true;
+  }
+}
+
+function reset_trait_form() {
+  $('#pilot-triat-pilot').val('');
+  $('#pilot-triat-trait').val('');
+
+  $('#pilot-triat-submit').attr('disabled','yes');
+}
 
 $( document ).ready(function() {
   $('#training-total.editable').one('click', function() {
@@ -269,6 +306,9 @@ $( document ).ready(function() {
 
   reset_training_form();
   $('#pilot-training-pilot').change( function() { get_pilot_training_options(this); } );
+  $('#pilot-training-form select, #pilot-training-form input').change( function() { validate_training_form(); });
+
+  $('#pilot-trait-form select, #pilot-trait-form input').change( function() { validate_trait_form(); });
 
   $('#pilot-training-submit').click( function() { submit_pilot_training(); } );
   training_table_setup();

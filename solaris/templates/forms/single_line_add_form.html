@@ -1,0 +1,6 @@
+<form id="{{form_id}}-form" class="single-line-form">
+  <input id="{{form_id}}-submit" type="button" disabled="yes" class="icon-button submit" value="&#x2795;"></input>
+  {% for field in form %}
+  <span class="{{field.name}}"><div class="label-small">{{ field.label }}</div>{{ field }}</span>
+  {% endfor %}
+</form> 

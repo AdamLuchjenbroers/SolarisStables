@@ -56,12 +56,12 @@ class PilotActionForm(Form):
         for pw in stableweek.pilots.filter(wounds__lt=6):
             pilots.append((pw.id, {'label' : pw.pilot.pilot_callsign, 'disabled': pw.is_locked()}))
 
-        self.fields['pilot'] = ChoiceField(choices=pilots, widget=SelectWithDisabled)
+        self.fields['pilot'] = ChoiceField(choices=pilots, widget=SelectWithDisabled, label='Pilot:')
         
 class PilotTrainingForm(PilotActionForm):
-    training = ChoiceField()
-    skill = ChoiceField()
-    notes = CharField(max_length=50)
+    training = ChoiceField(label='Training:')
+    skill = ChoiceField(label='Skill:')
+    notes = CharField(max_length=50,label='Skill Notes (Optional):')
     
     def __init__(self, *args, **kwargs):
         super(PilotTrainingForm, self).__init__(*args, **kwargs)
@@ -71,9 +71,21 @@ class PilotTrainingForm(PilotActionForm):
         self.fields['notes'].widget.attrs['disabled'] = True
 
 class PilotTraitForm(PilotActionForm):
-    trait = ChoiceField()
-    notes = CharField(max_length=50)
+    trait = ChoiceField(label="Problem:")
+    notes = CharField(label='Problem Notes (Optional):', max_length=50)
+
+    def __init__(self, *args, **kwargs):
+        super(PilotTraitForm, self).__init__(*args, **kwargs)
+        
+        choices = (("","-- Select Trait --"),)
+        for group in PilotTraitGroup.objects.exclude(discipline_type='T'):
+            traitlist = tuple([ (trait.id, trait.name) for trait in group.traits.all()]) 
+            choices += ((group.name, traitlist), )
+
+        self.fields['trait'].choices = choices
 
 class PilotDefermentForm(PilotActionForm):
-    deferred = CharField(max_length=100)
-    duration = IntegerField()
+    deferred = CharField(max_length=100, label='Deferred:')
+    duration = IntegerField(label='Duration (in Weeks):')
+
+

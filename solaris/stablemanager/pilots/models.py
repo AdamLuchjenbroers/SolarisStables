@@ -250,6 +250,15 @@ class PilotWeek(models.Model):
             return True
 
         return False
+
+    def state_parcel(self):
+        # Returns a basic status parcel for updating page state
+        return {
+          'callsign' : self.pilot.pilot_callsign
+        , 'spent-xp' : self.training_cost()
+        , 'final-xp' : self.character_points()
+        }
+
     
 class PilotTrainingEvent(models.Model):
     pilot_week = models.ForeignKey('PilotWeek', related_name='training')
@@ -317,7 +326,8 @@ class PilotTraitEvent(models.Model):
 
 class PilotDeferment(models.Model):
     pilot_week = models.ForeignKey('PilotWeek', related_name='deferred')
-    deferred = models.CharField(max_length=100)
+    deferred = models.ForeignKey(PilotTrait)
+    notes = models.CharField(max_length=50, blank=True, null=True)
     duration = models.IntegerField()
     duration_set = models.BooleanField(default=False)
     next_week = models.OneToOneField('PilotDeferment', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)

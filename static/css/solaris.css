@@ -1350,17 +1350,23 @@ table.pilots td.total {
   border-bottom: 3px double;
 }
 
-#pilot-training-form span {
+.single-line-form span {
   display: inline-block;
 }
 
-#pilot-training-form span.pilot select ,
-#pilot-training-form span.training select,
-#pilot-training-form span.notes input {
+.single-line-form span.duration input {
+  width: 8em;
+}
+
+.single-line-form span.pilot select,
+.single-line-form span.training select,
+.single-line-form span.notes input {
   width: 12em;
 }
 
-#pilot-training-form span.skill select {
+.single-line-form span.skill select,
+.single-line-form span.trait select,
+.single-line-form span.deferred input {
   width: 16em;
 }
 

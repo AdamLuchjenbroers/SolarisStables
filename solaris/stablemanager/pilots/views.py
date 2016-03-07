@@ -28,6 +28,8 @@ class StablePilotsView(StableWeekMixin, ListView):
         page_context['available_disciplines'] = available_disciplines.distinct().order_by('name')
 
         page_context['training_form'] = forms.PilotTrainingForm(stableweek=self.stableweek, auto_id='pilot-training-%s')
+        page_context['trait_form'] = forms.PilotTraitForm(stableweek=self.stableweek, auto_id='pilot-trait-%s')
+        page_context['defer_form'] = forms.PilotDefermentForm(stableweek=self.stableweek, auto_id='pilot-trait-%s')
 
         return page_context
 
@@ -169,6 +171,13 @@ class AjaxGetPilotSkillsList(AjaxPilotMixin, View):
 
         return HttpResponse(json.dumps(skill_list))
 
+class AjaxGetCurrentPilotTraits(AjaxPilotMixin, View):
+    def get(self, request, week=None):
+        traits = self.pilotweek.traits.exclude(trait__discipline__discipline_type='T')
+        trait_list = [ { 'id' : t.id, 'name' : t.trait.name } for t in traits ]
+
+        return HttpResponse(json.dumps(trait_list))
+
 class AjaxAddPilotTraining(AjaxPilotMixin, View):
     def post(self, request, week=None):
         try:
@@ -189,11 +198,7 @@ class AjaxAddPilotTraining(AjaxPilotMixin, View):
             training.save()        
             self.pilotweek.save()
 
-            result = {
-              'callsign' : self.pilot.pilot_callsign
-            , 'spent-xp' : self.pilotweek.training_cost()
-            , 'final-xp' : self.pilotweek.character_points()
-            }
+            result = self.pilotweek.state_parcel()
             return HttpResponse(json.dumps(result))
         except PilotTrait.DoesNotExist:
             return HttpResponse('Invalid Skill ID', status=400)

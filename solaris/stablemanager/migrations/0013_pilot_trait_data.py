@@ -17,9 +17,10 @@ class Migration(migrations.Migration):
             name='PilotDeferment',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('deferred', models.CharField(max_length=100)),
+                ('notes', models.CharField(max_length=50, null=True, blank=True)),
                 ('duration', models.IntegerField()),
                 ('duration_set', models.BooleanField(default=False)),
+                ('deferred', models.ForeignKey(to='warbook.PilotTrait')),
                 ('next_week', models.OneToOneField(related_name='prev_week', null=True, on_delete=django.db.models.deletion.SET_NULL, blank=True, to='stablemanager.PilotDeferment')),
                 ('pilot_week', models.ForeignKey(related_name='deferred', to='stablemanager.PilotWeek')),
             ],
