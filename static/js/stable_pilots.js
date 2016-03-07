@@ -121,13 +121,13 @@ function render_option(text, cost, key, available) {
    if (!available) {
       opthtml += ' disabled=\'yes\'';
    }
-   opthtml += '> [' + cost + '] ' + text + '</option>';
+   opthtml += 'cost=\"' + cost + '\"> [' + cost + '] ' + text + '</option>';
 
    return opthtml;
 }
 
-function get_pilot_training_options(field) {
-  callsign = $(field).children(':selected').text();
+function get_pilot_training_options(callsign, select_id) {
+  field = $(select_id);
 
   $.ajax({
     type : 'get'
@@ -149,30 +149,29 @@ function get_pilot_training_options(field) {
                             , 'S|' + response['skills']['skill']
                             , response['skills']['available']);
 
-    field = $('#pilot-training-training');
     field.html(opthtml);
     field.removeAttr('disabled');
-    $('#pilot-training-submit').attr('disabled', 'yes');
-
-    field.change( function() {
-      skills = $('#pilot-training-skill');
-      notes = $('#pilot-training-notes');
-      submit = $('#pilot-training-submit');
-
-      if (field.val().charAt(0) == 'S') {
-        notes.removeAttr('disabled');
-        get_pilot_skills_list(callsign);
-      } else {
-        skills.html('');
-        skills.attr('disabled','yes');
-        notes.attr('disabled','yes');
-      } 
-    });
 
   }).fail(function(response) {
-    $('#pilot-training-training').html('');
-    $('#pilot-training-training').attr('disabled','yes');
+    field.html('');
+    field.attr('disabled','yes');
   });
+}
+
+function change_pilot_training() {
+  train = $('#pilot-training-training');
+  skills = $('#pilot-training-skill');
+  notes = $('#pilot-training-notes');
+  submit = $('#pilot-training-submit');
+
+  if (train.val().charAt(0) == 'S') {
+    notes.removeAttr('disabled');
+    get_pilot_skills_list(callsign);
+  } else {
+    skills.html('');
+    skills.attr('disabled','yes');
+    notes.attr('disabled','yes');
+  } 
 }
 
 function submit_pilot_training() {
@@ -305,7 +304,11 @@ $( document ).ready(function() {
   });
 
   reset_training_form();
-  $('#pilot-training-pilot').change( function() { get_pilot_training_options(this); } );
+  $('#pilot-training-pilot').change( function() { 
+    callsign = $(this).children(':selected').text();
+    get_pilot_training_options(callsign, '#pilot-training-training'); 
+  });
+  $('#pilot-training-training').change( function() { change_pilot_training(); });
   $('#pilot-training-form select, #pilot-training-form input').change( function() { validate_training_form(); });
 
   $('#pilot-trait-form select, #pilot-trait-form input').change( function() { validate_trait_form(); });
