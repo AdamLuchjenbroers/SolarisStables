@@ -1276,6 +1276,14 @@ table.pilots tr.header td.train-skill {
   width: 20em;
 }
 
+table.pilots tr.header td.defer-skill {
+  width: 8em;
+}
+
+table.pilots tr.header td.duration {
+  width: 16em;
+}
+
 table.pilots .annotation {
   background-color: #DDDDDD;
   width: 40em;
@@ -1360,13 +1368,13 @@ table.pilots td.total {
 
 .single-line-form span.pilot select,
 .single-line-form span.training select,
+.single-line-form span.deferred select,
 .single-line-form span.notes input {
   width: 12em;
 }
 
 .single-line-form span.skill select,
-.single-line-form span.trait select,
-.single-line-form span.deferred input {
+.single-line-form span.trait select {
   width: 16em;
 }
 

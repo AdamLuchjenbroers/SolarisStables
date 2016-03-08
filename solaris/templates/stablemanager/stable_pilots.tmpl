@@ -79,11 +79,15 @@
     <h3>Training Assignments</h3>
     {% include 'stablemanager/fragments/training_list.html' %}
     <p>All pilot training performed will be applied from the next Stable Week onwards</p>
-    {% include 'stablemanager/forms/stable_pilot_training.html' %}
+    {% include 'forms/single_line_add_form.html' with form=training_form form_id='pilot-training' %}
   <h2>Pilot Issues</h2>
     <h3>Deferred Problems</h3>
-    <p>Coming Soon</p>
+    {% include 'stablemanager/fragments/deferred_list.html' %}
+    {% include 'forms/single_line_add_form.html' with form=defer_form form_id='pilot-defer' %}
     <h3>New Problems</h3>
+    {% include 'stablemanager/fragments/trait_list.html' %}
+    <p>All new pilot issues will be applied from the next Stable Week onwards</p>
+    {% include 'forms/single_line_add_form.html' with form=trait_form form_id='pilot-trait' %}
     <p>Coming Soon</p>
 </div>
 {% endblock %}

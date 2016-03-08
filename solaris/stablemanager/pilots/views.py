@@ -12,14 +12,16 @@ from solaris.warbook.pilotskill.models import TrainingCost, PilotTrait
 
 from . import forms, models
 
-class StablePilotsView(StableWeekMixin, ListView):
+class StablePilotMixin(StableWeekMixin):
     submenu_selected = 'Pilots'
-    template_name = 'stablemanager/stable_pilots.tmpl'
     model = models.PilotWeek    
     view_url_name = 'stable_pilots'
 
     def get_queryset(self):
         return models.PilotWeek.objects.filter(week=self.stableweek)
+
+class StablePilotsView(StablePilotMixin, ListView):
+    template_name = 'stablemanager/stable_pilots.tmpl'
 
     def get_context_data(self, **kwargs):
         page_context = super(StablePilotsView, self).get_context_data(**kwargs)
@@ -29,18 +31,18 @@ class StablePilotsView(StableWeekMixin, ListView):
 
         page_context['training_form'] = forms.PilotTrainingForm(stableweek=self.stableweek, auto_id='pilot-training-%s')
         page_context['trait_form'] = forms.PilotTraitForm(stableweek=self.stableweek, auto_id='pilot-trait-%s')
-        page_context['defer_form'] = forms.PilotDefermentForm(stableweek=self.stableweek, auto_id='pilot-trait-%s')
+        page_context['defer_form'] = forms.PilotDefermentForm(stableweek=self.stableweek, auto_id='pilot-defer-%s')
 
         return page_context
 
-class StablePilotsTrainingPartView(StableWeekMixin, ListView):
+class StablePilotsTrainingPartView(StablePilotMixin, ListView):
     template_name = 'stablemanager/fragments/training_list.html'
-    model = models.PilotWeek    
-    view_url_name = 'stable_pilots'
 
-    def get_queryset(self):
-        return models.PilotWeek.objects.filter(week=self.stableweek)
+class StablePilotsTraitsPartView(StablePilotMixin, ListView):
+    template_name = 'stablemanager/fragments/trait_list.html'
 
+class StablePilotsDeferredPartView(StablePilotMixin, ListView):
+    template_name = 'stablemanager/fragments/deferred_list.html'
         
 class InitialPilotNamingView(StableViewMixin, FormView):
     template_name = 'stablemanager/initial_pilots.tmpl'
@@ -109,40 +111,41 @@ class AjaxPilotMixin(StableWeekMixin, View):
         except models.PilotWeek.DoesNotExist:
             return HttpResponse('Cannot find Pilot Week', status=404)
 
-        return super(AjaxPilotMixin, self).dispatch(request, *args, **kwargs)
-
-class AjaxSetPilotAttribute(AjaxPilotMixin, View):
-    def post(self, request, week=None):
+        # Wrap all requests with this exception handler so handling of missing or 
+        # incorrect query parameters is consistent
         try:
-            attribute = request.POST['attribute']
-            value = int(request.POST['value']) 
-            if attribute == 'cp':
-                self.pilotweek.adjust_character_points = value
-            elif attribute == 'tp':
-                self.pilotweek.assigned_training_points = value
-            elif attribute == 'wounds':
-                value = self.pilotweek.set_wounds(value)
-            elif attribute == 'fame':
-                value = self.pilotweek.set_fame(value)
-            else:
-                return HttpResponse('Unrecognised Attribute: %s' % attribute, status=400)
-
-            self.pilotweek.save()
-
-            result = {
-              'callsign' : self.pilot.pilot_callsign
-            , 'value'    : value
-            , 'total-cp' : self.pilotweek.character_points()
-            , 'is-dead'  : self.pilotweek.is_dead()
-            , 'tp-table' : self.pilotweek.week.assigned_tp_counts()
-            }
-
-            return HttpResponse(json.dumps(result))
+            return super(AjaxPilotMixin, self).dispatch(request, *args, **kwargs)
         except KeyError:
             return HttpResponse('Incomplete AJAX request', status=400)
         except ValueError:
             return HttpResponse('Invalid AJAX request', status=400)
-  
+
+class AjaxSetPilotAttribute(AjaxPilotMixin, View):
+    def post(self, request, week=None):
+        attribute = request.POST['attribute']
+        value = int(request.POST['value']) 
+        if attribute == 'cp':
+            self.pilotweek.adjust_character_points = value
+        elif attribute == 'tp':
+            self.pilotweek.assigned_training_points = value
+        elif attribute == 'wounds':
+            value = self.pilotweek.set_wounds(value)
+        elif attribute == 'fame':
+            value = self.pilotweek.set_fame(value)
+        else:
+            return HttpResponse('Unrecognised Attribute: %s' % attribute, status=400)
+
+        self.pilotweek.save()
+
+        result = {
+          'callsign' : self.pilot.pilot_callsign
+        , 'value'    : value
+        , 'total-cp' : self.pilotweek.character_points()
+        , 'is-dead'  : self.pilotweek.is_dead()
+        , 'tp-table' : self.pilotweek.week.assigned_tp_counts()
+        }
+
+        return HttpResponse(json.dumps(result))
 
 class AjaxGetAvailableTraining(AjaxPilotMixin, View):
     def get(self, request, week=None):
@@ -174,7 +177,7 @@ class AjaxGetPilotSkillsList(AjaxPilotMixin, View):
 class AjaxGetCurrentPilotTraits(AjaxPilotMixin, View):
     def get(self, request, week=None):
         traits = self.pilotweek.traits.exclude(trait__discipline__discipline_type='T')
-        trait_list = [ { 'id' : t.id, 'name' : t.trait.name } for t in traits ]
+        trait_list = [ { 'id' : t.trait.id, 'name' : t.trait.name } for t in traits ]
 
         return HttpResponse(json.dumps(trait_list))
 
@@ -204,29 +207,81 @@ class AjaxAddPilotTraining(AjaxPilotMixin, View):
             return HttpResponse('Invalid Skill ID', status=400)
         except TrainingCost.DoesNotExist:
             return HttpResponse('Malformed Training Type ID', status=400)
-        except KeyError:
-            return HttpResponse('Incomplete AJAX request', status=400)
-        except ValueError:
-            return HttpResponse('Invalid AJAX request', status=400)
 
-class AjaxRemovePilotTraining(AjaxPilotMixin, View):
+class AjaxAddPilotTrait(AjaxPilotMixin, View):
     def post(self, request, week=None):
         try:
-            train = self.pilotweek.training.get(id=int(request.POST['train_id']))
+            trait = PilotTrait.objects.get(id=int(request.POST['trait']))
+
+            if request.POST['notes'] != "":
+                notes = request.POST['notes']
+            else:
+                notes = None
+
+            (gain_trait, created) = models.PilotTraitEvent.objects.get_or_create(pilot_week=self.pilotweek, trait=trait)
+            gain_trait.notes = notes
+            gain_trait.save()
+
+            result = self.pilotweek.state_parcel()
+            return HttpResponse(json.dumps(result))
+
+        except PilotTrait.DoesNotExist:
+            return HttpResponse('Invalid Trait ID', status=400)
+
+class AjaxRemovePilotEventBase(AjaxPilotMixin, View):
+    def get_trainevent(self, request):
+        return None
+        return self.pilotweek.training.get(id=int(request.POST['train_id']))
+
+    def post(self, request, week=None):
+        try:
+            train = self.get_trainevent(request) 
             self.pilotweek.remove_trait(train.trait)
             train.delete()
 
             self.pilotweek.save()
     
-            result = {
-              'callsign' : self.pilot.pilot_callsign
-            , 'spent-xp' : self.pilotweek.training_cost()
-            , 'final-xp' : self.pilotweek.character_points()
-            }
+            result = self.pilotweek.state_parcel()
             return HttpResponse(json.dumps(result))
         except models.PilotTrainingEvent.DoesNotExist:
             return HttpResponse('Training Event Does Not Exist', status=404)
-        except KeyError:
-            return HttpResponse('Incomplete AJAX request', status=400)
-        except ValueError:
-            return HttpResponse('Invalid AJAX request', status=400)
+        except models.PilotTraitEvent.DoesNotExist:
+            return HttpResponse('Trait Event Does Not Exist', status=404)
+
+class AjaxRemovePilotTraining(AjaxRemovePilotEventBase):
+    def get_trainevent(self, request):
+        return self.pilotweek.training.get(id=int(request.POST['train_id']))
+
+class AjaxRemovePilotTrait(AjaxRemovePilotEventBase):
+    def get_trainevent(self, request):
+        return self.pilotweek.new_traits.get(id=int(request.POST['trait_id']))
+
+class AjaxAddPilotDeferred(AjaxPilotMixin, View):
+    def post(self, request, week=None):
+        try: 
+            trait = PilotTrait.objects.get(id=int(request.POST['trait']))
+            duration = int(request.POST['duration'])
+
+            if request.POST['notes'] != "":
+                notes = request.POST['notes']
+            else:
+                notes = None
+
+            (deferred, created) = models.PilotDeferment.objects.get_or_create(pilot_week=self.pilotweek, deferred=trait)
+            deferred.duration = duration
+            deferred.notes = notes
+            deferred.save()
+
+        except PilotTrait.DoesNotExist:
+            return HttpResponse('Invalid Trait ID', status=400)
+
+class AjaxEndPilotDeferred(AjaxPilotMixin, View):
+    def post(self, request, week=None):
+        try:
+            defer = self.pilotweek.deferred.get(id=int(request.POST['defer_id']))
+            defer.end_deferment()
+
+            result = self.pilotweek.state_parcel()
+            return HttpResponse(json.dumps(result))
+        except models.PilotDeferment.DoesNotExist:
+            return HttpResponse('Invalid Deferment ID', status=400)

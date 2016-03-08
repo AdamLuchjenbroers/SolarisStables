@@ -1,0 +1,26 @@
+<table id="pilot-defer-list" class="pilots">
+  <tr class="header">
+    <td class="name">Pilot</td><td class="defer-skill">Issue</td><td class="duration">Remaining</td>
+  </tr>
+  {% for pilotweek in object_list %}
+    {%if pilotweek.deferred.count > 0 %}
+    <tr class="pilot-row {%cycle 'odd' 'even' as rowclass %}">
+     <td class="name" rowspan="{{pilotweek.deferred.count}}">{{pilotweek.pilot.full_name}}</td>
+        {% for defer in pilotweek.deferred.all %}
+          {% if not forloop.first %}<tr class="pilot-row {{rowclass}}">{% endif %}
+          <td>{{defer.description}}</td>
+          <td>
+            {% if defer.duration > 1 %}Suppressed for {{defer.duration}} weeks
+            {% elif defer.duration == 1 %}Suppressed for one more week
+            {% else %}No longer suppressed
+            {% endif %}
+            {% if not defer.is_locked %}
+            <input defer_id="{{defer.id}}" callsign="{{pilotweek.pilot.pilot_callsign}}" type="button" class="icon-button icon-small icon-delete icon-right" value="&#x2716;"/>{%endif%}
+          </td>
+        </tr>
+        {% endfor %}
+    </tr>
+  {% endif %}
+  {% endfor %}
+</table>
+

@@ -1,0 +1,21 @@
+<table id="pilot-trait-list" class="pilots">
+  <tr class="header">
+    <td class="name">Pilot</td><td class="train-skill">Issue</td>
+  </tr>
+  {% for pilotweek in object_list %}
+    {%if pilotweek.new_traits.count > 0 %}
+    <tr class="pilot-row {%cycle 'odd' 'even' as rowclass %}">
+     <td class="name" rowspan="{{pilotweek.new_traits.count}}">{{pilotweek.pilot.full_name}}</td>
+        {% for trait in pilotweek.new_traits.all %}
+          {% if not forloop.first %}<tr class="pilot-row {{rowclass}}">{% endif %}
+          <td>{{trait.description}}
+            {% if not trait.is_locked %}
+            <input trait_id="{{trait.id}}" callsign="{{pilotweek.pilot.pilot_callsign}}" type="button" class="icon-button icon-small icon-delete icon-right" value="&#x2716;"/>{%endif%}
+          </td>
+        </tr>
+        {% endfor %}
+    </tr>
+  {% endif %}
+  {% endfor %}
+</table>
+

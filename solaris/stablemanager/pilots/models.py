@@ -92,7 +92,7 @@ class PilotWeek(models.Model):
     next_week = models.OneToOneField('PilotWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
     
     def is_dead(self):
-        return (self.wounds >= 6)
+        return ((self.wounds + self.blackmarks) >= 6)
 
     def is_locked(self):
         if self.next_week == None:
@@ -328,12 +328,34 @@ class PilotDeferment(models.Model):
     pilot_week = models.ForeignKey('PilotWeek', related_name='deferred')
     deferred = models.ForeignKey(PilotTrait)
     notes = models.CharField(max_length=50, blank=True, null=True)
-    duration = models.IntegerField()
+    duration = models.IntegerField(default=0)
     duration_set = models.BooleanField(default=False)
     next_week = models.OneToOneField('PilotDeferment', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
 
     def __unicode__(self):
         return '%s - %s deferred for %i weeks' % (self.pilot_week.pilot.pilot_callsign, self.deferred, self.duration) 
+
+    def end_deferment(self):
+        next_def = self.next_week
+     
+        while next_def != None:
+            ptr = next_def
+            next_def = ptr.next_week
+            
+            ptr.delete()
+
+        if hasattr(self, 'prev_week'):
+            self.duration = 0
+            self.duration_set = True
+            self.save()
+        else:
+            self.delete()
+
+    def description(self):
+        if self.notes != None:
+            return '%s (%s)' % (self.deferred, self.notes)
+        else:
+            return '%s' % self.deferred
 
     class Meta:
         db_table = 'stablemanager_issuedeferred'
@@ -344,10 +366,13 @@ class PilotDeferment(models.Model):
 
 @receiver(post_save, sender=PilotDeferment)
 def cascade_deferment_update(sender, instance=None, created=False, **kwargs):
+    if instance.pilot_week.next_week == None:
+        return 
+
     if instance.duration > 1:
         if instance.next_week == None:
             instance.next_week = PilotDeferment.objects.create(
-                pilot_week = instance.pilot_week
+                pilot_week = instance.pilot_week.next_week
             ,   deferred = instance.deferred
             ,   duration = instance.duration - 1
             )

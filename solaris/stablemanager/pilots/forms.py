@@ -47,16 +47,16 @@ class PilotWeekForm(ModelForm):
         fields = ('rank','skill_gunnery', 'skill_piloting', 'start_character_points')
 
 class PilotActionForm(Form):
-    pilot = ChoiceField()
+    pilot = ChoiceField(label='Pilot:', widget=SelectWithDisabled)
 
     def __init__(self, stableweek=None, *args, **kwargs):
         super(PilotActionForm, self).__init__(*args, **kwargs)
 
-        pilots = []
+        pilots = [('','-- Select Pilot --'),]
         for pw in stableweek.pilots.filter(wounds__lt=6):
             pilots.append((pw.id, {'label' : pw.pilot.pilot_callsign, 'disabled': pw.is_locked()}))
 
-        self.fields['pilot'] = ChoiceField(choices=pilots, widget=SelectWithDisabled, label='Pilot:')
+        self.fields['pilot'].choices = pilots 
         
 class PilotTrainingForm(PilotActionForm):
     training = ChoiceField(label='Training:')
@@ -85,7 +85,18 @@ class PilotTraitForm(PilotActionForm):
         self.fields['trait'].choices = choices
 
 class PilotDefermentForm(PilotActionForm):
-    deferred = CharField(max_length=100, label='Deferred:')
+    pilot = ChoiceField(label='Pilot:', widget=SelectWithDisabled)
+    deferred = ChoiceField(label='Deferred:')
+    notes = CharField(max_length=50, label='Notes (Optional):')
     duration = IntegerField(label='Duration (in Weeks):')
 
+    def __init__(self, stableweek=None, *args, **kwargs):
+        super(PilotActionForm, self).__init__(*args, **kwargs)
+
+        pilots = [('','-- Select Pilot --'),]
+        for pw in stableweek.pilots.filter(wounds__lt=6):
+            disabled = (pw.traits.exclude(trait__discipline__discipline_type='T').count() == 0)
+            pilots.append((pw.id, {'label' : pw.pilot.pilot_callsign, 'disabled': disabled }))
+
+        self.fields['pilot'] = ChoiceField(choices=pilots, widget=SelectWithDisabled, label='Pilot:')
 
