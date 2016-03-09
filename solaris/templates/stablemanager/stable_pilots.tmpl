@@ -73,7 +73,7 @@
     <h3>Available Disciplines</h3>
       <ul class="chit-list stable-disciplines">
         {% for discipline in available_disciplines %}
-        <li><a href="{{discipline.get_absolute_url}}">{{discipline.name}}</a></li>
+        <li class="stable-discipline chit"><a href="{{discipline.get_absolute_url}}">{{discipline.name}}</a></li>
         {% endfor %}
       </ul>
     <h3>Training Assignments</h3>

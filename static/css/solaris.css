@@ -1378,6 +1378,31 @@ table.pilots td.total {
   width: 16em;
 }
 
+ul.chit-list li.stable-discipline {
+  display: inline-block;
+
+  border-color: #BBBBBB;
+
+  margin: 0.5rem;
+  padding: 0.1rem;
+
+  background-color: #262223;
+}
+
+ul.chit-list li.stable-discipline a {
+  display: inline-block;
+  color: #BBBBBB;
+  text-decoration: none; 
+  width: 10em;
+}
+
+ul.chit-list li.stable-discipline a:hover {
+  background-color: #4C4466;
+  color: #FFFFFF;
+  box-shadow: inset 0 0 4px #262233;
+}
+
+
 /****************************************
  * UI Elements 
  ****************************************/
