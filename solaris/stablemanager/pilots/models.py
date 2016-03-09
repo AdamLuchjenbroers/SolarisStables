@@ -94,6 +94,15 @@ class PilotWeek(models.Model):
     def is_dead(self):
         return ((self.wounds + self.blackmarks) >= 6)
 
+    def is_visible(self):
+        if hasattr(self, 'prev_week'):
+            if self.prev_week.is_dead():
+                return False
+            else:
+                return self.prev_week.is_visible()
+        else:
+            return True    
+
     def is_locked(self):
         if self.next_week == None:
             # Cannot be locked if it's the most recent week.
@@ -142,6 +151,9 @@ class PilotWeek(models.Model):
         , fame = self.fame
         )
         self.save()
+
+        for defer in self.deferred.all():
+            defer.advance()
 
         self.next_week.skill_piloting = self.applied_piloting()
         self.next_week.skill_gunnery = self.applied_gunnery()
@@ -336,20 +348,35 @@ class PilotDeferment(models.Model):
         return '%s - %s deferred for %i weeks' % (self.pilot_week.pilot.pilot_callsign, self.deferred, self.duration) 
 
     def end_deferment(self):
-        next_def = self.next_week
-     
-        while next_def != None:
-            ptr = next_def
-            next_def = ptr.next_week
-            
-            ptr.delete()
-
         if hasattr(self, 'prev_week'):
             self.duration = 0
             self.duration_set = True
             self.save()
         else:
-            self.delete()
+            self.cascade_delete()
+
+    def cascade_delete(self):
+        # Recursively delete this record and all following it.
+        if self.next_week != None:
+            self.next_week.cascade_delete()
+
+        self.delete()
+
+    def advance(self):
+        if self.next_week != None:
+            return self.next_week
+
+        if self.pilot_week.next_week == None or self.duration <= 0:
+            return None
+        
+        self.next_week = PilotDeferment.objects.create (
+            pilot_week = self.pilot_week.next_week
+        ,   deferred = self.deferred
+        ,   notes = self.notes
+        ,   duration = self.duration - 1
+        )
+        self.save()
+        self.next_week.save()
 
     def description(self):
         if self.notes != None:
@@ -369,16 +396,14 @@ def cascade_deferment_update(sender, instance=None, created=False, **kwargs):
     if instance.pilot_week.next_week == None:
         return 
 
-    if instance.duration > 1:
-        if instance.next_week == None:
-            instance.next_week = PilotDeferment.objects.create(
-                pilot_week = instance.pilot_week.next_week
-            ,   deferred = instance.deferred
-            ,   duration = instance.duration - 1
-            )
-        elif not instance.next_week.duration_set:
+    if instance.next_week == None:
+        instance.advance()
+    elif instance.duration > 0:
+        if not instance.next_week.duration_set:
             instance.next_week.duration = instance.duration - 1
             instance.next_week.save()
+    else:
+        instance.next_week.cascade_delete()
 
 @receiver(post_save, sender=PilotWeek)
 def perform_cascading_updates(sender, instance=None, created=False, **kwargs):

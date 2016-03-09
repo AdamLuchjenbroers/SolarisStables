@@ -222,6 +222,8 @@ class AjaxAddPilotTrait(AjaxPilotMixin, View):
             gain_trait.notes = notes
             gain_trait.save()
 
+            self.pilotweek.save()
+
             result = self.pilotweek.state_parcel()
             return HttpResponse(json.dumps(result))
 
@@ -272,6 +274,8 @@ class AjaxAddPilotDeferred(AjaxPilotMixin, View):
             deferred.notes = notes
             deferred.save()
 
+            result = self.pilotweek.state_parcel()
+            return HttpResponse(json.dumps(result))
         except PilotTrait.DoesNotExist:
             return HttpResponse('Invalid Trait ID', status=400)
 
