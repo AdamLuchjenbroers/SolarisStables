@@ -43,6 +43,7 @@ class PilotRank(models.Model):
     auto_train_cp = models.IntegerField(default=0)
     promotion = models.ForeignKey('PilotRank', null=True, blank=True)
     receive_tp = models.BooleanField(default=False) 
+    prominence_factor = models.IntegerField(default=0)
        
     class Meta:
         verbose_name_plural = 'Pilot Ranks'

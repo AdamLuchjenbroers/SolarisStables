@@ -96,8 +96,11 @@ class StableWeek(models.Model):
             self.next_week.recalculate()
 
     def prominence(self):
-        #TODO: Compute this using underlying pilots
-        return 0
+        total = 0
+        for pilot in self.pilots.filter(rank__prominence_factor__gt=0):
+            total += pilot.fame * pilot.rank.prominence_factor
+
+        return total
 
     def can_advance(self):
         # We can advance if the next stableweek doesn't exist, but the next week does
