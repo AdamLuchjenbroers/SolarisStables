@@ -67,7 +67,26 @@ class InitialPilotNamingView(StableViewMixin, FormView):
         
         page_context['submit'] = 'Rename All'
         return page_context
-        
+
+class StableAddPilotFormView(StableViewMixin, TemplateView):
+    template_name = 'stablemanager/forms/add_pilot.html'
+
+    def get(self, request, week=None):
+        self.pilotform = forms.PilotForm(prefix='pilot')
+        self.pilotweekform = forms.PilotWeekForm(prefix='pweek')
+        self.training = forms.PilotTrainingFormSet(prefix='train') 
+       
+        return super(StableAddPilotFormView, self).get(request, week=week)
+
+    def get_context_data(self, **kwargs):
+        page_context = super(StableAddPilotFormView, self).get_context_data(**kwargs)
+
+        page_context['pilotform'] = self.pilotform
+        page_context['pilotweekform'] = self.pilotweekform
+        page_context['trainingform'] = self.training
+ 
+        return page_context
+ 
 class AjaxSetTrainingPoints(StableWeekMixin, View):
     def post(self, request, week=None):
         try:

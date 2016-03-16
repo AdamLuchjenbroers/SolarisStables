@@ -1,26 +1,77 @@
-from django.forms.models import inlineformset_factory
-from django.forms import Form, ModelForm, ChoiceField, ModelChoiceField, HiddenInput, CharField, IntegerField, modelformset_factory
+#from django.forms.models import inlineformset_factory
+from django import forms
 
 from . import models
 from snippets.widgets import SelectWithDisabled
 
-from solaris.warbook.pilotskill.models import PilotTraitGroup
+from solaris.warbook.models import house_list_as_opttree
+from solaris.warbook.pilotskill.models import PilotTrait, PilotTraitGroup
 
-class PilotForm(ModelForm):
+class PilotForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(PilotForm, self).__init__(*args, **kwargs)
-        self.fields['stable'].widget = HiddenInput()
+        self.fields['stable'].widget = forms.HiddenInput()
         self.fields['stable'].required = False #Will be set by invoking form
         
-        self.fields['pilot_name'].label = 'Name'
-        self.fields['pilot_callsign'].label = 'Callsign'
+        self.fields['pilot_name'].label = 'Name (Optional):'
+        self.fields['pilot_callsign'].label = 'Callsign:'
+
+        self.fields['affiliation'].choices = (('', '-- Select House --'),) + house_list_as_opttree()
+        self.fields['affiliation'].label = 'House or Faction:'
 
     class Meta:
         model = models.Pilot
         fields = ('stable','pilot_name', 'pilot_callsign','affiliation')
 
-class PilotNamingForm(ModelForm):
-    pilot_name = CharField(required=False)
+class AddPilotTraitAbstract(forms.ModelForm):
+    class Meta:
+        model = models.PilotWeekTraits
+        fields = ('trait','notes', 'pilot_week')
+
+    def __init__(self, *args, **kwargs):
+        super(AddPilotTraitAbstract, self).__init__(*args, **kwargs)
+        self.fields['notes'].label = 'Notes (Optional):'
+
+    def get_choices(self, qset):
+        choices = (("","-- Select Trait --"),)
+        for group in qset:
+            traitlist = tuple([ (trait.id, trait.name) for trait in group.traits.all()]) 
+            choices += ((group.name, traitlist), )
+
+        return choices
+
+class AddPilotTraitForm(AddPilotTraitAbstract):
+    def __init__(self, *args, **kwargs):
+        super(AddPilotTraitForm, self).__init__(*args, **kwargs)
+        self.fields['trait'].choices = self.get_choices(PilotTraitGroup.objects.exclude(discipline_type='T'))
+        self.fields['trait'].label = 'Skill:'
+
+PilotTraitFormSet = forms.inlineformset_factory(models.PilotWeek, models.PilotWeekTraits, form=AddPilotTraitForm, extra=1)
+
+class AddPilotTrainingForm(AddPilotTraitAbstract):
+    def __init__(self, *args, **kwargs):
+        super(AddPilotTrainingForm, self).__init__(*args, **kwargs)
+        self.fields['trait'].choices = self.get_choices(PilotTraitGroup.objects.filter(discipline_type='T'))
+        self.fields['trait'].label = 'Problem:'
+
+PilotTrainingFormSet = forms.inlineformset_factory(models.PilotWeek, models.PilotWeekTraits, form=AddPilotTrainingForm, extra=1)
+        
+class PilotWeekForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PilotWeekForm, self).__init__(*args, **kwargs)
+        
+        self.fields['start_character_points'].label = 'Experience:'
+        self.fields['rank'].label = 'Ranking:'
+        self.fields['skill_gunnery'].label = 'Gunnery:'
+        self.fields['skill_piloting'].label = 'Piloting:'
+
+    class Meta:
+        model = models.PilotWeek
+        fields = ('pilot' ,'rank' ,'skill_gunnery', 'skill_piloting', 'start_character_points')
+
+class PilotNamingForm(forms.ModelForm):
+    pilot_name = forms.CharField(required=False)
 
     class Meta:
         model = models.Pilot
@@ -31,23 +82,10 @@ class PilotNamingForm(ModelForm):
         pw = self.instance.weeks.get(week=sw)
         return '%s, %i/%i' % (pw.rank.rank, pw.skill_gunnery, pw.skill_piloting)
 
-PilotNamingFormSet = modelformset_factory(models.Pilot, form=PilotNamingForm, fields=('pilot_name', 'pilot_callsign'), extra=0)
-        
-class PilotWeekForm(ModelForm):
-    
-    def __init__(self, *args, **kwargs):
-        super(PilotWeekForm, self).__init__(*args, **kwargs)
-        
-        self.fields['start_character_points'].label = 'Experience'
-        self.fields['skill_gunnery'].label = 'Gunnery'
-        self.fields['skill_piloting'].label = 'Piloting'
-    
-    class Meta:
-        model = models.PilotWeek
-        fields = ('rank','skill_gunnery', 'skill_piloting', 'start_character_points')
+PilotNamingFormSet = forms.modelformset_factory(models.Pilot, form=PilotNamingForm, fields=('pilot_name', 'pilot_callsign'), extra=0)
 
-class PilotActionForm(Form):
-    pilot = ChoiceField(label='Pilot:', widget=SelectWithDisabled)
+class PilotActionForm(forms.Form):
+    pilot = forms.ChoiceField(label='Pilot:', widget=SelectWithDisabled)
 
     def __init__(self, stableweek=None, *args, **kwargs):
         super(PilotActionForm, self).__init__(*args, **kwargs)
@@ -59,9 +97,9 @@ class PilotActionForm(Form):
         self.fields['pilot'].choices = pilots 
         
 class PilotTrainingForm(PilotActionForm):
-    training = ChoiceField(label='Training:')
-    skill = ChoiceField(label='Skill:')
-    notes = CharField(max_length=50,label='Skill Notes (Optional):')
+    training = forms.ChoiceField(label='Training:')
+    skill = forms.ChoiceField(label='Skill:')
+    notes = forms.CharField(max_length=50,label='Skill Notes (Optional):')
     
     def __init__(self, *args, **kwargs):
         super(PilotTrainingForm, self).__init__(*args, **kwargs)
@@ -71,8 +109,8 @@ class PilotTrainingForm(PilotActionForm):
         self.fields['notes'].widget.attrs['disabled'] = True
 
 class PilotTraitForm(PilotActionForm):
-    trait = ChoiceField(label="Problem:")
-    notes = CharField(label='Problem Notes (Optional):', max_length=50)
+    trait = forms.ChoiceField(label="Problem:")
+    notes = forms.CharField(label='Problem Notes (Optional):', max_length=50)
 
     def __init__(self, *args, **kwargs):
         super(PilotTraitForm, self).__init__(*args, **kwargs)
@@ -85,10 +123,10 @@ class PilotTraitForm(PilotActionForm):
         self.fields['trait'].choices = choices
 
 class PilotDefermentForm(PilotActionForm):
-    pilot = ChoiceField(label='Pilot:', widget=SelectWithDisabled)
-    deferred = ChoiceField(label='Deferred:')
-    notes = CharField(max_length=50, label='Notes (Optional):')
-    duration = IntegerField(label='Duration (in Weeks):')
+    pilot = forms.ChoiceField(label='Pilot:', widget=SelectWithDisabled)
+    deferred = forms.ChoiceField(label='Deferred:')
+    notes = forms.CharField(max_length=50, label='Notes (Optional):')
+    duration = forms.IntegerField(label='Duration (in Weeks):')
 
     def __init__(self, stableweek=None, *args, **kwargs):
         super(PilotActionForm, self).__init__(*args, **kwargs)
@@ -98,5 +136,5 @@ class PilotDefermentForm(PilotActionForm):
             disabled = (pw.traits.exclude(trait__discipline__discipline_type='T').count() == 0)
             pilots.append((pw.id, {'label' : pw.pilot.pilot_callsign, 'disabled': disabled }))
 
-        self.fields['pilot'] = ChoiceField(choices=pilots, widget=SelectWithDisabled, label='Pilot:')
+        self.fields['pilot'] = forms.ChoiceField(choices=pilots, widget=SelectWithDisabled, label='Pilot:')
 

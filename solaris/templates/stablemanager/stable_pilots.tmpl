@@ -47,6 +47,8 @@
   {% else %}
     <p>No pilots in stable</p>
   {% endif %}
+  <input id="button-add-pilot" type="button" class="icon-button" value="&#x2795;">Add Pilot</input>
+  
   <h2>Training Points</h2>
   <table id="stable-pilots-training" class="pilots">
     <tr class="header"><td></td><td>Gained</td><td>Assigned</td><td class="annotation wrong"></td></tr>
@@ -90,4 +92,5 @@
     {% include 'forms/single_line_add_form.html' with form=trait_form form_id='pilot-trait' %}
     <p>Coming Soon</p>
 </div>
+<div class="hidden" title="Add Pilot" id="dialog-add-pilot"></div>
 {% endblock %}

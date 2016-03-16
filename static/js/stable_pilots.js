@@ -423,6 +423,21 @@ function validate_deferred_form() {
   }  
 }
 
+function dialog_add_pilot() {
+  $('#dialog-add-pilot').load( 
+    window.location.href + '/add-pilot' 
+  , function(response, state, jqxhr) {
+    $('#dialog-add-pilot').dialog({
+      modal: true
+    , width: 500
+    , height: (window.innerHeight * 0.75)
+    , buttons: {
+        Close: function() { $( this ).dialog("close"); }
+      }
+    });
+  });
+}
+
 $( document ).ready(function() {
   $('#training-total.editable').one('click', function() {
     to_number_input( $(this), send_changed_tp );
@@ -452,6 +467,8 @@ $( document ).ready(function() {
   training_table_setup(); 
   trait_table_setup(); 
   defer_table_setup();
+
+  $('#button-add-pilot').click( dialog_add_pilot );
  
   check_tp_assignment();
 });

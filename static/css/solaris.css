@@ -1358,7 +1358,7 @@ table.pilots td.total {
   border-bottom: 3px double;
 }
 
-.single-line-form span {
+.single-line-form span, .form-row span {
   display: inline-block;
 }
 
@@ -1485,6 +1485,15 @@ input.icon-button:disabled {
   font-size: x-small;
 }
 
+.editable:hover {
+  background-color: #B0FFFF;
+}
+
+.text-block {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
 button.form-action {
   font-size: 120%;
   font-weight: bold;
@@ -1542,6 +1551,44 @@ button.form-action {
 
 .label-divider-right {
   flex-grow: 3;
+}
+
+#dialog-add-pilot form {
+  font-size: 80%;
+}
+
+#dialog-add-pilot select, #dialog-add-pilot input {
+  margin-left: 0.5em;
+}
+
+#dialog-add-pilot h2 {
+  text-decoration: underline;
+  font-size: 120%;
+}
+
+.form-row .piloting input,
+.form-row .gunnery input,
+.form-row .character-points input {
+  width: 4em;
+}
+
+.form-row .callsign input,
+.form-row .rank select {
+  width: 8em;
+}
+
+.form-row .notes input {
+  width: 12em;
+}
+
+.form-row .house select,
+.form-row .trait select,
+.form-row .fullname input {
+  width: 16em;
+}
+
+.form-row {
+  margin-bottom: 0.5em;
 }
 
 /****************************************

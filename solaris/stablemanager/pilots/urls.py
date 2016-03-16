@@ -6,6 +6,9 @@ urlpatterns = patterns('',
     url(r'^/?$', views.StablePilotsView.as_view(), name='stable_pilots_now'),
     url(r'^(?P<week>[0-9]+)/?$', views.StablePilotsView.as_view(), name='stable_pilots'),
 
+    url(r'^/?add-pilot$', views.StableAddPilotFormView.as_view(), name='stable_add_pilot_now'),
+    url(r'^(?P<week>[0-9]+)/+add-pilot?$', views.StableAddPilotFormView.as_view(), name='stable_add_pilot'),
+
     url(r'^/?training$', views.StablePilotsTrainingPartView.as_view(), name="stable_training_now"),
     url(r'^/?(?P<week>[0-9]+)/+training$', views.StablePilotsTrainingPartView.as_view(), name="stable_training"),
 

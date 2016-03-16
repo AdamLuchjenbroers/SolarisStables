@@ -12,12 +12,13 @@
   <h2>Finances</h2>
   <p><em>Current Balance: </em>{{stableweek.closing_balance}}</p>
   <h2>Reputation</h2>
+  <p><span>&#x270E;</span>
   {% if stableweek.reputation > 0 %}
-    <p class="face" reputation="{{stableweek.reputation}}">Face ({{stableweek.abs_reputation}})</p>
+    <span class="face text-block editable" reputation="{{stableweek.reputation}}">Face ({{stableweek.abs_reputation}})</span>
   {% elif stableweek.reputation < 0 %} 
-    <p class="heel" reputation="{{stableweek.reputation}}">Heel ({{stableweek.abs_reputation}})<p>
+    <span class="heel text-block editable" reputation="{{stableweek.reputation}}">Heel ({{stableweek.abs_reputation}})</span>
   {% else %}
-    <p reputation="{{stableweek.reputation}}">Neutral</p>
+    <span class="text-block editable" reputation="{{stableweek.reputation}}">Neutral</span>
   {% endif %}
 
   <h2>Supply Contracts</h2>

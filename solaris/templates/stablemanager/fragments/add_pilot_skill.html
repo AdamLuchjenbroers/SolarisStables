@@ -1,0 +1,4 @@
+<div {% if template_id %}id="{{template_id}}"{% endif %} class="form-row skill-row {% if template_id %}hidden{% endif %}">
+  <span class="trait"><div class="label-small">{{form.trait.label}}</div>{{form.trait}}</span>
+  <span class="notes"><div class="label-small">{{form.notes.label}}</div>{{form.notes}}</span>
+</div>

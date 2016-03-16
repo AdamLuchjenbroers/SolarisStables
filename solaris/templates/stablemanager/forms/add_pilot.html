@@ -1,0 +1,32 @@
+<form>
+  <h2>Pilot Name</h2>  
+  <div class="form-row">
+    <span class="callsign"><div class="label-small">{{pilotform.pilot_callsign.label}}</div>{{pilotform.pilot_callsign}}</span>
+    <span class="fullname"><div class="label-small">{{pilotform.pilot_name.label}}</div>{{pilotform.pilot_name}}</span>
+  </div>
+  
+  <h2>Affiliation</h2>
+  <div class="form-row">
+    <span class="house"><div class="label-small">{{pilotform.affiliation.label}}</div>{{pilotform.affiliation}}</span>
+  </div>
+
+  <h2>Rank and Abilities</h2>
+  <div class="form-row">
+    <span class="rank"><div class="label-small">{{pilotweekform.rank.label}}</div>{{pilotweekform.rank}}</span>
+    <span class="gunnery"><div class="label-small">{{pilotweekform.skill_gunnery.label}}</div>{{pilotweekform.skill_gunnery}}</span>
+    <span class="piloting"><div class="label-small">{{pilotweekform.skill_piloting.label}}</div>{{pilotweekform.skill_piloting}}</span>
+    <span class="character-points"><div class="label-small">{{pilotweekform.start_character_points.label}}</div>{{pilotweekform.start_character_points}}</span>
+  </div>
+
+  <h2>Pilot Skills</h2>
+  <div id="add-pilot-training-form">
+    {{ trainingform.management_form }}
+
+    {% for form in trainingform %}
+      {% include 'stablemanager/fragments/add_pilot_skill.html' with form=form %} 
+    {% endfor %}
+
+    {% include 'stablemanager/fragments/add_pilot_skill.html' with form=trainingform.empty_form template_id='add-pilot-skill-template' %} 
+  </div>
+  <h2>Pilot Issues</h2>
+</form>
