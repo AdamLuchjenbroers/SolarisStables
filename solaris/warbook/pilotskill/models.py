@@ -94,6 +94,11 @@ class PilotTrait(models.Model):
     description = models.TextField()
     discipline = models.ForeignKey(PilotTraitGroup, null=True, blank=True, related_name='traits')
     bv_mod = models.DecimalField(max_digits=6 ,decimal_places=3 ,choices=bv_modifiers)
+
+    table_sets = ( (1, '[1-3]'), (2, '[4-6]'), )
+    table = models.IntegerField(default=1, choices=table_sets)
+    item = models.IntegerField(null=True)
+    
     
     def bv_text(self):
         bv_description = self.get_bv_mod_display()
