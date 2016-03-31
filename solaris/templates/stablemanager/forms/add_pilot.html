@@ -1,4 +1,4 @@
-<form>
+<form id="add-pilot-form">
   <h2>Pilot Name</h2>  
   <div class="form-row">
     <span class="callsign"><div class="label-small">{{pilotform.pilot_callsign.label}}</div>{{pilotform.pilot_callsign}}</span>
@@ -22,11 +22,15 @@
   <div id="add-pilot-training-form">
     {{ trainingform.management_form }}
 
+    {% include 'stablemanager/fragments/add_pilot_skill.html' with form=trainingform.empty_form template_id='add-pilot-skill-template' %} 
+
     {% for form in trainingform %}
       {% include 'stablemanager/fragments/add_pilot_skill.html' with form=form %} 
     {% endfor %}
 
-    {% include 'stablemanager/fragments/add_pilot_skill.html' with form=trainingform.empty_form template_id='add-pilot-skill-template' %} 
+    <div class="action-row" id="add-pilot-add-skill">
+      <input id="add-pilot-add-skill" type="button" class="icon-button" value="&#x2795;">Add Skill</input>
+    </div>
   </div>
   <h2>Pilot Issues</h2>
 </form>

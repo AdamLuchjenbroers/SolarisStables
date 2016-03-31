@@ -800,10 +800,6 @@ div.mech-purchase span.mech-cost {
     color: #FF4444;
 }
 
-div.template-form {
-    display: none;
-}
-
 /****************************************
  * Stable Overview
  ****************************************/
@@ -1448,6 +1444,10 @@ p.form-buttons input {
 .symbol {
   text-shadow: 2px 2px 4px #888888; 
   font-size: 110%;
+}
+
+.template-form {
+    display: none;
 }
 
 input.icon-button {

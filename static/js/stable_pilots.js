@@ -432,10 +432,41 @@ function dialog_add_pilot() {
     , width: 500
     , height: (window.innerHeight * 0.75)
     , buttons: {
+        Add: function() {
+          if (submit_new_pilot()) {
+            $( this ).dialog("close");  
+          }
+        }
         Close: function() { $( this ).dialog("close"); }
       }
     });
+    
+    $('#add-pilot-add-skill').click(dialog_add_pilot_skill_form);   
   });
+}
+
+function submit_new_pilot() {
+  formdata = form_to_dictionary('#add-pilot-form');
+
+  $.ajax(
+    type : 'post'
+  , url  : window.location.href + '/add-pilot' 
+  , dataType : 'json'
+  , data : formdata
+  ).complete( function(response) {
+      
+  });
+}
+
+function dialog_add_pilot_skill_form() {
+  add_inline_form(
+    '#add-pilot-training-form'
+  , '#add-pilot-skill-template'
+  , '#add-pilot-add-skill'
+  , 'div.form-row:not(.template-form)'
+  , '#id_train-TOTAL_FORMS'
+  , no_handler
+  );
 }
 
 $( document ).ready(function() {
