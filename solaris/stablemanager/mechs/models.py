@@ -67,6 +67,7 @@ class StableMechWeek(models.Model):
     next_week = models.OneToOneField('StableMechWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
     cored = models.BooleanField(default=False)
     removed = models.BooleanField(default=False)
+    delivery = models.IntegerField(default=0)
 
     objects = StableMechWeekManager()
     
@@ -157,6 +158,7 @@ class StableMechWeek(models.Model):
         ,  current_design = self.current_design
         ,  signature_of = self.signature_of
         ,  cored = self.cored
+        ,  delivery = max(0, self.delivery - 1)
         )
         self.save()
         return self.next_week
