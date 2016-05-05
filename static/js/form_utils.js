@@ -39,15 +39,19 @@ function no_handler(form_group_id) {
   // No-Op - Exists for documentation / code clarity only
 }
 
+function update_form_count(form_count_id, form_group_id, child_selector) {
+  count = renumber_forms( $(form_group_id).find(child_selector) );
+  $(form_count_id).attr('value', count);
+}
+
 function add_inline_form(form_group_id, template_id, before_id, child_selector, form_count_id, form_handler) {
   newform = $(template_id).clone(true);
   newform.removeClass('template-form');
   newform.removeAttr('id');
 
   $(before_id).before(newform);
-  
-  count = renumber_forms( $(form_group_id).find(child_selector) );
-  $(form_count_id).attr('value', count);
+
+  update_form_count(form_count_id, form_group_id, child_selector);
 
   form_handler(form_group_id);
 } 

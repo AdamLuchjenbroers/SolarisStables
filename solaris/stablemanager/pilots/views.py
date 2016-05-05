@@ -20,6 +20,35 @@ class StablePilotMixin(StableWeekMixin):
     def get_queryset(self):
         return models.PilotWeek.objects.filter(week=self.stableweek)
 
+class PilotWeekMixin(StableWeekMixin):
+    def dispatch(self, request, week=None, callsign=None, *args, **kwargs):
+        redirect = self.get_stable(request)
+        if redirect:
+            return redirect
+
+        self.get_stableweek()
+
+        if callsign != None:
+            pass
+        elif request.method == 'POST':
+            callsign = request.POST['callsign']
+        else:
+            callsign = request.GET['callsign']
+
+        try:
+            self.pilot = models.Pilot.objects.get(pilot_callsign=unquote(callsign), stable=self.stable)
+            self.pilotweek = models.PilotWeek.objects.get(pilot=self.pilot, week=self.stableweek)
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', status=400)
+        except ValueError:
+            return HttpResponse('Invalid AJAX request', status=400)
+        except models.Pilot.DoesNotExist:
+            return HttpResponse('Unrecognised Callsign', status=404)
+        except models.PilotWeek.DoesNotExist:
+            return HttpResponse('Cannot find Pilot Week', status=404)
+
+        return super(PilotWeekMixin, self).dispatch(request, *args, **kwargs)
+
 class StablePilotsView(StablePilotMixin, ListView):
     template_name = 'stablemanager/stable_pilots.tmpl'
 
@@ -68,25 +97,81 @@ class InitialPilotNamingView(StableViewMixin, FormView):
         page_context['submit'] = 'Rename All'
         return page_context
 
-class StableAddPilotFormView(StableViewMixin, TemplateView):
+class StablePilotFormAbstract(TemplateView):
     template_name = 'stablemanager/forms/add_pilot.html'
 
-    def get(self, request, week=None):
-        self.pilotform = forms.PilotForm(prefix='pilot')
-        self.pilotweekform = forms.PilotWeekForm(prefix='pweek')
-        self.training = forms.PilotTrainingFormSet(prefix='train') 
-       
-        return super(StableAddPilotFormView, self).get(request, week=week)
-
     def get_context_data(self, **kwargs):
-        page_context = super(StableAddPilotFormView, self).get_context_data(**kwargs)
+        page_context = super(StablePilotFormAbstract, self).get_context_data(**kwargs)
 
         page_context['pilotform'] = self.pilotform
         page_context['pilotweekform'] = self.pilotweekform
-        page_context['trainingform'] = self.training
+        page_context['trainingform'] = self.trainingformset
+        page_context['problemform'] = self.problemformset
  
         return page_context
+
+
+class StableAddPilotFormView(StableWeekMixin, StablePilotFormAbstract):
+    def get(self, request, week=None):
+        self.pilotform = forms.PilotForm(None, prefix='pilot', stable=self.stable)
+        self.pilotweekform = forms.PilotWeekForm(prefix='pweek')
+        self.trainingformset = forms.PilotTrainingFormSet(prefix='train') 
+        self.problemformset = forms.PilotTrainingFormSet(prefix='issue') 
+       
+        return super(StableAddPilotFormView, self).get(request, week=week)
+
+    def post(self, request, week=None):
+        self.pilotform = forms.PilotForm(request.POST, prefix='pilot', stable=self.stable)
+        self.pilotweekform = forms.PilotWeekForm(request.POST, prefix='pweek')
+        self.trainingformset = forms.PilotTrainingFormSet(request.POST, prefix='train') 
+        self.problemformset = forms.PilotTrainingFormSet(request.POST, prefix='issue') 
+
+        if self.pilotform.is_valid() and self.pilotweekform.is_valid() \
+        and self.trainingformset.is_valid() and self.problemformset.is_valid:
+            self.pilotform.save(commit=False)
+            pilot = self.pilotform.instance
+            pilot.stable = self.stable
+            pilot.save()
+
+            self.pilotweekform.save(commit = False) 
+            pilotweek = self.pilotweekform.instance 
+            pilotweek.pilot = self.pilotform.instance
+            pilotweek.week = self.stableweek
+            pilotweek.save()
+
+            self.trainingformset.instance = pilotweek
+            self.trainingformset.save()
+
+            self.problemformset.instance = pilotweek
+            self.problemformset.save()
+
+            return HttpResponse('Pilot Added', status=201)
+        else:
+            return super(StableAddPilotFormView, self).get(request, week=week)
  
+class StableEditPilotFormView(PilotWeekMixin, StablePilotFormAbstract):
+    def get(self, request, week=None, callsign=None):
+        self.pilotform = forms.PilotForm(None, prefix='pilot', stable=self.stable, instance=self.pilot)
+        self.pilotweekform = forms.PilotWeekForm(prefix='pweek', instance=self.pilotweek)
+        self.trainingformset = None
+        self.problemformset = None 
+       
+        return super(StableEditPilotFormView, self).get(request, week=week)
+
+    def post(self, request, week=None, callsign=None):
+        self.pilotform = forms.PilotForm(request.POST, prefix='pilot', stable=self.stable, instance=self.pilot)
+        self.pilotweekform = forms.PilotWeekForm(request.POST, prefix='pweek', instance=self.pilotweek)
+        self.trainingformset = None
+        self.problemformset = None 
+
+        if self.pilotform.is_valid() and self.pilotweekform.is_valid():
+            self.pilotform.save()
+            self.pilotweekform.save()
+
+            return HttpResponse('Pilot Changed', status=201)
+        else:
+            return super(StableEditPilotFormView, self).get(request, week=week)
+
 class AjaxSetTrainingPoints(StableWeekMixin, View):
     def post(self, request, week=None):
         try:
@@ -105,31 +190,8 @@ class AjaxSetTrainingPoints(StableWeekMixin, View):
         except ValueError:
             return HttpResponse('Invalid AJAX request', status=400)
 
-class AjaxPilotMixin(StableWeekMixin, View):
+class AjaxPilotMixin(PilotWeekMixin, View):
     def dispatch(self, request, *args, **kwargs):
-        redirect = self.get_stable(request)
-        if redirect:
-            return redirect
-
-        self.get_stableweek()
-
-        if request.method == 'POST':
-            callsign = request.POST['callsign']
-        else:
-            callsign = request.GET['callsign']
-
-        try:
-            self.pilot = models.Pilot.objects.get(pilot_callsign=unquote(callsign), stable=self.stable)
-            self.pilotweek = models.PilotWeek.objects.get(pilot=self.pilot, week=self.stableweek)
-        except KeyError:
-            return HttpResponse('Incomplete AJAX request', status=400)
-        except ValueError:
-            return HttpResponse('Invalid AJAX request', status=400)
-        except models.Pilot.DoesNotExist:
-            return HttpResponse('Unrecognised Callsign', status=404)
-        except models.PilotWeek.DoesNotExist:
-            return HttpResponse('Cannot find Pilot Week', status=404)
-
         # Wrap all requests with this exception handler so handling of missing or 
         # incorrect query parameters is consistent
         try:

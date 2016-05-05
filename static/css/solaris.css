@@ -1291,7 +1291,8 @@ table.pilots tr.odd {
 }
 
 
-table.pilots tr.odd .editable:hover {
+table.pilots tr.odd .editable:hover,
+table.pilots tr.odd .edit-form:hover {
   background-color: #C8FFFF;
 }
 
@@ -1318,7 +1319,8 @@ table.pilots tr.even {
   font-size : small;
 }
 
-table.pilots tr.even .editable:hover {
+table.pilots tr.even .editable:hover,
+table.pilots tr.even .edit-form:hover {
   background-color: #B0FFFF;
 }
 
@@ -1460,6 +1462,11 @@ input.icon-button {
   color: #262233;
   
   text-shadow: 2px 2px 4px #888888; 
+}
+
+input.icon-inline {
+  display: inline-block;
+  margin-left: 0.5em;
 }
 
 input.icon-button.icon-small {

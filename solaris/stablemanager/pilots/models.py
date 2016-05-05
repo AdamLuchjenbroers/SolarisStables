@@ -1,6 +1,7 @@
 
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
 
@@ -263,6 +264,9 @@ class PilotWeek(models.Model):
 
         return False
 
+    def week_number(self):
+        return self.week.week.week_number
+
     def state_parcel(self):
         # Returns a basic status parcel for updating page state
         return {
@@ -270,6 +274,9 @@ class PilotWeek(models.Model):
         , 'spent-xp' : self.training_cost()
         , 'final-xp' : self.character_points()
         }
+
+    def edit_url(self):
+        return reverse('stable_edit_pilot', kwargs={'week' : self.week_number(), 'callsign' : self.pilot.pilot_callsign})
 
     
 class PilotTrainingEvent(models.Model):

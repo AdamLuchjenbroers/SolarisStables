@@ -424,38 +424,84 @@ function validate_deferred_form() {
 }
 
 function dialog_add_pilot() {
+  $('#dialog-add-pilot').attr('title', 'Add Pilot');
+
   $('#dialog-add-pilot').load( 
     window.location.href + '/add-pilot' 
   , function(response, state, jqxhr) {
     $('#dialog-add-pilot').dialog({
       modal: true
-    , width: 500
+    , width: 550
     , height: (window.innerHeight * 0.75)
     , buttons: {
         Add: function() {
-          if (submit_new_pilot()) {
+          if (submit_pilot(window.location.href + '/add-pilot')) {
             $( this ).dialog("close");  
           }
         }
-        Close: function() { $( this ).dialog("close"); }
+      , Close: function() { $( this ).dialog("close"); }
       }
     });
     
     $('#add-pilot-add-skill').click(dialog_add_pilot_skill_form);   
+    attach_skill_delete_handler('#add-pilot-training-form');
+    $('#add-pilot-add-problem').click(dialog_add_pilot_issue_form);   
+    attach_issue_delete_handler('#add-pilot-training-form');
   });
 }
 
-function submit_new_pilot() {
+function submit_pilot(submit_url) {
   formdata = form_to_dictionary('#add-pilot-form');
 
-  $.ajax(
+  success = false;
+
+  $.ajax({
     type : 'post'
-  , url  : window.location.href + '/add-pilot' 
+  , url  : submit_url 
   , dataType : 'json'
   , data : formdata
-  ).complete( function(response) {
-      
+  , statusCode : {
+      201 : function() { success = true; }
+    }
+  , complete : function(response, textStatus, xhr) {
+      $('#dialog-add-pilot').html(response);
+    }
   });
+
+  return success;
+}
+
+function dialog_edit_pilot() {
+  $('#dialog-add-pilot').attr('title', 'Edit Pilot');
+
+  edit_url = $(this).attr('edit_url');
+
+  $('#dialog-add-pilot').load( 
+    edit_url
+  , function(response, state, jqxhr) {
+    $('#dialog-add-pilot').dialog({
+      modal: true
+    , width: 550
+    , height: (window.innerHeight * 0.75)
+    , buttons: {
+       Update: function() {
+          if (submit_pilot(edit_url)) {
+            $( this ).dialog("close");  
+          }
+        }
+      , Close: function() { $( this ).dialog("close"); }
+      }
+    });
+    
+    $('#add-pilot-add-skill').click(dialog_add_pilot_skill_form);   
+    attach_skill_delete_handler('#add-pilot-training-form');
+    $('#add-pilot-add-problem').click(dialog_add_pilot_issue_form);   
+    attach_issue_delete_handler('#add-pilot-training-form');
+  });
+}
+
+function attach_skill_delete_handler(form_group_id) {
+  $(form_group_id + ' .icon-delete').click( dialog_remove_pilot_skill_form )
 }
 
 function dialog_add_pilot_skill_form() {
@@ -465,7 +511,42 @@ function dialog_add_pilot_skill_form() {
   , '#add-pilot-add-skill'
   , 'div.form-row:not(.template-form)'
   , '#id_train-TOTAL_FORMS'
-  , no_handler
+  , attach_skill_delete_handler
+  );
+}
+
+function dialog_remove_pilot_skill_form() {
+  $(this).parents('.skill-row').remove();
+
+  update_form_count(
+    '#id_train-TOTAL_FORMS'
+  , '#add-pilot-training-form'
+  , 'div.form-row:not(.template-form)'
+  );
+}
+
+function dialog_add_pilot_issue_form() {
+  add_inline_form(
+    '#add-pilot-problem-form'
+  , '#add-pilot-issue-template'
+  , '#add-pilot-add-problem'
+  , 'div.form-row:not(.template-form)'
+  , '#id_issue-TOTAL_FORMS'
+  , attach_issue_delete_handler
+  );
+}
+
+function attach_issue_delete_handler(form_group_id) {
+  $(form_group_id + ' .icon-delete').click( dialog_remove_pilot_issue_form )
+}
+
+function dialog_remove_pilot_issue_form() {
+  $(this).parents('.skill-row').remove();
+
+  update_form_count(
+    '#id_issue-TOTAL_FORMS'
+  , '#add-pilot-problem-form'
+  , 'div.form-row:not(.template-form)'
   );
 }
 
@@ -500,6 +581,6 @@ $( document ).ready(function() {
   defer_table_setup();
 
   $('#button-add-pilot').click( dialog_add_pilot );
- 
+  $('#stable-pilot-table .pilot-row .name').click( dialog_edit_pilot );
   check_tp_assignment();
 });

@@ -1,23 +1,53 @@
 <form id="add-pilot-form">
-  <h2>Pilot Name</h2>  
+  <h2>Pilot Name</h2> 
+  {% if pilotform.non_field_errors or pilotweekform.non_field_errors %}
+  <div class="form-row"> 
+    {{ pilotform.non_field_errors }}
+    {{ pilotweekform.non_field_errors }}
+  </div>
+  {% endif %}
+
+  {% for field, errors in pilotweekform.errors.items %}
+    <h2>{{field}}</h2>
+    <ul>
+    {% for e in errors %}
+      <li>{{e}}</li> 
+    {% endfor %}
+    </ul>
+  {% endfor %}
+
+  {{pilotform.stable}}
+  
   <div class="form-row">
-    <span class="callsign"><div class="label-small">{{pilotform.pilot_callsign.label}}</div>{{pilotform.pilot_callsign}}</span>
-    <span class="fullname"><div class="label-small">{{pilotform.pilot_name.label}}</div>{{pilotform.pilot_name}}</span>
+    {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotform.pilot_callsign field_class='callsign' %}
+    {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotform.pilot_name field_class='fullname' %}
+
+    {% if pilotform.pilot_callsign.errors or pilotform.pilot_name.errors %}
+    <ul class="errors">
+      {% for error in pilotform.pilot_callsign.errors %}
+        <li>{{pilotform.pilot_callsign.label}}{{ error }}</li>
+      {% endfor %}
+      {% for error in pilotform.pilot_name.errors %}
+        <li>{{pilotform.pilot_name.label}}{{ error }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
   </div>
   
   <h2>Affiliation</h2>
   <div class="form-row">
-    <span class="house"><div class="label-small">{{pilotform.affiliation.label}}</div>{{pilotform.affiliation}}</span>
+    {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotform.affiliation field_class='house' %}
   </div>
 
   <h2>Rank and Abilities</h2>
   <div class="form-row">
-    <span class="rank"><div class="label-small">{{pilotweekform.rank.label}}</div>{{pilotweekform.rank}}</span>
-    <span class="gunnery"><div class="label-small">{{pilotweekform.skill_gunnery.label}}</div>{{pilotweekform.skill_gunnery}}</span>
-    <span class="piloting"><div class="label-small">{{pilotweekform.skill_piloting.label}}</div>{{pilotweekform.skill_piloting}}</span>
-    <span class="character-points"><div class="label-small">{{pilotweekform.start_character_points.label}}</div>{{pilotweekform.start_character_points}}</span>
+    {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotweekform.rank field_class='rank' %}
+    {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotweekform.skill_gunnery field_class='gunnery' %}
+    {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotweekform.skill_piloting field_class='piloting' %}
+    {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotweekform.start_character_points field_class='character-points' %}
   </div>
 
+  {% if trainingform %}
   <h2>Pilot Skills</h2>
   <div id="add-pilot-training-form">
     {{ trainingform.management_form }}
@@ -32,5 +62,21 @@
       <input id="add-pilot-add-skill" type="button" class="icon-button" value="&#x2795;">Add Skill</input>
     </div>
   </div>
+  {% endif %}
+  {% if problemform %}
   <h2>Pilot Issues</h2>
+  <div id="add-pilot-problem-form">
+    {{ problemform.management_form }}
+
+    {% include 'stablemanager/fragments/add_pilot_skill.html' with form=problemform.empty_form template_id='add-pilot-issue-template' %} 
+
+    {% for form in problemform %}
+      {% include 'stablemanager/fragments/add_pilot_skill.html' with form=form %} 
+    {% endfor %}
+
+    <div class="action-row" id="add-pilot-add-problem">
+      <input id="add-pilot-add-problem" type="button" class="icon-button" value="&#x2795;">Add Issue</input>
+    </div>
+  </div>
+  {% endif %}
 </form>

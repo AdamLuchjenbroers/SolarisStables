@@ -9,20 +9,25 @@ from solaris.warbook.pilotskill.models import PilotTrait, PilotTraitGroup
 
 class PilotForm(forms.ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super(PilotForm, self).__init__(*args, **kwargs)
+    def __init__(self, querydict, stable=None, *args, **kwargs):
+        super(PilotForm, self).__init__(querydict, *args, **kwargs)
+
+        self.stable = stable
+        self.fields['stable'].initial = stable.id
         self.fields['stable'].widget = forms.HiddenInput()
-        self.fields['stable'].required = False #Will be set by invoking form
-        
+
         self.fields['pilot_name'].label = 'Name (Optional):'
         self.fields['pilot_callsign'].label = 'Callsign:'
 
         self.fields['affiliation'].choices = (('', '-- Select House --'),) + house_list_as_opttree()
         self.fields['affiliation'].label = 'House or Faction:'
 
+    def clean_stable(self):
+        return self.stable
+
     class Meta:
         model = models.Pilot
-        fields = ('stable','pilot_name', 'pilot_callsign','affiliation')
+        fields = ('stable', 'pilot_name', 'pilot_callsign','affiliation')
 
 class AddPilotTraitAbstract(forms.ModelForm):
     class Meta:
@@ -47,7 +52,7 @@ class AddPilotTraitForm(AddPilotTraitAbstract):
         self.fields['trait'].choices = self.get_choices(PilotTraitGroup.objects.exclude(discipline_type='T'))
         self.fields['trait'].label = 'Skill:'
 
-PilotTraitFormSet = forms.inlineformset_factory(models.PilotWeek, models.PilotWeekTraits, form=AddPilotTraitForm, extra=1)
+PilotTraitFormSet = forms.inlineformset_factory(models.PilotWeek, models.PilotWeekTraits, form=AddPilotTraitForm, extra=0)
 
 class AddPilotTrainingForm(AddPilotTraitAbstract):
     def __init__(self, *args, **kwargs):
@@ -55,7 +60,7 @@ class AddPilotTrainingForm(AddPilotTraitAbstract):
         self.fields['trait'].choices = self.get_choices(PilotTraitGroup.objects.filter(discipline_type='T'))
         self.fields['trait'].label = 'Problem:'
 
-PilotTrainingFormSet = forms.inlineformset_factory(models.PilotWeek, models.PilotWeekTraits, form=AddPilotTrainingForm, extra=1)
+PilotTrainingFormSet = forms.inlineformset_factory(models.PilotWeek, models.PilotWeekTraits, form=AddPilotTrainingForm, extra=0)
         
 class PilotWeekForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -68,7 +73,7 @@ class PilotWeekForm(forms.ModelForm):
 
     class Meta:
         model = models.PilotWeek
-        fields = ('pilot' ,'rank' ,'skill_gunnery', 'skill_piloting', 'start_character_points')
+        fields = ('rank' ,'skill_gunnery', 'skill_piloting', 'start_character_points')
 
 class PilotNamingForm(forms.ModelForm):
     pilot_name = forms.CharField(required=False)
