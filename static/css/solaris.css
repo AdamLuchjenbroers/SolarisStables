@@ -1280,6 +1280,10 @@ table.pilots tr.header td.duration {
   width: 16em;
 }
 
+table.pilots tr.header td.wounds {
+  width: 6em;
+}
+
 table.pilots .annotation {
   background-color: #DDDDDD;
   width: 40em;

@@ -86,6 +86,7 @@ class PilotWeek(models.Model):
     wounds = models.IntegerField(default=0)
     wounds_set = models.BooleanField(default=False)
     blackmarks = models.IntegerField(default=0)
+    blackmarks_set = models.BooleanField(default=False)
 
     fame = models.IntegerField(default=0)
     fame_set = models.BooleanField(default=False)
@@ -119,7 +120,14 @@ class PilotWeek(models.Model):
         self.save()
 
         return self.wounds
-   
+
+    def set_blackmarks(self, blackmarks, direct=True):
+        self.blackmarks = min(6,max(0,blackmarks))
+        self.blackmarks_set = True
+        self.save()
+  
+        return self.blackmarks
+ 
     def set_fame(self, fame, direct=True):
         self.fame = fame
         self.fame_set = True
@@ -150,6 +158,7 @@ class PilotWeek(models.Model):
         , wounds = max(self.wounds - 1, 0)
         , rank = self.rank
         , fame = self.fame
+        , blackmarks = self.blackmarks
         )
         self.save()
 
@@ -419,6 +428,9 @@ def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
 
         if not instance.next_week.fame_set:
             instance.next_week.fame = instance.fame
+
+        if not instance.next_week.blackmarks_set: 
+            instance.next_week.blackmarks_set = instance.blackmarks_set
 
         if instance.wounds > 1 and not instance.is_dead() and not instance.next_week.wounds_set:
             instance.next_week.wounds = max(0, instance.wounds-1)

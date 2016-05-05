@@ -213,6 +213,8 @@ class AjaxSetPilotAttribute(AjaxPilotMixin, View):
             value = self.pilotweek.set_wounds(value)
         elif attribute == 'fame':
             value = self.pilotweek.set_fame(value)
+        elif attribute == 'blackmark':
+            value = self.pilotweek.set_blackmarks(value)
         else:
             return HttpResponse('Unrecognised Attribute: %s' % attribute, status=400)
 

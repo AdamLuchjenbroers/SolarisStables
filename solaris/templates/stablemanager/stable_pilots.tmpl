@@ -19,10 +19,11 @@
       <td colspan="2" class="abilities">Abilities</td>
       <td rowspan="2" class="bv">BV</td>
       <td colspan="6" class="experience">Experience<span class="icon-right">&#x270E;</span></td>
-      <td rowspan="2" class="wounds">Wounds<span class="icon-right">&#x270E;</span></td>
+      <td colspan="2" class="wounds">Wounds<span class="icon-right">&#x270E;</span></td>
     </tr>
     <tr class="header"><td class="subheader">G</td><td class="subheader">P</td>
-    <td class="subheader"></td><td class="subheader">R</td><td class="subheader">XP</td><td class="subheader">TP</td><td class="subheader">-</td><td class="subheader">=</td></tr>
+    <td class="subheader"></td><td class="subheader">R</td><td class="subheader">XP</td><td class="subheader">TP</td><td class="subheader">-</td><td class="subheader">=</td>
+    <td class="subheader">W</td><td class="subheader">BM</td></tr>
     {% for pilotweek in object_list %}
      <tr class="pilot-row {%cycle 'odd' 'even' %}{% if pilotweek.is_dead %} dead{% endif %}" id="{{pilotweek.pilot.pilot_callsign | slugify}}" callsign="{{pilotweek.pilot.pilot_callsign}}" rank="{{pilotweek.rank.rank | lower}}">
        <td class="name edit-form" edit_url="{{pilotweek.edit_url}}">{{pilotweek.pilot.full_name}}<span class="icon-right icon-dead">&#x2620;</span></td>
@@ -41,6 +42,7 @@
        <td class="spent-xp">{{pilotweek.training_cost}}</td>
        <td class="final-xp">{{pilotweek.character_points}}</td>
        <td class="wounds editable" field="wounds">{{pilotweek.wounds}}</td>
+       <td class="blackmarks editable" field="blackmark">{{pilotweek.blackmarks}}</td>
        </tr>
     {% endfor %}
   </table>
