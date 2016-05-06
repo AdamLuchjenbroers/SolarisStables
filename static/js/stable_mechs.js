@@ -155,6 +155,14 @@ $( document ).ready(function() {
       )
     );
 
+    $('#id_allmechs').change( function() {
+      attach_mechlist_autocomplete( 
+        $('#mech-purchase-prod .mech-purchase-chassis input')
+      , '#mech-purchase-prod'
+      , '.mech-purchase-model select' 
+      );
+    });
+
     $('#mech-purchase-prod .mech-purchase-model select').change( check_purchase_form_ready );
     $('#mech-purchase-form .mech-purchase-select input').change( check_purchase_form_ready );
     $('#mech-purchase-form input#id_mech_ssw').change( check_purchase_form_ready );
