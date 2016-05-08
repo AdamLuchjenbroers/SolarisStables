@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
 from decimal import Decimal
+from markitup.fields import MarkupField
 
 class TrainingCostManager(models.Manager):
     def upgrade_cost(self, training_type, from_skill, to_skill):
@@ -91,12 +92,11 @@ class PilotTrait(models.Model):
                     )
     
     name  = models.CharField(max_length=40)
-    description = models.TextField()
+    description = MarkupField()
     discipline = models.ForeignKey(PilotTraitGroup, null=True, blank=True, related_name='traits')
     bv_mod = models.DecimalField(max_digits=6 ,decimal_places=3 ,choices=bv_modifiers)
 
-    table_sets = ( (1, '[1-3]'), (2, '[4-6]'), )
-    table = models.IntegerField(default=1, choices=table_sets)
+    table = models.CharField(default='-', max_length=6, null=True)
     item = models.IntegerField(null=True)
     
     

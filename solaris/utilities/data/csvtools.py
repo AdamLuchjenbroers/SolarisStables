@@ -1,7 +1,7 @@
 from csv import DictReader 
 from django.forms import ModelForm
 
-def csv_import_to_model(csvfile, modelClass, csvFields, keyFields=[], booleanFields=[]):
+def csv_import_to_model(csvfile, modelClass, csvFields, keyFields=[], booleanFields=[], mapFunctions={}):
     csv_fh = open(csvfile,'r')
     reader = DictReader(csv_fh)
 
@@ -14,7 +14,10 @@ def csv_import_to_model(csvfile, modelClass, csvFields, keyFields=[], booleanFie
       
     for row in reader:
         handle_booleans(row, booleanFields)
-
+        
+        for (field, map) in mapFunctions.items():
+            row[field] = map(row[field])
+            
         instance = instance_for_row(row, modelClass, keyFields)
 
         form = LoadingForm(row, instance=instance)
