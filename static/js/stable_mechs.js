@@ -156,6 +156,12 @@ $( document ).ready(function() {
     );
 
     $('#id_allmechs').change( function() {
+      if ($('#id_allmechs:checked').length > 0) {
+        $('#id_delivery').val(3);
+      } else {
+        $('#id_delivery').val(1);
+      }
+
       attach_mechlist_autocomplete( 
         $('#mech-purchase-prod .mech-purchase-chassis input')
       , '#mech-purchase-prod'
