@@ -9,7 +9,9 @@
     {{mech.mech_name}} {{mech.mech_code}}
   </div>
   <div class="chit-bottom mech-desc">
-    {% if stablemech.completed_bill_count == 1 %}Bill recorded.
+    {% if stablemech.delivery = 1 %}On order, delivery next week.
+    {% elif stablemech.delivery > 1 %}On order, delivery in {{stablemech.delivery}} weeks.
+    {% elif stablemech.completed_bill_count == 1 %}Bill recorded.
     {% elif stablemech.completed_bill_count > 1 %}{{stablemech.completed_bill_count}} Bills recorded.{% endif %}
     {% if stablemech.cored %}Mech Cored.{% elif stablemech.removed %}Mech Removed.{% endif %}
   </div>
@@ -18,12 +20,21 @@
 
 {% block mech_actions %}
 <div class="chit-section chit-section-actions chit-section-right">
-  <a class="word-button" href="{{stablemech.repair_bill_url}}">Repair</a>
-  {% if not stablemech.is_locked %}
-    <span class="word-button refit-button" form_url="{{stablemech.refit_url}}">Refit</span>
-    <span class="word-button remove-button" mech_name="{{mech.mech_name}} {{mech.mech_code}}" form_url="{{stablemech.remove_url}}">Remove</span>
+  {% if stablemech.delivery = 0 %}
+    <a class="word-button" href="{{stablemech.repair_bill_url}}">Repair</a>
   {% else %}
     <span class="word-button no-button"></span>
+  {% endif %}
+
+  {% if not stablemech.is_locked and stablemech.delivery = 0 %}
+    <span class="word-button refit-button" form_url="{{stablemech.refit_url}}">Refit</span>
+  {% else %}
+    <span class="word-button no-button"></span>
+  {% endif %}
+
+  {% if not stablemech.is_locked %}
+    <span class="word-button remove-button" mech_name="{{mech.mech_name}} {{mech.mech_code}}" form_url="{{stablemech.remove_url}}">Remove</span>
+  {% else %}
     <span class="word-button no-button"></span>
   {% endif %}
 </div>

@@ -73,6 +73,7 @@ class MechPurchaseFormView(StableWeekMixin, FormView):
                                              , purchased_as = form.design
                                              , purchased_on = self.stableweek
                                              , create_ledger = form.cleaned_data['as_purchase']
+                                             , delivery = form.cleaned_data['delivery'] 
                                              )
         result = { 'success' : True }
         return HttpResponse(json.dumps(result))       

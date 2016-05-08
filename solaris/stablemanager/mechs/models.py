@@ -6,13 +6,14 @@ from solaris.stablemanager.ledger.models import LedgerItem
 from solaris.warbook.mech.refit import refit_cost
 
 class StableMechManager(models.Manager):
-    def create_mech(self, stable=None, purchased_as=None, purchased_on=None, create_ledger=True):
+    def create_mech(self, stable=None, purchased_as=None, purchased_on=None, create_ledger=True, delivery=0):
         stablemech = StableMech.objects.create(stable=stable, purchased_as=purchased_as)
         
         stablemechweek = StableMechWeek.objects.create(
           stableweek = purchased_on
         , stablemech = stablemech
         , current_design = purchased_as
+        , delivery = delivery
         )
 
         adv_smw = stablemechweek
@@ -57,7 +58,13 @@ class StableMechWeekManager(models.Manager):
     use_for_related_fields = True
 
     def non_signature(self):
-        return self.filter(signature_of=None).order_by('current_design__tonnage', 'current_design__mech_name')
+        return self.filter(signature_of=None, delivery=0).order_by('current_design__tonnage', 'current_design__mech_name')
+
+    def mechs_on_order(self): 
+        return self.filter(delivery__gt=0).count >= 0
+
+    def on_order(self):
+        return self.filter(delivery__gt=0).order_by('delivery', 'current_design__tonnage', 'current_design__mech_name')
 
 class StableMechWeek(models.Model):
     stableweek = models.ForeignKey(StableWeek, related_name='mechs', blank=True, null=True)

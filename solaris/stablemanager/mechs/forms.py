@@ -52,8 +52,19 @@ class MechUploadOrPurchaseForm(forms.Form):
     ssw_tempdata = forms.CharField(required=False)   
  
     mech_source = forms.CharField()
-    as_purchase = forms.BooleanField(required=False, initial=True)
-    allmechs = forms.BooleanField(required=False, initial=False)
+    as_purchase = forms.BooleanField(required=False, initial=True, label="Add as Purchase:")
+    allmechs = forms.BooleanField(required=False, initial=False, label="Include Non-Stable Designs:")
+
+    delivery = forms.IntegerField(initial=1, label="Delivery In (Weeks):")
+
+    def clean_delivery(self):
+        if 'delivery' not in self.cleaned_data or self.cleaned_data['delivery'] == None:
+            return 0
+
+        try:
+            return max(0, int(self.cleaned_data['delivery']))
+        except ValueError:
+            raise forms.ValidationError('Delivery Delay should be a number')
 
     def clean_mech_ssw(self):
         if 'mech_ssw' not in self.cleaned_data or self.cleaned_data['mech_ssw'] == None:
