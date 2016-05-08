@@ -16,6 +16,9 @@ urlpatterns = patterns('',
     url(r'^/?add-tech/?$', views.AjaxAddStableTech.as_view()),
     url(r'^(?P<week>[0-9]+)/add-tech/?$', views.AjaxAddStableTech.as_view()),
 
+    url(r'^/?alter-rep/?$', views.AjaxAlterReputationView.as_view()),
+    url(r'^(?P<week>[0-9]+)/alter-rep/?$', views.AjaxAlterReputationView.as_view()),
+
     url(r'^tech-list/?', views.StableTechListPart.as_view()),
     url(r'^(?P<week>[0-9]+)/tech-list/?', views.StableTechListPart.as_view()),
 

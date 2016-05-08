@@ -180,6 +180,29 @@ class AjaxAddStableTech(StableWeekMixin, View):
         except KeyError:
             return HttpResponse('Incomplete AJAX request', status=400)
 
+class AjaxAlterReputationView(StableWeekMixin, View):
+    def post(self, request, week=None):
+        try:
+            if request.POST['change'] == 'plus':
+                self.stableweek.reputation += 1
+            elif request.POST['change'] == 'minus':
+                self.stableweek.reputation -= 1
+            else:
+                return HttpResponse('Unrecognised Action: %s' % request.POST['change'], status=400)
+            
+            self.stableweek.save()
+            data = { 
+              'value' : self.stableweek.reputation 
+            , 'text'  : self.stableweek.reputation_text() 
+            , 'class' : self.stableweek.reputation_class() 
+            }
+              
+            return HttpResponse(json.dumps(data))
+
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', status=400)
+    
+
 class AjaxCreateStableWeekView(StableWeekMixin, View):
     def post(self, request, week=None):
         view = self.__class__.view_url_name

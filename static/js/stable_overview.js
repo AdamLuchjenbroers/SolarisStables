@@ -27,6 +27,24 @@ function attach_tech_input(form, button, input) {
   });
 }
 
+function modify_reputation(action) {
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/alter-rep'
+  , dataType : 'json'
+  , data : { change : action }
+  }).success(function(response) {
+    new_rep  = '<span id=\"stable-reputation\" class=\"';
+    new_rep += response['class'] + '\">';
+    new_rep += response['text'] + '</span>';
+
+    $('#stable-reputation').replaceWith(new_rep);
+  });
+}
+
 $( document ).ready(function() {
   attach_tech_input('#add-tech-input');
+
+  $('#stable-reputation-minus').click( function() { modify_reputation('minus'); } );
+  $('#stable-reputation-plus').click( function() { modify_reputation('plus'); } );
 });

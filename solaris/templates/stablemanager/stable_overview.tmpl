@@ -12,15 +12,11 @@
   <h2>Finances</h2>
   <p><em>Current Balance: </em>{{stableweek.closing_balance}}</p>
   <h2>Reputation</h2>
-  <p><span>&#x270E;</span>
-  {% if stableweek.reputation > 0 %}
-    <span class="face text-block editable" reputation="{{stableweek.reputation}}">Face ({{stableweek.abs_reputation}})</span>
-  {% elif stableweek.reputation < 0 %} 
-    <span class="heel text-block editable" reputation="{{stableweek.reputation}}">Heel ({{stableweek.abs_reputation}})</span>
-  {% else %}
-    <span class="text-block editable" reputation="{{stableweek.reputation}}">Neutral</span>
-  {% endif %}
-
+  <p>
+    <input id="stable-reputation-minus" type="button" value="&#x2796;" class="icon-button"></input>
+    <span id="stable-reputation" class="{{stableweek.reputation_class}}">{{stableweek.reputation_text}}</span>
+    <input id="stable-reputation-plus" type="button" value="&#x2795;" class="icon-button"></input>
+  </p>
   <h2>Supply Contracts</h2>
   {% include "stablemanager/fragments/stable_tech_list.html" with techlist=stableweek.supply_contracts.all %}
 

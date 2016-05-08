@@ -105,6 +105,22 @@ class StableWeek(models.Model):
     def can_advance(self):
         # We can advance if the next stableweek doesn't exist, but the next week does
         return (self.next_week == None and self.week.next_week != None)
+
+    def reputation_class(self):
+        if self.reputation > 0:
+            return 'face'
+        elif self.reputation < 0:
+            return 'heel'
+        else:
+            return 'neutral'
+
+    def reputation_text(self):
+        if self.reputation > 0:
+            return 'Face (%i)' % self.reputation
+        elif self.reputation < 0:
+            return 'Heel (%i)' % -self.reputation
+        else:
+            return 'Neutral'
     
     def advance(self):
         if self.week.next_week == None:

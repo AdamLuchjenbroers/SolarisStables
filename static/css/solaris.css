@@ -998,6 +998,26 @@ li.chit.tier3 a.omni-row:hover {
   box-shadow: inset 0px 0px 5px #FF8888;
 }
 
+#stable-reputation-minus,
+#stable-reputation-plus {
+  display: inline;
+  margin-right: 0.2em;
+  margin-left: 0.2em;
+}
+
+#stable-reputation {
+  width: 8em;
+  font-weight: bold;
+}
+
+#stable-reputation.heel {
+  color: #FF4444;
+}
+
+#stable-reputation.face {
+  color: #4444FF;
+}
+
 /****************************************
  * Mech Forms
  ****************************************/
