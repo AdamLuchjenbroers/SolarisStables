@@ -58,6 +58,49 @@ class BroadcastWeek(models.Model):
         db_table = 'campaign_broadcastweek'
         app_label = 'campaign'
 
+    def has_prev_stables(self):
+        return (hasattr(self, 'prev_week') and self.prev_week.stableweek_set.count() > 0)
+
+    def has_stables(self):
+        return self.stableweek_set.count() > 0
+
+    def list_active_stables(self): 
+        from solaris.stablemanager.models import Stable
+        if self.has_stables():
+            return Stable.objects.filter(ledger__week=self)
+        else:
+            return Stable.objects.none()
+
+    def list_waiting_stables(self):
+        from solaris.stablemanager.models import Stable
+        return Stable.objects.exclude(id__in=self.list_active_stables)
+
+    def list_techs_available(self):
+        if hasattr(self, 'prev_week') and self.prev_week.stableweek_set.count() > 0:
+            from solaris.warbook.techtree.models import Technology 
+
+            tech_list = Technology.objects.none()
+
+            for stable in self.prev_week.stableweek_set.all():
+                tech_list |= stable.supply_contracts.all()
+
+            return tech_list.distinct().order_by('tier', 'name')
+        else:
+            return self.campaign.initial_contracts.all().order_by('tier', 'name')
+
+    def list_techs_all_have(self):
+        if hasattr(self, 'prev_week') and self.prev_week.stableweek_set.count() > 0:
+            from solaris.warbook.techtree.models import Technology 
+
+            tech_list = Technology.objects.all()
+
+            for stable in self.prev_week.stableweek_set.all():
+                tech_list &= stable.supply_contracts.all()
+
+            return tech_list.distinct().order_by('tier', 'name')
+        else:
+            return self.campaign.initial_contracts.all().order_by('tier', 'name')
+
     def advance(self):
         if self.next_week == None:            
             self.next_week = BroadcastWeek.objects.create(

@@ -801,6 +801,14 @@ div.mech-purchase span.mech-cost {
 }
 
 /****************************************
+ * Campaign Overview
+ ****************************************/
+#campaign-stables .waiting {
+  color: #666666;
+}
+
+
+/****************************************
  * Stable Overview
  ****************************************/
 ul.chit-list {
@@ -1017,6 +1025,10 @@ li.chit.tier3 a.omni-row:hover {
 
 .mech-purchase-model select {
   width: 12em;
+}
+
+.mech-purchase-delivery input {
+  width: 2em;
 }
 
 .mech-purchase-preview {

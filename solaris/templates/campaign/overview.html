@@ -4,5 +4,30 @@
 <div class="body">
   <h1>Campaign Overview - {{campaign.name}}</h1>
   <h2>Week {{week.week_number}}, Week of the {{week.sign.sign}}</h2>
+  {% if week.has_stables or week.has_prev_stables %}
+    <h3>Current Stables</h3>
+      <ul id="campaign-stables" class="stable-list">
+      {% for stable in week.list_active_stables %} 
+        <li>{{stable.stable_name}}</li>
+      {% endfor %}
+      {% for stable in week.list_waiting_stables %} 
+        <li class="waiting">{{stable.stable_name}} ({{stable.get_stableweek.week}})</li>
+      {% endfor %}
+      </ul>
+  {% endif %}
+  <h3>Technology Availability</h3>
+  <h4>On Market (Accessible to at least one Stable)</h4>
+    <ul>
+    {% for tech in week.list_techs_available %}
+      <li>{{tech}}</li>
+    {% endfor %} 
+    </ul>
+  <h4>Ubiquitious (Accessible to all current stables)</h4>
+    <ul>
+    {% for tech in week.list_techs_all_have %}
+      <li>{{tech}}</li>
+    {% endfor %} 
+    </ul>
+  
 </div>
 {% endblock %}
