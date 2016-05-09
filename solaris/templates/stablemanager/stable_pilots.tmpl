@@ -8,47 +8,9 @@
 {% block pagebody %}
 <div class="body">
   <h1>{{stable.stable_name}} Pilots, Week {{week.week_number}}</h1>
-  
-  {% if object_list %}
-  <table id="stable-pilot-table" class="pilots">
-    <tr class="header">
-      <td rowspan="2" class="name">Pilot</td>
-      <td rowspan="2" class="rank">Rank</td>
-      <td rowspan="2" class="fame">Fame</td>
-      <td rowspan="2" class="talents">Traits</td>
-      <td colspan="2" class="abilities">Abilities</td>
-      <td rowspan="2" class="bv">BV</td>
-      <td colspan="6" class="experience">Experience<span class="icon-right">&#x270E;</span></td>
-      <td colspan="2" class="wounds">Wounds<span class="icon-right">&#x270E;</span></td>
-    </tr>
-    <tr class="header"><td class="subheader">G</td><td class="subheader">P</td>
-    <td class="subheader"></td><td class="subheader">R</td><td class="subheader">XP</td><td class="subheader">TP</td><td class="subheader">-</td><td class="subheader">=</td>
-    <td class="subheader">W</td><td class="subheader">BM</td></tr>
-    {% for pilotweek in object_list %}
-     <tr class="pilot-row {%cycle 'odd' 'even' %}{% if pilotweek.is_dead %} dead{% endif %}" id="{{pilotweek.pilot.pilot_callsign | slugify}}" callsign="{{pilotweek.pilot.pilot_callsign}}" rank="{{pilotweek.rank.rank | lower}}">
-       <td class="name edit-form" edit_url="{{pilotweek.edit_url}}">{{pilotweek.pilot.full_name}}<span class="icon-right icon-dead">&#x2620;</span></td>
-       <td class="rank">{{pilotweek.rank.rank}}</td>
-       <td class="fame editable" field="fame">{{pilotweek.fame}}</td>
-       <td class="talents">{% for training in pilotweek.traits.all %} 
-         {{training}} 
-         {% if forloop.last == False %}, {% endif %}
-        {% endfor %}</td>
-       <td class="gunnery">{{pilotweek.skill_gunnery}}</td><td class="piloting">{{pilotweek.skill_piloting}}</td>
-       <td class="bv">{{pilotweek.bv_formatted}}</td>
-       <td class="experience">{{pilotweek.start_character_points}}</td>
-       <td class="rank-xp">{{pilotweek.rank.auto_train_cp}}</td>
-       <td class="gained-xp {% if not pilotweek.is_locked %}editable{%endif%}" field="cp">{{pilotweek.adjust_character_points}}</td>
-       <td class="assigned-tp {% if pilotweek.rank.receive_tp and not pilotweek.is_locked %}editable{% endif %}" field="tp">{{pilotweek.assigned_training_points}}</td>
-       <td class="spent-xp">{{pilotweek.training_cost}}</td>
-       <td class="final-xp">{{pilotweek.character_points}}</td>
-       <td class="wounds editable" field="wounds">{{pilotweek.wounds}}</td>
-       <td class="blackmarks editable" field="blackmark">{{pilotweek.blackmarks}}</td>
-       </tr>
-    {% endfor %}
-  </table>
-  {% else %}
-    <p>No pilots in stable</p>
-  {% endif %}
+
+  {% include 'stablemanager/fragments/stable_pilot_list.html' %} 
+
   <input id="button-add-pilot" type="button" class="icon-button" value="&#x2795;">Add Pilot</input>
   
   <h2>Training Points</h2>

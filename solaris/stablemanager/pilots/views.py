@@ -64,6 +64,9 @@ class StablePilotsView(StablePilotMixin, ListView):
 
         return page_context
 
+class StablePilotsListPartView(StablePilotMixin, ListView):
+    template_name = 'stablemanager/fragments/stable_pilot_list.html'
+
 class StablePilotsTrainingPartView(StablePilotMixin, ListView):
     template_name = 'stablemanager/fragments/training_list.html'
 

@@ -12,6 +12,9 @@ urlpatterns = patterns('',
     url(r'^/?(?P<callsign>[A-Za-z0-9 ]+)/edit$', views.StableEditPilotFormView.as_view(), name='stable_edit_pilot_now'),
     url(r'^/?(?P<week>[0-9]+)/(?P<callsign>[A-Za-z0-9 ]+)/edit$', views.StableEditPilotFormView.as_view(), name='stable_edit_pilot'),
 
+    url(r'^/?pilot-list$', views.StablePilotsListPartView.as_view(), name="stable_pilot_list_now"),
+    url(r'^/?(?P<week>[0-9]+)/+pilot-list$', views.StablePilotsListPartView.as_view(), name="stable_pilot_list"),
+
     url(r'^/?training$', views.StablePilotsTrainingPartView.as_view(), name="stable_training_now"),
     url(r'^/?(?P<week>[0-9]+)/+training$', views.StablePilotsTrainingPartView.as_view(), name="stable_training"),
 

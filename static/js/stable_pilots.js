@@ -322,6 +322,13 @@ function defer_table_setup() {
   event_table_setup('#pilot-defer-list', '/end-deferred', 'defer_id');
 }
 
+function pilot_list_setup() {
+  $('#stable-pilot-table .pilot-row .editable').one('click', function() {
+    to_number_input( $(this), send_changed_pilot_attrib );
+  });
+  $('#stable-pilot-table .pilot-row .name').click( dialog_edit_pilot );
+}
+
 function reload_training_table() {
   $('#pilot-training-list').load(window.location.href + '/training #pilot-training-list', training_table_setup); 
 }
@@ -332,6 +339,10 @@ function reload_trait_table() {
 
 function reload_defer_table() {
   $('#pilot-defer-list').load(window.location.href + '/defer #pilot-defer-list', defer_table_setup);
+}
+
+function reload_pilots() {
+  $('#stable-pilot-table').load(window.location.href + '/pilot-list #stable-pilot-table', pilot_list_setup);
 }
 
 function validate_training_form() {
@@ -459,7 +470,10 @@ function submit_pilot(submit_url) {
   , dataType : 'json'
   , data : formdata
   , statusCode : {
-      201 : function() { $('#dialog-add-pilot').dialog('close'); }
+      201 : function() { 
+        reload_pilots();
+        $('#dialog-add-pilot').dialog('close');
+      }
     }
   , complete : function(response, textStatus, xhr) {
       $('#dialog-add-pilot').html(response);
@@ -550,9 +564,7 @@ $( document ).ready(function() {
   $('#training-total.editable').one('click', function() {
     to_number_input( $(this), send_changed_tp );
   });
-  $('#stable-pilot-table .pilot-row .editable').one('click', function() {
-    to_number_input( $(this), send_changed_pilot_attrib );
-  });
+  pilot_list_setup();
 
   reset_training_form();
   $('#pilot-training-pilot').change( function() { 
@@ -577,6 +589,5 @@ $( document ).ready(function() {
   defer_table_setup();
 
   $('#button-add-pilot').click( dialog_add_pilot );
-  $('#stable-pilot-table .pilot-row .name').click( dialog_edit_pilot );
   check_tp_assignment();
 });
