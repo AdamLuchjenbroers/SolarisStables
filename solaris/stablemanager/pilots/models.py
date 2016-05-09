@@ -448,4 +448,6 @@ def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
         instance.copy_training()
 
         instance.next_week.save()
-   
+    elif instance.week.next_week != None:
+        # There's a stableweek after this one, so advance this pilot
+        instance.advance() 
