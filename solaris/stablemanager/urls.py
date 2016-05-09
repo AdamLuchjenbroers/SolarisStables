@@ -19,7 +19,7 @@ urlpatterns = patterns('',
     url(r'^/?alter-rep/?$', views.AjaxAlterReputationView.as_view()),
     url(r'^(?P<week>[0-9]+)/alter-rep/?$', views.AjaxAlterReputationView.as_view()),
 
-    url(r'^tech-list/?', views.StableTechListPart.as_view()),
+    url(r'^/?tech-list/?', views.StableTechListPart.as_view()),
     url(r'^(?P<week>[0-9]+)/tech-list/?', views.StableTechListPart.as_view()),
 
     url(r'^register/?$', views.StableRegistrationView.as_view(), name='stable_registration'),

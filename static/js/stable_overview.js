@@ -21,8 +21,9 @@ function attach_tech_input(form, button, input) {
         $('#add-tech-form .action').show();
       }, 
     }).done(function(newState) {
-      $("#stable-tech-list").load(window.location.href + '/tech-list')    
-      attach_tech_input();
+      $('#stable-tech-section').load(window.location.href + '/tech-list', function() {    
+        attach_tech_input('#add-tech-input');
+      });
     });
   });
 }

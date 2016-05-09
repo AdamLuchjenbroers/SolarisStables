@@ -1,12 +1,14 @@
-<ul id="stable-tech-list" class="stable-tech-list chit-list">
-  {% for tech in techlist %}
-  {% if tech.show %}
-  <li class="stable-tech chit tier{{tech.tier}}">{{tech.name}}</li>
-  {% endif %}
-  {% endfor %}
-</ul>
-<form id="add-tech-form" action="{{add_tech_url}}">
-  <input type="button" id="add-tech-submit" class="action icon-button" value="&#x2795;"/>
-  <img class="spinner" width="22" height="22" src="/static/images/loading_grey.gif" alt="loading"/>
-  <input type="text" length="50" id="add-tech-input"></input>
-</form>
+<div id="stable-tech-section">
+  <ul id="stable-tech-list" class="stable-tech-list chit-list">
+    {% for tech in techlist %}
+    {% if tech.show %}
+    <li class="stable-tech chit tier{{tech.tier}}">{{tech.name}}</li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+  <form id="add-tech-form" action="{{add_tech_url}}">
+    <input type="button" id="add-tech-submit" class="action icon-button" value="&#x2795;"/>
+    <img class="spinner" width="22" height="22" src="/static/images/loading_grey.gif" alt="loading"/>
+    <input type="text" length="50" id="add-tech-input"></input>
+  </form>
+</div>
