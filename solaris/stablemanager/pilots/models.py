@@ -144,6 +144,10 @@ class PilotWeek(models.Model):
         if self.next_week != None:
             return self.next_week
 
+        # Don't advance the record if they're dead.
+        if self.is_dead():
+            return None
+
         try:
             # Try to get the next week along after this one, in case it already exists
             # Should rarely return anything, but this is included as a safety feature
@@ -448,6 +452,6 @@ def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
         instance.copy_training()
 
         instance.next_week.save()
-    elif instance.week.next_week != None:
+    elif instance.week.next_week != None and not self.is_dead():
         # There's a stableweek after this one, so advance this pilot
         instance.advance() 
