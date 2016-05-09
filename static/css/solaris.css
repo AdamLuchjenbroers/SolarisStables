@@ -736,7 +736,7 @@ div#initial-mechs-footer span {
     border-top: 4px double #000000;
 }
 
-div.initial-mechs-row, div.initial-pilots-row {
+div.initial-mechs-row:not(.template-form), div.initial-pilots-row:not(.template-form) {
     display: table-row;
 }
 
