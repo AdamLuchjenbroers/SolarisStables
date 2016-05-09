@@ -435,9 +435,7 @@ function dialog_add_pilot() {
     , height: (window.innerHeight * 0.75)
     , buttons: {
         Add: function() {
-          if (submit_pilot(window.location.href + '/add-pilot')) {
-            $( this ).dialog("close");  
-          }
+          submit_pilot(window.location.href + '/add-pilot');
         }
       , Close: function() { $( this ).dialog("close"); }
       }
@@ -461,7 +459,7 @@ function submit_pilot(submit_url) {
   , dataType : 'json'
   , data : formdata
   , statusCode : {
-      201 : function() { success = true; }
+      201 : function() { $('#dialog-add-pilot').dialog('close'); }
     }
   , complete : function(response, textStatus, xhr) {
       $('#dialog-add-pilot').html(response);
@@ -485,9 +483,7 @@ function dialog_edit_pilot() {
     , height: (window.innerHeight * 0.75)
     , buttons: {
        Update: function() {
-          if (submit_pilot(edit_url)) {
-            $( this ).dialog("close");  
-          }
+          submit_pilot(edit_url);
         }
       , Close: function() { $( this ).dialog("close"); }
       }
