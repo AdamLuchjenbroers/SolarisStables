@@ -80,6 +80,8 @@ class PilotWeek(models.Model):
     assigned_training_points = models.IntegerField(default=0)
         
     rank = models.ForeignKey(PilotRank)
+    rank_set = models.BooleanField(default=False)
+
     skill_gunnery = models.IntegerField(default=5)
     skill_piloting = models.IntegerField(default=6)
 
@@ -430,7 +432,10 @@ def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
             instance.next_week.fame = instance.fame
 
         if not instance.next_week.blackmarks_set: 
-            instance.next_week.blackmarks_set = instance.blackmarks_set
+            instance.next_week.blackmarks = instance.blackmarks
+
+        if not instance.next_week.rank_set:
+            instance.next_week.rank = instance.rank
 
         if instance.wounds > 1 and not instance.is_dead() and not instance.next_week.wounds_set:
             instance.next_week.wounds = max(0, instance.wounds-1)
