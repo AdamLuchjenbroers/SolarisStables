@@ -1,4 +1,4 @@
-from django.views.generic import View, FormView, ListView, UpdateView
+from django.views.generic import View, TemplateView, FormView, ListView, UpdateView
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -158,4 +158,29 @@ class MechRefitFormView(MechModifyMixin, FormView):
         
         context['stablemechweek'] = self.stablemechweek
         return context
+       
+class MechEditFormView(MechModifyMixin, TemplateView):
+    template_name = 'stablemanager/forms/edit_mech_form.html'
+
+    def get(self, request, *args, **kwargs):
+        self.mechform = forms.MechChangeForm(instance=self.stablemechweek)
+        return super(MechEditFormView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.mechform = forms.MechChangeForm(request.POST, instance=self.stablemechweek)
+
+        if self.mechform.is_valid():
+            self.mechform.save()
+            return HttpResponse('Mech Changed', status=201)
+        else:
+            return super(MechEditFormView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(MechEditFormView, self).get_context_data(**kwargs)
         
+        context['mech'] = self.stablemechweek 
+        context['mechform'] = self.mechform
+        context['edit_url'] = self.stablemechweek.edit_url()
+        
+        return context
+

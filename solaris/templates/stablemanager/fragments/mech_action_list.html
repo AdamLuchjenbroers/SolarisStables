@@ -1,7 +1,31 @@
 <ul id="stable-mech-list" class="stable-mech-list chit-list">
-  {% for stablemech in object_list %}
+  <h2>Non Signature Mechs</h2>
+  {% for stablemech in stableweek.mechs.non_signature %}
     {% if stablemech.is_visible %}
       {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design %}
     {% endif %}
   {% endfor %}
+
+  {% if stableweek.mechs.has_signature %}
+  <h2>Signature Mechs</h2>
+    {% for pw in stableweek.pilots.all %}
+    {% if pw.signature_mechs %} 
+    <h3>{{pw.pilot}}</h3>
+      {% for stablemech in pw.signature_mechs %} 
+        {% if stablemech.is_visible %}
+          {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  {% if stableweek.mechs.mechs_on_order %}
+  <h2>On Order</h2>
+  {% for stablemech in stableweek.mechs.on_order %}
+    {% if stablemech.is_visible %}
+      {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design %}
+    {% endif %}
+  {% endfor %}
+  {% endif %}
 </ul>

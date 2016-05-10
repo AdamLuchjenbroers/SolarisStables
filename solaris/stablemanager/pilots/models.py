@@ -63,6 +63,9 @@ class PilotWeekTraits(models.Model):
             return '%s (%s)' % (self.trait.name, self.notes)
         else:
             return self.trait.name
+
+    def has_signatures(self):
+        return 
     
     class Meta:
         db_table = 'stablemanager_pilotweektraits'
@@ -293,6 +296,8 @@ class PilotWeek(models.Model):
     def edit_url(self):
         return reverse('stable_edit_pilot', kwargs={'week' : self.week_number(), 'callsign' : self.pilot.pilot_callsign})
 
+    def signature_mechs(self):
+        return self.pilot.signature_mechs.filter(stableweek=self.week)
     
 class PilotTrainingEvent(models.Model):
     pilot_week = models.ForeignKey('PilotWeek', related_name='training')

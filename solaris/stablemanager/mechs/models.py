@@ -57,6 +57,15 @@ class StableMech(models.Model):
 class StableMechWeekManager(models.Manager):
     use_for_related_fields = True
 
+    def count_all_available(self):
+        return self.exclude(delivery__gt=0).count()
+
+    def count_nonsignature(self):
+        return self.filter(signature_of=None, delivery=0).count()
+
+    def has_signature(self):
+        return self.exclude(signature_of=None).count() > 0
+
     def non_signature(self):
         return self.filter(signature_of=None, delivery=0).order_by('current_design__tonnage', 'current_design__mech_name')
 
@@ -199,6 +208,9 @@ class StableMechWeek(models.Model):
 
     def remove_url(self):
         return reverse('remove_mech', kwargs={'smw_id' : self.id})
+
+    def edit_url(self):
+        return reverse('edit_mech', kwargs={'smw_id' : self.id})
 
     def repair_bill_url(self):
         bill = self.active_repair_bill()

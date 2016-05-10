@@ -33,6 +33,12 @@
   {% endif %}
 
   {% if not stablemech.is_locked %}
+    <span class="word-button edit-button" mech_name="{{mech.mech_name}} {{mech.mech_code}}" form_url="{{stablemech.edit_url}}">Edit</span>
+  {% else %}
+    <span class="word-button no-button"></span>
+  {% endif %}
+
+  {% if not stablemech.is_locked %}
     <span class="word-button remove-button" mech_name="{{mech.mech_name}} {{mech.mech_code}}" form_url="{{stablemech.remove_url}}">Remove</span>
   {% else %}
     <span class="word-button no-button"></span>

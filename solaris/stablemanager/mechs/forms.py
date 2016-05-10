@@ -6,6 +6,7 @@ import uuid
 from urllib import unquote
 
 from . import models
+from solaris.stablemanager.pilots.models import Pilot
 from solaris.warbook.mech.models import MechDesign
 from solaris.campaign.models import BroadcastWeek
 from solaris.utilities.loader import SSWLoader
@@ -158,4 +159,48 @@ class MechRefitForm(MechUploadOrPurchaseForm):
 
         return ssw
 
+class MechChangeForm(forms.ModelForm):
+    remove_options = (('keep', 'Don\'t Remove'), ('remove', 'Remove from Stable'), ('core', 'Mark Cored'))
+    remove = forms.ChoiceField(widget=forms.RadioSelect, choices=remove_options, initial='keep')
+
+    class Meta:
+        model = models.StableMechWeek
+        fields = ('signature_of', 'delivery')
+
+    def pilot_choices(self):
+        pilots = tuple([(p.pilot.id, str(p.pilot)) for p in self.instance.stableweek.pilots.all()]) 
+        return ((None,'-- Non Signature --'),) + pilots 
+
+    def __init__(self, *args, **kwargs):
+        super(MechChangeForm, self).__init__(*args, **kwargs)
+        self.fields['signature_of'].label = 'Signature Of:'
+        self.fields['signature_of'].choices = self.pilot_choices()
+        self.fields['delivery'].label = 'Delivery In (Weeks):'
+
+    def clean_delivery(self):
+        if 'delivery' not in self.cleaned_data or self.cleaned_data['delivery'] == "":
+            return 0
+
+        try:
+            delivery = int(self.cleaned_data['delivery'])
+            if delivery >= 0:
+                return delivery
+            else:
+                raise ValidationError('Delivery delay cannot be negative')
+        except ValueError:
+            raise ValidationError('Delivery delay must be a number')
+
+    def clean_signature_of(self):
+        if 'signature_of' not in self.cleaned_data or self.cleaned_data['signature_of'] == "":
+            return None
+
+        pilot = self.cleaned_data['signature_of']
+
+        if pilot == None:
+            return None
+        elif pilot.stable == self.instance.stableweek.stable:
+            return pilot
+        else:
+            return ValidationError("Pilot does not belong to same stable as mech")
+ 
 InitialMechsForm = forms.formset_factory(SimpleMechPurchaseForm)

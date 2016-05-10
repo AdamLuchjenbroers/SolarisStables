@@ -26,6 +26,7 @@ function refresh_mechlist() {
   , function() {
     $('#stable-mech-list .refit-button').click( show_refit_form );
     $('#stable-mech-list .remove-button').click( show_removal_dialog );
+    $('#stable-mech-list .edit-button').click( show_edit_form );
   });
 }
 
@@ -93,6 +94,20 @@ function show_refit_form() {
   });
 }
 
+function show_edit_form() {
+  url = $(this).attr('form_url');
+  $('#dialog-editmech').load(url, function() {
+    $(this).dialog({
+      modal   : true
+    , width   : (window.innerWidth * 0.5)
+    , buttons : {
+        Edit   : submit_edit_form
+      , Cancel : function() { $( this ).dialog("close"); }
+      } 
+    });
+  });
+}
+
 function send_removal(submit_url, instruction) {
   $.ajax({
     type : 'post'
@@ -138,6 +153,27 @@ function submit_purchase_form() {
   }
 }
 
+function submit_edit_form() {
+  formdata = form_to_dictionary('#edit-mech-form');
+  submit_url = $('#edit-mech-form').attr('action');
+
+  $.ajax({
+    type : 'post'
+  , url  : submit_url 
+  , dataType : 'json'
+  , data : formdata
+  , statusCode : {
+      201 : function() { 
+        refresh_mechlist();
+        $('#dialog-editmech').dialog('close');
+      }
+    }
+  , complete : function(response, textStatus, xhr) {
+      $('#dialog-editmech').html(response);
+    }
+  });
+}
+
 $( document ).ready(function() {
 
     attach_mechlist_autocomplete( 
@@ -175,5 +211,7 @@ $( document ).ready(function() {
 
     $('.refit-button').click( show_refit_form );
     $('.remove-button').click( show_removal_dialog );
+    $('.edit-button').click( show_edit_form );
+
     $('#mech-purchase-submit').click( submit_purchase_form );
 });

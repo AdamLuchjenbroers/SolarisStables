@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 
     url(r'^refit/(?P<smw_id>[0-9]+)/?$', views.MechRefitFormView.as_view(), name='refit_mech'),
     url(r'^remove/(?P<smw_id>[0-9]+)/?$', views.MechRemoveAjaxView.as_view(), name='remove_mech'),
+    url(r'^edit/(?P<smw_id>[0-9]+)/?$', views.MechEditFormView.as_view(), name='edit_mech'),
 
     url(r'^repair/', include('solaris.stablemanager.repairs.urls')),
 )

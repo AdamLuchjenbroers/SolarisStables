@@ -1,0 +1,11 @@
+<form id="edit-mech-form" action="{{edit_url}}">
+  <h2>Mech Details - {{mech.current_design.mech_name}} {{mech.current_design.mech_code}}</h2>
+    {% if mechform.signature_of.errors %}
+
+    {% endif %}
+    <div class="form-row"><span class="label">{{mechform.signature_of.label}}</span>{{mechform.signature_of}}</div>
+    <div class="form-row"><span class="label">{{mechform.delivery.label}}</span>{{mechform.delivery}}</div>
+  <h3>Remove Mech?</h3>
+    <p class="helptext">
+    {{mechform.remove}}
+</form>

@@ -462,8 +462,6 @@ function dialog_add_pilot() {
 function submit_pilot(submit_url) {
   formdata = form_to_dictionary('#add-pilot-form');
 
-  success = false;
-
   $.ajax({
     type : 'post'
   , url  : submit_url 
@@ -479,8 +477,6 @@ function submit_pilot(submit_url) {
       $('#dialog-add-pilot').html(response);
     }
   });
-
-  return success;
 }
 
 function dialog_edit_pilot() {
