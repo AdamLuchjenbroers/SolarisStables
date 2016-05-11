@@ -105,6 +105,12 @@ function show_edit_form() {
       , Cancel : function() { $( this ).dialog("close"); }
       } 
     });
+
+    $('#mech-removal-button').click(function() {
+      $('#mech-removal-button').fadeOut( function() {
+        $('#mech-removal-options').slideDown();
+      });
+    });
   });
 }
 

@@ -6,6 +6,8 @@
     <div class="form-row"><span class="label">{{mechform.signature_of.label}}</span>{{mechform.signature_of}}</div>
     <div class="form-row"><span class="label">{{mechform.delivery.label}}</span>{{mechform.delivery}}</div>
   <h3>Remove Mech?</h3>
-    <p class="helptext">
-    {{mechform.remove}}
+    <div id="mech-removal-zone">
+      <span class="word-button" id="mech-removal-button">Remove Mech?</span>
+      <span class="hidden" id="mech-removal-options">{{mechform.remove}}</span>
+    </div>
 </form>
