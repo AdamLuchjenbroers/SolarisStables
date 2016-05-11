@@ -171,6 +171,17 @@ class MechEditFormView(MechModifyMixin, TemplateView):
 
         if self.mechform.is_valid():
             self.mechform.save()
+
+            mech = self.mechform.instance
+
+            if self.mechform.cleaned_data['remove'] == 'remove':
+               mech.set_removed(True);
+            elif self.mechform.cleaned_data['remove'] == 'core':
+               mech.set_cored(True);
+            elif self.mechform.cleaned_data['remove'] == 'undo':
+               mech.set_cored(False);
+               
+
             return HttpResponse('Mech Changed', status=201)
         else:
             return super(MechEditFormView, self).get(request, *args, **kwargs)

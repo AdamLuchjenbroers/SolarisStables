@@ -160,12 +160,17 @@ class MechRefitForm(MechUploadOrPurchaseForm):
         return ssw
 
 class MechChangeForm(forms.ModelForm):
-    remove_options = (('keep', 'Don\'t Remove'), ('remove', 'Remove from Stable'), ('core', 'Mark Cored'))
-    remove = forms.ChoiceField(widget=forms.RadioSelect, choices=remove_options, initial='keep')
+    remove = forms.ChoiceField(widget=forms.RadioSelect, initial='keep')
 
     class Meta:
         model = models.StableMechWeek
         fields = ('signature_of', 'delivery')
+
+    def remove_choices(self):
+        if self.instance.cored or self.instance.removed:
+            return (('keep', 'Don\'t Change'), ('undo', 'Undo Removal'))
+        else:
+            return (('keep', 'Don\'t Remove'), ('remove', 'Remove from Stable'), ('core', 'Mark Cored'))
 
     def pilot_choices(self):
         pilots = tuple([(p.pilot.id, str(p.pilot)) for p in self.instance.stableweek.pilots.all()]) 
@@ -176,6 +181,7 @@ class MechChangeForm(forms.ModelForm):
         self.fields['signature_of'].label = 'Signature Of:'
         self.fields['signature_of'].choices = self.pilot_choices()
         self.fields['delivery'].label = 'Delivery In (Weeks):'
+        self.fields['remove'].choices = self.remove_choices()
 
     def clean_delivery(self):
         if 'delivery' not in self.cleaned_data or self.cleaned_data['delivery'] == "":

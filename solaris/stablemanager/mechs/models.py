@@ -123,6 +123,12 @@ class StableMechWeek(models.Model):
             bill.save()
             bill.create_ledger_entry()
 
+        if value == False:
+            self.removed = False
+            for bill in self.repairs.filter(cored=True):
+                bill.remove_ledger_entry()
+                bill.delete() 
+
         self.save()
 
         if self.next_week != None:
@@ -168,6 +174,9 @@ class StableMechWeek(models.Model):
         if self.next_week != None:
             return self.next_week
 
+        if self.removed:
+            return None
+
         self.next_week = StableMechWeek.objects.create(
            stableweek = self.stableweek.next_week
         ,  stablemech = self.stablemech
@@ -178,6 +187,15 @@ class StableMechWeek(models.Model):
         )
         self.save()
         return self.next_week
+
+    def cascade_advance(self)
+        if self.removed:
+            return
+        elif self.next_week == None:
+            nextweek = self.advance()
+        
+        if nextweek != None:
+            nextweek.cascade_advance()
 
     def refit_to(self, newdesign, add_ledger=False, failed_by=0):
         olddesign = self.current_design
