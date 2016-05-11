@@ -29,6 +29,10 @@ function replace_field(str, sep, field, newval) {
 function form_to_dictionary(form_id) {
   dict = {};
   $(form_id).find('[name]').each( function (i) {
+    if ( $(this).is('[type=checkbox]:not(:checked),[type=radio]:not(:checked)')) {
+      // This element is an unchecked checkbox or radio-button, so skip it.
+      return true;
+    }
     dict[$(this).attr('name')] = $(this).val();
   });
 
