@@ -188,7 +188,7 @@ class StableMechWeek(models.Model):
         self.save()
         return self.next_week
 
-    def cascade_advance(self)
+    def cascade_advance(self):
         if self.removed:
             return
         elif self.next_week == None:
