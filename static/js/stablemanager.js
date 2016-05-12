@@ -21,7 +21,7 @@ function attach_mechlist_autocomplete(mech_input, parent_class, model_select_cla
       }).done(function(json) {
         var option_html="<option value=\"\">--</value>";
         $.each(json, function(index, val) {
-          option_html += "<option value=\"" + encodeURIComponent(val) + "\">" + val + "</value>";
+          option_html += "<option value=\"" + encodeURIComponent(index) + "\" preview_url=\"" + val + "\">" + index + "</value>";
         }); 
                                                              
         inputbox.parents(parent_class).find(model_select_class).html(option_html);               
@@ -30,15 +30,16 @@ function attach_mechlist_autocomplete(mech_input, parent_class, model_select_cla
   });
 }
 
-function preview_mech(chassis, model) {
-  $('#dialog-mechpreview').load('/reference/mechs/' + chassis + '/' + model + ' div.body');
-  $('#dialog-mechpreview').dialog ({
-    modal: true,
-    width: (window.innerWidth * 0.75),
-    height: (window.innerHeight * 0.75),
-    buttons: {
-      Close: function() { $( this ).dialog("close"); }
-    }
+function preview_mech(mech_url) {
+  $('#dialog-mechpreview').load(mech_url + ' div.body', function() {
+    $('#dialog-mechpreview').dialog ({
+      modal: true,
+      width: (window.innerWidth * 0.75),
+      height: (window.innerHeight * 0.75),
+      buttons: {
+        Close: function() { $( this ).dialog("close"); }
+      }
+    });
   });
 }
 
@@ -57,6 +58,7 @@ function to_ordinal(number) {
 function select_chassis_handler(parent_class, chassis_input_css, cost_class, preview_class) {
   return function() {
     type = $(this).val();
+    preview_url = $(this).find(':selected').attr('preview_url');
     chassis = $(this).parents(parent_class).find(chassis_input_css).val();
     cost = $(this).parents(parent_class).find(cost_class);
 
@@ -75,7 +77,7 @@ function select_chassis_handler(parent_class, chassis_input_css, cost_class, pre
       preview.prop('disabled', false);
 
       preview.click(function() {
-        preview_mech(chassis, type);
+        preview_mech(preview_url);
       });
     }); 
   }

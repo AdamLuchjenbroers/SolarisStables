@@ -30,9 +30,9 @@ class ListProductionVariants(StableWeekMixin, View):
             source_set = MechDesign.objects.filter(production_type__in=('P','H'))
         
         for mech in source_set.filter(mech_name=request.GET['mech']):
-            variant_list[mech.mech_code] = True      
+            variant_list[mech.mech_code] = mech.get_absolute_url()      
                  
-        return HttpResponse(json.dumps(variant_list.keys())) 
+        return HttpResponse(json.dumps(variant_list)) 
 
 class ListAvailableTechContracts(StableWeekMixin, View):
     def get(self, request, week=None):

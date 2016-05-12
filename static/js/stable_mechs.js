@@ -67,8 +67,7 @@ function show_refit_form() {
     });
 
     refit.find('.action-preview').click( function() {
-      radio = $(this).siblings('.mech-source-radio');
-      preview_mech(radio.attr('mech_name'), radio.attr('mech_code'));
+      preview_mech($(this).attr('preview_url'));
     });
 
     refit.find('#refit-button-submit').click( function() {
