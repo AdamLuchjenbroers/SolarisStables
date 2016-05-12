@@ -22,8 +22,8 @@ class CampaignViewMixin(SolarisViewMixin):
         if not request.user.is_authenticated():
             return redirect_to_login(request.get_full_path(), 'account_login', REDIRECT_FIELD_NAME)
 
-        if not (request.user.has_perm('campaign.change_campaign') or request.user.is_superuser):
-            return HttpResponse('You do not have access to the campaign screen', 400)
+#        if not (request.user.has_perm('campaign.change_campaign') or request.user.is_superuser):
+#            return HttpResponse('You do not have access to the campaign screen', 400)
 
         self.set_campaign()
         return super(CampaignViewMixin, self).dispatch(request, *args, **kwargs)
@@ -37,7 +37,16 @@ class CampaignViewMixin(SolarisViewMixin):
 
         return page_context
 
+class CampaignAdminMixin(CampaignViewMixin):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return redirect_to_login(request.get_full_path(), 'account_login', REDIRECT_FIELD_NAME)
 
+        if not (request.user.has_perm('campaign.change_campaign') or request.user.is_superuser):
+            return HttpResponse('You do not have access to the campaign screen', 400)
+
+        return super(CampaignAdminMixin, self).dispatch(request, *args, **kwargs)
+  
 class CampaignWeekMixin(CampaignViewMixin):
     week_navigation = True
 
@@ -75,7 +84,7 @@ class CampaignWeekMixin(CampaignViewMixin):
 class CampaignOverview(CampaignWeekMixin, TemplateView):
    template_name = 'campaign/overview.html'
 
-class AjaxCreateCampaignView(CampaignViewMixin, View):
+class AjaxCreateCampaignView(CampaignAdminMixin, View):
     def post(self, request):
         view = self.__class__.view_url_name
         if 'view' in request.POST:

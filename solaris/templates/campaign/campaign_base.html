@@ -14,8 +14,10 @@
     <span id="browse-week-current">&nbsp;Week&nbsp;{{week.week_number}}&nbsp;</span>
     {% if week_navigation and week.next_week != None %}
        <span id="browse-next-week"><a href="{{next_week_url}}">&#x25B6;</a></span>
-    {% else %}
+    {% elif perms.is_admin or perms.campaign.change_campaign %}
        <span id="browse-next-week" class="create-post" week="{{week.week_number}}" viewname="{{view_url_name}}">&#x2795;</span>
+    {% else %}
+       <span id="browse-next-week" class="blank"></span>
     {% endif %}
   </span>
 </div>

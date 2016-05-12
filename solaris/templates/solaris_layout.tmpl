@@ -17,7 +17,7 @@
     <div class="title">
       <image id="logo" src="/static/images/solaris-screen.png"/>
        <span class="title-menu">
-         <h1 class="title-text">Solaris Stables</h1>
+         <h1 class="title-text">Solaris Stable</h1>
          <h2 class="subtitle-text">Thursday Nights @ Exiles</h2>
          
          <div class="menu-area"> 
@@ -29,10 +29,8 @@
            
            {% if user.is_authenticated %}
                {% menuitem Stable /stable %}
- 
-               {% if perms.is_admin or perms.campaign.change_campaign %}
-                   {% menuitem Campaign /campaign %}
-               {% endif %}
+               {% menuitem Campaign /campaign %}
+
                {% if perms.is_admin or perms.is_staff %}
                    {% menuitem Admin /admin %}
                {% endif %}
