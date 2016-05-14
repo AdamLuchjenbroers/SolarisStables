@@ -107,3 +107,17 @@ $( document ).ready(function() {
   });
 
 });
+
+$( document ).ajaxStop( function() {
+  $.ajax({
+    type : 'get',
+    url  : $('#actionbar-stabledata').attr('data_url'),
+    dataType : 'json',
+    global : false
+  }).done(function(data) {
+     $('#actionbar-funds').text(data['funds']);
+     $('#actionbar-prominence').text(data['prominence']);
+     $('#actionbar-mechs').text(data['mechs']);
+     $('#actionbar-pilots').text(data['pilots']);
+  });
+});

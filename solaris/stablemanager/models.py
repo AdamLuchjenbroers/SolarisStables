@@ -167,6 +167,9 @@ class StableWeek(models.Model):
     def get_absolute_url(self):
         return reverse('stable_ledger', kwargs={'week': self.week.week_number})
     
+    def get_overview_query_url(self):
+        return reverse('stable_query_overview', kwargs={'week': self.week.week_number})
+    
     def available_equipment(self):
         eq_set = Equipment.objects.none()
 

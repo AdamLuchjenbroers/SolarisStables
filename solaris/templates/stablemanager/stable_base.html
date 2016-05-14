@@ -31,11 +31,11 @@
       {% endif %}
     </span>
     <hr class="action-break"/>
-    <dl class="actionbar-summary">
-      <dt>Funds</dt><dd class="small-text">{{stableweek.closing_balance}} CBills</dd>
-      <dt>Prominence</dt><dd>{{stableweek.prominence}}</dd>
-      <dt>Mechs</dt><dd>{{stableweek.mechs.count_nonsignature}} ({{stableweek.mechs.count_all_available}})</dd>
-      <dt>Pilots</dt><dd>{{stableweek.pilots.count}}</dd>
+    <dl id="actionbar-stabledata" class="actionbar-summary" data_url="{{stableweek.get_overview_query_url}}">
+      <dt>Funds</dt><dd id="actionbar-funds" class="small-text">{{stableweek.closing_balance}} CBills</dd>
+      <dt>Prominence</dt><dd id="actionbar-prominence">{{stableweek.prominence}}</dd>
+      <dt>Mechs</dt><dd id="actionbar-mechs">{{stableweek.mechs.count_nonsignature}} ({{stableweek.mechs.count_all_available}})</dd>
+      <dt>Pilots</dt><dd id="actionbar-pilots">{{stableweek.pilots.count}}</dd>
     </dl>
   </span>
 </div>

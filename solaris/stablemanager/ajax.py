@@ -40,3 +40,14 @@ class ListAvailableTechContracts(StableWeekMixin, View):
         technames = [ tech.name for tech in techlist ]
 
         return HttpResponse(json.dumps(technames)) 
+
+class StableOverviewInfo(StableWeekMixin, View):
+    def get(self, request, week=None):
+        info = {
+          'funds'      : '%i CBills' % self.stableweek.closing_balance()
+        , 'prominence' : self.stableweek.prominence()
+        , 'mechs'      : '%i (%i)' % (self.stableweek.mechs.count_nonsignature(), self.stableweek.mechs.count_all_available())
+        , 'pilots'     : self.stableweek.pilots.count()
+        }
+        return HttpResponse(json.dumps(info)) 
+
