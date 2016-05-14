@@ -182,6 +182,11 @@ class PilotWeek(models.Model):
         self.next_week.save()
         return self.next_week
 
+    def cascade_advance(self):
+        nextweek = self.advance()
+        if nextweek != None:
+            nextweek.cascade_advance()
+
     def copy_training(self):
         if self.next_week == None:
             return
@@ -457,6 +462,3 @@ def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
         instance.copy_training()
 
         instance.next_week.save()
-    elif instance.week.next_week != None and not instance.is_dead():
-        # There's a stableweek after this one, so advance this pilot
-        instance.advance() 

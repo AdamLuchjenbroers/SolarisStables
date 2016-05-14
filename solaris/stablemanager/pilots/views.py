@@ -148,6 +148,8 @@ class StableAddPilotFormView(StableWeekMixin, StablePilotFormAbstract):
             self.problemformset.instance = pilotweek
             self.problemformset.save()
 
+            pilotweek.cascade_advance()
+
             return HttpResponse('Pilot Added', status=201)
         else:
             return super(StableAddPilotFormView, self).get(request, week=week)
