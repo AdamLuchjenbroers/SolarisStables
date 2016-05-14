@@ -119,7 +119,7 @@ class StableAddPilotFormView(StableWeekMixin, StablePilotFormAbstract):
         self.pilotform = forms.PilotForm(None, prefix='pilot', stable=self.stable)
         self.pilotweekform = forms.PilotWeekForm(prefix='pweek')
         self.trainingformset = forms.PilotTrainingFormSet(prefix='train') 
-        self.problemformset = forms.PilotTrainingFormSet(prefix='issue') 
+        self.problemformset = forms.PilotTraitFormSet(prefix='issue') 
        
         return super(StableAddPilotFormView, self).get(request, week=week)
 
@@ -127,7 +127,7 @@ class StableAddPilotFormView(StableWeekMixin, StablePilotFormAbstract):
         self.pilotform = forms.PilotForm(request.POST, prefix='pilot', stable=self.stable)
         self.pilotweekform = forms.PilotWeekForm(request.POST, prefix='pweek')
         self.trainingformset = forms.PilotTrainingFormSet(request.POST, prefix='train') 
-        self.problemformset = forms.PilotTrainingFormSet(request.POST, prefix='issue') 
+        self.problemformset = forms.PilotTraitFormSet(request.POST, prefix='issue') 
 
         if self.pilotform.is_valid() and self.pilotweekform.is_valid() \
         and self.trainingformset.is_valid() and self.problemformset.is_valid:
