@@ -1432,6 +1432,19 @@ table.pilots td.total {
   display: inline-block;
 }
 
+.form-row .error input,
+.form-row .error select {
+  background-color: #FFBBBB;
+}
+
+ul.errors {
+  list-style: none;
+}
+
+ul.errors em {
+  font-weight: bold;
+}
+
 .single-line-form span.duration input {
   width: 8em;
 }

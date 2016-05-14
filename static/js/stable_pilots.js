@@ -465,16 +465,16 @@ function submit_pilot(submit_url) {
   $.ajax({
     type : 'post'
   , url  : submit_url 
-  , dataType : 'json'
+  , dataType : 'html'
   , data : formdata
   , statusCode : {
       201 : function() { 
         reload_pilots();
         $('#dialog-add-pilot').dialog('close');
       }
-    }
-  , complete : function(response, textStatus, xhr) {
-      $('#dialog-add-pilot').html(response);
+    , 200 : function(response, statusText, jqXHR) {
+        $('#add-pilot-form').replaceWith(response);
+      }
     }
   });
 }

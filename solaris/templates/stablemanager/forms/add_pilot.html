@@ -7,15 +7,6 @@
   </div>
   {% endif %}
 
-  {% for field, errors in pilotweekform.errors.items %}
-    <h2>{{field}}</h2>
-    <ul>
-    {% for e in errors %}
-      <li>{{e}}</li> 
-    {% endfor %}
-    </ul>
-  {% endfor %}
-
   {{pilotform.stable}}
   
   <div class="form-row">
@@ -25,10 +16,10 @@
     {% if pilotform.pilot_callsign.errors or pilotform.pilot_name.errors %}
     <ul class="errors">
       {% for error in pilotform.pilot_callsign.errors %}
-        <li>{{pilotform.pilot_callsign.label}}{{ error }}</li>
+        <li><em>{{pilotform.pilot_callsign.label}}</em> {{ error }}</li>
       {% endfor %}
       {% for error in pilotform.pilot_name.errors %}
-        <li>{{pilotform.pilot_name.label}}{{ error }}</li>
+        <li><em>{{pilotform.pilot_name.label}}</em> {{ error }}</li>
       {% endfor %}
     </ul>
     {% endif %}
@@ -37,6 +28,14 @@
   <h2>Affiliation</h2>
   <div class="form-row">
     {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotform.affiliation field_class='house' %}
+
+    {% if pilotform.affiliation.errors %}
+    <ul class="errors">
+      {% for error in pilotform.affiliation.errors %}
+        <li><em>{{pilotform.affiliation.label}}</em> {{ error }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
   </div>
 
   <h2>Rank and Abilities</h2>
@@ -45,6 +44,23 @@
     {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotweekform.skill_gunnery field_class='gunnery' %}
     {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotweekform.skill_piloting field_class='piloting' %}
     {% include 'stablemanager/fragments/add_pilot_field.html' with field=pilotweekform.start_character_points field_class='character-points' %}
+
+    {% if pilotweekform.rank.errors or pilotweekform.skill_gunnery.errors or pilotweekform.skill_piloting.errors or pilotweekform.start_character_points.errors %}
+    <ul class="errors">
+      {% for error in pilotweekform.rank.errors %}
+        <li><em>{{pilotweekform.rank.label}}</em> {{ error }}</li>
+      {% endfor %}
+      {% for error in pilotweekform.skill_gunnery.errors %}
+        <li><em>{{pilotweekform.skill_gunnery.label}}</em> {{ error }}</li>
+      {% endfor %}
+      {% for error in pilotweekform.skill_piloting.errors %}
+        <li><em>{{pilotweekform.skill_piloting.label}}</em> {{ error }}</li>
+      {% endfor %}
+      {% for error in pilotweekform.start_character_points.errors %}
+        <li><em>{{pilotweekform.start_character_points.label}}</em> {{ error }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
   </div>
 
   {% if trainingform %}
