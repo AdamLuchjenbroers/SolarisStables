@@ -130,7 +130,7 @@ class StableAddPilotFormView(StableWeekMixin, StablePilotFormAbstract):
         self.problemformset = forms.PilotTraitFormSet(request.POST, prefix='issue') 
 
         if self.pilotform.is_valid() and self.pilotweekform.is_valid() \
-        and self.trainingformset.is_valid() and self.problemformset.is_valid:
+        and self.trainingformset.is_valid() and self.problemformset.is_valid():
             self.pilotform.save(commit=False)
             pilot = self.pilotform.instance
             pilot.stable = self.stable
