@@ -73,7 +73,21 @@ class PilotWeekForm(forms.ModelForm):
 
     class Meta:
         model = models.PilotWeek
-        fields = ('rank' ,'skill_gunnery', 'skill_piloting', 'start_character_points')
+        fields = ('rank', 'rank_set', 'skill_gunnery', 'skill_piloting', 'start_character_points')
+
+    def clean(self):
+        cleaned = super(PilotWeekForm, self).clean()
+
+        if self.instance == None or self.instance.rank_set:
+            cleaned['rank_set'] = True
+        elif not hasattr(self.instance, 'rank'):
+            cleaned['rank_set'] = True
+        elif self.instance.rank != cleaned['rank']:
+            cleaned['rank_set'] = True
+        else:
+            cleaned['rank_set'] = False
+
+        return cleaned
 
 class PilotNamingForm(forms.ModelForm):
     pilot_name = forms.CharField(required=False)
