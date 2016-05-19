@@ -346,7 +346,7 @@ ul.actionbar-row li a {
 
 ul.actionbar li a:link, ul.actionbar-inner li a:link, 
 ul.actionbar li a:visited, ul.actionbar-inner li a:visited,
-ul.wiki-breadcrumbs li a:link, ul.wiki-breadcrumbs li a:visited
+ul.wiki-breadcrumbs li a:link, ul.wiki-breadcrumbs li a:visited,
 ul.actionbar-row li a:link, ul.actionbar-row li a:visited
 {
   color: #BBBBBB;
