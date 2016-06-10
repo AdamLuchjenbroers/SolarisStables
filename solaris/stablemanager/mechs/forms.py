@@ -56,7 +56,7 @@ class MechUploadOrPurchaseForm(forms.Form):
     as_purchase = forms.BooleanField(required=False, initial=True, label="Add as Purchase:")
     allmechs = forms.BooleanField(required=False, initial=False, label="Include Non-Stable Designs:")
 
-    delivery = forms.IntegerField(initial=1, label="Delivery In (Weeks):")
+    delivery = forms.IntegerField(initial=1, required=False, label="Delivery In (Weeks):")
 
     def clean_delivery(self):
         if 'delivery' not in self.cleaned_data or self.cleaned_data['delivery'] == None:
