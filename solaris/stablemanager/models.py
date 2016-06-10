@@ -201,7 +201,12 @@ class StableWeek(models.Model):
     def assigned_tp_counts(self):
         counts = {}
         for rank in PilotRank.objects.filter(receive_tp=True):
-            counts[rank.rank] = self.pilots.filter(rank=rank).aggregate(models.Sum('assigned_training_points'))['assigned_training_points__sum']
+            total_tp = self.pilots.filter(rank=rank).aggregate(models.Sum('assigned_training_points'))['assigned_training_points__sum']
+            if total_tp != None:
+                counts[rank.rank] = total_tp
+            else:
+                counts[rank.rank] = 0
+
         counts['Total'] = sum(counts.values())
 
         return counts
