@@ -807,6 +807,52 @@ div.mech-purchase span.mech-cost {
   color: #666666;
 }
 
+ul.chit-list li.stable-chit {
+  width: 80%;
+  position: relative;
+  display: flex;
+  margin: auto;
+  margin-bottom: 1rem;	
+}
+
+li.stable-chit.face {
+  background-color: #AAAAFF;
+}
+
+li.stable-chit.heel {
+  background-color: #FFAAAA;
+}
+
+li.stable-chit.neutral {
+  background-color: #FFFFFF;
+}
+
+li.stable-chit span.prominence {
+  border-right: 2px solid #262233;
+  display: inline-block;
+  font-size: 200%;
+  width: 4rem;
+
+  height: auto;
+
+  margin-right: 0.5em;
+  padding: 0px;
+  text-align: center;
+}
+
+li.stable-chit span.stable {
+  display: inline-flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+li.stable-chit div.stable-name {
+  font-size: 120%;
+  font-weight: bold;
+}
+
 
 /****************************************
  * Stable Overview

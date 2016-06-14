@@ -61,19 +61,9 @@ class BroadcastWeek(models.Model):
     def has_prev_stables(self):
         return (hasattr(self, 'prev_week') and self.prev_week.stableweek_set.count() > 0)
 
-    def has_stables(self):
-        return self.stableweek_set.count() > 0
-
-    def list_active_stables(self): 
-        from solaris.stablemanager.models import Stable
-        if self.has_stables():
-            return Stable.objects.filter(ledger__week=self)
-        else:
-            return Stable.objects.none()
-
     def list_waiting_stables(self):
         from solaris.stablemanager.models import Stable
-        return Stable.objects.exclude(id__in=self.list_active_stables)
+        return Stable.objects.exclude(ledger__week=self)
 
     def list_techs_available(self):
         if hasattr(self, 'prev_week') and self.prev_week.stableweek_set.count() > 0:
