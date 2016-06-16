@@ -189,7 +189,8 @@ class AjaxAlterReputationView(StableWeekMixin, View):
                 self.stableweek.reputation -= 1
             else:
                 return HttpResponse('Unrecognised Action: %s' % request.POST['change'], status=400)
-            
+
+            self.stableweek.reputation_set = True            
             self.stableweek.save()
             data = { 
               'value' : self.stableweek.reputation 

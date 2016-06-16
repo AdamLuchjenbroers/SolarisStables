@@ -43,7 +43,7 @@ class LedgerItem(models.Model):
 
 @receiver(post_save, sender=LedgerItem)
 def recalculate_ledgers(sender, instance=None, created=False, **kwargs):
-    instance.ledger.recalculate()
+    instance.ledger.save()
 
 @receiver(post_delete, sender=LedgerItem)
 def recalculate_ledgers_ondelete(sender, instance=None, created=False, **kwargs):
