@@ -23,10 +23,14 @@ class TraitDetailMixin(ReferenceViewMixin):
             else:
                 table[trait.table] = [trait] 
 
+        tupleset = []
         for key in table.keys():
             table[key].sort(key = lambda s: s.item)
+            tupleset.append((key, table[key]))
 
-        page_context['table'] = table
+        tupleset.sort(key = lambda x: x[0])
+            
+        page_context['table'] = tupleset
 
         return page_context
     

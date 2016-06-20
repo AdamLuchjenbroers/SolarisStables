@@ -7,12 +7,12 @@
     <p>{{object.blurb}}</p>
   </div>
   <table id="discipline-list">
-  {% for subname, subtable in table.items %}
+  {% for subname, subtable in table %}
     <tr class="discipline-subtable {% cycle 'odd' 'even' as rowclass%}">
-      <td class="roll-table" rowspan="{{subtable | length}}">{{subname}}
+      <td class="roll-table{% if subtable|length >= 2 %} vertical{% endif %}" rowspan="{{subtable | length}}" {% if subtable|length < 2 %}colspan="2"{% endif %}>{{subname}}
       {% for skill in subtable %}
         {% if not forloop.first %}<tr class="{{rowclass}}">{% endif %}
-        <td class="roll-item">{{skill.item}}</td>
+        {% if subtable|length >= 2 %}<td class="roll-item">{{skill.item}}</td>{% endif %}
         <td class="skill">{{skill.name}}</td>
         <td class="skill-description">{{skill.description}}</td>
         {% if object.discipline_type == 'T' %}<td class="skill-bv">{{skill.bv_text}}</td>{% endif %}
