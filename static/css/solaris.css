@@ -693,6 +693,38 @@ div.news_form input {
 }
 
 /****************************************
+ * Pilot Skills / Traits Reference
+ ****************************************/
+#discipline-list .odd {
+  background-color: #CCCCCC;
+}
+
+#discipline-list .even {
+  background-color: #BBBBBB;
+}
+
+#discipline-list .roll-table {
+ -webkit-transform: rotate(90deg);
+ -moz-transform: rotate(90deg);
+ -ms-transform: rotate(90deg);
+ -o-transform: rotate(90deg);
+
+ font-size: 140%;
+ font-weight: bold;
+ letter-spacing: 0.25em;
+}
+
+#discipline-list .roll-item,
+#discipline-list .skill {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+#discipline-list .skill-description,
+#discipline-list .skill-bv {
+  font-size: 80%;
+}
+/****************************************
  * Stable Registration
  ****************************************/
 select#id_stable_disciplines {

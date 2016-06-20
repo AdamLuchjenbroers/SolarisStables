@@ -79,7 +79,7 @@ class PilotTraitGroup(models.Model):
         app_label = 'warbook'
     
     def get_absolute_url(self):
-        return reverse('discipline', kwargs={'slug': self.urlname})
+        return reverse('pilot_skill_detail', kwargs={'slug': self.urlname})
         
     def __unicode__(self):
         return '%s - %s' % (self.get_discipline_type_display(), self.name)
