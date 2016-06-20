@@ -57,7 +57,7 @@ class PilotRank(models.Model):
 
 class PilotTraitGroup(models.Model):
     name  = models.CharField(max_length=40)
-    blurb = models.TextField()  
+    blurb = MarkupField()  
     urlname = models.CharField(max_length=20, unique=True)
     
     discipline_options = (
