@@ -730,6 +730,26 @@ div.news_form input {
 #discipline-list .skill-bv {
   font-size: 80%;
 }
+
+/****************************************
+ * Mech Search
+ ****************************************/
+#mech-search-form .mech_name input {
+  width: 16em;
+}
+
+#mech-search-form .mech_code input {
+  width: 6em; 
+}
+
+#mech-search-form .short_number input {
+  width: 6em;
+}
+
+#mech-search-form .long_number input {
+  width: 12em;
+}
+
 /****************************************
  * Stable Registration
  ****************************************/
@@ -1727,6 +1747,15 @@ button.form-action {
 
 .label-divider-right {
   flex-grow: 3;
+}
+
+.label-row {
+  display: inline-block;
+  width: 12em;
+  font-weight: bold;
+
+  text-align: right;
+  padding-right: 1em;
 }
 
 #dialog-add-pilot form {
