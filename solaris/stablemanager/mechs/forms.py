@@ -56,7 +56,7 @@ class MechUploadOrPurchaseForm(forms.Form):
     as_purchase = forms.BooleanField(required=False, initial=True, label="Add as Purchase:")
     allmechs = forms.BooleanField(required=False, initial=False, label="Include Non-Stable Designs:")
 
-    delivery = forms.IntegerField(initial=1, label="Delivery In (Weeks):")
+    delivery = forms.IntegerField(initial=1, required=False, label="Delivery In (Weeks):")
 
     def clean_delivery(self):
         if 'delivery' not in self.cleaned_data or self.cleaned_data['delivery'] == None:
@@ -76,6 +76,8 @@ class MechUploadOrPurchaseForm(forms.Form):
         with open(ssw_upload_tmp, 'wb+') as tmp_output:
             for chunk in self.cleaned_data['mech_ssw'].chunks():
                 tmp_output.write(chunk)
+
+        close(ssw_upload_tmp)
 
         mech = SSWLoader(ssw_upload_file, basepath=settings.SSW_UPLOAD_TEMP)
         (mech_name, mech_code) = mech.get_model_details()
