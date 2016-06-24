@@ -14,7 +14,7 @@ class MechSearchForm(Form):
     bv_high = IntegerField(label='Max BV', required=False)
 
     tier_low = ChoiceField(choices=technology_tiers, required=False)
-    tier_high = ChoiceField(choices=technology_tiers, required=False)
+    tier_high = ChoiceField(initial=3, choices=technology_tiers, required=False)
 
     
     available_opts = (('-', 'All Production Models'), ('me', 'My Stable')) \
