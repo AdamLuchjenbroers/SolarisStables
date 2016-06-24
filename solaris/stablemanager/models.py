@@ -178,14 +178,22 @@ class StableWeek(models.Model):
         return eq_set         
      
     def refresh_supply_mechs(self):        
-        mechList = None
-        
-        if self.supply_contracts.filter(name='Omnimechs').exists():
-            mechList = self.stable.house.produced_designs.all() | self.custom_designs.all()
-        else:
-            mechList = self.stable.house.produced_designs.filter(is_omni=False) | self.custom_designs.filter(is_omni=False)
-              
         self.supply_mechs.clear()
+       
+        # To speed this up, auto-add all white / green tech mechs.
+        # Under our rules it's pretty much impossible to lose access to these.
+        self.supply_mechs.add( *self.stable.house.produced_designs.filter(tier__lte=1) ) 
+       
+        if self.custom_designs.count() == 0 \
+        and self.supply_contracts.filter(tier__gt=1).count() == 0:
+            # No yellow techs or custom designs, so nothing more to check 
+            return 
+
+        mechList = None
+        if self.supply_contracts.filter(name='Omnimechs').exists():
+            mechList = self.stable.house.produced_designs.filter(tier__gt=1) | self.custom_designs.all()
+        else:
+            mechList = self.stable.house.produced_designs.filter(is_omni=False, tier__gt=1) | self.custom_designs.filter(is_omni=False)
         
         for mech in mechList:
             if mech.required_techs.exclude(id__in=self.supply_contracts.all()).count() == 0:
