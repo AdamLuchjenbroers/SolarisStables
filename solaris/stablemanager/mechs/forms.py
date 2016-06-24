@@ -41,6 +41,7 @@ class SimpleMechPurchaseForm(forms.Form):
         try:
             self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc)
         except MechDesign.DoesNotExist:
+            self.design = None
             raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))
     
         return cleaned
@@ -76,8 +77,6 @@ class MechUploadOrPurchaseForm(forms.Form):
         with open(ssw_upload_tmp, 'wb+') as tmp_output:
             for chunk in self.cleaned_data['mech_ssw'].chunks():
                 tmp_output.write(chunk)
-
-        close(ssw_upload_tmp)
 
         mech = SSWLoader(ssw_upload_file, basepath=settings.SSW_UPLOAD_TEMP)
         (mech_name, mech_code) = mech.get_model_details()
