@@ -72,6 +72,8 @@ class MechSearchResultsView(ReferenceMechMixin, ListView):
         u'cost_high' : 'credit_value__lte',
         u'bv_low' : 'bv_value__gte',
         u'bv_high' : 'bv_value__lte',
+        u'tier_low' : 'tier__gte',
+        u'tier_high' : 'tier__lte',
     }
     
     def get_filter_args(self, requestdata):
