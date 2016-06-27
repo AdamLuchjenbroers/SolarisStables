@@ -33,6 +33,8 @@ class StableRegistrationForm(ModelForm):
     
     def clean(self):
         super(StableRegistrationForm,self).clean()
+        if 'stable_disciplines' not in self.cleaned_data:
+            raise ValidationError('No Disciplines have been selected')
         
         if len(self.cleaned_data['stable_disciplines']) != self.house.selectable_disciplines:
             raise ValidationError('%s should have %i selected disciplines, received %i.' 
