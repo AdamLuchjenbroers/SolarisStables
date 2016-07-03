@@ -1,24 +1,22 @@
-<div class="repair-bill-section" id="repair-section-{{section | lower}}">
-  <div class="ledger-section-header ledger-row">
-       <span class="ledger-header repair-item-name">{{section}} Costs</span>
-       <span class="ledger-header ledger-rightalign repair-item-quantity">Qty</span>
-       <span class="ledger-header ledger-rightalign repair-item-tons">{% if section == 'Construction' %}Tons{% endif %}</span>
-       <span class="ledger-header ledger-rightalign repair-item-cost">Cost</span>
-  </div>
+  <tr class="ledger-section-header ledger-row">
+       <td class="ledger-header repair-item-name">{{section}} Costs</td>
+       <td class="ledger-header ledger-rightalign repair-item-quantity">Qty</td>
+       <td class="ledger-header ledger-rightalign repair-item-tons">{% if section == 'Construction' %}Tons{% endif %}</td>
+       <td class="ledger-header ledger-rightalign repair-item-cost">Cost</td>
+  </tr>
   {% for item in section_lines %}
-     <div class="ledger-section-item ledger-row">
-       <span class="ledger-data repair-item-name">{{ item.description }}</span>
-       <span class="ledger-data ledger-rightalign repair-item-quantity">{% if item.count > 0 %}{{ item.count }}{% endif %}</span>
-       <span class="ledger-data ledger-rightalign repair-item-tons">{% if item.tons %}{{item.tons}}{% endif %}</span>
-       <span class="ledger-data ledger-rightalign repair-item-cost">{{ item.cost }}</span>
-     </div>
+     <tr class="ledger-section-item ledger-row">
+       <td class="ledger-data repair-item-name">{{ item.description }}</td>
+       <td class="ledger-data ledger-rightalign repair-item-quantity">{% if item.count > 0 %}{{ item.count }}{% endif %}</td>
+       <td class="ledger-data ledger-rightalign repair-item-tons">{% if item.tons %}{{item.tons}}{% endif %}</td>
+       <td class="ledger-data ledger-rightalign repair-item-cost">{{ item.cost }}</td>
+     </tr>
   {% endfor %}
   {% if section_total != None %}
-  <div class="ledger-section-subtotal ledger-row">
-       <span class="ledger-data repair-item-name">Subtotal</span>
-       <span class="ledger-data ledger-rightalign repair-item-quantity"></span>
-       <span class="ledger-data ledger-rightalign repair-item-tons"><span>
-       <span class="ledger-data ledger-rightalign repair-item-cost">{{section_total}}</span>
-  </div>
+  <tr class="ledger-section-subtotal ledger-row">
+       <td class="ledger-data repair-item-name">Subtotal</td>
+       <td class="ledger-data ledger-rightalign repair-item-quantity"></td>
+       <td class="ledger-data ledger-rightalign repair-item-tons"></td>
+       <td class="ledger-data ledger-rightalign repair-item-cost">{{section_total}}</td>
+  </tr>
   {% endif %}
-</div>

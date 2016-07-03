@@ -1,8 +1,11 @@
 from copy import deepcopy
+import json
 
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView, View
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse 
+from django.db import models
 
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import StableWeek, LedgerItem
@@ -24,13 +27,18 @@ class StableLedgerView(StableWeekMixin, TemplateView):
         tab_index=1;
         
         for (code, description) in LedgerItem.item_types:
+            entries = self.ledger.entries.filter(type=code)
+
             new_group = {
                 'code' : code
             ,   'description' : description
             ,   'form'    : LedgerItemForm( initial={ 'type' : code })
+            ,   'subtotal' : entries.aggregate(models.Sum('cost'))['cost__sum']
             }
+
+            if new_group['subtotal'] == None:
+                new_group['subtotal'] = 0
                        
-            entries = self.ledger.entries.filter(type=code)
             if entries:
                 new_group['entries'] = []
                 
@@ -94,4 +102,37 @@ class StableLedgerDeleteView(StableViewMixin, View):
             pass
         
         return redirect('/stable/ledger')        
-    
+   
+class LedgerAjaxMixin(StableWeekMixin):
+    def dispatch(self, request, week=None, entry_id=None, *args, **kwargs):
+        redirect = self.get_stable(request)
+        if redirect:
+            return redirect
+
+        self.get_stableweek()
+
+        entry_id = self.get_call_parameter(request, 'entry_id', entry_id)
+        self.entry = get_object_or_404(LedgerItem, week=self.stableweek, id=entry_id)
+
+        try: 
+            super(LedgerAjaxMixin, self).dispath(request, *args, **kwargs)
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', status=400)
+        except ValueError:
+            return HttpResponse('Invalid AJAX request', status=400)
+
+class AjaxUpdateLedgerCostForm(LedgerAjaxMixin):
+    def post(self, request, *args, **kwargs):
+       self.entry.cost = int(request.POST['cost'])
+       self.entry.save()
+
+       result = {'cost' : self.entry.cost}
+       return HttpResponse(json.dumps(result)) 
+
+class AjaxUpdateLedgerDescriptionForm(LedgerAjaxMixin):
+    def post(self, request, *args, **kwargs):
+       self.entry.description = request.POST['description']
+       self.entry.save()
+
+       result = {'description' : self.entry.description}
+       return HttpResponse(json.dumps(result)) 

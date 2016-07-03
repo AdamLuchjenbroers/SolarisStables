@@ -2,7 +2,7 @@
 function recalc_group(group) {
    var grouptotal = 0;
    
-  $('div.item-group-' + group + ' div.ledger-view-display span.ledger-value').each( function() {
+  $('.ledger-item[group=' + group + ' .ledger-value').each( function() {
     cost = parseInt( $(this).text());
 
     if (!isNaN(cost)) {
@@ -45,7 +45,7 @@ $.fn.extend ({
 });
 
 $( document ).ready(function() {
-	$('div.ledger-item-edit').on('click', function () {
+	$('.ledger-item-edit').on('click', function () {
 		$('div.ledger-item-edit').showItem();		
 		$(this).showForm();
 	});

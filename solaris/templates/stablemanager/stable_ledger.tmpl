@@ -12,41 +12,38 @@
 <div class="body">
   <h1>{{stable.stable_name}} Finances, Week {{week.week_number}}</h1>
  
-  <div id="stable-ledger">
+  <table id="stable-ledger"><tbody>
    
-  <div id="stable-ledger-header" class="ledger-row">
-    <span class="ledger-desc">Opening Balance</span>
-    <span class="ledger-value" id="ledger-opening-balance">{{opening_balance}}</span>
-  </div>
+  <tr id="stable-ledger-header" class="ledger-row">
+    <td class="ledger-desc">Opening Balance</td>
+    <td class="ledger-value" id="ledger-opening-balance">{{opening_balance}}</td>
+  </tr>
   
   {% for group in ledger_groups %}
-    <div class="ledger-row ledger-section-header">
-      <span class="ledger-desc">{{group.description}}</span>
-      <span class="ledger-value" id="ledger-value-{{group.code | lower}}"> </span>
-    </div>
+    <tr class="ledger-row ledger-section-header">
+      <td class="ledger-desc">{{group.description}}</td>
+      <td class="ledger-value" id="ledger-value-{{group.code | lower}}"></td>
+    </tr>
      
     {% if group.entries %}{% for entry in group.entries %}
        {% include 'stablemanager/fragments/ledger_item.html' %}
     {% endfor %}{% endif %}
 
     {% if group.form %}
-    <div class="ledger-item ledger-row">
     {% ledger_add_form group.form %}
-    </div>
     {% endif %}
 
-    <div class="ledger-row ledger-item ledger-item-summary" id="ledger-summary-{{group.code | lower}}">
-      <span class="ledger-action"></span>
-      <span class="ledger-desc">Total</span>
-      <span class="ledger-value" id="ledger-sumvalue-{{group.code | lower}}"> </span>
-    </div>
+    <tr class="ledger-row ledger-item ledger-item-summary" id="ledger-summary-{{group.code | lower}}">
+      <td class="ledger-desc">Subtotal for {{group.description}}</td>
+      <td class="ledger-value" id="ledger-sumvalue-{{group.code | lower}}">{{group.subtotal}}</td>
+    </tr>
   {% endfor %}
 
-  <div class="ledger-row" id="stable-ledger-footer">
-    <span class="ledger-desc">Closing Balance</span>
-    <span class="ledger-value" id="ledger-closing-balance">{{closing_balance}}</span>
-  </div>
+  <tr class="ledger-row" id="stable-ledger-footer">
+    <td class="ledger-desc">Closing Balance</td>
+    <td class="ledger-value" id="ledger-closing-balance">{{closing_balance}}</td>
+  </tr>
  
-  </div>  
+  </tbody></table>  
 </div>
 {% endblock %}

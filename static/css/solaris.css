@@ -1322,80 +1322,110 @@ ul.bill-list .bill-cost {
   padding: 0.5em;
 }
 
-#stable-ledger {
+#stable-ledger, #repair-bill {
+  margin: 0em 4em;
   width: 80%;
+
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
-#stable-ledger-header {
+#repair-bill td {
+  border-right: 0px;
+}
+
+#stable-ledger-header td {
     margin-top: 6px;
     border-bottom: 4px double #000000;
+
+    font-size: 140%;
+    font-weight: bold; 
 }
 
-#stable-ledger-footer {
+#stable-ledger-footer td {
     margin-top: 6px;
     border-top: 4px double #000000;
     border-bottom: 2px solid #000000;
+
+    font-size: 140%;
+    font-weight: bold; 
 }
 
-.ledger-row {
-  display: flex;
+.ledger-row td {
   margin: 0rem 1rem;
   vertical-align: bottom;
 }
 
-.ledger-row-inner, form.ledger-item-edit {
-  display: flex;
-  flex-grow: 1;
-  vertical-align: bottom;
-  margin: 0px;
-}
-
-div.ledger-item span:not(.ledger-action) {
-  margin-top: 0.4em;
-}
-
 .ledger-section-header {
-  border-bottom: 2px solid #000000;
-  font-weight: bold;
+  padding-top: 0.5em;
   margin: 0.5rem 1rem 0.5rem 4rem;
 }
 
-div.ledger-section-header + .ledger-item, .ledger-section-header + .ledger-section-item {
-    border-top: none;
+.ledger-section-header td {
+  border-bottom: 2px solid #000000;
+  font-weight: bold;
+}
+
+.ledger-section-header .ledger-desc {
+  padding-left: 3em;
+}
+
+.ledger-section-header + .ledger-item td, .ledger-section-header + .ledger-section-item td {
+  border-top: none;
 }
 
 .ledger-header:not(.repair-item-name) {
   font-size: 80%;
 }
 
-.ledger-section-item {
+.ledger-section-item td {
   border-top: 1px dashed #888888;
   margin-left: 4rem;
 }
 
-.ledger-section-subtotal {
+.ledger-section-subtotal td {
   border-top: 1px solid #000000;
   border-bottom: 3px double #000000;
   margin-left: 4rem;
 }
 
-.ledger-section-total {
+.ledger-section-total td {
   border-top: 2px solid #000000;
   border-bottom: 3px double #000000;
   margin: 0.5rem 1rem 0.5rem 4rem;
   font-weight: bold;
 }
 
-.ledger-item  {
-    margin-left: 8rem;
+.ledger-item td, .ledger-add-form td {
     border-top: 1px dashed #888888;	
 }
 
-.repair-item-name, .ledger-desc {
-  flex-grow: 1;
+.ledger-item-summary {
+  font-weight: bold;
 }
 
-.ledger-rightalign {
+.ledger-item-summary td {
+  border-top: 1px solid #888888;
+  border-bottom: 3px double #888888;
+}
+
+.ledger-item .ledger-desc, .ledger-add-form .ledger-desc {
+  padding-left: 4em;
+}
+
+.ledger-item .ledger-desc .icon-button {
+  visibility: hidden;
+}
+
+.ledger-item:hover { 
+  background-color: #AAAACC;
+}
+
+.ledger-item:hover .ledger-desc .icon-button {
+  visibility: visible;
+}
+
+.ledger-rightalign, .ledger-value {
   text-align: right;
 }
 
@@ -1407,7 +1437,7 @@ div.ledger-section-header + .ledger-item, .ledger-section-header + .ledger-secti
   width: 8rem;
 }
 
-span.ledger-negative {
+.ledger-negative {
     color: #AA2222;
 }
 
