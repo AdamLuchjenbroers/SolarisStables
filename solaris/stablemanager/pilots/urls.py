@@ -9,8 +9,8 @@ urlpatterns = patterns('',
     url(r'^/?add-pilot$', views.StableAddPilotFormView.as_view(), name='stable_add_pilot_now'),
     url(r'^/?(?P<week>[0-9]+)/+add-pilot?$', views.StableAddPilotFormView.as_view(), name='stable_add_pilot'),
 
-    url(r'^/?(?P<callsign>[A-Za-z0-9 ]+)/edit$', views.StableEditPilotFormView.as_view(), name='stable_edit_pilot_now'),
-    url(r'^/?(?P<week>[0-9]+)/(?P<callsign>[A-Za-z0-9 ]+)/edit$', views.StableEditPilotFormView.as_view(), name='stable_edit_pilot'),
+    url(r'^/?(?P<callsign>[^/]+)/edit$', views.StableEditPilotFormView.as_view(), name='stable_edit_pilot_now'),
+    url(r'^/?(?P<week>[0-9]+)/(?P<callsign>[^/]+)/edit$', views.StableEditPilotFormView.as_view(), name='stable_edit_pilot'),
 
     url(r'^/?pilot-list$', views.StablePilotsListPartView.as_view(), name="stable_pilot_list_now"),
     url(r'^/?(?P<week>[0-9]+)/+pilot-list$', views.StablePilotsListPartView.as_view(), name="stable_pilot_list"),
