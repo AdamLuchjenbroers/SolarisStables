@@ -1,13 +1,12 @@
 {% load ledger %}
 <tr class="ledger-item ledger-row ledger-item-edit" entry="{{entry.item.id}}" group="{{entry.item.type | lower}}">
-  <td class="ledger-desc">
+  <td class="ledger-desc" edit_url="{{entry.item.set_description_url}}">
      <input type="submit" class="icon-button ledger-edit" Value="&#x270E;" class="submit" tabindex="{{submit_tab}}"/>
      {{entry.item.description}}
   </td>
 
-  {% if entry.item.cost < 0 %}
-    <td class="ledger-value ledger-negative">{{entry.item.cost}}</td>
-  {% else %}
-    <td class="ledger-value">{{entry.item.cost}}</td>
-  {% endif %}
+  <td class="ledger-value{% if entry.item.cost < 0 %} ledger-negative{% endif %}" edit_url="{{entry.item.set_cost_url}}">
+    {{entry.item.cost}}
+     <input type="button" class="icon-button ledger-delete" Value="&#x2716;" tabindex="{{submit_tab}}"/>
+  </td>
 </tr>

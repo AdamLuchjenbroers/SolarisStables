@@ -1,5 +1,4 @@
 {% extends 'stablemanager/stable_base.html' %}
-{% load ledger %}
  
 {% block pageheader %}
   {{ block.super }}
@@ -30,7 +29,7 @@
     {% endfor %}{% endif %}
 
     {% if group.form %}
-    {% ledger_add_form group.form %}
+       {% include 'stablemanager/forms/ledger_add_form.html' with form=group.form add_url=add_url %}
     {% endif %}
 
     <tr class="ledger-row ledger-item ledger-item-summary" id="ledger-summary-{{group.code | lower}}">

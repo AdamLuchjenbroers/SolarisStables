@@ -43,56 +43,6 @@ div.ledger-subheaderz span.ledger-desc {
  * Line Items
  *******************************************/
 
-.ledger-item span {
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-}
-
-div.ledger-item div.line_update {
-    display: none;
-}
-
-div.ledger-item input.ledger-edit {
-    visibility: hidden;
-}
-
-div.ledger-item-edit:hover {
-    background-color : #AAAADD;
-    border-color : #4444DD;
-    border-width : thin;
-}
-
-div.ledger-item-edit:hover input.ledger-edit {
-    visibility: visible;
-}
-
-div.ledger-item-summary {
-    border-top: 4px double #000000;
-    border-bottom: 1px solid #000000;
-
-    padding: 0.1em 0em;
-    margin-bottom: 0.4em;
-}
-
-form.ledger-form {
-    height: 100%;
-}
-
-form.ledger-form input {    
-    vertical-align: middle;
-}
-
-span.ledger-value input {
-    align: middle;
-}
-
-span.ledger-action { 
-    height: 100%;
-    width: 2em;
-    text-align: center;
-    vertical-align: middle;
-}
 
 span.ledger-action input, span.ledger-desc input {
   margin-left: 0px;
@@ -106,10 +56,6 @@ form.ledger-item-edit {
 form.ledger-item-delete {
     position: absolute;
     display: none;
-}
-
-input.ledger-delete {
-    color: #AA2222;
 }
 
 div.ledger-item-edit:hover form.ledger-item-delete {

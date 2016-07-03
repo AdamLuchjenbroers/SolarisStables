@@ -1323,11 +1323,15 @@ ul.bill-list .bill-cost {
 }
 
 #stable-ledger, #repair-bill {
-  margin: 0em 4em;
+  margin: auto;
   width: 80%;
 
   border-spacing: 0;
   border-collapse: collapse;
+}
+
+#stable-ledger tr {
+  position: relative;
 }
 
 #repair-bill td {
@@ -1413,15 +1417,15 @@ ul.bill-list .bill-cost {
   padding-left: 4em;
 }
 
-.ledger-item .ledger-desc .icon-button {
+.ledger-item[entry] .icon-button {
   visibility: hidden;
 }
 
-.ledger-item:hover { 
+.ledger-item[entry]:hover { 
   background-color: #AAAACC;
 }
 
-.ledger-item:hover .ledger-desc .icon-button {
+.ledger-item[entry]:hover .icon-button {
   visibility: visible;
 }
 
@@ -1439,6 +1443,14 @@ ul.bill-list .bill-cost {
 
 .ledger-negative {
     color: #AA2222;
+}
+
+input.icon-button.ledger-delete {
+    color: #AA2222;
+    position: absolute;
+    float: right;
+    right: -1.5em;
+    top: 0em;
 }
 
 /****************************************
