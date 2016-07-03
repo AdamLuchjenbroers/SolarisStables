@@ -9,6 +9,7 @@ from django.db import models
 
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import StableWeek, LedgerItem
+from solaris.stablemanager.ajax import StableWeekAjax
 
 from .forms import LedgerItemForm, LedgerDeleteForm
 
@@ -64,7 +65,8 @@ class StableLedgerView(StableWeekMixin, TemplateView):
             tab_index += 1          
                       
             page_context['ledger_groups'].append(new_group)
-            
+ 
+        page_context['add_url'] = reverse('stable_ledger_add', kwargs={'week' : self.ledger.week.week_number})            
         page_context['opening_balance'] = self.ledger.opening_balance
         page_context['closing_balance'] = self.ledger.closing_balance()
             
@@ -103,7 +105,7 @@ class StableLedgerDeleteView(StableViewMixin, View):
         
         return redirect('/stable/ledger')        
    
-class LedgerAjaxMixin(StableWeekMixin):
+class StableLedgerAjax(StableWeekAjax):
     def dispatch(self, request, week=None, entry_id=None, *args, **kwargs):
         redirect = self.get_stable(request)
         if redirect:
@@ -114,25 +116,40 @@ class LedgerAjaxMixin(StableWeekMixin):
         entry_id = self.get_call_parameter(request, 'entry_id', entry_id)
         self.entry = get_object_or_404(LedgerItem, week=self.stableweek, id=entry_id)
 
-        try: 
-            super(LedgerAjaxMixin, self).dispath(request, *args, **kwargs)
-        except KeyError:
-            return HttpResponse('Incomplete AJAX request', status=400)
-        except ValueError:
-            return HttpResponse('Invalid AJAX request', status=400)
+        return super(StableLedgerAjax, self).dispatch(request, *args, **kwargs)
 
-class AjaxUpdateLedgerCostForm(LedgerAjaxMixin):
+class AjaxAddLedgerForm(StableWeekAjax):
     def post(self, request, *args, **kwargs):
-       self.entry.cost = int(request.POST['cost'])
-       self.entry.save()
+        cost = int(request.POST['cost'])
+        description = request.POST['description']
+        group = request.POST['group']
 
-       result = {'cost' : self.entry.cost}
-       return HttpResponse(json.dumps(result)) 
+        new_entry = self.stableweek.entries.create(type=group, cost=cost, description=description)
+        result = {
+          'cost' : new_entry.cost
+        , 'description' : new_entry.description
+        , 'group' : new_entry.type
+        }
+        return HttpResponse(json.dumps(result)) 
 
-class AjaxUpdateLedgerDescriptionForm(LedgerAjaxMixin):
+class AjaxUpdateLedgerCostForm(StableLedgerAjax):
     def post(self, request, *args, **kwargs):
-       self.entry.description = request.POST['description']
-       self.entry.save()
+        self.entry.cost = int(request.POST['cost'])
+        self.entry.save()
 
-       result = {'description' : self.entry.description}
-       return HttpResponse(json.dumps(result)) 
+        result = {'cost' : self.entry.cost}
+        return HttpResponse(json.dumps(result)) 
+
+class AjaxUpdateLedgerDescriptionForm(StableLedgerAjax):
+    def post(self, request, *args, **kwargs):
+        self.entry.description = request.POST['description']
+        self.entry.save()
+
+        result = {'description' : self.entry.description}
+        return HttpResponse(json.dumps(result))
+
+class AjaxRemoveLedgerItem(StableLedgerAjax): 
+    def post(self, request, *args, **kwargs):
+        self.entry.delete()
+
+        return HttpResponse(json.dumps(True))
