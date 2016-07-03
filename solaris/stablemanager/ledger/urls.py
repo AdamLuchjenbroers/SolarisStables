@@ -10,5 +10,5 @@ urlpatterns = patterns('',
 
     url(r'^(?P<week>[0-9]+)/(?P<entry_id>[0-9]+)/set-cost', views.AjaxUpdateLedgerCostForm.as_view(), name='stable_ledger_set_cost'),
     url(r'^(?P<week>[0-9]+)/(?P<entry_id>[0-9]+)/set-description', views.AjaxUpdateLedgerDescriptionForm.as_view(), name='stable_ledger_set_description'),
-    url(r'^(?P<week>[0-9]+)/(?P<entry_id>[0-9]+)/set-delete', views.AjaxRemoveLedgerItem.as_view(), name='stable_ledger_delete'),
+    url(r'^(?P<week>[0-9]+)/(?P<entry_id>[0-9]+)/delete', views.AjaxRemoveLedgerItem.as_view(), name='stable_ledger_delete'),
 )

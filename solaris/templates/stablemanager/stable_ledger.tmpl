@@ -19,13 +19,13 @@
   </tr>
   
   {% for group in ledger_groups %}
-    <tr class="ledger-row ledger-section-header">
+    <tr id="ledger-subheader-{{group.code | lower}}" class="ledger-row ledger-section-header">
       <td class="ledger-desc">{{group.description}}</td>
       <td class="ledger-value" id="ledger-value-{{group.code | lower}}"></td>
     </tr>
      
     {% if group.entries %}{% for entry in group.entries %}
-       {% include 'stablemanager/fragments/ledger_item.html' %}
+       {% include 'stablemanager/fragments/ledger_item.html' with lineitem=entry.item %}
     {% endfor %}{% endif %}
 
     {% if group.form %}

@@ -7,6 +7,8 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse 
 from django.db import models
 
+from django.template import Context, loader
+
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import StableWeek, LedgerItem
 from solaris.stablemanager.ajax import StableWeekAjax
@@ -114,7 +116,7 @@ class StableLedgerAjax(StableWeekAjax):
         self.get_stableweek()
 
         entry_id = self.get_call_parameter(request, 'entry_id', entry_id)
-        self.entry = get_object_or_404(LedgerItem, week=self.stableweek, id=entry_id)
+        self.entry = get_object_or_404(LedgerItem, ledger=self.stableweek, id=entry_id)
 
         return super(StableLedgerAjax, self).dispatch(request, *args, **kwargs)
 
@@ -125,10 +127,16 @@ class AjaxAddLedgerForm(StableWeekAjax):
         group = request.POST['group']
 
         new_entry = self.stableweek.entries.create(type=group, cost=cost, description=description)
+
+        context = Context({'lineitem' : new_entry, 'new' : True})
+        template = loader.get_template('stablemanager/fragments/ledger_item.html')
+        entry_html = template.render(context)
+
         result = {
           'cost' : new_entry.cost
         , 'description' : new_entry.description
         , 'group' : new_entry.type
+        , 'entry_html' : entry_html
         }
         return HttpResponse(json.dumps(result)) 
 

@@ -1,12 +1,11 @@
-{% load ledger %}
-<tr class="ledger-item ledger-row ledger-item-edit" entry="{{entry.item.id}}" group="{{entry.item.type | lower}}">
-  <td class="ledger-desc" edit_url="{{entry.item.set_description_url}}">
-     <input type="submit" class="icon-button ledger-edit" Value="&#x270E;" class="submit" tabindex="{{submit_tab}}"/>
-     {{entry.item.description}}
+<tr class="ledger-item ledger-row ledger-item-edit{% if new %} hidden{% endif %}" entry="{{lineitem.id}}" group="{{lineitem.type | lower}}">
+  <td class="ledger-desc" edit_url="{{lineitem.set_description_url}}">
+     <input type="submit" class="icon-button ledger-edit" Value="&#x270E;"/> 
+     {{lineitem.description}}
   </td>
 
-  <td class="ledger-value{% if entry.item.cost < 0 %} ledger-negative{% endif %}" edit_url="{{entry.item.set_cost_url}}">
-    {{entry.item.cost}}
-     <input type="button" class="icon-button ledger-delete" Value="&#x2716;" tabindex="{{submit_tab}}"/>
+  <td class="ledger-value{% if lineitem.cost < 0 %} ledger-negative{% endif %}" edit_url="{{lineitem.set_cost_url}}">
+    {{lineitem.cost}}
+     <input type="button" class="icon-button ledger-delete" value="&#x2716;" delete_url="{{lineitem.delete_url}}"/>
   </td>
-</tr>
+ </tr>
