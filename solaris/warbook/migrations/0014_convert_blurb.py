@@ -16,17 +16,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='pilottraitgroup',
-            name='_blurb_rendered',
-            field=models.TextField(editable=False, blank=True),
-            preserve_default=True,
-        ),
-        migrations.AlterField(
-            model_name='pilottraitgroup',
-            name='blurb',
-            field=markitup.fields.MarkupField(no_rendered_field=True),
-            preserve_default=True,
-        ),
         migrations.RunPython(render_fields),
     ]

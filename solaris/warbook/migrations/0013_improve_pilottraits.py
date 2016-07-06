@@ -50,6 +50,18 @@ class Migration(migrations.Migration):
             field=models.CharField(default=b'-', max_length=6, null=True),
             preserve_default=True,
         ),
+        migrations.AddField(
+            model_name='pilottraitgroup',
+            name='_blurb_rendered',
+            field=models.TextField(editable=False, blank=True),
+            preserve_default=True,
+        ),
+        migrations.AlterField(
+            model_name='pilottraitgroup',
+            name='blurb',
+            field=markitup.fields.MarkupField(no_rendered_field=True),
+            preserve_default=True,
+        ),
         migrations.RunPython(create_issues_group),
         migrations.RunPython(clear_pilottraits),
         migrations.RunPython(load_pilottraits),
