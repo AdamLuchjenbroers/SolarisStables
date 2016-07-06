@@ -7,10 +7,10 @@ class LoginRedirectTest(TestCase):
         self.client = Client()
         User.objects.create_user(username='login-test', email='login-test@nowhere.com', password='pass')
         
-    def test_loginNoRedirect(self):
+    def test_firstLoginNoRedirect(self):
         response = self.client.post('/login/', {'login' : 'login-test', 'password' : 'pass'})
         self.assertEqual(response.status_code, 302, 'Failed redirect after login (HTTP %s)' % response.status_code)
-        self.assertEqual(response.get('Location'), 'http://testserver/', 'Redirected to incorrect page: %s ' % response.get('Location') )
+        self.assertEqual(response.get('Location'), 'http://testserver/account/email-sent/', 'Redirected to incorrect page: %s ' % response.get('Location') )
         
     def test_loginWithRedirect(self):
         response = self.client.post('/login/', {'login' : 'login-test', 'password' : 'pass', 'redirect' : '/stable'})
