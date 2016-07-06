@@ -41,6 +41,7 @@ class SimpleMechPurchaseForm(forms.Form):
         try:
             self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc)
         except MechDesign.DoesNotExist:
+            self.design = None
             raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))
     
         return cleaned

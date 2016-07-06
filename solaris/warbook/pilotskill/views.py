@@ -9,8 +9,32 @@ class DisciplineListView(ReferenceViewMixin, ListView):
     template_name = 'warbook/pilotdisciplines.tmpl'
     model = models.PilotTraitGroup
     queryset = models.PilotTraitGroup.objects.filter(discipline_type='T')
+
+class TraitDetailMixin(ReferenceViewMixin):
+    def get_context_data(self, **kwargs):
+        page_context = super(TraitDetailMixin, self).get_context_data(**kwargs)
+        
+        table = {}
+
+        group = self.get_object()
+        for trait in group.traits.all(): 
+            if trait.table in table:
+                table[trait.table].append(trait)
+            else:
+                table[trait.table] = [trait] 
+
+        tupleset = []
+        for key in table.keys():
+            table[key].sort(key = lambda s: s.item)
+            tupleset.append((key, table[key]))
+
+        tupleset.sort(key = lambda x: x[0])
+            
+        page_context['table'] = tupleset
+
+        return page_context
     
-class DisciplineDetailView(ReferenceViewMixin, DetailView):
+class DisciplineDetailView(TraitDetailMixin, DetailView):
     submenu_selected = 'Pilot Skills'
     template_name = 'warbook/pilotskilldetail.tmpl'
     slug_field = 'urlname__iexact' 
@@ -22,7 +46,7 @@ class TraitsListView(ReferenceViewMixin, ListView):
     model = models.PilotTraitGroup
     queryset = models.PilotTraitGroup.objects.filter(~Q(discipline_type='T'))
 
-class TraitsDetailView(ReferenceViewMixin, DetailView):
+class TraitsDetailView(TraitDetailMixin, DetailView):
     submenu_selected = 'Pilot Issues'
     template_name = 'warbook/pilotskilldetail.tmpl'
     slug_field = 'urlname__iexact' 

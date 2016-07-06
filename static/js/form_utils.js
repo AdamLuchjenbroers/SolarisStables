@@ -59,3 +59,27 @@ function add_inline_form(form_group_id, template_id, before_id, child_selector, 
 
   form_handler(form_group_id);
 } 
+
+function to_number_input(field, sender) {
+  oldvalue = field.html();
+  value = parseInt(field.text());
+
+  input = '<input type=\'number\' value=\'' + value +'\'></input>';
+  field.html(input);
+  input = field.find('input');
+  input.on('focusout', function() {
+    sender(field, value);
+  });
+}
+
+function to_text_input(field, sender) {
+  oldvalue = field.html();
+  value = field.text();
+
+  input = '<input type=\'text\' value=\'' + value +'\'></input>';
+  field.html(input);
+  input = field.find('input');
+  input.on('focusout', function() {
+    sender(field, value);
+  });
+}

@@ -7,6 +7,15 @@ from decimal import Decimal
 from django.core.management import call_command
 
     
+def load_pilottraitgroup(apps, schema_editor):
+    PilotTraitGroup = apps.get_model('warbook','PilotTraitGroup')   
+   
+    with open('data/warbook.pilottraitgroup.json','r') as srcfile:
+        data = json.loads(srcfile.read())
+
+    for row in data:
+        PilotTraitGroup.objects.create(**row['fields'])
+  
 def load_houses(apps, schema_editor):
     House = apps.get_model('warbook','House')   
     PilotTraitGroup = apps.get_model('warbook','PilotTraitGroup')   
@@ -55,14 +64,9 @@ def load_pilotranks(apps, schema_editor):
             rank['promotion'] = PilotRank.objects.get(rank=rank['promotion'])
         PilotRank.objects.create(**rank)
     
-def load_pilottraitgroup(apps, schema_editor):
-    call_command('loaddata', 'data/warbook.pilottraitgroup.json');
-    
-def load_pilottrait(apps, schema_editor):
-    call_command('loaddata', 'data/warbook.pilottrait.json');
-        
 def load_trainingcost(apps, schema_editor):
     call_command('loaddata', 'data/warbook.trainingcost.json');
+
     
 def noop(apps, schema_editor):
     # Why bother to delete from tables that are being dropped in the
@@ -342,8 +346,7 @@ class Migration(migrations.Migration):
         ),
         migrations.RunPython(load_mechlocations, reverse_code=noop),
         migrations.RunPython(load_pilotranks, reverse_code=noop),
-        migrations.RunPython(load_pilottraitgroup, reverse_code=noop),
-        migrations.RunPython(load_pilottrait, reverse_code=noop),
         migrations.RunPython(load_trainingcost, reverse_code=noop),
+        migrations.RunPython(load_pilottraitgroup, reverse_code=noop),
         migrations.RunPython(load_houses, reverse_code=noop),
     ]

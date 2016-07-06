@@ -37,7 +37,7 @@ class StableViewMixin(SolarisViewMixin):
         page_context['submenu_selected'] = self.__class__.submenu_selected
         
         return page_context
-    
+
     def get_stable(self, request):
         if not request.user.is_authenticated():
             return redirect_to_login(request.get_full_path(), 'account_login', REDIRECT_FIELD_NAME)
@@ -189,7 +189,8 @@ class AjaxAlterReputationView(StableWeekMixin, View):
                 self.stableweek.reputation -= 1
             else:
                 return HttpResponse('Unrecognised Action: %s' % request.POST['change'], status=400)
-            
+
+            self.stableweek.reputation_set = True            
             self.stableweek.save()
             data = { 
               'value' : self.stableweek.reputation 

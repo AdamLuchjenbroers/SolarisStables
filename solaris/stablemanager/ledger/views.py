@@ -1,11 +1,17 @@
 from copy import deepcopy
+import json
 
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView, View
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse 
+from django.db import models
+
+from django.template import Context, loader
 
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import StableWeek, LedgerItem
+from solaris.stablemanager.ajax import StableWeekAjax
 
 from .forms import LedgerItemForm, LedgerDeleteForm
 
@@ -24,13 +30,18 @@ class StableLedgerView(StableWeekMixin, TemplateView):
         tab_index=1;
         
         for (code, description) in LedgerItem.item_types:
+            entries = self.ledger.entries.filter(type=code)
+
             new_group = {
                 'code' : code
             ,   'description' : description
             ,   'form'    : LedgerItemForm( initial={ 'type' : code })
+            ,   'subtotal' : entries.aggregate(models.Sum('cost'))['cost__sum']
             }
+
+            if new_group['subtotal'] == None:
+                new_group['subtotal'] = 0
                        
-            entries = self.ledger.entries.filter(type=code)
             if entries:
                 new_group['entries'] = []
                 
@@ -56,7 +67,8 @@ class StableLedgerView(StableWeekMixin, TemplateView):
             tab_index += 1          
                       
             page_context['ledger_groups'].append(new_group)
-            
+ 
+        page_context['add_url'] = reverse('stable_ledger_add', kwargs={'week' : self.ledger.week.week_number})            
         page_context['opening_balance'] = self.ledger.opening_balance
         page_context['closing_balance'] = self.ledger.closing_balance()
             
@@ -94,4 +106,58 @@ class StableLedgerDeleteView(StableViewMixin, View):
             pass
         
         return redirect('/stable/ledger')        
-    
+   
+class StableLedgerAjax(StableWeekAjax):
+    def dispatch(self, request, week=None, entry_id=None, *args, **kwargs):
+        redirect = self.get_stable(request)
+        if redirect:
+            return redirect
+
+        self.get_stableweek()
+
+        entry_id = self.get_call_parameter(request, 'entry_id', entry_id)
+        self.entry = get_object_or_404(LedgerItem, ledger=self.stableweek, id=entry_id)
+
+        return super(StableLedgerAjax, self).dispatch(request, *args, **kwargs)
+
+class AjaxAddLedgerForm(StableWeekAjax):
+    def post(self, request, *args, **kwargs):
+        cost = int(request.POST['cost'])
+        description = request.POST['description']
+        group = request.POST['group']
+
+        new_entry = self.stableweek.entries.create(type=group, cost=cost, description=description)
+
+        context = Context({'lineitem' : new_entry, 'new' : True})
+        template = loader.get_template('stablemanager/fragments/ledger_item.html')
+        entry_html = template.render(context)
+
+        result = {
+          'cost' : new_entry.cost
+        , 'description' : new_entry.description
+        , 'group' : new_entry.type
+        , 'entry_html' : entry_html
+        }
+        return HttpResponse(json.dumps(result)) 
+
+class AjaxUpdateLedgerCostForm(StableLedgerAjax):
+    def post(self, request, *args, **kwargs):
+        self.entry.cost = int(request.POST['cost'])
+        self.entry.save()
+
+        result = {'cost' : self.entry.cost}
+        return HttpResponse(json.dumps(result)) 
+
+class AjaxUpdateLedgerDescriptionForm(StableLedgerAjax):
+    def post(self, request, *args, **kwargs):
+        self.entry.description = request.POST['description']
+        self.entry.save()
+
+        result = {'description' : self.entry.description}
+        return HttpResponse(json.dumps(result))
+
+class AjaxRemoveLedgerItem(StableLedgerAjax): 
+    def post(self, request, *args, **kwargs):
+        self.entry.delete()
+
+        return HttpResponse(json.dumps(True))

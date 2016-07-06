@@ -22,6 +22,10 @@ class PilotForm(forms.ModelForm):
         self.fields['affiliation'].choices = (('', '-- Select House --'),) + house_list_as_opttree()
         self.fields['affiliation'].label = 'House or Faction:'
 
+    def clean_callsign(self):
+        callsign = self.cleaned_data['callsign']    
+        return callsign.replace('/','-')
+
     def clean_stable(self):
         return self.stable
 

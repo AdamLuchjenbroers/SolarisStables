@@ -1,15 +1,3 @@
-function to_number_input(field, sender) {
-  oldvalue = field.html();
-  value = parseInt(field.text());
-
-  input = '<input type=\'number\' value=\'' + value +'\'></input>';
-  field.html(input);
-  input = field.find('input');
-  input.on('focusout', function() {
-    sender(field, value);
-  });
-}
-
 function check_tp_assignment() {
   tp_check('#training-contender-tp','#training-contender-assigned', '[rank=contender]', '#training-contender-warning', 'You\'ve assigned more training points to your contenders than your stable has earned.');
   tp_check('#training-rookie-tp','#training-rookie-assigned', '[rank=rookie]', '#training-rookie-warning', 'You\'ve assigned more training points to your rookies than your stable has earned.');

@@ -17,7 +17,7 @@ class URLBasicTests(TestCase):
         self.assertEqual(response.status_code, 200, 'Unable to retrieve tech-tree list')      
     
     def test_pilotskillURL(self):
-        response = self.client.get('/reference/pilotskills/')
+        response = self.client.get('/reference/pilot-skills/')
         self.assertEqual(response.status_code, 200, 'Unable to retrieve pilot-skill list')
         
 

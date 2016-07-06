@@ -21,6 +21,9 @@ class InitialMechPurchaseView(StableViewMixin, FormView):
 
     def form_valid(self, form):
         for mechform in form:
+            if mechform.design == None:
+                continue
+
             models.StableMech.objects.create_mech( stable = self.stable
                                                  , purchased_as = mechform.design
                                                  , purchased_on = self.stable.get_stableweek()

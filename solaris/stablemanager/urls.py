@@ -26,16 +26,13 @@ urlpatterns = patterns('',
     url(r'^initial-mechs/?$', InitialMechPurchaseView.as_view(), name='stable_initialmechs'),
     url(r'^initial-pilots/?$', InitialPilotNamingView.as_view(), name='stable_initialpilots'),
 
-    url(r'^ledger/?$', StableLedgerView.as_view(), name='stable_ledger_now'),  
-    url(r'^ledger/(?P<week>[0-9]+)/?$', StableLedgerView.as_view(), name='stable_ledger'),
-    url(r'^ledger/delete/?$', StableLedgerDeleteView.as_view(), name='stable_ledger_delete'),
-
     url(r'^training/?$', StableTrainingView.as_view(), name='stable_training_now'),
     url(r'^training/(?P<week>[0-9]+)/?$', StableTrainingView.as_view(), name='stable_training'),
 
     url(r'^actions/?$', StableActionView.as_view(), name='stable_actions_now'),
     url(r'^actions/(?P<week>[0-9]+)/?$', StableActionView.as_view(), name='stable_actions'),
 
+    url(r'^ledger/', include('solaris.stablemanager.ledger.urls')),
     url(r'^mechs/', include('solaris.stablemanager.mechs.urls')),
     url(r'^pilots/', include('solaris.stablemanager.pilots.urls')),
 

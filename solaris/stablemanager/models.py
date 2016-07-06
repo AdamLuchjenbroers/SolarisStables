@@ -61,6 +61,7 @@ class StableWeek(models.Model):
     stable = models.ForeignKey('Stable', related_name='ledger')
     week = models.ForeignKey(BroadcastWeek)
     reputation = models.IntegerField(default=0)
+    reputation_set = models.BooleanField(default=False)
     opening_balance = models.IntegerField()
     supply_contracts = models.ManyToManyField('warbook.Technology')
     supply_mechs = models.ManyToManyField('warbook.MechDesign')
@@ -89,11 +90,9 @@ class StableWeek(models.Model):
         return self.reputation
 
     def recalculate(self):
-        if hasattr(self, 'prev_week'):
-            self.opening_balance = self.prev_week.closing_balance()
-
         if self.next_week != None:
-            self.next_week.recalculate()
+            self.next_week.opening_balance = self.closing_balance()
+            self.next_week.save()
 
     def prominence(self):
         total = 0
@@ -103,7 +102,7 @@ class StableWeek(models.Model):
         return total
 
     def can_advance(self):
-        # We can advance if the next stableweek doesn't exist, but the next week does
+        # We can advance if the next stableweek doesn't exist, but the next broadcast week does
         return (self.next_week == None and self.week.next_week != None)
 
     def reputation_class(self):
@@ -179,14 +178,22 @@ class StableWeek(models.Model):
         return eq_set         
      
     def refresh_supply_mechs(self):        
-        mechList = None
-        
-        if self.supply_contracts.filter(name='Omnimechs').exists():
-            mechList = self.stable.house.produced_designs.all() | self.custom_designs.all()
-        else:
-            mechList = self.stable.house.produced_designs.filter(is_omni=False) | self.custom_designs.filter(is_omni=False)
-              
         self.supply_mechs.clear()
+       
+        # To speed this up, auto-add all white / green tech mechs.
+        # Under our rules it's pretty much impossible to lose access to these.
+        self.supply_mechs.add( *self.stable.house.produced_designs.filter(tier__lte=1) ) 
+       
+        if self.custom_designs.count() == 0 \
+        and self.supply_contracts.filter(tier__gt=1).count() == 0:
+            # No yellow techs or custom designs, so nothing more to check 
+            return 
+
+        mechList = None
+        if self.supply_contracts.filter(name='Omnimechs').exists():
+            mechList = self.stable.house.produced_designs.filter(tier__gt=1) | self.custom_designs.all()
+        else:
+            mechList = self.stable.house.produced_designs.filter(is_omni=False, tier__gt=1) | self.custom_designs.filter(is_omni=False)
         
         for mech in mechList:
             if mech.required_techs.exclude(id__in=self.supply_contracts.all()).count() == 0:
@@ -236,7 +243,17 @@ def refresh_supply_mechs(sender, instance=None, created=False, **kwargs):
     # A supply contract has been added or removed, refresh the available mechs
     instance.refresh_supply_mechs()
 
-    
+@receiver(post_save, sender=StableWeek)
+def cascade_updates(sender, instance=None, created=False, **kwargs):
+    next_week = instance.next_week
+    if next_week != None:
+        next_week.opening_balance = instance.closing_balance()
+        
+        if not next_week.reputation_set:
+            next_week.reputation = instance.reputation
+
+        next_week.save()
+
 @receiver(post_save, sender=Stable)
 def setup_initial_ledger(sender, instance=None, created=False, **kwargs):
     if created:

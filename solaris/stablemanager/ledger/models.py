@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.core.urlresolvers import reverse
 
 from solaris.stablemanager.models import StableWeek
    
@@ -34,6 +35,15 @@ class LedgerItem(models.Model):
     def get_cost(self):
         #Use a method for this so implementing repairbills / winnings will be smoother in future.
         return self.cost
+
+    def set_cost_url(self):
+        return reverse('stable_ledger_set_cost', kwargs={'entry_id' : self.id, 'week' : self.ledger.week.week_number})
+
+    def set_description_url(self):
+        return reverse('stable_ledger_set_description', kwargs={'entry_id' : self.id, 'week' : self.ledger.week.week_number})
+
+    def delete_url(self):
+        return reverse('stable_ledger_delete', kwargs={'entry_id' : self.id, 'week' : self.ledger.week.week_number})
     
     class Meta:
         verbose_name_plural = 'StableWeek Items'
@@ -43,7 +53,7 @@ class LedgerItem(models.Model):
 
 @receiver(post_save, sender=LedgerItem)
 def recalculate_ledgers(sender, instance=None, created=False, **kwargs):
-    instance.ledger.recalculate()
+    instance.ledger.save()
 
 @receiver(post_delete, sender=LedgerItem)
 def recalculate_ledgers_ondelete(sender, instance=None, created=False, **kwargs):

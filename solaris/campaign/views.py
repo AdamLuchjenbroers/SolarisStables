@@ -9,6 +9,7 @@ import json
 from solaris.views import SolarisViewMixin
 
 from .models import Campaign, BroadcastWeek
+from solaris.stablemanager.models import Stable
 
 class CampaignViewMixin(SolarisViewMixin):
     week_navigation = False
@@ -82,7 +83,18 @@ class CampaignWeekMixin(CampaignViewMixin):
         return page_context
 
 class CampaignOverview(CampaignWeekMixin, TemplateView):
-   template_name = 'campaign/overview.html'
+    template_name = 'campaign/overview.html'
+
+    def get_context_data(self, **kwargs):
+        page_context = super(CampaignOverview, self).get_context_data(**kwargs)
+
+        active_stables = list(self.week.stableweek_set.all())
+        active_stables.sort(key = lambda sw : -sw.prominence())
+
+        page_context['active'] = active_stables
+        page_context['inactive'] = Stable.objects.exclude(ledger__week=self.week)
+
+        return page_context
 
 class AjaxCreateCampaignView(CampaignAdminMixin, View):
     def post(self, request):
