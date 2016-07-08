@@ -43,7 +43,7 @@ function submit_purchase_data(form, mech_data) {
 
     if (response['success']) {
       form.find('#id_mech_code').html('')
-      form.find('input:not([type=radio])').val('');
+      form.find('input:not([type=radio])').val('C');
     }
   });
 
