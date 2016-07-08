@@ -15,14 +15,14 @@ def createMatchingDict(MechDesign=MechDesign):
     designs = MechDesign.objects.all()
     matching = {}
     
-    for mech in designs:
-        matching['%s %s' % (mech.mech_name, mech.mech_code)] = mech
-        matching[mech.mech_code] = mech
+    for mech in designs:        
+        if  mech.omni_loadout == 'Base' or mech.omni_loadout == None:
+            matching['%s %s' % (mech.mech_name, mech.mech_code)] = mech
+            matching[mech.mech_code] = mech
         
-        #To catch a few cases where the name is inconsistently capitalized
-        matching['%s %s' % (mech.mech_name.title(), mech.mech_code)] = mech
-        
-        if mech.is_omni and mech.omni_loadout != None:
+            #To catch a few cases where the name is inconsistently capitalized
+            matching['%s %s' % (mech.mech_name.title(), mech.mech_code)] = mech
+        else:
             matching['%s %s%s' % (mech.mech_name, mech.mech_code, mech.omni_loadout)] = mech
             matching['%s %s %s' % (mech.mech_name, mech.mech_code, mech.omni_loadout)] = mech
         
