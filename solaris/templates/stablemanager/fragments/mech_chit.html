@@ -1,6 +1,7 @@
 {% extends 'warbook/fragments/mech_chit.html' %}
 
 {% block omni_config_list %}
+   <div class="omni-list">
      <div class="omni-row omni-header">
        <span class="omni-column config-name">Loadout</span>
        <span class="omni-column config-description"></span>
@@ -13,4 +14,5 @@
        <span class="omni-column config-bv">{{config.current_design.bv_value}}</span>
      </a>
    {% endfor %}
+   </div>
 {% endblock %}
