@@ -28,7 +28,7 @@ class StableMechManager(models.Manager):
         )
 
         if config_for != None:
-            adv_smw = config_fog
+            adv_smw = config_for
         else:
             adv_smw = stablemechweek
             
