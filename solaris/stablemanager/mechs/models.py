@@ -27,13 +27,13 @@ class StableMechManager(models.Manager):
         , config_for = config_for
         )
 
-        adv_smw = stablemechweek
-        while adv_smw.can_advance():
-            if adv_smw.config_for != None:
-                adv_smw.config_for.advance()
-                
-            adv_smw = adv_smw.advance()
+        if config_for != None:
+            adv_smw = config_fog
+        else:
+            adv_smw = stablemechweek
             
+        while adv_smw.can_advance():                
+            adv_smw = adv_smw.advance()            
         
         if create_ledger:
             self.ledgeritem = LedgerItem.objects.create (
@@ -73,22 +73,22 @@ class StableMechWeekManager(models.Manager):
     use_for_related_fields = True
 
     def count_all_available(self):
-        return self.exclude(delivery__gt=0).count()
+        return self.exclude(delivery__gt=0, config_for=None).count()
 
     def count_nonsignature(self):
-        return self.filter(signature_of=None, delivery=0).count()
+        return self.filter(signature_of=None, config_for=None, delivery=0).count()
 
     def has_signature(self):
         return self.exclude(signature_of=None).count() > 0
 
     def non_signature(self):
-        return self.filter(signature_of=None, delivery=0).order_by('current_design__tonnage', 'current_design__mech_name')
+        return self.filter(signature_of=None, config_for=None, delivery=0).order_by('current_design__tonnage', 'current_design__mech_name')
 
     def mechs_on_order(self): 
         return self.filter(delivery__gt=0).count >= 0
 
     def on_order(self):
-        return self.filter(delivery__gt=0).order_by('delivery', 'current_design__tonnage', 'current_design__mech_name')
+        return self.filter(delivery__gt=0, config_for=None).order_by('delivery', 'current_design__tonnage', 'current_design__mech_name')
 
 class StableMechWeek(models.Model):
     stableweek = models.ForeignKey(StableWeek, related_name='mechs', blank=True, null=True)
@@ -192,6 +192,10 @@ class StableMechWeek(models.Model):
 
         if self.removed:
             return None
+        
+        if self.config_for != None:
+            # Should be advanced by advancing it's base chassis.
+            return None
 
         self.next_week = StableMechWeek.objects.create(
            stableweek = self.stableweek.next_week
@@ -201,6 +205,19 @@ class StableMechWeek(models.Model):
         ,  cored = self.cored
         ,  delivery = max(0, self.delivery - 1)
         )
+        
+        for config in self.loadouts.all():
+            config.next_week = StableMechWeek.objects.create(
+               stableweek = self.stableweek.next_week
+            ,  stablemech = config.stablemech
+            ,  current_design = config.current_design
+            ,  signature_of = self.signature_of
+            ,  cored = self.cored
+            ,  config_for = self.next_week
+            ,  delivery = max(0, self.delivery - 1)
+            )
+            config.save()        
+        
         self.save()
         return self.next_week
 

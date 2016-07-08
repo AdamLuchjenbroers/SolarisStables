@@ -45,7 +45,7 @@ class StableMechsCommon(StableWeekMixin, ListView):
     model = models.StableMechWeek    
 
     def get_queryset(self):
-        return self.stableweek.mechs.all().order_by('current_design__tonnage','current_design__mech_name', 'current_design__mech_code')
+        return self.stableweek.mechs.filter(config_for=None).order_by('current_design__tonnage','current_design__mech_name', 'current_design__mech_code')
 
 class StableMechsView(StableMechsCommon):
     submenu_selected = 'Mechs'
