@@ -161,6 +161,9 @@ class MechRefitFormView(MechModifyMixin, FormView):
         
         context['stablemechweek'] = self.stablemechweek
         return context
+    
+class MechLoadoutsFormView(MechRefitFormView):
+    pass
        
 class MechEditFormView(MechModifyMixin, TemplateView):
     template_name = 'stablemanager/forms/edit_mech_form.html'

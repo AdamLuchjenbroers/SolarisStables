@@ -263,6 +263,9 @@ class StableMechWeek(models.Model):
     def edit_url(self):
         return reverse('edit_mech', kwargs={'smw_id' : self.id})
 
+    def loadout_url(self):
+        return reverse('loadout_mech', kwargs={'smw_id' : self.id})
+    
     def repair_bill_url(self):
         bill = self.active_repair_bill()
         if bill != None:

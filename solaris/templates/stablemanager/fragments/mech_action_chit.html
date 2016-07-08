@@ -26,7 +26,9 @@
     <span class="word-button no-button"></span>
   {% endif %}
 
-  {% if not stablemech.is_locked and stablemech.delivery = 0 %}
+  {% if mech.is_omni %}
+    <span class="word-button loadout-button" form_url="{{stablemech.loadout_url}}">Loadouts</span>
+  {% elif not stablemech.is_locked and stablemech.delivery = 0 %}
     <span class="word-button refit-button" form_url="{{stablemech.refit_url}}">Refit</span>
   {% else %}
     <span class="word-button no-button"></span>

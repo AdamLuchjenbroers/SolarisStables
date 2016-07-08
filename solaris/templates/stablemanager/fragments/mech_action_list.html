@@ -2,7 +2,7 @@
   <h2>Non Signature Mechs</h2>
   {% for stablemech in stableweek.mechs.non_signature %}
     {% if stablemech.is_visible %}
-      {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design %}
+      {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design smw=stablemech %}
     {% endif %}
   {% endfor %}
 
@@ -13,7 +13,7 @@
     <h3>{{pw.pilot}}</h3>
       {% for stablemech in pw.signature_mechs %} 
         {% if stablemech.is_visible %}
-          {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design %}
+          {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design smw=stablemech %}
         {% endif %}
       {% endfor %}
     {% endif %}
@@ -24,7 +24,7 @@
   <h2>On Order</h2>
   {% for stablemech in stableweek.mechs.on_order %}
     {% if stablemech.is_visible %}
-      {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design %}
+      {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design smw=stablemech %}
     {% endif %}
   {% endfor %}
   {% endif %}

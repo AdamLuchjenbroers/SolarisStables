@@ -93,6 +93,41 @@ function show_refit_form() {
   });
 }
 
+function show_loadout_form() {
+  $('#mech_refit_form').slideUp( function() { $(this).remove() } );
+
+  button = $(this);
+  refit = button.parents('.mech-body').find('.refit-panel');
+  refit.hide().load(button.attr('form_url'), function() { 
+    $(this).slideDown() 
+
+    refit.find('.action-preview').click( function() {
+      preview_mech($(this).attr('preview_url'));
+    });
+
+    refit.find('#refit-button-submit').click( function() {
+      var refit_data = new FormData(refit.find('#mech_refit_form')[0]);
+
+      chosen = refit.find('.mech-source-radio:checked');
+      if (chosen.val() == 'C') {
+        refit_data.append('mech_name', chosen.attr('mech_name'));     
+        refit_data.append('mech_code', chosen.attr('mech_code'));
+      }  
+
+      $.ajax({
+        type : 'post'
+      , url  : button.attr('form_url')
+      , dataType : 'json'
+      , contentType : false
+      , processData : false
+      , data : refit_data
+      }).done(function(response) { 
+        refresh_mechlist();
+      });
+    });
+  });
+}
+
 function show_edit_form() {
   url = $(this).attr('form_url');
   $('#dialog-editmech').load(url, function() {
@@ -221,6 +256,7 @@ $( document ).ready(function() {
     $('#mech-purchase-form input#id_mech_ssw').change( check_purchase_form_ready );
 
     $('.refit-button').click( show_refit_form );
+    $('.loadout-button').click( show_loadout_form );
     $('.remove-button').click( show_removal_dialog );
     $('.edit-button').click( show_edit_form );
 
