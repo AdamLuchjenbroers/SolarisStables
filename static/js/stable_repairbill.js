@@ -226,6 +226,12 @@ $.fn.extend({
 $( document ).ready(function() {
   $('.item-crittable').click(crit_item);
   $('.mech-armour-location input').change(damage_location);
+  $('.mech-armour-location input').keypress( function(ev) {
+    if (ev.keyCode == 13) {
+      damage_location()
+      return false;
+    }
+  });
   $('.mech-armour-front .mech-section-header').click(destroy_location);
   $('.ammo-type select').change(set_ammo_type);
   $('.ammo-amount input').change(set_ammo_amount);
