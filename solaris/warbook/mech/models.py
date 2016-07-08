@@ -59,7 +59,7 @@ class MechDesign(models.Model):
             mount.delete()
 
     def refresh_tier(self):
-        self.tier = self.all_equipment().aggregate(models.Max('tier'))['tier__max'] 
+        self.tier = self.required_techs.aggregate(models.Max('tier'))['tier__max'] 
         self.save()
  
         return self.tier
@@ -135,11 +135,16 @@ class MechDesign(models.Model):
         return manifest
     
     def update_required_techs(self):
-        # TODO: Clear list first
+        from solaris.warbook.techtree.models import Technology
         self.required_techs.clear()
 
         for item in self.all_equipment():
             self.required_techs.add(*item.supplied_by.all())
+            
+        if self.is_omni:
+            self.required_techs.add(Technology.objects.get(name='Omnimechs'))
+            
+        self.refresh_tier()
 
     def can_be_produced_with(self, equipment_list):
         # Check that all equipment on this mech can be found in the provided
