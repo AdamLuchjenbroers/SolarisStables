@@ -6,11 +6,11 @@
        <span class="omni-column config-description"></span>
        <span class="omni-column config-bv">BV</span>
      </div>
-   {% for config in stablemech.loadouts.all %}
-     <a class="omni-row omni-config" href="{{config.get_absolute_url}}">
-       <span class="omni-column config-name">{{config.omni_loadout}}</span>
-       <span class="omni-column config-description">{{config.description}}</span>
-       <span class="omni-column config-bv">{{config.bv_value}}</span>
+   {% for config in smw.loadouts.all %}
+     <a class="omni-row omni-config" href="{{config.current_design.get_absolute_url}}">
+       <span class="omni-column config-name">{{config.current_design.omni_loadout}}</span>
+       <span class="omni-column config-description">{{config.current_design.description}}</span>
+       <span class="omni-column config-bv">{{config.current_design.bv_value}}</span>
      </a>
    {% endfor %}
 {% endblock %}
