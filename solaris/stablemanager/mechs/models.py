@@ -9,16 +9,31 @@ class StableMechManager(models.Manager):
     def create_mech(self, stable=None, purchased_as=None, purchased_on=None, create_ledger=True, delivery=0):
         stablemech = StableMech.objects.create(stable=stable, purchased_as=purchased_as)
         
+        if purchased_as.is_omni and purchased_as.omni_basechassis != None:
+            config_for = StableMechWeek.objects.create(
+              stableweek = purchased_on
+            , stablemech = stablemech
+            , current_design = purchased_as.omni_basechassis
+            , delivery = delivery
+            )
+        else: 
+            config_for = None
+            
         stablemechweek = StableMechWeek.objects.create(
           stableweek = purchased_on
         , stablemech = stablemech
         , current_design = purchased_as
         , delivery = delivery
+        , config_for = config_for
         )
 
         adv_smw = stablemechweek
         while adv_smw.can_advance():
+            if adv_smw.config_for != None:
+                adv_smw.config_for.advance()
+                
             adv_smw = adv_smw.advance()
+            
         
         if create_ledger:
             self.ledgeritem = LedgerItem.objects.create (
@@ -83,7 +98,8 @@ class StableMechWeek(models.Model):
     next_week = models.OneToOneField('StableMechWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
     cored = models.BooleanField(default=False)
     removed = models.BooleanField(default=False)
-    delivery = models.IntegerField(default=0)
+    delivery = models.IntegerField(default=0)    
+    config_for = models.ForeignKey('stablemanager.StableMechWeek', related_name='loadouts', blank=True, null=True)
 
     objects = StableMechWeekManager()
     
