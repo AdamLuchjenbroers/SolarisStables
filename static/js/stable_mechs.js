@@ -5,13 +5,13 @@ function check_purchase_form_ready() {
   submit_type = form.find('.mech-purchase-select input:checked').val();
 
   if (submit_type == 'C') {
-    if (form.find('select#id_mech_code').val()) {
+    if (form.find('#id_mech_code').val()) {
       submit.removeAttr('disabled');
     } else {
       submit.attr('disabled','yes');
     }
   } else if (submit_type == 'U') {
-    if (form.find('input#id_mech_ssw').val()) {
+    if (form.find('#id_mech_ssw').val()) {
       submit.removeAttr('disabled');
     } else {
       submit.attr('disabled','yes');
@@ -42,7 +42,7 @@ function submit_purchase_data(form, mech_data) {
     refresh_mechlist();
 
     if (response['success']) {
-      form.find('#id_mech_code').html('')
+      form.find('#id_mech_code').html('<option value=\"\">--</option>')
       form.find('input:not([type=radio])').val('C');
     }
   });
@@ -150,6 +150,12 @@ function submit_purchase_form() {
   if (submit_type == 'C' || submit_type == 'U') {
     var mech_data = new FormData(form[0]);
     mech_data.append('mech_source', submit_type);
+    
+    if (submit_type == 'C') {
+      selected = $('#id_mech_code').find(':selected');
+      
+      mech_data.append('omni_loadout', selected.attr('loadout'));      
+    }
 
     submit_purchase_data(form, mech_data);
   } else {

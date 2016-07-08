@@ -21,7 +21,10 @@ function attach_mechlist_autocomplete(mech_input, parent_class, model_select_cla
       }).done(function(json) {
         var option_html="<option value=\"\">--</value>";
         $.each(json, function(index, val) {
-          option_html += "<option value=\"" + encodeURIComponent(index) + "\" preview_url=\"" + val + "\">" + index + "</value>";
+          option_html += "<option loadout=\"" + val['loadout'] 
+                      + "\"value=\"" + val['code'] 
+                      + "\" preview_url=\"" + val['url'] + "\">" 
+                      + val['name'] + "</value>";
         }); 
                                                              
         inputbox.parents(parent_class).find(model_select_class).html(option_html);               
@@ -57,8 +60,11 @@ function to_ordinal(number) {
 
 function select_chassis_handler(parent_class, chassis_input_css, cost_class, preview_class) {
   return function() {
-    type = $(this).val();
+    code = $(this).val();
     preview_url = $(this).find(':selected').attr('preview_url');
+    loadout = $(this).find(':selected').attr('loadout');
+    preview_url = $(this).find(':selected').attr('preview_url');    
+    
     chassis = $(this).parents(parent_class).find(chassis_input_css).val();
     cost = $(this).parents(parent_class).find(cost_class);
 
@@ -68,7 +74,8 @@ function select_chassis_handler(parent_class, chassis_input_css, cost_class, pre
       dataType : 'json',
       data : {
         chassis : encodeURIComponent(chassis)
-      , type    : type 
+      , code    : code
+      , loadout : loadout
       },
     }).done(function(json) {
       cost.html('-' + json);

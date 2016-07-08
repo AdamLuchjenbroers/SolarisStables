@@ -55,7 +55,18 @@ class ListProductionVariants(StableWeekAjax):
             source_set = self.stableweek.supply_mechs
  
         for mech in source_set.filter(mech_name=request.GET['mech']):
-            variant_list[mech.mech_code] = mech.get_absolute_url()      
+            variant_list[mech.mech_code] = {
+              'url' : mech.get_absolute_url()     
+            , 'code' : mech.mech_code
+            , 'omni' : mech.is_omni
+            , 'loadout' : mech.omni_loadout
+            , 'id' : mech.id
+            }
+            
+            if mech.is_omni:
+                variant_list[mech.mech_code]['name'] = '%s (%s)' % (mech.mech_code, mech.omni_loadout)
+            else:
+                variant_list[mech.mech_code]['name'] = mech.mech_code
                  
         return HttpResponse(json.dumps(variant_list)) 
 

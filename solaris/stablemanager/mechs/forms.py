@@ -15,6 +15,8 @@ class SimpleMechPurchaseForm(forms.Form):
     mech_name = forms.CharField()
     mech_code = forms.CharField(widget=forms.Select)
     week_no = forms.IntegerField(widget=forms.HiddenInput(), initial=BroadcastWeek.objects.current_week().week_number)
+
+    omni_loadout = forms.CharField()
         
     def to_mech(self):
         pass
@@ -33,23 +35,31 @@ class SimpleMechPurchaseForm(forms.Form):
             self.week = BroadcastWeek.objects.current_week()
             self.cleaned_data['week_no'] = self.week.week_number
         return self.week
+    
+    def clean_omni_loadout(self):
+        if 'omni_loadout' in self.cleaned_data:
+            return self.cleaned_data['loadout']
+        else:
+            return 'Base'
 
     def clean(self):
         cleaned = super(SimpleMechPurchaseForm, self).clean()
-        (mn, mc) = (cleaned['mech_name'], cleaned['mech_code'])
+        (mn, mc, lo) = (cleaned['mech_name'], cleaned['mech_code'], cleaned['omni_loadout'])
 
         try:
-            self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc)
+            self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc, omni_loadout=lo)
         except MechDesign.DoesNotExist:
             self.design = None
-            raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))
+            raise forms.ValidationError('Unable to match design %s %s (%s)' % (mn, mc, lo))
     
         return cleaned
 
 class MechUploadOrPurchaseForm(forms.Form):
     mech_name = forms.CharField(required=False)
-    mech_code = forms.CharField(widget=forms.Select, required=False)
-
+    mech_code = forms.CharField(widget=forms.Select)
+    
+    omni_loadout = forms.CharField()
+    
     mech_ssw = forms.FileField(required=False)
     ssw_tempdata = forms.CharField(required=False)   
  
@@ -97,21 +107,22 @@ class MechUploadOrPurchaseForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(MechUploadOrPurchaseForm, self).clean()
-        (mn, mc) = (None, None)
 
         if cleaned_data['mech_source'] == 'C':
-             (mn, mc) = (cleaned_data['mech_name'], cleaned_data['mech_code'])
+            print cleaned_data
+            (mn, mc, lo) = (cleaned_data['mech_name'], cleaned_data['mech_code'], cleaned_data['omni_loadout'])
         elif cleaned_data['mech_source'] == 'U':
             if 'mech_ssw' in cleaned_data:
                 cleaned_data['mech_ssw'].load_mechs(print_message=False, production_type='C') 
                 (mn, mc) = self.cleaned_data['mech_ssw'].get_model_details()
+                lo = 'Base'
             else:
                 raise forms.ValidationError('Uploaded mech data not found')
         else:
             raise forms.ValidationError('Unable to load mech, source unspecified')         
 
         try:
-            self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc)
+            self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc, omni_loadout=lo)
             return cleaned_data
         except MechDesign.DoesNotExist:
             raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))

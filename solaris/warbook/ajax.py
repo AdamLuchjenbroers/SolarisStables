@@ -34,9 +34,16 @@ class JsonMechInformationView(AjaxView):
             return HttpResponse(status=403)
         
         try:
+            if 'id' in request.GET:
+                self.mech = get_object_or_404(MechDesign, id=request.get['id'])
+            elif 'loadout' in request.GET:                
+                loadout = request.GET['loadout']
+            else:
+                loadout = 'Base'
+                
             mech_name = unquote(request.GET['chassis'])
-            mech_code = unquote(request.GET['type'])
-            self.mech = get_object_or_404(MechDesign, mech_name=mech_name, mech_code=mech_code)
+            mech_code = unquote(request.GET['code'])
+            self.mech = get_object_or_404(MechDesign, mech_name=mech_name, mech_code=mech_code, omni_loadout=loadout)
         except KeyError:
             return HttpResponse('Incomplete AJAX request', 401)
         
