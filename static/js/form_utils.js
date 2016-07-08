@@ -58,28 +58,32 @@ function add_inline_form(form_group_id, template_id, before_id, child_selector, 
   update_form_count(form_count_id, form_group_id, child_selector);
 
   form_handler(form_group_id);
-} 
+}
 
-function to_number_input(field, sender) {
+function to_input(field, sender, type) { 
   oldvalue = field.html();
   value = parseInt(field.text());
 
-  input = '<input type=\'number\' value=\'' + value +'\'></input>';
+  input = '<input type=\"' + type +'\" value=\"' + value +'\"></input>';
   field.html(input);
   input = field.find('input');
+
   input.on('focusout', function() {
     sender(field, value);
+  });
+
+  input.on('keypress', function(keyinfo) {
+    if (keyinfo.keyCode == 13) { /* Enter Key */
+      sender(field, value);
+      return false;
+    }
   });
 }
 
-function to_text_input(field, sender) {
-  oldvalue = field.html();
-  value = field.text();
+function to_number_input(field, sender) {
+  to_input(field, sender, 'number');
+}
 
-  input = '<input type=\'text\' value=\'' + value +'\'></input>';
-  field.html(input);
-  input = field.find('input');
-  input.on('focusout', function() {
-    sender(field, value);
-  });
+function to_text_input(field, sender) {
+  to_input(field, sender, 'text');
 }
