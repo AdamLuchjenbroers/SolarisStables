@@ -16,5 +16,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(render_fields),
+        migrations.RunPython(render_fields, reverse_code=render_fields),
     ]
