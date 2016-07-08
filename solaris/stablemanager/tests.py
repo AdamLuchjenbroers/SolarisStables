@@ -98,6 +98,11 @@ class StableTestMixin(object):
 
         return stable
 
+    def advanceWeek(self, stable): 
+        sw = stable.get_stableweek()
+        sw.week.advance()
+        return sw.advance()
+
     def addMech(self, stable, stableweek=None, create_ledger=True, **kwargs):
         if stableweek == None:
             stableweek = stable.get_stableweek()
