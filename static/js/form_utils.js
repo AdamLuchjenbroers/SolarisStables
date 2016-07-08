@@ -62,7 +62,12 @@ function add_inline_form(form_group_id, template_id, before_id, child_selector, 
 
 function to_input(field, sender, type) { 
   oldvalue = field.html();
-  value = parseInt(field.text());
+
+  if (type == "number") {
+    value = parseInt(field.text());
+  } else {
+    value = field.text();
+  }
 
   input = '<input type=\"' + type +'\" value=\"' + value +'\"></input>';
   field.html(input);
