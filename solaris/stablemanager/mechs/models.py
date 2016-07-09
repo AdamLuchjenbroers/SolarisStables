@@ -7,17 +7,26 @@ from solaris.warbook.mech.refit import refit_cost
 
 class StableMechManager(models.Manager):
     def create_mech(self, stable=None, purchased_as=None, purchased_on=None, create_ledger=True, delivery=0):
-        stablemech = StableMech.objects.create(stable=stable, purchased_as=purchased_as)
         
-        if purchased_as.is_omni and purchased_as.omni_basechassis != None:
-            config_for = StableMechWeek.objects.create(
-              stableweek = purchased_on
-            , stablemech = stablemech
-            , current_design = purchased_as.omni_basechassis
-            , delivery = delivery
-            )
-        else: 
+        if purchased_as.is_omni and purchased_as.omni_basechassis != None:            
+            try:
+                config_for = StableMechWeek.objects.get(stableweek=purchased_on, current_design=purchased_as.omni_basechassis)
+                stablemech = config_for.stablemech
+                add_config = True                
+            except StableMechWeek.DoesNotExist:
+                stablemech = StableMech.objects.create(stable=stable, purchased_as=purchased_as.omni_basechassis)
+                
+                config_for = StableMechWeek.objects.create(
+                  stableweek = purchased_on
+                , stablemech = stablemech
+                , current_design = purchased_as.omni_basechassis
+                , delivery = delivery
+                )
+                add_config = False
+        else:             
+            stablemech = StableMech.objects.create(stable=stable, purchased_as=purchased_as)
             config_for = None
+            add_config = False
             
         stablemechweek = StableMechWeek.objects.create(
           stableweek = purchased_on
@@ -36,10 +45,17 @@ class StableMechManager(models.Manager):
             adv_smw = adv_smw.advance()            
         
         if create_ledger:
+            if add_config:
+                description = 'New Loadout - %s' % purchased_as.__unicode__()
+                cost = -refit_cost(purchased_as.omni_basechassis, purchased_as)
+            else:
+                description = 'Purchase - %s' % purchased_as.__unicode__()
+                cost = -purchased_as.credit_value
+                
             self.ledgeritem = LedgerItem.objects.create (
               ledger = purchased_on
-            , description = 'Purchase - %s' % purchased_as.__unicode__()
-            , cost = -purchased_as.credit_value
+            , description = description
+            , cost = cost
             , type = 'P'
             , tied = True
             , ref_mechdesign = purchased_as
@@ -89,6 +105,12 @@ class StableMechWeekManager(models.Manager):
 
     def on_order(self):
         return self.filter(delivery__gt=0, config_for=None).order_by('delivery', 'current_design__tonnage', 'current_design__mech_name')
+
+    def production(self):
+        return self.filter(current_design__production_type__in=('P','H'))
+
+    def custom(self):
+        return self.filter(current_design__production_type__in=('C'))
 
 class StableMechWeek(models.Model):
     stableweek = models.ForeignKey(StableWeek, related_name='mechs', blank=True, null=True)
@@ -155,6 +177,9 @@ class StableMechWeek(models.Model):
 
     def refit_options(self):
         return self.stableweek.supply_mechs.exclude(id=self.current_design.id).filter(mech_name=self.current_design.mech_name)
+    
+    def loadout_options(self):
+        return self.stableweek.supply_mechs.exclude(id__in=self.loadouts.all().values('current_design__id')).filter(omni_basechassis=self.current_design)
 
     def is_visible(self):
         if hasattr(self, 'prev_week'):

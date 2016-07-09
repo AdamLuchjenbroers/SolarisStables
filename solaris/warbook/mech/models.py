@@ -165,7 +165,10 @@ class MechDesign(models.Model):
         ordering = ['tonnage', 'mech_name', 'mech_code', 'omni_loadout']
         
     def __unicode__(self):
-        return '%s %s' % (self.mech_name, self.mech_code)
+        if self.is_omni:
+            return '%s %s (%s)' % (self.mech_name, self.mech_code, self.omni_loadout)
+        else:
+          return '%s %s' % (self.mech_name, self.mech_code)
     
     def all_locations(self):
         return { location.location_code() : location for location in self.locations.all() }  
