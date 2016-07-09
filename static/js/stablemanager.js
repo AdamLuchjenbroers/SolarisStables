@@ -33,8 +33,19 @@ function attach_mechlist_autocomplete(mech_input, parent_class, model_select_cla
   });
 }
 
+function handle_preview_config_select() {
+  $('#dialog-mechpreview .loadouts a').click( function() {
+    $('#dialog-mechpreview').load( $(this).attr('href') + ' div.body', handle_preview_config_select);
+        
+    return false;
+  });   
+}
+
 function preview_mech(mech_url) {
   $('#dialog-mechpreview').load(mech_url + ' div.body', function() {
+    /* Handle omni-mech browsing within preview pane */
+    handle_preview_config_select()
+      
     $('#dialog-mechpreview').dialog ({
       modal: true,
       width: (window.innerWidth * 0.75),
