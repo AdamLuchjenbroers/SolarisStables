@@ -164,8 +164,21 @@ class MechRefitFormView(MechModifyMixin, FormView):
     
 class MechLoadoutsFormView(MechRefitFormView):
     template_name = 'stablemanager/forms/loadout_mech_form.html'
-    pass
-       
+    
+    def form_valid(self, form):
+        if form.cleaned_data['mech_source'] == 'U':
+            pass
+            #TODO: Add Uploaded custom designs if needed
+            
+        models.StableMech.objects.create_mech( stable = self.stable
+                                             , purchased_as = form.design
+                                             , purchased_on = self.stableweek
+                                             , create_ledger = form.cleaned_data['add_ledger']
+                                             , delivery = form.cleaned_data['delivery'] 
+                                             )
+        result = { 'success' : True }
+        return HttpResponse(json.dumps(result))   
+    
 class MechEditFormView(MechModifyMixin, TemplateView):
     template_name = 'stablemanager/forms/edit_mech_form.html'
 

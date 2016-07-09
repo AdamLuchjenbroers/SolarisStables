@@ -1,7 +1,7 @@
 <form id="mech_refit_form" mech_id="{{stablemechweek.id}}">
   <hr class="chit-divider"/>
   <ul class="refit-mechs">{% for model in stablemechweek.refit_options %}
-    <li><input type="radio" class="mech-source-radio" name="mech_source" value="C" mech_name="{{model.mech_name}}" mech_code="{{model.mech_code}}">
+    <li><input type="radio" class="mech-source-radio" name="mech_source" value="C" mech_name="{{model.mech_name}}" omni_loadout="{{model.omni_loadout}}" mech_code="{{model.mech_code}}">
       <span class="mech-model">{{model.mech_name}} {{model.mech_code}}</span>
       <span class="word-button action-preview" preview_url="{{model.get_absolute_url}}">Preview</span>
     </input></li>

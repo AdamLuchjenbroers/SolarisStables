@@ -170,6 +170,11 @@ class MechRefitForm(MechUploadOrPurchaseForm):
             raise forms.ValidationError('Mech Chassis must match chassis of existing mech')
 
         return ssw
+    
+class MechLoadoutForm(MechRefitForm):
+    def clean_add_ledger(self):
+        return (self.cleaned_data['add_ledger'].upper == 'TRUE')
+        
 
 class MechChangeForm(forms.ModelForm):
     remove = forms.ChoiceField(widget=forms.RadioSelect, initial='keep')

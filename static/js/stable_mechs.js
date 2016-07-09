@@ -77,6 +77,7 @@ function show_refit_form() {
 
       chosen = refit.find('.mech-source-radio:checked');
       if (chosen.val() == 'C') {
+        refit_data.append('omni_loadout', chosen.attr('omni_loadout')); 
         refit_data.append('mech_name', chosen.attr('mech_name'));     
         refit_data.append('mech_code', chosen.attr('mech_code'));
       }  
@@ -107,21 +108,22 @@ function show_loadout_form() {
       preview_mech($(this).attr('preview_url'));
     });
 
-    refit.find('#refit-button-submit').click( function() {
-      var refit_data = new FormData(refit.find('#mech_refit_form')[0]);
-
+    refit.find('#loadout-button-submit').click( function() {
       chosen = refit.find('.mech-source-radio:checked');
       if (chosen.val() == 'C') {
-        refit_data.append('mech_name', chosen.attr('mech_name'));     
-        refit_data.append('mech_code', chosen.attr('mech_code'));
+        refit_data = {
+          mech_source  : 'C'
+        , omni_loadout : chosen.attr('omni_loadout')
+        , mech_name    : chosen.attr('mech_name')
+        , mech_code    : chosen.attr('mech_code')
+        , add_ledger   : $('#id_add_ledger').prop('checked')
+        }
       }  
 
       $.ajax({
         type : 'post'
       , url  : button.attr('form_url')
       , dataType : 'json'
-      , contentType : false
-      , processData : false
       , data : refit_data
       }).done(function(response) { 
         refresh_mechlist();
