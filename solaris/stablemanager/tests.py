@@ -75,7 +75,7 @@ class StableSetupTests(TestCase):
     def test_initialbalance(self):
         week = self.stable.get_stableweek()
         self.assertEqual( week.opening_balance, self.campaign.initial_balance
-                           , 'Iniiial balance set incorrectly, found %i, expected %i'
+                           , 'Initial balance set incorrectly, found %i, expected %i'
                            % (week.opening_balance, self.campaign.initial_balance) )
 
     def test_templates(self):
