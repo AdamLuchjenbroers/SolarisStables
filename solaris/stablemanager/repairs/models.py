@@ -45,14 +45,30 @@ class RepairBill(models.Model):
         else: 
             return 0
 
+    def reset_bill(self):
+        self.lineitems.all().delete()
+        self.locations.all().delete()
+        
+    def set_config(self, loadout):
+        self.reset_bill()
+        self.mech = loadout
+        self.save()
+        
+        return True
+
     def create_ledger_entry(self):
         # Check if it  exists
         if LedgerItem.objects.filter(ref_repairbill=self).count() > 0: 
             return
+        
+        if self.mech.is_omni:
+            mech_name = '%s %s (%s)' % (self.mech.mech_name, self.mech.mech_code, self.mech.omni_loadout)
+        else:
+            mech_name = '%s %s' % (self.mech.mech_name, self.mech.mech_code)
 
         if not self.cored:
            LedgerItem.objects.create(
-              description = 'Repair Bill - %s %s' % (self.mech.mech_name, self.mech.mech_code)
+              description = 'Repair Bill - %s' % mech_name
            ,  cost = -self.lineitems.total_cost()
            ,  type = 'R'
            ,  tied = True
@@ -61,7 +77,7 @@ class RepairBill(models.Model):
            )
         elif self.mech.tier > 0:
            LedgerItem.objects.create(
-              description = 'Insurance Payout - %s %s' % (self.mech.mech_name, self.mech.mech_code)
+              description = 'Insurance Payout - %s' % mech_name
            ,  cost = self.insurance_payout()
            ,  type = 'I'
            ,  tied = True

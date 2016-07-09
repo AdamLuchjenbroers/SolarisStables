@@ -10,6 +10,7 @@ from solaris.stablemanager.ledger.models import LedgerItem
 from solaris.stablemanager.mechs.models import StableMechWeek
 from solaris.stablemanager.repairs.models import RepairBill, RepairBillLineItem
 from solaris.warbook.equipment.models import Equipment
+from solaris.warbook.mech.models import MechDesign
 
 class CreateRepairBillView(StableViewMixin, View):
     def get(self, request, stablemech=0):
@@ -47,7 +48,10 @@ class RepairBillMixin(StableViewMixin):
         page_context['bill'] = self.bill
         page_context['stableweek'] = self.bill.stableweek.stableweek
         page_context['week'] = self.bill.stableweek.stableweek.week
-        page_context['week_navigation'] = False       
+        page_context['week_navigation'] = False
+        
+        if hasattr(self.bill.stableweek, 'loadouts'):
+            page_context['loadouts'] = self.bill.stableweek.loadouts.all()
         
         return page_context
 
@@ -72,6 +76,21 @@ class RepairBillView(RepairBillMixin, TemplateView):
         ]
         
         return page_context
+    
+class RepairBillSetConfigView(RepairBillMixin, View):
+    def post(self, request):
+        try:                        
+            config_id = int(request.POST['config'])
+            config = get_object_or_404(MechDesign, id=config_id)
+            
+            if config.mech_name == self.bill.mech.mech_name and config.mech_code == self.bill.mech.mech_code:
+                result = self.bill.set_config(config)
+                return HttpResponse(json.dumps(result))
+            else:
+                return HttpResponse('Selected loadout is not suited to a %s %s' % (self.bill.mech.mech_name, self.bill.mech.mech_code),401)
+                    
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', 400)
 
 class RepairBillLineView(RepairBillMixin, TemplateView):
     template_name = 'stablemanager/fragments/repair_lines.html'

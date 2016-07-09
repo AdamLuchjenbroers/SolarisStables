@@ -163,6 +163,19 @@ function delete_bill() {
   });
 }
 
+function set_omni_config() {
+  $.ajax({
+    type : 'post',
+    url  : window.location.href + '/set-config',
+    dataType : 'json',
+    data : {
+      config : $('#repair-omni-loadout').val()
+    },
+  }).done(function(result) {
+      window.location.reload();
+  });
+}
+
 function set_ammo_type() {
   ammo = $(this);
 
@@ -223,7 +236,7 @@ $.fn.extend({
   },
 });
 
-$( document ).ready(function() {
+function page_ready() {
   $('.item-crittable').click(crit_item);
   $('.mech-armour-location input').change(damage_location);
   $('.mech-armour-location input').keypress( function(ev) {
@@ -238,8 +251,11 @@ $( document ).ready(function() {
   $('#button-core-mech').click(toggle_cored);
   $('#button-finalize').click(finish_bill);
   $('#button-reopen').click(finish_bill);
-  $('#button-delete-bill').click(delete_bill);
-});
+  $('#button-delete-bill').click(delete_bill);  
+  $('#repair-omni-loadout').change(set_omni_config);
+}
+
+$( document ).ready( page_ready );
 
 $( document ).ajaxStop( function() {
   $.ajax({

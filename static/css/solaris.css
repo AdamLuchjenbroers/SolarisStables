@@ -1324,6 +1324,12 @@ ul.bill-list .bill-cost {
   width: 8em;
 }
 
+#repair-omni-loadout {
+  font-size: 1em;
+  font-weight: bold;
+  padding-left: 0.1em;
+}
+
 
 /****************************************
  * Ledgers / Bills

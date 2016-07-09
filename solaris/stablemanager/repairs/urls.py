@@ -14,4 +14,6 @@ urlpatterns = patterns('',
     url(r'^(?P<bill>[0-9]+)/setcored', views.AjaxSetCoredView.as_view()),
     url(r'^(?P<bill>[0-9]+)/setfinal', views.AjaxSetFinalView.as_view()),
     url(r'^(?P<bill>[0-9]+)/delete', views.AjaxDeleteBillView.as_view()),
+    url(r'^(?P<bill>[0-9]+)/set-config', views.RepairBillSetConfigView.as_view(), name='repair_set_config'),
+    
 )

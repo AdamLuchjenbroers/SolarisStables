@@ -8,7 +8,21 @@
 
 {% block pagebody %}
 <div class="body">
-  <h1>Repair Bill - {{mech.mech_name}} {{mech.mech_code}}</h1>
+  <h1>
+    Repair Bill - {{mech.mech_name}} {{mech.mech_code}}
+    {% if mech.is_omni and not bill.complete %}
+      <select id="repair-omni-loadout">
+        {% if mech.omni_loadout == 'Base' %}
+          <option selected="selected" value="0"></option>
+        {% endif %}
+        {% for config in loadouts %}
+        <option value="{{config.current_design.id}}" {% if mech.id == config.current_design.id %} selected="selected" {% endif %}>{{config.current_design.omni_loadout}}</option>
+        {% endfor %}
+      </select>
+    {% elif mech.is_omni %}
+      {{mech.omni_loadout}}
+    {% endif %}
+  </h1>
 {% if not bill.complete %}
   {% include "stablemanager/fragments/mech_repair.html" with crit_table=mech.all_locations bill=bill %}
   {% if bill.lineitems.ammo_bins %}<h2>Ammo</h2><hr/>
