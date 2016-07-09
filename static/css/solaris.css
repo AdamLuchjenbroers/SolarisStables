@@ -1179,6 +1179,7 @@ li.chit.tier3 a.omni-row:hover {
 
 ul.refit-mechs {
   list-style: none;
+  padding-left: 0.5em;
 }
 
 ul.refit-mechs li {
@@ -1192,7 +1193,19 @@ ul.refit-mechs li {
 #mech_refit_form .mech-model {
   display: inline-block;
   font-weight: bold;
-  width: 16rem;
+  width: 30rem;
+}
+
+#mech_refit_form .omni-loadout {
+  display: inline-block;
+  font-weight: bold;
+  width: 6rem;
+}
+
+#mech_refit_form .omni-info {
+  display: inline-block;
+  font-size: 80%;
+  width: 24rem;
 }
 
 .refit-option-item {

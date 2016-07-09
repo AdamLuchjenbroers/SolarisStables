@@ -50,6 +50,11 @@ class MechDesign(models.Model):
         #Remove everything before the first , because Mech Name and Tonnage will be listed separately
         loc = self.ssw_description.find(', ') + 2
         return self.ssw_description[loc:]
+    
+    def omni_description(self):
+        #Remove everything up to the armour amout ; to get only the loadout info.
+        loc = self.ssw_description.find('Armor; ') + 7
+        return self.ssw_description[loc:]        
 
     def total_armour(self):
         return (self.locations.aggregate( models.Sum('armour') ))['armour__sum']

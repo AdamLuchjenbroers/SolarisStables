@@ -26,7 +26,7 @@
    {% for config in mech.loadouts.all %}
      <a class="omni-row omni-config" href="{{config.get_absolute_url}}">
        <span class="omni-column config-name">{{config.omni_loadout}}</span>
-       <span class="omni-column config-description">{{config.description}}</span>
+       <span class="omni-column config-description">{{config.omni_description}}</span>
        <span class="omni-column config-bv">{{config.bv_value}}</span>
      </a>
    {% endfor %}

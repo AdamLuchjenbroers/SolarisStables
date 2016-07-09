@@ -42,4 +42,22 @@
 </div>
 {% endblock %}
 
+{% block omni_config_list %}
+   <div class="omni-list">
+     <div class="omni-row omni-header">
+       <span class="omni-column config-name">Loadout</span>
+       <span class="omni-column config-description"></span>
+       <span class="omni-column config-bv">BV</span>
+     </div>
+   {% for config in smw.loadouts.all %}
+     <span class="omni-row omni-config">
+       <span class="omni-column config-name">{{config.current_design.omni_loadout}}</span>
+       <span class="omni-column config-description">{{config.current_design.omni_description}}</span>
+       <span class="omni-column config-bv">{{config.current_design.bv_value}}</span>
+     </span>
+   {% endfor %}
+   </div>
+{% endblock %}
+
+
 {% block row_container_end %}</span><span class="refit-panel"></span>{% endblock %}

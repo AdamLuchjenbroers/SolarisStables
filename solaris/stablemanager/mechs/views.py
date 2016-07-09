@@ -163,6 +163,7 @@ class MechRefitFormView(MechModifyMixin, FormView):
         return context
     
 class MechLoadoutsFormView(MechRefitFormView):
+    template_name = 'stablemanager/forms/loadout_mech_form.html'
     pass
        
 class MechEditFormView(MechModifyMixin, TemplateView):

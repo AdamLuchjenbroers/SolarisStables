@@ -21,13 +21,15 @@ function check_purchase_form_ready() {
   }
 }
 
+function setup_mechlist_buttons() {
+  $('#stable-mech-list .refit-button').click( show_refit_form );
+  $('#stable-mech-list .remove-button').click( show_removal_dialog );
+  $('#stable-mech-list .edit-button').click( show_edit_form );
+  $('#stable-mech-list .loadout-button').click( show_loadout_form );    
+}
+
 function refresh_mechlist() {
-  $('#stable-mech-list').load(window.location.href + '/list #stable-mech-list'
-  , function() {
-    $('#stable-mech-list .refit-button').click( show_refit_form );
-    $('#stable-mech-list .remove-button').click( show_removal_dialog );
-    $('#stable-mech-list .edit-button').click( show_edit_form );
-  });
+  $('#stable-mech-list').load(window.location.href + '/list #stable-mech-list', setup_mechlist_buttons);
 }
 
 function submit_purchase_data(form, mech_data) {
@@ -255,10 +257,7 @@ $( document ).ready(function() {
     $('#mech-purchase-form .mech-purchase-select input').change( check_purchase_form_ready );
     $('#mech-purchase-form input#id_mech_ssw').change( check_purchase_form_ready );
 
-    $('.refit-button').click( show_refit_form );
-    $('.loadout-button').click( show_loadout_form );
-    $('.remove-button').click( show_removal_dialog );
-    $('.edit-button').click( show_edit_form );
+    setup_mechlist_buttons();
 
     $('#mech-purchase-submit').click( submit_purchase_form );
 });
