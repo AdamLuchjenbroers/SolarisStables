@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     (r'^reference/', include('solaris.warbook.urls')),
     (r'^stable/', include('solaris.stablemanager.urls')),
     (r'^campaign/', include('solaris.campaign.urls')),
+    (r'^files/', include('solaris.files.urls')),
     
     (r'^wiki/', get_wiki_pattern()),
     (r'^notify/', get_notify_pattern()),

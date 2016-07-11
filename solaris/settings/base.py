@@ -65,6 +65,7 @@ MIGRATION_MODULES = {
 ,   'stablemanager' : 'solaris.stablemanager.migrations'
 ,   'cms'           : 'solaris.cms.migrations'
 ,   'campaign'      : 'solaris.campaign.migrations'
+#,  'files' :solaris.files.migrations
 }
 
 INSTALLED_APPS = (
@@ -87,6 +88,7 @@ INSTALLED_APPS = (
     'solaris.stablemanager.pilots',
     'solaris.stablemanager.ledger',
     'solaris.stablemanager.repairs',
+    'solaris.files',
     'markitup',
     #Django-Wiki
     'django_nyt',

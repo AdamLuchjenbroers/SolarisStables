@@ -23,9 +23,15 @@ class SSWLoader(object):
         self.sswXML = etree.parse(self.xml_fd)
 
     def get_model_details(self):
-        mech_name = self.sswXML.xpath('/mech/@name')[0]
-        mech_code = self.sswXML.xpath('/mech/@model')[0]
-        return (mech_name, mech_code)
+        return {
+          'mech_name' : self.sswXML.xpath('/mech/@name')[0]
+        , 'mech_code' : self.sswXML.xpath('/mech/@model')[0]
+        , 'is_omni'   : self.sswXML.get('/mech/omnimech') == 'TRUE'
+        , 'tons'      : self.sswXML.xpath('/mech/@tons')[0]
+        #, 'bv'        : int(self.sswXML.xpath('/mech/motive_type/text()')[0])
+        , 'cost'      : int(self.sswXML.xpath('/mech/cost/text()')[0])
+        , 'motive_type' : self.sswXML.xpath('/mech/motive_type/text()')[0]
+        }
 
     def load_mechs(self, production_type='P', print_message=True):
         parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename, production_type=production_type )
