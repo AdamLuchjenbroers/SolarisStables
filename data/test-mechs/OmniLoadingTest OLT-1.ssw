@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding ="UTF-8"?>
+<mech name="OmniLoadingTest" model="OLT-1" tons="30" omnimech="TRUE" solaris7id="0" solaris7imageid="0" sswimage="">
+    <ssw_savefile_version>3</ssw_savefile_version>
+    <cost>3049312.5</cost>
+    <rules_level>4</rules_level>
+    <era>4</era>
+    <productionera>0</productionera>
+    <mech_type>BattleMech</mech_type>
+    <techbase manufacturer="Unknown" location="Unknown">Inner Sphere</techbase>
+    <year restricted="FALSE">0</year>
+    <motive_type>Biped</motive_type>
+    <structure manufacturer="Unknown" techbase="2">
+        <type>Standard Structure</type>
+    </structure>
+    <engine rating="210" manufacturer="Unknown" lsstart="-1" rsstart="-1" techbase="2">Fusion Engine</engine>
+    <gyro techbase="2">Standard Gyro</gyro>
+    <cockpit>
+        <type ejectionseat="FALSE" commandconsole="FALSE" fhes="FALSE">Standard Cockpit</type>
+    </cockpit>
+    <armor manufacturer="Unknown" techbase="2">
+        <type>Standard Armor</type>
+        <hd>9</hd>
+        <ct>15</ct>
+        <ctr>4</ctr>
+        <lt>10</lt>
+        <ltr>4</ltr>
+        <rt>10</rt>
+        <rtr>4</rtr>
+        <la>10</la>
+        <ra>10</ra>
+        <ll>14</ll>
+        <rl>14</rl>
+    </armor>
+    <baseloadout fcsa4="FALSE" fcsa5="FALSE" fcsapollo="FALSE">
+        <source>Test Data</source>
+        <info>OmniLoadingTest OLT-1 30t, 7/11/0, Std FE, Std; 6.5T/99% Armor; 10 SHS</info>
+        <battleforce pv="5" wt="1" mv="7" s="0" m="0" l="0" e="0" ov="0" armor="3" internal="3" abilities="OMNI, ENE, SRCH, ES, SEAL, SOA" />
+        <actuators lla="FALSE" lh="FALSE" rla="FALSE" rh="FALSE"/>
+        <clancase>FALSE</clancase>
+        <heatsinks number="10" techbase="2">
+            <type>Single Heat Sink</type>
+
+            <location index="10">CT</location>
+            <location index="11">CT</location>
+        </heatsinks>
+    </baseloadout>
+    <loadout name="A" fcsa4="FALSE" fcsa5="FALSE" fcsapollo="FALSE">
+        <source></source>
+        <loadout_era>4</loadout_era>
+        <loadout_productionera>0</loadout_productionera>
+        <loadout_year>0</loadout_year>
+        <info>OmniLoadingTest OLT-1 A 30t, 7/11/0, Std FE, Std; 6.5T/99% Armor; 10 SHS; 1 ERSL, 1 MPL, 1 LPPC</info>
+        <battleforce pv="8" wt="1" mv="7" s="2" m="2" l="1" e="0" ov="0" armor="3" internal="3" abilities="OMNI, ENE, SRCH, ES, SEAL, SOA" />
+        <battle_value>814</battle_value>
+        <cost>3274781.25</cost>
+        <actuators lla="FALSE" lh="FALSE" rla="FALSE" rh="FALSE"/>
+        <clancase>FALSE</clancase>
+        <equipment>
+            <name manufacturer="">(IS) Light PPC</name>
+            <type>energy</type>
+            <location index="2">RA</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) ER Small Laser</name>
+            <type>energy</type>
+            <location index="3">HD</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) Medium Pulse Laser</name>
+            <type>energy</type>
+            <location index="2">LA</location>
+        </equipment>
+    </loadout>
+    <loadout name="B" fcsa4="FALSE" fcsa5="FALSE" fcsapollo="FALSE">
+        <source></source>
+        <loadout_era>4</loadout_era>
+        <loadout_productionera>0</loadout_productionera>
+        <loadout_year>0</loadout_year>
+        <info>OmniLoadingTest OLT-1 B 30t, 7/11/0, Std FE, Std; 6.5T/99% Armor; 10 SHS; 1 SSRM6</info>
+        <battleforce pv="7" wt="1" mv="7" s="2" m="2" l="0" e="0" ov="0" armor="3" internal="3" abilities="OMNI, SRCH, ES, SEAL, SOA" />
+        <battle_value>700</battle_value>
+        <cost>3110250.0</cost>
+        <actuators lla="FALSE" lh="FALSE" rla="FALSE" rh="FALSE"/>
+        <clancase>FALSE</clancase>
+        <equipment>
+            <name manufacturer="">(IS) Streak SRM-6</name>
+            <type>missile</type>
+            <location index="0">RT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="Unknown">(IS) @ Streak SRM-6</name>
+            <type>ammunition</type>
+            <location index="2">RT</location>
+        </equipment>
+    </loadout>
+    <loadout name="C" fcsa4="FALSE" fcsa5="FALSE" fcsapollo="FALSE">
+        <source></source>
+        <loadout_era>4</loadout_era>
+        <loadout_productionera>0</loadout_productionera>
+        <loadout_year>0</loadout_year>
+        <info>OmniLoadingTest OLT-1 C 30t, 7/11/0, Std FE, Std; 6.5T/99% Armor; 10 SHS; 1 ML, 5 MSGR</info>
+        <battleforce pv="7" wt="1" mv="7" s="2" m="2" l="0" e="0" ov="0" armor="3" internal="3" abilities="OMNI, SRCH, ES, SEAL, SOA" />
+        <battle_value>747</battle_value>
+        <cost>3049312.5</cost>
+        <actuators lla="FALSE" lh="FALSE" rla="FALSE" rh="FALSE"/>
+        <clancase>FALSE</clancase>
+        <equipment>
+            <name manufacturer="">(IS) Magshot Gauss Rifle</name>
+            <type>ballistic</type>
+            <location index="2">RT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) Magshot Gauss Rifle</name>
+            <type>ballistic</type>
+            <location index="0">RT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) Magshot Gauss Rifle</name>
+            <type>ballistic</type>
+            <location index="0">LT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) Magshot Gauss Rifle</name>
+            <type>ballistic</type>
+            <location index="2">LT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) Magshot Gauss Rifle</name>
+            <type>ballistic</type>
+            <location index="4">LT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="Unknown">(IS) @ Magshot Gauss Rifle</name>
+            <type>ammunition</type>
+            <location index="4">RT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">(IS) Medium Laser</name>
+            <type>energy</type>
+            <location index="3">HD</location>
+        </equipment>
+    </loadout>
+    <fluff>
+        <overview></overview>
+        <capabilities></capabilities>
+        <battlehistory></battlehistory>
+        <deployment></deployment>
+        <variants></variants>
+        <notables></notables>
+        <additional></additional>
+        <jumpjet_model>Unknown</jumpjet_model>
+        <commsystem>Unknown</commsystem>
+        <tandtsystem>Unknown</tandtsystem>
+    </fluff>
+</mech>

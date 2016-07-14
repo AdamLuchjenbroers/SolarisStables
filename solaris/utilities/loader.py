@@ -23,15 +23,33 @@ class SSWLoader(object):
         self.sswXML = etree.parse(self.xml_fd)
 
     def get_model_details(self):
-        return {
+        result = {
           'mech_name' : self.sswXML.xpath('/mech/@name')[0]
         , 'mech_code' : self.sswXML.xpath('/mech/@model')[0]
-        , 'is_omni'   : self.sswXML.get('/mech/omnimech') == 'TRUE'
-        , 'tons'      : self.sswXML.xpath('/mech/@tons')[0]
-        #, 'bv'        : int(self.sswXML.xpath('/mech/motive_type/text()')[0])
-        , 'cost'      : int(self.sswXML.xpath('/mech/cost/text()')[0])
+        , 'is_omni'   : self.sswXML.xpath('/mech/@omnimech')[0] == 'TRUE'
+        , 'tons'      : int(self.sswXML.xpath('/mech/@tons')[0])
+        , 'cost'      : float(self.sswXML.xpath('/mech/cost/text()')[0])
         , 'motive_type' : self.sswXML.xpath('/mech/motive_type/text()')[0]
         }
+
+        if result['is_omni'] == False:
+	   result['bv'] = int(self.sswXML.xpath('/mech/battle_value/text()')[0])
+        else:
+           result['bv'] = None
+
+           config_list={}
+           for config in self.sswXML.xpath('/mech/loadout'):
+               config_name = config.get('name')
+               config_data = {
+                 'bv'   : int(config.xpath('./battle_value/text()')[0])
+               , 'cost' : float(config.xpath('./cost/text()')[0])
+               }
+
+               config_list[config_name] = config_data
+
+           result['loadouts'] = config_list
+
+        return result;
 
     def load_mechs(self, production_type='P', print_message=True):
         parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename, production_type=production_type )
