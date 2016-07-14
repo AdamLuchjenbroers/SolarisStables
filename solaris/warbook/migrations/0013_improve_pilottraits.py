@@ -16,24 +16,20 @@ def clear_pilottraits(apps, schema_editor):
 def create_issues_group(apps, schema_editor):
     PilotTraitGroup = apps.get_model('warbook', 'PilotTraitGroup')
     
-    PilotTraitGroup.objects.create(name='Pilot Problems', blurb='', urlname='pilot-issues', discipline_type='I')
+    PilotTraitGroup.objects.create(name='Pilot Problems', blurb='...', urlname='pilot-issues', discipline_type='I')
 
 def delete_issues_group(apps, schema_editor):
     PilotTraitGroup = apps.get_model('warbook', 'PilotTraitGroup')
     
     PilotTraitGroup.objects.get(urlname='pilot-issues').delete()
-    
  
 def load_pilottraits(apps, schema_editor):
     PilotTrait = apps.get_model('warbook','PilotTrait')
     fields = ['discipline', 'table', 'item', 'bv_mod', 'name', 'description']
 
     load_pilottrait_csv('%s/data/warbook.pilottrait.csv' % settings.BASE_DIR, csvfields=fields, PilotTrait=PilotTrait );
-
     
 def noop(apps, schema_editor):
-    # Why bother to delete from tables that are being dropped in the
-    # same operation.
     pass
 
 class Migration(migrations.Migration):
