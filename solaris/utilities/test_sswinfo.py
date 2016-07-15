@@ -41,6 +41,9 @@ class SSWLoaderTestMixin(object):
     def test_motive_type(self):
         self.compare_by_key('motive_type', 'Incorrect Motive Type: expected %s, got %s')     
 
+    def test_techbase(self):
+        self.compare_by_key('techbase', 'Incorrect Technology Base: expected %s, got %s')     
+
 class BasicSSWTests(SSWLoaderTestMixin, TestCase):
     ssw_filename = 'SimpleLoadingTest SLT-1.ssw'
     expect = {
@@ -51,6 +54,7 @@ class BasicSSWTests(SSWLoaderTestMixin, TestCase):
       , 'bv'        : 1167 
       , 'cost'      : 4029500 
       , 'motive_type' : 'Biped'
+      , 'techbase'  : 'Inner Sphere' 
     }
 
 class OmniSSWTests(SSWLoaderTestMixin, TestCase):
@@ -63,4 +67,44 @@ class OmniSSWTests(SSWLoaderTestMixin, TestCase):
       , 'bv'        : None 
       , 'cost'      : 3049312.5
       , 'motive_type' : 'Biped'
+      , 'techbase'  : 'Inner Sphere' 
     }
+
+    def test_configA_exists(self):
+        self.assertIn('A', self.info['loadouts'], 'Config A not found')
+
+    def test_configA_cost(self):
+        cost = self.info['loadouts']['A']['cost']
+        expect = 3274781.25
+        self.assertEqual(cost, expect, 'Cost for config A is %s, expected %s' % (cost, expect))
+
+    def test_configA_bv(self):
+        cost = self.info['loadouts']['A']['bv']
+        expect = 814
+        self.assertEqual(cost, expect, 'Battle Value for config A is %s, expected %s' % (cost, expect))
+
+    def test_configB_exists(self):
+        self.assertIn('B', self.info['loadouts'], 'Config B not found')
+
+    def test_configB_cost(self):
+        cost = self.info['loadouts']['B']['cost']
+        expect = 3110250
+        self.assertEqual(cost, expect, 'Cost for config B is %s, expected %s' % (cost, expect))
+
+    def test_configB_bv(self):
+        cost = self.info['loadouts']['B']['bv']
+        expect = 700
+        self.assertEqual(cost, expect, 'Battle Value for config B is %s, expected %s' % (cost, expect))
+
+    def test_configC_exists(self):
+        self.assertIn('C', self.info['loadouts'], 'Config C not found')
+
+    def test_configC_cost(self):
+        cost = self.info['loadouts']['C']['cost']
+        expect = 3049312.5
+        self.assertEqual(cost, expect, 'Cost for config C is %s, expected %s' % (cost, expect))
+
+    def test_configC_bv(self):
+        cost = self.info['loadouts']['C']['bv']
+        expect = 747
+        self.assertEqual(cost, expect, 'Battle Value for config C is %s, expected %s' % (cost, expect))
