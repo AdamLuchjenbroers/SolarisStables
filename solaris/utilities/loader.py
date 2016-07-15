@@ -30,6 +30,7 @@ class SSWLoader(object):
         , 'tons'      : int(self.sswXML.xpath('/mech/@tons')[0])
         , 'cost'      : float(self.sswXML.xpath('/mech/cost/text()')[0])
         , 'motive_type' : self.sswXML.xpath('/mech/motive_type/text()')[0]
+        , 'techbase'  : self.sswXML.xpath('/mech/techbase/text()')[0]
         }
 
         if result['is_omni'] == False:
