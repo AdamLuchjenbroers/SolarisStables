@@ -59,6 +59,9 @@ class UploadMechsMixin(StableTestMixin):
         self.json_data = json.loads(self.response.content)
 
     def compare_by_key(self, key, errorstring):
+        if 'exception' in self.json_data:
+            self.assertFalse(True, 'Query failed due to %s' % self.json_data['exception'])
+        
         self.assertEqual(self.expect[key], self.json_data[key], errorstring % (self.expect[key], self.json_data[key]))
         
     def test_assigned_id(self):
