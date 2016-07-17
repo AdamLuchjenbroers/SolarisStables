@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView, View
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
 from django.http import HttpResponse 
 from django.shortcuts import redirect, get_object_or_404
