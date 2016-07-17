@@ -18,11 +18,20 @@ class CreateTempMechView(FormView):
 
     def form_valid(self, form):
         form.save()
-        form.instance.load_from_file()
         
-        result = form.instance.to_dict()
+        try:
+            form.instance.load_from_file()
         
-        return HttpResponse(json.dumps(result))  
+            result = form.instance.to_dict()
+      
+            return HttpResponse(json.dumps(result))  
+        except: 
+            result = {
+             'success' : False
+            , 'errors'  : { '' : ['Failed to Parse Supplied File'] }
+            }
+            form.instance.delete()
+            return HttpResponse(json.dumps(result), status=400)  
 
     def form_invalid(self, form):
         result = {
@@ -30,7 +39,7 @@ class CreateTempMechView(FormView):
         , 'errors'  : { field : error for (field, error) in form.errors.items() }
         }
 
-        return HttpResponse(json.dumps(result), 400)  
+        return HttpResponse(json.dumps(result), status=400)  
     
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated():
