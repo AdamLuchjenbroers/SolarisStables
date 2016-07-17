@@ -66,7 +66,7 @@ class SelectiveLoadingTests(TestCase):
         
     def test_loadme_returned(self):
         design = MechDesign.objects.get(mech_name='Owens',mech_code='OW-1',omni_loadout='LoadMe')
-        self.assertNotEquals(self.loadout.id, design.id, 'Loader Returned Mech does not match mech in Database')
+        self.assertEquals(self.loadout.id, design.id, 'Loader Returned Mech does not match mech in Database')
         
     # Check that DontLoad wasn't loaded
     def test_donload_not_exists(self):
