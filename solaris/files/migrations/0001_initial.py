@@ -25,6 +25,7 @@ class Migration(migrations.Migration):
                 ('tons', models.IntegerField(null=True, blank=True)),
                 ('motive_type', models.CharField(max_length=20, null=True, blank=True)),
                 ('techbase', models.CharField(max_length=20, null=True, blank=True)),
+                ('created', models.DateTimeField()),
                 ('design', models.ForeignKey(blank=True, to='warbook.MechDesign', null=True)),
             ],
             options={
