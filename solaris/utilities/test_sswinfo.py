@@ -56,6 +56,9 @@ class BasicSSWTests(SSWLoaderTestMixin, TestCase):
       , 'motive_type' : 'Biped'
       , 'techbase'  : 'Inner Sphere' 
     }
+    
+    def test_has_no_loadouts(self):
+        self.assertNotIn('loadouts', self.info, 'Loadout List Found for Non-Omnimech')
 
 class OmniSSWTests(SSWLoaderTestMixin, TestCase):
     ssw_filename = 'OmniLoadingTest OLT-1.ssw'
@@ -69,6 +72,9 @@ class OmniSSWTests(SSWLoaderTestMixin, TestCase):
       , 'motive_type' : 'Biped'
       , 'techbase'  : 'Inner Sphere' 
     }
+
+    def test_has_loadouts(self):
+        self.assertIn('loadouts', self.info, 'Loadout List Not Found')
 
     def test_configA_exists(self):
         self.assertIn('A', self.info['loadouts'], 'Config A not found')
