@@ -4,6 +4,9 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 import json
 
 from solaris.stablemanager.tests import StableTestMixin
+from solaris.warbook.mech.models import MechDesign
+
+from . import models
 
 class UploadNotLoggedInTest(TestCase):
     def test_try_get(self):
@@ -16,7 +19,7 @@ class UploadNotLoggedInTest(TestCase):
         client = Client()
         ssw = SimpleUploadedFile('MockMechData.ssw', 'No Valid Data!')
         
-        response = client.post('/files/new-temp-mech', {'ssw_data' : ssw})
+        response = client.post('/files/new-temp-mech', {'ssw_file' : ssw})
         self.assertEqual(response.status_code, 302, 'Non-logged in users not redirected away from page (HTTP %s)' % response.status_code)
         
 class IncorrectFormTests(StableTestMixin, TestCase):
@@ -29,7 +32,14 @@ class IncorrectFormTests(StableTestMixin, TestCase):
     def test_missing_mech(self):
         response = self.client.post('/files/new-temp-mech')
         
-        self.assertNotEqual(response.status_code, 400, 'Form without mech returns incorrect status code (HTTP %s)' % response.status_code)
+        self.assertEqual(response.status_code, 400, 'Form without mech returns incorrect status code (HTTP %s)' % response.status_code)
+        
+    def test_junk_mechfile(self):
+        ssw = SimpleUploadedFile('JunkMechData.ssw', 'Not A Valid SSW File!')
+        response = self.client.post('/files/new-temp-mech', {'ssw_file' : ssw})
+        
+        self.assertEqual(response.status_code, 400, 'Form with incorrect mechfile returns incorrect status code (HTTP %s)' % response.status_code)
+        
         
 class UploadMechsMixin(StableTestMixin):
     ssw_filename = 'TestMech.ssw'
@@ -50,6 +60,9 @@ class UploadMechsMixin(StableTestMixin):
 
     def compare_by_key(self, key, errorstring):
         self.assertEqual(self.expect[key], self.json_data[key], errorstring % (self.expect[key], self.json_data[key]))
+        
+    def test_assigned_id(self):
+        self.assertIn('temp_id', self.json_data, 'No Temporary Mech Identifier returned')
 
     def test_mech_name(self):
         self.compare_by_key('mech_name', 'Incorrect Mech Name: expected %s, got %s')     
@@ -193,6 +206,11 @@ class ExistingOmniUploadTests(UploadMechsMixin, TestCase):
       , 'design_status' : 'P'
       , 'design_status_text' : 'Standard Production Design'
     }
+    
+    def setUp(self):
+        super(ExistingOmniUploadTests, self).setUp()
+        
+        self.tempmech = models.TempMechFile.objects.get(id=self.json_data['temp_id'])
 
     def assertDesignStatus(self, loadout, expect):
         design_status = self.json_data['loadouts'][loadout]['design_status']
@@ -222,3 +240,35 @@ class ExistingOmniUploadTests(UploadMechsMixin, TestCase):
         
     def test_dontload_config_status_text(self):
         self.assertDesignStatusText('DontLoad','New Design')
+        
+    def test_loadmech_newconfig(self):
+        config = self.tempmech.load_config('LoadMe')
+        self.assertIsNotNone(config.id, 'Loadme Config not loaded, no ID allocated')
+                          
+    # Check that LoadMe was loaded and links correctly to the base chassis
+    def test_loadme_exists(self):
+        config = self.tempmech.load_config('LoadMe')
+        count = MechDesign.objects.filter(mech_name='Owens',mech_code='OW-1',omni_loadout='LoadMe').count()
+        
+        self.assertEquals(count, 1, 'Expected to find Owens OW-1 LoadMe Test Config, found none')
+        
+    def test_loadme_baseconfig(self):
+        config = self.tempmech.load_config('LoadMe')
+        design = MechDesign.objects.get(mech_name='Owens',mech_code='OW-1',omni_loadout='LoadMe')
+        base_design = MechDesign.objects.get(mech_name='Owens',mech_code='OW-1',omni_loadout='Base') 
+        
+        self.assertEquals(design.omni_basechassis, base_design, 'Owens Test config has incorrect base design')
+        
+    def test_loadme_returned(self):
+        config = self.tempmech.load_config('LoadMe')
+        design = MechDesign.objects.get(mech_name='Owens',mech_code='OW-1',omni_loadout='LoadMe')
+        self.assertEquals(config.id, design.id, 'Loader Returned Mech does not match mech in Database')
+        
+    # Check that DontLoad wasn't loaded
+    def test_donload_not_exists(self):
+        config = self.tempmech.load_config('LoadMe')
+        count = MechDesign.objects.filter(mech_name='Owens',mech_code='OW-1',omni_loadout='DontLoad').count()
+        
+        self.assertEquals(count, 0, 'Expected to not to find Owens OW-1 DontLoad Test Config, found in database')
+        
+        
