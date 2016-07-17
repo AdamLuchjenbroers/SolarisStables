@@ -44,12 +44,12 @@
         <equipment>
             <name manufacturer="">TAG</name>
             <type>equipment</type>
-            <location index="4">RT</location>
+            <location index="5">LT</location>
         </equipment>
         <equipment>
             <name manufacturer="">C3 Computer (Slave)</name>
             <type>equipment</type>
-            <location index="3">RT</location>
+            <location index="6">LT</location>
         </equipment>
         <equipment>
             <name manufacturer="">Beagle Active Probe</name>
