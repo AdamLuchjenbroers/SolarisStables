@@ -188,6 +188,14 @@ class SSWMech(dict):
     def get_number(self, node, xpath):
         text = node.xpath(xpath)[0]
         return int(floor(float(text)))
+    
+    def get_loadout(self, loadout_name):
+        for loadout in self.loadouts:
+            if loadout['omni_loadout'] == loadout_name:
+                return loadout
+            
+        # Failed to find the requested loadout
+        return None
 
     def load_baselayout(self, xmlnode):
         self['tonnage'] = xmlnode.get('tons')

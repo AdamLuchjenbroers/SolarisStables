@@ -51,6 +51,18 @@ class SSWLoader(object):
            result['loadouts'] = config_list
 
         return result;
+    
+    def load_single_loadout(self, loadout_name, basechassis, production_type='P', print_message=True):
+        parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename, production_type=production_type )
+        
+        loadout = parsed_mechs.get_loadout(loadout_name)
+        if loadout != None:
+            loadout_mech = MechLoader(self.filename, loadout)
+            loadout_mech.parsed_mech['omni_basechassis'] = basechassis.id
+            loadout_mech.load_mech()            
+            return loadout_mech.mech
+        else:
+            return None
 
     def load_mechs(self, production_type='P', print_message=True):
         parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename, production_type=production_type )
