@@ -79,7 +79,6 @@ class MechUploadOrPurchaseForm(forms.Form):
             raise forms.ValidationError('Delivery Delay should be a number')
 
     def clean_temp_id(self):
-        print self.cleaned_data
         
         if 'temp_id' not in self.cleaned_data or self.cleaned_data['temp_id'] == None:
             return None
@@ -88,6 +87,8 @@ class MechUploadOrPurchaseForm(forms.Form):
         
         if temp_id.design != None and not temp_id.is_omni:
             raise forms.ValidationError('Cannot accept uploaded mech - design already exists in database')
+        
+        return temp_id
 
     def clean_mech_source(self):
         mech_source = self.cleaned_data['mech_source']
@@ -113,9 +114,9 @@ class MechUploadOrPurchaseForm(forms.Form):
                 if loadout.design != None:
                     raise forms.ValidationError('Cannot accept uploaded loadout - config already exists in database')
             
-                self.design = temp_id.load_config(lo, production_type='C')
+                self.design = cleaned_data['temp_id'].load_config(lo, production_type='C')
             else:
-                self.design = temp_id.load_mechs(production_type='C')
+                self.design = cleaned_data['temp_id'].load_mechs(production_type='C')
         else:
             # Production Design
             try:
