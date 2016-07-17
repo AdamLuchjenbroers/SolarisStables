@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding ="UTF-8"?>
+<mech name="Owens" model="OW-1" tons="35" omnimech="TRUE" solaris7id="0" solaris7imageid="0" sswimage="../Images/No_Image.png">
+    <ssw_savefile_version>3</ssw_savefile_version>
+    <cost>7625531.250000001</cost>
+    <rules_level>1</rules_level>
+    <era>2</era>
+    <productionera>0</productionera>
+    <mech_type>BattleMech</mech_type>
+    <techbase manufacturer="Unknown" location="Unknown">Inner Sphere</techbase>
+    <year restricted="FALSE">3056</year>
+    <motive_type>Biped</motive_type>
+    <structure manufacturer="Unknown" techbase="2">
+        <type>Standard Structure</type>
+    </structure>
+    <engine rating="280" manufacturer="Unknown" lsstart="0" rsstart="0" techbase="0">XL Engine</engine>
+    <gyro techbase="2">Standard Gyro</gyro>
+    <cockpit>
+        <type ejectionseat="FALSE" commandconsole="FALSE" fhes="FALSE">Standard Cockpit</type>
+    </cockpit>
+    <armor manufacturer="Unknown" techbase="2">
+        <type>Standard Armor</type>
+        <hd>9</hd>
+        <ct>16</ct>
+        <ctr>5</ctr>
+        <lt>12</lt>
+        <ltr>4</ltr>
+        <rt>12</rt>
+        <rtr>4</rtr>
+        <la>10</la>
+        <ra>10</ra>
+        <ll>15</ll>
+        <rl>15</rl>
+    </armor>
+    <baseloadout fcsa4="FALSE" fcsa5="FALSE" fcsapollo="FALSE">
+        <source>RS 3055/3058</source>
+        <info>Owens OW-1 35t, 8/12/0, XLFE, Std; 7.0T/94% Armor; 10 SHS; 1 C3S, 1 BAP, 1 TAG</info>
+        <battleforce pv="6" wt="1" mv="8" s="0" m="0" l="0" e="0" ov="0" armor="4" internal="2" abilities="OMNI, TAG, C3S, PRB, RCN, ENE, MHQ1, SRCH, ES, SEAL, SOA" />
+        <actuators lla="FALSE" lh="FALSE" rla="FALSE" rh="FALSE"/>
+        <clancase>FALSE</clancase>
+        <heatsinks number="10" techbase="2">
+            <type>Single Heat Sink</type>
+
+        </heatsinks>
+        <equipment>
+            <name manufacturer="">TAG</name>
+            <type>equipment</type>
+            <location index="4">RT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">C3 Computer (Slave)</name>
+            <type>equipment</type>
+            <location index="3">RT</location>
+        </equipment>
+        <equipment>
+            <name manufacturer="">Beagle Active Probe</name>
+            <type>equipment</type>
+            <location index="3">LT</location>
+        </equipment>
+    </baseloadout>
+    <loadout name="Prime" fcsa4="FALSE" fcsa5="FALSE" fcsapollo="FALSE">
+        <source></source>
+        <loadout_era>2</loadout_era>
+        <loadout_productionera>0</loadout_productionera>
+        <loadout_year>3056</loadout_year>
+        <info>Owens OW-1 Prime 35t, 8/12/0, XLFE, Std; 7.0T/94% Armor; 10 SHS; 1 C3S, 1 BAP, 1 TAG</info>
+        <battleforce pv="6" wt="1" mv="8" s="0" m="0" l="0" e="0" ov="0" armor="4" internal="2" abilities="OMNI, TAG, C3S, PRB, RCN, ENE, MHQ1, SRCH, ES, SEAL, SOA" />
+        <battle_value>666</battle_value>
+        <cost>7625531.250000001</cost>
+        <actuators lla="FALSE" lh="FALSE" rla="FALSE" rh="FALSE"/>
+        <clancase>FALSE</clancase>
+    </loadout>
+    <loadout name="LoadMe" fcsa4="FALSE" fcsa5="FALSE" fcsapollo="FALSE">
+        <source></source>
+        <loadout_era>2</loadout_era>
+        <loadout_productionera>0</loadout_productionera>
+        <loadout_year>3056</loadout_year>
+        <info>Owens OW-1 LoadMe 35t, 8/12/0, XLFE, Std; 7.0T/94% Armor; 10 SHS; 1 C3S, 1 BAP, 1 TAG</info>
+        <battleforce pv="6" wt="1" mv="8" s="0" m="0" l="0" e="0" ov="0" armor="4" internal="2" abilities="OMNI, TAG, C3S, PRB, RCN, ENE, MHQ1, SRCH, ES, SEAL, SOA" />
+        <battle_value>558</battle_value>
+        <cost>7625531.250000001</cost>
+        <actuators lla="FALSE" lh="FALSE" rla="FALSE" rh="FALSE"/>
+        <clancase>FALSE</clancase>
+    </loadout>
+    <loadout name="DontLoad" fcsa4="FALSE" fcsa5="FALSE" fcsapollo="FALSE">
+        <source>Test Data</source>
+        <loadout_era>2</loadout_era>
+        <loadout_productionera>0</loadout_productionera>
+        <loadout_year>3056</loadout_year>
+        <info>Owens OW-1 DontLoad 35t, 8/12/0, XLFE, Std; 7.0T/94% Armor; 10 SHS; 1 C3S, 1 BAP, 1 TAG</info>
+        <battleforce pv="6" wt="1" mv="8" s="0" m="0" l="0" e="0" ov="0" armor="4" internal="2" abilities="OMNI, TAG, C3S, PRB, RCN, ENE, MHQ1, SRCH, ES, SEAL, SOA" />
+        <battle_value>558</battle_value>
+        <cost>7625531.250000001</cost>
+        <actuators lla="FALSE" lh="FALSE" rla="FALSE" rh="FALSE"/>
+        <clancase>FALSE</clancase>
+    </loadout>
+    <fluff>
+        <overview></overview>
+        <capabilities></capabilities>
+        <battlehistory></battlehistory>
+        <deployment></deployment>
+        <variants></variants>
+        <notables></notables>
+        <additional></additional>
+        <jumpjet_model>None</jumpjet_model>
+        <commsystem>Unknown</commsystem>
+        <tandtsystem>Unknown</tandtsystem>
+    </fluff>
+</mech>
