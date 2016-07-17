@@ -31,6 +31,9 @@ class CreateTempMechView(FormView):
              'success' : False
             , 'errors'  : { '' : ['Failed to Parse Supplied File'] }
             }
+            if settings.DEBUG:
+                result['exception'] = sys.exc_info()
+                
             form.instance.delete()
             return HttpResponse(json.dumps(result), status=400)  
 
