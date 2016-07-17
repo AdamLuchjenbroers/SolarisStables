@@ -8,3 +8,9 @@ class SSWUploadForm(forms.ModelForm):
     class Meta:
         model = models.TempMechFile
         fields = ('ssw_file',)
+        
+        labels = {
+          'ssw_file' : 'SSW File'
+        } 
+
+        
