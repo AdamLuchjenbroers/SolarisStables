@@ -10,8 +10,47 @@ from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.ledger.models import LedgerItem
 from solaris.stablemanager.repairs.models import RepairBill
 from solaris.utilities.loader import SSWLoader
+from solaris.files.views import CreateTempMechView
 
 from . import forms, models
+import sys
+
+class PurchaseUploadMechView(CreateTempMechView):
+    form_url_name = 'upload_purchase_mech'
+    
+    def form_valid(self, form):
+        form.save()
+        try:
+            form.instance.load_from_file()
+
+            result = form.instance.to_dict(loadout_filters={'design_status': 'N'})
+            
+            error_msg = None
+            
+            if result['design_status'] != 'N' and not result['is_omni']:
+                error_msg = '%s %s already exists in database' % (result['mech_name'], result['mech_code'])
+            elif result['is_omni'] and result['num_loadouts'] < 1:
+                error_msg = 'No new configs for %s %s found in supplied file' % (result['mech_name'], result['mech_code'])
+            
+            if error_msg != None:
+                result = {
+                  'success' : False
+                , 'errors'  : { 'SSW Data' : [error_msg] }
+                }
+                form.instance.delete()
+                return HttpResponse(json.dumps(result), status=400) 
+            else:      
+                return HttpResponse(json.dumps(result))  
+        except: 
+            result = {
+             'success' : False
+            , 'errors'  : { 'SSW Data' : ['Failed to Parse Supplied File'] }
+            }
+            if settings.DEBUG:
+                result['exception'] = sys.exc_info()
+            
+            form.instance.delete()
+            return HttpResponse(json.dumps(result), status=400)          
 
 class InitialMechPurchaseView(StableViewMixin, FormView):
     # Looks like Formset stuff isn't in Django main yet, so we'll have to improvise
@@ -84,12 +123,10 @@ class MechPurchaseFormView(StableWeekMixin, FormView):
     def form_invalid(self, form):
         result = {
           'success' : False
-        , 'non_field_errors'  : [error for error in form.non_field_errors()]
+        , 'errors'  : { field : error for (field, error) in form.errors.items() }
         }
-        for field in form.fields:
-            result['field_errors'][field.name] = field.errors
 
-        return HttpResponse(json.dumps(result), 400)     
+        return HttpResponse(json.dumps(result), status=400)     
 
 class MechModifyMixin(StableViewMixin):
     def dispatch(self, request, smw_id=0, *args, **kwargs):

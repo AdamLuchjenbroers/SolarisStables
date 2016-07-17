@@ -11,6 +11,8 @@ from solaris.warbook.mech.models import MechDesign
 from solaris.campaign.models import BroadcastWeek
 from solaris.utilities.loader import SSWLoader
 
+from solaris.files.models import TempMechFile
+ 
 class SimpleMechPurchaseForm(forms.Form):
     mech_name = forms.CharField()
     mech_code = forms.CharField(widget=forms.Select)
@@ -55,15 +57,13 @@ class SimpleMechPurchaseForm(forms.Form):
         return cleaned
 
 class MechUploadOrPurchaseForm(forms.Form):
-    mech_name = forms.CharField(required=False)
-    mech_code = forms.CharField(widget=forms.Select)
-    
+    mech_name = forms.CharField()
+    mech_code = forms.CharField(widget=forms.Select)    
     omni_loadout = forms.CharField()
-    
-    mech_ssw = forms.FileField(required=False)
-    ssw_tempdata = forms.CharField(required=False)   
- 
     mech_source = forms.CharField()
+    
+    temp_id = forms.ModelChoiceField(TempMechFile.objects.all(), to_field_name='id')
+ 
     as_purchase = forms.BooleanField(required=False, initial=True, label="Add as Purchase:")
     allmechs = forms.BooleanField(required=False, initial=False, label="Include Non-Stable Designs:")
 
@@ -78,23 +78,16 @@ class MechUploadOrPurchaseForm(forms.Form):
         except ValueError:
             raise forms.ValidationError('Delivery Delay should be a number')
 
-    def clean_mech_ssw(self):
-        if 'mech_ssw' not in self.cleaned_data or self.cleaned_data['mech_ssw'] == None:
+    def clean_temp_id(self):
+        print self.cleaned_data
+        
+        if 'temp_id' not in self.cleaned_data or self.cleaned_data['temp_id'] == None:
             return None
-
-        ssw_upload_file = '%s' % uuid.uuid4()
-        ssw_upload_tmp = '%s%s' % (settings.SSW_UPLOAD_TEMP, ssw_upload_file)
-        with open(ssw_upload_tmp, 'wb+') as tmp_output:
-            for chunk in self.cleaned_data['mech_ssw'].chunks():
-                tmp_output.write(chunk)
-
-        mech = SSWLoader(ssw_upload_file, basepath=settings.SSW_UPLOAD_TEMP)
-        (mech_name, mech_code) = mech.get_model_details()
- 
-        if MechDesign.objects.filter(mech_name=mech_name, mech_code=mech_code).count() > 0:
-            raise forms.ValidationError('Details for a %s %s are already present in the database' % (mech_name, mech_code))
-
-        return mech
+        
+        temp_id = self.cleaned_data['temp_id']
+        
+        if temp_id.design != None and not temp_id.is_omni:
+            raise forms.ValidationError('Cannot accept uploaded mech - design already exists in database')
 
     def clean_mech_source(self):
         mech_source = self.cleaned_data['mech_source']
@@ -108,24 +101,28 @@ class MechUploadOrPurchaseForm(forms.Form):
     def clean(self):
         cleaned_data = super(MechUploadOrPurchaseForm, self).clean()
 
-        if cleaned_data['mech_source'] == 'C':
-            print cleaned_data
-            (mn, mc, lo) = (cleaned_data['mech_name'], cleaned_data['mech_code'], cleaned_data['omni_loadout'])
-        elif cleaned_data['mech_source'] == 'U':
-            if 'mech_ssw' in cleaned_data:
-                cleaned_data['mech_ssw'].load_mechs(print_message=False, production_type='C') 
-                (mn, mc) = self.cleaned_data['mech_ssw'].get_model_details()
-                lo = 'Base'
+        (mn, mc, lo) = (cleaned_data['mech_name'], cleaned_data['mech_code'], cleaned_data['omni_loadout'])
+            
+        if cleaned_data['mech_source'] == 'U':
+            if cleaned_data['temp_id'] == None:
+                raise forms.ValidationError('No Uploaded Mech Data Found')
+            
+            if cleaned_data['temp_id'].is_omni:
+                loadout = cleaned_data['temp_id'].loadouts.get(omni_loadout = lo)
+                
+                if loadout.design != None:
+                    raise forms.ValidationError('Cannot accept uploaded loadout - config already exists in database')
+            
+                self.design = temp_id.load_config(lo, production_type='C')
             else:
-                raise forms.ValidationError('Uploaded mech data not found')
+                self.design = temp_id.load_mechs(production_type='C')
         else:
-            raise forms.ValidationError('Unable to load mech, source unspecified')         
-
-        try:
-            self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc, omni_loadout=lo)
-            return cleaned_data
-        except MechDesign.DoesNotExist:
-            raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))
+            # Production Design
+            try:
+                self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc, omni_loadout=lo)
+                return cleaned_data
+            except MechDesign.DoesNotExist:
+                raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))
 
 class MechRefitForm(MechUploadOrPurchaseForm):
     add_ledger = forms.BooleanField(required=False, initial=True)

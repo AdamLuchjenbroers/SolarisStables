@@ -21,13 +21,16 @@
     <span class="label-divider-text">OR</span>
     <hr class="label-divider-right"/>
   </span>
-  <span class="mech-purchase-row">
+  <span id="mech-purchase-custom" class="mech-purchase-row">
     <span class="mech-purchase-select">
       <input type="radio" name="mech_source" value="U"></input>
     </span><span class="mech-purchase-label">
       Custom Design
     </span>
-    <span class="mech-purchase-upload">{{form.mech_ssw}}</span>
+    <span class="mech-purchase-chassis"></span>
+    <span class="mech-purchase-model"></span>
+    <span class="mech-purchase-upload"><span id="mech-purchase-upload" class="word-button" form_url="{% url 'upload_purchase_mech' %}">Upload</span></span>
+    <span class="mech-purchase-cost"></span>
   </span>
   <span class="mech-purchase-row">
     <span class="mech-purchase-checkbox">{{form.as_purchase}} Add as Purchase</span>

@@ -1,4 +1,7 @@
-<form enctype="multipart/form-data" action="{% url 'files_upload_mech' %}" method="post" >
+<form enctype="multipart/form-data" action="{% url form_url_name %}" method="post" >
+<div class="form_error hidden">
+  <ul id="upload-error-list" class="errors">
+  </ul>
+</div>
 {{form}}
-<input type="submit" value="Upload"></input>
 </form>

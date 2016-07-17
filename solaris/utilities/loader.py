@@ -15,11 +15,11 @@ def print_errors(errors):
         print '\t%s: %s' % (key, strip_tags('%s' % value))
 
 class SSWLoader(object):
-
+    
     def __init__(self, sswfile, basepath=settings.SSW_STOCK_MECHS_ROOT):
         self.xml_fd = open('%s/%s' % (basepath, sswfile),'rb')
-            
         self.filename = sswfile            
+            
         self.sswXML = etree.parse(self.xml_fd)
 
     def get_model_details(self):
@@ -52,7 +52,7 @@ class SSWLoader(object):
 
         return result;
     
-    def load_single_loadout(self, loadout_name, basechassis, production_type='P', print_message=True):
+    def load_single_loadout(self, loadout_name, basechassis, production_type='P', print_message=True):        
         parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename, production_type=production_type )
         
         loadout = parsed_mechs.get_loadout(loadout_name)
@@ -65,6 +65,7 @@ class SSWLoader(object):
             return None
 
     def load_mechs(self, production_type='P', print_message=True):
+        
         parsed_mechs = SSWMech( self.sswXML.xpath('/mech')[0], self.filename, production_type=production_type )
             
         if parsed_mechs.type != 'BattleMech' or parsed_mechs['tech_base'] != 'I' or int(parsed_mechs['tonnage']) < 20:

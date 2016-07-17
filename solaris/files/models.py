@@ -30,6 +30,14 @@ class TempMechFile(models.Model):
         (ssw_base, ssw_file) = self.ssw_file.path.rsplit('/',1)
         return SSWLoader(ssw_file, basepath=ssw_base)
     
+    def load_design(self, production_type='P'):
+        loader = self.get_ssw_loader()
+        loader.load_mechs(production_type=production_type)
+        
+        self.design = loader.base_mech
+        self.save()
+        return self.design        
+    
     def load_config(self, loadout_name, production_type='P'):
         try:
             loadout = self.loadouts.get(omni_loadout=loadout_name)
@@ -131,7 +139,10 @@ class TempMechLoadout(models.Model):
             return None
         
         loader = self.loadout_for.get_ssw_loader()
-        return loader.load_single_loadout(self.omni_loadout, self.loadout_for.design, production_type=production_type, print_message=False)
+        self.design = loader.load_single_loadout(self.omni_loadout, self.loadout_for.design, production_type=production_type, print_message=False)
+        self.save()
+        
+        return self.design
     
     def check_for_design(self):
         try:
