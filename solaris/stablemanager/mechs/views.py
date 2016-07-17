@@ -89,7 +89,7 @@ class MechPurchaseFormView(StableWeekMixin, FormView):
         for field in form.fields:
             result['field_errors'][field.name] = field.errors
 
-        return HttpResponse(json.dumps(result))     
+        return HttpResponse(json.dumps(result), 400)     
 
 class MechModifyMixin(StableViewMixin):
     def dispatch(self, request, smw_id=0, *args, **kwargs):
