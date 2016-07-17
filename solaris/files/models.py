@@ -25,15 +25,24 @@ class TempMechFile(models.Model):
     techbase = models.CharField(max_length=20, null=True, blank=True)
     
     created = models.DateTimeField()
+    
+    def get_ssw_loader(self):
+        (ssw_base, ssw_file) = self.ssw_file.path.rsplit('/',1)
+        return SSWLoader(ssw_file, basepath=ssw_base)
+    
+    def load_config(self, loadout_name, production_type='P'):
+        try:
+            loadout = self.loadouts.get(omni_loadout=loadout_name)
+            return loadout.load_config(production_type=production_type)
+        except TempMechLoadout.DoesNotExist:
+            return None            
 
     def load_from_file(self, commit=True):
         if self.mech_name != None:
             # Already done.
             return
-            
-        (ssw_base, ssw_file) = self.ssw_file.path.rsplit('/',1)
-        loader = SSWLoader(ssw_file, basepath=ssw_base)
         
+        loader = self.get_ssw_loader()        
         data = loader.get_model_details()
         
         self.mech_name   = data['mech_name']
@@ -63,7 +72,7 @@ class TempMechFile(models.Model):
                 
                 new_loadout.check_for_design()  
     
-    def to_dict(self):
+    def to_dict(self, loadout_filters=None):
         result = model_to_dict(self, ('mech_name', 'mech_code', 'is_omni', 'bv', 'cost', 'tons', 'motive_type', 'techbase'))
 
         if self.design != None:
@@ -72,10 +81,19 @@ class TempMechFile(models.Model):
         else:
             result['design_status'] = 'N'
             result['design_status_text'] = 'New Design'
+            
+        result['temp_id'] = self.id
         
         if self.is_omni:
+            if loadout_filters != None:
+                loadout_qs = self.loadouts.filter(**loadout_filters)
+            else:
+                loadout_qs = self.loadouts.all()
+            
+            result['num_loadouts'] = loadout_qs.count()
+            
             loadout_list = {}
-            for loadout in self.loadouts.all():
+            for loadout in loadout_qs:
                 loadout_list[loadout.omni_loadout] = loadout.to_dict()
         
             result['loadouts'] = loadout_list
@@ -114,6 +132,13 @@ class TempMechLoadout(models.Model):
             result['design_status_text'] = 'New Design'
             
         return result
+    
+    def load_config(self, production_type='P'):
+        if self.loadout_for.design == None:
+            return None
+        
+        loader = self.loadout_for.get_ssw_loader()
+        return loader.load_single_loadout(self.omni_loadout, self.loadout_for.design, production_type=production_type, print_message=False)
     
     def check_for_design(self):
         try:

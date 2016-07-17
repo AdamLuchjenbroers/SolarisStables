@@ -15,6 +15,7 @@ import uuid
 class CreateTempMechView(FormView):
     form_class = forms.SSWUploadForm
     template_name = 'forms/upload_mech_form.html'
+    form_url_name = 'files_upload_mech'
 
     def form_valid(self, form):
         form.save()
@@ -46,3 +47,10 @@ class CreateTempMechView(FormView):
             return redirect_to_login('/', 'account_login', REDIRECT_FIELD_NAME)
         else:
             return super(CreateTempMechView, self).dispatch(request, *args, **kwargs)
+        
+    def get_context_data(self, **kwargs):
+        context = super(CreateTempMechView, self).get_context_data(**kwargs)
+        
+        context['form_url_name'] = self.__class__.form_url_name
+        
+        return context

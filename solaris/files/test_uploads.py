@@ -147,10 +147,14 @@ class NewOmniUploadTests(UploadMechsMixin, TestCase):
       , 'techbase'  : 'Inner Sphere' 
       , 'design_status' : 'N'
       , 'design_status_text' : 'New Design'
+      , 'num_loadouts' : 3
     }
 
     def test_has_loadouts(self):
         self.assertIn('loadouts', self.json_data, 'Loadout List Not Found')
+        
+    def test_loadout_count(self):
+        self.compare_by_key('num_loadouts', 'Incorrect Loadout Count: expected %s, got %s')
 
     def test_configA_exists(self):
         self.assertIn('A', self.json_data['loadouts'], 'Config A not found')
@@ -205,6 +209,7 @@ class ExistingOmniUploadTests(UploadMechsMixin, TestCase):
       , 'techbase'  : 'Inner Sphere' 
       , 'design_status' : 'P'
       , 'design_status_text' : 'Standard Production Design'
+      , 'num_loadouts' : 3
     }
     
     def setUp(self):
@@ -222,6 +227,9 @@ class ExistingOmniUploadTests(UploadMechsMixin, TestCase):
         
     def test_has_loadouts(self):
         self.assertIn('loadouts', self.json_data, 'Loadout List Not Found')
+        
+    def test_loadout_count(self):
+        self.compare_by_key('num_loadouts', 'Incorrect Loadout Count: expected %s, got %s')
         
     def test_production_config_status(self):
         self.assertDesignStatus('Prime','P')
