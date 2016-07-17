@@ -103,7 +103,6 @@ class TempMechFile(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             self.created = timezone.now()
-            #self.load_from_file(commit=False)
             
         return super(TempMechFile, self).save(*args, **kwargs)
     
@@ -120,17 +119,11 @@ class TempMechLoadout(models.Model):
     omni_loadout = models.CharField(max_length=30, null=True, blank=True)
     bv = models.IntegerField(null=True, blank=True)
     cost = models.IntegerField(null=True, blank=True)
+    design_status = models.CharField(max_length=1, null=True, blank=True)
+    design_status_text = models.CharField(max_length=50, null=True, blank=True)
     
     def to_dict(self):
-        result = model_to_dict(self, ('bv', 'cost'))
-        
-        if self.design != None:
-            result['design_status']= self.design.production_type
-            result['design_status_text']= self.design.get_production_type_display()
-        else:
-            result['design_status'] = 'N'
-            result['design_status_text'] = 'New Design'
-            
+        result = model_to_dict(self, ('bv', 'cost', 'design_status', 'design_status_text'))            
         return result
     
     def load_config(self, production_type='P'):
@@ -147,11 +140,14 @@ class TempMechLoadout(models.Model):
             , mech_code = self.loadout_for.mech_code
             , omni_loadout = self.omni_loadout
             )
+            self.design_status = self.design.production_type
+            self.design_status_text = self.design.get_production_type_display()
             self.save()
             
         except MechDesign.DoesNotExist:
-            # Can't link it to an existing design
-            pass        
+            self.design_status = 'N'
+            self.design_status_text = 'New Design'
+            self.save() 
     
     class Meta:
         verbose_name_plural = 'Temp Mech Configs'
