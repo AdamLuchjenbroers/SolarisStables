@@ -68,6 +68,15 @@ class SelectiveLoadingTests(TestCase):
         design = MechDesign.objects.get(mech_name='Owens',mech_code='OW-1',omni_loadout='LoadMe')
         self.assertEquals(self.loadout.id, design.id, 'Loader Returned Mech does not match mech in Database')
         
+    def test_loadme_tag_location(self):
+        design = MechDesign.objects.get(mech_name='Owens',mech_code='OW-1',omni_loadout='LoadMe')
+        self.assertEquipment(design, 'LT', '6', 'Equipment - TAG')
+        
+    def test_loadme_c3s_location(self):
+        design = MechDesign.objects.get(mech_name='Owens',mech_code='OW-1',omni_loadout='LoadMe')        
+        self.assertEquipment(design, 'LT', '7', 'Equipment - C3 Computer (Slave)')
+        
+        
     # Check that DontLoad wasn't loaded
     def test_donload_not_exists(self):
         count = MechDesign.objects.filter(mech_name='Owens',mech_code='OW-1',omni_loadout='DontLoad').count()
