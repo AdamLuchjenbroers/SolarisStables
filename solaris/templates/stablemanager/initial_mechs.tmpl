@@ -35,7 +35,7 @@
       {% with form.empty_form as form %} 
         <span class="form-action"><input type="button" class="icon-button add-item" value="&#x2795;"/>{{form.week_no}}</span>
         <span class="mech-name">{{ form.mech_name }}</span>
-        <span class="mech-code">{{ form.mech_code }}</span>
+        <span class="mech-code">{{ form.mech_code }}{{ form.omni_loadout}}</span>
         <span class="mech-preview"><input type="button" disabled="true" class="word-button view-mech" value="Preview"/></span>
         <span class="mech-cost">&nbsp;</span>
       {% endwith %}
