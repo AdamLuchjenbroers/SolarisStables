@@ -237,6 +237,72 @@ function show_upload_dialog() {
   });
 }
 
+function render_upload_purchaseform(response) {
+  name_html = response['mech_name'] 
+  name_html += '<input type=\"hidden\" name=\"mech_name\" value=\"' + response['mech_name'] + "\"/>"
+  name_html += '<input type=\"hidden\" name=\"temp_id\" value=\"' + response['temp_id'] + "\"/>"      
+  
+  $('#mech-purchase-custom .mech-purchase-chassis').html(name_html);
+  
+  if ( response['is_omni'] == false) {
+    model_html = response['mech_name'];
+    model_html += '<input type=\"hidden\" name=\"mech_code\" id=\"id_ssw_mech_code\" ';
+    model_html += 'value=\"' + response['mech_code'] + "\"/>";
+      
+    $('#mech-purchase-custom .mech-purchase-model').html(model_html);
+    $('#mech-purchase-custom .mech-purchase-cost').text('-' + response['cost']);
+  } else if ( response['num_loadouts'] == 1) {
+    loadout = keys(response['loadouts'])[0];
+      
+    model_html = response['mech_name'] + ' (' + loadout + ')';
+    model_html += '<input type=\"hidden\" name=\"mech_code\" id=\"id_ssw_mech_code\" ';
+    model_html += 'loadout=\"' + loadout + '\" '
+    model_html += 'value=\"' + response['mech_code'] + "\"/>";
+    
+    $('#mech-purchase-custom .mech-purchase-model').html(model_html);
+    $('#mech-purchase-custom .mech-purchase-cost').text('-' + response['cost']);
+  } else {
+    select_html = "<select id=\"id_ssw_mech_code\" name=\"mech_code\">"
+    select_html += "<option value=\"\">--</option>";
+    $.each(response['loadouts'], function(config, info) {
+      select_html += "<option loadout=\"" + config + "\"" + " value=\"" + response['mech_code'] + "\" ";
+      select_html += "cost=\"" + info['cost'] + "\">";
+      select_html += response['mech_code'] + ' (' + config + ')</option>';
+    });    
+    
+    select_html += "</select>"
+    $('#mech-purchase-custom .mech-purchase-model').html(select_html);
+    
+    $('#mech-purchase-custom .mech-purchase-model select').change(function() {
+      cost = $(this).find(':selected').attr('cost')
+      
+      if (isNaN(cost)) {
+        $('#mech-purchase-custom .mech-purchase-cost').text('');
+      } else {
+        $('#mech-purchase-custom .mech-purchase-cost').text('-' + cost);
+      }
+      
+    })
+  }   
+
+  check_purchase_form_ready();
+  $('#dialog-uploadmech').dialog("close");
+}
+
+function upload_form_render_errors(response) {
+  as_json = $.parseJSON(response.responseText);
+  errorlist = ''
+    
+  $.each(as_json['errors'], function(field, errors) {
+    $.each(errors, function(index, error_text) {
+      errorlist += '<ul><em>' + field + ':</em> ' + error_text + '</ul>'
+    });
+  });
+  
+  $('#upload-error-list').html(errorlist);
+  $('#dialog-uploadmech .form_error').show();
+}
+
 function upload_mech() {
   mechform = new FormData($('#dialog-uploadmech form')[0]);  
   
@@ -248,71 +314,9 @@ function upload_mech() {
     , processData: false
     , contentType: false
     , statusCode : {
-        400: function(response) {
-          as_json = $.parseJSON(response.responseText);
-          errorlist = ''
-            
-          $.each(as_json['errors'], function(field, errors) {
-            $.each(errors, function(index, error_text) {
-              errorlist += '<ul><em>' + field + ':</em> ' + error_text + '</ul>'
-            });
-          });
-          
-          $('#upload-error-list').html(errorlist);
-          $('#dialog-uploadmech .form_error').show();
-        }
+        400: upload_form_render_errors
       }
-  }).done( function( response ) {
-      name_html = response['mech_name'] 
-      name_html += '<input type=\"hidden\" name=\"mech_name\" value=\"' + response['mech_name'] + "\"/>"
-      name_html += '<input type=\"hidden\" name=\"temp_id\" value=\"' + response['temp_id'] + "\"/>"      
-      
-      $('#mech-purchase-custom .mech-purchase-chassis').html(name_html);
-      
-      if ( response['is_omni'] == false) {
-        model_html = response['mech_name'];
-        model_html += '<input type=\"hidden\" name=\"mech_code\" id=\"id_ssw_mech_code\" ';
-        model_html += 'value=\"' + response['mech_code'] + "\"/>";
-          
-        $('#mech-purchase-custom .mech-purchase-model').html(model_html);
-        $('#mech-purchase-custom .mech-purchase-cost').text('-' + response['cost']);
-      } else if ( response['num_loadouts'] == 1) {
-        loadout = keys(response['loadouts'])[0];
-          
-        model_html = response['mech_name'] + ' (' + loadout + ')';
-        model_html += '<input type=\"hidden\" name=\"mech_code\" id=\"id_ssw_mech_code\" ';
-        model_html += 'loadout=\"' + loadout + '\" '
-        model_html += 'value=\"' + response['mech_code'] + "\"/>";
-        
-        $('#mech-purchase-custom .mech-purchase-model').html(model_html);
-        $('#mech-purchase-custom .mech-purchase-cost').text('-' + response['cost']);
-      } else {
-        select_html = "<select id=\"id_ssw_mech_code\" name=\"mech_code\">"
-        select_html += "<option value=\"\">--</option>";
-        $.each(response['loadouts'], function(config, info) {
-          select_html += "<option loadout=\"" + config + "\"" + " value=\"" + response['mech_code'] + "\" ";
-          select_html += "cost=\"" + info['cost'] + "\">";
-          select_html += response['mech_code'] + ' (' + config + ')</option>';
-        });    
-        
-        select_html += "</select>"
-        $('#mech-purchase-custom .mech-purchase-model').html(select_html);
-        
-        $('#mech-purchase-custom .mech-purchase-model select').change(function() {
-          cost = $(this).find(':selected').attr('cost')
-          
-          if (isNaN(cost)) {
-            $('#mech-purchase-custom .mech-purchase-cost').text('');
-          } else {
-            $('#mech-purchase-custom .mech-purchase-cost').text('-' + cost);
-          }
-          
-          check_purchase_form_ready();
-        })
-      }   
-    
-      $('#dialog-uploadmech').dialog("close");
-  });
+  }).done( render_upload_purchaseform );
 }
 
 $( document ).ready(function() {
