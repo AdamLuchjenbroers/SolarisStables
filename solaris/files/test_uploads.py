@@ -56,7 +56,11 @@ class UploadMechsMixin(StableTestMixin):
         with open(filename, 'rb') as ssw_data:
             self.response = self.client.post('/files/new-temp-mech', {'ssw_file' : ssw_data})
         
-        self.json_data = json.loads(self.response.content)
+        try: 
+            self.json_data = json.loads(self.response.content)
+        except ValueError:
+            self.assertFalse(True, 'Server response is not valid JSON, got HTTP %d:\n%s' 
+                            % (self.response.status_code, self.response.content))
 
     def compare_by_key(self, key, errorstring):
         if 'exception' in self.json_data:
