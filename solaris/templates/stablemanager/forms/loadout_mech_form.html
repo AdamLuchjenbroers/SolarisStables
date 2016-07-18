@@ -1,18 +1,36 @@
 <form id="mech_refit_form" mech_id="{{stablemechweek.id}}">
   <hr class="chit-divider"/>
-  <ul class="refit-mechs">{% for model in stablemechweek.loadout_options %}
+  <ul class="refit-mechs">
+
+  {% for model in stablemechweek.loadout_options %}
+    {% if forloop.first %}  <li class="list-divider"><span>Production Models</span><hr/></li> {% endif %}
     <li><input type="radio" class="mech-source-radio" name="mech_source" value="C" mech_name="{{model.mech_name}}" omni_loadout="{{model.omni_loadout}}" mech_code="{{model.mech_code}}">
       <span class="omni-loadout">{{model.omni_loadout}}</span>
       <span class="omni-info">{{model.omni_description}}</span>
       <span class="word-button action-preview" preview_url="{{model.get_absolute_url}}">Preview</span>
     </input></li>
+  {% empty %}
+    <li>No Available Production Configs</li>
   {% endfor %}
-  <li><input type="radio" class="mech-source-radio" name="mech_source" value="U" mech_name="{{model.mech_name}}">
-    <span class="mech-model">Upload</span><input name="mech_ssw" type="file"></input>
+
+  {% for model in stablemechweek.loadout_custom_options %}
+    {% if forloop.first %}  <li class="list-divider" id="loadout-custom-header"><span>Custom Models</span><hr/></li> {% endif %}
+    <li><input type="radio" class="mech-source-radio" name="mech_source" value="C" mech_name="{{model.mech_name}}" omni_loadout="{{model.omni_loadout}}" mech_code="{{model.mech_code}}">
+      <span class="omni-loadout">{{model.omni_loadout}}</span>
+      <span class="omni-info">{{model.omni_description}}</span>
+      <span class="word-button action-preview" preview_url="{{model.get_absolute_url}}">Preview</span>
     </input></li>
+    {% empty %}
+      <li id="loadout-custom-header" class="list-divider hidden"><span>Custom Models</span><hr/></li>
+  {% endfor %}
   </ul>
+
+  <hr class="chit-divider"/>
   <span class="refit-options">
-    <span class="refit-option-item"><input type="checkbox" checked="true" id="id_add_ledger" name="add_ledger">Record as Purchase</input></span>
-   <span class="refit-option-item"><input type="button" id="loadout-button-submit" class="word-button" value="Refit"></input></span>
+    <span class="refit-option-row">
+      <input type="button" id="loadout-button-upload" class="word-button" form_url="{% url 'upload_loadout_mech' smw_id=stablemechweek.id %}" value="Upload"></input>
+      <input type="button" id="loadout-button-submit" class="word-button" value="Refit"></input>
+    </span>
+    <span class="refit-option-row"><input type="checkbox" checked="true" id="id_add_ledger" name="add_ledger">Record as Purchase</input></span>
   </span>
 </form>

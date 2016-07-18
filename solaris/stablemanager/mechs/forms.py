@@ -65,7 +65,7 @@ class MechUploadOrPurchaseForm(forms.Form):
     omni_loadout = forms.CharField(required=False)
     mech_source = forms.CharField()
     
-    temp_id = forms.ModelChoiceField(TempMechFile.objects.all(), to_field_name='id')
+    temp_id = forms.ModelChoiceField(TempMechFile.objects.all(), required=False, to_field_name='id')
  
     as_purchase = forms.BooleanField(required=False, initial=True, label="Add as Purchase:")
     allmechs = forms.BooleanField(required=False, initial=False, label="Include Non-Stable Designs:")

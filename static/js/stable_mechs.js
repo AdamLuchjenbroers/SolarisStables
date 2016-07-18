@@ -70,28 +70,55 @@ function show_refit_form() {
       preview_mech($(this).attr('preview_url'));
     });
 
-    refit.find('#refit-button-submit').click( function() {
-      var refit_data = new FormData(refit.find('#mech_refit_form')[0]);
+    $('#refit-button-upload').click( show_refit_upload_dialog );
 
-      chosen = refit.find('.mech-source-radio:checked');
-      if (chosen.val() == 'C') {
-        refit_data.append('omni_loadout', chosen.attr('omni_loadout')); 
-        refit_data.append('mech_name', chosen.attr('mech_name'));     
-        refit_data.append('mech_code', chosen.attr('mech_code'));
+    $('#refit-button-submit').click( function() {
+      chosen = $('#mech_refit_form .mech-source-radio:checked');
+      refit_data = {
+        'mech_source' : chosen.val()
+      , 'mech_name'   : chosen.attr('mech_name')
+      , 'mech_code'   : chosen.attr('mech_code')
+      , 'omni_loadout' : 'Base'
+      , 'failed_by'   : $('#id_failed_by').val()
+      , 'add_ledger'  : $('#id_add_ledger').prop('checked')
+      } 
+
+      if (chosen.val() == 'U') {
+        refit_data['temp_id'] = chosen.attr('temp_id');
       }  
 
       $.ajax({
         type : 'post'
       , url  : button.attr('form_url')
       , dataType : 'json'
-      , contentType : false
-      , processData : false
       , data : refit_data
       }).done(function(response) { 
         refresh_mechlist();
       });
     });
   });
+}
+
+function show_refit_upload_dialog() {
+  form_url = $(this).attr('form_url');
+  show_upload_dialog( render_refit_purchaseform, form_url );
+}
+
+function render_refit_purchaseform( response ) {
+  $('#refit-uploaded-mech').remove();
+  $('#dialog-uploadmech').dialog("close");
+  $('#refit-custom-header').show();
+
+  mech_html = "<li id=\"refit-uploaded-mech\" class=\"hidden\">";
+  mech_html += "<input type=\"radio\" name=\"mech_source\" value=\"U\" class=\"mech-source-radio\"";
+  mech_html += " mech_name=\"" + response ['mech_name'] + "\""; 
+  mech_html += " mech_code=\"" + response ['mech_code'] + "\"";
+  mech_html += " temp_id=\"" + response ['temp_id'] + "\">";
+  mech_html += "<span class=\"mech-model\">" + response['mech_name'] + " " + response['mech_code'];
+  mech_html += "</span></input></li>"; 
+
+  $('#mech_refit_form ul.refit-mechs').append(mech_html);
+  $('#refit-uploaded-mech').fadeIn();
 }
 
 function show_loadout_form() {
@@ -106,16 +133,21 @@ function show_loadout_form() {
       preview_mech($(this).attr('preview_url'));
     });
 
-    refit.find('#loadout-button-submit').click( function() {
-      chosen = refit.find('.mech-source-radio:checked');
-      if (chosen.val() == 'C') {
-        refit_data = {
-          mech_source  : 'C'
-        , omni_loadout : chosen.attr('omni_loadout')
-        , mech_name    : chosen.attr('mech_name')
-        , mech_code    : chosen.attr('mech_code')
-        , add_ledger   : $('#id_add_ledger').prop('checked')
-        }
+    $('#loadout-button-upload').click( show_loadout_upload_dialog );
+
+    $('#loadout-button-submit').click( function() {
+      chosen = $('#mech_refit_form .mech-source-radio:checked');
+      refit_data = {
+        'mech_source' : chosen.val()
+      , 'mech_name'   : chosen.attr('mech_name')
+      , 'mech_code'   : chosen.attr('mech_code')
+      , 'omni_loadout' : chosen.attr('omni_loadout')
+      , 'failed_by'   : $('#id_failed_by').val()
+      , 'add_ledger'  : $('#id_add_ledger').prop('checked')
+      } 
+
+      if (chosen.val() == 'U') {
+        refit_data['temp_id'] = chosen.attr('temp_id');
       }  
 
       $.ajax({
@@ -127,6 +159,31 @@ function show_loadout_form() {
         refresh_mechlist();
       });
     });
+  });
+}
+
+function show_loadout_upload_dialog() {
+  form_url = $(this).attr('form_url');
+  show_upload_dialog( render_loadout_purchaseform, form_url );
+}
+
+function render_loadout_purchaseform(response) {
+  $('#mech_refit_form ul.refit_mechs li.uploaded').remove();
+  $('#dialog-uploadmech').dialog("close");
+  $('#loadout-custom-header').show();
+
+  $.each( response['loadouts'], function(loadout, info) {
+    mech_html = "<li class=\"hidden uploaded\">";
+    mech_html += "<input type=\"radio\" name=\"mech_source\" value=\"U\" class=\"mech-source-radio\"";
+    mech_html += " mech_name=\"" + response['mech_name'] + "\""; 
+    mech_html += " mech_code=\"" + response['mech_code'] + "\"";
+    mech_html += " omni_loadout=\"" + loadout + "\"";
+    mech_html += " temp_id=\"" + response['temp_id'] + "\">";
+    mech_html += "<span class=\"mech-model\">" + loadout;
+    mech_html += "</span></input></li>"; 
+  
+    $('#mech_refit_form ul.refit-mechs').append(mech_html);
+    $('#mech_refit_form li.hidden').fadeIn();
   });
 }
 
@@ -224,17 +281,22 @@ function submit_edit_form() {
   });
 }
 
-function show_upload_dialog() {
-  $('#dialog-uploadmech').load($(this).attr('form_url'), function() {
+function show_upload_dialog(success_handler, form_url) {
+  $('#dialog-uploadmech').load(form_url, function() {
     $(this).dialog({      
       modal   : true
     , width   : '20em'
     , buttons : {
-        Upload : upload_mech
+        Upload : function() { upload_mech(success_handler); }
       , Cancel : function() { $( this ).dialog("close"); }
       } 
     });
   });
+}
+
+function show_purchase_upload_dialog() {
+  form_url = $(this).attr('form_url');
+  show_upload_dialog( render_upload_purchaseform, form_url );
 }
 
 function render_upload_purchaseform(response) {
@@ -303,7 +365,7 @@ function upload_form_render_errors(response) {
   $('#dialog-uploadmech .form_error').show();
 }
 
-function upload_mech() {
+function upload_mech(success_handler) {
   mechform = new FormData($('#dialog-uploadmech form')[0]);  
   
   $.ajax({
@@ -316,7 +378,7 @@ function upload_mech() {
     , statusCode : {
         400: upload_form_render_errors
       }
-  }).done( render_upload_purchaseform );
+  }).done( success_handler );
 }
 
 $( document ).ready(function() {
@@ -357,5 +419,5 @@ $( document ).ready(function() {
     setup_mechlist_buttons();
 
     $('#mech-purchase-submit').click( submit_purchase_form );
-    $('#mech-purchase-upload').click( show_upload_dialog );
+    $('#mech-purchase-upload').click( show_purchase_upload_dialog );
 });

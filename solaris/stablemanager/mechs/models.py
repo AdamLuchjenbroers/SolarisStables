@@ -176,7 +176,13 @@ class StableMechWeek(models.Model):
         return self.repairs.filter(complete=True).count()
 
     def refit_options(self):
-        return self.stableweek.supply_mechs.exclude(id=self.current_design.id).filter(mech_name=self.current_design.mech_name)
+        return self.stableweek.supply_mechs.exclude(id=self.current_design.id).filter(mech_name=self.current_design.mech_name, is_omni=False)
+
+    def refit_production_options(self):
+        return self.refit_options().filter(production_type__in=('P','H'))
+ 
+    def refit_custom_options(self):
+        return self.refit_options().exclude(production_type__in=('P','H'))
     
     def loadout_options(self):
         return self.stableweek.supply_mechs.exclude(id__in=self.loadouts.all().values('current_design__id')).filter(omni_basechassis=self.current_design)

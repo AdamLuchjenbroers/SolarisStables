@@ -1190,6 +1190,26 @@ ul.refit-mechs li {
   padding-bottom: 0.2rem;
 }
 
+ul.refit-mechs .list-divider {
+  margin: 0em 0.5em;
+}
+
+ul.refit-mechs .list-divider span {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 110%;
+  margin-right: 1em;
+}
+
+ul.refit-mechs .list-divider hr {
+  display: inline-block;
+  width: 32em;
+  border: 0px;
+  border-top: 1px solid #000000;
+}
+
+
+
 #stable-mech-list h3 {
   margin-left: 4em;
 }
@@ -1212,18 +1232,28 @@ ul.refit-mechs li {
   width: 24rem;
 }
 
-.refit-option-item {
+.refit-options {
+  padding-left: 4em;
+}
+
+.refit-label {
+  width: 12em;
   display: inline-block;
-  width: 30%;
 }
 
-#id_failed_by {
-  width: 2rem;
+.refit-option-row {
+  display: block;
+  padding-left: 6em;
 }
 
-#refit-button-submit {
-  margin: 0.1rem 0.2rem;
+.refit-option-row  .field {
+  width: 3em;
 }
+
+.refit-option-row .word-button {
+  margin-left: 2em;
+}
+
 
 #dialog-mechpreview #mech-required-contracts {
   display: none;
