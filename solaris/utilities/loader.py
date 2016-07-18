@@ -84,6 +84,8 @@ class SSWLoader(object):
             loadout_mech = MechLoader(self.filename, loadout)
             loadout_mech.parsed_mech['omni_basechassis'] = base_config.mech.id
             loadout_mech.load_mech()
+
+        return base_config.mech
             
         
 class MechLoader(object):

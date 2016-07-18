@@ -32,9 +32,8 @@ class TempMechFile(models.Model):
     
     def load_design(self, production_type='P'):
         loader = self.get_ssw_loader()
-        loader.load_mechs(production_type=production_type)
+        self.design = loader.load_mechs(production_type=production_type)
         
-        self.design = loader.base_mech
         self.save()
         return self.design        
     
