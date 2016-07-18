@@ -149,6 +149,99 @@ class MechModifyMixin(StableViewMixin):
     def get_form(self, form_class):
         return form_class(instance=self.get_object(), **self.get_form_kwargs())
 
+class RefitUploadMechView(MechModifyMixin, CreateTempMechView):
+    def form_valid(self, form):
+        form.save()
+        try:
+            form.instance.load_from_file()
+
+            result = form.instance.to_dict(loadout_filters={'design_status': 'N'})
+            
+            error_list = []
+            current_chassis = self.stablemechweek.current_design.mech_name
+            current_tonnage = self.stablemechweek.current_design.tons
+
+            if result['is_omni']:
+                error_list.append('Uploaded config is an Omnimech, not permitted for refits')
+
+            if result['design_status'] != 'N':
+                error_list.append('%s %s already exists in database' % (result['mech_name'], result['mech_code']))
+
+            if result['mech_name'] != current_chassis:
+                error_list.append('Uploaded load-out is for a %s, expected a %s' % (result['mech_name'], current_chassis))
+
+            if result['tons'] != current_tonnage:
+                error_list.append('Uploaded mech is %d tons, %s should be %d tons.' 
+                                 % (result['tons'], current_chassis, current_tonnage))
+            
+            if len(error_list) > 0:
+                result = {
+                  'success' : False
+                , 'errors'  : { 'SSW Data' : [error_msg] }
+                }
+                form.instance.delete()
+                return HttpResponse(json.dumps(result), status=400) 
+            else:      
+                return HttpResponse(json.dumps(result))  
+        except: 
+            result = {
+             'success' : False
+            , 'errors'  : { 'SSW Data' : ['Failed to Parse Supplied File'] }
+            }
+            if settings.DEBUG:
+                result['exception'] = sys.exc_info()
+            
+            form.instance.delete()
+            return HttpResponse(json.dumps(result), status=400) 
+
+class OmniUploadMechView(MechModifyMixin, CreateTempMechView):
+    def form_valid(self, form):
+        form.save()
+        try:
+            form.instance.load_from_file()
+
+            result = form.instance.to_dict(loadout_filters={'design_status': 'N'})
+            
+            error_list = []
+            current_chassis = self.stablemechweek.current_design.mech_name
+            current_model   = self.stablemechweek.current_design.mech_code
+            current_tonnage = self.stablemechweek.current_design.tons
+
+            if not result['is_omni']:
+                error_list.append('Uploaded config must be an Omnimech.')
+
+            if result['num_loadouts'] < 1:
+                error_list.append('All supplied loadouts for %s %s already exist in database'
+                                  % (result['mech_name'], result['mech_code']))
+
+            if result['mech_name'] != current_chassis or result['mech_code'] != current_model:
+                error_list.append('Uploaded load-out is for a %s %s, expected a %s %s.' 
+                                 % (result['mech_name'], result['mech_code'], current_chassis, current_model))
+
+            elif result['tons'] != current_tonnage:
+                error_list.append('Uploaded mech is %d tons, %s should be %d tons.' 
+                                 % (result['tons'], current_chassis, current_tonnage))
+            
+            if len(error_list) > 0:
+                result = {
+                  'success' : False
+                , 'errors'  : { 'SSW Data' : [error_msg] }
+                }
+                form.instance.delete()
+                return HttpResponse(json.dumps(result), status=400) 
+            else:      
+                return HttpResponse(json.dumps(result))  
+        except BaseException as ex: 
+            result = {
+             'success' : False
+            , 'errors'  : { 'SSW Data' : ['Failed to Parse Supplied File'] }
+            }
+            if settings.DEBUG:
+                result['exception'] = ex.message
+            
+            form.instance.delete()
+            return HttpResponse(json.dumps(result), status=400) 
+
 class MechRemoveAjaxView(MechModifyMixin, View):
     def post(self, request, smw_id=0):
         try:

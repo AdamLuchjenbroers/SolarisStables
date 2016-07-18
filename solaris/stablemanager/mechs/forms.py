@@ -18,7 +18,7 @@ class SimpleMechPurchaseForm(forms.Form):
     mech_code = forms.CharField(widget=forms.Select)
     week_no = forms.IntegerField(widget=forms.HiddenInput(), initial=BroadcastWeek.objects.current_week().week_number)
 
-    omni_loadout = forms.CharField()
+    omni_loadout = forms.CharField(widget=forms.HiddenInput(), initial='Base')
         
     def to_mech(self):
         pass
@@ -39,14 +39,17 @@ class SimpleMechPurchaseForm(forms.Form):
         return self.week
     
     def clean_omni_loadout(self):
-        if 'omni_loadout' in self.cleaned_data:
+        if 'omni_loadout' in self.cleaned_data and self.cleaned_data['omni_loadout'] != None:
             return self.cleaned_data['loadout']
         else:
             return 'Base'
 
     def clean(self):
         cleaned = super(SimpleMechPurchaseForm, self).clean()
-        (mn, mc, lo) = (cleaned['mech_name'], cleaned['mech_code'], cleaned['omni_loadout'])
+        if 'omni_loadout' in cleaned:
+            (mn, mc, lo) = (cleaned['mech_name'], cleaned['mech_code'], cleaned['omni_loadout'])
+        else:
+            (mn, mc, lo) = (cleaned['mech_name'], cleaned['mech_code'], 'Base')
 
         try:
             self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc, omni_loadout=lo)
@@ -59,7 +62,7 @@ class SimpleMechPurchaseForm(forms.Form):
 class MechUploadOrPurchaseForm(forms.Form):
     mech_name = forms.CharField()
     mech_code = forms.CharField(widget=forms.Select)    
-    omni_loadout = forms.CharField()
+    omni_loadout = forms.CharField(required=False)
     mech_source = forms.CharField()
     
     temp_id = forms.ModelChoiceField(TempMechFile.objects.all(), to_field_name='id')
@@ -102,7 +105,10 @@ class MechUploadOrPurchaseForm(forms.Form):
     def clean(self):
         cleaned_data = super(MechUploadOrPurchaseForm, self).clean()
 
-        (mn, mc, lo) = (cleaned_data['mech_name'], cleaned_data['mech_code'], cleaned_data['omni_loadout'])
+        if 'omni_loadout' in cleaned_data:
+            (mn, mc, lo) = (cleaned_data['mech_name'], cleaned_data['mech_code'], cleaned_data['omni_loadout'])
+        else:
+            (mn, mc, lo) = (cleaned_data['mech_name'], cleaned_data['mech_code'], 'Base')
             
         if cleaned_data['mech_source'] == 'U':
             if cleaned_data['temp_id'] == None:
@@ -116,7 +122,7 @@ class MechUploadOrPurchaseForm(forms.Form):
             
                 self.design = cleaned_data['temp_id'].load_config(lo, production_type='C')
             else:
-                self.design = cleaned_data['temp_id'].load_mechs(production_type='C')
+                self.design = cleaned_data['temp_id'].load_design(production_type='C')
         else:
             # Production Design
             try:
@@ -156,18 +162,6 @@ class MechRefitForm(MechUploadOrPurchaseForm):
 
     def clean_add_ledger(self):
         return (self.cleaned_data['add_ledger'] == True)
-
-    def clean_mech_ssw(self):
-        ssw = super(MechRefitForm, self).clean_mech_ssw()
-
-        if ssw == None:
-            return None
-
-        (mech_name, mech_code) = ssw.get_model_details()
-        if self.instance.current_design.mech_name != mech_name:
-            raise forms.ValidationError('Mech Chassis must match chassis of existing mech')
-
-        return ssw
     
 class MechLoadoutForm(MechRefitForm):
     def clean_add_ledger(self):
