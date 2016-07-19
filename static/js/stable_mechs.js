@@ -287,7 +287,7 @@ function show_upload_dialog(success_handler, form_url) {
       modal   : true
     , width   : '20em'
     , buttons : {
-        Upload : function() { upload_mech(success_handler); }
+        Upload : function() { upload_mech(success_handler, form_url); }
       , Cancel : function() { $( this ).dialog("close"); }
       } 
     });
@@ -357,7 +357,7 @@ function upload_form_render_errors(response) {
     
   $.each(as_json['errors'], function(field, errors) {
     $.each(errors, function(index, error_text) {
-      errorlist += '<ul><em>' + field + ':</em> ' + error_text + '</ul>'
+      errorlist += '<li>'+ error_text + '</li>'
     });
   });
   
@@ -365,11 +365,11 @@ function upload_form_render_errors(response) {
   $('#dialog-uploadmech .form_error').show();
 }
 
-function upload_mech(success_handler) {
+function upload_mech(success_handler, form_url) {
   mechform = new FormData($('#dialog-uploadmech form')[0]);  
   
   $.ajax({
-      url: $('#dialog-uploadmech form').attr('action')
+      url: form_url
     , type: 'post'
     , data: mechform
     , dataType : 'json'
