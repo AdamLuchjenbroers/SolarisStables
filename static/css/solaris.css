@@ -1640,6 +1640,16 @@ ul.errors {
   list-style: none;
 }
 
+#upload-error-list {
+  margin: 0;
+  padding: 1em;
+}
+
+#upload-error-list li {
+  font-size: 80%;
+  margin-bottom: 0.5em;
+}
+
 ul.errors em {
   font-weight: bold;
 }
