@@ -41,13 +41,13 @@ class PurchaseUploadMechView(CreateTempMechView):
                 return HttpResponse(json.dumps(result), status=400) 
             else:      
                 return HttpResponse(json.dumps(result))  
-        except: 
+        except BaseException as e: 
             result = {
              'success' : False
             , 'errors'  : { 'SSW Data' : ['Failed to Parse Supplied File'] }
             }
             if settings.DEBUG:
-                result['exception'] = sys.exc_info()
+                result['exception'] = e.message
             
             form.instance.delete()
             return HttpResponse(json.dumps(result), status=400)          
@@ -149,7 +149,7 @@ class MechModifyMixin(StableViewMixin):
     def get_form(self, form_class):
         return form_class(instance=self.get_object(), **self.get_form_kwargs())
 
-class RefitUploadMechView(MechModifyMixin, CreateTempMechView):
+class RefitUploadMechView(CreateTempMechView):
     def form_valid(self, form):
         form.save()
         try:
@@ -159,7 +159,7 @@ class RefitUploadMechView(MechModifyMixin, CreateTempMechView):
             
             error_list = []
             current_chassis = self.stablemechweek.current_design.mech_name
-            current_tonnage = self.stablemechweek.current_design.tons
+            current_tonnage = self.stablemechweek.current_design.tonnage
 
             if result['is_omni']:
                 error_list.append('Uploaded config is an Omnimech, not permitted for refits')
@@ -177,24 +177,27 @@ class RefitUploadMechView(MechModifyMixin, CreateTempMechView):
             if len(error_list) > 0:
                 result = {
                   'success' : False
-                , 'errors'  : { 'SSW Data' : [error_msg] }
+                , 'errors'  : { 'SSW Data' : error_list }
                 }
-                form.instance.delete()
                 return HttpResponse(json.dumps(result), status=400) 
             else:      
                 return HttpResponse(json.dumps(result))  
-        except: 
+        except BaseException as e: 
             result = {
              'success' : False
             , 'errors'  : { 'SSW Data' : ['Failed to Parse Supplied File'] }
             }
             if settings.DEBUG:
-                result['exception'] = sys.exc_info()
+                result['exception'] = e.message
             
-            form.instance.delete()
             return HttpResponse(json.dumps(result), status=400) 
 
-class OmniUploadMechView(MechModifyMixin, CreateTempMechView):
+    def dispatch(self, request, smw_id=0, *args, **kwargs):
+        self.stablemechweek = get_object_or_404(models.StableMechWeek, id=smw_id)
+        return super(RefitUploadMechView, self).dispatch(request, *args, **kwargs)
+
+
+class OmniUploadMechView(CreateTempMechView):
     def form_valid(self, form):
         form.save()
         try:
@@ -205,12 +208,11 @@ class OmniUploadMechView(MechModifyMixin, CreateTempMechView):
             error_list = []
             current_chassis = self.stablemechweek.current_design.mech_name
             current_model   = self.stablemechweek.current_design.mech_code
-            current_tonnage = self.stablemechweek.current_design.tons
+            current_tonnage = self.stablemechweek.current_design.tonnage
 
             if not result['is_omni']:
                 error_list.append('Uploaded config must be an Omnimech.')
-
-            if result['num_loadouts'] < 1:
+            elif result['num_loadouts'] < 1:
                 error_list.append('All supplied loadouts for %s %s already exist in database'
                                   % (result['mech_name'], result['mech_code']))
 
@@ -218,14 +220,14 @@ class OmniUploadMechView(MechModifyMixin, CreateTempMechView):
                 error_list.append('Uploaded load-out is for a %s %s, expected a %s %s.' 
                                  % (result['mech_name'], result['mech_code'], current_chassis, current_model))
 
-            elif result['tons'] != current_tonnage:
+            if result['tons'] != current_tonnage:
                 error_list.append('Uploaded mech is %d tons, %s should be %d tons.' 
                                  % (result['tons'], current_chassis, current_tonnage))
             
             if len(error_list) > 0:
                 result = {
                   'success' : False
-                , 'errors'  : { 'SSW Data' : [error_msg] }
+                , 'errors'  : { 'SSW Data' : error_list }
                 }
                 form.instance.delete()
                 return HttpResponse(json.dumps(result), status=400) 
@@ -241,6 +243,11 @@ class OmniUploadMechView(MechModifyMixin, CreateTempMechView):
             
             form.instance.delete()
             return HttpResponse(json.dumps(result), status=400) 
+
+    def dispatch(self, request, smw_id=0, *args, **kwargs):
+        self.stablemechweek = get_object_or_404(models.StableMechWeek, id=smw_id)
+        return super(OmniUploadMechView, self).dispatch(request, *args, **kwargs)
+
 
 class MechRemoveAjaxView(MechModifyMixin, View):
     def post(self, request, smw_id=0):

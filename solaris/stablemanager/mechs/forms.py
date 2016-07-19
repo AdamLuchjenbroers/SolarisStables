@@ -102,6 +102,12 @@ class MechUploadOrPurchaseForm(forms.Form):
     def clean_as_purchase(self):
         return (self.cleaned_data['as_purchase'] == True)
 
+    def clean_omni_loadout(self):
+        if 'omni_loadout' not in self.cleaned_data or self.cleaned_data['omni_loadout'] == None:
+            return 'Base'
+        else:
+            return self.cleaned_data['omni_loadout']
+
     def clean(self):
         cleaned_data = super(MechUploadOrPurchaseForm, self).clean()
 
@@ -129,7 +135,8 @@ class MechUploadOrPurchaseForm(forms.Form):
                 self.design = MechDesign.objects.get(mech_name=mn, mech_code=mc, omni_loadout=lo)
                 return cleaned_data
             except MechDesign.DoesNotExist:
-                raise forms.ValidationError('Unable to match design %s %s' % (mn, mc))
+                raise forms.ValidationError('Unable to match design %(name)s %(code)s (%(loadout)s)'
+                                           , params={ 'name' : mn, 'code' : mc, 'loadout' : lo}    )
 
 class MechRefitForm(MechUploadOrPurchaseForm):
     add_ledger = forms.BooleanField(required=False, initial=True)

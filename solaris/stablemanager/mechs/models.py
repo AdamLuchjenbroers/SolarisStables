@@ -187,6 +187,12 @@ class StableMechWeek(models.Model):
     def loadout_options(self):
         return self.stableweek.supply_mechs.exclude(id__in=self.loadouts.all().values('current_design__id')).filter(omni_basechassis=self.current_design)
 
+    def loadout_production_options(self):
+        return self.loadout_options().filter(production_type__in=('P','H'))
+ 
+    def loadout_custom_options(self):
+        return self.loadout_options().exclude(production_type__in=('P','H'))
+
     def is_visible(self):
         if hasattr(self, 'prev_week'):
             if self.prev_week.cored:

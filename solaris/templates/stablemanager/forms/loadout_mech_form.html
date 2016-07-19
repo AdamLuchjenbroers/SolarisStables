@@ -2,7 +2,7 @@
   <hr class="chit-divider"/>
   <ul class="refit-mechs">
 
-  {% for model in stablemechweek.loadout_options %}
+  {% for model in stablemechweek.loadout_production_options %}
     {% if forloop.first %}  <li class="list-divider"><span>Production Models</span><hr/></li> {% endif %}
     <li><input type="radio" class="mech-source-radio" name="mech_source" value="C" mech_name="{{model.mech_name}}" omni_loadout="{{model.omni_loadout}}" mech_code="{{model.mech_code}}">
       <span class="omni-loadout">{{model.omni_loadout}}</span>
