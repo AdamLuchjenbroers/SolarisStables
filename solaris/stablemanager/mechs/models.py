@@ -71,13 +71,16 @@ class StableMech(models.Model):
     
     objects = StableMechManager()
  
-    def get_mechweek(self, week=None):
+    def get_mechweek(self, week=None, loadout='Base'):
         if week == None or type(week) == solaris.campaign.models.BroadcastWeek:
             stableweek = self.stable.get_stableweek(week=week)
         else:
             stableweek = week
         
-        return self.weeks.get(stableweek = stableweek)
+        if self.purchased_as.is_omni:
+            return self.weeks.get(stableweek=stableweek, current_design__omni_loadout=loadout)
+        else:
+            return self.weeks.get(stableweek = stableweek)
 
     class Meta:
         verbose_name_plural = 'Mechs'
