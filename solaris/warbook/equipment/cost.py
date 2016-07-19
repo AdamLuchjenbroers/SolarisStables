@@ -19,7 +19,7 @@ def fixed(self, mech, units=None, refit=False):
     return self.cost_factor
 
 def per_ton(self, mech, units=None, refit=False):
-    return self.cost_factor * Decimal(self.tonnage(units=units))
+    return self.cost_factor * Decimal(self.tonnage(units=units, mech=mech))
    
 def retract(self, mech, units=None, refit=False):   
     return self.cost_factor * ( Decimal(self.tonnage(units=units)) + 1)

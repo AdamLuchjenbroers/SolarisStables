@@ -58,7 +58,7 @@ def gyro(self, mech=None, units=None, location=None):
     return Decimal(ceil(mech.engine_rating / 100.0)) * self.tonnage_factor 
    
 def targetting_computer(self, mech=None, units=None, location=None):
-    return ceil(mech.directfire_tonnage() / 4.0)
+    return ceil(mech.directfire_tonnage() / Decimal(4.0))
    
 def supercharger(self, mech=None, units=None, location=None):
     #FIXME: Should be Engine Tonnage / 10
