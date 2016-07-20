@@ -97,6 +97,13 @@ class PilotWeek(models.Model):
     fame_set = models.BooleanField(default=False)
     
     next_week = models.OneToOneField('PilotWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
+
+    status_options = (
+        ('X', 'Fielded')
+    ,   ('-', 'Available')
+    ,   ('R', 'Reserved')
+    ) 
+    status = models.CharField(max_length=1, choices=status_options, default='-')
     
     def is_dead(self):
         return ((self.wounds + self.blackmarks) >= 6)
