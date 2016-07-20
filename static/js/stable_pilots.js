@@ -18,6 +18,49 @@ function tp_check(id_points, id_assigned, attr_select, id_warning, message) {
     $(id_warning).text('');
   }
 }
+  
+status_icon_unicode = {
+  'X' : '&#9670;'
+, '-' : '&#9671;'
+, 'R' : '&#9672;'
+};
+
+function send_set_status(field, next_status) {
+  callsign = field.parents('tr.pilot-row').attr('callsign');
+
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/set-status'
+  , dataType : 'json'
+  , data : { 
+      'callsign' : encodeURIComponent(callsign)
+    , 'status'   : next_status
+    }
+  }).done( function(response) {
+    field.attr('status', response['status']);
+    field.html(status_icon_unicode[response['status']]);    
+  });
+}
+
+function fielded_toggle_clicked(ev) {
+  if ($(this).attr('status') == 'X') {
+    send_set_status($(this),'-');
+  } else {
+    send_set_status($(this),'X');
+  }
+
+  return false;
+}
+
+function fielded_toggle_rightclicked() {
+  if ($(this).attr('status') == '-') {
+    send_set_status($(this),'R');
+  } else if ($(this).attr('status') == 'R')  {
+    send_set_status($(this),'-');
+  }
+
+  return false;
+}
 
 function send_changed_pilot_attrib(field, oldvalue) {
   newvalue = field.find('input').val();
@@ -315,6 +358,9 @@ function pilot_list_setup() {
     to_number_input( $(this), send_changed_pilot_attrib );
   });
   $('#stable-pilot-table .pilot-row .name').click( dialog_edit_pilot );
+
+  $('#stable-pilot-table .pilot-row .edit-status').click( fielded_toggle_clicked );
+  $('#stable-pilot-table .pilot-row .edit-status').on('contextmenu', fielded_toggle_rightclicked );
 }
 
 function reload_training_table() {

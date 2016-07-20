@@ -232,8 +232,23 @@ class AjaxSetPilotAttribute(AjaxPilotMixin, View):
         , 'is-dead'  : self.pilotweek.is_dead()
         , 'tp-table' : self.pilotweek.week.assigned_tp_counts()
         }
-
         return HttpResponse(json.dumps(result))
+
+class AjaxSetPilotStatus(AjaxPilotMixin, View):
+    def post(self, request, week=None):
+        new_status = request.POST['status']
+
+        if new_status in ('X', '-', 'R'):
+            self.pilotweek.status = new_status
+            self.pilotweek.save()
+
+            result = {
+              'callsign' : self.pilot.pilot_callsign
+            , 'status'   : self.pilotweek.status
+            }
+            return HttpResponse(json.dumps(result))
+        else:
+            return HttpResponse('%s is not a valid status code' % new_status, status=400)
 
 class AjaxGetAvailableTraining(AjaxPilotMixin, View):
     def get(self, request, week=None):

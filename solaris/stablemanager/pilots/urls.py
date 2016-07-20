@@ -56,4 +56,7 @@ urlpatterns = patterns('',
 
     url(r'^/?end-deferred', views.AjaxEndPilotDeferred.as_view(), name="stable_remove_deferred_now"),
     url(r'^/?(?P<week>[0-9]+)/+end-deferred', views.AjaxEndPilotDeferred.as_view(), name="stable_remove_deferred"),
+
+    url(r'^/?set-status', views.AjaxSetPilotStatus.as_view(), name="stable_set_status_now"),
+    url(r'^/?(?P<week>[0-9]+)/+set-status', views.AjaxSetPilotStatus.as_view(), name="stable_set_status"),
 )

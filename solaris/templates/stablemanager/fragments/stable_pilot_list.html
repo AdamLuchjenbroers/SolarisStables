@@ -10,6 +10,7 @@
     <td rowspan="2" class="bv">BV</td>
     <td colspan="6" class="experience">Experience<span class="icon-right">&#x270E;</span></td>
     <td colspan="2" class="wounds">Wounds<span class="icon-right">&#x270E;</span></td>
+    <td rowspan="2" class="fielded">Used</td>
   </tr>
   <tr class="header"><td class="subheader">G</td><td class="subheader">P</td>
   <td class="subheader"></td><td class="subheader">R</td><td class="subheader">XP</td><td class="subheader">TP</td><td class="subheader">-</td><td class="subheader">=</td>
@@ -33,6 +34,9 @@
      <td class="final-xp">{{pilotweek.character_points}}</td>
      <td class="wounds editable" field="wounds">{{pilotweek.wounds}}</td>
      <td class="blackmarks editable" field="blackmark">{{pilotweek.blackmarks}}</td>
+     <td class="fielded edit-status" status="{{pilotweek.status}}">
+       {% if pilotweek.status == 'X' %}&#9670;{% elif pilotweek.status == 'R' %}&#9672;{% else %}&#9671;{% endif %}
+     </td>
      </tr>
   {% endfor %}
 </table>
