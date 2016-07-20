@@ -2,7 +2,6 @@ from django.conf.urls import patterns, include, url
 
 from . import ajax, views
 
-from solaris.stablemanager.ledger.views import StableLedgerView, StableLedgerDeleteView
 from solaris.stablemanager.training.views import StableTrainingView
 from solaris.stablemanager.actions.views import StableActionView
 from solaris.stablemanager.pilots.views import InitialPilotNamingView
