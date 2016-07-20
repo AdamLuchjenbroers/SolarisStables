@@ -1408,6 +1408,14 @@ ul.bill-list .bill-cost {
     font-weight: bold; 
 }
 
+#ledger-download {
+  margin: auto;
+  width: 80%;
+
+  padding-top: 0.5em;
+  text-align: right;
+}
+
 .ledger-row td {
   margin: 0rem 1rem;
   vertical-align: bottom;

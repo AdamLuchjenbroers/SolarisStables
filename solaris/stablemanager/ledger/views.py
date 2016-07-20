@@ -1,5 +1,6 @@
 from copy import deepcopy
 import json
+import csv
 
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView, View
@@ -89,6 +90,25 @@ class StableLedgerView(StableWeekMixin, TemplateView):
             form.save()
         
         return self.get(request)
+
+class StableLedgerCSV(StableWeekMixin, View):
+    def get(self, request, week=None):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=\"%s Ledger - Week %s.csv\"' % (self.stable.stable_name, week)
+
+        headers = ['Group','Description','Cost']
+        writer = csv.DictWriter(response, fieldnames=headers)
+        writer.writeheader()
+
+        for row in self.stableweek.entries.all().order_by('type'):
+            row={
+              'Group'       : row.get_type_display()
+            , 'Description' : row.description
+            , 'Cost'        : row.cost 
+            }
+            writer.writerow(row)
+
+        return response
    
 class StableLedgerAjax(StableWeekAjax):
     def dispatch(self, request, week=None, entry_id=None, *args, **kwargs):

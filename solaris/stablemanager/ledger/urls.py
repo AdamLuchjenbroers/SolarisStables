@@ -6,6 +6,8 @@ urlpatterns = patterns('',
     url(r'^/?$', views.StableLedgerView.as_view(), name='stable_ledger_now'),
     url(r'^(?P<week>[0-9]+)/?$', views.StableLedgerView.as_view(), name='stable_ledger'),
 
+    url(r'^(?P<week>[0-9]+)/csv/?$', views.StableLedgerCSV.as_view(), name='stable_ledger_csv'),
+
     url(r'^(?P<week>[0-9]+)/add', views.AjaxAddLedgerForm.as_view(), name='stable_ledger_add'),
 
     url(r'^(?P<week>[0-9]+)/(?P<entry_id>[0-9]+)/set-cost', views.AjaxUpdateLedgerCostForm.as_view(), name='stable_ledger_set_cost'),
