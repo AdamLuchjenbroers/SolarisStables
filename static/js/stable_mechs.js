@@ -307,7 +307,7 @@ function render_upload_purchaseform(response) {
   $('#mech-purchase-custom .mech-purchase-chassis').html(name_html);
   
   if ( response['is_omni'] == false) {
-    model_html = response['mech_name'];
+    model_html = response['mech_code'];
     model_html += '<input type=\"hidden\" name=\"mech_code\" id=\"id_ssw_mech_code\" ';
     model_html += 'value=\"' + response['mech_code'] + "\"/>";
       
