@@ -89,23 +89,6 @@ class StableLedgerView(StableWeekMixin, TemplateView):
             form.save()
         
         return self.get(request)
-        
-class StableLedgerDeleteView(StableViewMixin, View):
-    def get(self, request):
-        # Redirect back to main page
-        return redirect(reverse('stable_ledger_now'))
-        
-    def post(self, request):
-        try:
-            item = LedgerItem.objects.get(id=request.POST['id'])
-            
-            # Check to make sure the deleted item belongs to the correct Stable
-            if item.ledger.stable == self.stable:
-                item.delete()
-        except (LedgerItem.DoesNotExist, KeyError):
-            pass
-        
-        return redirect('/stable/ledger')        
    
 class StableLedgerAjax(StableWeekAjax):
     def dispatch(self, request, week=None, entry_id=None, *args, **kwargs):
