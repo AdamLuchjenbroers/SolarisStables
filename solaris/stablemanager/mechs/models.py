@@ -294,6 +294,13 @@ class StableMechWeek(models.Model):
         if self.next_week != None:
             self.next_week.refit_to(newdesign, add_ledger=False)
 
+    def owner_status(self):
+        if self.signature_of == None:
+            return None
+        
+        pilotweek = self.signature_of.weeks.get(week=self.stableweek)
+        return pilotweek.status
+
     def refit_url(self):
         return reverse('refit_mech', kwargs={'smw_id' : self.id})
 

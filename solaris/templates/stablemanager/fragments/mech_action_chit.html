@@ -12,7 +12,12 @@
     {% if stablemech.delivery = 1 %}On order, delivery next week.
     {% elif stablemech.delivery > 1 %}On order, delivery in {{stablemech.delivery}} weeks.
     {% elif stablemech.completed_bill_count == 1 %}Bill recorded.
-    {% elif stablemech.completed_bill_count > 1 %}{{stablemech.completed_bill_count}} Bills recorded.{% endif %}
+    {% elif stablemech.completed_bill_count > 1 %}{{stablemech.completed_bill_count}} Bills recorded.
+    {% elif stablemech.signature_of != None and stablemech.owner_status = 'X' %}Owner has been fielded.
+    {% elif stablemech.signature_of != None and stablemech.owner_status = 'R' %}Owner is reserved.
+    {% endif %}
+
+
     {% if stablemech.cored %}Mech Cored.{% elif stablemech.removed %}Mech Removed.{% endif %}
   </div>
 </div>
