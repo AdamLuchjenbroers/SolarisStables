@@ -1,13 +1,17 @@
 from django.contrib import admin
-from .models import Campaign, BroadcastWeek, Zodiac
+from . import models 
 
 class CampaignTechInline(admin.TabularInline):
-    model = Campaign.initial_contracts.through
+    model = models.Campaign.initial_contracts.through
+
+class CampaignPilotTemplateInline(admin.StackedInline):
+    model = models.StartingPilotTemplate
+    fields= (('count', 'rank', 'piloting', 'gunnery', 'fame'),)
 
 class CampaignAdmin(admin.ModelAdmin):
-    inlines = [ CampaignTechInline ]
+    inlines = [ CampaignTechInline, CampaignPilotTemplateInline ]
     exclude = ('initial_contracts',)
 
-admin.site.register(Campaign, CampaignAdmin)
-admin.site.register(Zodiac)
-admin.site.register(BroadcastWeek)
+admin.site.register(models.Campaign, CampaignAdmin)
+admin.site.register(models.Zodiac)
+admin.site.register(models.BroadcastWeek)
