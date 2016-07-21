@@ -43,11 +43,15 @@ function submit_purchase_data(form, mech_data) {
 
     if (response['success']) {
       form.find('#id_mech_code').html('<option value=\"\">--</option>')
-      form.find('input:not([type=radio])').val('C');
+      form.find('input:not([type=radio])').val('');
+      $('#mech-purchase-custom .mech-purchase-chassis').html('');
+      $('#mech-purchase-custom .mech-purchase-model').html('');
+      $('#mech-purchase-custom .mech-purchase-cost').html('');
     }
+
+    form.find('#mech-purchase-submit').attr('disabled','yes');
   });
 
-  form.find('#mech-purchase-submit').attr('disabled','yes');
 }
 
 function show_refit_form() {
