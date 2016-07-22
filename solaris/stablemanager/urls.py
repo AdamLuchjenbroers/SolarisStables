@@ -34,6 +34,7 @@ urlpatterns = patterns('',
     url(r'^ledger/', include('solaris.stablemanager.ledger.urls')),
     url(r'^mechs/', include('solaris.stablemanager.mechs.urls')),
     url(r'^pilots/', include('solaris.stablemanager.pilots.urls')),
+    url(r'^options/', include('solaris.stablemanager.options.urls')),
 
     url(r'^query/list-produced/?$', ajax.ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto_now'), 
 #    url(r'^(?P<week>[0-9]+)/list-produced/?$', ajax.ProductionChassisAutocomplete.as_view(), name = 'stable_query_mechauto'), 
