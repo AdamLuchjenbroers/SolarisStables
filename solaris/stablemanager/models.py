@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.dispatch import receiver
 from django.forms.models import model_to_dict
+from django.utils.text import slugify
 
 from math import ceil, floor
 
@@ -14,12 +15,24 @@ from solaris.warbook.equipment.models import Equipment
 from solaris.warbook.pilotskill.models import PilotTraitGroup, PilotRank
 from solaris.campaign.models import BroadcastWeek, Campaign, createInitialPilots
 
+def stable_icon_path(instance, filename):
+    extension = filename.rsplit('.',1)[0]
+    return '%s/icon.%s' % (instance.stable_slug, extension)
+
+def stable_bg_path(instance, filename):
+    extension = filename.rsplit('.',1)[0]
+    return '%s/report-bg.%s' % (instance.stable_slug, extension)
+
 class Stable(models.Model):
     stable_name = models.CharField(max_length=200)
+    stable_slug = models.CharField(max_length=50, null=True)
     owner = models.OneToOneField(User, null=True)
     house = models.ForeignKey(House, null=True)
     stable_disciplines = models.ManyToManyField(PilotTraitGroup)
     campaign = models.ForeignKey(Campaign, null=True)    
+    
+    stable_icon = models.ImageField(upload_to=stable_icon_path, null=True, blank=True)
+    stable_bg = models.ImageField(upload_to=stable_bg_path, null=True, blank=True)
 
     def __unicode__(self):
         return self.stable_name
@@ -55,6 +68,12 @@ class Stable(models.Model):
         
         for pilot in self.pilots.all():
             pilot.advance()        
+
+    def save(self, *args, **kwargs):
+        if self.stable_slug == None:
+            self.stable_slug = slugify(self.stable_name)
+
+        super(Stable, self).save()
         
      
 class StableWeek(models.Model):
