@@ -33,6 +33,7 @@ class StableViewMixin(SolarisViewMixin):
           {'title' : 'Mechs', 'url' : reverse('stable_mechs_now')},   
           {'title' : 'Pilots', 'url' : reverse('stable_pilots_now')},    
           {'title' : 'Actions', 'url' : reverse('stable_actions_now')},      
+          {'title' : 'Options', 'url' : reverse('stable_options_now')},      
         ]
         page_context['submenu_selected'] = self.__class__.submenu_selected
         
@@ -119,6 +120,7 @@ class StableWeekMixin(StableViewMixin):
           {'title' : 'Mechs', 'url' : reverse('stable_mechs', kwargs=week_args)},   
           {'title' : 'Pilots', 'url' : reverse('stable_pilots', kwargs=week_args)},    
           {'title' : 'Actions', 'url' : reverse('stable_actions', kwargs=week_args)},      
+          {'title' : 'Options', 'url' : reverse('stable_options', kwargs=week_args)},      
         ]
  
         page_context['prev_week_url'] = self.prev_week_url()
