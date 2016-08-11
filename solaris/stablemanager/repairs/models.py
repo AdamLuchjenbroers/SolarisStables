@@ -211,7 +211,7 @@ class RepairBill(models.Model):
     def update_labour_cost(self):
         partsCost = self.lineitems.exclude(line_type='L').aggregate(models.Sum('cost'))['cost__sum']
         if self.mech.is_omni:
-            labourFactor = self.mech.tonnage / Decimal(100) + Decimal(0.25)
+            labourFactor = self.mech.tonnage / Decimal(100) * Decimal(1.25)
         else:
             labourFactor = self.mech.tonnage / Decimal(100)
         
