@@ -8,7 +8,7 @@
 
 {% block pageactions %}
 <div class="actionbar">
-  <img id="actionbar-stable-logo" src="/static/images/blank-80.png" alt="blank"/>
+  {% include 'stablemanager/fragments/stable_logo.html' with id='actionbar-stable-logo' %}
   <span class="actionbar-mainregion">
     <span class="actionbar-weekbrowser actionbar-toprow">
       <span id="browse-prev-week">
