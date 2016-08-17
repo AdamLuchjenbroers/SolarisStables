@@ -11,6 +11,8 @@ from solaris.cms.views import NewsListView, NewsPostFormView
 from wiki.urls import get_pattern as get_wiki_pattern
 from django_nyt.urls import get_pattern as get_notify_pattern
 
+from . import pdf
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -40,4 +42,5 @@ urlpatterns = patterns('',
 if settings.USE_DJANGO_STATIC:
     from django.conf.urls.static import static
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
