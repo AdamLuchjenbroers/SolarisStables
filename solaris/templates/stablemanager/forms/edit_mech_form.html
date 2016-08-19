@@ -5,7 +5,21 @@
     {% endif %}
     <div class="form-row"><span class="label">{{mechform.signature_of.label}}</span>{{mechform.signature_of}}</div>
     <div class="form-row"><span class="label">{{mechform.delivery.label}}</span>{{mechform.delivery}}</div>
-  <h3>Remove Mech?</h3>
+
+    {% if mech.current_design.is_omni %}
+    <h3>Omni Configurations</h3>
+      {% for config in mech.loadouts.all %}
+      <div class="config-row">
+        <span class="config-name">{{config.current_design.omni_loadout}}</span>
+	<span class="config-equip">{{config.current_design.omni_description}}</span>
+	<span class="config-remove word-button hidden" config="{{config.id}}">Remove</span>
+      </div>
+      {% endfor %}
+
+      <span class="word-button" id="mech-omniremoval-button">Remove config?</span>
+    {% endif %}
+  
+    <h3>Remove Mech?</h3>
     <div id="mech-removal-zone">
       <span class="word-button" id="mech-removal-button">Remove Mech?</span>
       <span class="hidden" id="mech-removal-options">{{mechform.remove}}</span>
