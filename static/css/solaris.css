@@ -466,6 +466,9 @@ div.actionbar img#actionbar-stable-logo {
    padding: 10px;
    display: inline-block;
    vertical-align: top;
+
+   width: 80px;
+   height: 80px;
 }
 
 div.actionbar span.actionbar-mainregion {
@@ -1267,6 +1270,35 @@ ul.refit-mechs .list-divider hr {
   margin-bottom: 0.1em;
 }
 
+#edit-mech-form .config-row {
+  margin-left: 2em;
+  margin-bottom: 0.2em;
+}
+
+#edit-mech-form .config-row span {
+  display: inline-block;
+}
+
+#edit-mech-form .config-row span.hidden {
+  display: none;
+}
+
+#edit-mech-form .config-row .config-name {
+  font-weight: bold;
+  width: 6em;
+}
+
+#edit-mech-form .config-row .config-equip {
+  font-size: 80%;
+  width: 24em;
+}
+
+#edit-mech-form .config-row .config-remove {
+  font-size: 80%;
+  font-weight: bold;
+  width: 24em;
+}
+
 #mech-removal-zone {
   height: 5em;
 }
@@ -1702,6 +1734,32 @@ ul.chit-list li.stable-discipline a:hover {
   box-shadow: inset 0 0 4px #262233;
 }
 
+/****************************************
+ * Stable Options
+ ****************************************/
+
+#stable-logo {
+  display: inline-block;
+}
+
+#stable-logo h1 {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+#stable-logo form input {
+  margin-top: 0.3em;
+}
+
+#stable-logo-image {
+  width: 80px;
+  height: 80px;
+
+  padding: 2px;
+  border: 1px;
+
+  float: left;
+}
 
 /****************************************
  * UI Elements 

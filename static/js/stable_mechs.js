@@ -208,6 +208,11 @@ function show_edit_form() {
         $('#mech-removal-options').slideDown();
       });
     });
+
+    $('#mech-omniremoval-button').click(function() {
+      $('#mech-omniremoval-button').fadeOut();
+      $('#edit-mech-form .config-remove').css('display','inline-block').hide().fadeIn();
+    });
   });
 }
 
