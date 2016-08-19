@@ -16,11 +16,11 @@ from solaris.warbook.pilotskill.models import PilotTraitGroup, PilotRank
 from solaris.campaign.models import BroadcastWeek, Campaign, createInitialPilots
 
 def stable_icon_path(instance, filename):
-    extension = filename.rsplit('.',1)[0]
+    extension = filename.rsplit('.',1)[1]
     return '%s/icon.%s' % (instance.stable_slug, extension)
 
 def stable_bg_path(instance, filename):
-    extension = filename.rsplit('.',1)[0]
+    extension = filename.rsplit('.',1)[1]
     return '%s/report-bg.%s' % (instance.stable_slug, extension)
 
 class Stable(models.Model):
