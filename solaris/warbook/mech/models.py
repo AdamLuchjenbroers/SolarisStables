@@ -52,7 +52,7 @@ class MechDesign(models.Model):
         return self.ssw_description[loc:]
     
     def omni_description(self):
-        #Remove everything up to the armour amout ; to get only the loadout info.
+        #Remove everything up to the armour amount, leaving only the loadout specific info.
         loc = self.ssw_description.find('Armor; ') + 7
         return self.ssw_description[loc:]        
 
