@@ -1,8 +1,0 @@
-<span id="stable-logo">
-  <h1>Stable Logo</h1>
-  {% include 'stablemanager/fragments/stable_logo.html' with id='stable-logo-image' %}
-  <form enctype="multipart/form-data" action="{% url 'stable_options_setlogo' week=stableweek.week.week_number %}" method="post">
-    {{form.stable_icon}}
-    <input type="submit" value="Update Logo">
-  </form>
-</span>
