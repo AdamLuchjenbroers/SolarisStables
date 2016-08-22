@@ -211,8 +211,27 @@ function show_edit_form() {
 
     $('#mech-omniremoval-button').click(function() {
       $('#mech-omniremoval-button').fadeOut();
+
       $('#edit-mech-form .config-remove').css('display','inline-block').hide().fadeIn();
+      $('#edit-mech-form .config-remove').click(remove_config_clicked);
     });
+  });
+}
+
+function remove_config_clicked() {
+  remove_id = $(this).attr('attached');
+
+  $.ajax({
+    type : 'post'
+  , url  : $(this).attr('remove_url')
+  , dataType : 'json'
+  , data : { 'remove' : true }
+  }).done(function(response) { 
+    if (response['success']) {
+      $('#' + remove_id).slideUp();
+    }	
+    
+    refresh_mechlist();
   });
 }
 

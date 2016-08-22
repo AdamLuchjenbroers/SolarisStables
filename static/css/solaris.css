@@ -1296,14 +1296,16 @@ ul.refit-mechs .list-divider hr {
 #edit-mech-form .config-row .config-remove {
   font-size: 80%;
   font-weight: bold;
-  width: 24em;
+
+  width: 6em;
+  background-color: #FF6666;
 }
 
 #mech-removal-zone {
   height: 5em;
 }
 
-#mech-removal-button {
+#mech-removal-button, #mech-omniremoval-button {
   background-color: #FF6666;
 }
 

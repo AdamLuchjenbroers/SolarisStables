@@ -17,9 +17,11 @@ urlpatterns = patterns('',
 
     url(r'^loadouts/(?P<smw_id>[0-9]+)/?$', views.MechLoadoutsFormView.as_view(), name='loadout_mech'),
     url(r'^loadouts/(?P<smw_id>[0-9]+)/upload$', views.OmniUploadMechView.as_view(), name='upload_loadout_mech'),
+    url(r'^loadouts/(?P<smw_id>[0-9]+)/remove$', views.MechRemoveConfigView.as_view(), name='remove_loadout'),
 
     url(r'^remove/(?P<smw_id>[0-9]+)/?$', views.MechRemoveAjaxView.as_view(), name='remove_mech'),
     url(r'^edit/(?P<smw_id>[0-9]+)/?$', views.MechEditFormView.as_view(), name='edit_mech'),
+
     url(r'^upload/purchase$', views.PurchaseUploadMechView.as_view(), name='upload_purchase_mech'),
 
     url(r'^repair/', include('solaris.stablemanager.repairs.urls')),

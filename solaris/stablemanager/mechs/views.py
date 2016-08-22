@@ -352,3 +352,23 @@ class MechEditFormView(MechModifyMixin, TemplateView):
         
         return context
 
+class MechRemoveConfigView(MechModifyMixin, View):
+    def post(self, request, *args, **kwargs):
+        removed = (request.POST['remove'].upper() == 'TRUE')
+
+        if self.stablemechweek.config_for == None:
+            result = {
+              'success' : False
+            , 'removed' : self.stablemechweek.removed
+            , 'error'   : 'Selected Mech is not a Loadout'
+            }
+            return HttpResponse(json.dumps(result), 401)
+        else:
+            result = self.stablemechweek.set_removed(removed)
+
+            result = {
+              'success' : True
+            , 'removed' : result
+            }
+            return HttpResponse(json.dumps(result))
+

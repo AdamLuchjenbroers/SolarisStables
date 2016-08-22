@@ -142,11 +142,15 @@ class StableMechWeek(models.Model):
     def set_removed(self, value):
         if value == True and (self.next_week == None and not hasattr(self, 'prev_week')):
             self.delete()
+
+            return True
         else:
             self.removed = value
             self.save()
             if self.next_week != None:
                 self.next_week.set_removed(value)
+
+            return self.removed
 
     def set_cored(self, value):
         from solaris.stablemanager.repairs.models import RepairBill

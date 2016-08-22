@@ -9,10 +9,10 @@
     {% if mech.current_design.is_omni %}
     <h3>Omni Configurations</h3>
       {% for config in mech.loadouts.all %}
-      <div class="config-row">
+      <div class="config-row" id="edit-config-{{config.id}}">
         <span class="config-name">{{config.current_design.omni_loadout}}</span>
 	<span class="config-equip">{{config.current_design.omni_description}}</span>
-	<span class="config-remove word-button hidden" config="{{config.id}}">Remove</span>
+	<span class="config-remove word-button hidden" remove_url="{% url 'remove_loadout' smw_id=config.id %}" attached="edit-config-{{config.id}}">Remove</span>
       </div>
       {% endfor %}
 
