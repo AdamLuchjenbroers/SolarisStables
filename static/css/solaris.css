@@ -1211,7 +1211,9 @@ ul.refit-mechs .list-divider hr {
   border-top: 1px solid #000000;
 }
 
-
+#loadout-button-submit {
+  width: 8em;
+}
 
 #stable-mech-list h3 {
   margin-left: 4em;
