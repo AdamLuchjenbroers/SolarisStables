@@ -110,11 +110,15 @@ class StablePilotFormAbstract(TemplateView):
         page_context['pilotweekform'] = self.pilotweekform
         page_context['trainingform'] = self.trainingformset
         page_context['problemform'] = self.problemformset
- 
+
+        page_context['is_edit_form'] = self.__class__.is_edit_form
+
         return page_context
 
 
 class StableAddPilotFormView(StableWeekMixin, StablePilotFormAbstract):
+    is_edit_form = False
+
     def get(self, request, week=None):
         self.pilotform = forms.PilotForm(None, prefix='pilot', stable=self.stable)
         self.pilotweekform = forms.PilotWeekForm(prefix='pweek')
@@ -155,6 +159,8 @@ class StableAddPilotFormView(StableWeekMixin, StablePilotFormAbstract):
             return super(StableAddPilotFormView, self).get(request, week=week)
  
 class StableEditPilotFormView(PilotWeekMixin, StablePilotFormAbstract):
+    is_edit_form = True
+
     def get(self, request, week=None, callsign=None):
         self.pilotform = forms.PilotForm(None, prefix='pilot', stable=self.stable, instance=self.pilot)
         self.pilotweekform = forms.PilotWeekForm(prefix='pweek', instance=self.pilotweek)

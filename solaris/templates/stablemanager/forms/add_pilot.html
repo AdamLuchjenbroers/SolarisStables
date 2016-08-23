@@ -95,4 +95,12 @@
     </div>
   </div>
   {% endif %}
+
+  {% if is_edit_form %}
+    <h3>Remove Pilot?</h3>
+    <div id="pilot-removal-zone">
+      <span class="word-button" id="pilot-removal-button">Remove Pilot?</span>
+      <span class="hidden" id="pilot-removal-options">{{pilotweekform.remove}}</span>
+    </div>
+  {% endif %}
 </form>

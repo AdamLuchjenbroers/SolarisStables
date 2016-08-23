@@ -539,6 +539,12 @@ function dialog_edit_pilot() {
     attach_skill_delete_handler('#add-pilot-training-form');
     $('#add-pilot-add-problem').click(dialog_add_pilot_issue_form);   
     attach_issue_delete_handler('#add-pilot-training-form');
+
+    $('#pilot-removal-button').click(function() {
+      $('#pilot-removal-button').fadeOut( function() {
+        $('#pilot-removal-options').slideDown();
+      });
+    });
   });
 }
 
