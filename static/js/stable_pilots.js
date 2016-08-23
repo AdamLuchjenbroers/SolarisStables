@@ -518,6 +518,13 @@ function dialog_edit_pilot() {
 
   edit_url = $(this).attr('edit_url');
 
+  buttons =  {
+    Update: function() {
+      submit_pilot(edit_url);
+    }
+  , Close: function() { $( this ).dialog("close"); }
+  };
+
   $('#dialog-add-pilot').load( 
     edit_url
   , function(response, state, jqxhr) {
@@ -525,12 +532,7 @@ function dialog_edit_pilot() {
       modal: true
     , width: 550
     , height: (window.innerHeight * 0.75)
-    , buttons: {
-       Update: function() {
-          submit_pilot(edit_url);
-        }
-      , Close: function() { $( this ).dialog("close"); }
-      }
+    , buttons: buttons
     });
     
     $('#add-pilot-add-skill').click(dialog_add_pilot_skill_form);   
