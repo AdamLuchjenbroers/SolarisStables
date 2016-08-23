@@ -1744,6 +1744,7 @@ ul.chit-list li.stable-discipline a:hover {
 
 #stable-logo {
   display: inline-block;
+  width: 80%;
 }
 
 #stable-logo h1 {
@@ -1754,6 +1755,17 @@ ul.chit-list li.stable-discipline a:hover {
 #stable-logo form input {
   margin-top: 0.3em;
 }
+
+/* Override some of the default forms css for convenience */
+#stable-logo form label {
+  display: inline-block;
+  width: 4em;
+  margin-right: 0.5em;
+  margin-left: 0.2em;
+
+  font-weight: bold;
+}
+
 
 #stable-logo-image {
   width: 80px;
