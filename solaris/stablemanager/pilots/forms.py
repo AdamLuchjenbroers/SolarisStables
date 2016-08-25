@@ -78,6 +78,11 @@ class PilotWeekForm(forms.ModelForm):
         self.fields['skill_gunnery'].label = 'Gunnery:'
         self.fields['skill_piloting'].label = 'Piloting:'
 
+        if self.instance != None and self.instance.is_locked():
+            for field in self.fields:
+                self.fields[field].widget.attrs['readonly'] = True
+                self.fields[field].widget.attrs['disabled'] = 'disabled'
+
     class Meta:
         model = models.PilotWeek
         fields = ('rank', 'rank_set', 'skill_gunnery', 'skill_piloting', 'start_character_points')

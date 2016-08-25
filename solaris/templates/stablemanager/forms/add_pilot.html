@@ -96,7 +96,7 @@
   </div>
   {% endif %}
 
-  {% if is_edit_form %}
+  {% if is_edit_form and not pilotweekform.instance.is_locked %}
     <h3>Remove Pilot?</h3>
     <div id="pilot-removal-zone">
       <span class="word-button" id="pilot-removal-button">Remove Pilot?</span>
