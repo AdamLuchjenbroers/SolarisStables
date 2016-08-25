@@ -79,6 +79,11 @@ class PilotWeekManager(models.Manager):
     def count_all_available(self):
         return self.filter(removed=False).count()
 
+    def all_living(self):
+        return self.filter(removed=False, wounds__lt=6-models.F('blackmarks'))
+
+    def all_dead(self):
+        return self.filter(removed=False, wounds__gte=6-models.F('blackmarks'))
 
 class PilotWeek(models.Model):
     pilot = models.ForeignKey(Pilot, related_name='weeks')
