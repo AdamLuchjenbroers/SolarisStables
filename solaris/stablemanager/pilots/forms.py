@@ -122,7 +122,7 @@ class PilotActionForm(forms.Form):
         super(PilotActionForm, self).__init__(*args, **kwargs)
 
         pilots = [('','-- Select Pilot --'),]
-        for pw in stableweek.pilots.filter(wounds__lt=6):
+        for pw in stableweek.pilots.all_living():
             pilots.append((pw.id, {'label' : pw.pilot.pilot_callsign, 'disabled': pw.is_locked()}))
 
         self.fields['pilot'].choices = pilots 
@@ -163,7 +163,7 @@ class PilotDefermentForm(PilotActionForm):
         super(PilotActionForm, self).__init__(*args, **kwargs)
 
         pilots = [('','-- Select Pilot --'),]
-        for pw in stableweek.pilots.filter(wounds__lt=6):
+        for pw in stableweek.pilots.all_living():
             disabled = (pw.traits.exclude(trait__discipline__discipline_type='T').count() == 0)
             pilots.append((pw.id, {'label' : pw.pilot.pilot_callsign, 'disabled': disabled }))
 
