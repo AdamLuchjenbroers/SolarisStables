@@ -73,6 +73,13 @@ class PilotWeekTraits(models.Model):
 
         unique_together = [('pilot_week', 'trait')] 
     
+class PilotWeekManager(models.Manager):
+    use_for_related_fields = True
+
+    def count_all_available(self):
+        return self.filter(removed=False).count()
+
+
 class PilotWeek(models.Model):
     pilot = models.ForeignKey(Pilot, related_name='weeks')
     week = models.ForeignKey(StableWeek, related_name='pilots')
@@ -104,13 +111,17 @@ class PilotWeek(models.Model):
     ,   ('R', 'Reserved')
     ) 
     status = models.CharField(max_length=1, choices=status_options, default='-')
-    
+
+    removed = models.BooleanField(default=False)
+
+    objects = PilotWeekManager()
+
     def is_dead(self):
         return ((self.wounds + self.blackmarks) >= 6)
 
     def is_visible(self):
         if hasattr(self, 'prev_week'):
-            if self.prev_week.is_dead():
+            if self.prev_week.is_dead() or self.prev_week.removed:
                 return False
             else:
                 return self.prev_week.is_visible()
@@ -146,6 +157,26 @@ class PilotWeek(models.Model):
         self.save()
 
         return self.fame
+
+    def set_removed(self, value):
+        if self.is_locked():
+            # Don't change the flag value, ignore request.
+            return self.removed
+
+        if value == True and (self.next_week == None and not hasattr(self, 'prev_week')):
+            # If it's a completely new record, perform a physical delete.
+            self.delete()
+
+            return True
+        else:
+            self.removed = value
+            self.save()
+
+            # Update later weeks
+            if self.next_week != None:
+                self.next_week.delete()
+
+            return self.removed
 
     def advance(self):
         if self.week.next_week == None:

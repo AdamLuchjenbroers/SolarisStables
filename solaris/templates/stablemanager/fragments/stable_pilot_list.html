@@ -16,7 +16,7 @@
   <td class="subheader"></td><td class="subheader">R</td><td class="subheader">XP</td><td class="subheader">TP</td><td class="subheader">-</td><td class="subheader">=</td>
   <td class="subheader">W</td><td class="subheader">BM</td></tr>
   {% for pilotweek in object_list %}
-   <tr class="pilot-row {%cycle 'odd' 'even' %}{% if pilotweek.is_dead %} dead{% endif %}" id="{{pilotweek.pilot.pilot_callsign | slugify}}" callsign="{{pilotweek.pilot.pilot_callsign}}" rank="{{pilotweek.rank.rank | lower}}">
+  <tr class="pilot-row {%cycle 'odd' 'even' %}{% if pilotweek.is_dead %} dead{% endif %} {% if pilotweek.removed%} removed{% endif%}" id="{{pilotweek.pilot.pilot_callsign | slugify}}" callsign="{{pilotweek.pilot.pilot_callsign}}" rank="{{pilotweek.rank.rank | lower}}">
      <td class="name edit-form" edit_url="{{pilotweek.edit_url}}">{{pilotweek.pilot.full_name}}<span class="icon-right icon-dead">&#x2620;</span></td>
      <td class="rank">{{pilotweek.rank.rank}}</td>
      <td class="fame editable" field="fame">{{pilotweek.fame}}</td>

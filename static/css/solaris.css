@@ -1611,7 +1611,7 @@ table.pilots tr.odd .edit-form:hover {
   background-color: #C8FFFF;
 }
 
-table.pilots tr.odd.dead {
+table.pilots tr.odd.dead, table.pilots tr.odd.removed {
   background-color: #C8C8C8;
 }
 
@@ -1639,7 +1639,7 @@ table.pilots tr.even .edit-form:hover {
   background-color: #B0FFFF;
 }
 
-table.pilots tr.even.dead {
+table.pilots tr.even.dead, table.pilots tr.even.removed {
   background-color: #B0B0B0;
 }
 

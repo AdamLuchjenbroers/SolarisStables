@@ -18,7 +18,7 @@ class StablePilotMixin(StableWeekMixin):
     view_url_name = 'stable_pilots'
 
     def get_queryset(self):
-        return models.PilotWeek.objects.filter(week=self.stableweek)
+        return models.PilotWeek.objects.filter(week=self.stableweek, removed=False)
 
 class PilotWeekMixin(StableWeekMixin):
     def dispatch(self, request, week=None, callsign=None, *args, **kwargs):
@@ -178,6 +178,9 @@ class StableEditPilotFormView(PilotWeekMixin, StablePilotFormAbstract):
         if self.pilotform.is_valid() and self.pilotweekform.is_valid():
             self.pilotform.save()
             self.pilotweekform.save()
+
+            if self.pilotweekform.cleaned_data['remove'] == 'remove':
+                self.pilotweekform.instance.set_removed(True)
 
             return HttpResponse('Pilot Changed', status=201)
         else:
