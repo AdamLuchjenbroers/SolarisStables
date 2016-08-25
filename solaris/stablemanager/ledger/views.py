@@ -123,6 +123,11 @@ class StableLedgerAjax(StableWeekAjax):
 
         return super(StableLedgerAjax, self).dispatch(request, *args, **kwargs)
 
+    def render_interest(self):
+        context = Context({'lineitem' : self.stableweek.ledger_interest, 'new' : True})
+        template = loader.get_template('stablemanager/fragments/ledger_item.html')
+        return template.render(context)
+
 class AjaxAddLedgerForm(StableWeekAjax):
     def post(self, request, *args, **kwargs):
         cost = int(request.POST['cost'])
@@ -141,14 +146,25 @@ class AjaxAddLedgerForm(StableWeekAjax):
         , 'group' : new_entry.type
         , 'entry_html' : entry_html
         }
+
+        self.stableweek.recalculate()
+
+        if self.stableweek.ledger_interest != None:
+            context = Context({'lineitem' : self.stableweek.ledger_interest, 'new' : True})
+            result['interest_html'] = template.render(context)
+
         return HttpResponse(json.dumps(result)) 
 
 class AjaxUpdateLedgerCostForm(StableLedgerAjax):
     def post(self, request, *args, **kwargs):
         self.entry.cost = int(request.POST['cost'])
         self.entry.save()
+        self.stableweek.recalculate()
 
         result = {'cost' : self.entry.cost}
+        if self.stableweek.ledger_interest != None:
+            result['interest_html'] = self.render_interest()
+
         return HttpResponse(json.dumps(result)) 
 
 class AjaxUpdateLedgerDescriptionForm(StableLedgerAjax):
@@ -162,5 +178,10 @@ class AjaxUpdateLedgerDescriptionForm(StableLedgerAjax):
 class AjaxRemoveLedgerItem(StableLedgerAjax): 
     def post(self, request, *args, **kwargs):
         self.entry.delete()
+        self.stableweek.recalculate()
 
-        return HttpResponse(json.dumps(True))
+        result = {'success' : True}
+        if self.stableweek.ledger_interest != None:
+            result['interest_html'] = self.render_interest()
+
+        return HttpResponse(json.dumps(result))

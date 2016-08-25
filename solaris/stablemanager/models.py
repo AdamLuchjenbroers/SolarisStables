@@ -88,6 +88,12 @@ class StableWeek(models.Model):
     next_week = models.OneToOneField('StableWeek', on_delete=models.SET_NULL, null=True, related_name='prev_week')
     training_points = models.IntegerField(default=0)
 
+    ledger_interest = models.OneToOneField('LedgerItem', on_delete=models.SET_NULL, null=True)
+
+    def __init__(self, *args, **kwargs):
+        self._dirty = False
+        super(StableWeek, self).__init__(*args, **kwargs)
+
     def has_prev_week(self):
         return hasattr(self, 'prev_week')
 
@@ -99,19 +105,38 @@ class StableWeek(models.Model):
             self.next_week.add_custom_design(design)
     
     def closing_balance(self):
-        if self.entries.count() > 0:
-            return self.opening_balance + self.entries.all().aggregate(models.Sum('cost'))['cost__sum']
-        else:
-            return self.opening_balance
+        return self.opening_balance + (self.entries.all().aggregate(models.Sum('cost'))['cost__sum'] or 0)
             
     def closing_reputation(self):
         #TODO - Process pilot ledger and update stable reputation
         return self.reputation
 
+    def set_interest_bill(self, interest):
+        if self.ledger_interest == None:
+
+            self.ledger_interest = self.entries.create(description='Loan Interest', cost=interest, type='E', item_id='ledger-interest-item')
+            self.save()
+        else:
+            self.ledger_interest.cost = interest
+            self.ledger_interest.save()
+
     def recalculate(self):
+        expenses_set = self.entries.filter(cost__lt=0) 
+        if self.ledger_interest != None:
+            expenses_set = expenses_set.exclude(id=self.ledger_interest.id)
+
+        lowest_balance = self.opening_balance + (expenses_set.aggregate(models.Sum('cost'))['cost__sum'] or 0)
+
+        if lowest_balance < 0:
+            self.set_interest_bill(lowest_balance / 10)
+        elif self.ledger_interest != None:
+            self.ledger_interest.delete()
+
         if self.next_week != None:
             self.next_week.opening_balance = self.closing_balance()
             self.next_week.save()
+
+        print('Recalculate finished - dirty: %s' % self._dirty)
 
     def prominence(self):
         total = 0
