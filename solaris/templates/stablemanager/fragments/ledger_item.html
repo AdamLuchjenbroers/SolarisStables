@@ -1,9 +1,4 @@
-<tr 
-  {% if lineitem.item_id %}id="{{lineitem.item_id}}"{% endif %} 
-  class="ledger-item ledger-row ledger-item-edit{% if new %} hidden{% endif %}" 
-  entry="{{lineitem.id}}" 
-  group="{{lineitem.type | lower}}"
->
+<tr class="ledger-item ledger-row ledger-item-edit{% if new %} hidden{% endif %}" entry="{{lineitem.id}}" group="{{lineitem.type | lower}}">
   <td class="ledger-desc" edit_url="{{lineitem.set_description_url}}">
      <input type="submit" class="icon-button ledger-edit" Value="&#x270E;"/> 
      {{lineitem.description}}

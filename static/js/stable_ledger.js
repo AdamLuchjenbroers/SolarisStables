@@ -15,8 +15,6 @@ function send_changed_ledger_cost(field, oldvalue) {
     }
   }).success(function(response) { 
     field.text(response['cost']);
-    update_interest(response);
-
     recalc_all();
   }).fail(function(response) {
     field.text(oldvalue);
@@ -99,8 +97,6 @@ function setup_row_edit_handlers() {
     , dataType : 'json'
     , data : {'entry_id' : row.attr('entry')}
     }).success( function(response) {
-      update_interest(response);
-
       row.fadeOut(function() { 
         row.remove();
         recalc_all();
@@ -132,29 +128,9 @@ function submit_new_entry() {
     last_row.after(response['entry_html']);      
     $('.ledger-item[group=' + response['group'].toLowerCase() + '].hidden').fadeIn();
 
-    update_interest(response);
-
     setup_row_edit_handlers()
     recalc_all();
   });
-}
-
-function update_interest(response) {
- 
-  if (response.hasOwnProperty('interest_html')) {
-    if ($('#ledger-interest-item').length) {  
-      $('#ledger-interest-item').replaceWith(response['interest_html']);
-    } else {
-      $('.ledger-item[group=e]:last').after(response['interest_html']);
-    }
-  
-    $('.ledger-item[group=e].hidden').fadeIn();
-  } else {
-
-    $('#ledger-interest-item').fadeOut( function() {
-       $('#ledger-interest-item').remove();
-    });
-  }
 }
 
 $( document ).ready(function() {

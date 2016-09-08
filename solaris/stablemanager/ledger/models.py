@@ -21,11 +21,8 @@ class LedgerItem(models.Model):
     cost = models.IntegerField()
     type = models.CharField(max_length=1, choices=item_types)
 
-    """ A tied LedgerItem derives its cost from a linked event or item (e.g. a repair bill)."""
+    """ A tied LedgerItem derives its cost from a linked event or item (e.g. a repair bill) and cannot be edited directly. """
     tied = models.BooleanField(default=False)
-
-    """ Custom CSS ID to apply when rendering this item. For in-code generated rows only """
-    item_id = models.CharField(max_length=50, null=True)
     
     """ These fields can optionally be used to link tied Ledger Items to their source events """
     ref_mechdesign = models.ForeignKey('warbook.MechDesign', blank=True, null=True)
@@ -40,22 +37,13 @@ class LedgerItem(models.Model):
         return self.cost
 
     def set_cost_url(self):
-        if self.id != None:
-            return reverse('stable_ledger_set_cost', kwargs={'entry_id' : self.id, 'week' : self.ledger.week.week_number})
-        else:
-            return '#'
+        return reverse('stable_ledger_set_cost', kwargs={'entry_id' : self.id, 'week' : self.ledger.week.week_number})
 
     def set_description_url(self):
-        if self.id != None:
-            return reverse('stable_ledger_set_description', kwargs={'entry_id' : self.id, 'week' : self.ledger.week.week_number})
-        else:
-            return '#'
+        return reverse('stable_ledger_set_description', kwargs={'entry_id' : self.id, 'week' : self.ledger.week.week_number})
 
     def delete_url(self):
-        if self.id != None:
-            return reverse('stable_ledger_delete', kwargs={'entry_id' : self.id, 'week' : self.ledger.week.week_number})
-        else:
-            return '#'
+        return reverse('stable_ledger_delete', kwargs={'entry_id' : self.id, 'week' : self.ledger.week.week_number})
     
     class Meta:
         verbose_name_plural = 'StableWeek Items'
@@ -69,4 +57,4 @@ def recalculate_ledgers(sender, instance=None, created=False, **kwargs):
 
 @receiver(post_delete, sender=LedgerItem)
 def recalculate_ledgers_ondelete(sender, instance=None, created=False, **kwargs):
-    instance.ledger.save()
+    instance.ledger.recalculate()
