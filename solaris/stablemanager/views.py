@@ -181,6 +181,16 @@ class AjaxAddStableTech(StableWeekMixin, View):
             return HttpResponse(json.dumps(True))
         except KeyError:
             return HttpResponse('Incomplete AJAX request', status=400)
+  
+class AjaxRemoveStableTech(StableWeekMixin, View):
+    def post(self, request, week=None):
+        try:
+            tech = get_object_or_404(Technology, name=request.POST['tech'])
+            self.stableweek.remove_technology(tech)
+
+            return HttpResponse(json.dumps(True))
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', status=400)
 
 class AjaxAlterReputationView(StableWeekMixin, View):
     def post(self, request, week=None):

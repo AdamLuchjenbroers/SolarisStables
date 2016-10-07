@@ -7,7 +7,7 @@ function attach_tech_input(form, button, input) {
   $('#add-tech-submit').click( function() {
     $.ajax({
       type : 'post',
-      url  : window.location.href + '/add-tech',
+      url  : $('#add-tech-form').attr('action'),
       dataType : 'json',
       data : {
         tech : $('#add-tech-input').val()
@@ -25,6 +25,22 @@ function attach_tech_input(form, button, input) {
         attach_tech_input('#add-tech-input');
       });
     });
+  });
+
+  $('#stable-tech-list .tech-delete').click(function() {
+    $.ajax({
+      type : 'post',
+      url  : $('#stable-tech-section').attr('remove_url'),
+      dataType : 'json',
+      data : {
+        tech : $(this).attr('tech')
+      }
+    }).done(function(newState) {
+      $('#stable-tech-section').load(window.location.href + '/tech-list', function() {    
+        attach_tech_input('#add-tech-input');
+      });
+    });
+    
   });
 }
 

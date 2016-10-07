@@ -13,7 +13,10 @@ urlpatterns = patterns('',
     url(r'^create/?$', views.AjaxCreateStableWeekView.as_view(), name='stable_createweek'),
 
     url(r'^/?add-tech/?$', views.AjaxAddStableTech.as_view()),
-    url(r'^(?P<week>[0-9]+)/add-tech/?$', views.AjaxAddStableTech.as_view()),
+    url(r'^(?P<week>[0-9]+)/add-tech/?$', views.AjaxAddStableTech.as_view(), name='stable_add_tech'),
+
+    url(r'^/?remove-tech/?$', views.AjaxRemoveStableTech.as_view()),
+    url(r'^(?P<week>[0-9]+)/remove-tech/?$', views.AjaxRemoveStableTech.as_view(), name='stable_remove_tech'),
 
     url(r'^/?alter-rep/?$', views.AjaxAlterReputationView.as_view()),
     url(r'^(?P<week>[0-9]+)/alter-rep/?$', views.AjaxAlterReputationView.as_view()),

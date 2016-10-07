@@ -935,6 +935,22 @@ ul.chit-list li.chit.stable-tech {
   padding: 0.1rem;
 }
 
+.icon-button.tech-delete {
+  color: #AA2222;
+  float: right;
+
+  margin: 0px;
+  margin-right: 2px;
+
+  cursor: default;
+
+  visibility: hidden;
+}
+
+li.chit.stable-tech:hover .icon-button.tech-delete {
+  visibility: visible;
+}
+
 ul.chit-list li.mech-chit {
   width: 80%;
   position: relative;

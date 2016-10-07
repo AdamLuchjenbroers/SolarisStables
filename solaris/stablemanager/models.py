@@ -181,6 +181,11 @@ class StableWeek(models.Model):
         self.supply_contracts.add(tech)
         if self.next_week != None:
             self.next_week.add_technology(tech)
+
+    def remove_technology(self, tech):
+        self.supply_contracts.remove(tech)
+        if self.next_week != None:
+            self.next_week.remove_technology(tech)
             
     def get_absolute_url(self):
         return reverse('stable_ledger', kwargs={'week': self.week.week_number})
