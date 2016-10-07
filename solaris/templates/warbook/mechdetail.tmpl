@@ -15,7 +15,7 @@
   </p>
   {% if mech.get_loadouts %}
   <ul class="loadouts">
-  {% for loadout in mech.get_loadouts %}
+  {% for loadout in mech.get_production_loadouts %}
   {% if loadout == mech %}
     <li class="selected">{{loadout.omni_loadout}}</li>
   {% else %}

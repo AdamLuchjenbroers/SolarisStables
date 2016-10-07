@@ -5,6 +5,12 @@ from math import ceil
 from .refdata import locations_all, structure_entry, structure
 from solaris.warbook.refdata import technology_tiers
 
+class MechDesignManager(models.Manager):
+    use_for_related_fields = True
+
+    def production(self):
+        return self.filter(production_type__in=('P','H'))
+
 class MechDesign(models.Model):
     mech_name = models.CharField(max_length=50)
     mech_code = models.CharField(max_length=50)
@@ -46,6 +52,8 @@ class MechDesign(models.Model):
     omni_basechassis = models.ForeignKey('MechDesign', null=True, blank=True, related_name='loadouts')
     tier = models.IntegerField(default=0, choices=technology_tiers)
 
+    objects = MechDesignManager()
+
     def description(self):
         #Remove everything before the first , because Mech Name and Tonnage will be listed separately
         loc = self.ssw_description.find(', ') + 2
@@ -69,14 +77,22 @@ class MechDesign(models.Model):
  
         return self.tier
 
-    def get_loadouts(self):
+    def get_production_loadouts(self):
+        return self.get_loadouts(production_only=True)
+
+    def get_loadouts(self, production_only=False):
         if self.is_omni:
             if self.omni_basechassis:
                 loadouts = [self.omni_basechassis]
-                omni_loadouts = self.omni_basechassis.loadouts.all()
+                omni_qset = self.omni_basechassis.loadouts
             else:
                 loadouts = [self]
-                omni_loadouts = self.loadouts.all()
+                omni_qset = self.loadouts
+
+            if production_only:
+                omni_loadouts = omni_qset.production()
+            else:
+                omni_loadouts = omni_qset.all()
 
             for omni_config in omni_loadouts:
                 loadouts.append(omni_config)
