@@ -6,19 +6,23 @@
     {% endif %}
   {% endfor %}
 
-  {% if stableweek.mechs.has_signature %}
-  <h2>Signature Mechs</h2>
-    {% for pw in stableweek.pilots.all %}
-    {% if pw.signature_mechs %} 
+  {% for pw in stableweek.get_sigmech_pilots %}
+  {% if forloop.first %}<h2>Signature Mechs</h2>{% endif %}
     <h3>{{pw.pilot}}</h3>
-      {% for stablemech in pw.signature_mechs %} 
-        {% if stablemech.is_visible %}
-          {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design smw=stablemech %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
+    {% for stablemech in pw.signature_mechs %} 
+      {% if stablemech.is_visible %}
+        {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design smw=stablemech %}
+      {% endif %}
     {% endfor %}
-  {% endif %}
+  {% endfor %}
+
+  {% for stablemech in stableweek.get_ownerless_sigmechs %}
+  {% if forloop.first %}<h2>Ownerless Mechs</h2>{% endif %}
+    {% if stablemech.is_visible %}
+      {% include "stablemanager/fragments/mech_action_chit.html" with mech=stablemech.current_design smw=stablemech %}
+    {% endif %}
+  {% endfor %}
+
 
   {% if stableweek.mechs.mechs_on_order %}
   <h2>On Order</h2>

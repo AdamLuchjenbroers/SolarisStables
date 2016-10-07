@@ -246,6 +246,17 @@ class StableWeek(models.Model):
     def total_assigned_tp(self):
         return self.assigned_tp_counts()['Total']
 
+    def get_sigmech_pilots(self):
+        owners = self.mechs.exclude(signature_of=None).values_list('signature_of')
+
+        return self.pilots.all_living().filter(pilot__in=owners)
+
+    def get_ownerless_sigmechs(self):
+        ''' Find all signature mechs with dead owners '''
+        owners = self.pilots.all_living().values_list('pilot')
+
+        return self.mechs.exclude(signature_of=None).exclude(signature_of__in=owners)
+
     def __unicode__(self):
         return '%s - Week %i' % (self.stable.stable_name, self.week.week_number)
 
