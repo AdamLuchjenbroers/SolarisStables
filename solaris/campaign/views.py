@@ -95,6 +95,11 @@ class CampaignOverview(CampaignWeekMixin, TemplateView):
         page_context['active'] = active_stables
         page_context['inactive'] = Stable.objects.exclude(ledger__week=self.week)
 
+        tech_counts = [sw.supply_contracts.count() for sw in active_stables]
+        page_context['min_techs'] = min(tech_counts)
+        page_context['max_techs'] = max(tech_counts)
+        page_context['avg_techs'] = sum(tech_counts) / len(tech_counts)
+
         return page_context
 
 class AjaxCreateCampaignView(CampaignAdminMixin, View):

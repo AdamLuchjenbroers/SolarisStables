@@ -26,7 +26,7 @@
         </li>
       {% endfor %}
       </ul>
-  {% endif %}
+      {% endif %}
   <h3>Technology Availability</h3>
   <h4>On Market (Accessible to at least one Stable)</h4>
     <ul class="chit-list">
@@ -40,6 +40,11 @@
       <li class="chit stable-tech tier{{tech.tier}}">{{tech}}</li>
     {% endfor %} 
     </ul>
-  
+  <h4>Contract Counts</h4>
+    <dl id="contract-counts">
+      <dt>Lowest:</dt><dd>{{min_techs}}</dd>
+      <dt>Average:</dt><dd>{{avg_techs}}</dd>
+      <dt>Maximum:</dt><dd>{{max_techs}}</dd>
+    </dl>
 </div>
 {% endblock %}

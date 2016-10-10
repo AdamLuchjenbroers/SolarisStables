@@ -914,6 +914,24 @@ li.stable-chit div.stable-name {
   font-weight: bold;
 }
 
+#contract-counts {
+  margin-left: 3em;
+}
+
+#contract-counts * {
+  display: inline-block;
+}
+
+#contract-counts dt {
+  font-weight: bold;
+  width: 2em;
+}
+
+#contract-counts dd {
+  width: 2em;
+  text-align: right;
+  margin-right: 1em;
+}
 
 /****************************************
  * Stable Overview
