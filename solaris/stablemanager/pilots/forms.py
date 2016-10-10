@@ -5,7 +5,7 @@ from . import models
 from snippets.widgets import SelectWithDisabled
 
 from solaris.warbook.models import house_list_as_opttree
-from solaris.warbook.pilotskill.models import PilotTrait, PilotTraitGroup
+from solaris.warbook.pilotskill.models import PilotRank, PilotTrait, PilotTraitGroup
 
 class PilotForm(forms.ModelForm):
 
@@ -21,6 +21,7 @@ class PilotForm(forms.ModelForm):
 
         self.fields['affiliation'].choices = (('', '-- Select House --'),) + house_list_as_opttree()
         self.fields['affiliation'].label = 'House or Faction:'
+        self.fields['affiliation'].initial = stable.house
 
     def clean_callsign(self):
         callsign = self.cleaned_data['callsign']    
@@ -75,6 +76,8 @@ class PilotWeekForm(forms.ModelForm):
         
         self.fields['start_character_points'].label = 'Experience:'
         self.fields['rank'].label = 'Ranking:'
+        self.fields['rank'].initial = PilotRank.objects.get(rank='Rookie') 
+
         self.fields['skill_gunnery'].label = 'Gunnery:'
         self.fields['skill_piloting'].label = 'Piloting:'
 
