@@ -71,7 +71,7 @@ class Stable(models.Model):
 
     def save(self, *args, **kwargs):
         if self.stable_slug == None:
-            self.stable_slug = slugify(self.stable_name)
+            self.stable_slug = slugify(unicode(self.stable_name))
 
         super(Stable, self).save()
         
