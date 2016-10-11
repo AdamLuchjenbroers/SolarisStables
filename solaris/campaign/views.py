@@ -96,9 +96,15 @@ class CampaignOverview(CampaignWeekMixin, TemplateView):
         page_context['inactive'] = Stable.objects.exclude(ledger__week=self.week)
 
         tech_counts = [sw.supply_contracts.count() for sw in active_stables]
-        page_context['min_techs'] = min(tech_counts)
-        page_context['max_techs'] = max(tech_counts)
-        page_context['avg_techs'] = sum(tech_counts) / len(tech_counts)
+
+        if len(tech_counts) > 0:
+            page_context['min_techs'] = min(tech_counts)
+            page_context['max_techs'] = max(tech_counts)
+            page_context['avg_techs'] = sum(tech_counts) / len(tech_counts)
+        else: 
+            page_context['min_techs'] = "--"
+            page_context['max_techs'] = "--"
+            page_context['avg_techs'] = "--"
 
         return page_context
 
