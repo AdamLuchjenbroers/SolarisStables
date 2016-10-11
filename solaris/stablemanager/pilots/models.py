@@ -237,7 +237,7 @@ class PilotWeek(models.Model):
         to_copy = (
           self.traits.all()
         , self.training.filter(training__training__in=('S','T'))
-        , self.new_traits.all()
+        , self.new_traits.filter(added=True)
         )
 
         for dataset in to_copy:
@@ -248,6 +248,9 @@ class PilotWeek(models.Model):
                 )
                 new.notes = trait.notes
                 new.save()
+        
+        to_remove = [trait.trait for trait in self.new_traits.filter(added=False)]
+        self.next_week.traits.filter(trait__in=to_remove).delete()
         
     class Meta:
         db_table = 'stablemanager_pilotweek'
@@ -391,18 +394,24 @@ class PilotTraitEvent(models.Model):
     pilot_week = models.ForeignKey('PilotWeek', related_name='new_traits')
     trait = models.ForeignKey(PilotTrait)
     notes = models.CharField(max_length=50, blank=True, null=True)
+    added = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return 'Pilot %s develops %s' % (self.pilot_week.pilot.pilot_callsign, self.trait.trait) 
+        if self.added:
+            return 'Pilot %s develops %s' % (self.pilot_week.pilot.pilot_callsign, self.trait) 
+        else:
+            return 'Pilot %s cured %s' % (self.pilot_week.pilot.pilot_callsign, self.trait)
 
     def is_locked(self):
         return self.pilot_week.is_locked()
     
     def description(self):
+        action = 'Developed' if self.added else 'Cured'
+
         if self.notes != None:
-            return 'Developed %s (%s)' % (self.trait, self.notes)
+            return '%s %s (%s)' % (action, self.trait, self.notes)
         else:
-            return 'Developed %s' % self.trait
+            return '%s %s' % (action, self.trait)
 
     class Meta:
         db_table = 'stablemanager_traitevent'

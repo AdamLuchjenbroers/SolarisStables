@@ -60,6 +60,7 @@ class StablePilotsView(StablePilotMixin, ListView):
 
         page_context['training_form'] = forms.PilotTrainingForm(stableweek=self.stableweek, auto_id='pilot-training-%s')
         page_context['trait_form'] = forms.PilotTraitForm(stableweek=self.stableweek, auto_id='pilot-trait-%s')
+        page_context['cure_form'] = forms.PilotRemoveTraitForm(stableweek=self.stableweek, auto_id='pilot-cure-%s')
         page_context['defer_form'] = forms.PilotDefermentForm(stableweek=self.stableweek, auto_id='pilot-defer-%s')
 
         return page_context
@@ -332,6 +333,23 @@ class AjaxAddPilotTrait(AjaxPilotMixin, View):
 
             (gain_trait, created) = models.PilotTraitEvent.objects.get_or_create(pilot_week=self.pilotweek, trait=trait)
             gain_trait.notes = notes
+            gain_trait.save()
+
+            self.pilotweek.save()
+
+            result = self.pilotweek.state_parcel()
+            return HttpResponse(json.dumps(result))
+
+        except PilotTrait.DoesNotExist:
+            return HttpResponse('Invalid Trait ID', status=400)
+
+class AjaxCurePilotTrait(AjaxPilotMixin, View):
+    def post(self, request, week=None):
+        try:
+            trait = PilotTrait.objects.get(id=int(request.POST['trait']))
+
+            (gain_trait, created) = models.PilotTraitEvent.objects.get_or_create(pilot_week=self.pilotweek, trait=trait)
+            gain_trait.added = False
             gain_trait.save()
 
             self.pilotweek.save()

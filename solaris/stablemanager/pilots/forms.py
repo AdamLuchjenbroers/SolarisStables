@@ -156,6 +156,21 @@ class PilotTraitForm(PilotActionForm):
 
         self.fields['trait'].choices = choices
 
+class PilotRemoveTraitForm(PilotActionForm):
+    trait = forms.ChoiceField(label="Problem:")
+
+    def __init__(self, stableweek=None, *args, **kwargs):
+        super(PilotRemoveTraitForm, self).__init__(stableweek=stableweek, *args, **kwargs)
+
+        self.fields['trait'].widget.attrs['disabled'] = True
+
+        pilots = [('','-- Select Pilot --'),]
+        for pw in stableweek.pilots.all_living():
+            disabled = (pw.traits.exclude(trait__discipline__discipline_type='T').count() == 0)
+            pilots.append((pw.id, {'label' : pw.pilot.pilot_callsign, 'disabled': disabled }))
+
+        self.fields['pilot'] = forms.ChoiceField(choices=pilots, widget=SelectWithDisabled, label='Pilot:')
+
 class PilotDefermentForm(PilotActionForm):
     pilot = forms.ChoiceField(label='Pilot:', widget=SelectWithDisabled)
     deferred = forms.ChoiceField(label='Deferred:')

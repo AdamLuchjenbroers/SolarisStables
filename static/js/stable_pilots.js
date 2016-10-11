@@ -231,6 +231,32 @@ function change_defer_pilot() {
   }); 
 }
 
+function change_cure_pilot() {
+  callsign = $('#pilot-cure-pilot option:selected').text()
+
+  if (callsign == '-- Select Pilot --') { 
+    $('#pilot-cure-trait').html('');
+    $('#pilot-cure-trait').attr('disabled', 'yes');
+
+    return; 
+  }
+
+  $.ajax({
+    type : 'get'
+  , url  : window.location.href + '/pilot-traits'
+  , dataType : 'json'
+  , data : { 'callsign' : callsign }
+  }).success(function(response) { 
+     opthtml = "<option value=\"\">-- Select Trait --</option>"
+     $.each( response, function (i, trait) {
+       opthtml += "<option value=\"" + trait['id'] + "\">" + trait['name'] + "</option>"
+     });
+
+     $('#pilot-cure-trait').html(opthtml);
+     $('#pilot-cure-trait').removeAttr('disabled');
+  });
+}
+
 function submit_pilot_training() {
   training = {
     'callsign' : $('#pilot-training-pilot option:selected').text()
@@ -293,6 +319,26 @@ function submit_pilot_deferred() {
      reload_defer_table();
   });
 }
+
+function submit_pilot_cure() {
+  trait = {
+    'callsign' : $('#pilot-cure-pilot option:selected').text()
+  , 'trait' : $('#pilot-cure-trait').val()
+  };
+
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/cure-trait'
+  , dataType : 'json'
+  , data : trait
+  }).done(function(response) { 
+     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'])
+
+     reset_cure_form();
+     reload_trait_table();
+  });
+}
+
 
 function pilot_row_update(callsign, spent_xp, final_xp) {
   pilot = $('#stable-pilot-table tr[callsign=\'' + callsign + '\']');
@@ -454,6 +500,13 @@ function reset_defer_form() {
   $('#pilot-defer-submit').attr('disabled','yes');
 }
 
+function reset_cure_form() {
+  $('#pilot-cure-pilot').val('');
+  $('#pilot-cure-trait').val('');
+
+  $('#pilot-cure-submit').attr('disabled','yes');
+}
+
 function validate_deferred_form() {
   pilot    = $('#pilot-defer-pilot').val();
   deferred = $('#pilot-defer-deferred').val();
@@ -464,6 +517,19 @@ function validate_deferred_form() {
     return false;
   } else {
     $('#pilot-defer-submit').removeAttr('disabled');
+    return true;
+  }  
+}
+
+function validate_cure_form() {
+  pilot = $('#pilot-cure-pilot').val();
+  trait = $('#pilot-cure-trait').val();
+
+  if (pilot == null || pilot == "" || trait == null || trait == "") {
+    $('#pilot-cure-submit').attr('disabled', 'yes');
+    return false;
+  } else {
+    $('#pilot-cure-submit').removeAttr('disabled');
     return true;
   }  
 }
@@ -614,14 +680,18 @@ $( document ).ready(function() {
 
   reset_trait_form();
   reset_defer_form();
+  reset_cure_form();
   $('#pilot-trait-form select, #pilot-trait-form input').change( validate_trait_form );
   $('#pilot-defer-form select, #pilot-defer-form input').change( validate_deferred_form );
+  $('#pilot-cure-form select, #pilot-cure-form input').change( validate_cure_form );
 
   $('#pilot-defer-pilot').change( change_defer_pilot );
+  $('#pilot-cure-pilot').change( change_cure_pilot );
 
   $('#pilot-training-submit').click( submit_pilot_training );
   $('#pilot-trait-submit').click( submit_pilot_trait );
   $('#pilot-defer-submit').click( submit_pilot_deferred );
+  $('#pilot-cure-submit').click( submit_pilot_cure );
   training_table_setup(); 
   trait_table_setup(); 
   defer_table_setup();

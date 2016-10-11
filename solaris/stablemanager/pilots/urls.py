@@ -48,6 +48,9 @@ urlpatterns = patterns('',
     url(r'^/?remove-trait', views.AjaxRemovePilotTrait.as_view(), name="stable_remove_trait_now"),
     url(r'^/?(?P<week>[0-9]+)/+remove-trait', views.AjaxRemovePilotTrait.as_view(), name="stable_remove_trait"),
 
+    url(r'^/?cure-trait', views.AjaxCurePilotTrait.as_view(), name="stable_cure_trait_now"),
+    url(r'^/?(?P<week>[0-9]+)/+cure-trait', views.AjaxCurePilotTrait.as_view(), name="stable_cure_trait"),
+
     url(r'^/?pilot-traits', views.AjaxGetCurrentPilotTraits.as_view(), name="stable_pilot_traits_now"),
     url(r'^/?(?P<week>[0-9]+)/+pilot-traits', views.AjaxGetCurrentPilotTraits.as_view(), name="stable_pilot_traits"),
 
