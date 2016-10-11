@@ -114,3 +114,28 @@ class StableTestMixin(object):
                                              , create_ledger = create_ledger
                                              )
         return mech
+
+    def add_pilot(self, stable, stableweek=None, **kwargs):
+        if stableweek == None:
+            stableweek = stable.get_stableweek()
+
+        pilot_args = {
+          'pilot_name' : 'Tess Teagle'
+        , 'pilot_callsign' : 'Test'
+        , 'affiliation' : stable.house
+        }
+        for key in ['pilot_name', 'pilot_callsign', 'affiliation']:
+            if key in kwargs:
+                pilot_args[key] = kwargs[key]
+
+        pilot = Pilot.objects.create(stable=stable, **pilot_args)
+
+        pweek_args = {
+          'pilot' : pilot
+        , 'week' : stableweek
+        , 'skill_gunnery' : 4
+        , 'skill_piloting' : 5
+        }
+        for key in ['pilot_name', 'pilot_callsign', 'affiliation']:
+            if key in kwargs:
+                pilot_args[key] = kwargs[key]

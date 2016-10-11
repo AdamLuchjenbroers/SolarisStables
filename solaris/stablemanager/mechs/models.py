@@ -250,7 +250,7 @@ class StableMechWeek(models.Model):
         ,  delivery = max(0, self.delivery - 1)
         )
         
-        for config in self.loadouts.all():
+        for config in self.loadouts.filter(cored=False, removed=False):
             config.next_week = StableMechWeek.objects.create(
                stableweek = self.stableweek.next_week
             ,  stablemech = config.stablemech
