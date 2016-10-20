@@ -284,7 +284,9 @@ function submit_purchase_form() {
     
   formdata['mech_source'] = submit_type
   formdata['omni_loadout'] = selected.attr('loadout');
-      
+  formdata['as_purchase'] = $('#id_as_purchase').is(':checked'); 
+  formdata['delivery'] = $('#id_delivery').val();
+
   submit_purchase_data(form, formdata);  
 }
 
