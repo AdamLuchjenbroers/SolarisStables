@@ -1,9 +1,11 @@
 <form id="add-pilot-form">
   <h2>Pilot Name</h2> 
-  {% if pilotform.non_field_errors or pilotweekform.non_field_errors %}
+  {% if pilotform.non_field_errors or pilotweekform.non_field_errors or trainingform.non_field_errors or problemform.non_field_errors %}
   <div class="form-row"> 
     {{ pilotform.non_field_errors }}
     {{ pilotweekform.non_field_errors }}
+    {{ trainingform.non_field_errors }}
+    {{ problemform.non_field_errors }}
   </div>
   {% endif %}
 
