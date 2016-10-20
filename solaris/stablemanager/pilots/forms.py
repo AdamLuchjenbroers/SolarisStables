@@ -69,7 +69,7 @@ PilotTrainingFormSet = forms.inlineformset_factory(models.PilotWeek, models.Pilo
         
 class PilotWeekForm(forms.ModelForm):
     remove_choices = (('keep', 'Don\'t Remove'), ('remove', 'Remove from Stable'),) 
-    remove = forms.ChoiceField(widget=forms.RadioSelect, initial='keep', choices=remove_choices)
+    remove = forms.ChoiceField(widget=forms.RadioSelect, initial='keep', choices=remove_choices, required=False)
 
     def __init__(self, *args, **kwargs):
         super(PilotWeekForm, self).__init__(*args, **kwargs)
