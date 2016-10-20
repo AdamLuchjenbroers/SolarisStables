@@ -115,7 +115,7 @@ class StableWeek(models.Model):
 
     def prominence(self):
         total = 0
-        for pilot in self.pilots.filter(rank__prominence_factor__gt=0):
+        for pilot in self.pilots.all_living().filter(rank__prominence_factor__gt=0):
             total += pilot.fame * pilot.rank.prominence_factor
 
         return total
