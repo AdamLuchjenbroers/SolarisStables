@@ -54,7 +54,7 @@
        <span class="omni-column config-description"></span>
        <span class="omni-column config-bv">BV</span>
      </div>
-   {% for config in smw.loadouts.all %}
+   {% for config in smw.loadouts.visible %}
      <span class="omni-row omni-config">
        <span class="omni-column config-name">{{config.current_design.omni_loadout}}</span>
        <span class="omni-column config-description">{{config.current_design.omni_description}}</span>

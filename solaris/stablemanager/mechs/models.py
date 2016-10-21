@@ -115,6 +115,9 @@ class StableMechWeekManager(models.Manager):
     def custom(self):
         return self.filter(current_design__production_type__in=('C'))
 
+    def visible(self):
+        return self.filter(removed=False)
+
 class StableMechWeek(models.Model):
     stableweek = models.ForeignKey(StableWeek, related_name='mechs', blank=True, null=True)
     stablemech = models.ForeignKey(StableMech, related_name='weeks')
