@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-from . import ajax, views
+from . import ajax, views, pdf
 
 from solaris.stablemanager.training.views import StableTrainingView
 from solaris.stablemanager.actions.views import StableActionView
@@ -50,4 +50,8 @@ urlpatterns = patterns('',
 
     url(r'^/?overview/?$', ajax.StableOverviewInfo.as_view(), name = 'stable_query_overview_now'),
     url(r'^(?P<week>[0-9]+)/overview/?$', ajax.StableOverviewInfo.as_view(), name = 'stable_query_overview'),
+
+    url(r'^/?owner-report/?$', pdf.StablePDFReport.as_view()),
+    url(r'^(?P<week>[0-9]+)/owner-report/?$', pdf.StablePDFReport.as_view()),
+
 )

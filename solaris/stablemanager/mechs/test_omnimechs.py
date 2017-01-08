@@ -177,3 +177,50 @@ class OmniMechPurchaseTests(StableTestMixin, TestCase):
         
         expect_description = 'New Loadout - Owens OW-1 (A)'
         self.assertEquals(ledger.description, expect_description, 'Purchase Description Incorrect, expected %s found %s' % (expect_description, ledger.description))    
+
+class OmniMechRemovalTests(StableTestMixin, TestCase):
+    def setUp(self):
+        self.stable = self.createStable()
+
+        sw = self.stable.get_stableweek()
+
+        self.mech = [
+            self.addMech(self.stable, stableweek=sw, mech_name='Owens', mech_code='OW-1', omni_loadout='C') 
+        ,   self.addMech(self.stable, stableweek=sw, mech_name='Owens', mech_code='OW-1', omni_loadout='A') 
+        ]
+        self.filter = {
+          'current_design__mech_name' : 'Owens'
+        , 'current_design__mech_code' : 'OW-1'
+        }
+
+    def test_countChassisAndConfig(self):
+        sw = self.stable.get_stableweek()
+        count = sw.mechs.filter(current_design__mech_name='Owens', current_design__mech_code='OW-1').count()
+
+        self.assertEquals(count, 3, 'Expected 3 StableMechs (Chassis + 2 Configs), found %i' % count)
+
+    def test_removeConfig(self):
+        sw = self.stable.get_stableweek()
+        config = sw.mechs.get(current_design=self.mech[1].purchased_as)
+
+        config.set_removed(True)
+
+        self.assertFalse(config.removed, 'Omnimech config not tagged as removed')
+
+    def test_removeChassisStays(self):
+        sw = self.stable.get_stableweek()
+        config = sw.mechs.get(current_design=self.mech[1].purchased_as)
+
+        config.set_removed(True)
+
+        chassis = sw.mechs.get(current_design=self.mech[0].purchased_as.omni_basechassis)
+        self.assertTrue(chassis.removed, 'Omnimech base chassis incorrectly removed')
+
+    def test_removeOtherConfigStays(self):
+        sw = self.stable.get_stableweek()
+        config = sw.mechs.get(current_design=self.mech[1].purchased_as)
+
+        config.set_removed(True)
+
+        other = sw.mechs.get(current_design=self.mech[0].purchased_as)
+        self.assertTrue(other.removed, 'Omnimech base chassis incorrectly removed')
