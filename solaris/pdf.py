@@ -3,8 +3,10 @@ from django.http import HttpResponse
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, landscape
-from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, NextPageTemplate, PageBreak
+from reportlab.platypus import FrameBreak, Paragraph, BaseDocTemplate, Frame, PageTemplate, NextPageTemplate, PageBreak
 from reportlab.lib.units import cm
+
+from . import pdf_styles
 
 class CoverPageTemplate(PageTemplate):
     def __init__(self, title, subtitle):
@@ -31,38 +33,49 @@ class CoverPageTemplate(PageTemplate):
         canvas.line(0.5*cm, (2*cm), width - (0.5*cm), (2*cm))
 
 class ReportPageTemplate(PageTemplate):
-    def __init__(self, id='basic', columns=1, pagesize=A4, leftMargin=(2*cm), bottomMargin=(0.5*cm), colmargin=(0.5*cm)):
-        (left, bottom) = (leftMargin, bottomMargin)
+    def __init__(self, id='basic', columns=1, pagesize=A4, leftMargin=(2*cm), bottomMargin=(2.1*cm), colmargin=(0.5*cm)):
         (right, top) = pagesize
         right -= leftMargin
         top -= bottomMargin
 
-        height = top - bottom
-        width = (right - left)
+        height = top - bottomMargin
+        width = (right - leftMargin)
         # Subtract out blank space between columns
         colwidth = (width - ((columns - 1) * colmargin)) / columns
 
         frames = []
         for col in range(columns):
             left = leftMargin + (col * (colwidth + colmargin))
-            frames.append(Frame(left, bottomMargin, height, colwidth, showBoundary=1))
+            frames.append(Frame(left, bottomMargin, colwidth, height))
 
-        PageTemplate.__init__(self, id=id, frames=frames)
+        PageTemplate.__init__(self, id=id, frames=frames, pagesize=pagesize)
         
     def beforeDrawPage(self, canvas, doc):
+        print self.id
+        (width, height) = canvas._pagesize
         canvas.setLineWidth(0.2 * cm)
         canvas.line(0.5*cm, height - (2*cm), width - (0.5*cm), height - (2*cm))
         canvas.line(0.5*cm, (2*cm), width - (0.5*cm), (2*cm))
+
+        canvas.setFont('Helvetica', 12)
+        canvas.drawString(0.5*cm, height*-(1*cm), self.id)
 
 def report_page(canvas, doc):
     pass
 
 class ReportSection():
-    def __init__(self):
-        pass
+    def __init__(self, name, level):
+        self.name = name
+        self.level = level
+
+    def story_header(self):
+        return [
+          NextPageTemplate('basic')
+        , Paragraph(name, pdf_style.headings[level])      
+        ]
 
     def as_story(self):
-        return []
+        return self.story_header
 
 class SolarisDocTemplate(BaseDocTemplate):
     def __init__(self, request, report_name="Test PDF", title="Test PDF", subtitle=None, pagesize=A4, **kwargs):
@@ -77,13 +90,20 @@ class SolarisDocTemplate(BaseDocTemplate):
         #ReportLab uses old style classes, so super() doesn't work.
         BaseDocTemplate.__init__(self, self.response, pagesize=pagesize, **kwargs)
 
-        cover = CoverPageTemplate(title, subtitle)
+        self.addPageTemplates([
+          CoverPageTemplate(title, subtitle)
+        , ReportPageTemplate(id='basic', pagesize=pagesize)
+        , ReportPageTemplate(id='2col', columns=2, pagesize=pagesize)
+        ])
 
-        all_page = Frame(self.leftMargin, self.bottomMargin, self.width, self.height, id='body')
-        self.addPageTemplates([cover, PageTemplate(id='basic',frames=[all_page]) ])
-
-    def build(self, story, canvasmaker=canvas.Canvas):
-        story.insert(0,NextPageTemplate('basic')) 
+    def build(self, story, canvasmaker=canvas.Canvas,):
+        story.insert(0,NextPageTemplate('basic'))
+        
+        story.append(PageBreak()) 
+        story.append(NextPageTemplate('2col')) 
+        story.append(PageBreak()) 
+        story.append(FrameBreak()) 
+        story.append(PageBreak()) 
 
         return BaseDocTemplate.build(self, story, canvasmaker=canvasmaker)
 

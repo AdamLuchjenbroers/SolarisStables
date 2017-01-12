@@ -97,6 +97,26 @@ class StableWeek(models.Model):
 
         if self.next_week != None:
             self.next_week.add_custom_design(design)
+
+    def total_spent(self):
+        expenses = self.entries.filter(cost__lt=0)
+        if expenses.count() > 0:
+            return expenses.aggregate(models.Sum('cost'))['cost__sum']
+        else:
+            return 0
+
+    def total_winnings(self):
+        expenses = self.entries.filter(cost__gt=0)
+        if expenses.count() > 0:
+            return expenses.aggregate(models.Sum('cost'))['cost__sum']
+        else:
+            return 0
+
+    def total_assets(self):
+        if self.mechs.count() > 0:
+            return self.mechs.all().aggregate(models.Sum('current_design__credit_value'))['current_design__credit_value__sum']
+        else:
+            return 0
     
     def closing_balance(self):
         if self.entries.count() > 0:
