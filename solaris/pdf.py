@@ -3,10 +3,13 @@ from django.http import HttpResponse
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, landscape
-from reportlab.platypus import FrameBreak, Paragraph, BaseDocTemplate, Frame, PageTemplate, NextPageTemplate, PageBreak
+from reportlab.platypus import FrameBreak, Spacer, Paragraph, BaseDocTemplate, Frame, PageTemplate, NextPageTemplate, PageBreak
 from reportlab.lib.units import cm
 
 from . import pdf_styles
+
+class Heading(Paragraph):
+    pass
 
 class CoverPageTemplate(PageTemplate):
     def __init__(self, title, subtitle):
@@ -64,18 +67,38 @@ def report_page(canvas, doc):
     pass
 
 class ReportSection():
+    page_template = 'basic'
+
     def __init__(self, name, level):
         self.name = name
         self.level = level
 
     def story_header(self):
         return [
-          NextPageTemplate('basic')
-        , Paragraph(name, pdf_style.headings[level])      
+          NextPageTemplate(self.__class__.page_template)
+        , PageBreak()
+        , Heading(self.name, pdf_styles.headings[self.level])      
+        , Spacer(0, 0.5*cm)
         ]
 
     def as_story(self):
-        return self.story_header
+        return self.story_header()
+
+class ListSubsection(ReportSection):
+    def __init__(self, name, level, list_data):
+        self.list_data = list_data
+
+        ReportSection.__init__(self, name, level)
+
+    def story_header(self):
+        return [ Heading(self.name, pdf_styles.headings[self.level]), Spacer(0,0.3*cm) ] 
+
+    def as_story(self):
+        story = self.story_header()
+        for (item, value) in self.list_data:
+            story += [Paragraph('<para><b>%s:</b> %i</para>\n' % (item, value), pdf_styles.body_text)]
+       
+        return story 
 
 class SolarisDocTemplate(BaseDocTemplate):
     def __init__(self, request, report_name="Test PDF", title="Test PDF", subtitle=None, pagesize=A4, **kwargs):
@@ -98,12 +121,6 @@ class SolarisDocTemplate(BaseDocTemplate):
 
     def build(self, story, canvasmaker=canvas.Canvas,):
         story.insert(0,NextPageTemplate('basic'))
-        
-        story.append(PageBreak()) 
-        story.append(NextPageTemplate('2col')) 
-        story.append(PageBreak()) 
-        story.append(FrameBreak()) 
-        story.append(PageBreak()) 
 
         return BaseDocTemplate.build(self, story, canvasmaker=canvasmaker)
 

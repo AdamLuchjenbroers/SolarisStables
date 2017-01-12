@@ -5,21 +5,21 @@ from reportlab.lib.pagesizes import A4, landscape
 from django.db import models
 from django.http import HttpResponse 
 
-from solaris.pdf import PDFView
-from solaris.stablemanager.pdf import StableDocTemplate
+from solaris.pdf import PDFView, ReportSection, SolarisDocTemplate
 from solaris.stablemanager.views import StableWeekMixin
+from solaris import pdf_styles
+
 from .models import LedgerItem
 
-class LedgerPDFView(StableWeekMixin, PDFView):
+class LedgerReportSection(ReportSection):
+    def __init__(self, stableweek, name='Ledger', level=0, width=(A4[0]*0.8)):
+        self.stableweek = stableweek
+        self.name = 'Ledger'
+        self.level = level
 
-    def get_report_name(self, *args, **kwargs):
-        return '%s - Stable Ledger Week %2d' % (self.stable.stable_name, self.stableweek.week.week_number)
+        self.col_widths = [width * 0.7, width * 0.3]
 
-    def get(self, request, *args, **kwargs):
-        self.doc = StableDocTemplate(request, pagesize=landscape(A4), report_name=self.get_report_name())
-
-        Story = []
-
+    def as_story(self):
         ledger_data = [ ['Opening Balance', "{:,}".format(self.stableweek.opening_balance)]]
         ledger_style = [('BACKGROUND', (0,0), (-1,0), '#CCCCCC')
                        ,('FONT', (0,0), (-1,0), 'Courier-Bold')
@@ -69,9 +69,25 @@ class LedgerPDFView(StableWeekMixin, PDFView):
         ledger_style.append(['LINEABOVE',(0,row),(-1,row), 2, '#000000'])
         ledger_style.append(['LINEBELOW',(0,row),(-1,row),4,'#000000'])
 
-        ledger_table = Table(ledger_data)
+        ledger_table = Table(ledger_data, self.col_widths)
+
         ledger_table.setStyle(TableStyle(ledger_style))
 
-        self.doc.build([ledger_table])
+        story = self.story_header()
+        story.append(ledger_table)
+        return story
+
+
+class LedgerPDFView(StableWeekMixin, PDFView):
+
+    def get_report_name(self, *args, **kwargs):
+        return '%s - Stable Ledger Week %2d' % (self.stable.stable_name, self.stableweek.week.week_number)
+
+    def get(self, request, *args, **kwargs):
+        self.doc = SolarisDocTemplate(request, pagesize=landscape(A4), report_name=self.get_report_name())
+
+        report = LedgerReportSection(self.stableweek)
+
+        self.doc.build(report.as_story())
 
         return self.doc.get_response()

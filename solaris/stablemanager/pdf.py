@@ -3,7 +3,10 @@ from .views import StableWeekMixin
 
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.units import cm
-from reportlab.platypus import Table, TableStyle, PageBreak
+from reportlab.platypus import Table, TableStyle, PageBreak, Paragraph
+
+from solaris import pdf_styles, pdf
+from solaris.stablemanager.ledger.pdf import LedgerReportSection
 
 class StableDocTemplate(SolarisDocTemplate):
     def __init__(self, request, stable=None, stableweek=None, **kwargs):
@@ -13,12 +16,27 @@ class StableDocTemplate(SolarisDocTemplate):
         SolarisDocTemplate.__init__(self, request, **kwargs)
 
 class OverviewReportSection(ReportSection):
+    page_template = '2col'
+
     def __init__(self, stableweek, *args, **kwargs):
         self.stableweek = stableweek
-        ReportSection.__init__(self, *args, **kwargs)
+        ReportSection.__init__(self, 'Overview', 0)
+
 
     def as_story(self):
-        return []
+        story = self.story_header()
+
+        finances_data = [
+          ('Current Balance', self.stableweek.closing_balance())
+        , ('Total Expenses', self.stableweek.total_spent())
+        , ('Total Income', self.stableweek.total_winnings())
+        , ('Total Assets', self.stableweek.total_assets())
+        ] 
+        finances = pdf.ListSubsection('Finances', self.level + 1, finances_data)
+
+        story += finances.as_story()
+
+        return story
 
 class StablePDFReport(StableWeekMixin, PDFView):
     pagesize = landscape(A4)
@@ -35,6 +53,9 @@ class StablePDFReport(StableWeekMixin, PDFView):
         )
 
         story = []
+        story += OverviewReportSection(self.stableweek).as_story()
+        story += LedgerReportSection(self.stableweek, width=(A4[1]*0.8)).as_story()
+
         self.doc.build(story)
         return self.doc.get_response() 
 
