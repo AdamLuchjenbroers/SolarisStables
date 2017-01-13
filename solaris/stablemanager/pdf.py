@@ -13,7 +13,12 @@ class StableDocTemplate(SolarisDocTemplate):
         self.stable = stable
         self.stableweek = stableweek
 
-        SolarisDocTemplate.__init__(self, request, **kwargs)
+        if stable != None and stable.stable_bg != None:
+            background = stable.stable_bg.path
+        else:
+            background = None
+
+        SolarisDocTemplate.__init__(self, request, background=background, **kwargs)
 
 class OverviewReportSection(ReportSection):
     page_template = '2col'
@@ -49,6 +54,8 @@ class StablePDFReport(StableWeekMixin, PDFView):
             , pagesize=landscape(A4)
             , report_name=self.get_report_name()
             , title=self.stable.stable_name
+            , stable=self.stable
+            , stableweek=self.stableweek
             , subtitle='Stable Owners Report - Week %i' % self.stableweek.week.week_number
         )
 
