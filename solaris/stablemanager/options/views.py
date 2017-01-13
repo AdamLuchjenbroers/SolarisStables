@@ -31,4 +31,12 @@ class StableSetLogoView(StableWeekMixin, View):
         else:
             return HttpResponse('Failed', status=400)
 
+class StableSetBannerView(StableWeekMixin, View):
+    def post(self, request, week=None):
+        form = forms.StableBannerForm(request.POST, request.FILES, instance=self.stable)
 
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('stable_options', kwargs={'week' : self.stableweek.week.week_number}))
+        else:
+            return HttpResponse('Failed', status=400)

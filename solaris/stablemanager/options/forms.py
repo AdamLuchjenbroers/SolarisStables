@@ -15,6 +15,9 @@ class StableLogoForm(forms.ModelForm):
           'stable_icon' : StableImageInput
         } 
 
+    def id_for(self):
+        return 'stable-logo' 
+
 class StableBannerForm(forms.ModelForm):
 
     class Meta:
@@ -23,3 +26,9 @@ class StableBannerForm(forms.ModelForm):
         labels = { 
           'stable_bg'   : 'Stable Banner:'
         } 
+        widgets = {
+          'stable_bg' : StableImageInput
+        }
+
+    def id_for(self):
+        return 'stable-banner' 

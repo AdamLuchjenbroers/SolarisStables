@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^(?P<week>[0-9]+)/?$', views.StableOptionsView.as_view(), name='stable_options'),
 
     url(r'^(?P<week>[0-9]+)/set-logo$', views.StableSetLogoView.as_view(), name='stable_options_setlogo'),
+    url(r'^(?P<week>[0-9]+)/set-banner$', views.StableSetBannerView.as_view(), name='stable_options_setbanner'),
 )

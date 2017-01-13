@@ -1,0 +1,9 @@
+<span id="stable-banner">
+  <h1>Stable Banner</h1>
+  <p>A larger image, used as a background for PDF reports</p>
+  {% include 'stablemanager/fragments/stable_banner.html' with id='stable-banner-image' %}
+  <form enctype="multipart/form-data" action="{% url 'stable_options_setbanner' week=stableweek.week.week_number %}" method="post">
+    {{form.stable_bg}}
+    <input type="submit" value="Update Banner">
+  </form>
+</span>
