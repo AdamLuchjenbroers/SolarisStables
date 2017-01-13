@@ -1790,22 +1790,22 @@ ul.chit-list li.stable-discipline a:hover {
  * Stable Options
  ****************************************/
 
-#stable-logo {
+#stable-logo, #stable-banner {
   display: inline-block;
   width: 80%;
 }
 
-#stable-logo h1 {
+#stable-logo h1, #stable-banner h1 {
   font-size: 120%;
   font-weight: bold;
 }
 
-#stable-logo form input {
+#stable-logo form input, #stable-banner form input {
   margin-top: 0.3em;
 }
 
 /* Override some of the default forms css for convenience */
-#stable-logo form label {
+#stable-logo form label, #stable-banner form label {
   display: inline-block;
   width: 4em;
   margin-right: 0.5em;
@@ -1818,6 +1818,16 @@ ul.chit-list li.stable-discipline a:hover {
 #stable-logo-image {
   width: 80px;
   height: 80px;
+  margin-right: 120px;
+
+  padding: 2px;
+  border: 1px;
+
+  float: left;
+}
+
+#stable-banner-image {
+  width: 200px;
 
   padding: 2px;
   border: 1px;
