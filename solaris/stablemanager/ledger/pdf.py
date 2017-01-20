@@ -14,7 +14,7 @@ from .models import LedgerItem
 class LedgerReportSection(ReportSection):
     def __init__(self, stableweek, name='Ledger', level=0, width=(A4[0]*0.8)):
         self.stableweek = stableweek
-        self.name = 'Ledger'
+        self.name = name
         self.level = level
 
         self.col_widths = [width * 0.7, width * 0.3]
