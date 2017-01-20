@@ -40,7 +40,7 @@ class SimpleMechPurchaseForm(forms.Form):
     
     def clean_omni_loadout(self):
         if 'omni_loadout' in self.cleaned_data and self.cleaned_data['omni_loadout'] != None:
-            return self.cleaned_data['loadout']
+            return self.cleaned_data['omni_loadout']
         else:
             return 'Base'
 
