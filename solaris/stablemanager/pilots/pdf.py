@@ -1,10 +1,38 @@
 from reportlab.platypus import Table, TableStyle
+from reportlab.platypus.flowables import Flowable
 from reportlab.lib.pagesizes import A4
 
 from solaris.pdf import PDFView, ReportSection, SolarisDocTemplate
 from solaris.stablemanager.views import StableWeekMixin
 
 from reportlab.lib.units import cm
+
+class WoundIndicator(Flowable):
+    def __init__(self, wounds, marks):
+        self.wounds = wounds
+        self.marks = marks 
+
+    def wrap(self, availWidth, availHeight):
+        if (availWidth / 6.0) < availHeight:
+            self.icon_size = availWidth / 6.0
+        else:
+            self.icon_size = float(availHeight)
+
+        return (self.icon_size * 6), self.icon_size
+
+    def draw(self):
+	self.canv.setFillColor('#666666')
+        self.canv.setLineWidth(1)
+
+        y = 0.5 * self.icon_size
+        rad = 0.4 * self.icon_size
+
+        for wound in range(6):
+            x = (wound + 0.5) * self.icon_size
+            fill = (self.wounds > wound) or (self.marks >= (6 - wound))
+
+            self.canv.circle(x, y, rad, fill=fill)
+         
 
 class RosterReportSection(ReportSection):
     def __init__(self, stableweek, name='Roster', level=0, width=(A4[0]*0.8)):
@@ -29,7 +57,7 @@ class RosterReportSection(ReportSection):
             , ', '.join((trait.trait.name for trait in pilot.traits.all()))
             , pilot.bv()
             , pilot.character_points()
-            , 'TODO'
+            , WoundIndicator(pilot.wounds, pilot.blackmarks)
             ])
 
         roster_table = Table(roster_data, roster_widths)
