@@ -79,6 +79,9 @@ class PilotWeekManager(models.Manager):
     def count_all_available(self):
         return self.filter(removed=False).count()
 
+    def all_present(self):
+        return self.filter(removed=False)
+
     def all_living(self):
         return self.filter(removed=False, wounds__lt=6-models.F('blackmarks'))
 

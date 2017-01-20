@@ -18,7 +18,7 @@ class StablePilotMixin(StableWeekMixin):
     view_url_name = 'stable_pilots'
 
     def get_queryset(self):
-        return models.PilotWeek.objects.filter(week=self.stableweek, removed=False)
+        return self.stableweek.pilots.all_present()
 
 class PilotWeekMixin(StableWeekMixin):
     def dispatch(self, request, week=None, callsign=None, *args, **kwargs):
