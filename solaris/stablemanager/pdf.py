@@ -7,6 +7,7 @@ from reportlab.platypus import Table, TableStyle, PageBreak, Paragraph
 
 from solaris import pdf_styles, pdf
 from solaris.stablemanager.ledger.pdf import LedgerReportSection
+from solaris.stablemanager.pilots.pdf import RosterReportSection
 
 class StableDocTemplate(SolarisDocTemplate):
     def __init__(self, request, stable=None, stableweek=None, **kwargs):
@@ -62,6 +63,7 @@ class StablePDFReport(StableWeekMixin, PDFView):
         story = []
         story += OverviewReportSection(self.stableweek).as_story()
         story += LedgerReportSection(self.stableweek, width=(A4[1]*0.8)).as_story()
+        story += RosterReportSection(self.stableweek, width=(A4[1]*0.8)).as_story()
 
         self.doc.build(story)
         return self.doc.get_response() 
