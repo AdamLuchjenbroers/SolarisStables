@@ -1,11 +1,11 @@
 from reportlab.platypus import Table, TableStyle
 from reportlab.platypus.flowables import Flowable
 from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm
 
 from solaris.pdf import PDFView, ReportSection, SolarisDocTemplate
 from solaris.stablemanager.views import StableWeekMixin
 
-from reportlab.lib.units import cm
 
 class WoundIndicator(Flowable):
     def __init__(self, wounds, marks):
