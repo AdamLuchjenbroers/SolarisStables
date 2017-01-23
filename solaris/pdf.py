@@ -10,6 +10,22 @@ from PIL import Image
 
 from . import pdf_styles
 
+def rounded_rect(canvas, width, height, rx, x=0, y=0, kappa=0.55):
+    canvas.line(x+rx, y, x+width-rx, y)
+    canvas.line(x+rx, y+height, x+width-rx, y+height)
+    canvas.line(x, y+height-rx, x, y+rx)
+    canvas.line(x+width, y+height-rx, x+width, y+rx)
+
+    kx = rx * kappa
+
+    canvas.bezier(x+rx,y, x+rx-kx,y, x,y+rx-kx, x,y+rx)
+    canvas.bezier(x+width-rx,y, x+width-rx+kx,y, x+width,y+rx-kx, x+width,y+rx)
+    canvas.bezier(x+rx,y+height, x+rx-kx,y+height, x,y+height-rx+kx, x,y+height-rx)
+    canvas.bezier(x+width-rx,y+height, x+width-rx+kx,y+height, x+width,y+height-rx+kx, x+width,y+height-rx)
+
+def rounded_square(canvas, size, rx, **kwargs):
+    rounded_rect(canvas, size, size, rx, **kwargs)
+
 class Heading(Paragraph):
     pass
 
