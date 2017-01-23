@@ -1,6 +1,6 @@
 from reportlab.platypus import Table, TableStyle
 from reportlab.platypus.flowables import Flowable
-from reportlab.lib.pagesizes import A4
+from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.units import cm
 
 from solaris.pdf import PDFView, ReportSection, SolarisDocTemplate
