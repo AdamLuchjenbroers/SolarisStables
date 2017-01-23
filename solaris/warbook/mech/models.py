@@ -184,7 +184,7 @@ class MechDesign(models.Model):
         if self.is_omni:
             return '%s %s (%s)' % (self.mech_name, self.mech_code, self.omni_loadout)
         else:
-          return '%s %s' % (self.mech_name, self.mech_code)
+            return '%s %s' % (self.mech_name, self.mech_code)
     
     def all_locations(self):
         return { location.location_code() : location for location in self.locations.all() }  
