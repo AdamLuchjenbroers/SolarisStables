@@ -1002,6 +1002,10 @@ li.chit span.mech-tonnage {
   text-align: center;
 }
 
+li.chit.tier4 span.mech-tonnage {
+  border-right: 2px solid #FFFFFF;
+}
+
 li.chit span.mech-body {
   display: inline-flex;
   flex-direction: column;
@@ -1137,6 +1141,23 @@ li.chit.tier3 a.chit-row:hover,
 li.chit.tier3 a.omni-row:hover {
   background-color: #FF4444;
   box-shadow: inset 0px 0px 5px #FF8888;
+}
+
+li.chit.tier4 {
+  background-color: #444444;
+  color: #FFFFFF;
+}
+
+/* Needs to be more specific to override the normal 
+   chit border color */
+ul.chit-list li.chit.tier4 {
+  border: 2px solid #FFFFFF;
+}
+
+li.chit.tier4 a.chit-row:hover, 
+li.chit.tier4 a.omni-row:hover {
+  background-color: #000000;
+  box-shadow: inset 0px 0px 5px #888888;
 }
 
 #stable-reputation-minus,
