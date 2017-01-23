@@ -9,7 +9,7 @@
 <div class="body">
     <div class="techlist">
     {% for tier in techtree %}
-      <div class="tech_tier{{tier.number}}">
+      <div class="tech_tier_list tech_tier{{tier.number}}">
       {% for tech in tier.techs %}
         <div class="tech">
           <span><a href="{{tech.get_absolute_url}}">{{tech.name}}</a></span>

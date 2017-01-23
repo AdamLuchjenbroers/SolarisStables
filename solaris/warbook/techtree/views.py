@@ -9,7 +9,7 @@ class TechnologyListView(ReferenceViewMixin, TemplateView):
     
     def get_context_data(self, **kwargs):
         page_context = super(TechnologyListView, self).get_context_data(**kwargs)
-        page_context['techtree'] = [{ 'number' : tier, 'techs' : models.Technology.objects.filter(tier=tier, show=True)} for tier in range(1,4)]
+        page_context['techtree'] = [{ 'number' : tier, 'techs' : models.Technology.objects.filter(tier=tier, show=True)} for tier in range(1,5)]
         
         return page_context
 
