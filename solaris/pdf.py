@@ -102,14 +102,18 @@ class ReportSection():
     def as_story(self):
         return self.story_header()
 
-class ListSubsection(ReportSection):
-    def __init__(self, name, level, list_data):
-        self.list_data = list_data
-
+class ReportSubSection(ReportSection):
+    def __init__(self, name, level):
         ReportSection.__init__(self, name, level)
 
     def story_header(self):
         return [ Heading(self.name, pdf_styles.headings[self.level]), Spacer(0,0.3*cm) ] 
+
+class ListSubsection(ReportSubSection):
+    def __init__(self, name, level, list_data):
+        self.list_data = list_data
+
+        ReportSubSection.__init__(self, name, level)
 
     def as_story(self):
         story = self.story_header()
