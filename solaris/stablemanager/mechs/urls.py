@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url, include
 
-from . import views 
+from . import views, pdf 
 
 urlpatterns = patterns('',
     url(r'^/?$', views.StableMechsView.as_view(), name='stable_mechs_now'),
@@ -23,6 +23,9 @@ urlpatterns = patterns('',
     url(r'^edit/(?P<smw_id>[0-9]+)/?$', views.MechEditFormView.as_view(), name='edit_mech'),
 
     url(r'^upload/purchase$', views.PurchaseUploadMechView.as_view(), name='upload_purchase_mech'),
+
+    url(r'^pdf/?$', pdf.MechListPDFView.as_view(), name='stable_mechs_pdf_now'),
+    url(r'^pdf/(?P<week>[0-9]+)/?$', pdf.MechListPDFView.as_view(), name='stable_mechs_pdf'),
 
     url(r'^repair/', include('solaris.stablemanager.repairs.urls')),
 )
