@@ -22,8 +22,9 @@ class LedgerReportSection(ReportSection):
     def as_story(self):
         ledger_data = [ ['Opening Balance', "{:,}".format(self.stableweek.opening_balance)]]
         ledger_style = [('BACKGROUND', (0,0), (-1,0), '#CCCCCC')
-                       ,('FONT', (0,0), (-1,0), 'Courier-Bold')
-                       ,('LINEABOVE', (0,0), (-1,0), 4, '#000000')
+                       ,('FONT', (-1,0), (-1,-1), 'Courier-Bold')
+                       ,('FONT', (0,0), (0,0), 'Helvetica-Bold')
+                       ,('LINEABOVE', (0,0), (-1,0), 4, '#000000', 0)
                        ,('ALIGN', (-1,0), (-1,-1), 'RIGHT')]
 
         for (code, description) in LedgerItem.item_types:
@@ -33,11 +34,13 @@ class LedgerReportSection(ReportSection):
 
             ledger_data.append([description, None])
             row = len(ledger_data)-1
-            ledger_style.append(['LINEABOVE',(0,row),(-1,row), 2, '#000000'])
-            ledger_style.append(['LINEBELOW',(0,row),(-1,row), 1, '#444444'])
+            ledger_style.append(['LINEABOVE',(0,row),(-1,row), 2, '#000000', 0])
+            ledger_style.append(['LINEBELOW',(0,row),(-1,row), 1, '#444444', 0])
             ledger_style.append(['LEFTPADDING',(0,row),(-1,row), 12])
-            ledger_style.append(['FONT',(0,row),(-1,row), 'Courier-Bold'])
+            ledger_style.append(['FONT',(0,row),(0,row), 'Helvetica-Bold'])
             group_start = (0, row+1)
+
+            toprow = row + 1
 
             for line in entries:
                 ledger_data.append([line.description, "{:,}".format(line.cost)])
@@ -46,28 +49,31 @@ class LedgerReportSection(ReportSection):
                     row = len(ledger_data)-1
                     ledger_style.append(['TEXTCOLOR',(1,row),(1,row), '#884444'])
 
+            row = len(ledger_data)-1
+            if toprow < row:
+                ledger_style.append(['LINEBELOW',(0,toprow),(-1,row), 1, '#666666', 0, (3,4)])
+
             subtotal = entries.aggregate(models.Sum('cost'))['cost__sum']
             ledger_data.append(['Subtotal', "{:,}".format(subtotal)])
 
             row = len(ledger_data)-1
-            ledger_style.append(['LINEABOVE',(0,row),(-1,row), 2, '#000000'])
-            ledger_style.append(['LINEABOVE',(0,row),(-1,row), 1, '#FFFFFF'])
-            ledger_style.append(['FONT',(0,row),(-1,row), 'Courier-Bold'])
+            ledger_style.append(['LINEABOVE',(0,row),(-1,row), 2, '#000000', 0])
+            ledger_style.append(['LINEABOVE',(0,row),(-1,row), 1, '#FFFFFF', 0])
+            ledger_style.append(['FONT',(0,row),(0,row), 'Helvetica-Bold'])
 
             if subtotal < 0:
                 ledger_style.append(['TEXTCOLOR',(1,row),(1,row), '#884444'])
         
             group_end = (-1, row)
             ledger_style.append(['LEFTPADDING', group_start, group_end, 18])
-            ledger_style.append(['FONT', group_start, group_end, 'Courier'])
             
         ledger_data.append(['Closing Balance', "{:,}".format(self.stableweek.closing_balance())])
         row = len(ledger_data)-1
 
-        ledger_style.append(['FONT',(0,row),(-1,row),'Courier-Bold'])
+        ledger_style.append(['FONT',(0,row),(0,row),'Helvetica-Bold'])
         ledger_style.append(['BACKGROUND',(0,row),(-1,row),'#CCCCCC'])
-        ledger_style.append(['LINEABOVE',(0,row),(-1,row), 2, '#000000'])
-        ledger_style.append(['LINEBELOW',(0,row),(-1,row),4,'#000000'])
+        ledger_style.append(['LINEABOVE',(0,row),(-1,row), 2, '#000000', 1])
+        ledger_style.append(['LINEBELOW',(0,row),(-1,row),4,'#000000', 1])
 
         ledger_table = Table(ledger_data, self.col_widths)
 
