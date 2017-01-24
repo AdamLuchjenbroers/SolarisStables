@@ -1,10 +1,10 @@
-from reportlab.platypus import Spacer
+from reportlab.platypus import Spacer, KeepTogether
 from reportlab.platypus.flowables import Flowable
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.units import cm, mm
 
 from solaris import pdf_styles
-from solaris.pdf import PDFView, Heading, ReportSection, ReportSubSection, SolarisDocTemplate, rounded_rect
+from solaris.pdf import PDFView, Heading, ReportSection, ReportSubSection, rounded_rect
 from solaris.stablemanager.views import StableWeekMixin
 
 class MechChit(Flowable):
@@ -41,12 +41,14 @@ class SignatureReportSection(ReportSubSection):
 
         story = self.story_header()
         for pw in pilots:
-            story.append(Heading('%s' % pw.pilot, pdf_styles.headings[self.level+1]))
+            pilot_story = [(Heading('%s' % pw.pilot, pdf_styles.headings[self.level+1]))]
             for smw in pw.signature_mechs():
-                story.append(MechChit(smw.current_design))
+                pilot_story.append(MechChit(smw.current_design))
+
+            story.append(KeepTogether(pilot_story))
             story.append(Spacer(0,0.3*cm)) 
 
-        return story
+        return [KeepTogether(story)]
 
 class NonSignatureReportSection(ReportSubSection):
     def __init__(self, stableweek, name='Non-Signature Mechs', level=1):
@@ -68,14 +70,16 @@ class NonSignatureReportSection(ReportSubSection):
         story = self.story_header()
 
         for (name, filter_args) in groups:
+            group = []
             qs = non_sig.filter(**filter_args)
 
             if qs.count() < 1:
                 continue
 
-            story.append(Heading(name, pdf_styles.headings[self.level+1]))
+            group.append(Heading(name, pdf_styles.headings[self.level+1]))
             for smw in qs:
-                story.append(MechChit(smw.current_design))
+                group.append(MechChit(smw.current_design))
+            story.append(KeepTogether(group))
             story.append(Spacer(0,0.3*cm)) 
         return story
 
@@ -94,7 +98,7 @@ class OrderedMechsReportSection(ReportSubSection):
         for smw in mechs:
             story.append(MechChit(smw.current_design))
         
-        return story
+        return [KeepTogether(story)]
 
 class MechsReportSection(ReportSection):
     page_template = '2col'
