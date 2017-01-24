@@ -9,6 +9,7 @@ from solaris import pdf_styles, pdf
 from solaris.stablemanager.ledger.pdf import LedgerReportSection
 from solaris.stablemanager.pilots.pdf import RosterReportSection
 from solaris.stablemanager.mechs.pdf import MechsReportSection
+from solaris.stablemanager.repairs.pdf import RepairBillSection
 
 class StableDocTemplate(SolarisDocTemplate):
     def __init__(self, request, stable=None, stableweek=None, **kwargs):
@@ -66,6 +67,7 @@ class StablePDFReport(StableWeekMixin, PDFView):
         story += LedgerReportSection(self.stableweek, width=(A4[1]*0.8)).as_story()
         story += RosterReportSection(self.stableweek, width=(A4[1]*0.8)).as_story()
         story += MechsReportSection(self.stableweek).as_story()
+        story += RepairBillSection(self.stableweek).as_story()
 
         self.doc.build(story)
         return self.doc.get_response() 
