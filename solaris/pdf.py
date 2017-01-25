@@ -27,7 +27,25 @@ def rounded_square(canvas, size, rx, **kwargs):
     rounded_rect(canvas, size, size, rx, **kwargs)
 
 class Heading(Paragraph):
-    pass
+    def __init__(self, *args, **kwargs):
+        self.level = kwargs.get('level', 0)
+        self.full_page = kwargs.get('full_page', False)
+        self.key = kwargs.get('key', None)
+        self.closed = kwargs.get('closed', False)
+
+        Paragraph.__init__(self, *args)
+
+    def draw(self, *args, **kwargs):
+        if self.key != None:
+            if self.full_page:
+                self.canv.bookmarkPage(self.key)
+            else:
+                #FIXME: Bookmark specific place on page
+                self.canv.bookmarkPage(self.key)
+
+            self.canv.addOutlineEntry(self.getPlainText(), self.key, self.level, self.closed)
+
+        Paragraph.draw(self, *args, **kwargs)
 
 class SolarisPageTemplate(PageTemplate):
     def beforeDrawPage(self, canvas, doc):
@@ -87,15 +105,21 @@ def report_page(canvas, doc):
 class ReportSection():
     page_template = 'basic'
 
-    def __init__(self, name, level):
+    def __init__(self, name, level, key=None, closed=False):
         self.name = name
         self.level = level
+        self.closed = closed
+
+        if key == None:
+            # If no key is provided, use a crude override
+            key = name.replace(' ','-').lower()
+        self.key = key
 
     def story_header(self):
         return [
           NextPageTemplate(self.__class__.page_template)
         , PageBreak()
-        , Heading(self.name, pdf_styles.headings[self.level])      
+        , Heading(self.name, pdf_styles.headings[self.level], key=self.key, level=self.level, closed=self.closed, full_page=True)      
         , Spacer(0, 0.5*cm)
         ]
 
@@ -103,11 +127,15 @@ class ReportSection():
         return self.story_header()
 
 class ReportSubSection(ReportSection):
-    def __init__(self, name, level):
-        ReportSection.__init__(self, name, level)
+    def __init__(self, name, level, **kwargs):
+        self.key = kwargs.get('key', name.replace(' ','-').lower())
+        ReportSection.__init__(self, name, level, **kwargs)
 
     def story_header(self):
-        return [ Heading(self.name, pdf_styles.headings[self.level]), Spacer(0,0.3*cm) ] 
+        return [ 
+          Heading(self.name, pdf_styles.headings[self.level], key=self.key, level=self.level, closed=True) 
+        , Spacer(0,0.3*cm)
+        ] 
 
 class ListSubsection(ReportSubSection):
     def __init__(self, name, level, list_data):

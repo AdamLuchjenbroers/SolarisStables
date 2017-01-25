@@ -107,6 +107,7 @@ class MechsReportSection(ReportSection):
         self.stableweek = stableweek
         self.name = name
         self.level = level
+        ReportSection.__init__(self, name, level, key='mechs')
          
     def as_story(self):
         story = self.story_header()

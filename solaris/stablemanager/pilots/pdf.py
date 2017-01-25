@@ -40,6 +40,8 @@ class RosterReportSection(ReportSection):
         self.name = name
         self.level = level
 
+        ReportSection.__init__(self, name, level, key='pilots')
+
     def as_story(self):
         roster_data = [['Pilot', 'Rank', 'Fame', 'Abilities', 'Skills', 'BV', 'XP', 'Wounds']]
         roster_style = [('BACKGROUND', (0,0), (-1,0), '#CCCCCC')

@@ -128,6 +128,7 @@ class RepairBillSection(ReportSection):
         story = self.story_header()
 
         for bill in bill_qs:
-            story += RepairBillSubSection(bill, level=self.level+1).as_story()
+            key = 'bill-%d' % bill.id
+            story += RepairBillSubSection(bill, level=self.level+1, key=key).as_story()
 
         return story

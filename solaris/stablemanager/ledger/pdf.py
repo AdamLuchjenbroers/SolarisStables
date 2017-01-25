@@ -18,6 +18,7 @@ class LedgerReportSection(ReportSection):
         self.level = level
 
         self.col_widths = [width * 0.7, width * 0.3]
+        ReportSection.__init__(self, name, level, key='ledger')
 
     def as_story(self):
         ledger_data = [ ['Opening Balance', "{:,}".format(self.stableweek.opening_balance)]]
