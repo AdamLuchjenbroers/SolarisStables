@@ -1,4 +1,4 @@
-from reportlab.platypus import Table, TableStyle, KeepTogether
+from reportlab.platypus import Table, TableStyle, KeepTogether,Spacer
 from reportlab.platypus.flowables import Flowable
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.units import cm
@@ -9,7 +9,7 @@ from solaris.stablemanager.views import StableWeekMixin
 from .models import RepairBill
 
 class RepairBillSubSection(ReportSubSection):
-    def __init__(self, bill, name_format='Repair Bill - %s %s', cored_format='Insurance Payout - %s %s', level=0):
+    def __init__(self, bill, name_format='Repair Bill - %s %s', cored_format='Insurance Payout - %s %s', level=0, **kwargs):
         if bill.cored:
             name = cored_format % (bill.mech.mech_name, bill.mech.mech_code)
         else:
@@ -130,5 +130,6 @@ class RepairBillSection(ReportSection):
         for bill in bill_qs:
             key = 'bill-%d' % bill.id
             story += RepairBillSubSection(bill, level=self.level+1, key=key).as_story()
+            story.append(Spacer(0, 0.5*cm))
 
         return story
