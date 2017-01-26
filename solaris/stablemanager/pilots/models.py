@@ -478,6 +478,46 @@ class PilotDeferment(models.Model):
         ordering = ('pilot_week__pilot__pilot_callsign', '-duration')
         unique_together = [('pilot_week', 'deferred'),]
 
+class HonouredDeadManager(models.Manager):
+    use_for_related_fields = True
+
+    def fame_value(self):
+        return sum((dead.fame_value() for dead in self.all()))
+
+class HonouredDead(models.Model):
+    pilot = models.ForeignKey('Pilot')
+    week = models.ForeignKey('StableWeek', related_name='honoured')
+    removed = models.BooleanField(default=False)
+    display_mech = models.ForeignKey('warbook.MechDesign', blank=True, null=True)
+
+    next_week = models.OneToOneField('HonouredDead', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
+
+    class Meta:
+        db_table = 'stablemanager_honoured_dead'
+        app_label = 'stablemanager'
+
+        ordering = ('pilot__pilot_callsign',)
+        unique_together = [('pilot', 'week'),]
+
+    def fame_value(self):
+        if self.display_mech == None:
+            return 1
+        else:
+            return 2
+
+    def cascade(self):
+        if self.removed or self.next_week != None or self.week.next_week == None:
+            return
+
+        self.next_week = HonouredDead.objects.create(
+          pilot = self.pilot
+        , week = self.week.next_week
+        , display_mech = self.display_mech
+        )
+        self.next_week.cascade()
+        self.save()
+        
+
 @receiver(post_save, sender=PilotDeferment)
 def cascade_deferment_update(sender, instance=None, created=False, **kwargs):
     if instance.pilot_week.next_week == None:
