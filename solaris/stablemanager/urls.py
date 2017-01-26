@@ -52,6 +52,6 @@ urlpatterns = patterns('',
     url(r'^(?P<week>[0-9]+)/overview/?$', ajax.StableOverviewInfo.as_view(), name = 'stable_query_overview'),
 
     url(r'^/?owner-report/?$', pdf.StablePDFReport.as_view()),
-    url(r'^(?P<week>[0-9]+)/owner-report/?$', pdf.StablePDFReport.as_view()),
+    url(r'^(?P<week>[0-9]+)/owner-report/?$', pdf.StablePDFReport.as_view(), name = 'stable_owner_report'),
 
 )
