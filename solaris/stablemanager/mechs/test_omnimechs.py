@@ -2,6 +2,7 @@
 from django.test import TestCase
 
 from solaris.stablemanager.tests import StableTestMixin
+from solaris.warbook.mech import models as wb_mech_models
 
 class OmniMechTests(StableTestMixin, TestCase):
     def setUp(self):
@@ -126,18 +127,20 @@ class OmniMechPurchaseTests(StableTestMixin, TestCase):
 
         sw = self.stable.get_stableweek()
 
-        self.mech = [
-            self.addMech(self.stable, stableweek=sw, mech_name='Owens', mech_code='OW-1', omni_loadout='C') 
-        ,   self.addMech(self.stable, stableweek=sw, mech_name='Owens', mech_code='OW-1', omni_loadout='A') 
-        ]
+        self.addMech(self.stable, stableweek=sw, mech_name='Owens', mech_code='OW-1', omni_loadout='C') 
+        self.addMech(self.stable, stableweek=sw, mech_name='Owens', mech_code='OW-1', omni_loadout='A') 
         self.filter = {
           'current_design__mech_name' : 'Owens'
         , 'current_design__mech_code' : 'OW-1'
         }
-        
+
+        self.loadouts = {
+          'A' : wb_mech_models.objects.get(mech_name='Owens', mech_code='OW-1', omni_loadout='A'
+          'C' : wb_mech_models.objects.get(mech_name='Owens', mech_code='OW-1', omni_loadout='C'
+        }
 
     def test_stableMechIsBaseConfig(self):
-        self.assertEquals(self.mech[0].purchased_as.omni_loadout,'Base','create_mech should return the Base config when adding Omnimechs')
+        self.assertEquals(self.loadouts['A'].omni_loadout,'Base','create_mech should return the Base config when adding Omnimechs')
 
     def test_sameBaseMech(self):
         self.assertEquals(self.mech[0],self.mech[1],'Base mech should be identical for both Omni-mech configs')
@@ -184,13 +187,16 @@ class OmniMechRemovalTests(StableTestMixin, TestCase):
 
         sw = self.stable.get_stableweek()
 
-        self.mech = [
-            self.addMech(self.stable, stableweek=sw, mech_name='Owens', mech_code='OW-1', omni_loadout='C') 
-        ,   self.addMech(self.stable, stableweek=sw, mech_name='Owens', mech_code='OW-1', omni_loadout='A') 
-        ]
+        self.addMech(self.stable, stableweek=sw, mech_name='Owens', mech_code='OW-1', omni_loadout='C') 
+        self.addMech(self.stable, stableweek=sw, mech_name='Owens', mech_code='OW-1', omni_loadout='A') 
         self.filter = {
           'current_design__mech_name' : 'Owens'
         , 'current_design__mech_code' : 'OW-1'
+        }
+
+        self.loadouts = {
+          'A' : wb_mech_models.objects.get(mech_name='Owens', mech_code='OW-1', omni_loadout='A'
+          'C' : wb_mech_models.objects.get(mech_name='Owens', mech_code='OW-1', omni_loadout='C'
         }
 
     def test_countChassisAndConfig(self):
@@ -201,7 +207,7 @@ class OmniMechRemovalTests(StableTestMixin, TestCase):
 
     def test_removeConfig(self):
         sw = self.stable.get_stableweek()
-        config = sw.mechs.get(current_design=self.mech[1].purchased_as)
+        config = sw.mechs.get(current_design=self.loadouts['C'])
 
         config.set_removed(True)
 
@@ -209,18 +215,18 @@ class OmniMechRemovalTests(StableTestMixin, TestCase):
 
     def test_removeChassisStays(self):
         sw = self.stable.get_stableweek()
-        config = sw.mechs.get(current_design=self.mech[1].purchased_as)
+        config = sw.mechs.get(current_design=self.loadouts['C'])
 
         config.set_removed(True)
 
-        chassis = sw.mechs.get(current_design=self.mech[0].purchased_as.omni_basechassis)
+        chassis = sw.mechs.get(current_design=self.loadouts['A'].omni_basechassis)
         self.assertTrue(chassis.removed, 'Omnimech base chassis incorrectly removed')
 
     def test_removeOtherConfigStays(self):
         sw = self.stable.get_stableweek()
-        config = sw.mechs.get(current_design=self.mech[1].purchased_as)
+        config = sw.mechs.get(current_design=self.loadouts['C'])
 
         config.set_removed(True)
 
-        other = sw.mechs.get(current_design=self.mech[0].purchased_as)
+        other = sw.mechs.get(current_design=self.loadouts['A'])
         self.assertTrue(other.removed, 'Omnimech base chassis incorrectly removed')
