@@ -3,11 +3,13 @@ from django.contrib.auth.models import User
 
 from solaris.warbook.models import House
 from solaris.warbook.mech.models import MechDesign
+from solaris.warbook.pilotskill import models as pilotskill_models
 
 from solaris.campaign.models import BroadcastWeek, Zodiac, Campaign
 
 from solaris.stablemanager.models import Stable, StableWeek
 from solaris.stablemanager.mechs.models import StableMech, StableMechWeek
+from solaris.stablemanager.pilots import models as pilot_models
 
 '''
 Runs a suite of tests to confirm the main stable page handles the following three cases correctly:
@@ -120,22 +122,21 @@ class StableTestMixin(object):
             stableweek = stable.get_stableweek()
 
         pilot_args = {
-          'pilot_name' : 'Tess Teagle'
-        , 'pilot_callsign' : 'Test'
-        , 'affiliation' : stable.house
+          'pilot_name' : kwargs.get('pilot_name', 'Tess Teagle')
+        , 'pilot_callsign' : kwargs.get('pilot_callsign', 'Test')
+        , 'affiliation' : kwargs.get('affiliation', stable.house)
+        , 'stable' : stable
         }
-        for key in ['pilot_name', 'pilot_callsign', 'affiliation']:
-            if key in kwargs:
-                pilot_args[key] = kwargs[key]
-
-        pilot = Pilot.objects.create(stable=stable, **pilot_args)
+        pilot = pilot_models.Pilot.objects.create(**pilot_args)
 
         pweek_args = {
           'pilot' : pilot
         , 'week' : stableweek
-        , 'skill_gunnery' : 4
-        , 'skill_piloting' : 5
+        , 'skill_gunnery' : kwargs.get('skill_gunnery', 4)
+        , 'skill_piloting' : kwargs.get('skill_piloting', 5)
+        , 'rank' : kwargs.get('rank', pilotskill_models.PilotRank.objects.get(rank='Rookie'))
         }
-        for key in ['pilot_name', 'pilot_callsign', 'affiliation']:
-            if key in kwargs:
-                pilot_args[key] = kwargs[key]
+
+        pilotweek = pilot_models.PilotWeek.objects.create(**pweek_args)
+
+        return (pilot, pilotweek)
