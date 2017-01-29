@@ -138,17 +138,15 @@ class HonouredDeadAdvanceTests(StableTestMixin, TestCase):
         self.assertEquals(qs.count(), 0, 'Expected no HonouredDead records for pilot, found %d' % qs.count())
 
     def test_removal_leavebefore(self):
-        first_sw = self.stable.get_stableweek()
-        second_sw = first_sw.advance()
+        self.stable.get_stableweek().advance()
 
         hd = self.get_first_pw().honour_dead()
-        self.assertEquals(hd.next_week.prev_week, hd, 'o.O - WTF?')
         hd.next_week.delete()
 
         # Re-fetch from Database due to ORM de-sync issues
         # TODO: Clean this up after migrating to Django 1.8+
         hd = models.HonouredDead.objects.get(id=hd.id)
-        self.assertFalse(hd.removed, 'Previous week not marked as removed')      
+        self.assertTrue(hd.removed, 'Previous week not marked as removed')      
        
 
 class HonouredDeadWebTests(StableTestMixin, TestCase):
@@ -195,10 +193,8 @@ class HonouredDeadWebTests(StableTestMixin, TestCase):
         formdata = {'honoured_id' : hd.id} 
         response = self.client.post('/stable/pilots/1/honoured-dead/remove', formdata)
 
-        self.client.post('/stable/pilots/1/honoured-dead/remove', formdata)
-
         qs = models.HonouredDead.objects.filter(id=hd.id)
-        self.assertNotEquals(qs.count, 0, 'Honoured dead should be deleted, instead found: ' % qs)
+        self.assertEquals(qs.count(), 0, 'Honoured dead should be deleted, instead found %s' % qs)
 
     def test_list_signatures(self):
         sw = self.stable.get_stableweek(1)
@@ -211,5 +207,5 @@ class HonouredDeadWebTests(StableTestMixin, TestCase):
         
         formdata = {'callsign' : self.pilot.pilot_callsign} 
         response = self.client.get('/stable/pilots/1/honoured-dead/list-signatures', formdata)
-        json_data = json.loads(response)
-        self.assertEquals(json_data.length,1, 'Expected one signature mech to be returned, got %d' % json_data.length)
+        json_data = json.loads(response.content)
+        self.assertEquals(len(json_data),1, 'Expected one signature mech to be returned, got %d' % len(json_data))
