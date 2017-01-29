@@ -87,7 +87,6 @@ class StableSetupTests(TestCase):
                                                                    , skill_piloting = template.piloting ).count()
             self.assertEqual(pilotcount, template.count, 'Expected %i %s, found %i' % (template.count, template.rank.rank, pilotcount) )
 
-
 class StableTestMixin(object):
     def createStable(self, userName='test-user', stableName='Test Stable'):
         User.objects.create_user(username=userName, email='lotsa_mechs@nowhere.com', password='pass')
@@ -135,8 +134,40 @@ class StableTestMixin(object):
         , 'skill_gunnery' : kwargs.get('skill_gunnery', 4)
         , 'skill_piloting' : kwargs.get('skill_piloting', 5)
         , 'rank' : kwargs.get('rank', pilotskill_models.PilotRank.objects.get(rank='Rookie'))
+        , 'wounds' : kwargs.get('wounds', 0)
         }
 
         pilotweek = pilot_models.PilotWeek.objects.create(**pweek_args)
 
         return (pilot, pilotweek)
+
+class StableWeekTests(StableTestMixin, TestCase):
+    def setUp(self):
+        self.stable = self.createStable()
+
+        self.campaign = self.stable.campaign
+        self.campaign.current_week().advance()
+
+    def test_advance_returns(self):
+        sw = self.stable.get_stableweek()
+
+        next_sw = sw.advance()
+        self.assertIsInstance(next_sw, StableWeek, 'Advancing Stableweek did not return a stableweek, instead returned %s' % next_sw)
+
+    def test_advance_nextweek(self):
+        sw = self.stable.get_stableweek()
+
+        next_sw = sw.advance()
+        self.assertEquals(next_sw.week.week_number, 2, 'Advancing Stableweek did not return Week 2, instead returned %s' % next_sw)
+
+    def test_advance_linkage(self):
+        sw = self.stable.get_stableweek()
+
+        next_sw = sw.advance()
+        self.assertEquals(sw.next_week, next_sw, 'Linkage missing betweek stable weeks, next_week currently set to %s' % sw.next_week)
+
+    def test_advance_reverse_linkage(self):
+        sw = self.stable.get_stableweek()
+
+        next_sw = sw.advance()
+        self.assertEquals(sw, next_sw.prev_week, 'Reverse linkage missing betweek stable weeks, prev_week currently set to %s' % next_sw.prev_week)
