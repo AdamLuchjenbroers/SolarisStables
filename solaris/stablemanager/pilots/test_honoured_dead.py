@@ -4,6 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from solaris.stablemanager.tests import StableTestMixin
 
+import json
+
 from . import models
 
 class HonouredDeadBasicTests(StableTestMixin, TestCase):
@@ -201,8 +203,8 @@ class HonouredDeadWebTests(StableTestMixin, TestCase):
     def test_list_signatures(self):
         sw = self.stable.get_stableweek(1)
 
-        mech = self.addMech(mech_name='Wolverine', mech_code='WVR-7D')
-        smw = mech.weeks.get(week=sw)
+        mech = self.addMech(self.stable, stableweek=sw, mech_name='Wolverine', mech_code='WVR-7D')
+        smw = mech.weeks.get(stableweek=sw)
 
         smw.signature_of = self.pilot
         smw.save()
