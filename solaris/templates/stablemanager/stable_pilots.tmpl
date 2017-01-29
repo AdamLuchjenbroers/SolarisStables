@@ -57,7 +57,7 @@
     <h3>Cured Problems</h3>
     {% include 'forms/single_line_add_form.html' with form=cure_form form_id='pilot-cure' %}
   <h2>Honoured Dead</h2>
-    <p>Coming Soon</p>
+    {% include 'stablemanager/fragments/honoured_dead.html' %}
 </div>
 <div class="hidden" title="Add Pilot" id="dialog-add-pilot"></div>
 {% endblock %}

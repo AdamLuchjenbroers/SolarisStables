@@ -1,0 +1,27 @@
+{% load cycle from future %}
+
+<span id="honoured-dead-region">
+{% if honours_list %}
+<table id="honoured-dead-list" class="pilots">
+  <tr class="header">
+    <td class="name">Pilot</td><td class="display-mech">Display Mech</td><td class="fame">Fame</td>
+  </tr>
+  {% for hd in honours_list %}
+    <tr class="pilot-row {% cycle 'odd' 'even' as rowclass %}">
+      <td class="name">{{hd.pilot}}</td>
+      <td class="display-mech">{% if hd.display_mech %} {{hd.display_mech}} {% endif %}</td>
+      <td class="fame">
+        {{hd.fame_value}}
+        <input honoured_id="{{hd.id}}" callsign="{{pilotweek.pilot.pilot_callsign}}" type="button" class="icon-button icon-small icon-delete icon-right" value="&#x2716;"/>
+     </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% if honoured_form %}
+  {% include 'forms/single_line_add_form.html' with form=honoured_form form_id='honoured-dead' %}
+{% else %}
+<p>No candidates for honoured dead</p>
+{% endif %}
+</span>

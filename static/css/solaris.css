@@ -1633,7 +1633,8 @@ table.pilots tr.header td.subheader {
 }
 
 table.pilots tr.header td.name, 
-table.pilots tr.header td.talents { 
+table.pilots tr.header td.talents,
+table.pilots tr.header td.display-mech { 
   width: 200px;
 }
 

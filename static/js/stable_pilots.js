@@ -91,6 +91,7 @@ function send_changed_pilot_attrib(field, oldvalue) {
     $('#training-total-assigned').text(response['tp-table']['Total'])
 
     check_tp_assignment();
+    reload_honoured_dead();
   }).fail(function(response) {
     field.text(oldvalue);
   }).always(function() {
@@ -257,6 +258,36 @@ function change_cure_pilot() {
   });
 }
 
+function change_honoured_pilot() {
+  callsign = $('#honoured-dead-pilot option:selected').text()
+
+  if (callsign == '-- Select Pilot --') { 
+    $('#honoured-dead-display_mech').html('');
+    $('#honoured-dead-display_mech').attr('disabled', 'yes');
+    $('#honoured-dead-submit').attr('disabled', 'yes');
+
+    return; 
+  }
+
+  // Unlike other forms, only the pilot has to be chosen for this one to be valid
+  $('#honoured-dead-submit').removeAttr('disabled');
+
+  $.ajax({
+    type : 'get'
+  , url  : window.location.href + '/honoured-dead/list-signatures'
+  , dataType : 'json'
+  , data : { 'callsign' : callsign }
+  }).success(function(response) { 
+     opthtml = "<option value=\"\">-- Select Mech --</option>"
+     $.each( response, function (i, mech) {
+       opthtml += "<option value=\"" + mech['smw_id'] + "\">" + mech['name'] + "</option>"
+     });
+
+     $('#honoured-dead-display_mech').html(opthtml);
+     $('#honoured-dead-display_mech').removeAttr('disabled');
+  });
+}
+
 function submit_pilot_training() {
   training = {
     'callsign' : $('#pilot-training-pilot option:selected').text()
@@ -339,6 +370,21 @@ function submit_pilot_cure() {
   });
 }
 
+function submit_honoured_dead() {
+  honours = {
+    'callsign' : $('#honoured-dead-pilot option:selected').text()
+  , 'display_id' : $('#honoured-dead-display_mech option:selected').val()
+  }
+
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/honoured-dead/add'
+  , dataType : 'json'
+  , data : honours
+  }).done(function(response) { 
+     reload_honoured_dead()
+  });
+}
 
 function pilot_row_update(callsign, spent_xp, final_xp) {
   pilot = $('#stable-pilot-table tr[callsign=\'' + callsign + '\']');
@@ -372,10 +418,11 @@ function event_table_setup(table_id, remove_suffix, id_attr) {
       type : 'post'
     , url  : window.location.href + remove_suffix
     , dataType : 'json'
-    , data : { 'train_id' : $(this).attr('train_id')
-             , 'trait_id' : $(this).attr('trait_id')
-             , 'defer_id' : $(this).attr('defer_id')
-             , 'callsign' : $(this).attr('callsign') 
+    , data : { 'train_id'    : $(this).attr('train_id')
+             , 'trait_id'    : $(this).attr('trait_id')
+             , 'defer_id'    : $(this).attr('defer_id')
+             , 'honoured_id' : $(this).attr('honoured_id')
+             , 'callsign'    : $(this).attr('callsign') 
              }
     }).done(function(response) { 
       pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'])
@@ -383,6 +430,7 @@ function event_table_setup(table_id, remove_suffix, id_attr) {
       reload_training_table();
       reload_trait_table();
       reload_defer_table();
+      reload_honoured_dead();
     });
   });
 }
@@ -409,6 +457,13 @@ function pilot_list_setup() {
   $('#stable-pilot-table .pilot-row .edit-status').on('contextmenu', fielded_toggle_rightclicked );
 }
 
+function honoured_dead_setup() {
+  $('#honoured-dead-pilot').change(change_honoured_pilot);
+  $('#honoured-dead-submit').click( submit_honoured_dead );
+
+  event_table_setup('#honoured-dead-list', '/honoured-dead/remove', 'honoured_id');
+}
+
 function reload_training_table() {
   $('#pilot-training-list').load(window.location.href + '/training #pilot-training-list', training_table_setup); 
 }
@@ -423,6 +478,10 @@ function reload_defer_table() {
 
 function reload_pilots() {
   $('#stable-pilot-table').load(window.location.href + '/pilot-list #stable-pilot-table', pilot_list_setup);
+}
+
+function reload_honoured_dead() {
+  $('#honoured-dead-region').load(window.location.href + '/honoured-dead #honoured-dead-region', honoured_dead_setup);
 }
 
 function validate_training_form() {
@@ -505,6 +564,15 @@ function reset_cure_form() {
   $('#pilot-cure-trait').val('');
 
   $('#pilot-cure-submit').attr('disabled','yes');
+}
+
+function reset_honoured_form() {
+  $('#honoured-dead-pilot').val('');
+
+  $('#honoured-dead-display_mech').val('');
+  $('#honoured-dead-display_mech').attr('disabled', 'yes');
+
+  $('#honoured-dead-submit').attr('disabled', 'yes');
 }
 
 function validate_deferred_form() {
@@ -681,6 +749,7 @@ $( document ).ready(function() {
   reset_trait_form();
   reset_defer_form();
   reset_cure_form();
+  reset_honoured_form();
   $('#pilot-trait-form select, #pilot-trait-form input').change( validate_trait_form );
   $('#pilot-defer-form select, #pilot-defer-form input').change( validate_deferred_form );
   $('#pilot-cure-form select, #pilot-cure-form input').change( validate_cure_form );
@@ -695,6 +764,8 @@ $( document ).ready(function() {
   training_table_setup(); 
   trait_table_setup(); 
   defer_table_setup();
+
+  honoured_dead_setup();
 
   $('#button-add-pilot').click( dialog_add_pilot );
   check_tp_assignment();
