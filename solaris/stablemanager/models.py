@@ -283,6 +283,16 @@ class StableWeek(models.Model):
     def __unicode__(self):
         return '%s - Week %i' % (self.stable.stable_name, self.week.week_number)
 
+    def eligible_dead(self):
+        qs = self.pilots.all_dead().filter(rank__receive_honours=True)
+        if self.has_honoured():
+            qs = qs.exclude(pilot__in=[ hd.pilot for hd in self.honoured.all() ])
+
+        return qs
+
+    def has_honoured(self):
+        return hasattr(self, 'honoured')
+
     class Meta:
         verbose_name_plural = 'Stable Weeks'
         verbose_name = 'Stable Week'
