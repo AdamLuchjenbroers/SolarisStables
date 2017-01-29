@@ -58,16 +58,10 @@ class Stable(models.Model):
     def week_complete(self):
         return (self.remaining_tasks == None and self.current_week.next_week != None)
 
+    """ Handles advancing the stable and all related objects to the next Broadcast Week """
     def advance(self):
-        """ Handles advancing the stable and all related objects to the next Broadcast Week """
-        if self.current_week.next_week == None:
-            return
-        
-        ledger = self.ledger.get(week=self.current_week)
-        ledger.advance()
-        
-        for pilot in self.pilots.all():
-            pilot.advance()        
+        current_week = self.get_stableweek()
+        current_week.advance()
 
     def save(self, *args, **kwargs):
         if self.stable_slug == None:
@@ -194,6 +188,10 @@ class StableWeek(models.Model):
 
         for pilot in self.pilots.filter(wounds__lt=6):
             pilot.advance()
+
+        if hasattr(self, 'honoured'):
+            for hd in self.honoured.filter(removed=False):
+                hd.cascade_advance()
 
         return self.next_week
 
