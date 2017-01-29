@@ -1028,6 +1028,11 @@ a.chit-row, a.omni-row {
   color: #000000;
 }
 
+li.chit.tier4 a.chit-row,
+li.chit.tier4 a.omni-row {
+  color: #FFFFFF;
+}
+
 div.chit-section {
   display: inline-block;
 }
