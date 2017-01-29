@@ -187,3 +187,26 @@ class PilotDefermentForm(PilotActionForm):
 
         self.fields['pilot'] = forms.ChoiceField(choices=pilots, widget=SelectWithDisabled, label='Pilot:')
 
+class HonouredDeadForm(forms.ModelForm):
+    def __init__(self, stableweek=None, *args, **kwargs):
+        super(HonouredDeadForm, self).__init__(*args, **kwargs)
+        self.stableweek = stableweek
+
+        self.fields['week'].initial = stableweek
+        self.fields['week'].widget = forms.HiddenInput()
+
+
+        choices = [('', '-- Select Pilot'),] + [(pilot.pilot.id, pilot.pilot.pilot_callsign) for pilot in self.stableweek.pilots.all_dead()]
+        self.fields['pilot'].choices = choices
+        self.fields['pilot'].label = 'Pilot:'
+
+        self.fields['display_mech'].label = 'Display Mech:'
+        self.fields['display_mech'].widget.attrs['disabled'] = 'yes'
+
+    def clean_week(self):
+        # Ignore whatever is submitted, this is the correct value
+        return self.stableweek
+
+    class Meta:
+        model = models.HonouredDead
+        fields = ('pilot', 'display_mech', 'week')

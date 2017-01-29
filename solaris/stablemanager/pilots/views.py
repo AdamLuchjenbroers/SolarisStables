@@ -6,9 +6,9 @@ from django.http import HttpResponse
 import json
 from urllib import unquote
 
-from solaris.warbook.pilotskill.models import PilotRank
+from solaris.warbook.pilotskill.models import PilotRank, TrainingCost, PilotTrait
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
-from solaris.warbook.pilotskill.models import TrainingCost, PilotTrait
+from solaris.stablemanager.mechs.models import StableMechWeek
 
 from . import forms, models
 
@@ -63,6 +63,10 @@ class StablePilotsView(StablePilotMixin, ListView):
         page_context['cure_form'] = forms.PilotRemoveTraitForm(stableweek=self.stableweek, auto_id='pilot-cure-%s')
         page_context['defer_form'] = forms.PilotDefermentForm(stableweek=self.stableweek, auto_id='pilot-defer-%s')
 
+        dead = self.stableweek.pilots.all_dead()
+        if dead.count() > 0:
+            page_context['honoured_form'] = forms.HonouredDeadForm(stableweek=self.stableweek, auto_id='honoured-dead-%s')
+
         return page_context
 
 class StablePilotsListPartView(StablePilotMixin, ListView):
@@ -76,6 +80,18 @@ class StablePilotsTraitsPartView(StablePilotMixin, ListView):
 
 class StablePilotsDeferredPartView(StablePilotMixin, ListView):
     template_name = 'stablemanager/fragments/deferred_list.html'
+
+class StableHonouredDeadPartView(StablePilotMixin, ListView):
+    template_name = 'stablemanager/fragments/honoured_dead.html'
+
+    def get_context_data(self, **kwargs):
+        page_context = super(StableHonouredDeadPartView, self).get_context_data(**kwargs)
+
+        dead = self.stableweek.pilots.all_dead()
+        if dead.count() > 0:
+            page_context['honoured_form'] = forms.HonouredDeadForm(stableweek=self.stableweek, auto_id='honoured-dead-%s')
+
+        return page_context
         
 class InitialPilotNamingView(StableViewMixin, FormView):
     template_name = 'stablemanager/initial_pilots.tmpl'
@@ -419,3 +435,36 @@ class AjaxEndPilotDeferred(AjaxPilotMixin, View):
             return HttpResponse(json.dumps(result))
         except models.PilotDeferment.DoesNotExist:
             return HttpResponse('Invalid Deferment ID', status=400)
+
+class AjaxListHonouredSignatures(AjaxPilotMixin, View):
+    def get(self, request, week=None):
+        sig_mechs_list = ({'smw_id' : smw.id, 'name' : str(smw.current_design)} for smw in self.pilotweek.signature_mechs.all())
+       
+        return HttpResponse(json.dumps(sig_mechs_list))
+
+class AjaxAddHonouredDead(AjaxPilotMixin, View):
+    def post(self, request, week=None):
+        if 'display_id' in request.POST:
+            display_mech = StableMechWeek.objects.get(id=int(request.POST['display_id']))
+        else:
+            display_mech = None
+
+        honours = self.pilotweek.honour_dead(display_mech=display_mech)
+        return HttpResponse(json.dumps(honours.state_parcel()))
+
+class AjaxRemoveHonouredDead(StableWeekMixin, View):
+    def post(self, request, week=None):
+        try:
+            honoured = models.HonouredDead.objects.get(id=int(request.POST['honoured_id']))
+
+            if honoured.week == self.stableweek:
+                honoured.delete()
+                return HttpResponse(json.dumps(True))
+            else:
+                return HttpResponse('Honoured Dead Not Owned By Stable', status=403)
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', status=400)
+        except ValueError:
+            return HttpResponse('Invalid AJAX request', status=400)
+        except models.HonouredDead.DoesNotExist:
+            return HttpResponse('Honoured Dead Record Does Not Exist', status=404) 

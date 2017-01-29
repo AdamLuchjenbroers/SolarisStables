@@ -24,6 +24,9 @@ urlpatterns = patterns('',
     url(r'^/?defer$', views.StablePilotsDeferredPartView.as_view(), name="stable_defer_now"),
     url(r'^/?(?P<week>[0-9]+)/+defer$', views.StablePilotsDeferredPartView.as_view(), name="stable_defer"),
 
+    url(r'^/?honoured-dead$', views.StableHonouredDeadPartView.as_view(), name="stable_honoured_dead_now"),
+    url(r'^/?(?P<week>[0-9]+)/+honoured-dead$', views.StableHonouredDeadPartView.as_view(), name="stable_honoured_dead"),
+
     url(r'^/?set-tp', views.AjaxSetTrainingPoints.as_view(), name="stable_set_tp_now"),
     url(r'^/?(?P<week>[0-9]+)/+set-tp', views.AjaxSetTrainingPoints.as_view(), name="stable_set_tp"),
 
@@ -62,4 +65,16 @@ urlpatterns = patterns('',
 
     url(r'^/?set-status', views.AjaxSetPilotStatus.as_view(), name="stable_set_status_now"),
     url(r'^/?(?P<week>[0-9]+)/+set-status', views.AjaxSetPilotStatus.as_view(), name="stable_set_status"),
+
+    url(r'^/?honoured-dead/list-signatures', views.AjaxListHonouredSignatures.as_view(), name="stable_honoured_list_sigs_now"),
+    url(r'^/?(?P<week>[0-9]+)/+honoured-dead/list-signatures', views.AjaxListHonouredSignatures.as_view(), name="stable_honoured_list_sigs"),
+
+    url(r'^/?honoured-dead/add', views.AjaxAddHonouredDead.as_view(), name="stable_honoured_add_now"),
+    url(r'^/?(?P<week>[0-9]+)/+honoured-dead/add', views.AjaxAddHonouredDead.as_view(), name="stable_honoured_add"),
+
+    url(r'^/?honoured-dead/remove', views.AjaxRemoveHonouredDead.as_view(), name="stable_honoured_remove_now"),
+    url(r'^/?(?P<week>[0-9]+)/+honoured-dead/remove', views.AjaxRemoveHonouredDead.as_view(), name="stable_honoured_remove"),
+
+    url(r'^/?honoured-dead/list-signatures', views.AjaxRemoveHonouredDead.as_view(), name="stable_honoured_remove_now"),
+    url(r'^/?(?P<week>[0-9]+)/+honoured-dead/list-signatures', views.AjaxRemoveHonouredDead.as_view(), name="stable_honoured_remove"),
 )

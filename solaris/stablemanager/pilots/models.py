@@ -352,7 +352,23 @@ class PilotWeek(models.Model):
 
     def signature_mechs(self):
         return self.pilot.signature_mechs.filter(stableweek=self.week)
-    
+
+    def honour_dead(self, display_mech=None):
+        if not self.is_dead():
+            return None
+
+        self.set_removed(True)
+        
+        hd = HonouredDead.objects.create(
+          pilot = self.pilot
+        , week  = self.week
+        , display_mech = display_mech
+        )
+        
+        #Advance forward if required
+        hd.cascade_advance()
+        return hd
+ 
 class PilotTrainingEvent(models.Model):
     pilot_week = models.ForeignKey('PilotWeek', related_name='training')
     training = models.ForeignKey(TrainingCost)
@@ -505,18 +521,53 @@ class HonouredDead(models.Model):
         else:
             return 2
 
-    def cascade(self):
-        if self.removed or self.next_week != None or self.week.next_week == None:
-            return
+    def __unicode__(self):
+        return 'Honoured Dead %s (%s)' % (self.pilot, self.week)
+
+    def advance(self):
+        if self.removed or self.week.next_week == None:
+            return None
+
+        if self.next_week != None:
+            return self.next_week
 
         self.next_week = HonouredDead.objects.create(
           pilot = self.pilot
         , week = self.week.next_week
         , display_mech = self.display_mech
         )
-        self.next_week.cascade()
         self.save()
+
+        return self.next_week       
+
+    def cascade_advance(self):
+        if self.removed:
+            return
+
+        elif self.next_week == None:
+            self.advance()
         
+        if self.next_week != None:
+            self.next_week.cascade_advance()
+
+        return self.next_week
+ 
+    def delete(self):
+        if hasattr(self, 'prev_week'):
+            self.prev_week.removed = True
+            self.prev_week.save()
+
+        if self.next_week != None:
+            self.next_week.delete()
+
+        super(HonouredDead, self).delete()
+  
+    def state_parcel(self):
+        return {
+          'honoured' : True
+        , 'fame_value' : self.fame_value()
+        , 'has_mech' : (self.display_mech != None)
+        }
 
 @receiver(post_save, sender=PilotDeferment)
 def cascade_deferment_update(sender, instance=None, created=False, **kwargs):
