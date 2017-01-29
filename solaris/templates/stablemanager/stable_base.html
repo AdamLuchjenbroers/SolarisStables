@@ -37,6 +37,10 @@
       <dt>Mechs</dt><dd id="actionbar-mechs">{{stableweek.mechs.count_nonsignature}} ({{stableweek.mechs.count_all_available}})</dd>
       <dt>Pilots</dt><dd id="actionbar-pilots">{{stableweek.pilots.count_all_available}}</dd>
     </dl>
+    </span>
+    <a id="dl-owner-report" href="{% url 'stable_owner_report'  week=stableweek.week.week_number%}">
+      <img id="dl-owner-report-icon" src="/static/images/icons/dl-report.png" />
+    </a>
   </span>
 </div>
 {% endblock %}
