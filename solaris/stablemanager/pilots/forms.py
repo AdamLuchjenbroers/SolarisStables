@@ -1,5 +1,6 @@
 #from django.forms.models import inlineformset_factory
 from django import forms
+import json
 
 from . import models
 from snippets.widgets import SelectWithDisabled
@@ -195,8 +196,7 @@ class HonouredDeadForm(forms.ModelForm):
         self.fields['week'].initial = stableweek
         self.fields['week'].widget = forms.HiddenInput()
 
-
-        choices = [('', '-- Select Pilot'),] + [(pilot.pilot.id, pilot.pilot.pilot_callsign) for pilot in self.stableweek.pilots.all_dead()]
+        choices = [('', '-- Select Pilot --'),] + [(pilot.pilot.id, pilot.pilot.pilot_callsign) for pilot in self.stableweek.eligible_dead()]
         self.fields['pilot'].choices = choices
         self.fields['pilot'].label = 'Pilot:'
 

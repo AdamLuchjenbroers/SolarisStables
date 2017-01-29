@@ -87,6 +87,7 @@ class PilotWeekManager(models.Manager):
 
     def all_dead(self):
         return self.filter(removed=False, wounds__gte=6-models.F('blackmarks'))
+          
 
 class PilotWeek(models.Model):
     pilot = models.ForeignKey(Pilot, related_name='weeks')
@@ -357,13 +358,12 @@ class PilotWeek(models.Model):
         if not self.is_dead():
             return None
 
-        self.set_removed(True)
-        
-        hd = HonouredDead.objects.create(
+        hd, created = HonouredDead.objects.get_or_create(
           pilot = self.pilot
         , week  = self.week
-        , display_mech = display_mech
         )
+        hd.display_mech = display_mech
+        hd.save()
         
         #Advance forward if required
         hd.cascade_advance()

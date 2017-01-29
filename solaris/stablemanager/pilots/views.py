@@ -63,10 +63,12 @@ class StablePilotsView(StablePilotMixin, ListView):
         page_context['cure_form'] = forms.PilotRemoveTraitForm(stableweek=self.stableweek, auto_id='pilot-cure-%s')
         page_context['defer_form'] = forms.PilotDefermentForm(stableweek=self.stableweek, auto_id='pilot-defer-%s')
 
-        dead = self.stableweek.pilots.all_dead()
+        dead = self.stableweek.eligible_dead()
         if dead.count() > 0:
             page_context['honoured_form'] = forms.HonouredDeadForm(stableweek=self.stableweek, auto_id='honoured-dead-%s')
 
+        if self.stableweek.has_honoured():
+            page_context['honours_list'] = self.stableweek.honoured.all()          
         return page_context
 
 class StablePilotsListPartView(StablePilotMixin, ListView):
@@ -87,9 +89,12 @@ class StableHonouredDeadPartView(StablePilotMixin, ListView):
     def get_context_data(self, **kwargs):
         page_context = super(StableHonouredDeadPartView, self).get_context_data(**kwargs)
 
-        dead = self.stableweek.pilots.all_dead()
+        dead = self.stableweek.eligible_dead()
         if dead.count() > 0:
             page_context['honoured_form'] = forms.HonouredDeadForm(stableweek=self.stableweek, auto_id='honoured-dead-%s')
+
+        if self.stableweek.has_honoured():
+            page_context['honours_list'] = self.stableweek.honoured.all()          
 
         return page_context
         
@@ -438,14 +443,18 @@ class AjaxEndPilotDeferred(AjaxPilotMixin, View):
 
 class AjaxListHonouredSignatures(AjaxPilotMixin, View):
     def get(self, request, week=None):
-        sig_mechs_list = ({'smw_id' : smw.id, 'name' : str(smw.current_design)} for smw in self.pilotweek.signature_mechs.all())
+        sig_mechs_list = [{'smw_id' : smw.id, 'name' : str(smw.current_design)} for smw in self.pilotweek.signature_mechs().all()]
        
         return HttpResponse(json.dumps(sig_mechs_list))
 
 class AjaxAddHonouredDead(AjaxPilotMixin, View):
     def post(self, request, week=None):
-        if 'display_id' in request.POST:
-            display_mech = StableMechWeek.objects.get(id=int(request.POST['display_id']))
+
+        display_id = request.POST.get('display_id', None)
+
+        if display_id not in (None, ''):
+            smw = StableMechWeek.objects.get(id=int(request.POST['display_id']))
+            display_mech = smw.current_design
         else:
             display_mech = None
 
