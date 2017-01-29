@@ -132,6 +132,9 @@ class StableWeek(models.Model):
         for pilot in self.pilots.all_living().filter(rank__prominence_factor__gt=0):
             total += pilot.fame * pilot.rank.prominence_factor
 
+        if self.has_honoured():
+            total += self.honoured.fame_value()
+
         return total
 
     def can_advance(self):

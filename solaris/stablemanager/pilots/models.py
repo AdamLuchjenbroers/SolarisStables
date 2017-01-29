@@ -508,6 +508,8 @@ class HonouredDead(models.Model):
 
     next_week = models.OneToOneField('HonouredDead', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
 
+    objects = HonouredDeadManager()
+
     class Meta:
         db_table = 'stablemanager_honoured_dead'
         app_label = 'stablemanager'
