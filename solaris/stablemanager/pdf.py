@@ -1,15 +1,18 @@
-from solaris.pdf import PDFView, SolarisDocTemplate, ReportSection
-from .views import StableWeekMixin
+from django.db.models import Sum
 
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.units import cm
 from reportlab.platypus import Table, TableStyle, PageBreak, Paragraph
 
 from solaris import pdf_styles, pdf
+from solaris.pdf import PDFView, SolarisDocTemplate, ReportSection
 from solaris.stablemanager.ledger.pdf import LedgerReportSection
 from solaris.stablemanager.pilots.pdf import RosterReportSection
 from solaris.stablemanager.mechs.pdf import MechsReportSection
 from solaris.stablemanager.repairs.pdf import RepairBillSection
+from solaris.warbook.pilotskill.models import PilotRank
+
+from .views import StableWeekMixin
 
 class StableDocTemplate(SolarisDocTemplate):
     def __init__(self, request, stable=None, stableweek=None, **kwargs):
@@ -23,6 +26,72 @@ class StableDocTemplate(SolarisDocTemplate):
 
         SolarisDocTemplate.__init__(self, request, background=background, **kwargs)
 
+class FinanceOverviewSubSection(pdf.ReportSubSection):
+    def __init__(self, stableweek, name='Finances', key='ov-finances', level=1, **kwargs):
+        self.stableweek = stableweek
+        pdf.ReportSubSection.__init__(self, name, level, key=key)
+
+    def as_story(self):
+        story = self.story_header()
+
+        finance_data = [
+          ['Opening Balance', "{:,}".format(self.stableweek.opening_balance)]
+        , ['Total Expenses', "{:,}".format(self.stableweek.total_spent())]
+        , ['Total Income', "{:,}".format(self.stableweek.total_winnings())]
+        , ['Total Assets', "{:,}".format(self.stableweek.total_assets())]
+        , ['Current Balance', "{:,}".format(self.stableweek.closing_balance())]
+        ]
+        finance_style = [
+          ('FONT', (0,0), (0,-1), 'Helvetica-Bold')
+        , ('FONT', (-1,0), (-1,-1), 'Courier-Bold')
+        , ('ALIGN', (-1,0), (-1,-1), 'RIGHT')
+        , ('LINEABOVE', (0,-1), (-1,-1), 1, '#444444', 0)
+        , ('LINEBELOW', (0,-1), (-1,-1), 2, '#000000', 0)
+        ] 
+        finance_table = Table(finance_data, [6*cm, 3*cm])
+        finance_table.setStyle(TableStyle(finance_style))
+
+        story.append(finance_table)
+
+        return story
+
+class ProminenceOverviewSubSection(pdf.ReportSubSection):
+    def __init__(self, stableweek, name='Prominence', key='ov-prominence', level=1, **kwargs):
+        self.stableweek = stableweek
+        pdf.ReportSubSection.__init__(self, name, level, key=key)
+
+    def as_story(self):
+        story = self.story_header()
+
+        prominence_data = []
+        for rank in PilotRank.objects.exclude(prominence_factor=0).order_by('-prominence_factor'):
+            pilots = self.stableweek.pilots.filter(rank=rank) 
+
+            for pw in self.stableweek.pilots.filter(rank=rank).exclude(fame=0):
+                pilot_name = '%s - %s' % (rank.rank, pw.pilot)
+               
+                prominence_data.append(['%s - %s' % (rank.rank, pw.pilot), pw.fame * rank.prominence_factor])
+
+        if self.stableweek.has_honoured():
+            prominence_data.append(['Honoured Dead', self.stableweek.honoured.fame_value()])
+
+        row = len(prominence_data)
+        total_prominence = sum((row[1] for row in prominence_data))
+
+        prominence_data.append(['Total Prominence', total_prominence])
+        prominence_style = [
+          ('FONT', (0,0), (0,-1), 'Helvetica-Bold')
+        , ('ALIGN', (-1,0), (-1,-1), 'RIGHT')
+        , ('LINEABOVE', (0,-1), (-1,-1), 1, '#444444', 0)
+        , ('LINEBELOW', (0,-1), (-1,-1), 2, '#000000', 0)
+        ] 
+        prominence_table = Table(prominence_data, [6*cm, 3*cm])
+        prominence_table.setStyle(TableStyle(prominence_style))
+
+        story.append(prominence_table)
+
+        return story
+
 class OverviewReportSection(ReportSection):
     page_template = '2col'
 
@@ -34,15 +103,8 @@ class OverviewReportSection(ReportSection):
     def as_story(self):
         story = self.story_header()
 
-        finances_data = [
-          ('Current Balance', self.stableweek.closing_balance())
-        , ('Total Expenses', self.stableweek.total_spent())
-        , ('Total Income', self.stableweek.total_winnings())
-        , ('Total Assets', self.stableweek.total_assets())
-        ] 
-        finances = pdf.ListSubsection('Finances', self.level + 1, finances_data)
-
-        story += finances.as_story()
+        story += FinanceOverviewSubSection(self.stableweek).as_story()
+        story += ProminenceOverviewSubSection(self.stableweek).as_story()
 
         return story
 
