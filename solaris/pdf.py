@@ -40,8 +40,7 @@ class Heading(Paragraph):
             if self.full_page:
                 self.canv.bookmarkPage(self.key)
             else:
-                #FIXME: Bookmark specific place on page
-                self.canv.bookmarkPage(self.key)
+                self.canv.bookmarkHorizontal(self.key, 0, 2*cm)
 
             self.canv.addOutlineEntry(self.getPlainText(), self.key, self.level, self.closed)
 
