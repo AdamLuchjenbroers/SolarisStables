@@ -2,7 +2,7 @@ from django.db.models import Sum
 
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.units import cm
-from reportlab.platypus import Table, TableStyle, PageBreak, Paragraph
+from reportlab.platypus import Table, TableStyle, PageBreak, Paragraph, KeepTogether, Spacer
 
 from solaris import pdf_styles, pdf
 from solaris.pdf import PDFView, SolarisDocTemplate, ReportSection
@@ -52,8 +52,9 @@ class FinanceOverviewSubSection(pdf.ReportSubSection):
         finance_table.setStyle(TableStyle(finance_style))
 
         story.append(finance_table)
+        story.append(Spacer(0, 0.5*cm))
 
-        return story
+        return [KeepTogether(story),]
 
 class ProminenceOverviewSubSection(pdf.ReportSubSection):
     def __init__(self, stableweek, name='Prominence', key='ov-prominence', level=1, **kwargs):
@@ -89,8 +90,9 @@ class ProminenceOverviewSubSection(pdf.ReportSubSection):
         prominence_table.setStyle(TableStyle(prominence_style))
 
         story.append(prominence_table)
+        story.append(Spacer(0, 0.5*cm))
 
-        return story
+        return [KeepTogether(story),]
 
 class OverviewReportSection(ReportSection):
     page_template = '2col'
