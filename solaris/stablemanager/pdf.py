@@ -134,6 +134,25 @@ class AssetsOverviewSubSection(pdf.ReportSubSection):
 
         return [KeepTogether(story),]
 
+class ReputationOverviewSubSection(pdf.ReportSubSection):
+    def __init__(self, stableweek, name='Reputation', key='ov-rep', level=1, **kwargs):
+        self.stableweek = stableweek
+        pdf.ReportSubSection.__init__(self, name, level, key=key)
+
+    def as_story(self):
+        story = self.story_header()
+
+        if self.stableweek.reputation == 0:
+           story.append(Paragraph('Neutral', pdf_styles.reputation_neutral))
+        elif self.stableweek.reputation > 0:
+           story.append(Paragraph('Face (%d)' % self.stableweek.reputation, pdf_styles.reputation_face))
+        else:
+           story.append(Paragraph('Heel (%d)' % -self.stableweek.reputation, pdf_styles.reputation_heel))
+
+        story.append(Spacer(0, 0.5*cm))
+
+        return [KeepTogether(story),]
+
 class OverviewReportSection(ReportSection):
     page_template = '2col'
 
@@ -148,6 +167,7 @@ class OverviewReportSection(ReportSection):
         story += FinanceOverviewSubSection(self.stableweek).as_story()
         story += ProminenceOverviewSubSection(self.stableweek).as_story()
         story += AssetsOverviewSubSection(self.stableweek).as_story()
+        story += ReputationOverviewSubSection(self.stableweek).as_story()
 
         return story
 
