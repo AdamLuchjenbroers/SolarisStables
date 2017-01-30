@@ -13,16 +13,16 @@ urlpatterns = patterns('',
     url(r'^create/?$', views.AjaxCreateStableWeekView.as_view(), name='stable_createweek'),
 
     url(r'^/?add-tech/?$', views.AjaxAddStableTech.as_view()),
-    url(r'^(?P<week>[0-9]+)/add-tech/?$', views.AjaxAddStableTech.as_view(), name='stable_add_tech'),
+    url(r'^(?P<week>[0-9]+)/+add-tech/?$', views.AjaxAddStableTech.as_view(), name='stable_add_tech'),
 
     url(r'^/?remove-tech/?$', views.AjaxRemoveStableTech.as_view()),
-    url(r'^(?P<week>[0-9]+)/remove-tech/?$', views.AjaxRemoveStableTech.as_view(), name='stable_remove_tech'),
+    url(r'^(?P<week>[0-9]+)/+remove-tech/?$', views.AjaxRemoveStableTech.as_view(), name='stable_remove_tech'),
 
     url(r'^/?alter-rep/?$', views.AjaxAlterReputationView.as_view()),
-    url(r'^(?P<week>[0-9]+)/alter-rep/?$', views.AjaxAlterReputationView.as_view()),
+    url(r'^(?P<week>[0-9]+)/+alter-rep/?$', views.AjaxAlterReputationView.as_view(), name='stable_alter_rep'),
 
     url(r'^/?tech-list/?', views.StableTechListPart.as_view()),
-    url(r'^(?P<week>[0-9]+)/tech-list/?', views.StableTechListPart.as_view()),
+    url(r'^(?P<week>[0-9]+)/+tech-list/?', views.StableTechListPart.as_view()),
 
     url(r'^register/?$', views.StableRegistrationView.as_view(), name='stable_registration'),
     url(r'^initial-mechs/?$', InitialMechPurchaseView.as_view(), name='stable_initialmechs'),
@@ -46,7 +46,7 @@ urlpatterns = patterns('',
 #    url(r'^(?P<week>[0-9]+)/list-variants/?$', ajax.ListProductionVariants.as_view(), name = 'stable_query_mechvariant'),
  
     url(r'^/?list-techs/?$', ajax.ListAvailableTechContracts.as_view(), name = 'stable_query_availtechs_now'), 
-    url(r'^(?P<week>[0-9]+)/list-techs/?$', ajax.ListAvailableTechContracts.as_view(), name = 'stable_query_availtechs'), 
+    url(r'^(?P<week>[0-9]+)/+list-techs/?$', ajax.ListAvailableTechContracts.as_view(), name = 'stable_query_availtechs'), 
 
     url(r'^/?overview/?$', ajax.StableOverviewInfo.as_view(), name = 'stable_query_overview_now'),
     url(r'^(?P<week>[0-9]+)/overview/?$', ajax.StableOverviewInfo.as_view(), name = 'stable_query_overview'),
