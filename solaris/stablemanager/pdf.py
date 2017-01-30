@@ -76,7 +76,6 @@ class ProminenceOverviewSubSection(pdf.ReportSubSection):
         if self.stableweek.has_honoured():
             prominence_data.append(['Honoured Dead', self.stableweek.honoured.fame_value()])
 
-        row = len(prominence_data)
         total_prominence = sum((row[1] for row in prominence_data))
 
         prominence_data.append(['Total Prominence', total_prominence])
@@ -94,6 +93,47 @@ class ProminenceOverviewSubSection(pdf.ReportSubSection):
 
         return [KeepTogether(story),]
 
+class AssetsOverviewSubSection(pdf.ReportSubSection):
+    def __init__(self, stableweek, name='Assets', key='ov-assets', level=1, **kwargs):
+        self.stableweek = stableweek
+        pdf.ReportSubSection.__init__(self, name, level, key=key)
+
+    def as_story(self):
+        story = self.story_header()
+
+        assets_data = [
+          ['Pilots', self.stableweek.pilots.all_present().exclude(prev_week=None).count()]
+        , ['Non-Signature Mechs', self.stableweek.mechs.count_nonsignature()]
+        ]
+
+        total_assets = sum((row[1] for row in assets_data))
+        assets_data.append(['Total Assets', total_assets])
+
+        assets_style = [
+          ('FONT', (0,0), (0,-1), 'Helvetica-Bold')
+        , ('FONT', (-1,0), (-1,-1), 'Courier-Bold')
+        , ('ALIGN', (-1,0), (-1,-1), 'RIGHT')
+        , ('LINEABOVE', (0,-1), (-1,-1), 1, '#444444', 0)
+        , ('LINEBELOW', (0,-1), (-1,-1), 2, '#000000', 0)
+        ] 
+        assets_table = Table(assets_data, [6*cm, 3*cm])
+        assets_table.setStyle(TableStyle(assets_style))
+        story.append(assets_table)
+
+        if total_assets >= 28:
+            story.append(Spacer(0, 0.5*cm))
+            story.append(Paragraph('Both Exploded Management and Expanded Management actions are required', pdf_styles.indented_text))
+        elif total_assets >= 25:
+            story.append(Spacer(0, 0.5*cm))
+            story.append(Paragraph('An Exploded Management action is required', pdf_styles.indented_text))
+        elif total_assets >= 18:
+            story.append(Spacer(0, 0.5*cm))
+            story.append(Paragraph('An Expanded Management action is required', pdf_styles.indented_text))
+
+        story.append(Spacer(0, 0.5*cm))
+
+        return [KeepTogether(story),]
+
 class OverviewReportSection(ReportSection):
     page_template = '2col'
 
@@ -107,6 +147,7 @@ class OverviewReportSection(ReportSection):
 
         story += FinanceOverviewSubSection(self.stableweek).as_story()
         story += ProminenceOverviewSubSection(self.stableweek).as_story()
+        story += AssetsOverviewSubSection(self.stableweek).as_story()
 
         return story
 
