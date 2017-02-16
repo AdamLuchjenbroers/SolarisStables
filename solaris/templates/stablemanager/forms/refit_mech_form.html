@@ -1,4 +1,4 @@
-<form id="mech_refit_form" mech_id="{{stablemechweek.id}}">
+<form id="mech_refit_form" mech_id="{{stablemechweek.id}}" form_url="{% url 'refit_mech' smw_id=stablemechweek.id %}">
   <hr class="chit-divider"/>
   <ul class="refit-mechs">
     {% for model in stablemechweek.refit_production_options %}
@@ -12,6 +12,7 @@
     {% if forloop.first %}  <li id="refit-custom-header" class="list-divider"><span>Custom Models</span><hr/></li> {% endif %}
       <li><input type="radio" class="mech-source-radio" name="mech_source" value="C" mech_name="{{model.mech_name}}" omni_loadout="{{model.omni_loadout}}" mech_code="{{model.mech_code}}">
         <span class="mech-model">{{model.mech_name}} {{model.mech_code}}</span>
+        <span class="word-button action-preview" preview_url="{{model.get_absolute_url}}">Preview</span>
       </input></li>
     {% empty %}
       <li id="refit-custom-header" class="list-divider hidden"><span>Custom Models</span><hr/></li>
