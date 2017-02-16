@@ -21,28 +21,32 @@ class ReferenceMechMixin(ReferenceViewMixin):
             
         return super(ReferenceMechMixin, self).dispatch(request, *args, **kwargs)
 
-class MechDetailView(ReferenceMechMixin, TemplateView):
+class MechDetailViewBase(ReferenceMechMixin, TemplateView):
     template_name = 'warbook/mechdetail.tmpl'
-    model = MechDesign
-    submenu_selected = 'Mechs'
-    
-    def get_context_data(self, **kwargs):
-        page_context = super(MechDetailView,self).get_context_data(**kwargs)
+    filters = {}
 
-        if not('omni' in self.kwargs.keys()):
-            self.kwargs['omni'] = 'Base'
+    def get_context_data(self, **kwargs):
+        page_context = super(MechDetailViewBase,self).get_context_data(**kwargs)
         
         page_context['mech'] = get_object_or_404(MechDesign
                                                 , mech_name__iexact=self.kwargs['name']
                                                 , mech_code__iexact=self.kwargs['code']
-                                                , omni_loadout__iexact=self.kwargs['omni']  
-                                                , production_type='P')    
+                                                , omni_loadout__iexact=self.kwargs.get('omni', 'Base')  
+                                                , **self.__class__.filters)    
         page_context['detail_class'] = 'mech-view'
         page_context['required_techs'] = page_context['mech'].required_techs.all()
         if hasattr(self, 'stable'):
             page_context['stable_techs'] = self.stable.get_stableweek().supply_contracts.all()
         
         return page_context
+
+class MechDetailView(MechDetailViewBase):
+    filters = {'production_type__in' : ('P', 'H') }
+    submenu_selected = 'Mechs'
+
+class CustomMechDetailView(MechDetailViewBase):
+    filters = {'production_type' : 'C' }
+    submenu_selected = 'Mechs'
 
 class MechListView(ReferenceMechMixin, ListView):
     template_name = 'warbook/mechlist.tmpl'

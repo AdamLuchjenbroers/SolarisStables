@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url, include
 
 from . import views, pdf 
+from solaris.warbook.mech.views import CustomMechDetailView
 
 urlpatterns = patterns('',
     url(r'^/?$', views.StableMechsView.as_view(), name='stable_mechs_now'),
@@ -28,4 +29,7 @@ urlpatterns = patterns('',
     url(r'^pdf/(?P<week>[0-9]+)/?$', pdf.MechListPDFView.as_view(), name='stable_mechs_pdf'),
 
     url(r'^repair/', include('solaris.stablemanager.repairs.urls')),
+
+    url(r'^designs/(?P<name>[^/]+)/(?P<code>[^/]+)/(?P<omni>[^/]+)/?$', CustomMechDetailView.as_view(), name='custom_mech_detail') ,
+    url(r'^designs/(?P<name>[^/]+)/(?P<code>[^/]+)/?$', CustomMechDetailView.as_view(), name='custom_mech_detail_base') ,
 )
