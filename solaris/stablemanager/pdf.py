@@ -5,12 +5,14 @@ from reportlab.lib.units import cm
 from reportlab.platypus import Table, TableStyle, PageBreak, Paragraph, KeepTogether, Spacer
 
 from solaris import pdf_styles, pdf
-from solaris.pdf import PDFView, SolarisDocTemplate, ReportSection
+from solaris.pdf import PDFView, SolarisDocTemplate, ReportSection, Heading
 from solaris.stablemanager.ledger.pdf import LedgerReportSection
 from solaris.stablemanager.pilots.pdf import RosterReportSection
 from solaris.stablemanager.mechs.pdf import MechsReportSection
 from solaris.stablemanager.repairs.pdf import RepairBillSection
+
 from solaris.warbook.pilotskill.models import PilotRank
+from solaris.warbook.refdata import technology_tiers
 
 from .views import StableWeekMixin
 
@@ -119,7 +121,6 @@ class AssetsOverviewSubSection(pdf.ReportSubSection):
         assets_table = Table(assets_data, [6*cm, 3*cm])
         assets_table.setStyle(TableStyle(assets_style))
         story.append(assets_table)
-
         if total_assets >= 28:
             story.append(Spacer(0, 0.5*cm))
             story.append(Paragraph('Both Exploded Management and Expanded Management actions are required', pdf_styles.indented_text))
@@ -153,6 +154,27 @@ class ReputationOverviewSubSection(pdf.ReportSubSection):
 
         return [KeepTogether(story),]
 
+class SupplyContractsOverviewSubSection(pdf.ReportSubSection):
+    def __init__(self, stableweek, name='Supply Contracts', key='ov-sc', level=1, **kwargs):
+        self.stableweek = stableweek
+        pdf.ReportSubSection.__init__(self, name, level, key=key)
+
+    def as_story(self):
+        story = self.story_header()
+
+        for (tier, name) in technology_tiers:
+            contracts = self.stableweek.supply_contracts.filter(tier=tier)
+
+            if contracts.count() > 0:
+                section = [Heading(name, pdf_styles.headings[self.level+1], key='ov-sc-%d' % tier, level=self.level+1),]
+                for tech in contracts:
+                    section.append(Paragraph('%s' % tech.name, pdf_styles.body_text))
+
+                section.append(Spacer(0, 0.5*cm))
+                story.append(KeepTogether(section))              
+
+        return story
+
 class OverviewReportSection(ReportSection):
     page_template = '2col'
 
@@ -168,6 +190,7 @@ class OverviewReportSection(ReportSection):
         story += ProminenceOverviewSubSection(self.stableweek).as_story()
         story += AssetsOverviewSubSection(self.stableweek).as_story()
         story += ReputationOverviewSubSection(self.stableweek).as_story()
+        story += SupplyContractsOverviewSubSection(self.stableweek).as_story()
 
         return story
 
