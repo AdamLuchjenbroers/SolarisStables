@@ -55,6 +55,14 @@ class HonouredDeadBasicTests(StableTestMixin, TestCase):
 
         self.assertFalse(self.first_pw.removed, 'Pilot not removed from stable after being honoured as dead')
 
+    def test_is_honoured(self):
+        hd = self.first_pw.honour_dead()
+        self.assertTrue(self.first_pw.is_honoured(), 'is_honoured() failed to confirm pilot was honoured dead')
+
+    def test_is_honoured_pre(self):
+        # Test before honouring the pilot as dead to confirm that this method returns the correct value.
+        self.assertFalse(self.first_pw.is_honoured(), 'is_honoured() incorrectly returns True')
+
 class HonouredDeadAdvanceTests(StableTestMixin, TestCase):
     def setUp(self):
         self.stable = self.createStable()

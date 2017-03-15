@@ -128,6 +128,15 @@ class PilotWeek(models.Model):
     def is_dead(self):
         return ((self.wounds + self.blackmarks) >= 6)
 
+    def is_honoured(self):
+        if not self.is_dead():
+            return False
+
+        if hasattr(self, 'honoured'):
+            return True 
+        else:
+            return False 
+
     def is_visible(self):
         if hasattr(self, 'prev_week'):
             if self.prev_week.is_dead() or self.prev_week.removed:
