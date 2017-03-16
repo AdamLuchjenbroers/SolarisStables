@@ -275,7 +275,7 @@ class StableWeek(models.Model):
     def get_sigmech_pilots(self):
         owners = self.mechs.exclude(signature_of=None).values_list('signature_of')
 
-        return self.pilots.all_living().filter(pilot__in=owners)
+        return self.pilots.all_present().filter(pilot__in=owners)
 
     def get_ownerless_sigmechs(self):
         ''' Find all signature mechs with dead owners '''
