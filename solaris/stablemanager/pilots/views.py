@@ -454,7 +454,7 @@ class AjaxAddHonouredDead(AjaxPilotMixin, View):
 
         if display_id not in (None, ''):
             smw = StableMechWeek.objects.get(id=int(request.POST['display_id']))
-            display_mech = smw.current_design
+            display_mech = smw.stablemech
         else:
             display_mech = None
 

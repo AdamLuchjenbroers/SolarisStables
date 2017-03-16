@@ -9,7 +9,7 @@
   {% for hd in honours_list %}
     <tr class="pilot-row {% cycle 'odd' 'even' as rowclass %}">
       <td class="name">{{hd.pilot}}</td>
-      <td class="display-mech">{% if hd.display_mech %} {{hd.display_mech}} {% endif %}</td>
+      <td class="display-mech">{% if hd.display_mech %} {{hd.get_mech_design}} {% endif %}</td>
       <td class="fame">
         {{hd.fame_value}}
         <input honoured_id="{{hd.id}}" callsign="{{pilotweek.pilot.pilot_callsign}}" type="button" class="icon-button icon-small icon-delete icon-right" value="&#x2716;"/>

@@ -580,6 +580,9 @@ class HonouredDead(models.Model):
         , 'has_mech' : (self.display_mech != None)
         }
 
+    def get_mech_design(self):
+        return self.display_mech.weeks.get(stableweek=self.week).current_design
+
 @receiver(post_save, sender=PilotDeferment)
 def cascade_deferment_update(sender, instance=None, created=False, **kwargs):
     if instance.pilot_week.next_week == None:
