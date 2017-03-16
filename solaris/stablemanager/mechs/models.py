@@ -142,6 +142,12 @@ class StableMechWeek(models.Model):
         except RepairBill.DoesNotExist:
             return None
 
+    def is_display_mech(self):
+        if hasattr(self.stableweek, 'honoured'):
+            return self.stableweek.honoured.filter(display_mech = self.stablemech).exists()
+        else:
+            return False
+
     def set_removed(self, value):
         if value == True and (self.next_week == None and not hasattr(self, 'prev_week')):
             self.delete()
