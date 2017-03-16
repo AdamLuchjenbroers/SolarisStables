@@ -132,10 +132,10 @@ class PilotWeek(models.Model):
         if not self.is_dead():
             return False
 
-        if hasattr(self, 'honoured'):
-            return True 
+        if hasattr(self.week, 'honoured'):
+            return self.week.honoured.filter(pilot = self.pilot).exists()
         else:
-            return False 
+            return False
 
     def is_visible(self):
         if hasattr(self, 'prev_week'):
