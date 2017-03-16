@@ -8,6 +8,22 @@ import json
 
 from . import models
 
+class HonouredDeadCreationTests(StableTestMixin, TestCase):
+    def setUp(self):
+        self.stable = self.createStable()
+        self.campaign = self.stable.campaign
+
+        self.pilot, self.pilotweek = self.add_pilot(self.stable)
+
+    def test_alive_pilot(self):
+        hd = self.pilotweek.honour_dead()
+        self.assertEquals(hd, None, 'Expected honour_dead() to return None for an alive pilot, got %s' % hd)
+
+    def test_dead_pilot(self):
+        self.pilotweek.wounds = 6
+        hd = self.pilotweek.honour_dead()
+        self.assertIsInstance(hd, models.HonouredDead, 'Expected honour_dead() to return HonouredDead object for a dead pilot, got %s' % hd)
+
 class HonouredDeadBasicTests(StableTestMixin, TestCase):
     def setUp(self):
         self.stable = self.createStable()
@@ -57,7 +73,11 @@ class HonouredDeadBasicTests(StableTestMixin, TestCase):
 
     def test_is_honoured(self):
         hd = self.first_pw.honour_dead()
-        self.assertTrue(self.first_pw.is_honoured(), 'is_honoured() failed to confirm pilot was honoured dead')
+
+        # Refetch to address ORM de-sync issue
+        # TODO: Clean this up after upgrading to Django 1.8+
+        pw = self.pilot.weeks.get(id=self.first_pw.id)
+        self.assertTrue(pw.is_honoured(), 'is_honoured() failed to confirm pilot was honoured dead')
 
     def test_is_honoured_pre(self):
         # Test before honouring the pilot as dead to confirm that this method returns the correct value.
