@@ -243,7 +243,7 @@ class StableMechWeek(models.Model):
         if self.next_week != None:
             return self.next_week
 
-        if self.removed:
+        if self.removed or self.cored or self.is_display_mech():
             return None
         
         if self.config_for != None:
