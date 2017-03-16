@@ -508,12 +508,12 @@ class HonouredDeadManager(models.Manager):
 
     def fame_value(self):
         return sum((dead.fame_value() for dead in self.all()))
-
+        
 class HonouredDead(models.Model):
     pilot = models.ForeignKey('Pilot')
     week = models.ForeignKey('StableWeek', related_name='honoured')
     removed = models.BooleanField(default=False)
-    display_mech = models.ForeignKey('warbook.MechDesign', blank=True, null=True)
+    display_mech = models.ForeignKey('StableMech', blank=True, null=True)
 
     next_week = models.OneToOneField('HonouredDead', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
 
