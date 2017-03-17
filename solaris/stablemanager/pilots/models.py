@@ -156,16 +156,18 @@ class PilotWeek(models.Model):
             return self.next_week.is_locked()
 
     def set_wounds(self, wounds, direct=True):
-        self.wounds = min(6,max(0,wounds))
-        self.wounds_set = True
-        self.save()
+        if not self.is_honoured():
+            self.wounds = min(6,max(0,wounds))
+            self.wounds_set = True
+            self.save()
 
         return self.wounds
 
     def set_blackmarks(self, blackmarks, direct=True):
-        self.blackmarks = min(6,max(0,blackmarks))
-        self.blackmarks_set = True
-        self.save()
+        if not self.is_honoured():
+            self.blackmarks = min(6,max(0,blackmarks))
+            self.blackmarks_set = True
+            self.save()
   
         return self.blackmarks
  
