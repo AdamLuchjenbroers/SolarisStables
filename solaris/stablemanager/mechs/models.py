@@ -129,6 +129,16 @@ class StableMechWeek(models.Model):
     delivery = models.IntegerField(default=0)    
     config_for = models.ForeignKey('stablemanager.StableMechWeek', related_name='loadouts', blank=True, null=True)
 
+    mech_states = (
+        ('O', 'Fully Operational')
+    ,   ('X', 'Cored')
+    ,   ('D', 'On Display (Honours)')
+    ,   ('R', 'To Be Removed')
+    ,   ('A', 'Marked For Auction')
+    ,   ('-', 'Removed (Hidden)')
+    )
+    mech_status = models.CharField(max_length=1, choices=mech_states)
+
     objects = StableMechWeekManager()
     
     class Meta:
