@@ -357,6 +357,8 @@ class PilotWeek(models.Model):
           'callsign' : self.pilot.pilot_callsign
         , 'spent-xp' : self.training_cost()
         , 'final-xp' : self.character_points()
+        , 'locked'   : self.is_locked()
+        , 'honoured' : self.is_honoured()
         }
 
     def edit_url(self):
@@ -574,12 +576,22 @@ class HonouredDead(models.Model):
             self.next_week.delete()
 
         super(HonouredDead, self).delete()
-  
+ 
+    def last_pilotweek(self):
+        try:
+            return self.pilot.weeks.get(week=self.week).state_parcel()
+        except PilotWeek.DoesNotExist:
+            if hasattr(self, 'prev_week'):
+                return self.prev_week.last_pilotweek()
+            else:
+                return None
+ 
     def state_parcel(self):
         return {
-          'honoured' : True
+          'honoured'   : True
         , 'fame_value' : self.fame_value()
-        , 'has_mech' : (self.display_mech != None)
+        , 'has_mech'   : (self.display_mech != None)
+        , 'pilot'      : self.last_pilotweek()
         }
 
     def get_mech_design(self):

@@ -305,7 +305,7 @@ function submit_pilot_training() {
   , dataType : 'json'
   , data : training
   }).done(function(response) { 
-     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'])
+     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'], response['locked'], response['honoured'])
 
      reset_training_form();
      reload_training_table();
@@ -325,7 +325,7 @@ function submit_pilot_trait() {
   , dataType : 'json'
   , data : trait
   }).done(function(response) { 
-     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'])
+     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'], response['locked'], response['honoured'])
 
      reset_trait_form();
      reload_trait_table();
@@ -363,7 +363,7 @@ function submit_pilot_cure() {
   , dataType : 'json'
   , data : trait
   }).done(function(response) { 
-     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'])
+     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'], response['locked'], response['honoured'])
 
      reset_cure_form();
      reload_trait_table();
@@ -381,16 +381,35 @@ function submit_honoured_dead() {
   , url  : window.location.href + '/honoured-dead/add'
   , dataType : 'json'
   , data : honours
-  }).done(function(response) { 
+  }).done(function(response) {
+     pilot_state = response['pilot']
+     pilot_row_update(pilot_state['callsign'], response['spent-xp'], response['final-xp'], response['locked'], response['honoured'])
+
      reload_honoured_dead()
   });
 }
 
-function pilot_row_update(callsign, spent_xp, final_xp) {
+function pilot_row_update(callsign, spent_xp, final_xp, locked, honoured) {
   pilot = $('#stable-pilot-table tr[callsign=\'' + callsign + '\']');
 
   pilot.children('.spent-xp').text(spent_xp);
   pilot.children('.final-xp').text(final_xp);
+
+  if (locked) {
+    pilot.children('.gained-xp').removeClass('editable');
+    pilot.children('.assigned-tp').removeClass('editable');
+  } else {
+    pilot.children('.gained-xp').addClass('editable');
+    pilot.children('.assigned-tp').addClass('editable');
+  }
+
+  if (locked || honoured) {
+    pilot.children('.wounds').removeClass('editable')
+    pilot.children('.blackmarks').removeClass('editable');
+  } else {
+    pilot.children('.wounds').addClass('editable')
+    pilot.children('.blackmarks').addClass('editable');
+  }
 
   $('#pilot-training-training option[cost]').each( function(idx, option) {
     opt = $(option);
@@ -425,7 +444,7 @@ function event_table_setup(table_id, remove_suffix, id_attr) {
              , 'callsign'    : $(this).attr('callsign') 
              }
     }).done(function(response) { 
-      pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'])
+      pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'], response['locked'], response['honoured'])
 
       reload_training_table();
       reload_trait_table();

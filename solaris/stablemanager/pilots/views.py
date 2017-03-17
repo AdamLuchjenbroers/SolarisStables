@@ -261,6 +261,8 @@ class AjaxSetPilotAttribute(AjaxPilotMixin, View):
         , 'value'    : value
         , 'total-cp' : self.pilotweek.character_points()
         , 'is-dead'  : self.pilotweek.is_dead()
+        , 'locked'   : self.pilotweek.is_locked()
+        , 'honoured' : self.pilotweek.is_honoured()
         , 'tp-table' : self.pilotweek.week.assigned_tp_counts()
         }
         return HttpResponse(json.dumps(result))
@@ -468,7 +470,7 @@ class AjaxRemoveHonouredDead(StableWeekMixin, View):
 
             if honoured.week == self.stableweek:
                 honoured.delete()
-                return HttpResponse(json.dumps(True))
+                return HttpResponse(json.dumps(honoured.last_pilotweek()))
             else:
                 return HttpResponse('Honoured Dead Not Owned By Stable', status=403)
         except KeyError:
