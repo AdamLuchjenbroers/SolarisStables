@@ -33,8 +33,8 @@
      <td class="assigned-tp {% if pilotweek.rank.receive_tp and not pilotweek.is_locked %}editable{% endif %}" field="tp">{{pilotweek.assigned_training_points}}</td>
      <td class="spent-xp">{{pilotweek.training_cost}}</td>
      <td class="final-xp">{{pilotweek.character_points}}</td>
-     <td class="wounds editable" field="wounds">{{pilotweek.wounds}}</td>
-     <td class="blackmarks editable" field="blackmark">{{pilotweek.blackmarks}}</td>
+     <td class="wounds{% if not pilotweek.is_locked and not pilotweek.is_honoured %} editable{%endif%}" field="wounds">{{pilotweek.wounds}}</td>
+     <td class="blackmarks{% if not pilotweek.is_locked and not pilotweek.is_honoured %} editable{%endif%}" field="blackmark">{{pilotweek.blackmarks}}</td>
      <td class="fielded edit-status" status="{{pilotweek.status}}">
        {% if pilotweek.status == 'X' %}&#9670;{% elif pilotweek.status == 'R' %}&#9672;{% else %}&#9671;{% endif %}
      </td>
