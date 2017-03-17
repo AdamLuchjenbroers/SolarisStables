@@ -411,6 +411,11 @@ function pilot_row_update(callsign, spent_xp, final_xp, locked, honoured) {
     pilot.children('.blackmarks').addClass('editable');
   }
 
+  pilot.children().off('click');
+  pilot.children('.editable').one('click', function() {
+    to_number_input( $(this), send_changed_pilot_attrib );
+  });
+
   $('#pilot-training-training option[cost]').each( function(idx, option) {
     opt = $(option);
     cost = parseInt(opt.attr('cost'));
