@@ -124,4 +124,15 @@ class OmnimechAdvanceTests(StableTestMixin, TestCase):
         except ObjectDoesNotExist:
             self.assertFalse(True, 'Mech Record Missing after advancing to next week')
 
-    
+    def test_config_advance_after(self):
+        first_week = self.stable.get_stableweek(1)    
+        next_week = self.advanceWeek(self.stable)
+
+        # TODO: Clean-up re-fetching after upgrade to Django 1.8+
+        new_config = self.addMech(self.stable, stableweek=self.stable.get_stableweek(1), mech_name='Owens', mech_code='OW-1', omni_loadout='D')
+        try:
+            chassisweek = next_week.mechs.get(current_design=self.chassis)
+            configweek = chassisweek.loadouts.get(current_design__omni_loadout='D')
+        except ObjectDoesNotExist:
+            self.assertFalse(True, 'Newly added config not found in later weeks')
+
