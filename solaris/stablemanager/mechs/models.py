@@ -12,7 +12,7 @@ class StableMechManager(models.Manager):
             try:
                 config_for = StableMechWeek.objects.get(stableweek=purchased_on, current_design=purchased_as.omni_basechassis)
                 stablemech = config_for.stablemech
-                add_config = True                
+                add_config = True 
             except StableMechWeek.DoesNotExist:
                 stablemech = StableMech.objects.create(stable=stable, purchased_as=purchased_as.omni_basechassis)
                 
@@ -23,6 +23,7 @@ class StableMechManager(models.Manager):
                 , delivery = delivery
                 )
                 add_config = False
+
         else:             
             stablemech = StableMech.objects.create(stable=stable, purchased_as=purchased_as)
             config_for = None
@@ -35,14 +36,17 @@ class StableMechManager(models.Manager):
         , delivery = delivery
         , config_for = config_for
         )
-
-        if config_for != None:
-            adv_smw = config_for
-        else:
+ 
+        if config_for == None or add_config:
             adv_smw = stablemechweek
-            
-        while adv_smw.can_advance():                
-            adv_smw = adv_smw.advance()            
+        else:
+            adv_smw = config_for
+
+        while adv_smw.can_advance():
+            if add_config:   
+                adv_smw = adv_smw.advance_config()
+            else:
+                adv_smw = adv_smw.advance()
         
         if create_ledger:
             if add_config:
@@ -270,18 +274,34 @@ class StableMechWeek(models.Model):
         )
         
         for config in self.loadouts.filter(cored=False, removed=False):
-            config.next_week = StableMechWeek.objects.create(
-               stableweek = self.stableweek.next_week
-            ,  stablemech = config.stablemech
-            ,  current_design = config.current_design
-            ,  signature_of = self.signature_of
-            ,  cored = self.cored
-            ,  config_for = self.next_week
-            ,  delivery = max(0, self.delivery - 1)
-            )
-            config.save()        
+            config.advance_config()
         
         self.save()
+        return self.next_week
+
+    def advance_config(self):
+        if self.config_for == None:
+            # Not a config
+            return None
+
+        if self.next_week != None:
+            #Already advanced to next week, just return the value.
+            return self.next_week
+
+        if self.config_for.next_week == None or self.stableweek.next_week == None:
+            # No next week to advance to
+            return None
+
+        self.next_week = StableMechWeek.objects.create(
+           stableweek = self.stableweek.next_week
+        ,  stablemech = self.stablemech
+        ,  current_design = self.current_design
+        ,  signature_of = self.config_for.signature_of
+        ,  cored = self.config_for.cored
+        ,  config_for = self.config_for.next_week
+        )
+        self.save()
+        
         return self.next_week
 
     def cascade_advance(self):
