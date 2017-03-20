@@ -256,7 +256,7 @@ class MechRemoveAjaxView(MechModifyMixin, View):
             if action == 'remove':
                 self.stablemechweek.set_removed(True)
             elif action == 'core':
-                self.stablemechweek.set_cored(True)
+                self.stablemechweek.core_mech(True)
             else:
                 return HttpResponse('Unrecognised action %s' % action, 400)
 
@@ -334,9 +334,9 @@ class MechEditFormView(MechModifyMixin, TemplateView):
             if self.mechform.cleaned_data['remove'] == 'remove':
                mech.set_removed(True);
             elif self.mechform.cleaned_data['remove'] == 'core':
-               mech.set_cored(True);
+               mech.core_mech(True);
             elif self.mechform.cleaned_data['remove'] == 'undo':
-               mech.set_cored(False);
+               mech.core_mech(False);
                
 
             return HttpResponse('Mech Changed', status=201)

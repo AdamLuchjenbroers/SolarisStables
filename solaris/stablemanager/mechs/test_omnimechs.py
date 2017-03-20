@@ -218,7 +218,8 @@ class OmniMechRemovalTests(StableTestMixin, TestCase):
 
         config.set_removed(True)
 
-        self.assertFalse(config.removed, 'Omnimech config not tagged as removed')
+  
+        self.assertEquals(config.mech_status, 'R', 'Omnimech config removal failed')
 
     def test_removeChassisStays(self):
         sw = self.stable.get_stableweek()
@@ -227,7 +228,7 @@ class OmniMechRemovalTests(StableTestMixin, TestCase):
         config.set_removed(True)
 
         chassis = sw.mechs.get(current_design=self.loadouts['A'].omni_basechassis)
-        self.assertFalse(chassis.removed, 'Omnimech base chassis incorrectly removed')
+        self.assertNotEquals(chassis.mech_status, 'R', 'Omnimech base chassis incorrectly removed')
 
     def test_removeOtherConfigStays(self):
         sw = self.stable.get_stableweek()
@@ -236,4 +237,4 @@ class OmniMechRemovalTests(StableTestMixin, TestCase):
         config.set_removed(True)
 
         other = sw.mechs.get(current_design=self.loadouts['A'])
-        self.assertFalse(other.removed, 'Omnimech base chassis incorrectly removed')
+        self.assertNotEquals(other.mech_status, 'R', 'Omnimech other config incorrectly removed')

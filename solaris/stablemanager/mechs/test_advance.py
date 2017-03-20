@@ -20,7 +20,7 @@ class MechAdvanceTests(StableTestMixin, TestCase):
 
     def test_coredadvance(self):
         smw = self.mech.weeks.get(stableweek__week__week_number=1)
-        smw.set_cored(True)
+        smw.core_mech(True)
         next_week = self.advanceWeek(self.stable)
 
         with self.assertRaises(ObjectDoesNotExist, msg='Mech record for cored mech exists after advancing to next week'):
@@ -55,7 +55,7 @@ class OmnimechAdvanceTests(StableTestMixin, TestCase):
 
     def test_chassis_cored(self):
         smw = self.mech.weeks.get(stableweek__week__week_number=1, current_design=self.chassis)
-        smw.set_cored(True)
+        smw.core_mech(True)
         next_week = self.advanceWeek(self.stable)
 
         with self.assertRaises(ObjectDoesNotExist, msg='Mech record for cored mech exists after advancing to next week'):
@@ -89,7 +89,7 @@ class OmnimechAdvanceTests(StableTestMixin, TestCase):
 
     def test_config_cored(self):
         smw = self.mech.weeks.get(stableweek__week__week_number=1, current_design=self.config)
-        smw.set_cored(True)
+        smw.core_mech(True)
         next_week = self.advanceWeek(self.stable)
 
         with self.assertRaises(ObjectDoesNotExist, msg='Mech record for cored mech exists after advancing to next week'):

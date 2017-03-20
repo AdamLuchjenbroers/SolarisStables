@@ -1,25 +1,27 @@
 {% extends 'stablemanager/fragments/mech_chit.html' %}
 {% block row_container_start %}
-  <span class="chit-row{% if stablemech.cored or stablemech.removed %} mech-cored {% endif %}">
+  <span class="chit-row{% if stablemech.mech_status in ('X', 'R') %} mech-cored {% endif %}">
 {% endblock %}
 
 {% block mech_info %}
 <div class="chit-section chit-section-left">
-  <div class="chit-toprow mech-name{% if stablemech.cored or stablemech.removed %} mech-cored{% endif %}">
+  <div class="chit-toprow mech-name{% if stablemech.mech_status in ('X', 'R') %} mech-cored{% endif %}">
     {{mech.mech_name}} {{mech.mech_code}}
   </div>
   <div class="chit-bottom mech-desc">
     {% if stablemech.delivery = 1 %}On order, delivery next week.
     {% elif stablemech.delivery > 1 %}On order, delivery in {{stablemech.delivery}} weeks.
-    {% elif stablemech.is_display_mech %}Mech to be taken to Honoured Dead.
     {% elif stablemech.completed_bill_count == 1 %}Bill recorded.
     {% elif stablemech.completed_bill_count > 1 %}{{stablemech.completed_bill_count}} Bills recorded.
     {% elif stablemech.signature_of != None and stablemech.owner_status = 'X' %}Owner has been fielded.
     {% elif stablemech.signature_of != None and stablemech.owner_status = 'R' %}Owner is reserved.
     {% endif %}
 
-
-    {% if stablemech.cored %}Mech Cored.{% elif stablemech.removed %}Mech Removed.{% endif %}
+    {% if stablemech.mech_status = 'X' %} Mech cored.
+    {% elif stablemech.mech_status = 'R' %} Mech removed.
+    {% elif stablemech.mech_status = 'D' %} On display at the Honours Hall.
+    {% elif stablemech.mech_status = 'A' %} Will be auctioned.
+    {% endif %}
   </div>
 </div>
 {% endblock %}

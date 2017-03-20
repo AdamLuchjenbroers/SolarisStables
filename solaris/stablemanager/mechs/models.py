@@ -96,31 +96,34 @@ class StableMechWeekManager(models.Manager):
     use_for_related_fields = True
 
     def count_all_available(self):
-        return self.exclude(delivery__gt=0, config_for=None).count()
+        return self.exclude(delivery__gt=0, config_for=None, mech_status='-').count()
 
     def count_nonsignature(self):
-        return self.filter(signature_of=None, config_for=None, delivery=0).count()
+        return self.visible().filter(signature_of=None, config_for=None, delivery=0).count()
 
     def has_signature(self):
-        return self.exclude(signature_of=None).count() > 0
+        return self.visible().exclude(signature_of=None).count() > 0
 
     def non_signature(self):
-        return self.filter(signature_of=None, config_for=None, delivery=0).order_by('current_design__tonnage', 'current_design__mech_name')
+        return self.visible().filter(signature_of=None, config_for=None, delivery=0).order_by('current_design__tonnage', 'current_design__mech_name')
 
     def mechs_on_order(self): 
-        return self.filter(delivery__gt=0).count >= 0
+        return self.visible().filter(delivery__gt=0).count >= 0
 
     def on_order(self):
-        return self.filter(delivery__gt=0, config_for=None).order_by('delivery', 'current_design__tonnage', 'current_design__mech_name')
+        return self.visible().filter(delivery__gt=0, config_for=None).order_by('delivery', 'current_design__tonnage', 'current_design__mech_name')
 
     def production(self):
-        return self.filter(current_design__production_type__in=('P','H'))
+        return self.visible().filter(current_design__production_type__in=('P','H'))
 
     def custom(self):
-        return self.filter(current_design__production_type__in=('C'))
+        return self.visible().filter(current_design__production_type__in=('C'))
+
+    def all_operational(self):
+        return self.filter(mech_status__in=StableMechWeek.active_states)
 
     def visible(self):
-        return self.filter(removed=False)
+        return self.exclude(mech_status='-')
 
 class StableMechWeek(models.Model):
     stableweek = models.ForeignKey(StableWeek, related_name='mechs', blank=True, null=True)
@@ -128,8 +131,6 @@ class StableMechWeek(models.Model):
     current_design = models.ForeignKey('warbook.MechDesign')
     signature_of = models.ForeignKey('Pilot', related_name='signature_mechs', blank=True, null=True)
     next_week = models.OneToOneField('StableMechWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
-    cored = models.BooleanField(default=False)
-    removed = models.BooleanField(default=False)
     delivery = models.IntegerField(default=0)    
     config_for = models.ForeignKey('stablemanager.StableMechWeek', related_name='loadouts', blank=True, null=True)
 
@@ -141,7 +142,10 @@ class StableMechWeek(models.Model):
     ,   ('A', 'Marked For Auction')
     ,   ('-', 'Removed (Hidden)')
     )
-    mech_status = models.CharField(max_length=1, choices=mech_states)
+    mech_status = models.CharField(max_length=1, choices=mech_states, default='O', blank=False, null=False)
+
+    active_states = ('O',)
+    inactive_states = ('X', 'D', 'R', 'A', '-')
 
     objects = StableMechWeekManager()
     
@@ -162,23 +166,43 @@ class StableMechWeek(models.Model):
         else:
             return False
 
+    def set_status(self, new_status, write_locked=False):
+        if self.is_locked() and not write_locked:
+            #Record is locked, do not perform update
+            return self.mech_status
+
+        if self.next_week != None:
+            if new_status in StableMechWeek.inactive_states:
+                self.next_week.set_status('-')
+            elif self.mech_status in StableMechWeek.inactive_states \
+            and new_status in StableMechWeek.active_states:
+                self.next_week.set_status(new_status)
+
+        self.mech_status = new_status
+        self.save()
+
+        return self.mech_status
+
     def set_removed(self, value):
         if value == True and (self.next_week == None and not hasattr(self, 'prev_week')):
             self.delete()
 
             return True
+        
+        if value == True:
+            self.set_status('R')
+            return (self.mech_status == 'R')
         else:
-            self.removed = value
-            self.save()
-            if self.next_week != None:
-                self.next_week.set_removed(value)
-
-            return self.removed
+            self.set_status('O')
+            return (self.mech_status == 'O')
 
     def set_cored(self, value):
+        self.set_status('C')
+        return (self.mech_status == 'C')
+
+    def core_mech(self, value):
         from solaris.stablemanager.repairs.models import RepairBill
 
-        self.cored = value
         if value == True:
             self.removed = True
 
@@ -191,8 +215,10 @@ class StableMechWeek(models.Model):
             bill.save()
             bill.create_ledger_entry()
 
+            self.set_status('C')
+
         if value == False:
-            self.removed = False
+            self.set_status('O')
             for bill in self.repairs.filter(cored=True):
                 bill.remove_ledger_entry()
                 bill.delete() 
@@ -248,7 +274,7 @@ class StableMechWeek(models.Model):
         return self.next_week.is_locked()
 
     def can_advance(self):
-        return (self.stableweek.next_week != None)
+        return (self.stableweek.next_week != None) and self.mech_status not in StableMechWeek.inactive_states
 
     def advance(self):
         if self.stableweek.next_week == None:
@@ -257,7 +283,7 @@ class StableMechWeek(models.Model):
         if self.next_week != None:
             return self.next_week
 
-        if self.removed or self.cored or self.is_display_mech():
+        if self.mech_status in StableMechWeek.inactive_states:
             return None
         
         if self.config_for != None:
@@ -269,11 +295,11 @@ class StableMechWeek(models.Model):
         ,  stablemech = self.stablemech
         ,  current_design = self.current_design
         ,  signature_of = self.signature_of
-        ,  cored = self.cored
+        ,  mech_status = self.mech_status
         ,  delivery = max(0, self.delivery - 1)
         )
         
-        for config in self.loadouts.filter(cored=False, removed=False):
+        for config in self.loadouts.filter(mech_status__in=StableMechWeek.active_states):
             config.advance_config()
         
         self.save()
@@ -292,12 +318,15 @@ class StableMechWeek(models.Model):
             # No next week to advance to
             return None
 
+        if self.mech_status in StableMechWeek.inactive_states:
+            return None
+        
         self.next_week = StableMechWeek.objects.create(
            stableweek = self.stableweek.next_week
         ,  stablemech = self.stablemech
         ,  current_design = self.current_design
         ,  signature_of = self.config_for.signature_of
-        ,  cored = self.config_for.cored
+        ,  mech_status = self.mech_status
         ,  config_for = self.config_for.next_week
         )
         self.save()

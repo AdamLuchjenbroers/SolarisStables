@@ -183,7 +183,7 @@ class MechChangeForm(forms.ModelForm):
         fields = ('signature_of', 'delivery')
 
     def remove_choices(self):
-        if self.instance.cored or self.instance.removed:
+        if self.instance.mech_status in ('C','R'):
             return (('keep', 'Don\'t Change'), ('undo', 'Undo Removal'))
         else:
             return (('keep', 'Don\'t Remove'), ('remove', 'Remove from Stable'), ('core', 'Mark Cored'))

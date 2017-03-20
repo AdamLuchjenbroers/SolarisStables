@@ -186,10 +186,10 @@ class StableWeek(models.Model):
         self.save()
         self.next_week.save()
 
-        for mech in self.mechs.filter(cored=False):
+        for mech in self.mechs.all_operational():
             mech.advance()
 
-        for pilot in self.pilots.filter(wounds__lt=6):
+        for pilot in self.pilots.all_living():
             pilot.advance()
 
         if hasattr(self, 'honoured'):
