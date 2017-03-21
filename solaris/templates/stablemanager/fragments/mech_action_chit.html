@@ -1,11 +1,13 @@
 {% extends 'stablemanager/fragments/mech_chit.html' %}
+{% load mechtags %}
+
 {% block row_container_start %}
-  <span class="chit-row{% if stablemech.mech_status in ('X', 'R') %} mech-cored {% endif %}">
+  <span class="chit-row {% mech_status_css stablemech %}">
 {% endblock %}
 
 {% block mech_info %}
 <div class="chit-section chit-section-left">
-  <div class="chit-toprow mech-name{% if stablemech.mech_status in ('X', 'R') %} mech-cored{% endif %}">
+  <div class="chit-toprow mech-name {% mech_status_css stablemech %}">
     {{mech.mech_name}} {{mech.mech_code}}
   </div>
   <div class="chit-bottom mech-desc">
