@@ -822,7 +822,8 @@ span.mech-name {
     width: 35%;
 }
 
-.mech-cored .mech-name {
+.mech-cored .mech-name,
+.mech-removed .mech-name {
     text-decoration: line-through;
 }
 
