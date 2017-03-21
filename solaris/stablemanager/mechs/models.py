@@ -250,13 +250,7 @@ class StableMechWeek(models.Model):
         return self.loadout_options().exclude(production_type__in=('P','H'))
 
     def is_visible(self):
-        if hasattr(self, 'prev_week'):
-            if self.prev_week.cored:
-                return False
-            else:
-                return self.prev_week.is_visible()
-        else:
-            return True    
+        return (self.mech_status != '-')
 
     def is_locked(self):
         if self.next_week == None:
