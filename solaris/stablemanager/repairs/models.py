@@ -67,31 +67,33 @@ class RepairBill(models.Model):
             mech_name = '%s %s' % (self.mech.mech_name, self.mech.mech_code)
 
         if not self.cored:
-           LedgerItem.objects.create(
-              description = 'Repair Bill - %s' % mech_name
-           ,  cost = -self.lineitems.total_cost()
-           ,  type = 'R'
-           ,  tied = True
-           ,  ledger = self.stableweek.stableweek
-           ,  ref_repairbill = self
-           )
+            LedgerItem.objects.create(
+               description = 'Repair Bill - %s' % mech_name
+            ,  cost = -self.lineitems.total_cost()
+            ,  type = 'R'
+            ,  tied = True
+            ,  ledger = self.stableweek.stableweek
+            ,  ref_repairbill = self
+            )
         elif self.mech.tier > 0:
-           LedgerItem.objects.create(
-              description = 'Insurance Payout - %s' % mech_name
-           ,  cost = self.insurance_payout()
-           ,  type = 'I'
-           ,  tied = True
-           ,  ledger = self.stableweek.stableweek
-           ,  ref_repairbill = self
-           )
+            LedgerItem.objects.create(
+               description = 'Insurance Payout - %s' % mech_name
+            ,  cost = self.insurance_payout()
+            ,  type = 'I'
+            ,  tied = True
+            ,  ledger = self.stableweek.stableweek
+            ,  ref_repairbill = self
+            )
 
-        self.stableweek.cored = self.cored
+        if self.cored:
+            self.stableweek.set_status('X')
+
         self.stableweek.save()
            
     def remove_ledger_entry(self):
         LedgerItem.objects.filter(ref_repairbill=self).delete()
 
-        self.stableweek.cored = False
+        self.stableweek.set_status('O')
         self.stableweek.save()
 
     def getLocation(self, location):
