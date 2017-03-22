@@ -375,7 +375,16 @@ class PilotWeek(models.Model):
           pilot = self.pilot
         , week  = self.week
         )
-        hd.display_mech = display_mech
+        if hd.display_mech == None:
+            try:
+                display_week = display_mech.weeks.get(stableweek=self.week)
+                display_week.set_status('D')
+
+                hd.display_mech = display_mech
+            except ObjectDoesNotExist:
+                # Linked mech doesn't actually exist in this Stable Week.
+                pass
+ 
         hd.save()
         
         #Advance forward if required
@@ -571,6 +580,15 @@ class HonouredDead(models.Model):
         if hasattr(self, 'prev_week'):
             self.prev_week.removed = True
             self.prev_week.save()
+        
+        if self.display_mech != None:
+            try:
+                display_week = self.display_mech.weeks.get(stableweek=self.week)
+                display_week.set_status('O', write_locked=True)
+            except ObjectDoesNotExist:
+                # Linked mech doesn't actually exist in this Stable Week.
+                pass
+ 
 
         if self.next_week != None:
             self.next_week.delete()
