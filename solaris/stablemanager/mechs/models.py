@@ -197,8 +197,8 @@ class StableMechWeek(models.Model):
             return (self.mech_status == 'O')
 
     def set_cored(self, value):
-        self.set_status('C')
-        return (self.mech_status == 'C')
+        self.set_status('X')
+        return (self.mech_status == 'X')
 
     def core_mech(self, value):
         from solaris.stablemanager.repairs.models import RepairBill
@@ -215,7 +215,7 @@ class StableMechWeek(models.Model):
             bill.save()
             bill.create_ledger_entry()
 
-            self.set_status('C')
+            self.set_status('X')
 
         if value == False:
             self.set_status('O')
@@ -253,6 +253,10 @@ class StableMechWeek(models.Model):
         return (self.mech_status != '-')
 
     def is_locked(self):
+        # Is this mech already linked to an auction / display
+        if self.mech_status in ('D', 'A'):
+            return True
+
         if self.next_week == None:
             return False
 
