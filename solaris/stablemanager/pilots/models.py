@@ -375,7 +375,7 @@ class PilotWeek(models.Model):
           pilot = self.pilot
         , week  = self.week
         )
-        if hd.display_mech == None:
+        if hd.display_mech != None:
             try:
                 display_week = display_mech.weeks.get(stableweek=self.week)
                 display_week.set_status('D')
