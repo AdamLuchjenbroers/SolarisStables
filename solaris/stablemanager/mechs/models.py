@@ -174,9 +174,17 @@ class StableMechWeek(models.Model):
         if self.next_week != None:
             if new_status in StableMechWeek.inactive_states:
                 self.next_week.set_status('-')
-            elif self.mech_status in StableMechWeek.inactive_states \
-            and new_status in StableMechWeek.active_states:
+
+        if self.mech_status in StableMechWeek.inactive_states \
+        and new_status in StableMechWeek.active_states:
+            if self.next_week != None:
                 self.next_week.set_status(new_status)
+            else:
+                if self.config_for == None:
+                    self.advance()
+                else:
+                    self.advance_config()
+
 
         self.mech_status = new_status
         self.save()
@@ -189,9 +197,12 @@ class StableMechWeek(models.Model):
 
             return True
         
-        if value == True:
+        if value == True and self.config_for == None:
             self.set_status('R')
             return (self.mech_status == 'R')
+        elif value == True and self.config_for != None:
+            self.set_status('-')
+            return (self.mech_status == '-')
         else:
             self.set_status('O')
             return (self.mech_status == 'O')
