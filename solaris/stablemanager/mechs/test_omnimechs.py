@@ -212,14 +212,26 @@ class OmniMechRemovalTests(StableTestMixin, TestCase):
 
         self.assertEquals(count, 3, 'Expected 3 StableMechs (Chassis + 2 Configs), found %i' % count)
 
-    def test_removeConfig(self):
+    # Test removal behavior with only a single week record present
+    def test_remove_config(self):
+        sw = self.stable.get_stableweek()
+
+        sw.week.advance()
+        sw.advance()
+
+        config = sw.mechs.get(current_design=self.loadouts['C'])
+
+        config.set_removed(True)
+        self.assertEquals(config.mech_status, '-', 'Omnimech config removal failed')
+
+    # Test removal behavior with only a single week record present
+    def test_remove_config_singleton(self):
         sw = self.stable.get_stableweek()
         config = sw.mechs.get(current_design=self.loadouts['C'])
 
         config.set_removed(True)
-
-  
-        self.assertEquals(config.mech_status, 'R', 'Omnimech config removal failed')
+        exists = sw.mechs.filter(id=config.id).exists()
+        self.assertFalse(exists, 'Failed to eliminate a config with no next or previous week.')
 
     def test_removeChassisStays(self):
         sw = self.stable.get_stableweek()
