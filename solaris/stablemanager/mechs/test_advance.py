@@ -27,7 +27,7 @@ class MechAdvanceTests(StableTestMixin, TestCase):
         except ObjectDoesNotExist:
             self.assertFalse(True, 'Mech Record Missing after advancing to next week')
 
-    def test_coredadvance(self):
+    def test_cored_advance(self):
         smw = self.mech.weeks.get(stableweek__week__week_number=1)
         smw.core_mech(True)
         next_week = self.advanceWeek(self.stable)
@@ -35,12 +35,36 @@ class MechAdvanceTests(StableTestMixin, TestCase):
         with self.assertRaises(ObjectDoesNotExist, msg='Mech record for cored mech exists after advancing to next week'):
             next_week.mechs.get(stablemech=self.mech)
 
-    def test_removedadvance(self):
+    def test_removed_advance(self):
         smw = self.mech.weeks.get(stableweek__week__week_number=1)
         smw.set_removed(True)
         next_week = self.advanceWeek(self.stable)
 
-        with self.assertRaises(ObjectDoesNotExist, msg='Mech record for cored mech exists after advancing to next week'):
+        with self.assertRaises(ObjectDoesNotExist, msg='Mech record for removed mech exists after advancing to next week'):
+            next_week.mechs.get(stablemech=self.mech)
+
+    def test_hidden_advance(self):
+        smw = self.mech.weeks.get(stableweek__week__week_number=1)
+        smw.set_status('-')
+        next_week = self.advanceWeek(self.stable)
+
+        with self.assertRaises(ObjectDoesNotExist, msg='Mech record for hidden mech exists after advancing to next week'):
+            next_week.mechs.get(stablemech=self.mech)
+
+    def test_honoured_advance(self):
+        smw = self.mech.weeks.get(stableweek__week__week_number=1)
+        smw.set_status('D')
+        next_week = self.advanceWeek(self.stable)
+
+        with self.assertRaises(ObjectDoesNotExist, msg='Mech record for display mech exists after advancing to next week'):
+            next_week.mechs.get(stablemech=self.mech)
+
+    def test_auction_advance(self):
+        smw = self.mech.weeks.get(stableweek__week__week_number=1)
+        smw.set_status('A')
+        next_week = self.advanceWeek(self.stable)
+
+        with self.assertRaises(ObjectDoesNotExist, msg='Mech record for auctioned mech exists after advancing to next week'):
             next_week.mechs.get(stablemech=self.mech)
 
 class OmnimechAdvanceTests(StableTestMixin, TestCase):
@@ -149,24 +173,43 @@ class LateAdditionTests(StableTestMixin, TestCase):
         self.stable = self.createStable()
         self.stable.campaign.current_week().advance()
 
+        self.first_week = self.stable.get_stableweek(1)
+        self.stableweek = self.first_week.advance()
+
     def test_add_basic(self):
-        first_week = self.stable.get_stableweek(1)
-        stableweek = first_week.advance()
+        mech = self.addMech(self.stable, stableweek=self.first_week, mech_name='Wolverine', mech_code='WVR-7D')
 
-        mech = self.addMech(self.stable, stableweek=first_week, mech_name='Wolverine', mech_code='WVR-7D')
-
-        exists = stableweek.mechs.filter(stablemech=mech).exists()
+        exists = self.stableweek.mechs.filter(stablemech=mech).exists()
         self.assertTrue(exists, 'Mech failed to advance to next week')
+
+    def test_add_basic_status(self):
+        mech = self.addMech(self.stable, stableweek=self.first_week, mech_name='Wolverine', mech_code='WVR-7D')
+
+        mech = self.stableweek.mechs.get(stablemech=mech)
+        self.assertEquals(mech.mech_status, 'O', 'Late added mech has incorrect status code, expected O, found %s' % mech.mech_status)
 
     def test_add_omni_chassis(self):
-        first_week = self.stable.get_stableweek(1)
-        stableweek = first_week.advance()
+        mech = self.addMech(self.stable, stableweek=self.first_week, mech_name='Owens', mech_code='OW-1', omni_loadout='Prime')
 
-        mech = self.addMech(self.stable, stableweek=first_week, mech_name='Owens', mech_code='OW-1', omni_loadout='Prime')
+        exists = self.stableweek.mechs.filter(stablemech=mech, current_design__omni_loadout='Base').exists()
+        self.assertTrue(exists, 'Omnimech failed to advance to next week')
 
-        exists = stableweek.mechs.filter(stablemech=mech).exists()
-        self.assertTrue(exists, 'Mech failed to advance to next week')
+    def test_add_omni_chassis_status(self):
+        mech = self.addMech(self.stable, stableweek=self.first_week, mech_name='Owens', mech_code='OW-1', omni_loadout='Prime')
 
+        mech = self.stableweek.mechs.get(stablemech=mech, current_design__omni_loadout='Base')
+        self.assertEquals(mech.mech_status, 'O', 'Omnimech config has incorrect status code, expected O, found %s' % mech.mech_status)
 
+    def test_add_omni_config(self):
+        mech = self.addMech(self.stable, stableweek=self.first_week, mech_name='Owens', mech_code='OW-1', omni_loadout='Prime')
+
+        exists = self.stableweek.mechs.filter(stablemech=mech, current_design__omni_loadout='Prime').exists()
+        self.assertTrue(exists, 'Omnimech config failed to advance to next week')
+
+    def test_add_omni_config_status(self):
+        mech = self.addMech(self.stable, stableweek=self.first_week, mech_name='Owens', mech_code='OW-1', omni_loadout='Prime')
+
+        mech = self.stableweek.mechs.get(stablemech=mech, current_design__omni_loadout='Prime')
+        self.assertEquals(mech.mech_status, 'O', 'Omnimech config has incorrect status code, expected O, found %s' % mech.mech_status)
 
    
