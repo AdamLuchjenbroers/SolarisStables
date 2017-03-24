@@ -144,6 +144,7 @@ class StableMechWeek(models.Model):
     )
     mech_status = models.CharField(max_length=1, choices=mech_states, default='O', blank=False, null=False)
 
+    valid_states = [ code[0] for code in mech_states ]
     active_states = ('O',)
     inactive_states = ('X', 'D', 'R', 'A', '-')
 
@@ -167,6 +168,9 @@ class StableMechWeek(models.Model):
             return False
 
     def set_status(self, new_status, write_locked=False):
+        if new_status not in StableMechWeek.valid_states:
+            raise ValueError('Status Code %s does not correspond to a valid mech state' % new_status)
+
         if self.is_locked() and not write_locked:
             #Record is locked, do not perform update
             return self.mech_status
