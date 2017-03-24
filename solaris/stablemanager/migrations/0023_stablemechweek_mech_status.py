@@ -23,10 +23,14 @@ def populate_status(apps, schema_editor):
         smw.mech_status = '-'
         smw.save()
 
-def noop(apps, schema_editor):
-    # Why bother to delete from fields that are being dropped in the
-    # same operation.
-    pass
+def repopulate_flags(apps, schema_editor):
+    StableMechWeek = apps.get_model('stablemanager', 'StableMechWeek')
+
+    for smw in StableMechWeek.objects.filter(mech_status__in=('X','R','-')):
+        smw.cored = (smw.mech_status == 'X')
+        smw.removed = (smw.mech_status in ('R', '-'))
+
+        smw.save()
 
 class Migration(migrations.Migration):
 
@@ -41,5 +45,5 @@ class Migration(migrations.Migration):
             field=models.CharField(default='O', max_length=1, choices=[(b'O', b'Fully Operational'), (b'X', b'Cored'), (b'D', b'On Display (Honours)'), (b'R', b'To Be Removed'), (b'A', b'Marked For Auction'), (b'-', b'Removed (Hidden)')]),
             preserve_default=False,
         ),
-        migrations.RunPython(populate_status, reverse_code=noop),
+        migrations.RunPython(populate_status, reverse_code=repopulate_flags),
     ]
