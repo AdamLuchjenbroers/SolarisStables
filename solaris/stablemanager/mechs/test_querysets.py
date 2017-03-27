@@ -17,6 +17,9 @@ class MechQuerySetTestMixin(StableTestMixin):
 
         self.assertEquals(result, expect, '%s: expected: %s, found %s' % (message_stub, expect, result))
 
+    def test_hidden(self):
+        self.do_queryset_test('-', 'Hidden Mech present in output dataset')
+
     def test_count(self):
         result = self.get_queryset().count()
         expect = self.__class__.expect_count
@@ -74,9 +77,6 @@ class MechStatusTestMixin(MechQuerySetTestMixin):
     def test_auction(self):
         self.do_queryset_test('A', 'Check by status code failed')
 
-    def test_hidden(self):
-        self.do_queryset_test('-', 'Check by status code failed')
-
          
 class TestOperationalDataset(MechStatusTestMixin, TestCase):
     expected = {
@@ -110,11 +110,12 @@ class TestVisibleDataset(MechStatusTestMixin, TestCase):
         sw = self.stable.get_stableweek(1)
         return sw.mechs.visible()
 
-class TestOnOrderDataset(MechQuerySetTestMixin, TestCase):
+class TestOnOrderQuerySet(MechQuerySetTestMixin, TestCase):
     expected = {
-      0 : False
-    , 1 : True
-    , 2 : True
+      0   : False
+    , 1   : True
+    , 2   : True
+    , '-' : False
     }
     expect_count = 2
     available_count = 1
@@ -134,6 +135,10 @@ class TestOnOrderDataset(MechQuerySetTestMixin, TestCase):
             mechweek.delivery = delivery
             mechweek.save()
 
+        self.mechs['-'] = self.addMech(self.stable, mech_name='Quickdraw', mech_code='QKD-8X')
+        mechweek = self.mechs['-'].weeks.get(stableweek = sw)
+        mechweek.set_status('-')
+
     def get_queryset(self):
         sw = self.stable.get_stableweek(1)
         return sw.mechs.on_order()
@@ -147,12 +152,48 @@ class TestOnOrderDataset(MechQuerySetTestMixin, TestCase):
     def test_delivery_2wk(self):
         self.do_queryset_test(2, 'On order(1 week) mech missing from delivery list')
 
-    def test_queryset_count(self):
+    def test_onorder_check(self):
         sw = self.stable.get_stableweek(1)
         
         result = sw.mechs.mechs_on_order()
-        expect = self.__class__.expect_count
+        expect = True
 
-        self.assertNotEquals(expect, result, 'mechs_on_order() returns incorrect count -  expected %i, got %i' % (expect, result))
+        self.assertEquals(expect, result, 'mechs_on_order() returns incorrect count -  expected %i, got %i' % (expect, result))
 
-        
+class TestNonSignaturesQuerySet(MechQuerySetTestMixin, TestCase):
+    expected = {
+      'sig' : False
+    , 'non' : True
+    , '-'   : False
+    }
+    expect_count = 1
+    available_count = 2
+
+    def setUp(self):
+        self.stable = self.createStable()
+
+        self.mechs = {
+          'sig' : self.addMech(self.stable, mech_name='Wolverine', mech_code='WVR-7D')
+        , 'non' : self.addMech(self.stable, mech_name='Hatchetman', mech_code='HCT-3F')
+        , '-'   : self.addMech(self.stable, mech_name='Quickdraw', mech_code='QKD-8X')
+        }
+
+        sw = self.stable.get_stableweek(1)
+
+        (pilot, pweek) = self.add_pilot(self.stable)
+        mechweek = self.mechs['sig'].weeks.get(stableweek = sw)
+        mechweek.signature_of = pilot
+        mechweek.save()
+
+        mechweek = self.mechs['-'].weeks.get(stableweek = sw)
+        mechweek.set_status('-')
+
+    def get_queryset(self):
+        sw = self.stable.get_stableweek(1)
+        return sw.mechs.non_signature()
+
+    def test_signature(self):
+        self.do_queryset_test('sig', 'Signature mech found in non-signatures list')
+
+    def test_non_signature(self):
+        self.do_queryset_test('non', 'Non-signature mech not found in non-signatures list')
