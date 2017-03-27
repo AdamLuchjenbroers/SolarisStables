@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.dispatch import receiver
+from django.db.models.signals import pre_save, post_save
 
 from solaris.stablemanager.models import Stable, StableWeek
 from solaris.stablemanager.ledger.models import LedgerItem
@@ -131,7 +133,10 @@ class StableMechWeek(models.Model):
     current_design = models.ForeignKey('warbook.MechDesign')
     signature_of = models.ForeignKey('Pilot', related_name='signature_mechs', blank=True, null=True)
     next_week = models.OneToOneField('StableMechWeek', on_delete=models.SET_NULL, related_name='prev_week', blank=True, null=True)
+
     delivery = models.IntegerField(default=0)    
+    delivery_set = models.BooleanField(default=False)
+
     config_for = models.ForeignKey('stablemanager.StableMechWeek', related_name='loadouts', blank=True, null=True)
 
     mech_states = (
@@ -404,3 +409,15 @@ class StableMechWeek(models.Model):
             return bill.get_absolute_url()
         else:
             return reverse('repair_bill_new', kwargs={'stablemech' : self.id})
+
+@receiver(post_save, sender=StableMechWeek)
+def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
+    if instance.next_week != None:
+        nw_save = False
+
+        if instance.delivery > 0 and not instance.next_week.delivery_set:
+            instance.next_week.delivery = instance.delivery - 1
+            nw_save = True
+
+        if nw_save:
+            instance.next_week.save()
