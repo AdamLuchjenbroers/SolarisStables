@@ -212,4 +212,25 @@ class LateAdditionTests(StableTestMixin, TestCase):
         mech = self.stableweek.mechs.get(stablemech=mech, current_design__omni_loadout='Prime')
         self.assertEquals(mech.mech_status, 'O', 'Omnimech config has incorrect status code, expected O, found %s' % mech.mech_status)
 
+    def test_remove_after_add(self):
+        mech = self.addMech(self.stable, stableweek=self.first_week, mech_name='Wolverine', mech_code='WVR-7D')
+
+        mechweek = self.first_week.mechs.get(stablemech=mech)
+        mechweek.set_removed(True)
+
+        mechweek = self.stableweek.mechs.get(stablemech=mech)
+        self.assertEquals(mechweek.mech_status, '-', 'Removed mech has incorrect status code, expected -, found %s' % mechweek.mech_status)
+
+    def test_delivery(self):
+        mech = self.addMech(self.stable, stableweek=self.first_week, mech_name='Wolverine', mech_code='WVR-7D')
+
+        mechweek = self.first_week.mechs.get(stablemech=mech)
+        mechweek.delivery = 2
+        mechweek.save()
+
+        mechweek = self.stableweek.mechs.get(stablemech=mech)
+        self.assertEquals(mechweek.delivery, 1, 'Delivery value for following week incorrect, expected 1, found %i' % mechweek.delivery)
    
+
+
+    
