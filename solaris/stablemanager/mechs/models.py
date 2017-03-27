@@ -108,7 +108,7 @@ class StableMechWeekManager(models.Manager):
         return self.visible().filter(signature_of=None, config_for=None, delivery=0).order_by('current_design__tonnage', 'current_design__mech_name')
 
     def mechs_on_order(self): 
-        return self.visible().filter(delivery__gt=0).count >= 0
+        return self.on_order().count() >= 0
 
     def on_order(self):
         return self.visible().filter(delivery__gt=0, config_for=None).order_by('delivery', 'current_design__tonnage', 'current_design__mech_name')
