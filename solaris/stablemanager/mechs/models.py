@@ -180,20 +180,15 @@ class StableMechWeek(models.Model):
             #Record is locked, do not perform update
             return self.mech_status
 
-        if self.next_week != None:
-            if new_status in StableMechWeek.inactive_states:
-                self.next_week.set_status('-')
-
         if self.mech_status in StableMechWeek.inactive_states \
         and new_status in StableMechWeek.active_states:
             if self.next_week != None:
                 self.next_week.set_status(new_status)
-            else:
+            elif self.can_advance():
                 if self.config_for == None:
                     self.advance()
                 else:
                     self.advance_config()
-
 
         self.mech_status = new_status
         self.save()
@@ -417,6 +412,10 @@ def perform_cascading_updates(sender, instance=None, created=False, **kwargs):
 
         if instance.delivery > 0 and not instance.next_week.delivery_set:
             instance.next_week.delivery = instance.delivery - 1
+            nw_save = True
+
+        if instance.mech_status in StableMechWeek.inactive_states:
+            instance.next_week.mech_status = '-'
             nw_save = True
 
         if nw_save:
