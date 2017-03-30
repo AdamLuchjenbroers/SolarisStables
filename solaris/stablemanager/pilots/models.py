@@ -80,13 +80,14 @@ class PilotWeekManager(models.Manager):
         return self.filter(removed=False).count()
 
     def all_present(self):
-        return self.filter(removed=False)
+        return self.filter(removed=False) \
+           .exclude(prev_week__wounds__gte=6-models.F('prev_week__blackmarks'))
 
     def all_living(self):
-        return self.filter(removed=False, wounds__lt=6-models.F('blackmarks'))
+        return self.all_present().filter(wounds__lt=6-models.F('blackmarks'))
 
     def all_dead(self):
-        return self.filter(removed=False, wounds__gte=6-models.F('blackmarks'))
+        return self.all_present().filter(wounds__gte=6-models.F('blackmarks'))
           
 
 class PilotWeek(models.Model):
