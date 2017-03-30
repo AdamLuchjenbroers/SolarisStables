@@ -197,3 +197,81 @@ class TestNonSignaturesQuerySet(MechQuerySetTestMixin, TestCase):
 
     def test_non_signature(self):
         self.do_queryset_test('non', 'Non-signature mech not found in non-signatures list')
+
+class TestOwnerlessQuerySet(MechQuerySetTestMixin, TestCase):
+    expected = {
+      'sig'         : False
+    , 'non'         : False
+    , 'dead'        : True
+    , 'dead-hidden' : True
+    , 'dead-recent' : False
+    , '-'           : False
+    }
+    expect_count = 2
+    available_count = 5
+
+    def setUp(self):
+        self.stable = self.createStable()
+
+        self.mechs = {
+          'sig'         : self.addMech(self.stable, mech_name='Wolverine', mech_code='WVR-7D')
+        , 'non'         : self.addMech(self.stable, mech_name='Hatchetman', mech_code='HCT-3F')
+        , 'dead'        : self.addMech(self.stable, mech_name='Raven', mech_code='RVN-4L')
+        , 'dead-hidden' : self.addMech(self.stable, mech_name='Griffin', mech_code='GRF-1N')
+        , 'dead-recent' : self.addMech(self.stable, mech_name='Dervish', mech_code='DV-8D')
+        , '-'           : self.addMech(self.stable, mech_name='Quickdraw', mech_code='QKD-8X')
+        }
+
+        sw = self.stable.get_stableweek(1)
+
+        (pilot, pweek) = self.add_pilot(self.stable)
+        mechweek = self.mechs['sig'].weeks.get(stableweek = sw)
+        mechweek.signature_of = pilot
+        mechweek.save()
+
+        (pilot, pweek) = self.add_pilot(self.stable, pilot_callsign='Dead')
+        pweek.set_wounds(6)
+        mechweek = self.mechs['dead'].weeks.get(stableweek = sw)
+        mechweek.signature_of = pilot
+        mechweek.save()
+
+        (pilot, pweek) = self.add_pilot(self.stable, pilot_callsign='Corpse')
+        pweek.set_wounds(6)
+        mechweek = self.mechs['dead-hidden'].weeks.get(stableweek = sw)
+        mechweek.signature_of = pilot
+        mechweek.save()
+
+        sw.week.advance()
+        sw.advance()
+
+        # Pilot dead in week 1 will be dead but hidden in week 2
+        pweek.wounds = 6
+        pweek.save()
+
+        sw = self.stable.get_stableweek(2)
+
+        (pilot, pweek) = self.add_pilot(self.stable, pilot_callsign='Autopsy')
+        pweek.set_wounds(6)
+        mechweek = self.mechs['dead-recent'].weeks.get(stableweek = sw)
+        mechweek.signature_of = pilot
+        mechweek.save()
+
+    def get_queryset(self):
+        sw = self.stable.get_stableweek(2)
+        return sw.get_ownerless_sigmechs()
+
+    def test_signature(self):
+        self.do_queryset_test('sig', 'Signature mech with live pilot found in ownerless list')
+
+    def test_non_signature(self):
+        self.do_queryset_test('non', 'Non-signature mech found in ownerless list')
+
+    def test_long_dead(self):
+        self.do_queryset_test('dead', 'Signature mech with long dead owner not found in ownerless list')
+
+    def test_dead_hidden(self):
+        self.do_queryset_test('dead-hidden', 'Signature mech with hidden dead owner not found in ownerless list')
+
+    def test_dead_recent(self):
+        self.do_queryset_test('dead-recent', 'Signature mech with recently dead owner (still in list) found in ownerless list')
+
