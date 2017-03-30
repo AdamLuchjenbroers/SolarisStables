@@ -180,7 +180,10 @@ class StableMechWeek(models.Model):
             #Record is locked, do not perform update
             return self.mech_status
 
-        if self.mech_status in StableMechWeek.inactive_states \
+        old_status = self.mech_status
+        self.mech_status = new_status
+
+        if old_status in StableMechWeek.inactive_states \
         and new_status in StableMechWeek.active_states:
             if self.next_week != None:
                 self.next_week.set_status(new_status)
@@ -190,7 +193,6 @@ class StableMechWeek(models.Model):
                 else:
                     self.advance_config()
 
-        self.mech_status = new_status
         self.save()
 
         return self.mech_status
@@ -327,7 +329,7 @@ class StableMechWeek(models.Model):
             #Already advanced to next week, just return the value.
             return self.next_week
 
-        if self.config_for.next_week == None or self.stableweek.next_week == None:
+        if self.config_for.next_week == None:
             # No next week to advance to
             return None
 
@@ -347,13 +349,16 @@ class StableMechWeek(models.Model):
         return self.next_week
 
     def cascade_advance(self):
-        if self.removed:
+        if not self.can_advance():
             return
         elif self.next_week == None:
-            nextweek = self.advance()
+            self.next_week = self.advance()
         
         if nextweek != None:
-            nextweek.cascade_advance()
+            self.next_week.cascade_advance()
+
+        self.save()
+        return self.next_week
 
     def refit_to(self, newdesign, add_ledger=False, failed_by=0):
         olddesign = self.current_design
