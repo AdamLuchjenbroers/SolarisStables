@@ -67,6 +67,29 @@ class MechAdvanceTests(StableTestMixin, TestCase):
         with self.assertRaises(ObjectDoesNotExist, msg='Mech record for auctioned mech exists after advancing to next week'):
             next_week.mechs.get(stablemech=self.mech)
 
+    def test_reinstatement(self):
+        smw = self.mech.weeks.get(stableweek__week__week_number=1)
+        smw.set_status('R')
+        next_week = self.advanceWeek(self.stable)
+
+        smw.set_status('O')
+        try:
+            next_week.mechs.get(stablemech=self.mech)
+        except ObjectDoesNotExist:
+            self.assertFalse(True, 'Mech Record Missing after reinstatement.')
+
+    def test_reinstatement_status(self):
+        smw = self.mech.weeks.get(stableweek__week__week_number=1)
+        smw.set_status('R')
+        next_week = self.advanceWeek(self.stable)
+
+        smw.set_status('O')
+        try:
+            mech = next_week.mechs.get(stablemech=self.mech)
+            self.assertEquals(mech.mech_status, 'O', 'Expected Reinstated Mech to have status: O, got status %s' % mech.mech_status) 
+        except ObjectDoesNotExist:
+            self.assertFalse(True, 'Mech Record Missing after reinstatement')
+
 class OmnimechAdvanceTests(StableTestMixin, TestCase):
     def setUp(self):
         self.stable = self.createStable()
@@ -101,6 +124,21 @@ class OmnimechAdvanceTests(StableTestMixin, TestCase):
         with self.assertRaises(ObjectDoesNotExist, msg='Mech record for cored mech exists after advancing to next week'):
             next_week.mechs.get(current_design=self.chassis)
 
+    def test_chassis_reinstated(self):
+        smw = self.mech.weeks.get(stableweek__week__week_number=1, current_design=self.chassis)
+        smw.set_removed(True)
+        next_week = self.advanceWeek(self.stable)
+
+        smw.set_removed(False)
+
+        #TODO: Fix for sync issue, remove after migration to Django 1.8+
+        next_week = self.stable.get_stableweek(2)
+        try:
+            mech = next_week.mechs.get(stablemech=self.mech, current_design=self.chassis)
+            self.assertEquals(mech.mech_status, 'O', 'Expected Reinstated Mech to have status: O, got status %s' % mech.mech_status) 
+        except ObjectDoesNotExist:
+            self.assertFalse(True, 'Mech Record Missing after reinstatement')
+
     def test_chassis_has_config(self):
         next_week = self.advanceWeek(self.stable)
 
@@ -134,6 +172,18 @@ class OmnimechAdvanceTests(StableTestMixin, TestCase):
 
         with self.assertRaises(ObjectDoesNotExist, msg='Mech record for cored mech exists after advancing to next week'):
             next_week.mechs.get(current_design=self.config)
+
+    def test_config_reinstated(self):
+        smw = self.mech.weeks.get(stableweek__week__week_number=1, current_design=self.chassis)
+        smw.set_removed(True)
+        next_week = self.advanceWeek(self.stable)
+
+        smw.set_removed(False)
+        try:
+            mech = next_week.mechs.get(stablemech=self.mech, current_design=self.config)
+            self.assertEquals(mech.mech_status, 'O', 'Expected Reinstated Mech to have status: O, got status %s' % mech.mech_status) 
+        except ObjectDoesNotExist:
+            self.assertFalse(True, 'Mech Record Missing after reinstatement')
 
     def test_config_has_chassis(self):
         next_week = self.advanceWeek(self.stable)
@@ -231,6 +281,12 @@ class LateAdditionTests(StableTestMixin, TestCase):
         mechweek = self.stableweek.mechs.get(stablemech=mech)
         self.assertEquals(mechweek.delivery, 1, 'Delivery value for following week incorrect, expected 1, found %i' % mechweek.delivery)
    
+    def test_reinstatement(self):
+        mech = self.addMech(self.stable, stableweek=self.first_week, mech_name='Wolverine', mech_code='WVR-7D')
 
+        mechweek = self.first_week.mechs.get(stablemech=mech)
+        mechweek.set_removed(True)
+        mechweek.set_removed(False)
 
-    
+        mechweek = self.stableweek.mechs.get(stablemech=mech)
+        self.assertEquals(mechweek.mech_status, 'O', 'Reinstated mech has incorrect status code, expected O, found %s' % mechweek.mech_status)
