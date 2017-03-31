@@ -126,10 +126,10 @@ class OmnimechAdvanceTests(StableTestMixin, TestCase):
 
     def test_chassis_reinstated(self):
         smw = self.mech.weeks.get(stableweek__week__week_number=1, current_design=self.chassis)
-        smw.set_removed(True)
+        smw.set_cored(True)
         next_week = self.advanceWeek(self.stable)
 
-        smw.set_removed(False)
+        smw.set_cored(False)
 
         #TODO: Fix for sync issue, remove after migration to Django 1.8+
         next_week = self.stable.get_stableweek(2)
@@ -175,10 +175,10 @@ class OmnimechAdvanceTests(StableTestMixin, TestCase):
 
     def test_config_reinstated(self):
         smw = self.mech.weeks.get(stableweek__week__week_number=1, current_design=self.chassis)
-        smw.set_removed(True)
+        smw.set_cored(True)
         next_week = self.advanceWeek(self.stable)
 
-        smw.set_removed(False)
+        smw.set_cored(False)
         try:
             mech = next_week.mechs.get(stablemech=self.mech, current_design=self.config)
             self.assertEquals(mech.mech_status, 'O', 'Expected Reinstated Mech to have status: O, got status %s' % mech.mech_status) 
