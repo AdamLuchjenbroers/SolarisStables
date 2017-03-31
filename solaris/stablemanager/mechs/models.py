@@ -78,15 +78,22 @@ class StableMech(models.Model):
     objects = StableMechManager()
  
     def get_mechweek(self, week=None, loadout='Base'):
-        if week == None or type(week) == solaris.campaign.models.BroadcastWeek:
+        from solaris.campaign.models import BroadcastWeek
+
+        if week == None or type(week) in (BroadcastWeek, int):
             stableweek = self.stable.get_stableweek(week=week)
-        else:
+        elif type(week) == StableWeek:
             stableweek = week
-        
-        if self.purchased_as.is_omni:
-            return self.weeks.get(stableweek=stableweek, current_design__omni_loadout=loadout)
         else:
-            return self.weeks.get(stableweek = stableweek)
+            raise ValueError('Week parameter does not identify a week')
+
+        try:        
+            if self.purchased_as.is_omni:
+                return self.weeks.get(stableweek=stableweek, current_design__omni_loadout=loadout)
+            else:
+                return self.weeks.get(stableweek = stableweek)
+        except StableMech.DoesNotExist:
+            return None
 
     class Meta:
         verbose_name_plural = 'Mechs'
@@ -214,8 +221,12 @@ class StableMechWeek(models.Model):
             return (self.mech_status == 'O')
 
     def set_cored(self, value):
-        self.set_status('X')
-        return (self.mech_status == 'X')
+        if value == True:
+            self.set_status('X')
+            return (self.mech_status == 'X')
+        else:
+            self.set_status('O')
+            return (self.mech_status == 'O')
 
     def core_mech(self, value):
         from solaris.stablemanager.repairs.models import RepairBill
@@ -321,13 +332,13 @@ class StableMechWeek(models.Model):
         return self.next_week
 
     def advance_config(self):
-        if self.config_for == None:
-            # Not a config
-            return None
-
         if self.next_week != None:
             #Already advanced to next week, just return the value.
             return self.next_week
+
+        if self.config_for == None:
+            # Not a config
+            return None
 
         if self.config_for.next_week == None:
             # No next week to advance to
