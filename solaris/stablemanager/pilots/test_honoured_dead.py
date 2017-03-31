@@ -83,6 +83,44 @@ class HonouredDeadBasicTests(StableTestMixin, TestCase):
         # Test before honouring the pilot as dead to confirm that this method returns the correct value.
         self.assertFalse(self.first_pw.is_honoured(), 'is_honoured() incorrectly returns True')
 
+    def test_fame_value(self):
+        hd = self.first_pw.honour_dead()
+        self.assertEquals(hd.fame_value(), 1, 'fame_value() returns incorrect fame value, expected 1 got %i' % hd.fame_value())
+
+class HonouredDeadMechTests(StableTestMixin, TestCase):
+    def setUp(self):
+        self.stable = self.createStable()
+        self.campaign = self.stable.campaign
+
+        self.pilot, self.first_pw = self.add_pilot(self.stable, wounds=6)
+        self.mech = self.addMech(self.stable, mech_name='Wolverine', mech_code='WVR-7D')
+
+        smw = self.mech.weeks.get(stableweek=self.stable.get_stableweek(1))
+        smw.signature_of = self.pilot
+        smw.save()
+
+        self.honours = self.first_pw.honour_dead(display_mech = self.mech)
+
+    def test_is_honoured(self):
+        # Refetch to address ORM de-sync issue
+        # TODO: Clean this up after upgrading to Django 1.8+
+        pw = self.pilot.weeks.get(id=self.first_pw.id)
+        self.assertTrue(pw.is_honoured(), 'is_honoured() failed to confirm pilot was honoured dead')
+
+    def test_display_mech(self):
+        expect = self.mech
+        result = self.honours.display_mech
+
+        self.assertEquals(expect, result, 'DisplayMech is incorrect, expected %s, got %s' % (expect, result))
+
+    def test_fame_value(self):
+        self.assertEquals(self.honours.fame_value(), 2, 'fame_value() returns incorrect fame value, expected 2 got %i' % self.honours.fame_value())
+
+    def test_mech_status(self):
+        smw = self.mech.weeks.get(stableweek=self.stable.get_stableweek(1))
+
+        self.assertEquals(smw.mech_status, 'D', 'Mech status should indicate mech is on display (D), instead got status: %s' % smw.mech_status)
+
 class HonouredDeadAdvanceTests(StableTestMixin, TestCase):
     def setUp(self):
         self.stable = self.createStable()
