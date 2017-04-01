@@ -90,6 +90,20 @@ class MechAdvanceTests(StableTestMixin, TestCase):
         except ObjectDoesNotExist:
             self.assertFalse(True, 'Mech Record Missing after reinstatement')
 
+    def test_reinstatement_2wks(self):
+        smw = self.mech.weeks.get(stableweek__week__week_number=1)
+        smw.set_status('R')
+
+        self.advanceWeek(self.stable)
+        next_week = self.advanceWeek(self.stable)
+
+        smw.set_status('O')
+        try:
+            next_week.mechs.get(stablemech=self.mech)
+        except ObjectDoesNotExist:
+            self.assertFalse(True, 'Mech Record Missing after reinstatement.')
+
+
 class OmnimechAdvanceTests(StableTestMixin, TestCase):
     def setUp(self):
         self.stable = self.createStable()

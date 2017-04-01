@@ -195,10 +195,7 @@ class StableMechWeek(models.Model):
             if self.next_week != None:
                 self.next_week.set_status(new_status)
             elif self.can_advance():
-                if self.config_for == None:
-                    self.advance()
-                else:
-                    self.advance_config()
+                self.cascade_advance()
 
         self.save()
 
@@ -363,9 +360,12 @@ class StableMechWeek(models.Model):
         if not self.can_advance():
             return
         elif self.next_week == None:
-            self.next_week = self.advance()
+            if self.config_for == None:
+                self.next_week = self.advance()
+            else:
+                self.next_week = self.advance_config()
         
-        if nextweek != None:
+        if self.next_week != None:
             self.next_week.cascade_advance()
 
         self.save()
