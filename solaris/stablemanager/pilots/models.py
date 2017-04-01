@@ -581,7 +581,7 @@ class HonouredDead(models.Model):
             self.prev_week.save()
         
         if self.display_mech != None:
-            display_week = self.display_mech.get(week=self.week)
+            display_week = self.display_mech.get_mechweek(week=self.week)
 
             if display_week != None:
                 display_week.set_status('O', write_locked=True)

@@ -121,6 +121,12 @@ class HonouredDeadMechTests(StableTestMixin, TestCase):
 
         self.assertEquals(smw.mech_status, 'D', 'Mech status should indicate mech is on display (D), instead got status: %s' % smw.mech_status)
 
+    def test_removal_update_mech(self):
+        self.honours.delete()
+        smw = self.mech.weeks.get(stableweek=self.stable.get_stableweek(1))
+
+        self.assertEquals(smw.mech_status, 'O', 'Mech status should indicate mech is operational (O), instead got status: %s' % smw.mech_status)
+
 class HonouredDeadAdvanceTests(StableTestMixin, TestCase):
     def setUp(self):
         self.stable = self.createStable()
