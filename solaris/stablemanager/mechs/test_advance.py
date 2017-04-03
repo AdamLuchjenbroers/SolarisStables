@@ -153,6 +153,23 @@ class OmnimechAdvanceTests(StableTestMixin, TestCase):
         except ObjectDoesNotExist:
             self.assertFalse(True, 'Mech Record Missing after reinstatement')
 
+    def test_chassis_reinstated_2wks(self):
+        smw = self.mech.weeks.get(stableweek__week__week_number=1, current_design=self.chassis)
+        smw.set_cored(True)
+
+        self.advanceWeek(self.stable)
+        next_week = self.advanceWeek(self.stable)
+
+        smw.set_cored(False)
+
+        #TODO: Fix for sync issue, remove after migration to Django 1.8+
+        next_week = self.stable.get_stableweek(3)
+        try:
+            mech = next_week.mechs.get(stablemech=self.mech, current_design=self.chassis)
+            self.assertEquals(mech.mech_status, 'O', 'Expected Reinstated Mech to have status: O, got status %s' % mech.mech_status) 
+        except ObjectDoesNotExist:
+            self.assertFalse(True, 'Mech Record Missing after reinstatement')
+
     def test_chassis_has_config(self):
         next_week = self.advanceWeek(self.stable)
 
@@ -190,6 +207,20 @@ class OmnimechAdvanceTests(StableTestMixin, TestCase):
     def test_config_reinstated(self):
         smw = self.mech.weeks.get(stableweek__week__week_number=1, current_design=self.chassis)
         smw.set_cored(True)
+        next_week = self.advanceWeek(self.stable)
+
+        smw.set_cored(False)
+        try:
+            mech = next_week.mechs.get(stablemech=self.mech, current_design=self.config)
+            self.assertEquals(mech.mech_status, 'O', 'Expected Reinstated Mech to have status: O, got status %s' % mech.mech_status) 
+        except ObjectDoesNotExist:
+            self.assertFalse(True, 'Mech Record Missing after reinstatement')
+
+    def test_config_reinstated_2wks(self):
+        smw = self.mech.weeks.get(stableweek__week__week_number=1, current_design=self.chassis)
+        smw.set_cored(True)
+
+        self.advanceWeek(self.stable)
         next_week = self.advanceWeek(self.stable)
 
         smw.set_cored(False)
