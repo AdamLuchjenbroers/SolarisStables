@@ -581,10 +581,11 @@ class HonouredDead(models.Model):
             self.prev_week.save()
         
         if self.display_mech != None:
-            display_week = self.display_mech.get(week=self.week)
-
-            if display_week != None:
+            try:
+                display_week = self.display_mech.weeks.get(stableweek=self.week)
                 display_week.set_status('O', write_locked=True)
+            except ObjectDoesNotExist:
+                pass
 
         if self.next_week != None:
             self.next_week.delete()
@@ -613,7 +614,7 @@ class HonouredDead(models.Model):
           'honoured'   : True
         , 'fame_value' : self.fame_value()
         , 'has_mech'   : (self.display_mech != None)
-        , 'pilot'      : self.last_pilotweek()
+        , 'pilot'      : self.last_pilotweek_state()
         }
 
     def get_mech_design(self):
