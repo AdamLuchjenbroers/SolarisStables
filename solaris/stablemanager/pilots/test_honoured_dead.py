@@ -87,6 +87,13 @@ class HonouredDeadBasicTests(StableTestMixin, TestCase):
         hd = self.first_pw.honour_dead()
         self.assertEquals(hd.fame_value(), 1, 'fame_value() returns incorrect fame value, expected 1 got %i' % hd.fame_value())
 
+    def test_honoured_removal(self):
+        hd = self.first_pw.honour_dead()
+        hd.delete()
+
+        self.assertFalse(self.first_pw.is_honoured(), 'Pilot still registers as honoured after honours removed')
+         
+
 class HonouredDeadMechTests(StableTestMixin, TestCase):
     def setUp(self):
         self.stable = self.createStable()
