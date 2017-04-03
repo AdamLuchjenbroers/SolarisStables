@@ -470,7 +470,7 @@ class AjaxRemoveHonouredDead(StableWeekMixin, View):
 
             if honoured.week == self.stableweek:
                 honoured.delete()
-                return HttpResponse(json.dumps(honoured.last_pilotweek()))
+                return HttpResponse(json.dumps(honoured.last_pilotweek_state()))
             else:
                 return HttpResponse('Honoured Dead Not Owned By Stable', status=403)
         except KeyError:

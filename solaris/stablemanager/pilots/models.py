@@ -581,7 +581,7 @@ class HonouredDead(models.Model):
             self.prev_week.save()
         
         if self.display_mech != None:
-            display_week = self.display_mech.get_mechweek(week=self.week)
+            display_week = self.display_mech.get(week=self.week)
 
             if display_week != None:
                 display_week.set_status('O', write_locked=True)
@@ -590,16 +590,24 @@ class HonouredDead(models.Model):
             self.next_week.delete()
 
         super(HonouredDead, self).delete()
- 
+
     def last_pilotweek(self):
         try:
-            return self.pilot.weeks.get(week=self.week).state_parcel()
+            return self.pilot.weeks.get(week=self.week)
         except PilotWeek.DoesNotExist:
             if hasattr(self, 'prev_week'):
                 return self.prev_week.last_pilotweek()
             else:
                 return None
  
+    def last_pilotweek_state(self):
+        pweek = self.last_pilotweek()
+
+        if pweek != None:
+            return pweek.state_parcel()
+        else:
+            return None
+
     def state_parcel(self):
         return {
           'honoured'   : True
@@ -609,7 +617,15 @@ class HonouredDead(models.Model):
         }
 
     def get_mech_design(self):
-        return self.display_mech.weeks.get(stableweek=self.week).current_design
+        week = self.last_pilotweek_object().week
+
+        if self.display_mech == None:
+            return None
+                 
+        try:
+            return self.display_mech.weeks.get(stableweek=week).current_design
+        except ObjectDoesNotExist:
+            return None
 
 @receiver(post_save, sender=PilotDeferment)
 def cascade_deferment_update(sender, instance=None, created=False, **kwargs):
