@@ -281,7 +281,7 @@ class StableWeek(models.Model):
         ''' Find all signature mechs with missing owners '''
         owners = self.pilots.all_present().values_list('pilot')
 
-        return self.mechs.exclude(signature_of=None).exclude(signature_of__in=owners)
+        return self.mechs.visible().exclude(signature_of=None).exclude(signature_of__in=owners)
 
     def __unicode__(self):
         return '%s - Week %i' % (self.stable.stable_name, self.week.week_number)
