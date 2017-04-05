@@ -10,7 +10,11 @@ import solaris.warbook.pilotskill.admin as pilot_admin
 import solaris.warbook.equipment.models as equipment_models
 import solaris.warbook.equipment.admin as equipment_admin
 
+import solaris.warbook.actions.models as action_models
+import solaris.warbook.actions.admin as action_admin
+
 import solaris.warbook.models as base_models
+
 
 class HouseForm(forms.ModelForm):
     house_disciplines = forms.ModelMultipleChoiceField(
@@ -42,3 +46,7 @@ admin.site.register(pilot_models.TrainingCost)
 
 # Import Equipment
 admin.site.register(equipment_models.Equipment, equipment_admin.EquipmentAdmin )
+
+# Import Actions
+admin.site.register(action_models.ActionGroup, action_admin.ActionGroupAdmin)
+admin.site.register(action_models.ActionType, action_admin.ActionTypeAdmin)

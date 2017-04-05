@@ -9,6 +9,9 @@ class ActionGroup(models.Model):
     description = MarkupField()
     start_only = models.BooleanField(default=True)
 
+    def __unicode__(self):
+        return self.group
+
     class Meta:
         verbose_name_plural = 'Action Groups'
         verbose_name = 'Action Group'
@@ -26,10 +29,10 @@ class ActionType(models.Model):
     max_per_week = models.IntegerField(default=1, blank=True, null=True)
 
     def __unicode__(self):
-        if base_cost_max == None:
-            return '%s (%i)' % (self.group, self.base_cost)
+        if self.base_cost_max == None:
+            return '%s (%i)' % (self.action, self.base_cost)
         else:
-            return '%s (%i-%i)' % (self.group, self.base_cost, self.base_cost_max)
+            return '%s (%i-%i)' % (self.action, self.base_cost, self.base_cost_max)
 
     class Meta:
         verbose_name_plural = 'Action Types'
