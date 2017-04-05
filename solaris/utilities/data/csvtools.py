@@ -21,6 +21,7 @@ def csv_import_to_model(csvfile, modelClass, csvFields, keyFields=[], booleanFie
         instance = instance_for_row(row, modelClass, keyFields)
 
         form = LoadingForm(row, instance=instance)
+
         if form.is_valid():
             loadcounts['insert' if instance == None else 'update'] += 1
             form.save()
@@ -31,6 +32,19 @@ def csv_import_to_model(csvfile, modelClass, csvFields, keyFields=[], booleanFie
 
     print '%s load complete: %i new, %i updated, %i failed to load' % (modelClass.__name__, loadcounts['insert'], loadcounts['update'], loadcounts['failed'])           
     csv_fh.close()
+
+def migration_map_fk(apps, app_name, model, fk_field):
+    ModelClass = apps.get_model(app_name, model)
+
+    def map_fk(fk):
+        kwargs={fk_field : fk}
+
+        try:
+            return ModelClass.objects.get(**kwargs).id
+        except ModelClass.DoesNotExist:
+            return None
+
+    return map_fk
 
 def instance_for_row(row, model, keyFields):
     try:
