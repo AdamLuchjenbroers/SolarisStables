@@ -1,0 +1,12 @@
+group,start_only
+Modification,True
+Purchase,True
+Recruitment,True
+Contracts,True
+Sponsorship,True
+Medical,True
+Legal,True
+Security,True
+Publicity,True
+Management,True
+In-Week,False
