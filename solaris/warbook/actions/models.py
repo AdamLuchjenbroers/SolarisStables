@@ -13,7 +13,7 @@ class ActionGroup(models.Model):
         return self.group
     
     def get_absolute_url(self):
-        return reverse('action_group_detail', kwargs={'slug': self.group})
+        return reverse('action_group_detail', kwargs={'slug': self.group.lower()})
 
     class Meta:
         verbose_name_plural = 'Action Groups'
