@@ -13,6 +13,7 @@ class ReferenceViewMixin(SolarisViewMixin):
           {'title' : 'TechTree', 'url' : reverse('tech_list')},
           {'title' : 'Pilot Skills', 'url' : reverse('pilot_skills')},
           {'title' : 'Pilot Issues', 'url' : reverse('pilot_issues')},
+          {'title' : 'Actions', 'url' : reverse('actions')},
         ]
         
         if self.request.user.is_authenticated():
