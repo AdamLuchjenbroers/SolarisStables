@@ -11,6 +11,9 @@ class ActionGroup(models.Model):
 
     def __unicode__(self):
         return self.group
+    
+    def get_absolute_url(self):
+        return reverse('action_group_detail', kwargs={'slug': self.group})
 
     class Meta:
         verbose_name_plural = 'Action Groups'
@@ -19,7 +22,7 @@ class ActionGroup(models.Model):
         app_label = 'warbook'
 
 class ActionType(models.Model):
-    group = models.ForeignKey(ActionGroup, null=False, blank=False)
+    group = models.ForeignKey(ActionGroup, null=False, blank=False, related_name="actions")
     action = models.CharField(max_length=50, blank=False, null=False)
     description = MarkupField()
 
