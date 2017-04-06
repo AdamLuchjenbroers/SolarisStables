@@ -1,0 +1,16 @@
+{% extends 'solaris_layout.tmpl' %}
+ 
+{% block pagebody %}
+<div class="body">
+  <h1>Action Groups</h1>
+  <dl class="actiongroup-list">
+  {% for actiongroup in object_list %}
+    <dt class="actiongroup">
+      <a href="{{ actiongroup.get_absolute_url }}">{{actiongroup.group}}</a>
+    </dt><dd>
+      <p>{{actiongroup.description | safe}}</p> 
+    </dd>      
+  {% endfor %}
+  </dl>
+</div>
+{% endblock %}

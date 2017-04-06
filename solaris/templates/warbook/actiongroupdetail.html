@@ -1,0 +1,16 @@
+{% extends 'solaris_layout.tmpl' %}
+ 
+{% block pagebody %}
+<div class="body">
+  <div class="actiongroup_blurb">
+    <h1>{{object.group}}</h1>
+    <p>{{object.description}}</p>
+  </div>
+  {% for actiontype in object.actions.all  %}
+    <div id="action-{{actiontype.id}}">
+      <h2>{{actiontype}}</h2>
+      <p>{{actiontype.description}}</p>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
