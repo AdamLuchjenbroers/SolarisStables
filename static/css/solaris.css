@@ -2073,6 +2073,30 @@ button.form-action {
   margin-bottom: 0.5em;
 }
 
+.preview-box {
+  margin: 1em;
+  padding: 0.5em;
+
+  border: 2px groove black;
+  border-radius: 8px;
+  width: 60%;
+  height: 4em;
+}
+
+.preview-box-legend {
+  position: relative;
+  top: -1.5em;
+  margin-left: 1em;
+
+  font-size: 80%;
+  font-weight: bold;
+  display: inline;
+
+  padding: 0px 0.5em;
+
+  background-color: #DDDDDD;
+}
+
 /****************************************
  * Attic
  ****************************************/

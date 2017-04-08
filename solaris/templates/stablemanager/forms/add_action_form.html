@@ -1,0 +1,17 @@
+
+<form id="stable-action-form" action="{{purchase_url}}" method="POST">
+  <div id="stable-action-select">
+    <span class="label-small">{{form.action.label}}</span>
+    {{form.action}}
+  </div>
+
+  <figure class="preview-box">
+    <figcaption id="preview-action-name"></figcaption>
+    <div id="preview-action"></div>
+  </figure>
+
+  <div class="single-line-form">
+    <span class="{{form.cost.name}}"><div class="label-small">{{ form.cost.label }}</div>{{ form.cost }}</span>
+    <span class="{{form.notes.name}}"><div class="label-small">{{ form.notes.label }}</div>{{ form.notes }}</span>
+  </div>
+</form>
