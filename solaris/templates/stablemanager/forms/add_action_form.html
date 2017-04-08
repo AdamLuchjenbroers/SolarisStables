@@ -6,12 +6,16 @@
   </div>
 
   <figure class="preview-box">
-    <figcaption id="preview-action-name"></figcaption>
+    <figcaption class="preview-box-legend" id="preview-action-name">Action Effects</figcaption>
     <div id="preview-action"></div>
   </figure>
 
   <div class="single-line-form">
     <span class="{{form.cost.name}}"><div class="label-small">{{ form.cost.label }}</div>{{ form.cost }}</span>
     <span class="{{form.notes.name}}"><div class="label-small">{{ form.notes.label }}</div>{{ form.notes }}</span>
+
+    <span>
+      <button id="stable-action-submit" class="word-button" type="button" value="submit" disabled="yes">Actio:`</button>
+    </span>
   </div>
 </form>

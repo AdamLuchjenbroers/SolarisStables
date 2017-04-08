@@ -1613,6 +1613,30 @@ input.icon-button.ledger-delete {
     right: -1.5em;
     top: 0em;
 }
+/****************************************
+ * Actions
+ ****************************************/
+
+#preview-action p {
+  margin-top: 0em;
+  margin-bottom; 0em;
+}
+
+#stable-action-form .preview-box {
+  width: 80%;
+}
+
+#stable-action-form .single-line-form > span {
+  margin-right: 2em;
+}
+
+#stable-action-form .cost input {
+  width: 6em;
+}
+
+#stable-action-form .notes input {
+  width: 24em;
+}
 
 /****************************************
  * Pilot Management 
@@ -2079,8 +2103,6 @@ button.form-action {
 
   border: 2px groove black;
   border-radius: 8px;
-  width: 60%;
-  height: 4em;
 }
 
 .preview-box-legend {
