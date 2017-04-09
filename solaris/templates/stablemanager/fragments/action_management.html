@@ -1,0 +1,31 @@
+<div id="stable-action-management">
+ {% if stableweek.week_started %}
+   <p>Week Started - Starting asset count of {{self.stableweek.asset_count}}</p>
+ {% else %}
+   <h3>New Week</h3>
+
+   <div class="two-panel">
+     <table id="stable-action-assets" class="panel right-border">
+       <tr>
+         <td>Pilots</td>
+         <td class="right">{{count_pilots}}</td>
+       </tr><tr>
+         <td>Non-Signature Mechs</td>
+         <td class="right">{{count_mechs}}</td>
+       </tr><tr class="total">
+         <td>Total Assets</td>
+         <td class="right">{{count_assets}}</td>
+       </tr><tr>
+     </table>
+     <div class="panel">
+       <span id="stable-actions-needed">
+       {% if count_assets > 33 %}Too many assets, sell or auction some mechs to reduce your asset count or assign some mechs as Signature Mechs 
+       {% elif count_assets > 28 %}An Exploded Management and Expanded Management actions are required
+       {% elif count_assets > 25 %}An Exploded Management action is required
+       {% elif count_assets > 18 %}An Expanded Management action is required 
+       {% endif %}
+       </span>
+     </div>
+   </div>       
+ {% endif %}
+</div>

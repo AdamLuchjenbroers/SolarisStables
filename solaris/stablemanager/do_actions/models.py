@@ -24,3 +24,6 @@ class StableAction(models.Model):
         verbose_name = 'Stable Action'
         db_table = 'stablemanager_actions'
         app_label = 'stablemanager'
+
+    def is_locked(self):
+        return (self.action.action.group.start_only and self.week.week_started)

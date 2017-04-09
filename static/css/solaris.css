@@ -1705,6 +1705,42 @@ input.icon-button.ledger-delete {
   margin-right: 2em;
 }
 
+.two-panel .panel {
+  display: table-cell;
+
+  padding: 0em 2em;
+  vertical-align: middle;
+}
+
+#stable-action-assets {
+  font-size: 120%;
+
+  border-spacing: 0px;
+}
+
+#stable-action-assets .total td {
+  font-weight: bold;
+
+  border-top: 3px double black;
+  border-bottom: 2px solid black;
+}
+
+.actions-management {
+  vertical-align: middle;
+}
+
+#stable-action-assets .right {
+  text-align: right;
+
+  width: 4em;
+}
+
+#stable-actions-needed {
+  font-size: 120%;
+  font-weight: bold;
+
+}
+
 /****************************************
  * Pilot Management 
  ****************************************/
@@ -2184,6 +2220,14 @@ button.form-action {
   padding: 0px 0.5em;
 
   background-color: #DDDDDD;
+}
+
+.left-border {
+  border-left: 2px solid black;
+}
+
+.right-border {
+  border-right: 2px solid black;
 }
 
 /****************************************

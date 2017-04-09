@@ -618,7 +618,7 @@ class HonouredDead(models.Model):
         }
 
     def get_mech_design(self):
-        week = self.last_pilotweek_object().week
+        week = self.last_pilotweek().week
 
         if self.display_mech == None:
             return None
