@@ -1,8 +1,10 @@
 <div class="action-chit">
-  <div class="action-name">
-    <div>{{action.action.action}}</div>
-    <div>{{action.notes}}</div>
+  <div class="action-taken">
+    <div class="action-name">{{action.action.action}}</div>
+    <div class="action-notes">{{action.notes}}</div>
   </div>
-  <div>{{action.cost}}</div>
-  <div>X</div>
+  <div class="action-cost">{{action.cost}}</div>
+  <div class="action-delete">
+    <input action_id="{{action.id}}" type="button" class="icon-button icon-delete icon-right" value="&#x2716;"/>
+  </div>
 </div>

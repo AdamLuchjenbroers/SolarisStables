@@ -1638,6 +1638,63 @@ input.icon-button.ledger-delete {
   width: 24em;
 }
 
+.action-chit {
+  background-color: #BBBBBB;
+  border-radius: 16px;
+
+  margin: 0.5em 2em;
+  height: 3em;
+  padding: 0.5em 1em;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.action-chit .action-taken {
+  flex-grow: 1;
+}
+
+.action-chit .action-name {
+  font-weight: bold;
+  font-size: 130%;
+}
+
+.action-chit .action-notes {
+  margin-top: 0.25em;
+  font-size: 90%;
+}
+
+.action-chit .action-cost,
+.action-chit .action-delete {
+  font-size: 2em;
+  font-weight: bold;
+
+  text-align: right;
+  vertical-align: bottom;
+
+  line-height: -1em;
+
+  width: 1.5em;
+  margin-right: 0.5em;
+}
+
+.action-chit .action-cost {
+  position: relative;
+
+  top: 0.2em;
+}
+
+.action-chit .action-delete {
+  position: relative;
+
+  top: -0.2em;
+  visibility: hidden;
+}
+
+.action-chit:hover .action-delete {
+  visibility: visible;
+}
+
 /****************************************
  * Pilot Management 
  ****************************************/
