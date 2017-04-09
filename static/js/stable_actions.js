@@ -24,6 +24,11 @@ function update_action_info() {
   });
 }
 
+function setup_actions_form() {
+  $('#id_action').change(update_action_info);
+  $('#stable-action-submit').click(submit_action_form);
+}
+
 function submit_action_form() {
   formData = form_to_dictionary('#stable-action-form');
 
@@ -34,12 +39,12 @@ function submit_action_form() {
   , url  : $('#stable-action-form').attr('action')
   , dataType : 'json'
   , data : formData
-  }).done(function(response){
-    // TODO
+  }).done(function(response) {
+    refresh_section('#stable-actions-list', no_handler);
+    refresh_section('#stable-action-form', setup_actions_form);
   });
 }
 
 $( document ).ready(function() {
-  $('#id_action').change(update_action_info);
-  $('#stable-action-submit').click(submit_action_form);
+  setup_actions_form();
 });

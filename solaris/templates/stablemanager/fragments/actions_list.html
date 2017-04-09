@@ -1,3 +1,4 @@
+<div id="stable-actions-list" refresh_url="{% url 'stable_actions_list' week=week.week_number %}">
 {% for action in start_list %}
   {% if forloop.first %}<h3>Start Of Week</h3>{%endif%}
   {% include 'stablemanager/fragments/action_chit.html' %}
@@ -7,5 +8,5 @@
   {% if forloop.first %}<h3>During Week</h3>{%endif%}
   {% include 'stablemanager/fragments/action_chit.html' %}
 {% endfor %}
-
+</div>
 

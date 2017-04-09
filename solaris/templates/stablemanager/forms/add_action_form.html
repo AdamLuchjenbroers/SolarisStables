@@ -1,5 +1,5 @@
 
-<form id="stable-action-form" action="{% url 'stable_add_action' week=week_no %}" method="POST">
+<form id="stable-action-form" action="{% url 'stable_add_action' week=week.week_number %}" refresh_url="{% url 'stable_add_action' week=week.week_number %}" method="POST">
   <div id="stable-action-select">
     <span class="label-small">{{form.action.label}}</span>
     {{form.action}}

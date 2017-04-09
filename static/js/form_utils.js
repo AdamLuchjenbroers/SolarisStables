@@ -92,3 +92,7 @@ function to_number_input(field, sender) {
 function to_text_input(field, sender) {
   to_input(field, sender, 'text');
 }
+
+function refresh_section(id, callback) {
+  $(id).load( $(id).attr('refresh_url') + ' ' + id, callback );
+}

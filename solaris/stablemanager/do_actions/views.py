@@ -1,6 +1,8 @@
 from django.views.generic import TemplateView, FormView
 from django.http import HttpResponse
 
+import json
+
 from solaris.stablemanager.views import StableWeekMixin
 from . import forms, models
 
@@ -44,7 +46,7 @@ class StableActionFormView(StableWeekMixin, FormView):
             form.instance.week = self.stableweek
             form.instance.save()
 
-        return HttpResponse('')
+        return HttpResponse(json.dumps(True))
     
     def get_context_data(self, **kwargs):            
         page_context = super(StableActionFormView, self).get_context_data(**kwargs)
