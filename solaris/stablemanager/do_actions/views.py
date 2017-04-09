@@ -15,7 +15,7 @@ class StableActionView(StableWeekMixin, TemplateView):
     def get_context_data(self, **kwargs):
         page_context = super(StableActionView, self).get_context_data(**kwargs)
 
-        page_context['actionform'] = forms.StableActionForm(week_started=self.stableweek.week_started)
+        page_context['actionform'] = forms.StableActionForm(stableweek=self.stableweek)
 
         page_context['start_list'] = self.stableweek.actions.start_of_week()
         page_context['inweek_list'] = self.stableweek.actions.in_week()
@@ -43,7 +43,7 @@ class StableActionFormView(StableWeekMixin, FormView):
     def get_form_kwargs(self):
         kwargs = super(StableActionFormView, self).get_form_kwargs()
 
-        kwargs['week_started'] = self.stableweek.week_started
+        kwargs['stableweek'] = self.stableweek
         return kwargs
 
     def post(self, request, week=None):
