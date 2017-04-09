@@ -1,6 +1,7 @@
 from django.views.generic import View, TemplateView, FormView
 from django.views.generic.detail import SingleObjectMixin
 from django.http import HttpResponse
+from django.db.models import Sum
 
 import json
 
@@ -20,8 +21,8 @@ class StableActionView(StableWeekMixin, TemplateView):
         page_context['start_list'] = self.stableweek.actions.start_of_week()
         page_context['inweek_list'] = self.stableweek.actions.in_week()
 
-        page_context['ap_spent']
-        page_context['ap_avail'] = 
+        page_context['ap_spent'] = self.stableweek.actions.aggregate(Sum('cost'))['cost__sum']
+        page_context['ap_avail'] = self.week.campaign.actions_per_week
  
         return page_context
 

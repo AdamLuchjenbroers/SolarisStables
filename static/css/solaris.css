@@ -1695,6 +1695,16 @@ input.icon-button.ledger-delete {
   visibility: visible;
 }
 
+#stable-actions-tally {
+  font-weight: bold;
+  text-align: right;
+
+  font-size: 140%;
+
+  margin-top: 1em;
+  margin-right: 2em;
+}
+
 /****************************************
  * Pilot Management 
  ****************************************/

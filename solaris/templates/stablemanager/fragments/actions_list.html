@@ -8,5 +8,8 @@
   {% if forloop.first %}<h3>During Week</h3>{%endif%}
   {% include 'stablemanager/fragments/action_chit.html' %}
 {% endfor %}
+
+<div id="stable-actions-tally">Actions Spent {{ap_spent}} / {{ap_avail}}</div>
+
 </div>
 
