@@ -83,11 +83,16 @@ class StableWeek(models.Model):
     training_points = models.IntegerField(default=0)
     
     week_started = models.BooleanField(default=False)
-    asset_count = models.IntegerField()
+    asset_count = models.IntegerField(null=True)
+    mechs_count = models.IntegerField(null=True)
+    pilot_count = models.IntegerField(null=True)
 
     def start_week(self):
         self.week_started = True
-        self.asset_count = self.pilots.all_present().count() + self.mechs.count_nonsignature()
+
+        self.pilot_count = self.pilots.all_present().count()
+        self.mechs_count = self.mechs.count_nonsignature()
+        self.asset_count = self.pilot_count + self.mechs_count
 
         self.save()
 

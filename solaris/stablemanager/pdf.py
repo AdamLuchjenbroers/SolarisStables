@@ -103,12 +103,19 @@ class AssetsOverviewSubSection(pdf.ReportSubSection):
     def as_story(self):
         story = self.story_header()
 
-        assets_data = [
-          ['Pilots', self.stableweek.pilots.all_present().exclude(prev_week=None).count()]
-        , ['Non-Signature Mechs', self.stableweek.mechs.count_nonsignature()]
-        ]
-
-        total_assets = sum((row[1] for row in assets_data))
+        if self.stableweek.week_started:
+            assets_data = [
+              ['Pilots', self.stableweek.pilot_count]
+            , ['Non-Signature Mechs', self.stableweek.mechs_count]
+            ]
+            total_assets = self.stableweek.asset_count
+        else:
+            assets_data = [
+              ['Pilots', self.stableweek.pilots.all_present().exclude(prev_week=None).count()]
+            , ['Non-Signature Mechs', self.stableweek.mechs.count_nonsignature()]
+            ]
+            total_assets = sum((row[1] for row in assets_data))
+    
         assets_data.append(['Total Assets', total_assets])
 
         assets_style = [
@@ -121,13 +128,13 @@ class AssetsOverviewSubSection(pdf.ReportSubSection):
         assets_table = Table(assets_data, [6*cm, 3*cm])
         assets_table.setStyle(TableStyle(assets_style))
         story.append(assets_table)
-        if total_assets >= 28:
+        if total_assets > 27:
             story.append(Spacer(0, 0.5*cm))
             story.append(Paragraph('Both Exploded Management and Expanded Management actions are required', pdf_styles.indented_text))
-        elif total_assets >= 25:
+        elif total_assets > 24:
             story.append(Spacer(0, 0.5*cm))
             story.append(Paragraph('An Exploded Management action is required', pdf_styles.indented_text))
-        elif total_assets >= 18:
+        elif total_assets > 18:
             story.append(Spacer(0, 0.5*cm))
             story.append(Paragraph('An Expanded Management action is required', pdf_styles.indented_text))
 

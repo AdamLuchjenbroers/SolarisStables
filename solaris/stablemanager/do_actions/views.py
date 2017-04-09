@@ -23,9 +23,14 @@ class StableActionView(StableWeekMixin, TemplateView):
         page_context['ap_spent'] = self.stableweek.actions.spent_actions() 
         page_context['ap_avail'] = self.week.campaign.actions_per_week
 
-        page_context['count_mechs'] = self.stableweek.mechs.count_nonsignature()
-        page_context['count_pilots'] = self.stableweek.pilots.all_present().count()
-        page_context['count_assets'] = page_context['count_mechs'] + page_context['count_pilots']
+        if self.stableweek.week_started:
+            page_context['count_mechs']  = self.stableweek.mechs_count
+            page_context['count_pilots'] = self.stableweek.pilot_count
+            page_context['count_assets'] = self.stableweek.asset_count
+        else:
+            page_context['count_mechs'] = self.stableweek.mechs.count_nonsignature()
+            page_context['count_pilots'] = self.stableweek.pilots.all_present().count()
+            page_context['count_assets'] = page_context['count_mechs'] + page_context['count_pilots']
  
         return page_context
 
