@@ -29,6 +29,25 @@ function setup_actions_form() {
   $('#stable-action-submit').click(submit_action_form);
 }
 
+function setup_actions_list() {
+  $('#stable-actions-list .icon-delete').click( function() {
+    row = $(this).parents('.action-chit');
+
+    $.ajax({
+      type : 'post'
+    , url  : $(this).attr('delete_url')
+    , dataType : 'json'
+    }).success( function(response) {
+      row.slideUp(function() {
+        refresh_section('#stable-actions-list', setup_actions_list);
+      });
+
+      refresh_section('#stable-action-form', setup_actions_form);
+    })
+
+  });
+}
+
 function submit_action_form() {
   formData = form_to_dictionary('#stable-action-form');
 
@@ -40,11 +59,12 @@ function submit_action_form() {
   , dataType : 'json'
   , data : formData
   }).done(function(response) {
-    refresh_section('#stable-actions-list', no_handler);
+    refresh_section('#stable-actions-list', setup_actions_list);
     refresh_section('#stable-action-form', setup_actions_form);
   });
 }
 
 $( document ).ready(function() {
+  setup_actions_list();
   setup_actions_form();
 });
