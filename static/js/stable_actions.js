@@ -24,6 +24,22 @@ function update_action_info() {
   });
 }
 
+function submit_action_form() {
+  formData = form_to_dictionary('#stable-action-form');
+
+  formUrl = $('#stable-action-form').attr('action');
+
+  $.ajax({
+    type : 'post'
+  , url  : $('#stable-action-form').attr('action')
+  , dataType : 'json'
+  , data : formData
+  }).done(function(response){
+    // TODO
+  });
+}
+
 $( document ).ready(function() {
   $('#id_action').change(update_action_info);
+  $('#stable-action-submit').click(submit_action_form);
 });

@@ -24,4 +24,4 @@ class StableActionForm(forms.ModelForm):
 
     class Meta:
         model = models.StableAction
-        fields = ('week', 'action', 'cost','notes')
+        fields = ('action', 'cost','notes')

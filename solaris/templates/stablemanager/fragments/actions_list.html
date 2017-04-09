@@ -1,0 +1,11 @@
+{% for action in start_list %}
+  {% if forloop.first %}<h3>Start Of Week</h3>{%endif%}
+  {% include 'stablemanager/fragments/action_chit.html' %}
+{% endfor %}
+
+{% for action in inweek_list %}
+  {% if forloop.first %}<h3>During Week</h3>{%endif%}
+  {% include 'stablemanager/fragments/action_chit.html' %}
+{% endfor %}
+
+

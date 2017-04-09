@@ -9,6 +9,7 @@
 <div class="body">
   <h1>{{stable.stable_name}} Actions, Week {{week.week_number}}</h1>
   <h2>Actions Taken</h2>
+  {% include 'stablemanager/fragments/actions_list.html' %}
      
   <h2>Add Action</h2>
   {% include 'stablemanager/forms/add_action_form.html' with form=actionform %}
