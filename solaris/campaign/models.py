@@ -10,6 +10,7 @@ class Campaign(models.Model):
     name = models.CharField(max_length=30)
     initial_balance = models.IntegerField()
     initial_contracts = models.ManyToManyField('warbook.Technology')
+    actions_per_week = models.IntegerField(20)
 
     objects = CampaignManager()
 
@@ -47,6 +48,7 @@ class BroadcastWeek(models.Model):
     sign = models.ForeignKey(Zodiac)
     next_week = models.OneToOneField('BroadcastWeek', on_delete=models.SET_NULL, null=True, blank=True, related_name='prev_week')
     campaign = models.ForeignKey(Campaign, related_name="weeks")
+    week_started = models.BooleanField(default=False)
   
     objects = BroadcastWeekManager()  
 

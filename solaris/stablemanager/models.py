@@ -81,6 +81,15 @@ class StableWeek(models.Model):
     custom_designs = models.ManyToManyField('warbook.MechDesign', related_name='produced_by')
     next_week = models.OneToOneField('StableWeek', on_delete=models.SET_NULL, null=True, related_name='prev_week')
     training_points = models.IntegerField(default=0)
+    
+    week_started = models.BooleanField(default=False)
+    asset_count = models.IntegerField()
+
+    def start_week(self):
+        self.week_started = True
+        self.asset_count = self.pilots.all_present().count() + self.mechs.count_nonsignature()
+
+        self.save()
 
     def has_prev_week(self):
         return hasattr(self, 'prev_week')
