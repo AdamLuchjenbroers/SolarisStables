@@ -5,6 +5,12 @@ from solaris.warbook.actions.models import ActionGroup
 
 class StableActionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        if 'week_started' in kwargs:
+            self.week_started = kwargs['week_started']
+            del kwargs['week_started']
+        else:
+            self.week_started = False
+ 
         super(StableActionForm, self).__init__(*args, **kwargs)
 
         self.fields['action'].choices = self.get_choices()
@@ -12,7 +18,13 @@ class StableActionForm(forms.ModelForm):
 
     def get_choices(self):
         choices = (("","-- Select Action --"),)
-        for group in ActionGroup.objects.all():
+
+        if self.week_started:
+            available = ActionGroup.objects.exclude(start_only=True)
+        else:
+            available = ActionGroup.objects.all()
+
+        for group in available:
             actionlist = tuple()
 
             for action in group.actions.all():

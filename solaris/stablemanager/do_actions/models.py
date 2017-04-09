@@ -10,6 +10,13 @@ class StableActionManager(models.Manager):
     def in_week(self):
         return self.filter(action__group__start_only=False)
 
+    def spent_actions(self):
+        count = self.aggregate(models.Sum('cost'))['cost__sum']
+
+        if count == None:
+            return 0
+        else:
+            return count
 
 class StableAction(models.Model):
     week   = models.ForeignKey('StableWeek', related_name='actions', null=False)
@@ -26,4 +33,4 @@ class StableAction(models.Model):
         app_label = 'stablemanager'
 
     def is_locked(self):
-        return (self.action.action.group.start_only and self.week.week_started)
+        return (self.action.group.start_only and self.week.week_started)

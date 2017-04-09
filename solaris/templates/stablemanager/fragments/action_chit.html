@@ -5,6 +5,8 @@
   </div>
   <div class="action-cost">{{action.cost}}</div>
   <div class="action-delete">
-    <input action_id="{{action.id}}" type="button" class="icon-button icon-delete icon-right" delete_url="{% url 'stable_delete_action' week=week.week_number pk=action.id %} " value="&#x2716;"/>
+    {% if not action.is_locked %} 
+      <input action_id="{{action.id}}" type="button" class="icon-button icon-delete icon-right" delete_url="{% url 'stable_delete_action' week=week.week_number pk=action.id %} " value="&#x2716;"/>
+    {% endif %}
   </div>
 </div>

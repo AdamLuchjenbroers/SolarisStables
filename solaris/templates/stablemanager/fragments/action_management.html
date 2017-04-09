@@ -1,6 +1,9 @@
-<div id="stable-action-management">
+<div id="stable-action-management" refresh_url="{% url 'stable_actions_management' week=week.week_number %}">
  {% if stableweek.week_started %}
-   <p>Week Started - Starting asset count of {{self.stableweek.asset_count}}</p>
+   <h3>Week In Progress</h3>
+   <p>Starting asset count of {{stableweek.asset_count}}</p>
+
+   <button id="stable-action-start" class="word-button" type="button" value="submit" action_url="{% url 'stable_start_week' week=week.week_number %}" start_week="False">Reset Week</button>       
  {% else %}
    <h3>New Week</h3>
 
@@ -26,6 +29,8 @@
        {% endif %}
        </span>
      </div>
-   </div>       
+   </div>
+
+   <button id="stable-action-start" class="word-button" type="button" value="submit" action_url="{% url 'stable_start_week' week=week.week_number %}" start_week="True">Start Week</button>       
  {% endif %}
 </div>

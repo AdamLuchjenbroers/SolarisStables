@@ -91,6 +91,10 @@ class StableWeek(models.Model):
 
         self.save()
 
+    def reset_week(self):
+        self.week_started = False
+        self.save()        
+
     def has_prev_week(self):
         return hasattr(self, 'prev_week')
 
