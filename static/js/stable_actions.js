@@ -43,9 +43,25 @@ function setup_actions_list() {
       });
 
       refresh_section('#stable-action-form', setup_actions_form);
+      refresh_section('#stable-action-management', setup_management_pane);
     })
 
   });
+}
+
+function setup_management_pane() {
+  $('#stable-action-start').click( function() {
+    $.ajax({
+      type : 'post'
+    , url  : $(this).attr('action_url')
+    , dataType : 'json'
+    , data : { 'start_week' : $(this).attr('start_week') }
+    }).done( function(response) {
+      refresh_section('#stable-actions-list', setup_actions_list);
+      refresh_section('#stable-action-form', setup_actions_form);
+      refresh_section('#stable-action-management', setup_management_pane);
+    });
+  }) 
 }
 
 function submit_action_form() {
@@ -61,10 +77,12 @@ function submit_action_form() {
   }).done(function(response) {
     refresh_section('#stable-actions-list', setup_actions_list);
     refresh_section('#stable-action-form', setup_actions_form);
+    refresh_section('#stable-action-management', setup_management_pane);
   });
 }
 
 $( document ).ready(function() {
   setup_actions_list();
   setup_actions_form();
+  setup_management_pane();
 });

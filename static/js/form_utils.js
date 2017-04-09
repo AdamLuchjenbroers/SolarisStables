@@ -94,5 +94,5 @@ function to_text_input(field, sender) {
 }
 
 function refresh_section(id, callback) {
-  $(id).load( $(id).attr('refresh_url') + ' ' + id, callback );
+  $(id).load( $(id).attr('refresh_url'), callback );
 }
