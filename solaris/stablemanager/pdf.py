@@ -21,7 +21,7 @@ class StableDocTemplate(SolarisDocTemplate):
         self.stable = stable
         self.stableweek = stableweek
 
-        if stable != None and stable.stable_bg != None:
+        if stable != None and stable.stable_bg:
             background = stable.stable_bg.path
         else:
             background = None
