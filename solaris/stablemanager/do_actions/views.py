@@ -69,10 +69,11 @@ class StableActionFormView(StableWeekMixin, FormView):
 
         return page_context
 
-class AjaxRemoveAction(StableWeekMixin, SingleObjectMixin, View):
+class AjaxActionMixin(StableWeekMixin, SingleObjectMixin):
     def get_queryset(self):
         return self.stableweek.actions.all()
 
+class AjaxRemoveAction(AjaxActionMixin, View):
     def post(self, request, week=None, pk=None):
         action = self.get_object()
         action.delete()
