@@ -73,12 +73,51 @@ class AjaxActionMixin(StableWeekMixin, SingleObjectMixin):
     def get_queryset(self):
         return self.stableweek.actions.all()
 
+    def dispatch(self, request, *args, **kwargs):
+        # Wrap all requests with this exception handler so handling of missing or 
+        # incorrect query parameters is consistent
+        try:
+            return super(AjaxActionMixin, self).dispatch(request, *args, **kwargs)
+        except KeyError:
+            return HttpResponse('Incomplete AJAX request', status=400)
+        except ValueError:
+            return HttpResponse('Invalid AJAX request', status=400)
+
+    def render_to_json(self, action):
+        data = {
+          'action'    : action.action.action
+        , 'action_id' : action.id
+        , 'cost'      : action.cost
+        , 'notes'     : action.notes
+        }
+        return HttpResponse(json.dumps(data))
+
 class AjaxRemoveAction(AjaxActionMixin, View):
     def post(self, request, week=None, pk=None):
         action = self.get_object()
         action.delete()
 
         return HttpResponse(json.dumps(True))
+
+class AjaxSetActionCost(AjaxActionMixin, View):
+    def post(self, request, week=None, pk=None):
+        action = self.get_object()
+
+        if action.is_locked():
+            return HttpResponse('Cannot Set Cost - Action Locked', status=400)
+ 
+        action.cost = int(request.POST['cost'])
+        action.save()
+  
+        return self.render_to_json(action) 
+
+class AjaxSetActionNotes(AjaxActionMixin, View):
+    def post(self, request, week=None, pk=None):
+        action = self.get_object()
+        action.notes = request.POST['notes']
+        action.save()
+
+        return self.render_to_json(action) 
 
 class AjaxSetWeekStarted(StableWeekMixin, View):
     def post(self, request, week=None):

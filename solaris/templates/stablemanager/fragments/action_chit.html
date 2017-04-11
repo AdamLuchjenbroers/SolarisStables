@@ -1,9 +1,9 @@
 <div class="action-chit">
   <div class="action-taken">
     <div class="action-name">{{action.action.action}}</div>
-    <div class="action-notes">{{action.notes}}</div>
+    <div class="action-notes editable" set_url="{% url 'stable_action_set_notes' week=week.week_number pk=action.id %}">{{action.notes}}</div>
   </div>
-  <div class="action-cost">{{action.cost}}</div>
+  <div class="action-cost{% if not action.is_locked %} editable{% endif %}" set_url="{% url 'stable_action_set_cost' week=week.week_number pk=action.id %}">{{action.cost}}</div>
   <div class="action-delete">
     {% if not action.is_locked %} 
       <input action_id="{{action.id}}" type="button" class="icon-button icon-delete icon-right" delete_url="{% url 'stable_delete_action' week=week.week_number pk=action.id %} " value="&#x2716;"/>

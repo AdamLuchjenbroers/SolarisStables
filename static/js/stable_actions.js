@@ -24,12 +24,54 @@ function update_action_info() {
   });
 }
 
+function send_updated_cost(field, oldvalue) {
+  newvalue = field.find('input').val();
+
+  $.ajax({
+    type: 'post'
+  , url : field.attr('set_url')
+  , dataType : 'json'
+  , data : { 'cost' : newvalue }
+  }).success(function() {
+    refresh_section('#stable-actions-list', setup_actions_list);
+  }).fail(function(response) {
+    field.text(oldvalue);
+  }).always(function() {
+    to_number_input(field, send_updated_cost);
+  });
+}
+
+function send_updated_notes(field, oldvalue) {
+  newvalue = field.find('input').val();
+
+  $.ajax({
+    type: 'post'
+  , url : field.attr('set_url')
+  , dataType : 'json'
+  , data : { 'notes' : newvalue }
+  }).success(function() {
+    refresh_section('#stable-actions-list', setup_actions_list);
+  }).fail(function(response) {
+    field.text(oldvalue);
+  }).always(function() {
+    to_text_input(field, send_updated_notes);
+  });
+}
+
 function setup_actions_form() {
   $('#id_action').change(update_action_info);
   $('#stable-action-submit').click(submit_action_form);
 }
 
 function setup_actions_list() {
+  $('#stable-actions-list .action-notes.editable').one('click', function() {
+    to_text_input($(this), send_updated_notes);
+  });
+
+  $('#stable-actions-list .action-cost.editable').one('click', function() {
+    to_number_input($(this), send_updated_cost);
+  });
+
   $('#stable-actions-list .icon-delete').click( function() {
     row = $(this).parents('.action-chit');
 
