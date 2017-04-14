@@ -37,6 +37,11 @@ class CampaignViewMixin(SolarisViewMixin):
         page_context['view_url_name'] = self.__class__.view_url_name
         page_context['week_navigation'] = self.__class__.week_navigation
 
+        page_context['submenu'] = [
+          {'title' : 'Overview', 'url' : reverse('campaign_overview_now') }
+        , {'title' : 'Actions', 'url' : reverse('campaign_actions_now') }
+        ]
+
         return page_context
 
 class CampaignAdminMixin(CampaignViewMixin):
@@ -80,6 +85,12 @@ class CampaignWeekMixin(CampaignViewMixin):
         page_context['week'] = self.week
         page_context['prev_week_url'] = self.prev_week_url()
         page_context['next_week_url'] = self.next_week_url()
+
+        week_args = { 'week' : self.week.week_number }
+        page_context['submenu'] = [
+          {'title' : 'Overview', 'url' : reverse('campaign_overview', kwargs=week_args)}
+        , {'title' : 'Actions', 'url' : reverse('campaign_actions', kwargs=week_args)}
+        ]
 
         return page_context
 

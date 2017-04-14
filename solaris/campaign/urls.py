@@ -7,4 +7,6 @@ urlpatterns = patterns('',
     url(r'^(?P<week>[0-9]+)/?$', views.CampaignOverview.as_view(), name='campaign_overview'),
 
     url(r'^create/?$', views.AjaxCreateCampaignView.as_view()),
+
+    url(r'^actions/', include('solaris.campaign.show_actions.urls')),
 )    

@@ -52,6 +52,14 @@ class BroadcastWeek(models.Model):
   
     objects = BroadcastWeekManager()  
 
+    def start_week(self):
+        self.week_started = True
+        self.save()
+
+    def reset_week(self):
+        self.week_started = False
+        self.save()
+
     def __unicode__(self):
         return 'Week %i' % self.week_number
         

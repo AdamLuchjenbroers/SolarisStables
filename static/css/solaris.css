@@ -892,7 +892,8 @@ li.stable-chit.neutral {
   background-color: #FFFFFF;
 }
 
-li.stable-chit span.prominence {
+li.stable-chit span.prominence,
+li.stable-chit span.ready {
   border-right: 2px solid #262233;
   display: inline-block;
   font-size: 200%;
