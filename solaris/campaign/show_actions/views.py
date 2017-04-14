@@ -21,6 +21,9 @@ class CampaignActionsView(CampaignWeekMixin, TemplateView):
 
         return page_context
 
+class CampaignActionsListPart(CampaignActionsView):
+    template_name = 'campaign/fragments/actions_list.html'
+
 class CampaignListStableActions(CampaignWeekMixin, DetailView):
     template_name = 'campaign/campaign_stableaction.html'
     view_url_name = 'campaign_actions'
