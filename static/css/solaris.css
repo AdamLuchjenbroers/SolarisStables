@@ -906,7 +906,7 @@ li.stable-chit span.ready {
   text-align: center;
 }
 
-li.stable-chit span.stable {
+li.stable-chit .stable {
   display: inline-flex;
   flex-direction: column;
   flex-grow: 1;
@@ -992,7 +992,8 @@ ul.chit-list li.mech-chit {
   margin-bottom: 1rem;	
 }
 
-li.chit span {
+li.chit span,
+li.chit a {
   margin-top: 0.1rem;
   margin-bottom: 0.1rem;
   margin-left: 0.2rem;
