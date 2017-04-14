@@ -49,7 +49,13 @@ class AjaxSetWeekStarted(CampaignWeekMixin, View):
         else:
             self.week.reset_week()
 
-        return HttpResponse(json.dumps(True))
+        data = {
+          'week_started' : self.week.week_started
+        , 'next_state'   : not self.week.week_started
+        , 'button_text'  : 'Reset Week' if self.week.week_started else 'Start Week'
+        }
+
+        return HttpResponse(json.dumps(data))
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated():

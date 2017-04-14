@@ -938,6 +938,16 @@ li.stable-chit div.stable-name {
   margin-right: 1em;
 }
 
+
+#campaign-action-start {
+  margin-left: 6em;
+  margin-top: 0.5em;
+
+  font-size: 120%;
+
+  width: 8em;
+}
+
 /****************************************
  * Stable Overview
  ****************************************/
