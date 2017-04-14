@@ -1,0 +1,25 @@
+
+{% if campaign.stable_set.count > 0 %}
+    <h3>Stables</h3>
+    <ul id="campaign-stables" class="chit-list">
+    {% for stableweek in active %}
+      <li class="chit stable-chit active {{stableweek.reputation_class}}">
+        <span class="ready">{% if stableweek.week_started %}&#9670;{% else %}&#9671;{% endif %}</span>
+        <span class="stable">
+          <div class="stable-name">{{stableweek.stable.stable_name}}</div>
+          <div class="stable-summary">{{stableweek.actions.spent_actions}}/{{campaign.actions_per_week}} actions used.{% if stableweek.week_started %} - Ready to start week{% endif %}</div>
+        </span>
+      </li>
+    {% endfor %} 
+    {% for stable in inactive %} 
+      <li class="chit stable-chit waiting">
+        <span class="ready">&#9671;</span>
+        <span class="stable">
+          <div class="stable-name">{{stable.stable_name}}</div>
+          <div class="stable-summary">Records currently up to {{stable.get_stableweek.week}}</div>
+        </span>
+      </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
