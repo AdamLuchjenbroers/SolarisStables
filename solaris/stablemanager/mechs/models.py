@@ -116,6 +116,9 @@ class StableMechWeekManager(models.Manager):
     def non_signature(self):
         return self.visible().filter(signature_of=None, config_for=None, delivery=0).order_by('current_design__tonnage', 'current_design__mech_name')
 
+    def operational_non_signature(self):
+        return self.non_signature().filter(mech_status__in=StableMechWeek.active_states)
+
     def mechs_on_order(self): 
         return self.on_order().count() >= 0
 

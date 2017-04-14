@@ -26,7 +26,7 @@
   <h2>Mechs</h2>
   <h3>Non-Signature Mechs</h3>
   <ul class="stable-mech-list chit-list">
-     {% for mech in stableweek.mechs.non_signature %}
+     {% for mech in stableweek.mechs.operational_non_signature %}
        {% include "stablemanager/fragments/mech_chit.html" with mech=mech.current_design smw=mech %}
      {% endfor %}
   </ul>
