@@ -61,6 +61,12 @@ class CampaignListStableActions(CampaignWeekMixin, DetailView):
 
         return page_context 
 
+    def get(self, request, *args, **kwargs):
+        if not self.week.week_started:
+            return HttpResponse('Cannot View Actions - Week Has Not Started', status=400)
+
+        return super(CampaignListStableActions, self).get(request, *args, **kwargs)
+
 class AjaxSetWeekStarted(CampaignWeekMixin, View):
     def post(self, request, week=None):
         postdata = request.POST.get('start_week', 'TRUE')
