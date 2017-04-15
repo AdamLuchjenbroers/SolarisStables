@@ -36,7 +36,7 @@ class CampaignListStableActions(CampaignWeekMixin, DetailView):
     def next_week_url(self):
         stableweek = self.get_object()
 
-        if stableweek.next_week != None and stableweek.next_week.week_started:
+        if stableweek.next_week != None and stableweek.week.next_week.week_started:
             return reverse(self.__class__.view_url_name, kwargs={'week' : stableweek.next_week.week.week_number, 'stable' : self.kwargs.get('stable')})
         else:
             return None
@@ -44,7 +44,7 @@ class CampaignListStableActions(CampaignWeekMixin, DetailView):
     def prev_week_url(self):
         stableweek = self.get_object()
 
-        if stableweek.has_prev_week() and stableweek.prev_week.week.week_started:
+        if stableweek.has_prev_week() and stableweek.week.prev_week.week_started:
             return reverse(self.__class__.view_url_name, kwargs={'week' : stableweek.prev_week.week.week_number, 'stable' : self.kwargs.get('stable')})
         else:
             return None
