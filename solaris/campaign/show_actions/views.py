@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView, DetailView, View
 from django.http import HttpResponse, Http404
+from django.core.urlresolvers import reverse
 
 import json
 
@@ -9,6 +10,7 @@ from solaris.campaign.views import CampaignWeekMixin
 class CampaignActionsView(CampaignWeekMixin, TemplateView):
     template_name = 'campaign/campaign_actions.html'
     view_url_name = 'campaign_actions'
+    can_advance_week = False
 
     def get_context_data(self, **kwargs):
         page_context = super(CampaignActionsView, self).get_context_data(**kwargs)
@@ -26,9 +28,26 @@ class CampaignActionsListPart(CampaignActionsView):
 
 class CampaignListStableActions(CampaignWeekMixin, DetailView):
     template_name = 'campaign/campaign_stableaction.html'
-    view_url_name = 'campaign_actions'
+    view_url_name = 'campaign_actions_stable'
+    can_advance_week = False
 
     model = StableWeek
+
+    def next_week_url(self):
+        stableweek = self.get_object()
+
+        if stableweek.next_week != None and stableweek.next_week.week_started:
+            return reverse(self.__class__.view_url_name, kwargs={'week' : stableweek.next_week.week.week_number, 'stable' : self.kwargs.get('stable')})
+        else:
+            return None
+
+    def prev_week_url(self):
+        stableweek = self.get_object()
+
+        if stableweek.has_prev_week() and stableweek.prev_week.week.week_started:
+            return reverse(self.__class__.view_url_name, kwargs={'week' : stableweek.prev_week.week.week_number, 'stable' : self.kwargs.get('stable')})
+        else:
+            return None
 
     def get_object(self, queryset=None):
         if queryset == None:

@@ -15,6 +15,7 @@ from solaris.stablemanager.models import Stable
 class CampaignViewMixin(SolarisViewMixin):
     week_navigation = False
     view_url_name = 'campaign_overview'
+    can_advance_week = False
 
     def set_campaign(self):
         if not hasattr(self, 'campaign'):
@@ -36,6 +37,7 @@ class CampaignViewMixin(SolarisViewMixin):
         page_context['campaign'] = self.campaign
         page_context['view_url_name'] = self.__class__.view_url_name
         page_context['week_navigation'] = self.__class__.week_navigation
+        page_context['view_can_advance'] = self.__class__.can_advance_week
 
         page_context['submenu'] = [
           {'title' : 'Overview', 'url' : reverse('campaign_overview_now') }
@@ -56,6 +58,7 @@ class CampaignAdminMixin(CampaignViewMixin):
   
 class CampaignWeekMixin(CampaignViewMixin):
     week_navigation = True
+    can_advance_week = True
 
     def dispatch(self, request, week=None, *args, **kwargs):
         self.set_campaign()
@@ -71,13 +74,13 @@ class CampaignWeekMixin(CampaignViewMixin):
         if self.week.next_week != None:
             return reverse(self.__class__.view_url_name, kwargs={'week' : self.week.next_week.week_number})
         else:
-            return ''
+            return None
 
     def prev_week_url(self):
         if self.week.has_prev_week(): 
             return reverse(self.__class__.view_url_name, kwargs={'week' : self.week.prev_week.week_number})
         else:
-            return ''
+            return None
 
     def get_context_data(self, **kwargs):
         page_context = super(CampaignWeekMixin, self).get_context_data(**kwargs)
@@ -96,6 +99,7 @@ class CampaignWeekMixin(CampaignViewMixin):
 
 class CampaignOverview(CampaignWeekMixin, TemplateView):
     template_name = 'campaign/overview.html'
+    view_url_name = 'campaign_overview'
 
     def get_context_data(self, **kwargs):
         page_context = super(CampaignOverview, self).get_context_data(**kwargs)

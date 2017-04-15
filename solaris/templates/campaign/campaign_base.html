@@ -8,13 +8,13 @@
 {% block pageactions %}
 <div class="actionbar">
   <span class="actionbar-weekbrowser">
-    <span id="browse-prev-week">{% if week_navigation and week.has_prev_week %}
+    <span id="browse-prev-week">{% if week_navigation and prev_week_url != None %}
       <a href="{{prev_week_url}}">&#x25C0;</a>
     {% endif %}</span>
     <span id="browse-week-current">&nbsp;Week&nbsp;{{week.week_number}}&nbsp;</span>
-    {% if week_navigation and week.next_week != None %}
+    {% if week_navigation and next_week_url != None %}
        <span id="browse-next-week"><a href="{{next_week_url}}">&#x25B6;</a></span>
-    {% elif perms.is_admin or perms.campaign.change_campaign %}
+    {% elif view_can_advance and perms.campaign.change_campaign %}
        <span id="browse-next-week" class="create-post" week="{{week.week_number}}" viewname="{{view_url_name}}">&#x2795;</span>
     {% else %}
        <span id="browse-next-week" class="blank"></span>

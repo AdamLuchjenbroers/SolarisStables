@@ -1,4 +1,4 @@
-{% extends 'stablemanager/stable_base.html' %}
+{% extends 'campaign/campaign_base.html' %}
 
 {% block pageheader %}
   {{ block.super }}
@@ -7,7 +7,7 @@
  
 {% block pagebody %}
 <div class="body">
-  <h1>{{stable.stable_name}} Actions, Week {{week.week_number}}</h1>
+  <h1>{{stableweek.stable.stable_name}} Actions, Week {{week.week_number}}</h1>
 
   <h2>Actions Taken</h2>
   {% include 'stablemanager/fragments/actions_list.html' with readonly=True %}
