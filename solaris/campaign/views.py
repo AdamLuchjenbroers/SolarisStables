@@ -38,6 +38,7 @@ class CampaignViewMixin(SolarisViewMixin):
         page_context['view_url_name'] = self.__class__.view_url_name
         page_context['week_navigation'] = self.__class__.week_navigation
         page_context['view_can_advance'] = self.__class__.can_advance_week
+        page_context['submenu_selected'] = self.__class__.submenu_selected
 
         page_context['submenu'] = [
           {'title' : 'Overview', 'url' : reverse('campaign_overview_now') }
@@ -100,6 +101,7 @@ class CampaignWeekMixin(CampaignViewMixin):
 class CampaignOverview(CampaignWeekMixin, TemplateView):
     template_name = 'campaign/overview.html'
     view_url_name = 'campaign_overview'
+    submenu_selected = 'Overview'
 
     def get_context_data(self, **kwargs):
         page_context = super(CampaignOverview, self).get_context_data(**kwargs)

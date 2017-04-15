@@ -10,6 +10,7 @@ from solaris.campaign.views import CampaignWeekMixin
 class CampaignActionsView(CampaignWeekMixin, TemplateView):
     template_name = 'campaign/campaign_actions.html'
     view_url_name = 'campaign_actions'
+    submenu_selected = 'Actions'
     can_advance_week = False
 
     def get_context_data(self, **kwargs):
@@ -29,6 +30,7 @@ class CampaignActionsListPart(CampaignActionsView):
 class CampaignListStableActions(CampaignWeekMixin, DetailView):
     template_name = 'campaign/campaign_stableaction.html'
     view_url_name = 'campaign_actions_stable'
+    submenu_selected = 'Actions'
     can_advance_week = False
 
     model = StableWeek
