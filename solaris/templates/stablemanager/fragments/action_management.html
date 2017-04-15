@@ -30,9 +30,9 @@
      </div>
    </div>
 
- {% if stableweek.week_started %}
+ {% if not readonly %}{% if stableweek.week_started %}
    <button id="stable-action-start" class="word-button" type="button" value="submit" action_url="{% url 'stable_start_week' week=week.week_number %}" start_week="False">Reset Week</button>       
  {% else %}
    <button id="stable-action-start" class="word-button" type="button" value="submit" action_url="{% url 'stable_start_week' week=week.week_number %}" start_week="True">Start Week</button>       
- {% endif %}
+ {% endif %}{% endif %}
 </div>

@@ -17,9 +17,6 @@ class StableActionView(StableWeekMixin, TemplateView):
 
         page_context['actionform'] = forms.StableActionForm(stableweek=self.stableweek)
 
-        page_context['start_list'] = self.stableweek.actions.start_of_week()
-        page_context['inweek_list'] = self.stableweek.actions.in_week()
-
         page_context['ap_spent'] = self.stableweek.actions.spent_actions() 
         page_context['ap_avail'] = self.week.campaign.actions_per_week
 

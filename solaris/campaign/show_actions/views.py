@@ -42,6 +42,25 @@ class CampaignListStableActions(CampaignWeekMixin, DetailView):
         except StableWeek.DoesNotExist:
             raise Http404('No record found')
 
+    def get_context_data(self, **kwargs):
+        page_context = super(CampaignListStableActions, self).get_context_data(**kwargs)
+ 
+        stableweek = page_context['object']
+
+        page_context['ap_spent'] = stableweek.actions.spent_actions() 
+        page_context['ap_avail'] = self.week.campaign.actions_per_week
+
+        if stableweek.week_started:
+            page_context['count_mechs']  = stableweek.mechs_count
+            page_context['count_pilots'] = stableweek.pilot_count
+            page_context['count_assets'] = stableweek.asset_count
+        else:
+            page_context['count_mechs'] = stableweek.mechs.count_nonsignature()
+            page_context['count_pilots'] = stableweek.pilots.all_present().count()
+            page_context['count_assets'] = page_context['count_mechs'] + page_context['count_pilots']
+
+        return page_context 
+
 class AjaxSetWeekStarted(CampaignWeekMixin, View):
     def post(self, request, week=None):
         postdata = request.POST.get('start_week', 'TRUE')

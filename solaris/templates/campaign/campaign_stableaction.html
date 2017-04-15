@@ -10,13 +10,10 @@
   <h1>{{stable.stable_name}} Actions, Week {{week.week_number}}</h1>
 
   <h2>Actions Taken</h2>
-  {% include 'stablemanager/fragments/actions_list.html' %}
-     
-  <h2>Add Action</h2>
-  {% include 'stablemanager/forms/add_action_form.html' with form=actionform %}
+  {% include 'stablemanager/fragments/actions_list.html' with readonly=True %}
 
   <h2>Assets / Management</h2>
-  {% include 'stablemanager/fragments/action_management.html' %}
+  {% include 'stablemanager/fragments/action_management.html' with readonly=True %}
   
 </div>
 {% endblock %}
