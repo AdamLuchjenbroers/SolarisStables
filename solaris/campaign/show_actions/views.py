@@ -59,7 +59,7 @@ class CampaignListStableActions(CampaignWeekMixin, DetailView):
             stable_slug = self.kwargs.get('stable')
             week = self.kwargs.get('week',None)
 
-            return StableWeek.objects.get(week=week, stable__stable_slug=stable_slug)
+            return StableWeek.objects.get(week__week_number=week, stable__stable_slug=stable_slug)
         except StableWeek.DoesNotExist:
             raise Http404('No record found')
 
