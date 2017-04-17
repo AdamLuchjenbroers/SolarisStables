@@ -33,7 +33,7 @@ class StableActionForm(forms.ModelForm):
                 else:
                     count_done = 0
                 
-                if count_done < action.max_per_week:
+                if count_done < action.max_per_week or action.max_per_week == None:
                     actionlist += ((action.id, str(action)),)
             
             if len(actionlist) > 0:   
