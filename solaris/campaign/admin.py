@@ -20,3 +20,5 @@ admin.site.register(models.Zodiac)
 admin.site.register(models.BroadcastWeek)
 
 admin.site.register(roster_models.FightGroup, roster_admin.FightGroupAdmin)
+admin.site.register(roster_models.FightCondition)
+admin.site.register(roster_models.Map)
