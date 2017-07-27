@@ -94,6 +94,7 @@ class CampaignWeekMixin(CampaignViewMixin):
         page_context['submenu'] = [
           {'title' : 'Overview', 'url' : reverse('campaign_overview', kwargs=week_args)}
         , {'title' : 'Actions', 'url' : reverse('campaign_actions', kwargs=week_args)}
+        , {'title' : 'Fights', 'url' : reverse('campaign_fights', kwargs=week_args)}
         ]
 
         return page_context
