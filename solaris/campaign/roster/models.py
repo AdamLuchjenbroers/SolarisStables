@@ -65,7 +65,7 @@ class RosteredFightCondition(models.Model):
     def __unicode__(self):
         if self.annotation not in (None, ''):
             return '%s (%s)' % (self.condition.name, self.annotation)
-        else
+        else:
             return self.condition.name
 
 class RosteredFight(models.Model):
