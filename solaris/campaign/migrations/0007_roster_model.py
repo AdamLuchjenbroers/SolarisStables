@@ -18,7 +18,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=20)),
-                ('rules', models.TextField()),
+                ('rules', markitup.fields.MarkupField(no_rendered_field=True)),
+                ('_rules_rendered', models.TextField(editable=False, blank=True)),
             ],
             options={
                 'db_table': 'campaign_conditions',
@@ -45,7 +46,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=50)),
-                ('rules', markitup.fields.MarkupField(no_rendered_field=True)),
+                ('rules', markitup.fields.MarkupField(no_rendered_field=True, blank=True)),
                 ('is_simulation', models.BooleanField(default=False)),
                 ('_rules_rendered', models.TextField(editable=False, blank=True)),
                 ('group', models.ForeignKey(to='campaign.FightGroup')),
@@ -62,7 +63,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=20)),
-                ('special_rules', markitup.fields.MarkupField(no_rendered_field=True)),
+                ('special_rules', markitup.fields.MarkupField(no_rendered_field=True, blank=True)),
                 ('_special_rules_rendered', models.TextField(editable=False, blank=True)),
             ],
             options={
@@ -79,7 +80,7 @@ class Migration(migrations.Migration):
                 ('fought', models.BooleanField(default=False)),
                 ('conditions', models.ManyToManyField(to='campaign.FightCondition', through='roster.RosteredFightCondition')),
                 ('fight_type', models.ForeignKey(to='campaign.FightType')),
-                ('week', models.ForeignKey(to='campaign.BroadcastWeek')),
+                ('week', models.ForeignKey(related_name='fights', to='campaign.BroadcastWeek')),
             ],
             options={
                 'db_table': 'campaign_rosteredfight',
