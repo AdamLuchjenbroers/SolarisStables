@@ -7,6 +7,9 @@ from solaris.campaign.models import BroadcastWeek
 class FightGroup(models.Model):
     name = models.CharField(max_length=50)
 
+    def __unicode__(self):
+        return self.name
+
     class Meta:
         verbose_name_plural = 'Fight Groups'
         verbose_name = 'Fight Group'
@@ -19,6 +22,9 @@ class FightType(models.Model):
     rules = MarkupField(blank=True)
     is_simulation = models.BooleanField(default=False)
 
+    def __unicode__(self):
+        return self.name
+
     class Meta:
         verbose_name_plural = 'Fight Types'
         verbose_name = 'Fight Type'
@@ -28,6 +34,9 @@ class FightType(models.Model):
 class Map(models.Model):
     name = models.CharField(max_length=20)
     special_rules = MarkupField(blank=True)
+
+    def __unicode__(self):
+        return self.name
 
     class Meta:
         verbose_name_plural = 'Maps'
@@ -39,6 +48,9 @@ class FightCondition(models.Model):
     name = models.CharField(max_length=20)
     rules = MarkupField()
 
+    def __unicode__(self):
+        return self.name
+
     class Meta:
         verbose_name_plural = 'Fight Conditions'
         verbose_name = 'Fight Condition'
@@ -49,6 +61,12 @@ class RosteredFightCondition(models.Model):
     fight = models.ForeignKey('campaign.RosteredFight')
     condition = models.ForeignKey('campaign.FightCondition')
     annotation = models.CharField(max_length=20, blank=True)
+
+    def __unicode__(self):
+        if self.annotation not in (None, ''):
+            return '%s (%s)' % (self.condition.name, self.annotation)
+        else
+            return self.condition.name
 
 class RosteredFight(models.Model):
     week = models.ForeignKey('campaign.BroadcastWeek', related_name='fights')
