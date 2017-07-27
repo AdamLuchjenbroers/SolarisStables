@@ -44,6 +44,7 @@ class Migration(migrations.Migration):
             name='FightType',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=50)),
                 ('rules', markitup.fields.MarkupField(no_rendered_field=True)),
                 ('is_simulation', models.BooleanField(default=False)),
                 ('_rules_rendered', models.TextField(editable=False, blank=True)),

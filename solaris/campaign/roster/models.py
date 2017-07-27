@@ -15,6 +15,7 @@ class FightGroup(models.Model):
     
 class FightType(models.Model):
     group = models.ForeignKey('campaign.FightGroup')
+    name = models.CharField(max_length=50)
     rules = MarkupField()
     is_simulation = models.BooleanField(default=False)
 
