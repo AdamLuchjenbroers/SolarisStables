@@ -78,6 +78,7 @@ INSTALLED_APPS = (
     'solaris',
     'solaris.cms',
     'solaris.campaign',
+    'solaris.campaign.roster',
     'solaris.warbook',
     'solaris.warbook.techtree',
     'solaris.warbook.pilotskill',
