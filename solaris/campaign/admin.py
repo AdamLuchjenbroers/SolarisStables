@@ -1,6 +1,9 @@
 from django.contrib import admin
 from . import models 
 
+from .roster import models as roster_models
+from .roster import admin as roster_admin
+
 class CampaignTechInline(admin.TabularInline):
     model = models.Campaign.initial_contracts.through
 
@@ -15,3 +18,5 @@ class CampaignAdmin(admin.ModelAdmin):
 admin.site.register(models.Campaign, CampaignAdmin)
 admin.site.register(models.Zodiac)
 admin.site.register(models.BroadcastWeek)
+
+admin.site.register(roster_models.FightGroup, roster_admin.FightGroupAdmin)
