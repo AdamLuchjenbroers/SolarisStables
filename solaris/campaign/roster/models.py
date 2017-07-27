@@ -14,7 +14,7 @@ class FightGroup(models.Model):
         app_label = 'campaign'
     
 class FightType(models.Model):
-    group = models.ForeignKey(FightGroup)
+    group = models.ForeignKey('campaign.FightGroup')
     rules = MarkupField()
     is_simulation = models.BooleanField(default=False)
 
@@ -34,21 +34,26 @@ class Map(models.Model):
         db_table = 'campaign_map'
         app_label = 'campaign'
 
-class Condition(models.Model):
+class FightCondition(models.Model):
     name = models.CharField(max_length=20)
     rules = models.TextField()
 
     class Meta:
-        verbose_name_plural = 'Conditions'
-        verbose_name = 'Condition'
+        verbose_name_plural = 'Fight Conditions'
+        verbose_name = 'Fight Condition'
         db_table = 'campaign_conditions'
         app_label = 'campaign'
 
+class RosteredFightCondition(models.Model):
+    fight = models.ForeignKey('campaign.RosteredFight')
+    condition = models.ForeignKey('campaign.FightCondition')
+    annotation = models.CharField(max_length=20)
+
 class RosteredFight(models.Model):
-    week = models.ForeignKey(BroadcastWeek)
-    fight_type = models.ForeignKey(FightType)
+    week = models.ForeignKey('campaign.BroadcastWeek')
+    fight_type = models.ForeignKey('campaign.FightType')
     fought = models.BooleanField(default=False)
-    conditions = models.ManyToManyField(FightCondition)
+    conditions = models.ManyToManyField(FightCondition, through=RosteredFightCondition)
 
     class Meta:
         verbose_name_plural = 'Rostered Fights'
