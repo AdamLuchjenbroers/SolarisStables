@@ -48,6 +48,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=50)),
+                ('urlname', models.CharField(max_length=50)),
                 ('blurb', models.CharField(max_length=255, blank=True)),
                 ('rules', markitup.fields.MarkupField(no_rendered_field=True, blank=True)),
                 ('is_simulation', models.BooleanField(default=False)),

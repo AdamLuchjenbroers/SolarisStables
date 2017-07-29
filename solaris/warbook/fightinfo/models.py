@@ -1,6 +1,7 @@
 from markitup.fields import MarkupField
 
 from django.db import models
+from django.utils.text import slugify
 
 class FightGroup(models.Model):
     name = models.CharField(max_length=50)
@@ -19,6 +20,7 @@ class FightGroup(models.Model):
 class FightType(models.Model):
     group = models.ForeignKey('warbook.FightGroup', related_name='fights')
     name = models.CharField(max_length=50)
+    urlname = models.CharField(max_length=50)
     blurb = models.CharField(max_length=255, blank=True)
     rules = MarkupField(blank=True)
     is_simulation = models.BooleanField(default=False)
@@ -26,6 +28,12 @@ class FightType(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if self.urlname == None:
+            self.urlname = slugify(unicode(self.name))
+
+        super(FightType, self).save()
 
     class Meta:
         verbose_name_plural = 'Fight Types'
