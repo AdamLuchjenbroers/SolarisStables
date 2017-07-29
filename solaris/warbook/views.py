@@ -14,6 +14,9 @@ class ReferenceViewMixin(SolarisViewMixin):
           {'title' : 'Pilot Skills', 'url' : reverse('pilot_skills')},
           {'title' : 'Pilot Issues', 'url' : reverse('pilot_issues')},
           {'title' : 'Actions', 'url' : reverse('actions')},
+          {'title' : 'Fight Types', 'url' : reverse('fightinfo_fighttypes')},
+          {'title' : 'Conditions', 'url' : reverse('fightinfo_conditions')},
+          {'title' : 'Maps', 'url' : reverse('fightinfo_maps')},
         ]
         
         if self.request.user.is_authenticated():

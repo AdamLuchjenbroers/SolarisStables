@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^pilot-issues/?$', TraitsDetailView.as_view(), {'slug' : 'pilot-issues' }, name='pilot_issues', ),
 
     url(r'^mechs/', include('solaris.warbook.mech.urls')),
+    url(r'^fights/', include('solaris.warbook.fightinfo.urls')),
 
     url(r'^ajax/?', include('solaris.warbook.ajax_urls')),    
     url(r'^actions/', include('solaris.warbook.actions.urls')),
