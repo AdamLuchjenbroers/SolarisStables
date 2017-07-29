@@ -2,15 +2,20 @@
  
 {% block pagebody %}
 <div class="body">
-  <h1>Pilot Skills and Abilities</h1>
-  <dl class="discipline-list">
-  {% for discipline in object_list %}
-    <dt class="discipline">
-      <a href="{{ discipline.get_absolute_url }}">{{discipline.name}}</a>
-    </dt><dd>
-      <p>{{discipline.markup_blurb | safe}}</p> 
-    </dd>      
-  {% endfor %}
+  <h1>Fight Types</h1>
+
+  {% for group in object_list %}
+    <h2>{{group.name}}</h2>
+
+    <dl class="fight-list">
+    {% for fight in group.fights.all %}
+      <dt class="fight">
+        <a href="{{ fight.get_absolute_url }}">{{fight.name}}</a>
+      </dt><dd>
+        <p>{{fight.blurb}}</p> 
+      </dd>      
+    {% endfor %}
   </dl>
+  {% endfor %}
 </div>
 {% endblock %}
