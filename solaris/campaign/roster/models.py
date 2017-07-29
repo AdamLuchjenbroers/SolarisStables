@@ -4,62 +4,9 @@ from markitup.fields import MarkupField
 
 from solaris.campaign.models import BroadcastWeek
 
-class FightGroup(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = 'Fight Groups'
-        verbose_name = 'Fight Group'
-        db_table = 'campaign_fightgroup'
-        app_label = 'campaign'
-    
-class FightType(models.Model):
-    group = models.ForeignKey('campaign.FightGroup')
-    name = models.CharField(max_length=50)
-    rules = MarkupField(blank=True)
-    is_simulation = models.BooleanField(default=False)
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = 'Fight Types'
-        verbose_name = 'Fight Type'
-        db_table = 'campaign_fighttype'
-        app_label = 'campaign'
-
-class Map(models.Model):
-    name = models.CharField(max_length=20)
-    special_rules = MarkupField(blank=True)
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = 'Maps'
-        verbose_name = 'Map'
-        db_table = 'campaign_map'
-        app_label = 'campaign'
-
-class FightCondition(models.Model):
-    name = models.CharField(max_length=20)
-    rules = MarkupField()
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = 'Fight Conditions'
-        verbose_name = 'Fight Condition'
-        db_table = 'campaign_conditions'
-        app_label = 'campaign'
-
 class RosteredFightCondition(models.Model):
     fight = models.ForeignKey('campaign.RosteredFight')
-    condition = models.ForeignKey('campaign.FightCondition')
+    condition = models.ForeignKey('warbook.FightCondition')
     annotation = models.CharField(max_length=20, blank=True)
 
     def __unicode__(self):
@@ -68,11 +15,16 @@ class RosteredFightCondition(models.Model):
         else:
             return self.condition.name
 
+    class Meta:
+        db_table = 'campaign_fight_x_condition'
+        app_label = 'campaign'
+
 class RosteredFight(models.Model):
     week = models.ForeignKey('campaign.BroadcastWeek', related_name='fights')
-    fight_type = models.ForeignKey('campaign.FightType')
+    fight_type = models.ForeignKey('warbook.FightType')
     fought = models.BooleanField(default=False)
-    conditions = models.ManyToManyField(FightCondition, through=RosteredFightCondition)
+    conditions = models.ManyToManyField('warbook.FightCondition', through=RosteredFightCondition)
+    order = models.IntegerField()
 
     class Meta:
         verbose_name_plural = 'Rostered Fights'

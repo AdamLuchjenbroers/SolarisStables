@@ -13,6 +13,9 @@ import solaris.warbook.equipment.admin as equipment_admin
 import solaris.warbook.actions.models as action_models
 import solaris.warbook.actions.admin as action_admin
 
+import solaris.warbook.fightinfo.models as fight_models
+import solaris.warbook.fightinfo.admin as fight_admin
+
 import solaris.warbook.models as base_models
 
 
@@ -50,3 +53,9 @@ admin.site.register(equipment_models.Equipment, equipment_admin.EquipmentAdmin )
 # Import Actions
 admin.site.register(action_models.ActionGroup, action_admin.ActionGroupAdmin)
 admin.site.register(action_models.ActionType, action_admin.ActionTypeAdmin)
+
+# Import Fight Types
+admin.site.register(fight_models.FightGroup, fight_admin.FightGroupAdmin)
+admin.site.register(fight_models.FightCondition)
+admin.site.register(fight_models.Map)
+
