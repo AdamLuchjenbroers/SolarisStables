@@ -14,12 +14,15 @@ class FightGroup(models.Model):
         verbose_name = 'Fight Group'
         db_table = 'warbook_fightgroup'
         app_label = 'warbook'
+        ordering = ['order',]
 
 class FightType(models.Model):
     group = models.ForeignKey('warbook.FightGroup')
     name = models.CharField(max_length=50)
+    blurb = models.CharField(max_length=255, blank=True)
     rules = MarkupField(blank=True)
     is_simulation = models.BooleanField(default=False)
+    order = models.IntegerField()
 
     def __unicode__(self):
         return self.name
@@ -29,6 +32,7 @@ class FightType(models.Model):
         verbose_name = 'Fight Type'
         db_table = 'warbook_fighttype'
         app_label = 'warbook'
+        ordering = ['order', 'name']
     
 class Map(models.Model):
     name = models.CharField(max_length=20)
@@ -42,6 +46,7 @@ class Map(models.Model):
         verbose_name = 'Map'
         db_table = 'warbook_map'
         app_label = 'warbook'
+        ordering = ['name',]
 
 class FightCondition(models.Model):
     name = models.CharField(max_length=20)
@@ -55,4 +60,5 @@ class FightCondition(models.Model):
         verbose_name = 'Fight Condition'
         db_table = 'warbook_fightconditions'
         app_label = 'warbook'
+        ordering = ['name',]
 
