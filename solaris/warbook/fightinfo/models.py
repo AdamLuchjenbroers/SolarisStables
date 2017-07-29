@@ -17,7 +17,7 @@ class FightGroup(models.Model):
         ordering = ['order',]
 
 class FightType(models.Model):
-    group = models.ForeignKey('warbook.FightGroup')
+    group = models.ForeignKey('warbook.FightGroup', related_name='fights')
     name = models.CharField(max_length=50)
     blurb = models.CharField(max_length=255, blank=True)
     rules = MarkupField(blank=True)

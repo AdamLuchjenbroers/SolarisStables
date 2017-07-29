@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                 ('is_simulation', models.BooleanField(default=False)),
                 ('order', models.IntegerField()),
                 ('_rules_rendered', models.TextField(editable=False, blank=True)),
-                ('group', models.ForeignKey(to='warbook.FightGroup')),
+                ('group', models.ForeignKey(related_name='fights', to='warbook.FightGroup')),
             ],
             options={
                 'ordering': ['order', 'name'],
