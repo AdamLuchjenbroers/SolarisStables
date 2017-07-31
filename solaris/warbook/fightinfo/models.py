@@ -90,3 +90,10 @@ class FightCondition(models.Model):
         app_label = 'warbook'
         ordering = ['name',]
 
+def fight_list_as_opttree():
+    opttree = ()
+    for group in FightGroup.objects.all():
+        fight_list = tuple([(fight.id, fight.name) for fight in group.fights.all()])
+        opttree +=((group.name, fight_list),)    
+    
+    return opttree
