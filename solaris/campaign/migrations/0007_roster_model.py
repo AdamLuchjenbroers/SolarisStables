@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warbook', '0020_fightinfo_model'),
+        ('warbook', '0021_weightclass'),
         ('campaign', '0006_track_week_start'),
     ]
 
@@ -16,10 +16,14 @@ class Migration(migrations.Migration):
             name='RosteredFight',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('purse', models.IntegerField(null=True, blank=True)),
+                ('units', models.IntegerField(default=1)),
+                ('tonnage', models.IntegerField(null=True, blank=True)),
                 ('fought', models.BooleanField(default=False)),
-                ('order', models.IntegerField()),
+                ('chassis', models.ForeignKey(blank=True, to='warbook.MechDesign', null=True)),
             ],
             options={
+                'ordering': ['fight_type__order', 'units', 'weightclass__lower', 'tonnage'],
                 'db_table': 'campaign_rosteredfight',
                 'verbose_name': 'Rostered Fight',
                 'verbose_name_plural': 'Rostered Fights',
@@ -47,6 +51,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='rosteredfight',
+            name='fight_map',
+            field=models.ForeignKey(to='warbook.Map'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='rosteredfight',
             name='fight_type',
             field=models.ForeignKey(to='warbook.FightType'),
             preserve_default=True,
@@ -55,6 +65,12 @@ class Migration(migrations.Migration):
             model_name='rosteredfight',
             name='week',
             field=models.ForeignKey(related_name='fights', to='campaign.BroadcastWeek'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='rosteredfight',
+            name='weightclass',
+            field=models.ForeignKey(blank=True, to='warbook.WeightClass', null=True),
             preserve_default=True,
         ),
     ]
