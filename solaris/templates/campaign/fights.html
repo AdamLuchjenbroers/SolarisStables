@@ -3,5 +3,12 @@
 {% block pagebody %}
 <div class="body">
   <h1>Fights Roster - Week {{week.week_number}}</h1>
+
+  {% include 'campaign/fragments/fights_list.html' %}
+
+  {% if perms.campaign.add_rosteredfight %}
+    {% include 'campaign/forms/add_rostered_fight.html' %}
+  {% endif %}
+
 </div>
 {% endblock %}
