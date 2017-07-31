@@ -1,6 +1,7 @@
 from markitup.fields import MarkupField
 
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
 class FightGroup(models.Model):
@@ -41,6 +42,9 @@ class FightType(models.Model):
         db_table = 'warbook_fighttype'
         app_label = 'warbook'
         ordering = ['order', 'name']
+    
+    def get_absolute_url(self):
+        return reverse('fightinfo_detail', kwargs={'slug': self.urlname})
     
 class Map(models.Model):
     name = models.CharField(max_length=20)

@@ -1,0 +1,9 @@
+{% extends 'solaris_layout.tmpl' %}
+ 
+{% block pagebody %}
+<div class="body">
+  <h1>{{object.group.name}} - {{object.name}}</h1>
+  
+  <p>{{object.rules.rendered | safe }}</p>
+</div>
+{% endblock %}
