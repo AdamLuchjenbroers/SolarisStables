@@ -1,0 +1,25 @@
+{% for group in group_list %}
+  <h2>{{group.name}}</h2>
+    <table class="fight-list">
+      <tr class="fight-header">
+        <td colspan=2></td>
+        <td class="fight-name">Fight</td>
+        <td class="fight-class">Class</td>
+        <td class="fight-map">Map</td>
+        <td class="fight-conditions">Conditions</td>
+        <td class="fight-purse">Purse</td>
+      </tr>
+
+     {% for fight in group.fights %}
+     <tr class="fight-row">
+       <td></td><td></td>
+       <td>{{fight.fight_type.name}}</td>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+     </tr>
+     {% endfor %}
+
+     </table>
+{% endfor %}
