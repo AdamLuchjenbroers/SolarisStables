@@ -3,6 +3,8 @@ from django.views.generic import TemplateView, View
 from solaris.campaign.views import CampaignWeekMixin
 from solaris.warbook.fightinfo.models import FightGroup
 
+from . import forms
+
 class FightRosterMixin(CampaignWeekMixin):
     def get_context_data(self, **kwargs):
         page_context = super(FightRosterMixin, self).get_context_data(**kwargs)
@@ -24,3 +26,9 @@ class FightRosterView(FightRosterMixin, TemplateView):
     view_url_name = 'campaign_fights'
     submenu_selected = 'Fights'
 
+    def get_context_data(self, **kwargs):
+        page_context = super(FightRosterView, self).get_context_data(**kwargs)
+
+        page_context['add_form'] = forms.AddFightForm()
+
+        return page_context

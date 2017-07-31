@@ -7,7 +7,7 @@
   {% include 'campaign/fragments/fights_list.html' %}
 
   {% if perms.campaign.add_rosteredfight %}
-    {% include 'campaign/forms/add_rostered_fight.html' %}
+    {% include 'campaign/forms/add_rostered_fight.html' with form=add_form %}
   {% endif %}
 
 </div>
