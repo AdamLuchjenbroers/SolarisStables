@@ -4,6 +4,22 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
+class WeightClass(models.Model):
+    name = models.CharField(max_length=50)
+    lower = models.IntegerField()
+    upper = models.IntegerField()
+    in_use = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return '%s (%i-%i tons)' % (self.name, self.lower, self.upper)
+
+    class Meta:
+        verbose_name_plural = 'Weight Classes'
+        verbose_name = 'Weight Class'
+        db_table = 'warbook_weightclass'
+        app_label = 'warbook'
+        ordering = ['lower',]
+
 class FightGroup(models.Model):
     name = models.CharField(max_length=50)
     order = models.IntegerField()
