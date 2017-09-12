@@ -10,7 +10,8 @@ class Campaign(models.Model):
     name = models.CharField(max_length=30)
     initial_balance = models.IntegerField()
     initial_contracts = models.ManyToManyField('warbook.Technology')
-    actions_per_week = models.IntegerField(20)
+    actions_startweek = models.IntegerField(default=10)
+    actions_duringweek = models.IntegerField(default=10)
 
     objects = CampaignManager()
 
