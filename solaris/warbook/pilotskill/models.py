@@ -16,6 +16,7 @@ class TrainingCost(models.Model):
         ('P', 'Piloting'),
         ('G', 'Gunnery'),
         ('S', 'Skills'),
+        ('2', 'Secondary Skills'),
         ('T', 'Other Traits'),
     )
     training = models.CharField(max_length=1, choices=training_options)
@@ -63,11 +64,14 @@ class PilotTraitGroup(models.Model):
     
     discipline_options = (
                      ('T', 'Training')
+                   , ('S', 'Secondary Skills')
                    , ('I', 'Issues') # Ego problems, family issues, etc
                    , ('O', 'Other') # Subdermal armour or other odd traits
                    )    
     discipline_type = models.CharField(max_length=1, choices=discipline_options, default='I')
   
+    rank_restricted = models.BooleanField(default=False)
+
     def get_markup_blurb(self):
         return mark_safe(self.blurb)
   
