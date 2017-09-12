@@ -1,13 +1,13 @@
 name,discipline_type,rank_restricted,urlname,blurb
-Combat,T,False,combat,"<p>Some pilots are hardened by experience, and have developed talents that make them more formidable in melee. </p>"
-Piloting,T,False,piloting,"<p>Some Pilots are able to push their mechs to perform remarkable feats of agility, or even make their mechs dance.</p>"
-Ferocity,T,False,ferocity,"<p>Some pilots are known, not for finess or grace, but rather for their raw aggression and effective brutality</p>"
-Technician,S,True,techno,"<p>Some stars contribute to their stables, not only through their talents on the field, but through assisting with stable management off the field.</p>"
-Electronic and Subversive Warfare,T,False,ews,<p>Some pilots know how to use the on-board electronics in their mechs to perform various clever tricks on the battlefield.</p>
-Missile,T,False,missile,"<p>Some pilots prefer their weapons to have warheads attached, and are more proficient at using missile systems in battle.</p>"
-Energy Weapons,T,False,energy,"<p>Some pilots are more proficient with Energy Weapons, and are able to use them especially well.</p>"
-Ballistics,T,False,ballistics,<p>Some pilots favour old-fashioned gun-powder and are able to use Ballistics weapons to great effect.</p>
-Pilot Problems,I,False,pilot-issues,<p>...</p>
-Showboat,S,TRUE,showboat,"<p>Some stars have a penchant for showing off, wowing the crowd with their special talents.</p>"
-Equipment,S,FALSE,equipment,<p>Many pilots have learned how to get the best from their equipment</p>
-Assistant Trainer,S,TRUE,training,"<p>Some stars act as mentors for the up and coming contenders, teaching them the ropes and using their fame to lift up their stable-mates</p>"
+Combat,T,False,combat,"Some pilots are hardened by experience, and have developed talents that make them more formidable in melee."
+Piloting,T,False,piloting,"Some Pilots are able to push their mechs to perform remarkable feats of agility, or even make their mechs dance."
+Ferocity,T,False,ferocity,"Some pilots are known, not for finess or grace, but rather for their raw aggression and effective brutality"
+Technician,S,True,techno,"Some stars contribute to their stables, not only through their talents on the field, but through assisting with stable management off the field."
+Electronic and Subversive Warfare,T,False,ews,Some pilots know how to use the on-board electronics in their mechs to perform various clever tricks on the battlefield.
+Missile,T,False,missile,"Some pilots prefer their weapons to have warheads attached, and are more proficient at using missile systems in battle."
+Energy Weapons,T,False,energy,"Some pilots are more proficient with Energy Weapons, and are able to use them especially well."
+Ballistics,T,False,ballistics,Some pilots favour old-fashioned gun-powder and are able to use Ballistics weapons to great effect.
+Pilot Problems,I,False,pilot-issues,"Sometimes, pilots can be a liability as well as an asset."
+Showboat,S,TRUE,showboat,"Some stars have a penchant for showing off, wowing the crowd with their special talents."
+Equipment,S,FALSE,equipment,Many pilots have learned how to get the best from their equipment
+Assistant Trainer,S,TRUE,training,"Some stars act as mentors for the up and coming contenders, teaching them the ropes and using their fame to lift up their stable-mates"
