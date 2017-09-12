@@ -10,8 +10,8 @@ class StableActionManager(models.Manager):
     def in_week(self):
         return self.filter(action__group__start_only=False)
 
-    def spent_actions(self):
-        count = self.aggregate(models.Sum('cost'))['cost__sum']
+    def spent_actions(self, start_of_week=True):
+        count = self.filter(action__group__start_only=start_of_week).aggregate(models.Sum('cost'))['cost__sum']
 
         if count == None:
             return 0
