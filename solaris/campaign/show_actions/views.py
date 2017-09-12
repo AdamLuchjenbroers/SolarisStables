@@ -68,8 +68,9 @@ class CampaignListStableActions(CampaignWeekMixin, DetailView):
  
         stableweek = page_context['object']
 
+        # TODO: Split out start and during
         page_context['ap_spent'] = stableweek.actions.spent_actions() 
-        page_context['ap_avail'] = self.week.campaign.actions_per_week
+        page_context['ap_avail'] = self.week.campaign.actions_startweek + self.week.campaign.actions_duringweek
 
         if stableweek.week_started:
             page_context['count_mechs']  = stableweek.mechs_count

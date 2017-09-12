@@ -17,8 +17,9 @@ class StableActionView(StableWeekMixin, TemplateView):
 
         page_context['actionform'] = forms.StableActionForm(stableweek=self.stableweek)
 
+        # TODO: Split out start & during week actions
         page_context['ap_spent'] = self.stableweek.actions.spent_actions() 
-        page_context['ap_avail'] = self.week.campaign.actions_per_week
+        page_context['ap_avail'] = self.week.campaign.actions_startweek + self.week.campaign.actions_duringweek
 
         if self.stableweek.week_started:
             page_context['count_mechs']  = self.stableweek.mechs_count
