@@ -25,12 +25,15 @@ def reload_trait_groups(apps, schema_editor):
     PilotTraitGroup = apps.get_model('warbook', 'PilotTraitGroup')
     fields = ['name', 'discipline_type', 'rank_restricted', 'urlname' ,'blurb']
 
+    PilotTraitGroup.objects.all().delete()
     load_pilottraitgroup_csv('%s/data/warbook.pilottraitgroup.csv' % settings.BASE_DIR, csvfields=fields, PilotTraitGroup=PilotTraitGroup );
  
 def reload_traits(apps, schema_editor):
     PilotTrait = apps.get_model('warbook','PilotTrait')
+
     fields = ['discipline', 'table', 'item', 'bv_mod', 'name', 'description']
 
+    PilotTrait.objects.all().delete()
     load_pilottrait_csv('%s/data/warbook.pilottrait.csv' % settings.BASE_DIR, csvfields=fields, PilotTrait=PilotTrait );
 
     
@@ -46,6 +49,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(add_secondary_training_cost, reverse_code=remove_secondary_training_cost),
-        migrations.RunPython(reload_trait_groups, reverse_code=noop),
-        migrations.RunPython(reload_traits, reverse_code=noop),
+        migrations.RunPython(reload_trait_groups, reverse_code=reload_traits),
+        migrations.RunPython(reload_traits, reverse_code=reload_trait_groups),
     ]

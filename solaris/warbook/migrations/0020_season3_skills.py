@@ -23,6 +23,12 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AlterField(
+            model_name='pilottrait',
+            name='item',
+            field=models.CharField(default=b'-', max_length=6, null=True),
+            preserve_default=True,
+        ),
+        migrations.AlterField(
             model_name='trainingcost',
             name='training',
             field=models.CharField(max_length=1, choices=[(b'P', b'Piloting'), (b'G', b'Gunnery'), (b'S', b'Skills'), (b'2', b'Secondary Skills'), (b'T', b'Other Traits')]),
