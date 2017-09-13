@@ -8,7 +8,7 @@ class DisciplineListView(ReferenceViewMixin, ListView):
     submenu_selected = 'Pilot Skills'
     template_name = 'warbook/pilotdisciplines.tmpl'
     model = models.PilotTraitGroup
-    queryset = models.PilotTraitGroup.objects.filter(discipline_type='T')
+    queryset = models.PilotTraitGroup.objects.filter(discipline_type__in=('T','S'))
 
 class TraitDetailMixin(ReferenceViewMixin):
     def get_context_data(self, **kwargs):
