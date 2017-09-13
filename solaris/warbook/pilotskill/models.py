@@ -102,8 +102,7 @@ class PilotTrait(models.Model):
     bv_mod = models.DecimalField(max_digits=6 ,decimal_places=3 ,choices=bv_modifiers)
 
     table = models.CharField(default='-', max_length=6, null=True)
-    item = models.IntegerField(null=True)
-    
+    item = models.CharField(default='-', max_length=6, null=True)
     
     def bv_text(self):
         bv_description = self.get_bv_mod_display()
