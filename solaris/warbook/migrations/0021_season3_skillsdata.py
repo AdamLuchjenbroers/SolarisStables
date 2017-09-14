@@ -49,6 +49,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(add_secondary_training_cost, reverse_code=remove_secondary_training_cost),
-        migrations.RunPython(reload_trait_groups, reverse_code=reload_traits),
-        migrations.RunPython(reload_traits, reverse_code=reload_trait_groups),
+        migrations.RunPython(reload_trait_groups, reverse_code=noop),
+        migrations.RunPython(reload_traits, reverse_code=noop),
     ]

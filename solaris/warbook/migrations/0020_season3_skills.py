@@ -34,4 +34,16 @@ class Migration(migrations.Migration):
             field=models.CharField(max_length=1, choices=[(b'P', b'Piloting'), (b'G', b'Gunnery'), (b'S', b'Skills'), (b'2', b'Secondary Skills'), (b'T', b'Other Traits')]),
             preserve_default=True,
         ),
+        migrations.AddField(
+            model_name='pilotrank',
+            name='restricted_skills',
+            field=models.BooleanField(default=False),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='pilotrank',
+            name='secondary_skills_limit',
+            field=models.IntegerField(default=0),
+            preserve_default=True,
+        ),
     ]

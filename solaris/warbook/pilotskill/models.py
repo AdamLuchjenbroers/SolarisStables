@@ -42,8 +42,13 @@ class PilotRank(models.Model):
     min_gunnery = models.IntegerField()
     min_piloting = models.IntegerField()
     skills_limit = models.IntegerField()
+    secondary_skills_limit = models.IntegerField(default=0)
+
+    restricted_skills = models.BooleanField(default=False)
+
     auto_train_cp = models.IntegerField(default=0)
     promotion = models.ForeignKey('PilotRank', null=True, blank=True)
+
     receive_tp = models.BooleanField(default=False) 
     prominence_factor = models.IntegerField(default=0)
     receive_honours = models.BooleanField(default=False)
