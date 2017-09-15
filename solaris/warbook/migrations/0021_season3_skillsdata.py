@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from csv import DictReader
+
 from django.db import models, migrations
 from django.conf import settings
 
 from solaris.utilities.data.pilotskills import load_pilottraitgroup_csv, load_pilottrait_csv
+from solaris.utilities.data.houses import load_house_csv
 
 def add_secondary_training_cost(apps, schema_editor):
     TrainingCost = apps.get_model('warbook', 'TrainingCost')
@@ -20,6 +23,13 @@ def add_secondary_training_cost(apps, schema_editor):
 def remove_secondary_training_cost(apps, schema_editor):
     TrainingCost = apps.get_model('warbook', 'TrainingCost')
     TrainingCost.objects.filter(training='2').delete()
+
+def update_house_info(apps, schema_editor):
+    fields = ['house', 'blurb', 'stable_valid', 'selectable_disciplines'] 
+    House = apps.get_model('warbook', 'House')
+    PilotTraitGroup = apps.get_model('warbook', 'PilotTraitGroup')
+
+    load_house_csv('data/warbook.house.csv', csvfields=fields, House=House, PilotTraitGroup=PilotTraitGroup)
 
 def reload_trait_groups(apps, schema_editor):
     PilotTraitGroup = apps.get_model('warbook', 'PilotTraitGroup')
@@ -70,4 +80,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(add_secondary_training_cost, reverse_code=remove_secondary_training_cost),
         migrations.RunPython(reload_trait_groups, reverse_code=noop),
         migrations.RunPython(reload_traits, reverse_code=noop),
+        migrations.RunPython(update_house_info, reverse_code=noop),
     ]
