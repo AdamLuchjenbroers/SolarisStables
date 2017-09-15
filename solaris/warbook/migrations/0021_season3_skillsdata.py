@@ -24,6 +24,22 @@ def remove_secondary_training_cost(apps, schema_editor):
     TrainingCost = apps.get_model('warbook', 'TrainingCost')
     TrainingCost.objects.filter(training='2').delete()
 
+def add_rank_skill_info(apps, schema_editor):
+    PilotRank = apps.get_model('warbook','PilotRank')
+    skill_info = [
+      {'rank' : 'Champion', 'secondary_skills_limit' : 3, 'restricted_skills' : True} 
+    , {'rank' : 'Star', 'secondary_skills_limit' : 2, 'restricted_skills' : True} 
+    , {'rank' : 'Contender', 'secondary_skills_limit' : 1, 'restricted_skills' : False} 
+    , {'rank' : 'Rookie', 'secondary_skills_limit' : 1, 'restricted_skills' : False} 
+    ]
+
+    for row in skill_info:
+        rank = PilotRank.objects.get(rank=row['rank'])
+
+        rank.secondary_skills_limit = row['secondary_skills_limit']
+        rank.restricted_skills = row['restricted_skills']
+        rank.save()
+
 def update_house_info(apps, schema_editor):
     fields = ['house', 'blurb', 'stable_valid', 'selectable_disciplines'] 
     House = apps.get_model('warbook', 'House')
@@ -81,4 +97,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(reload_trait_groups, reverse_code=noop),
         migrations.RunPython(reload_traits, reverse_code=noop),
         migrations.RunPython(update_house_info, reverse_code=noop),
+        migrations.RunPython(add_rank_skill_info, reverse_code=noop),
     ]
