@@ -6,7 +6,7 @@ from django.http import HttpResponse
 import json
 from urllib import unquote
 
-from solaris.warbook.pilotskill.models import PilotRank, TrainingCost, PilotTrait
+from solaris.warbook.pilotskill.models import PilotRank, TrainingCost, PilotTrait, PilotTraitGroup
 from solaris.stablemanager.views import StableViewMixin, StableWeekMixin
 from solaris.stablemanager.mechs.models import StableMechWeek
 
@@ -288,27 +288,46 @@ class AjaxGetAvailableTraining(AjaxPilotMixin, View):
         gunnery_training = self.pilotweek.next_gunnery() 
         piloting_training = self.pilotweek.next_piloting()
         skills_training = self.pilotweek.next_skills()
+        secondary_skills_training = self.pilotweek.next_secondary_skills()
 
         options = {
-          'gunnery'  : { 'cost' : gunnery_training.cost, 'skill' : gunnery_training.train_to 
-                       , 'available' : (self.pilotweek.character_points() >= gunnery_training.cost)  }
-        , 'piloting' : { 'cost' : piloting_training.cost, 'skill' : piloting_training.train_to 
-                       , 'available' : (self.pilotweek.character_points() >= piloting_training.cost)  }
-        , 'skills'   : { 'cost' : skills_training.cost, 'skill' : skills_training.train_to 
-                       , 'available' : (self.pilotweek.character_points() >= skills_training.cost)  }
+          'gunnery'          : { 'cost' : gunnery_training.cost, 'skill' : gunnery_training.train_to 
+                             , 'available' : (self.pilotweek.character_points() >= gunnery_training.cost)  }
+        , 'piloting'         : { 'cost' : piloting_training.cost, 'skill' : piloting_training.train_to 
+                             , 'available' : (self.pilotweek.character_points() >= piloting_training.cost)  }
+        , 'skills'           : { 'cost' : skills_training.cost, 'skill' : skills_training.train_to 
+                             , 'available' : (self.pilotweek.character_points() >= skills_training.cost)  }
+        , 'secondary_skills' : { 'cost' : secondary_skills_training.cost, 'skill' : secondary_skills_training.train_to 
+                             , 'available' : (self.pilotweek.character_points() >= secondary_skills_training.cost)  }
         }
         return HttpResponse(json.dumps(options))
 
 class AjaxGetPilotSkillsList(AjaxPilotMixin, View):
     def get(self, request, week=None):
-        disciplines = self.stable.stable_disciplines.all() | self.stable.house.house_disciplines.all()
+        if request.GET['skilltype'] == 'Primary':
+            disciplines = self.stable.stable_disciplines.all() | self.stable.house.house_disciplines.all()
+        else:
+            disciplines = PilotTraitGroup.objects.filter(discipline_type='S') 
 
         skill_list = {}
         for group in disciplines:
-            if not self.pilotweek.has_discipline(group):
+            if not ( self.pilotweek.has_discipline(group) or
+                    (group.rank_restricted and not self.pilotweek.rank.restricted_skills) ):
                 skill_list[group.name] = [ { 'id' : skill.id, 'name' : skill.name } for skill in group.traits.all()]
 
         return HttpResponse(json.dumps(skill_list))
+
+class AjaxGetPilotSecondarySkillsList(AjaxPilotMixin, View):
+    def get(self, request, week=None):
+
+        skill_list = {}
+        for group in disciplines:
+            if not ( self.pilotweek.has_discipline(group) or
+                    (group.rank_restricted and not self.pilotweek.rank.restricted_skills) ):
+                skill_list[group.name] = [ { 'id' : skill.id, 'name' : skill.name } for skill in group.traits.all()]
+
+        return HttpResponse(json.dumps(skill_list))
+  
 
 class AjaxGetCurrentPilotTraits(AjaxPilotMixin, View):
     def get(self, request, week=None):

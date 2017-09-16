@@ -126,12 +126,13 @@ function send_changed_tp(field, oldvalue) {
   });
 }
 
-function get_pilot_skills_list(callsign) {
+function get_pilot_skills_list(callsign, skilltype) {
   $.ajax({
     type : 'get'
   , url  : window.location.href + '/skill-list'
   , dataType : 'json'
-  , data : { 'callsign' : encodeURIComponent(callsign) }
+  , data : { 'callsign'  : encodeURIComponent(callsign)
+           , 'skilltype' : skilltype }
   }).success(function(response) {
     opthtml = '<option value=\'\'>-- Select Skill --</option>'
 
@@ -180,6 +181,10 @@ function get_pilot_training_options(callsign, select_id) {
                             , response['skills']['cost']
                             , 'S|' + response['skills']['skill']
                             , response['skills']['available']);
+    opthtml += render_option( to_ordinal(response['secondary_skills']['skill']) + ' Secondary Skill' 
+                            , response['secondary_skills']['cost']
+                            , '2|' + response['secondary_skills']['skill']
+                            , response['secondary_skills']['available']);
 
     field.html(opthtml);
     field.removeAttr('disabled');
@@ -198,12 +203,241 @@ function change_pilot_training() {
 
   if (train.val().charAt(0) == 'S') {
     notes.removeAttr('disabled');
-    get_pilot_skills_list(callsign);
+    get_pilot_skills_list(callsign, 'Primary');
+  } else if (train.val().charAt(0) == '2') {
+    notes.removeAttr('disabled');
+    get_pilot_skills_list(callsign, 'Secondary');
   } else {
     skills.html('');
     skills.attr('disabled','yes');
     notes.attr('disabled','yes');
   } 
+}
+
+function change_defer_pilot() {
+  callsign = $('#pilot-defer-pilot option:selected').text()
+
+  if (callsign == '-- Select Pilot --') { 
+    $('#pilot-defer-deferred').html('');
+    $('#pilot-defer-deferred').attr('disabled', 'yes');
+
+    return; 
+  }
+
+  $.ajax({
+    type : 'get'
+  , url  : window.location.href + '/pilot-traits'
+  , dataType : 'json'
+  , data : { 'callsign' : callsign }
+  }).success(function(response) { 
+     opthtml = "<option value=\"\">-- Select Trait --</option>"
+     $.each( response, function (i, trait) {
+       opthtml += "<option value=\"" + trait['id'] + "\">" + trait['name'] + "</option>"
+     });
+
+     $('#pilot-defer-deferred').html(opthtml);
+     $('#pilot-defer-deferred').removeAttr('disabled');
+  }); 
+}
+
+function change_cure_pilot() {
+  callsign = $('#pilot-cure-pilot option:selected').text()
+
+  if (callsign == '-- Select Pilot --') { 
+    $('#pilot-cure-trait').html('');
+    $('#pilot-cure-trait').attr('disabled', 'yes');
+
+    return; 
+  }
+
+  $.ajax({
+    type : 'get'
+  , url  : window.location.href + '/pilot-traits'
+  , dataType : 'json'
+  , data : { 'callsign' : callsign }
+  }).success(function(response) { 
+     opthtml = "<option value=\"\">-- Select Trait --</option>"
+     $.each( response, function (i, trait) {
+       opthtml += "<option value=\"" + trait['id'] + "\">" + trait['name'] + "</option>"
+     });
+
+     $('#pilot-cure-trait').html(opthtml);
+     $('#pilot-cure-trait').removeAttr('disabled');
+  });
+}
+
+function change_honoured_pilot() {
+  callsign = $('#honoured-dead-pilot option:selected').text()
+
+  if (callsign == '-- Select Pilot --') { 
+    $('#honoured-dead-display_mech').html('');
+    $('#honoured-dead-display_mech').attr('disabled', 'yes');
+    $('#honoured-dead-submit').attr('disabled', 'yes');
+
+    return; 
+  }
+
+  // Unlike other forms, only the pilot has to be chosen for this one to be valid
+  $('#honoured-dead-submit').removeAttr('disabled');
+
+  $.ajax({
+    type : 'get'
+  , url  : window.location.href + '/honoured-dead/list-signatures'
+  , dataType : 'json'
+  , data : { 'callsign' : callsign }
+  }).success(function(response) { 
+     opthtml = "<option value=\"\">-- Select Mech --</option>"
+     $.each( response, function (i, mech) {
+       opthtml += "<option value=\"" + mech['smw_id'] + "\">" + mech['name'] + "</option>"
+     });
+
+     $('#honoured-dead-display_mech').html(opthtml);
+     $('#honoured-dead-display_mech').removeAttr('disabled');
+  });
+}
+
+function submit_pilot_training() {
+  training = {
+    'callsign' : $('#pilot-training-pilot option:selected').text()
+  , 'training' : $('#pilot-training-training').val()
+  };
+
+  if (training['training'].charAt(0) == 'S') {
+    training['skill'] = $('#pilot-training-skill').val();
+    training['notes'] = $('#pilot-training-notes').val();
+  };  
+
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/add-training'
+  , dataType : 'json'
+  , data : training
+  }).done(function(response) { 
+     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'], response['locked'], response['honoured'])
+
+     reset_training_form();
+     reload_training_table();
+  }); 
+}
+
+function submit_pilot_trait() {
+  trait = {
+    'callsign' : $('#pilot-trait-pilot option:selected').text()
+  , 'trait' : $('#pilot-trait-trait').val()
+  , 'notes'    : $('#pilot-trait-notes').val()
+  };
+
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/add-trait'
+  , dataType : 'json'
+  , data : trait
+  }).done(function(response) { 
+     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'], response['locked'], response['honoured'])
+
+     reset_trait_form();
+     reload_trait_table();
+  });
+}
+
+function submit_pilot_deferred() {
+  defer = {
+    'callsign' : $('#pilot-defer-pilot option:selected').text()
+  , 'trait'    : $('#pilot-defer-deferred').val()
+  , 'notes'    : $('#pilot-defer-notes').val()
+  , 'duration' : $('#pilot-defer-duration').val()
+  };
+
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/add-deferred'
+  , dataType : 'json'
+  , data : defer
+  }).done(function(response) { 
+     reset_defer_form();
+     reload_defer_table();
+  });
+}
+
+function submit_pilot_cure() {
+  trait = {
+    'callsign' : $('#pilot-cure-pilot option:selected').text()
+  , 'trait' : $('#pilot-cure-trait').val()
+  };
+
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/cure-trait'
+  , dataType : 'json'
+  , data : trait
+  }).done(function(response) { 
+     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'], response['locked'], response['honoured'])
+
+     reset_cure_form();
+     reload_trait_table();
+  });
+}
+
+function submit_honoured_dead() {
+  honours = {
+    'callsign' : $('#honoured-dead-pilot option:selected').text()
+  , 'display_id' : $('#honoured-dead-display_mech option:selected').val()
+  }
+
+  $.ajax({
+    type : 'post'
+  , url  : window.location.href + '/honoured-dead/add'
+  , dataType : 'json'
+  , data : honours
+  }).done(function(response) {
+     pilot_state = response['pilot']
+     pilot_row_update(pilot_state['callsign'], response['spent-xp'], response['final-xp'], response['locked'], response['honoured'])
+
+     reload_honoured_dead()
+  });
+}
+
+function pilot_row_update(callsign, spent_xp, final_xp, locked, honoured) {
+  pilot = $('#stable-pilot-table tr[callsign=\'' + callsign + '\']');
+
+  pilot.children('.spent-xp').text(spent_xp);
+  pilot.children('.final-xp').text(final_xp);
+
+  if (locked) {
+    pilot.children('.gained-xp').removeClass('editable');
+    pilot.children('.assigned-tp').removeClass('editable');
+  } else {
+    pilot.children('.gained-xp').addClass('editable');
+    pilot.children('.assigned-tp').addClass('editable');
+  }
+
+  if (locked || honoured) {
+    pilot.children('.wounds').removeClass('editable')
+    pilot.children('.blackmarks').removeClass('editable');
+  } else {
+    pilot.children('.wounds').addClass('editable')
+    pilot.children('.blackmarks').addClass('editable');
+  }
+
+  pilot.children().off('click');
+  pilot.children('.editable').one('click', function() {
+    to_number_input( $(this), send_changed_pilot_attrib );
+  });
+
+  $('#pilot-training-training option[cost]').each( function(idx, option) {
+    opt = $(option)
+    cost = parseInt(opt.attr('cost'));
+
+    if (final_xp >= cost) {
+      opt.removeAttr('disabled');
+    } else {
+      opt.attr('disabled', 'yes');
+ 
+      skills.html('');
+      skills.attr('disabled','yes');
+      notes.attr('disabled','yes');
+    }
+  }); 
 }
 
 function change_defer_pilot() {

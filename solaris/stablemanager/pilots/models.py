@@ -340,6 +340,18 @@ class PilotWeek(models.Model):
         skills = self.applied_skill_count() 
         return TrainingCost.objects.get(training='S', train_from=skills)
 
+    def applied_secondary_skill_count(self):
+        skills = self.traits.filter(trait__discipline__discipline_type='S').count() \
+               + self.training.filter(training__training='2').count()
+        if skills == None:
+            return 0
+        else:
+            return skills
+
+    def next_secondary_skills(self):
+        skills = self.applied_secondary_skill_count() 
+        return TrainingCost.objects.get(training='2', train_from=skills)
+
     def has_discipline(self, discipline):
         if self.traits.filter(trait__discipline=discipline).count() > 0:
             return True
