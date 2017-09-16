@@ -7,8 +7,8 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warbook', '0021_weightclass'),
-        ('campaign', '0006_track_week_start'),
+        ('warbook', '0023_weightclass'),
+        ('campaign', '0007_season3_actions'),
     ]
 
     operations = [

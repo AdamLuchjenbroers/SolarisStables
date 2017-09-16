@@ -25,7 +25,7 @@ def noop(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warbook', '0020_fightinfo_model'),
+        ('warbook', '0022_fightinfo_model'),
     ]
 
     operations = [

@@ -8,7 +8,7 @@ import markitup.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warbook', '0019_actiontype_groupfix'),
+        ('warbook', '0021_season3_skillsdata'),
     ]
 
     operations = [
