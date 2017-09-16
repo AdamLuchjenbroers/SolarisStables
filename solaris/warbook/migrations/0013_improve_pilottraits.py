@@ -10,9 +10,6 @@ def clear_model(apps, appName, model):
     model = apps.get_model(appName, model)
     model.objects.all().delete()
     
-def clear_pilottraits(apps, schema_editor):
-    clear_model(apps,'warbook','PilotTrait')
-    
 def create_issues_group(apps, schema_editor):
     PilotTraitGroup = apps.get_model('warbook', 'PilotTraitGroup')
     
@@ -22,13 +19,7 @@ def delete_issues_group(apps, schema_editor):
     PilotTraitGroup = apps.get_model('warbook', 'PilotTraitGroup')
     
     PilotTraitGroup.objects.get(urlname='pilot-issues').delete()
- 
-def load_pilottraits(apps, schema_editor):
-    PilotTrait = apps.get_model('warbook','PilotTrait')
-    fields = ['discipline', 'table', 'item', 'bv_mod', 'name', 'description']
 
-    load_pilottrait_csv('%s/data/warbook.pilottrait.csv' % settings.BASE_DIR, csvfields=fields, PilotTrait=PilotTrait );
-    
 def noop(apps, schema_editor):
     pass
 
@@ -70,6 +61,4 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.RunPython(create_issues_group, reverse_code=delete_issues_group),
-        migrations.RunPython(clear_pilottraits, reverse_code=noop),
-        migrations.RunPython(load_pilottraits, reverse_code=clear_pilottraits),
     ]
