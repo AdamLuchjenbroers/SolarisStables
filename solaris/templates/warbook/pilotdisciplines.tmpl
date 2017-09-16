@@ -3,14 +3,26 @@
 {% block pagebody %}
 <div class="body">
   <h1>Pilot Skills and Abilities</h1>
-  <dl class="discipline-list">
-  {% for discipline in object_list %}
-    <dt class="discipline">
-      <a href="{{ discipline.get_absolute_url }}">{{discipline.name}}</a>
-    </dt><dd>
-      <p>{{discipline.markup_blurb | safe}}</p> 
-    </dd>      
-  {% endfor %}
-  </dl>
+  <h2>Primary Skills</h2>
+    <dl class="discipline-list">
+    {% for discipline in object_list %}{% if discipline.discipline_type = 'T' %}
+      <dt class="discipline">
+        <a href="{{ discipline.get_absolute_url }}">{{discipline.name}}</a>
+      </dt><dd>
+        <p>{{discipline.markup_blurb | safe}}</p> 
+      </dd>      
+    {% endif %}{% endfor %}
+    </dl>
+
+  <h2>Secondary Skills</h2>
+    <dl class="discipline-list">
+    {% for discipline in object_list %}{% if discipline.discipline_type = 'S' %}
+      <dt class="discipline">
+        <a href="{{ discipline.get_absolute_url }}">{{discipline.name}}</a>
+      </dt><dd>
+        <p>{{discipline.markup_blurb | safe}}</p> 
+      </dd>      
+    {% endif %}{% endfor %}
+    </dl>
 </div>
 {% endblock %}

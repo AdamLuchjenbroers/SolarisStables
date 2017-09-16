@@ -1,70 +1,78 @@
 group,action,base_cost,base_cost_max,description,max_per_week
-Purchase,Replace The Lost,2,,Purchase a mech of a design type your stable had a signature mech lost to being cored last week. Can be any in config but has to modified to custom specs. Pay cost in C-Bills & it is delivered next broadcast week. Becomes a signature mech of the pilot who lost his. ,1
-Purchase,Omnipod,2,,Purchase the parts to create a standard config of an Omnimech your stable owns.,1
-Purchase,Buy New Mech,4,6,"Purchase a Mech of any design you have the tech contracts for. It arrives next broadcasst week if it is from your faction list. Otherwise it arrives in three broadcast weeks. For each additional two points on the cost, decrease delivery time by one week. Pay cost of mech in C-Bills.",1
-Purchase,Buy Battlearmour Squad,2,4,"Purchase a new battlearmour unit type you have a contract for. Pay for the cost of suits to number of troops in Battle Armour Pilot squad (4-6). Costs two point for green suits (Sloth & Infiltrator Mk I), three for yellow, and four for red. They arrive next broadcast week if it is from your faction list. Otherwise it arrives in three broadcast weeks. For each additional two points on the cost, decrease delivery time by one week.",1
-Purchase,Buy Carried Weapon,1,,"Based on a created weapon design, buy it. Pay for as per cost.",1
-Modification,Design carried weapon,2,,Create a design for a carried mech weapon.,1
-Modification,Basic Modification,2,,Modify up to two locations on a Mech.,1
-Modification,Omnimech Pod tweak,2,, Modify two locations of pods on a currently owned config of an omnimech,1
-Modification,Overhaul,4,, Modify a mech on up to every location. Pay the cost of all equipment added as if damage repair. Can be used specifically to Overhaul the base frame to add 5-10 tons to the mechs frame. No locations are modified in this use.,1
-Contracts,Supply contract,3,,"Choose a new supply contract. If another stable has this contract, add it immediately. Otherwise roll to make contract.",2
+Contracts,Supply contract,1,,"Choose a new supply contract. If another stable has this contract, add it immediately. Otherwise roll to make contract.",1
+Contracts,Second Supply contract,2,,"Choose a new yellow or red supply contract. If another stable has this contract, add it immediately. Otherwise roll to make contract.",1
+Contracts,Yellow Supply Contract,1,,Choose a new yellow supply contract that another stable already has.,1
 Contracts,Black Tech proposal,4,,"Propose a new black tech to research. Outline details of the technology to the group and they have to bring back feedback on grounds to balance the equipment. At the beginning of the next week, use the First supply contract to buy the tech unless two players specifically object to it.",1
-Contracts,Call for review,2,,Propose a review of an available black tech for balance.,1
-Sponsorship,Sponsorship Pilo,1,,"Name a major industrial corp and associate it with a star or champion pilot this week. Gain 1,000,000 C-Bills and 5 pop to that pilots league or network match. Bonus of 1,000,000 C-Billss on a victory.",1
-Sponsorship,Sponsorship Stable,4,,"Name a major industrial corporation and plug it during each match. Gain 500,000 CBills and 2 pop each league and network match this week and an extra 500,000 on each victory. ",1
-Sponsorship,Sponsored Tour,1,,"Place a pilot from your stable into doing a touring date, attending events and giving talks for the week instead of piloting this week. For each fame of the pilot he earns 1,000,000 C-Bills for the week. Half for Contenders and Rookies who don't hold titles.",1
-Sponsorship,Expo Display mech,2,,Allocate the signature mech of a pilot to a public display. May not be used for the broadcast week but the pilot gains 12 points to Pop for fame roll at start of next broadcast week.,1
-Recruitment,Recruit talent,3,4,Roll on the random pilot tables to create a talented new hire to add to your stable. For 4 points have +1 on your choice of single roll. You must pay 75% of value of any signature mech.,1
-Recruitment,Recruitment Drive,2,4,"Recruit new 5/6 rookies of your faction to your stable. Recruit 3 for 2 points, 6 for 3 points and 10 pilots for 4 points.",1
-Recruitment,Squad Recruitment,1,,Recruit a squad of four battle armour pilots. If the stable has no Battle armour they are automatically deployable as Power Armor.,1
-Medical,Medical Attention,1,,Heal a pilot one wound.,1
-Medical,Counselling,1,,"Select a pilot with Ego, Combat Phobias, Drug Addiction, PTSD, or Sexual Deviant. Defer that derangement for this week.",1
+Legal,Legal Stable Investments,1,,Invest in a rival stable's prosperity. Take 2d6% of their winnings for the week.,1
+Legal,Legal League Investments,1,,Invest in all the prosperity of the league. Take 1d6+1% of everyone elses winnings for the week.,1
+Legal,Criminal Court defence,1,,Give extra aid to defending a pilot on criminal charges.,1
+Management,Training Camp,1,,Send a Star or Champion to a training camp for the broadcast week. He may not fight this week but gains up to half the training points of the Contenders next broadcast week.,1
+Management,Expanded Management,1,,Add 6 more slots for Mechs and Pilots in stable.,1
+Management,Exploded Management,2,,Add 9 more slots for Mechs and Pilots in the stable.,1
+Management,Training Camp Partner,2,,Send a second Star or Champion to a training camp for the broadcast week. He may not fight this week but gains up to the other half of the training points of the Rookie's pool next broadcast week.,1
+Management,Under New Management,4,,"This is a special action that can rarely be taken. Any stable can take it once, to change the faction allegiance of the stable for preference of the Stable player. An exception to taking it once, is if a new pilot becomes a champion of the stable, who is not of the stables current faction. His new position can be leveraged to change allegiance of the stable. This change comes the a change of training skill sets, and a change in faction Mech list. If taken just to refine Player preference, A new name must be taken, and while most details are unchanged, this results in the loss of the Honoured Dead roster.",1
 Medical,Health Spa,1,,"Select a pilot and allocate them to a health spa for the broadcast week. They may not be fielded, but heal 3 wounds, or one wound and a black mark.",1
-Medical,Psychotherapy,3,,"Select a pilot with Ego, Combat Phobia, or Drug Addiction, PTSD, or Sexual Deviant, and try to cure it with therapy. Roll 2d6 on pilot derangement recovery table.",1
-Medical,Surgery,4,,Pick a pilot and roll 2d6 on the surgery table to heal wounds and black marks.,1
-Legal,Slander suit,1,,"Publicly sue another stable for slander or libel. Mouthing off is par for the course but opens many legal windows. Roll 1d6 and one a 3+ win the case and gain the roll times 200,000 C-bills from the target stable.",1
-Legal,Civil damages,1,,"Assist an arena to sue another stable who had a pilot in a fight cause dramatic damage to the arena. Roll 1d6 + the number of buildings destroyed or hexes set on fire against at arget of 7. If successful, the stable loses 200,000 C-Bills each class of tree or building (Ie a heavy building is 600k, heavy woods are 400k) and you collect half.",1
-Legal,Questionable Eligibility,1,,"Chose an enemy stable and randomly select a pilot. Roll 1d6. On a 2+ your lawyers make the Solaris Gaming Board investigate the background of the pilot, locking him from being deployed this week. Add 2 to the target value if you select the specific pilot. Stable Champion adds a second +2 to the target. Any title adds +1.",1
-Legal,Questionable Ownership,1,,"Chose an enemy stable and randomly select a Mech Roll 1d6. On a 2+ your lawyers make the authorities investigate the background of the Mech, locking it from being deployed this week. Add 2 to the target value if you select the specific Mech Add +1 for signature Mechs",1
-Legal,Sue the cheat,1,,"If an opponent in a fight or action used a cheat and got caught, you can sue him with this action. Roll 1d6-3. For multiply the positive number by 50% and claim that amount of the Purse or the most expensive lost Mech or Prize, in C-Bills.",1
-Legal,Stable Property,2,,"After losing a pilot with a signature mech, you can pay to keep ownership of the Mech to the stable. Roll 1d6 and add 1 per 250,000 C-Bills spent. On a 6 or higher, pay half the value of the Mech and keep it. Omnimechs with shared owner gain +3 on roll.",1
-Legal,Legal Investments,2,,Invest in a rival stable's prosperity. Take 2d6% of their winnings for the week.,1
-Legal,Pilot Intervention,2,,"The lawyers sit down to discuss the ramifications of a pilot and his derangement - Adrenaline Junkie, Bully, Criminal, Family, Gambler, Sexual Deviant, Tinkerer, or User of Illegal Performance enhancers. Roll 2d6 on the Pilot derangement recovery table.",1
-Legal,Legal Offensive,3,,"Pick an enemy pilot with one of the derangements Bully, Criminal, Drama Queen, Family, Gambler, Religious Zealot, Sexual Deviant, Tinkerer, or User of illegal performance enhancers. End any current deferment, or add +2 to this weeks roll (or re-roll if already rolled).",1
-Legal,Legal Defence Team,4,,Circle the Legal Sharks around your stable. Apply a +2 to the targe numbers of legal actions against your stable this week.,1
-Security,Guard Duty,1,,Select a pilot of your stable. He and his signature mechs cannot be targeted by hostile security actions this week.,1
-Security,Engineering Blunder,3,,Send in one of the lads to hack or bribe an error into an enemy modification action. Add four to the modification balance check roll.,1
-Security,Brute Squad,2,,Choose and enemy stable and randomly determine a pilot. Some of your boys track down this pilot and help him have an 'Accident'. Pilot takes 1d6-2 wounds. Roll with a further -2 if you choose the targeted pilot.,1
-Security,Pilot security,2,,"Allocate security to watch and forcibly assist a pilot with an issue he has of – Ego, Bully, Criminal, Drama queen, Drug addiction, Family, Gambler, Religious zealot, sexual deviant, Tinkerer, or user of illegal performance enhancers. Roll 2d6 on the Pilot derangement recovery table.",1
-Security,Enabler Operations,3,,"Pick an enemy pilot with one of the derangements Adrenaline Junkie, Drug Addiction, Gambler, or PTSD. End any current deferments or add +2 to this weeks roll, or reroll if already rolled.",1
-Security,Sabotage Display Mech,2,,Select a Signature mech on a Expo Display Mech tour and have it sabotaged. When next fielded roll one random location and roll for a crit (max one) to be disabled at the start of the fight. Re-roll kill results.,1
-Publicity,Do not miss this fight,1,,All pilots in nominated fight get +4 pop. Nominate which fight immediately.,1
+Medical,Health Spa Partner,2,,"Select a pilot and allocate them to a health spa for the broadcast week. They may not be fielded, but heal 3 wounds, or one wound and a black mark.",1
+Medical,Surgery,2,,Pick a pilot and roll 2d6 on the surgery table to heal wounds and black marks.,1
+Medical,Back Alley Surgery,2,,Pick a pilot and roll 2d6-3 on the surgery table to heal wounds and black marks.,1
+Modification,Omnimech config,2,,Create from scratch a new config for an omnimech in the stable. Pay for components,1
+Modification,Modify Mech,1,,Modify up to two locations on a Mech. Pay for components. Roll for balancing.,1
+Modification,Modify another mech,2,,Modify up to two locations on a Mech. Pay for components. Roll for balancing.,1
+Modification,Overhaul mech,2,,Modify a mech on up to every location. Roll for balancing. Pay the cost of all equipment added as if damage repair. Can be used specifically to Overhaul the base frame to add 5,1
 Publicity,A new Star Rises,1,,"Spend 250,000 C-Bills and raise one pilot from contender to Star. ",1
 Publicity,Cushion a falling star,2,,"When forced to reduce a star to contender, add 2 to target number to avoid the star leaving the stable. (1d6 needs a 6 instead of 4+)",1
-Publicity,It belongs in a museum,1,,"Allocate the signature mech of a deceased star of champion pilot to your hall of fame, giving one point to prominence calculations in the future just like a dead star or champion does.",1
-Publicity,Pilot interview,2,,"Have a reporter sit down with a pilot to express the points on his mind, specifically Religious Zealot, Family Problems, Drama Queen, PTSD, or Tinkerer. Roll on the pilot derangement recovery table but on a 3 or less, lose 1 fame or gain ego if zero fame.",1
-Publicity,Personalised Propaganda,2,,"Pick an enemy pilot and work with the media for a targeted story on his derangements, putting massive pressure on the pilot. End any deferment or add +2 to this weeks rolls, or reroll if already rolled.",1
-Publicity,This means war,3,,"Pick an enemy stable of opposing reputation and justify a challenge. Each pilot earns bonus pop equal to the difference in reputation and 1,000,000 C-Bills on victories (Not including simulators).",1
-Publicity,A new Galaxy of stars,2,,"Spend 250,000 C-Bills per pilot and raise up to four contenders to stars.",1
 Publicity,Game show,1,,"Allocate a pilot to a reality TV show. The pilot may not be fielded this broadcast week in a fight, however his appearance gives 12 Pop for the week to the pilot. If multiple stables do this action, they are on the same show, however the highest ranking pilots over shadow the lower, so if you are not the highest ranking pilot on the show, drop to 8 Pop. For each of the highest ranking pilots on the show after the first, add +2 pop.",1
-Publicity,Re-Brand,1,4,"A pilots name is his brand, and so to change it lightly is to lose recognition, specifically all fame. With this ability you make sure the advertising for the pilot does not sacrifice his fame completely. Lose only one fame in the name change. This ability applies to three pilots for 2 points. To six pilots for 3 points, and to 10 pilots for 4 points. One point cheaper with Under New Management action.",1
-Publicity,Enemy Re-Brand,3,,Make a joke name of an enemy pilot linked to events of a fight of last broadcast week. Use advertising to force the name on the pilot.,1
-Management,Training Camp,3,,Send a Star or Champion to a training camp for the broadcast week. He may not fight this week but gains up to half the training points of the Contenders next broadcast week.,1
-Management,Expanded Management,2,,Add 6 more slots for Mechs and Pilots in stable.,1
-Management,Exploded Management,3,,Add 9 more slots for Mechs and Pilots in the stable.,1
-Management,Looking for Trouble,3,,Draw an extra event card.,1
-Management,Under New Management,4,,"This is a special action that can rarely be taken. Any stable can take it once, to change the faction allegiance of the stable for preference of the Stable player. An exception to taking it once, is if a new pilot becomes a champion of the stable, who is not of the stables current faction. His new position can be leveraged to change allegiance of the stable. This change comes the a change of training skill sets, and a change in faction Mech list. If taken just to refine Player preference, A new name must be taken, and while most details are unchanged, this results in the loss of the Honoured Dead roster.",1
-In-Week,Auction visit,1,,Participate in the start of week Auction. This action is repeatable. This action can be turned into a Dregs Purchase or Home Development action if no successful auction bid is made before auction ends.,
-In-Week,Kickback to the Junker,1,,Select a mech by weight point and receive immediately a random mech from the rental pool. Pay mech cost in C-bills.,1
-In-Week,Tweak,1,,Select a mech and modify one location on the mech.,1
-In-Week,Home Development,1,,Recruit a new 5/6 Rookie pilot of your faction to your stable.,1
-In-Week,Staff of Defence,1,,Apply a +2 to the target number of a legal action against you.,1
-In-Week,Arena insider,1,,"Pay an insider for placement advantage. Reserve a starting location that cannot be selected by anyone but you during placement, whether you use it or not. Alternatively select a starting condition of a map variable, such as wall heights in the Colosseum, Obstacle placement, etc. May be selected after placement.",1
-In-Week,Delay fight,1,,Delay the start of the fight till Twilight or Night conditions. Declare during fight setup.,1
-In-Week,Rile Crowd,1,,"Send a pro team to sabutage audience facilities, with media support and inappropriate t-shirt cannons, to rile up the live crowd, imposing angry crowd on the fight.",1
-In-Week,Press Opportunity,1,,"Send a pilot to a Children's hospital or charity event for quick pop bump of +12. If the pilot also fights in a Sim or Underground fight this week, apply one hit from the strain.",1
-In-Week,Game Show,1,,"Send a pilot who did not fight to a game show at the end of the broadcast week. Game shows are like reality shows but more action based. Gain 10+1d6 Pop. One a one or two on the 1d6, gain that many hits.",1
-In-Week,Focal duel,1,,"Designate a fight during the week during the fight setup, pick one opponent mech during the fight. Gain fame automatically if you are in on the kill of that mech.",1
-In-Week,Looking for Strange,1,,Restock an event card to draw another.,1
-In-Week,Looking for Honour,1,,Restock a cheat card and gain one face.,1
+Publicity,Advertising,1,,"All Network and League Fights get +2 on pop, and Championship fights get +4 on pop.",1
+Publicity,Publicity Blitz,2,,"All Network, League, and Minor League fights get + 3 on pop, and Championship fights get +5 on Pop.",1
+Publicity,Advertising league,6,,"Releasing advertising for this league bumps the stables of the league, well maybe yours got more images and oops did we forget one. Pick one stable to exclude and give all other stables 1 permanent advertising bump to prominence and give two bonus to your prominence to your stable this week. May not be bought week 12.",1
+Purchase,Buy New Mech,1,,Purchase a Mech of any design you have the tech contracts for. It arrives next broadcasst week if it is from your faction list. Otherwise it arrives in three broadcast weeks.,1
+Purchase,Buy New Mech Fast,4,,Purchase a Mech of any design you have the tech contracts for. It arrives now if it is from your faction list. Otherwise it arrives next broadcast week.,1
+Purchase,Buy Battlearmour Squad,1,,Purchase a new battlearmour unit type for one of your battle armour squads. Pay for the cost of suits to number of troops in Battle Armour Pilot squad (4,1
+Purchase,Buy Anothers Battlearmour Squad,1,,Purchase a new battlearmour unit another stable has fielded. Pay for the cost of suits to number of troops in Battle Armour Pilot squad (4,1
+Purchase,Omnipod,1,,Purchase the parts to create a standard config of an Omnimech your stable owns.,1
+Purchase,More Omnipods,1,,Purchase the parts to create a standard config of an Omnimech your stable owns.,1
+Purchase,Buy Carried Weapon,1,,"Based on a created weapon design, buy it. Pay for as per cost.",1
+Recruitment,Welcome a Shooting Star,1,,"Hire a new Star from another league to boost up your stable. Roll on the hire pilot table as a Star and pay $10,000,000 C-bills plus half of value of signature mech if they have one. You must have an opening for a new star.",1
+Security,Guard Duty,1,,Select a pilot of your stable. He and his signature mechs cannot be targeted by hostile security actions this week.,1
+Security,Extended Guard Duty,1,,Select a pilot of your stable. He and his signature mechs cannot be targeted by hostile security actions this week.,1
+Security,Expo Display mech,1,,Allocate the signature mech of a pilot to a public display. May not be used for the broadcast week but the pilot gains 12 points to Pop for fame roll at start of next broadcast week.,1
+Sponsorship,Sponsorship Stable,2,,"Name a major industrial corporation and plug it during each match. Gain 500,000 CBills and 2 pop each league and network match this week and an extra 500,000 on each victory. ",1
+Sponsorship,Sponsored Tour,1,,"Place a pilot from your stable into doing a touring date, attending events and giving talks for the week instead of piloting this week. For each fame of the pilot he earns 1,000,000 C-Bills for the week. Half for Contenders and Rookies who don't hold titles.",1
+Before Fight,Delay fight,1,,Delay fight to Twilight or Night combat,1
+Before Fight,Medical Attention,1,,Heal 1 pilot 1 wound point or black mark,1
+Before Fight,Bio-Enhancement Drug – Konnect,1,,Give a pilot a dose of bioenhancement drug Konnect for the fight. Roll 1 cheat at end of fight without heel mod.,1
+Before Fight,Bio-Enhancement Drug – KrayZee,1,,Give a pilot a dose of bioenhancement drug KrayZee for the fight. Roll 1 cheat at end of fight without heel mod.,1
+Before Fight,Bio-Enhancement Drug - LD-512,1,,Give a pilot a dose of bioenhancement drug LD-512 for the fight. Roll 1 cheat at end of fight without heel mod.,1
+Before Fight,Bio-Enhancement Drug - Quikstim,1,,Give a pilot a dose of bioenhancement drug Quikstim for the fight. Roll 1 cheat at end of fight without heel mod.,1
+Before Fight,Bio-Enhancement Drug - Rage,1,,Give a pilot a dose of bioenhancement drug Rage for the fight. Roll 1 cheat at end of fight without heel mod.,1
+Before Fight,Omnimech Pod tweak,1,,Modify two locations of pods on a currently owned config of an omnimech.,1
+Before Fight,Tweak a mech,1,,Modify one location on a mech.,1
+Before Fight,Do not miss this fight,1,,All pilots in nominated fight get +2 pop and add one fame each to fight purse.,1
+Before Fight,Focal duel,1,,Designate one opponent mech during the fight. Gain fame automatically if you are in on the kill of that mech. Gain two fame if you face 4 or more enemy mechs total.,1
+Before Fight,Rile Crowd,1,,Rile the crowd into an angry state.,1
+Before Fight,Wish on a falling star,2,,"Play on a rival stable’s star this week dropped to contender. If that pilot loses this fight he quits the stable and goes to auction unless clan. If your stable wins, will join your stable.",1
+Before Fight,Buy a junker,1,,Determine a weight by rolling within point value and pick two junker sheets at random. Buy one of your choice.,1
+Before Fight,Kickback to the Junker,1,,"When picking a random mech, pick from a choice of two",1
+Before Fight,Recruit off world talent,1,,"Roll on the random pilot table as a rookie for a new talent from off Solaris joining the fight. After the fight, choose to release the pilot or add them to the stable. If released send to Auction pool for next week. If kept add to stable and pay $2,000,000 C-bills plus half any signature mech.",1
+Before Fight,Recruit experienced talent,1,,"Roll on the random pilot table as a contender for a new talent from Solaris joining the fight. After the fight, choose to release the pilot or add them to the stable. If released send to Auction pool for next week. If kept add to stable and pay $5,000,000 C-bills plus half any signature mech.",1
+Before Fight,Sponsor for this Fight,1,,"Name a major industrial corp and associate it with a non Rookie in this fight. Gain 500,000 C-Bills and 2 pop to your pilot. Bonus of +4 Pop on a victory. Not available to Sim and Underground",1
+After Fight,Call for review,1,,Call for review of black tech used in this fight. Must have good reason why to negotiate balance.,1
+After Fight,Civil damages,1,,"Assist an arena to sue another stable who had a pilot in this fight cause dramatic damage to the arena. Roll 1d6 + the number of buildings destroyed or hexes set on fire against a target of 7. If successful, the stable loses 200,000 C-Bills each class of tree or building (Ie a heavy building is 600k, heavy woods are 400k) and you collect half.",1
+After Fight,Pilot Intervention,1,,"The lawyers sit down to discuss the ramifications of a pilot and his derangement - Adrenaline Junkie, Bully, Criminal, Family, Gambler, Sexual Deviant, or Tinkerer, Roll 2d6 on the Therapy recovery table.",1
+After Fight,Random my ass' drug test,1,,Force a reroll on the cheat roll on a rival for using a bioenhancement drug.,1
+After Fight,Stable Property,1,,"After a pilot with a signature mech dies in a fight, spend this point and pay to keep ownership of the Mech to the stable. Roll 1d6 and add 1 per 250,000 C-Bills spent. On a 6 or higher, pay half the value of the Mech and keep it. Omnimechs with shared owner gain +3 on roll.",1
+After Fight,Staff of Defence,1,,"Send the lawyers in after the fight to try pre-emptively protect the stable from being sued for cheating or civil damages. Subtract 2 from legal roll, however opponent legal actions can be cancelled and point refunded.",1
+After Fight,Sue the cheat,1,,"If an opponent in a fight or action used a cheat and got caught, you can sue him with this action. Roll 1d6-3. For multiply the positive number by 50% and claim that amount of the Purse or the most expensive lost Mech or Prize, in C-Bills. May also be used against Auction cheating by exceeding salary cap.",1
+After Fight,Unsolicited legal advice,1,,"Pick an enemy pilot in this fight with one of the derangements Bully, Criminal, Drama Queen, Family, Gambler, Religious Zealot, Tinkerer, or User of illegal performance enhancers. End any current deferment, or add +1 to next weeks roll or special rules.",1
+After Fight,Medical Counselling,1,,"Select a pilot with Ego, Combat Phobias, Drug Addiction, PTSD, Sexual Deviant or User of Illegal Performance Enhancers. Roll on Therapy chart after fight.",1
+After Fight,Brain in a jar,2,,"A pilot who died in this fight who has the DNI or EI equipment benefit may be salvaged enough to survive by having their brain put in a jar. The doctor you found is sure he can do it, their brain has the feeds already in em to keep stimulation going. Brain in a jar pilots lose all fame and secondary abilities but may be equipped into Inner Sphere protomechs, be the drone pilots of vehicles without incurring the penalty to hit and piloting, and rumours tell of black tech full and buddy cockpits in development.",1
+After Fight,It belongs in a museum,1,,"Play in a fight where a Star or Champion dies, to add their mech to your stable museum.",1
+After Fight,Publicity Spotlight,1,,"Pick a pilot in this fight with one of the derangements Adrenaline Junkie, Bully, Criminal, Drama Queen, Drug Addiction, Family Problems, PTSD, Religious Zealot, Sexial Deviant, Tinkerer or User of Illegal Performance Enhancers. Check specific rules for how this applies both for friendly or enemy pilots. Unless otherwise detailed, End any current deferments or add +2 to next weeks roll for enemies and roll on therapy for your pilots. .",1
+After Fight,Re-Brand,1,,"Rename pilot in this fight to new name. -10 pop on fight. If not of your stable, full pop and only changes name if gains fame of x. x = 3 + number of stables who add to this action to support justification of name change (Base 4).",1
+After Fight,This means war,1,,"Play after a pilot dies in battle. Pick one of the killer’s stables and declare war, gaining + 5 pop on victories against them till the end of the following week.",1
+After Fight,Replace the lost,1,,"Spend after a fight to order a replacement mech of one just cored. If a lost signature mech, returns to being a signature mech",1
+After Fight,Pilot security,1,,"Security protects a pilot from themselves, specifically Bully, Criminal, Drug Addict, Drama Queen, Family Problems, Gambler, Religious Zealots, Tinkerer or User of Illegal Performance enhancers. Check specific derangement rules otherwise roll on therapy table.",1
+After Fight,Sabotage Unattended Mech,2,,Send your security agents to sabotage a signature mech not being fielded by a pilot in this fight. Select one random location and roll for crit at the start of the next fight. Reroll Disabling crit.,1
+After Fight,Security Interference,1,,"Pick an enemy pilot in this fight with one of the derangements Adrenaline Junkie, Drug Addiction, criminal, or Gambler. End any current deferments or add +2 to next weeks roll or special rules.",1
+End of Week,Looking for Strange,1,,Restock an event card to draw another.,1
+End of Week,Looking for Honour,1,,Restock a cheat card and gain one face.,1

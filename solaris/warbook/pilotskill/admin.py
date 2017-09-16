@@ -22,8 +22,10 @@ class PilotRankForm(forms.ModelForm):
         , 'min_gunnery' : 'Gunnery Limit'
         , 'min_piloting' : 'Piloting Limit'
         , 'skills_limit' : 'Skills Limit'
+        , 'secondary_skills_limit' : 'Secondary Skills Limit'
         , 'receive_tp' : 'Can Receive TP'
         , 'auto_train_cp' : 'Auto-Trained CP'
+        , 'restricted_skills' : 'Can Receive Restricted Skills'
         , 'promotion' : 'Next Rank'
         , 'prominence_factor' : 'Prominence Multiplier'
         } 
@@ -32,5 +34,5 @@ class PilotRankForm(forms.ModelForm):
 class PilotRankAdmin(admin.ModelAdmin):
     model = models.PilotRank
     form = PilotRankForm
-    fields = ('rank',('min_gunnery','min_piloting', 'skills_limit'), ('receive_tp', 'auto_train_cp'),('promotion','prominence_factor'))
+    fields = ('rank',('min_gunnery','min_piloting', 'skills_limit', 'secondary_skills_limit'), ('receive_tp', 'auto_train_cp', 'restricted_skills'),('promotion','prominence_factor'))
 

@@ -9,4 +9,6 @@ Legal,True
 Security,True
 Publicity,True
 Management,True
-In-Week,False
+Before Fight,False
+After Fight,False
+End of Week,False

@@ -55,7 +55,7 @@ class AddPilotTraitAbstract(forms.ModelForm):
 class AddPilotTraitForm(AddPilotTraitAbstract):
     def __init__(self, *args, **kwargs):
         super(AddPilotTraitForm, self).__init__(*args, **kwargs)
-        self.fields['trait'].choices = self.get_choices(PilotTraitGroup.objects.exclude(discipline_type='T'))
+        self.fields['trait'].choices = self.get_choices(PilotTraitGroup.objects.exclude(discipline_type__in=('T','S')))
         self.fields['trait'].label = 'Skill:'
 
 PilotTraitFormSet = forms.inlineformset_factory(models.PilotWeek, models.PilotWeekTraits, form=AddPilotTraitForm, extra=0)
@@ -63,7 +63,7 @@ PilotTraitFormSet = forms.inlineformset_factory(models.PilotWeek, models.PilotWe
 class AddPilotTrainingForm(AddPilotTraitAbstract):
     def __init__(self, *args, **kwargs):
         super(AddPilotTrainingForm, self).__init__(*args, **kwargs)
-        self.fields['trait'].choices = self.get_choices(PilotTraitGroup.objects.filter(discipline_type='T'))
+        self.fields['trait'].choices = self.get_choices(PilotTraitGroup.objects.filter(discipline_type__in=('T','S')))
         self.fields['trait'].label = 'Problem:'
 
 PilotTrainingFormSet = forms.inlineformset_factory(models.PilotWeek, models.PilotWeekTraits, form=AddPilotTrainingForm, extra=0)

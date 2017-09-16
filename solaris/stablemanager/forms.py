@@ -7,7 +7,7 @@ from solaris.campaign.models import BroadcastWeek
 from solaris.warbook.models import House, house_list_as_opttree
 
 class StableRegistrationForm(ModelForm):
-    stable_disciplines = ModelMultipleChoiceField(label='Disciplines', required=True, queryset=PilotTraitGroup.objects.filter(discipline_type='T'))
+    stable_disciplines = ModelMultipleChoiceField(label='Disciplines', required=True, queryset=PilotTraitGroup.objects.filter(discipline_type='T', rank_restricted=False))
     
     def __init__(self, **kwargs):
         super(StableRegistrationForm, self).__init__(**kwargs)  

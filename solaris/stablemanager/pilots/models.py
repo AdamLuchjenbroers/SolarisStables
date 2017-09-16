@@ -252,7 +252,7 @@ class PilotWeek(models.Model):
 
         to_copy = (
           self.traits.all()
-        , self.training.filter(training__training__in=('S','T'))
+        , self.training.filter(training__training__in=('S','T','2'))
         , self.new_traits.filter(added=True)
         )
 
@@ -340,6 +340,18 @@ class PilotWeek(models.Model):
         skills = self.applied_skill_count() 
         return TrainingCost.objects.get(training='S', train_from=skills)
 
+    def applied_secondary_skill_count(self):
+        skills = self.traits.filter(trait__discipline__discipline_type='S').count() \
+               + self.training.filter(training__training='2').count()
+        if skills == None:
+            return 0
+        else:
+            return skills
+
+    def next_secondary_skills(self):
+        skills = self.applied_secondary_skill_count() 
+        return TrainingCost.objects.get(training='2', train_from=skills)
+
     def has_discipline(self, discipline):
         if self.traits.filter(trait__discipline=discipline).count() > 0:
             return True
@@ -402,11 +414,13 @@ class PilotTrainingEvent(models.Model):
     def description(self):
         if self.training.training in ('P','G'):
             return 'Upgrade %s to %i' % (self.training.get_training_display(), self.training.train_to)
-        elif self.training.training == 'S':
+        elif self.training.training in ('S', '2'):
+            text = 'Acquire Primary Skill' if self.training.training == 'S' else 'Acquire Secondary Skill'
+
             if self.notes != None:
-                return 'Acquire %s (%s)' % (self.trait, self.notes)
+                return '%s %s (%s)' % (text, self.trait, self.notes)
             else:
-                return 'Acquire %s' % self.trait
+                return '%s %s' % (text, self.trait)
         else:
             return 'Develop %s (%s)' % (self.trait, self.notes)
 

@@ -16,6 +16,7 @@ class TrainingCost(models.Model):
         ('P', 'Piloting'),
         ('G', 'Gunnery'),
         ('S', 'Skills'),
+        ('2', 'Secondary Skills'),
         ('T', 'Other Traits'),
     )
     training = models.CharField(max_length=1, choices=training_options)
@@ -41,8 +42,13 @@ class PilotRank(models.Model):
     min_gunnery = models.IntegerField()
     min_piloting = models.IntegerField()
     skills_limit = models.IntegerField()
+    secondary_skills_limit = models.IntegerField(default=0)
+
+    restricted_skills = models.BooleanField(default=False)
+
     auto_train_cp = models.IntegerField(default=0)
     promotion = models.ForeignKey('PilotRank', null=True, blank=True)
+
     receive_tp = models.BooleanField(default=False) 
     prominence_factor = models.IntegerField(default=0)
     receive_honours = models.BooleanField(default=False)
@@ -63,11 +69,14 @@ class PilotTraitGroup(models.Model):
     
     discipline_options = (
                      ('T', 'Training')
+                   , ('S', 'Secondary Skills')
                    , ('I', 'Issues') # Ego problems, family issues, etc
                    , ('O', 'Other') # Subdermal armour or other odd traits
                    )    
     discipline_type = models.CharField(max_length=1, choices=discipline_options, default='I')
   
+    rank_restricted = models.BooleanField(default=False)
+
     def get_markup_blurb(self):
         return mark_safe(self.blurb)
   
@@ -98,8 +107,7 @@ class PilotTrait(models.Model):
     bv_mod = models.DecimalField(max_digits=6 ,decimal_places=3 ,choices=bv_modifiers)
 
     table = models.CharField(default='-', max_length=6, null=True)
-    item = models.IntegerField(null=True)
-    
+    item = models.CharField(default='-', max_length=6, null=True)
     
     def bv_text(self):
         bv_description = self.get_bv_mod_display()
