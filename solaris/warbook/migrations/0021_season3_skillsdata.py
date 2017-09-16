@@ -6,8 +6,31 @@ from csv import DictReader
 from django.db import models, migrations
 from django.conf import settings
 
+from solaris.utilities.data.csvtools import csv_import_to_model, migration_map_fk
 from solaris.utilities.data.pilotskills import load_pilottraitgroup_csv, load_pilottrait_csv
 from solaris.utilities.data.houses import load_house_csv
+
+def load_action_groups(apps, schema_editor):
+    ActionGroup = apps.get_model('warbook', 'ActionGroup')
+    ActionGroup.objects.all().delete()
+
+    csv_import_to_model('data/warbook.actiongroups.csv'
+                       , ActionGroup, ['group','start_only']
+                       , booleanFields=['start_only',]
+                       , keyFields=['group',]
+                       )
+
+def load_action_types(apps, schema_editor):
+    ActionType = apps.get_model('warbook', 'ActionType')
+    ActionType.objects.all().delete()
+
+
+    csv_import_to_model('data/warbook.actiontypes.csv'
+                       , ActionType
+                       , ['group', 'action', 'base_cost', 'base_cost_max', 'description', 'max_per_week']
+                       , keyFields=['action','group']
+                       , mapFunctions={'group': migration_map_fk(apps, 'warbook', 'ActionGroup', 'group')} 
+                       )
 
 def add_secondary_training_cost(apps, schema_editor):
     TrainingCost = apps.get_model('warbook', 'TrainingCost')
@@ -98,4 +121,6 @@ class Migration(migrations.Migration):
         migrations.RunPython(reload_traits, reverse_code=noop),
         migrations.RunPython(update_house_info, reverse_code=noop),
         migrations.RunPython(add_rank_skill_info, reverse_code=noop),
+        migrations.RunPython(load_action_groups, reverse_code=noop),
+        migrations.RunPython(load_action_types, reverse_code=noop),
     ]
