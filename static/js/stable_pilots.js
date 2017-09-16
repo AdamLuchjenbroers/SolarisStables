@@ -296,30 +296,6 @@ function change_honoured_pilot() {
   });
 }
 
-function submit_pilot_training() {
-  training = {
-    'callsign' : $('#pilot-training-pilot option:selected').text()
-  , 'training' : $('#pilot-training-training').val()
-  };
-
-  if (training['training'].charAt(0) == 'S') {
-    training['skill'] = $('#pilot-training-skill').val();
-    training['notes'] = $('#pilot-training-notes').val();
-  };  
-
-  $.ajax({
-    type : 'post'
-  , url  : window.location.href + '/add-training'
-  , dataType : 'json'
-  , data : training
-  }).done(function(response) { 
-     pilot_row_update(response['callsign'], response['spent-xp'], response['final-xp'], response['locked'], response['honoured'])
-
-     reset_training_form();
-     reload_training_table();
-  }); 
-}
-
 function submit_pilot_trait() {
   trait = {
     'callsign' : $('#pilot-trait-pilot option:selected').text()
@@ -528,7 +504,8 @@ function submit_pilot_training() {
   , 'training' : $('#pilot-training-training').val()
   };
 
-  if (training['training'].charAt(0) == 'S') {
+  training_type = training['training'].charAt(0);
+  if ( training_type == 'S' || training_type == '2') {
     training['skill'] = $('#pilot-training-skill').val();
     training['notes'] = $('#pilot-training-notes').val();
   };  
