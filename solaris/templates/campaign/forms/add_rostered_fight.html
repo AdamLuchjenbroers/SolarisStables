@@ -1,3 +1,31 @@
 <h2>Add Fight</h2>
-  {{form.as_p}}
+<form id="new-roster-form"> 
+  <div class="single-line-form">
+    <span class="{{form.fight_type.name}}"><div class="label-small">{{ form.fight_type.label }}</div>{{ form.fight_type }}</span>
+    <span class="{{form.fight_map.name}}"><div class="label-small">{{ form.fight_map.label }}</div>{{ form.fight_map }}</span>
+    <span class="{{form.purse.name}}"><div class="label-small">{{ form.purse.label }}</div>{{ form.purse }}</span>
+  </div> 
+
+  <h3>To Field</h3>
+ 
+  <div class="single-line-form">
+    <span class="{{form.weightclass.name}}"><div class="label-small">{{ form.weightclass.label }}</div>{{ form.weightclass }}</span>
+  <span class="form-or">OR</span>
+    <span class="{{form.chassis.name}}"><div class="label-small">{{ form.chassis.label }}</div>{{ form.chassis }}</span>
+  <span class="form-or">OR</span>
+    <span class="{{form.units.name}}">
+      <div class="label-small">
+        <span class="{{form.units.name}}">{{ form.units.label }}</span>
+        <span class="label-join">&nbsp;</span>
+        <span class="{{form.tonnage.name}}">{{ form.tonnage.label }}</span>
+      </div>
+      {{form.units}}
+      <span class="label-join">&amp;</span>
+      {{form.tonnage}}
+    </span>
+  <span class="form-or">OR</span>
+    <span class="{{form.fight_class.name}}"><div class="label-small">{{ form.fight_class.label }}</div>{{ form.fight_class }}</span>
+  </div>
+</form>
+
 

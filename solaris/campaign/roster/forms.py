@@ -13,4 +13,4 @@ class AddFightForm(forms.ModelForm):
 
     class Meta:
         model = models.RosteredFight
-        fields = ('fight_type', 'fight_map', 'units', 'weightclass', 'tonnage', 'chassis', 'purse')
+        fields = ('fight_type', 'fight_map', 'units', 'weightclass', 'tonnage', 'chassis', 'fight_class', 'purse')

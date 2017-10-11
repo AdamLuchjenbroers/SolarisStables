@@ -1919,6 +1919,10 @@ table.pilots td.total {
   display: inline-block;
 }
 
+.single-line-form .label-join {
+  width: 1em;
+}
+
 .form-row .error input,
 .form-row .error select {
   background-color: #FFBBBB;
@@ -2047,6 +2051,40 @@ ul.chit-list li.stable-discipline a:hover {
 }
 
 /****************************************
+ * Campaign Roster
+ ****************************************/
+
+#new-roster-form .fight_type select,
+#new-roster-form .fight_map select,
+#new-roster-form .purse input,
+#new-roster-form .chassis select,
+#new-roster-form .fight_class select,
+#new-roster-form .weightclass select {
+  width: 12em;
+}
+
+#new-roster-form .units input,
+#new-roster-form .units .label-small span {
+  margin-left: 0.5rem;
+  width: 2.5rem;
+}
+
+#new-roster-form .units .label-small span {
+  /* Correct for the border */
+  margin-right: 2px;
+}
+
+#new-roster-form .units span.label-join {
+  width: 0.8rem;
+  border: 0px;
+  margin: 0px;
+}
+
+
+
+
+
+/****************************************
  * UI Elements 
  ****************************************/
 
@@ -2135,6 +2173,10 @@ input.icon-button:disabled {
 .label-small {
   display: block;
   font-size: x-small;
+}
+
+.label-separator {
+  font-weight: bold;
 }
 
 .editable:hover {
