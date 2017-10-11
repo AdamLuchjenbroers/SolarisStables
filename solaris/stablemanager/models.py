@@ -67,7 +67,7 @@ class Stable(models.Model):
         if self.stable_slug == None:
             self.stable_slug = slugify(unicode(self.stable_name))
 
-        super(Stable, self).save()
+        super(Stable, self).save(*args, **kwargs)
         
      
 class StableWeek(models.Model):
