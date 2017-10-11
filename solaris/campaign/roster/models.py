@@ -27,9 +27,11 @@ class RosteredFight(models.Model):
     units = models.IntegerField(default=1)
     
     # For Omnimech fights and special challenges
+    weightclass = models.ForeignKey('warbook.WeightClass', null=True, blank=True)
     chassis = models.ForeignKey('warbook.MechDesign', null=True, blank=True)
     tonnage = models.IntegerField(null=True, blank=True)
-    weightclass = models.ForeignKey('warbook.WeightClass', null=True, blank=True)
+    tonnage_units = models.IntegerField(null=True, blank=True)
+    fight_class = models.CharField(max_length=40, blank=True) 
 
     fought = models.BooleanField(default=False)
     conditions = models.ManyToManyField('warbook.FightCondition', through=RosteredFightCondition)
@@ -45,6 +47,22 @@ class RosteredFight(models.Model):
             return '%i Tons'
         else:
             return ''
+
+    def save(self, *args, **kwargs):
+        if self.weightclass != None:
+            self.fight_class = str(self.weightclass)
+        elif self.tonnage != None:
+            if self.tonnage_units == None or self.tonnage_units == 1:
+                self.fight_class = '%i tons' % self.tonnage
+            else:
+                self.fight_class = '%i units, %i tons' % (self.tonnage_units, self.tonnage)
+        elif self.chassis != None:
+            self.fight_class = str(self.chassis)
+        else:
+            # No modification, use fight class text that was provided manually.
+            pass    
+
+        super(RosteredFight, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Rostered Fights'

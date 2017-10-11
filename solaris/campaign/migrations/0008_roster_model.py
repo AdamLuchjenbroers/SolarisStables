@@ -19,6 +19,8 @@ class Migration(migrations.Migration):
                 ('purse', models.IntegerField(null=True, blank=True)),
                 ('units', models.IntegerField(default=1)),
                 ('tonnage', models.IntegerField(null=True, blank=True)),
+                ('tonnage_units', models.IntegerField(null=True, blank=True)),
+                ('fight_class', models.CharField(max_length=40, blank=True)),
                 ('fought', models.BooleanField(default=False)),
                 ('chassis', models.ForeignKey(blank=True, to='warbook.MechDesign', null=True)),
             ],
