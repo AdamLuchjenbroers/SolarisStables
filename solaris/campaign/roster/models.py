@@ -53,13 +53,17 @@ class RosteredFight(models.Model):
  
         if self.weightclass != None:
             self.fight_class = str(self.weightclass)
-        elif self.tonnage != None:
-            if self.tonnage_units > 1:
-                self.fight_class = '%i units, %i tons' % (self.tonnage_units, self.tonnage)
-            else:
-                self.fight_class = '%i tons' % self.tonnage
+            self.group_units = 1
+            self.group_tonnage = self.fight_class.upper
         elif self.chassis != None:
             self.fight_class = str(self.chassis)
+            self.group_units = 1
+            self.group_tonnage = self.chassis.tonnage
+        elif self.group_tonnage != None:
+            if self.group_units > 1:
+                self.fight_class = '%i units, %i tons' % (self.group_units, self.group_tonnage)
+            else:
+                self.fight_class = '%i tons' % self.tonnage
         else:
             # No modification, use fight class text that was provided manually.
             pass    
