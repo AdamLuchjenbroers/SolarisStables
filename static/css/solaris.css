@@ -2063,26 +2063,22 @@ ul.chit-list li.stable-discipline a:hover {
   width: 12em;
 }
 
-#new-roster-form .units input,
-#new-roster-form .units .label-small span {
+#new-roster-form .group_units input,
+#new-roster-form .group_units .label-small span {
   margin-left: 0.5rem;
   width: 2.5rem;
 }
 
-#new-roster-form .units .label-small span {
+#new-roster-form .group_units .label-small span {
   /* Correct for the border */
   margin-right: 2px;
 }
 
-#new-roster-form .units span.label-join {
+#new-roster-form .group_units span.label-join {
   width: 0.8rem;
   border: 0px;
   margin: 0px;
 }
-
-
-
-
 
 /****************************************
  * UI Elements 

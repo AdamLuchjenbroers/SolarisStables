@@ -13,15 +13,15 @@
   <span class="form-or">OR</span>
     <span class="{{form.chassis.name}}"><div class="label-small">{{ form.chassis.label }}</div>{{ form.chassis }}</span>
   <span class="form-or">OR</span>
-    <span class="{{form.units.name}}">
+    <span class="{{form.group_units.name}}">
       <div class="label-small">
-        <span class="{{form.units.name}}">{{ form.units.label }}</span>
+        <span class="{{form.group_units.name}}">{{ form.group_units.label }}</span>
         <span class="label-join">&nbsp;</span>
-        <span class="{{form.tonnage.name}}">{{ form.tonnage.label }}</span>
+        <span class="{{form.group_tonnage.name}}">{{ form.group_tonnage.label }}</span>
       </div>
-      {{form.units}}
+      {{form.group_units}}
       <span class="label-join">&amp;</span>
-      {{form.tonnage}}
+      {{form.group_tonnage}}
     </span>
   <span class="form-or">OR</span>
     <span class="{{form.fight_class.name}}"><div class="label-small">{{ form.fight_class.label }}</div>{{ form.fight_class }}</span>
