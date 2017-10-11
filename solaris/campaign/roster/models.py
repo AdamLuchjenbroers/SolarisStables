@@ -24,13 +24,12 @@ class RosteredFight(models.Model):
     fight_type = models.ForeignKey('warbook.FightType')
     fight_map = models.ForeignKey('warbook.Map')
     purse = models.IntegerField(blank=True, null=True)
-    units = models.IntegerField(default=1)
     
     # For Omnimech fights and special challenges
     weightclass = models.ForeignKey('warbook.WeightClass', null=True, blank=True)
     chassis = models.ForeignKey('warbook.MechDesign', null=True, blank=True)
-    tonnage = models.IntegerField(null=True, blank=True)
-    tonnage_units = models.IntegerField(null=True, blank=True)
+    group_tonnage = models.IntegerField(null=True, blank=True)
+    group_units = models.IntegerField(default=1)
     fight_class = models.CharField(max_length=40, blank=True) 
 
     fought = models.BooleanField(default=False)
@@ -49,13 +48,16 @@ class RosteredFight(models.Model):
             return ''
 
     def save(self, *args, **kwargs):
+        if self.group_units == None:
+           self.group_units = 1
+ 
         if self.weightclass != None:
             self.fight_class = str(self.weightclass)
         elif self.tonnage != None:
-            if self.tonnage_units == None or self.tonnage_units == 1:
-                self.fight_class = '%i tons' % self.tonnage
-            else:
+            if self.tonnage_units > 1:
                 self.fight_class = '%i units, %i tons' % (self.tonnage_units, self.tonnage)
+            else:
+                self.fight_class = '%i tons' % self.tonnage
         elif self.chassis != None:
             self.fight_class = str(self.chassis)
         else:
@@ -69,4 +71,4 @@ class RosteredFight(models.Model):
         verbose_name = 'Rostered Fight'
         db_table = 'campaign_rosteredfight'
         app_label = 'campaign'
-        ordering = ['fight_type__order', 'units', 'weightclass__lower', 'tonnage']
+        ordering = ['fight_type__order', 'group_units', 'weightclass__lower', 'group_tonnage']

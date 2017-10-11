@@ -17,15 +17,14 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('purse', models.IntegerField(null=True, blank=True)),
-                ('units', models.IntegerField(default=1)),
-                ('tonnage', models.IntegerField(null=True, blank=True)),
-                ('tonnage_units', models.IntegerField(null=True, blank=True)),
+                ('group_tonnage', models.IntegerField(null=True, blank=True)),
+                ('group_units', models.IntegerField(default=1)),
                 ('fight_class', models.CharField(max_length=40, blank=True)),
                 ('fought', models.BooleanField(default=False)),
                 ('chassis', models.ForeignKey(blank=True, to='warbook.MechDesign', null=True)),
             ],
             options={
-                'ordering': ['fight_type__order', 'units', 'weightclass__lower', 'tonnage'],
+                'ordering': ['fight_type__order', 'group_units', 'weightclass__lower', 'group_tonnage'],
                 'db_table': 'campaign_rosteredfight',
                 'verbose_name': 'Rostered Fight',
                 'verbose_name_plural': 'Rostered Fights',
