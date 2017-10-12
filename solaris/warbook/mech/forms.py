@@ -1,13 +1,14 @@
 from django.forms import CharField, IntegerField, ChoiceField, Form
 
+from solaris.fields import TonnageField
 from solaris.warbook.models import House, house_list_as_opttree
 from solaris.warbook.refdata import technology_tiers
 
 class MechSearchForm(Form):
     mech_name = CharField(label='Mech Name', required=False)
     mech_code = CharField(label='Mech Code', required=False)
-    tonnage_low = IntegerField(label='Min Tons', required=False)
-    tonnage_high = IntegerField(label='Max Tons', required=False)
+    tonnage_low = TonnageField(label='Min Tons', required=False)
+    tonnage_high = TonnageField(label='Max Tons', required=False)
     cost_low = IntegerField(label='Min Cost', required=False)
     cost_high = IntegerField(label='Max Cost', required=False)
     bv_low = IntegerField(label='Min BV', required=False)
