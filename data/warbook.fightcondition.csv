@@ -1,0 +1,3 @@
+name,rules
+Hot,"During the heat phase, all mechs gain the specified amount of heat."
+Cold,"During the heat phase, all mechs lose the specified amount of heat."

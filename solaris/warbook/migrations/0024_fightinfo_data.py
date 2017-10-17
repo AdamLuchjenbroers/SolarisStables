@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 from django.conf import settings
 
-from solaris.utilities.data.fightinfo import load_weightclass_csv, load_fightgroup_csv, load_fighttype_csv, load_map_csv
+from solaris.utilities.data.fightinfo import load_weightclass_csv, load_fightgroup_csv, load_fighttype_csv, load_fightcondition_csv, load_map_csv
 
 def load_weightclasses(apps, schema_editor):
     fields = ['name', 'lower', 'upper']
@@ -45,7 +45,16 @@ def load_maps(apps, schema_editor):
 def clear_maps(apps, schema_editor):
     Map = apps.get_model('warbook', 'Map')
     Map.objects.all().delete()
+    
+def load_fightconditions(apps, schema_editor):
+    fields = ['name', 'rules']
+    FightCondition = apps.get_model('warbook', 'FightCondition')
+    
+    load_fightcondition_csv('data/warbook.fightcondition.csv', csvfields=fields, FightCondition=FightCondition)            
 
+def clear_fightconditions(apps, schema_editor):
+    FightCondition = apps.get_model('warbook', 'FightCondition')
+    FightCondition.objects.all().delete()
 
 class Migration(migrations.Migration):
 
@@ -58,4 +67,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(load_fightgroups, reverse_code=clear_fightgroups),
         migrations.RunPython(load_fighttypes, reverse_code=clear_fighttypes),
         migrations.RunPython(load_maps, reverse_code=clear_maps),
+        migrations.RunPython(load_fightconditions, reverse_code=clear_fightconditions),
     ]
