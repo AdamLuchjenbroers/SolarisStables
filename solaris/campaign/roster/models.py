@@ -35,17 +35,11 @@ class RosteredFight(models.Model):
     fought = models.BooleanField(default=False)
     conditions = models.ManyToManyField('warbook.FightCondition', through=RosteredFightCondition)
 
-    def weightclass_text(self):
-        if self.units == 1:
-            if self.chassis != None:
-               return self.chassis
-            elif self.weightclass != None:
-               return self.weightclass
-        
-        if self.tonnage != None:
-            return '%i Tons'
-        else:
-            return ''
+    def list_conditions(self):
+        return 'TODO: List conditions'
+
+    def __unicode__(self):
+        return '%s %s : %s on %s' % (self.week, self.fight_type, self.fight_class, self.fight_map)
 
     def save(self, *args, **kwargs):
         if self.group_units == None:
