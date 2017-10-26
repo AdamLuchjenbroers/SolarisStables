@@ -22,16 +22,10 @@ class FightRosterMixin(CampaignWeekMixin):
         return page_context
 
 class FightRosterView(FightRosterMixin, TemplateView):
-    template_name = 'campaign/fights.html'
+    template_name = 'campaign/campaign_roster.html'
     view_url_name = 'campaign_fights'
     submenu_selected = 'Fights'
 
-    def get_context_data(self, **kwargs):
-        page_context = super(FightRosterView, self).get_context_data(**kwargs)
-
-        page_context['add_form'] = forms.AddFightForm()
-
-        return page_context
 
 class AddFightFormView(CampaignWeekMixin, FormView):
     template_name = 'campaign/forms/add_rostered_fight.html'
