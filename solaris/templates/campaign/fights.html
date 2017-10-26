@@ -1,5 +1,10 @@
 {% extends 'campaign/campaign_base.html' %}
 
+{% block pageheader %}
+  {{ block.super }}
+  <script src="/static/js/campaign_roster.js" type="text/javascript" > </script>
+{% endblock %}
+
 {% block pagebody %}
 <div class="body">
   <h1>Fights Roster - Week {{week.week_number}}</h1>
@@ -7,8 +12,9 @@
   {% include 'campaign/fragments/fights_list.html' %}
 
   {% if perms.campaign.add_rosteredfight %}
-    {% include 'campaign/forms/add_rostered_fight.html' with form=add_form %}
+    <button id="button-add-fight" form_url="{%url 'campaign_add_fights' week=week.week_number%}" class="word-button">Add Fight</button>
   {% endif %}
 
 </div>
+<div class="hidden" title="Add Fight" id="dialog-add-fight"></div>
 {% endblock %}
