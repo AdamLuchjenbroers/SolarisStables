@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView, FormView, View
 
 from solaris.campaign.views import CampaignWeekMixin
 from solaris.warbook.fightinfo.models import FightGroup
@@ -32,3 +32,10 @@ class FightRosterView(FightRosterMixin, TemplateView):
         page_context['add_form'] = forms.AddFightForm()
 
         return page_context
+
+class AddFightFormView(CampaignWeekMixin, FormView):
+    template_name = 'campaign/forms/add_rostered_fight.html'
+    form_class = forms.AddFightForm
+    success_url = '#'
+
+    
