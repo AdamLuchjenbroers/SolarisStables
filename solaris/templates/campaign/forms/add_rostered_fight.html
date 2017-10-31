@@ -1,5 +1,5 @@
 <h2>Add Fight</h2>
-<form id="new-roster-form"> 
+<form id="new-roster-form"  submit_url="{% url 'campaign_add_fights' week=week.week_number %}"> 
   <div class="single-line-form">
     <span class="{{form.fight_type.name}}"><div class="label-small">{{ form.fight_type.label }}</div>{{ form.fight_type }}</span>
     <span class="{{form.fight_map.name}}"><div class="label-small">{{ form.fight_map.label }}</div>{{ form.fight_map }}</span>

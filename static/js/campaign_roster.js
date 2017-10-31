@@ -4,10 +4,30 @@ function show_fight_form() {
       modal : true
     , width : '80%'
     , buttons : {
-      Submit : function() {}
+      Submit : function() { submit_fight_form($('#new-roster-form').attr('submit_url')); }
     , Cancel : function() { $(this).dialog("close"); }
     }
     });
+  });
+}
+
+function submit_fight_form(submit_url) {
+  formdata = form_to_dictionary("#add-fight-form");
+
+  $.ajax({
+    type : 'post'
+  , url  : submit_url
+  , dataType : 'html'
+  , data: formdata
+  , statusCode : {
+      201 : function() { 
+        reload_fights();
+        $('#dialog-add-fight').dialog('close');
+      }
+    , 200 : function(response, statusText, jqXHR) {
+        $('#dialog-add-fight').replaceWith(response);
+      }
+    } 
   });
 }
 
