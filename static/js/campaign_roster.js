@@ -22,11 +22,14 @@ function submit_fight_form(form_id) {
   , data: formdata
   , statusCode : {
       201 : function() { 
-        reload_fights();
+        //reload_fights();
         $('#dialog-add-fight').dialog('close');
       }
     , 200 : function(response, statusText, jqXHR) {
-        $('#dialog-add-fight').replaceWith(response);
+        $('#dialog-add-fight').html(response);
+
+        //Because it hides itself all over again...
+        show_fight_form();
       }
     } 
   });
