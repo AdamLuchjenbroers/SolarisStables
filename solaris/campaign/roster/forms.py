@@ -14,6 +14,20 @@ class AddFightForm(forms.ModelForm):
         omnis = MechDesign.objects.filter(is_omni=True, omni_basechassis=None).order_by('mech_name','mech_code')
         omni_choices = [(None, '---------'), ] +[ (m.id, '%s %s' % (m.mech_name, m.mech_code)) for m in omnis]
         self.fields['chassis'].choices = omni_choices
+
+    def clean_chassis(self):
+        chassis = self.cleaned_data['chassis']
+        if chassis == '':
+            return None
+        else:
+            return chassis
+
+    def clean_group_tonnage(self):
+        chassis = self.cleaned_data['group_tonnage']
+        if chassis == '':
+            return None
+        else:
+            return chassis
         
     class Meta:
         model = models.RosteredFight
