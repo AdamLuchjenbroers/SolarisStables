@@ -33,12 +33,10 @@ class AddFightFormView(CampaignWeekMixin, FormView):
     success_url = '#'
 
     def post(self, request, week=None):
-        form = forms.AddFightForm(request.POST)
+        form = forms.AddFightForm(request.POST, week=week)
 
         if form.is_valid():
-            fight = form.save(commit=False)
-            fight.week = self.week
-            fight.save()    
+            fight = form.save()
  
             return HttpResponse('Fight Added', status=201)
         else:
