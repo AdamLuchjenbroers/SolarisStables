@@ -201,7 +201,7 @@ function render_loadout_purchaseform(response) {
     mech_html += "<span class=\"mech-model\">" + loadout;
     mech_html += "</span></input></li>"; 
   
-    $('#mech_refit_form ul.refit-mechs').append(mech_html);
+    $('#mech_purchase_custom ul.refit-mechs').append(mech_html);
     $('#mech_refit_form li.hidden').fadeIn();
   });
 }
@@ -359,9 +359,9 @@ function render_upload_purchaseform(response) {
     $('#mech-purchase-custom .mech-purchase-model').html(model_html);
     $('#mech-purchase-custom .mech-purchase-cost').text('-' + response['cost']);
   } else if ( response['num_loadouts'] == 1) {
-    loadout = keys(response['loadouts'])[0];
+    loadout = Object.keys(response['loadouts'])[0];
       
-    model_html = response['mech_name'] + ' (' + loadout + ')';
+    model_html = response['mech_code'] + ' (' + loadout + ')';
     model_html += '<input type=\"hidden\" name=\"mech_code\" id=\"id_ssw_mech_code\" ';
     model_html += 'loadout=\"' + loadout + '\" '
     model_html += 'value=\"' + response['mech_code'] + "\"/>";
