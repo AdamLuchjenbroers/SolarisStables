@@ -48,7 +48,7 @@ class RosteredFight(models.Model):
         if self.weightclass != None:
             self.fight_class = str(self.weightclass)
             self.group_units = 1
-            self.group_tonnage = self.fight_class.upper
+            self.group_tonnage = self.weightclass.upper
         elif self.chassis != None:
             self.fight_class = str(self.chassis)
             self.group_units = 1

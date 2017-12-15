@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView, FormView, View
+from django.http import HttpResponse 
 
 from solaris.campaign.views import CampaignWeekMixin
 from solaris.warbook.fightinfo.models import FightGroup
@@ -32,12 +33,16 @@ class AddFightFormView(CampaignWeekMixin, FormView):
     form_class = forms.AddFightForm
     success_url = '#'
 
-    def post(self, request, week=None):
-        form = forms.AddFightForm(request.POST, week=week)
+    def get(self, request):
+        form = forms.AddFightForm(week=self.week)
+        return self.render_to_response(self.get_context_data(form=form)) 
+
+    def post(self, request):
+        form = forms.AddFightForm(data=request.POST, week=self.week)
 
         if form.is_valid():
             fight = form.save()
  
             return HttpResponse('Fight Added', status=201)
         else:
-            return super(AddFightFormView, self).post(request, week=week)
+            return super(AddFightFormView, self).post(request)
