@@ -1,13 +1,15 @@
-function show_fight_form() {
-  $('#dialog-add-fight').load( $('#button-add-fight').attr('form_url'), function() {
-    $(this).dialog({
-      modal : true
-    , width : '80%'
-    , buttons : {
-      Submit : function() { submit_fight_form('#add-fight-form'); }
-    , Cancel : function() { $(this).dialog("close"); }
+function load_fight_form() {
+  $('#dialog-add-fight').load( $('#button-add-fight').attr('form_url'), display_fight_form);
+}
+
+function display_fight_form() {
+  $(this).dialog({
+    modal : true
+  , width : '80%'
+  , buttons : {
+    Submit : function() { submit_fight_form('#add-fight-form'); }
+  , Cancel : function() { $(this).dialog("close"); }
     }
-    });
   });
 }
 
@@ -29,14 +31,7 @@ function submit_fight_form(form_id) {
         $('#dialog-add-fight').html(response);
 
         //Because it hides itself all over again...
-        $(this).dialog({
-          modal : true
-        , width : '80%'
-        , buttons : {
-          Submit : function() { submit_fight_form('#add-fight-form'); }
-        , Cancel : function() { $(this).dialog("close"); }
-        }
-        });
+        display_fight_form()
       }
     } 
   });
@@ -45,5 +40,5 @@ function submit_fight_form(form_id) {
 }
 
 $( document ).ready(function() {
-  $('#button-add-fight').click(show_fight_form);
+  $('#button-add-fight').click(load_fight_form);
 });
