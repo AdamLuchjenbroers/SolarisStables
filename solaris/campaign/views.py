@@ -61,9 +61,10 @@ class CampaignWeekMixin(CampaignViewMixin):
     week_navigation = True
     can_advance_week = True
 
-    def dispatch(self, request, week=None, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         self.set_campaign()
 
+        week = kwargs.pop('week', None)
         if week == None:
             self.week = self.campaign.current_week()
         else:
