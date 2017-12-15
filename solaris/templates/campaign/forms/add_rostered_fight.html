@@ -1,31 +1,39 @@
 <h2>Add Fight</h2>
-<form id="add-fight-form"  submit_url="{% url 'campaign_add_fights' week=week.week_number %}"> 
-  <div class="single-line-form">
-    <span class="{{form.fight_type.name}}"><div class="label-small">{{ form.fight_type.label }}</div>{{ form.fight_type }}</span>
-    <span class="{{form.fight_map.name}}"><div class="label-small">{{ form.fight_map.label }}</div>{{ form.fight_map }}</span>
-    <span class="{{form.purse.name}}"><div class="label-small">{{ form.purse.label }}</div>{{ form.purse }}</span>
-  </div> 
+  {% for e in form.errors %}
+     {%if forloop.first%} <uL> {%endif%}
+     <li>{{e}}
+     {%if forloop.last%}  </uL> {%endif%}
+  {% endfor %}
 
-  <h3>To Field</h3>
- 
-  <div class="single-line-form">
-    <span class="{{form.weightclass.name}}"><div class="label-small">{{ form.weightclass.label }}</div>{{ form.weightclass }}</span>
-  <span class="form-or">OR</span>
-    <span class="{{form.chassis.name}}"><div class="label-small">{{ form.chassis.label }}</div>{{ form.chassis }}</span>
-  <span class="form-or">OR</span>
-    <span class="{{form.group_units.name}}">
-      <div class="label-small">
-        <span class="{{form.group_units.name}}">{{ form.group_units.label }}</span>
-        <span class="label-join">&nbsp;</span>
-        <span class="{{form.group_tonnage.name}}">{{ form.group_tonnage.label }}</span>
+<form id="add-fight-form"  submit_url="{% url 'campaign_add_fights' week=week.week_number %}"> 
+  <div class="flexbox-form-box">
+    <div class="flexbox-form-column">
+      <span class="{{form.fight_type.name}}"><div class="label-small">{{ form.fight_type.label }}</div>{{ form.fight_type }}</span>
+      <span class="{{form.fight_map.name}}"><div class="label-small">{{ form.fight_map.label }}</div>{{ form.fight_map }}</span>
+      <span class="{{form.purse.name}}"><div class="label-small">{{ form.purse.label }}</div>{{ form.purse }}</span>
+    </div>
+    <div class="flexbox-form-divide"></div> 
+    <div class="flexbox-form-column">
+      <div class="{{form.weightclass.name}}"><div class="label-small">{{ form.weightclass.label }}</div>{{ form.weightclass }}</div>
+      <span class="form-or">OR</span>
+      <div class="{{form.chassis.name}}"><div class="label-small">{{ form.chassis.label }}</div>{{ form.chassis }}</div>
+      <span class="form-or">OR</span>
+      <div class="{{form.group_units.name}}">
+        <div class="label-small">
+          <span class="{{form.group_units.name}}">{{ form.group_units.label }}</span>
+          <span class="label-join">&nbsp;</span>
+          <span class="{{form.group_tonnage.name}}">{{ form.group_tonnage.label }}</span>
+        </div>
+        {{form.group_units}}
+        <span class="label-join">&amp;</span>
+        {{form.group_tonnage}}
       </div>
-      {{form.group_units}}
-      <span class="label-join">&amp;</span>
-      {{form.group_tonnage}}
-    </span>
-  <span class="form-or">OR</span>
-    <span class="{{form.fight_class.name}}"><div class="label-small">{{ form.fight_class.label }}</div>{{ form.fight_class }}</span>
+      <span class="form-or">OR</span>
+      <div class="{{form.fight_class.name}}"><div class="label-small">{{ form.fight_class.label }}</div>{{ form.fight_class }}</div>
+    </div>
   </div>
+
+  {{form.week}}
 </form>
 
 

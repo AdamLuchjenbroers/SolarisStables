@@ -29,7 +29,14 @@ function submit_fight_form(form_id) {
         $('#dialog-add-fight').html(response);
 
         //Because it hides itself all over again...
-        show_fight_form();
+        $(this).dialog({
+          modal : true
+        , width : '80%'
+        , buttons : {
+          Submit : function() { submit_fight_form('#add-fight-form'); }
+        , Cancel : function() { $(this).dialog("close"); }
+        }
+        });
       }
     } 
   });
