@@ -6,6 +6,7 @@ from solaris.warbook.mech.models import MechDesign
 from . import models
 
 class AddFightForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         self.week = kwargs.pop('week', None)
 
@@ -17,29 +18,9 @@ class AddFightForm(forms.ModelForm):
         omni_choices = [(None, '---------'), ] +[ (m.id, '%s %s' % (m.mech_name, m.mech_code)) for m in omnis]
         self.fields['chassis'].choices = omni_choices
 
+        self.fields['week'].initial = self.week
 
-    def blank_to_none(self, fieldname):
-        field = self.cleaned_data[fieldname]
-
-        if field == '':
-            return None
-        else:
-            return field
-
-    def clean_chassis(self):
-        return self.blank_to_none('chassis')
-
-    def clean_group_units(self):
-        return self.blank_to_none('group_units')
-
-    def clean_group_tonnage(self):
-        return self.blank_to_none('group_tonnage')
-
-    def clean_weightclass(self):
-        return self.blank_to_none('weightclass')
-         
-    def clean_week(self):
-        return self.week
+        self.fields['group_units'].required = False
 
     class Meta:
         model = models.RosteredFight
@@ -52,3 +33,4 @@ class AddFightForm(forms.ModelForm):
         , 'group_tonnage' : 'Tonnage'
         , 'fight_class' : 'Fight Class (Manual Text)'
         }
+        widgets = { 'week' : forms.HiddenInput }
