@@ -1,8 +1,8 @@
 <h2>Add Fight</h2>
-  {% for e in form.errors %}
-     {%if forloop.first%} <uL> {%endif%}
-     <li>{{e}}
-     {%if forloop.last%}  </uL> {%endif%}
+  {% for field, error in form.errors.items %}
+     {%if forloop.first%} <dl> {%endif%}
+     <dt>{{field}}</dt><dd>{{error}}</dd>
+     {%if forloop.last%}  </dl> {%endif%}
   {% endfor %}
 
 <form id="add-fight-form"  submit_url="{% url 'campaign_add_fights' week=week.week_number %}"> 
