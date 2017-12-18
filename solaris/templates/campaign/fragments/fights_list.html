@@ -1,6 +1,6 @@
 {% for group in group_list %}
   <h2>{{group.name}}</h2>
-    <table class="fight-list">
+    <table class="fight-list" id="fight-roster-list">
       <tr class="fight-header">
         <td colspan=2></td>
         <td class="fight-name">Fight</td>
@@ -11,13 +11,13 @@
       </tr>
 
      {% for fight in group.fights %}
-     <tr class="fight-row">
+     <tr class="fight-row {%cycle 'odd' 'even'%}">
        <td></td><td></td>
-       <td>{{fight.fight_type.name}}</td>
-       <td>{{fight.fight_class}}</td>
-       <td>{{fight.fight_map}}</td>
-       <td>{{fight.list_conditions}}</td>
-       <td>{{fight.purse}}</td>
+       <td class="fight-name">{{fight.fight_type.name}}</td>
+       <td class="fight-class">{{fight.fight_class}}</td>
+       <td class="fight-map">{{fight.fight_map}}</td>
+       <td class="fight-conditions">{{fight.list_conditions}}</td>
+       <td class="fight-purse">{{fight.purse}}</td>
      </tr>
      {% endfor %}
 

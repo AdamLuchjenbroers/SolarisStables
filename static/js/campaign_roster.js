@@ -5,7 +5,7 @@ function load_fight_form() {
 function display_fight_form() {
   $(this).dialog({
     modal : true
-  , width : '48em'
+  , width : '36em'
   , buttons : {
     Submit : function() { submit_fight_form('#add-fight-form'); }
   , Cancel : function() { $(this).dialog("close"); }

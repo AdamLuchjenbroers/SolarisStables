@@ -2054,6 +2054,20 @@ ul.chit-list li.stable-discipline a:hover {
  * Campaign Roster
  ****************************************/
 
+#fight-roster-list .fight-header {
+  font-weight: bold;
+  background: #BBBBBB;
+}
+
+#fight-roster-list .fight-row.even {
+  background: #E0FFC8;
+} 
+
+#fight-roster-list .fight-row.odd {
+  background: #D0FFB0;
+} 
+
+
 #new-roster-form .fight_type select,
 #new-roster-form .fight_map select,
 #new-roster-form .purse input,
