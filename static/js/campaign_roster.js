@@ -13,6 +13,16 @@ function display_fight_form() {
   });
 }
 
+function setup_fight_list() {
+  //Stub
+}
+
+function reload_part(list_id, setup_func) {
+  url = $(list_id).attr('source_url');
+
+  $(list_id).load(url + ' ' + list_id, setup_func);
+}
+
 function submit_fight_form(form_id) {
   submit_url = $(form_id).attr('submit_url');
   formdata = form_to_dictionary(form_id);
@@ -26,6 +36,7 @@ function submit_fight_form(form_id) {
       201 : function() { 
         //reload_fights();
         $('#dialog-add-fight').dialog('close');
+        reload_part('#fight-roster-list', setup_fight_list);
       }
     , 200 : function(response, statusText, jqXHR) {
         $('#dialog-add-fight').html(response);

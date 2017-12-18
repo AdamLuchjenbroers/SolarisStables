@@ -1,6 +1,7 @@
+<div id="fight-roster-list" source_url="{% url 'campaign_fights_listpart' week=week.week_number %}">
 {% for group in group_list %}
   <h2>{{group.name}}</h2>
-    <table class="fight-list" id="fight-roster-list">
+    <table class="fight-list"> 
       <tr class="fight-header">
         <td colspan=2></td>
         <td class="fight-name">Fight</td>
@@ -21,5 +22,6 @@
      </tr>
      {% endfor %}
 
-     </table>
+   </table>
 {% endfor %}
+</div>
