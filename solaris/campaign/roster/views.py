@@ -27,6 +27,9 @@ class FightRosterView(FightRosterMixin, TemplateView):
     view_url_name = 'campaign_fights'
     submenu_selected = 'Fights'
 
+class FightRosterListPartView(FightRosterMixin, TemplateView):
+    template_name = 'campaign/fragments/fights_list.html'
+    view_url_name = 'campaign_fights'
 
 class AddFightFormView(CampaignWeekMixin, FormView):
     template_name = 'campaign/forms/add_rostered_fight.html'
