@@ -123,7 +123,7 @@ Flexbox based column layout
 .flexbox-form-box {
   display: flex; 
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: stretch;
 }
 
