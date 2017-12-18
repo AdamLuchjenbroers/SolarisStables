@@ -8,28 +8,85 @@
 <form id="add-fight-form"  submit_url="{% url 'campaign_add_fights' week=week.week_number %}"> 
   <div class="flexbox-form-box">
     <div class="flexbox-form-column">
-      <span class="{{form.fight_type.name}}"><div class="label-small">{{ form.fight_type.label }}</div>{{ form.fight_type }}</span>
-      <span class="{{form.fight_map.name}}"><div class="label-small">{{ form.fight_map.label }}</div>{{ form.fight_map }}</span>
-      <span class="{{form.purse.name}}"><div class="label-small">{{ form.purse.label }}</div>{{ form.purse }}</span>
+      <div class="flexbox-form-item {%if form.fight_type.errors%}has-errors {%endif%}{{form.fight_type.name}}">
+        <div class="flexbox-form-label">{{ form.fight_type.label }}</div>
+        <div class="flexbox-form-field">{{ form.fight_type }}</div>
+        {% for error in form.fight_type.errors %}
+           {% if forloop.first %}<ul class="flexbox-field-error"> {% endif %}
+           <li>{{error}}</li>
+           {% if forloop.last %}</ul> {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="flexbox-form-item {%if form.fight_map.errors%}has-errors {%endif%}{{form.fight_map.name}}">
+        <div class="flexbox-form-label">{{ form.fight_map.label }}</div>
+        <div class="flexbox-form-field">{{ form.fight_map }}</div>
+        {% for error in form.fight_map.errors %}
+           {% if forloop.first %}<ul class="flexbox-field-error"> {% endif %}
+           <li>{{error}}</li>
+           {% if forloop.last %}</ul> {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="flexbox-form-item {%if form.purse.errors%}has-errors {%endif%}{{form.purse.name}}">
+        <div class="flexbox-form-label">{{ form.purse.label }}</div>
+        <div class="flexbox-form-field">{{ form.purse }}</div>
+        {% for error in form.purse.errors %}
+           {% if forloop.first %}<ul class="flexbox-field-error"> {% endif %}
+           <li>{{error}}</li>
+           {% if forloop.last %}</ul> {% endif %}
+        {% endfor %}
+      </div>
+
     </div>
     <div class="flexbox-form-divide"></div> 
     <div class="flexbox-form-column">
-      <div class="{{form.weightclass.name}}"><div class="label-small">{{ form.weightclass.label }}</div>{{ form.weightclass }}</div>
-      <span class="form-or">OR</span>
-      <div class="{{form.chassis.name}}"><div class="label-small">{{ form.chassis.label }}</div>{{ form.chassis }}</div>
-      <span class="form-or">OR</span>
-      <div class="{{form.group_units.name}}">
-        <div class="label-small">
-          <span class="{{form.group_units.name}}">{{ form.group_units.label }}</span>
-          <span class="label-join">&nbsp;</span>
-          <span class="{{form.group_tonnage.name}}">{{ form.group_tonnage.label }}</span>
-        </div>
-        {{form.group_units}}
-        <span class="label-join">&amp;</span>
-        {{form.group_tonnage}}
+
+      <div class="flexbox-form-item {%if form.weightclass.errors%}has-errors {%endif%}{{form.weightclass.name}}">
+        <div class="flexbox-form-label">{{ form.weightclass.label }}</div>
+        <div class="flexbox-form-field">{{ form.weightclass }}</div>
+        {% for error in form.weightclass.errors %}
+           {% if forloop.first %}<ul class="flexbox-field-error"> {% endif %}
+           <li>{{error}}</li>
+           {% if forloop.last %}</ul> {% endif %}
+        {% endfor %}
       </div>
-      <span class="form-or">OR</span>
-      <div class="{{form.fight_class.name}}"><div class="label-small">{{ form.fight_class.label }}</div>{{ form.fight_class }}</div>
+
+      <div class="form-or">OR</div>
+
+      <div class="flexbox-form-item {%if form.chassis.errors%}has-errors {%endif%}{{form.chassis.name}}">
+        <div class="flexbox-form-label">{{ form.chassis.label }}</div>
+        <div class="flexbox-form-field">{{ form.chassis }}</div>
+        {% for error in form.chassis.errors %}
+           {% if forloop.first %}<ul class="flexbox-field-error"> {% endif %}
+           <li>{{error}}</li>
+           {% if forloop.last %}</ul> {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="form-or">OR</div>
+
+      <div class="flexbox-form-item {%if form.chassis.errors%}has-errors{%endif%} {{form.group_units.name}} {{form.group_tonnage.name}}">
+        <div class="flexbox-form-label">{{ form.group_units.label }} &amp; {{ form.group_tonnage.label }}</div>
+        <div class="flexbox-form-field-multi">{{ form.group_units.label }}:{{ form.group_units }} {{ form.group_tonnage.label }}: {{ form.group_tonnage }}</div>
+        {% for error in form.group_units.errors %}
+           {% if forloop.first %}<ul class="flexbox-field-error"> {% endif %}
+           <li>{{error}}</li>
+           {% if forloop.last %}</ul> {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="form-or">OR</div>
+
+      <div class="flexbox-form-item {%if form.fight_class.errors%}has-errors {%endif%}{{form.fight_class.name}}">
+        <div class="flexbox-form-label">{{ form.fight_class.label }}</div>
+        <div class="flexbox-form-field">{{ form.fight_class }}</div>
+        {% for error in form.fight_class.errors %}
+           {% if forloop.first %}<ul class="flexbox-field-error"> {% endif %}
+           <li>{{error}}</li>
+           {% if forloop.last %}</ul> {% endif %}
+        {% endfor %}
+      </div>
     </div>
   </div>
 
