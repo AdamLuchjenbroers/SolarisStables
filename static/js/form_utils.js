@@ -96,3 +96,9 @@ function to_text_input(field, sender) {
 function refresh_section(id, callback) {
   $(id).load( $(id).attr('refresh_url'), callback );
 }
+
+function reload_part(list_id, setup_func) {
+  url = $(list_id).attr('source_url');
+
+  $(list_id).load(url + ' ' + list_id, setup_func);
+}
