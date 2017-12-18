@@ -57,7 +57,7 @@ class RosteredFight(models.Model):
             if self.group_units > 1:
                 self.fight_class = '%i units, %i tons' % (self.group_units, self.group_tonnage)
             else:
-                self.fight_class = '%i tons' % self.tonnage
+                self.fight_class = '%i tons' % self.group_tonnage
         else:
             # No modification, use fight class text that was provided manually.
             pass    
