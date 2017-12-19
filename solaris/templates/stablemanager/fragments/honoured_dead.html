@@ -2,7 +2,7 @@
 
 <span id="honoured-dead-region">
 {% if honours_list %}
-<table id="honoured-dead-list" class="pilots">
+<table id="honoured-dead-list" class="pilots" source_url="{% url 'stable_honoured_dead' week=week.week_number %}">
   <tr class="header">
     <td class="name">Pilot</td><td class="display-mech">Display Mech</td><td class="fame">Fame</td>
   </tr>

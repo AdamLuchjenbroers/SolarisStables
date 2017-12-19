@@ -1,6 +1,6 @@
 {% load cycle from future %}
 
-<table id="pilot-defer-list" class="pilots">
+<table id="pilot-defer-list" class="pilots" source_url="{% url 'stable_defer' week=week.week_number %}">
   <tr class="header">
     <td class="name">Pilot</td><td class="defer-skill">Issue</td><td class="duration">Remaining</td>
   </tr>

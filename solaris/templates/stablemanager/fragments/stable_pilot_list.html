@@ -1,7 +1,7 @@
 {% load cycle from future %}
 
 {% if object_list %}
-<table id="stable-pilot-table" class="pilots">
+<table id="stable-pilot-table" class="pilots" source_url="{% url 'stable_pilot_list' week=week.week_number %}">
   <tr class="header">
     <td rowspan="2" class="name">Pilot</td>
     <td rowspan="2" class="rank">Rank</td>
