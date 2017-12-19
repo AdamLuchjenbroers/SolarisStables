@@ -10,7 +10,7 @@ from solaris.warbook.pilotskill.models import PilotRank, PilotTrait
 
 from . import models
 
-class TestAddPilotForm(StableTestMixin, TestCase):
+class PilotFormTestMixin(StableTestMixin):
     def setUp(self):
         self.stable = self.createStable()
 
@@ -52,6 +52,7 @@ class TestAddPilotForm(StableTestMixin, TestCase):
 
         return sw.pilots.get(pilot__pilot_callsign=callsign)
 
+class TestAddPilotForm(PilotFormTestMixin, TestCase):
     def test_add_pilot_response(self):
         response = self.client.post(self.url, self.postdata)
 
@@ -95,7 +96,3 @@ class TestAddPilotForm(StableTestMixin, TestCase):
         
         count = pw.traits.filter(trait__discipline__discipline_type='I').count() 
         self.assertEqual(count, 1, 'Expected 1 Pilot Issues, found %i' % count)
-
-
-
-
