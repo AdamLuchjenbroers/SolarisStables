@@ -712,11 +712,11 @@ function reload_defer_table() {
 }
 
 function reload_pilots() {
-  reload_part('#stable-pilot-table', pilot_table_setup);
+  reload_part('#stable-pilot-table', pilot_list_setup);
 }
 
 function reload_honoured_dead() {
-  reload_part('#honoured-dead-region', honoured_dead_setup);
+  reload_part('#honoured-dead-list', honoured_dead_setup);
 }
 
 function validate_training_form() {
