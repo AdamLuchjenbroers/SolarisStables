@@ -43,6 +43,7 @@ class CampaignViewMixin(SolarisViewMixin):
         page_context['submenu'] = [
           {'title' : 'Overview', 'url' : reverse('campaign_overview_now') }
         , {'title' : 'Actions', 'url' : reverse('campaign_actions_now') }
+        , {'title' : 'Tools', 'url' : reverse('campaign_tools_now') }
         ]
 
         return page_context
@@ -96,6 +97,7 @@ class CampaignWeekMixin(CampaignViewMixin):
           {'title' : 'Overview', 'url' : reverse('campaign_overview', kwargs=week_args)}
         , {'title' : 'Actions', 'url' : reverse('campaign_actions', kwargs=week_args)}
         , {'title' : 'Fights', 'url' : reverse('campaign_fights', kwargs=week_args)}
+        , {'title' : 'Tools', 'url' : reverse('campaign_tools', kwargs=week_args)}
         ]
 
         return page_context
