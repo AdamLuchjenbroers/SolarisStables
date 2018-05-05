@@ -7,7 +7,7 @@
  
 {% block pagebody %}
 <div class="body">
-  <form action="/reference/mechs/search" id="mech-search-form" method="POST" class="mechform"> 
+  <form action="{%url 'campaign_tools_mechlist' %}" id="mech-search-form" method="POST" class="mechform"> 
 
     <div class="form-row">
       <span class="label-row">{{form.table_type.label}}</span>

@@ -1,0 +1,19 @@
+{% extends 'campaign/campaign_base.html' %}
+ 
+{% block pagebody %}
+<div class="body">
+  <h1>Generated Mechs Table - {{campaign.name}}</h1>
+  <a href="{%url 'campaign_tools_genmechlist' %}">Generate Mechs Table</a>
+
+  <table>
+    {% for label, mechlist in groups %}
+      <tr>
+      <td rowspan="{{pergroup}}">{{label}}</td>
+      {% for mech in mechlist %} 
+        {% if not forloop.first %}<tr> {%endif%}
+        <td>{{forloop.counter}}</td>
+        <td>{{mech}}</td>
+      {%endfor%}    
+    {% endfor %}
+</div>
+{% endblock %}
