@@ -3,7 +3,6 @@
 {% block pagebody %}
 <div class="body">
   <h1>Generated Mechs Table - {{campaign.name}}</h1>
-  <a href="{%url 'campaign_tools_genmechlist' %}">Generate Mechs Table</a>
 
   <table id="mechroll-list"><tbody>
     {% for label, mechlist in groups %}
@@ -20,5 +19,7 @@
       {%endfor%}    
     {% endfor %}
   </tbody></table>
+
+  <a class="word-button" href="{%url 'campaign_tools_genmechlist' %}">Change Parameters</a>
 </div>
 {% endblock %}
