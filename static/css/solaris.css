@@ -709,9 +709,7 @@ div.news_form input {
   background-color: #BBBBBB;
 }
 
-
-
-#discipline-list .roll-table {
+.roll-table {
  font-size: 140%;
  font-weight: bold;
  letter-spacing: 0.25em;
@@ -754,6 +752,24 @@ div.news_form input {
 
 #mech-search-form .long_number input {
   width: 12em;
+}
+
+#mechroll-list .odd {
+  background-color: #CCCCCC;
+}
+
+#mechroll-list .even {
+  background-color: #BBBBBB;
+}
+
+#mechroll-list .mech-description {
+  font-size: 80%;
+  margin-top: 0.5em;
+}
+
+#mechroll-list a {
+  font-weight: bold;
+  margin-top: 0.2em;
 }
 
 /****************************************

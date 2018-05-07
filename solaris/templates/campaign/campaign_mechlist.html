@@ -5,15 +5,20 @@
   <h1>Generated Mechs Table - {{campaign.name}}</h1>
   <a href="{%url 'campaign_tools_genmechlist' %}">Generate Mechs Table</a>
 
-  <table>
+  <table id="mechroll-list"><tbody>
     {% for label, mechlist in groups %}
-      <tr>
-      <td rowspan="{{pergroup}}">{{label}}</td>
+      <tr class="mechroll-subtable {% cycle 'odd' 'even' as rowclass%}">
+      <td class="roll-table vertical" rowspan="{{pergroup}}">{{label}}</td>
       {% for mech in mechlist %} 
-        {% if not forloop.first %}<tr> {%endif%}
-        <td>{{forloop.counter}}</td>
-        <td>{{mech}}</td>
+        {% if not forloop.first %}<tr class="{{rowclass}}"> {%endif%}
+        <td class="roll-table">{{forloop.counter}}</td>
+        <td>
+           <a href="{{mech.get_absolute_url}}">{{mech}}</a>
+           <div class="mech-description">{{mech.description}}</div>
+        </td>
+        </tr>
       {%endfor%}    
     {% endfor %}
+  </tbody></table>
 </div>
 {% endblock %}
