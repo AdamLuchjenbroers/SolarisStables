@@ -1,4 +1,4 @@
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, ListView
 from django.shortcuts import redirect
 from django.http import Http404
 
@@ -6,7 +6,7 @@ from random import shuffle
 
 from solaris.utils import random_unique_set
 from solaris.campaign.views import CampaignViewMixin, CampaignWeekMixin
-from solaris.warbook.mech.views import MechSearchResultsView
+from solaris.warbook.mech.views import MechSearchMixin
 
 from . import forms
 
@@ -22,11 +22,20 @@ class CampaignToolsView(CampaignWeekMixin, TemplateView):
     view_url_name = 'campaign_tools'
     submenu_selected = 'Tools'
 
-class MechRollTableView(MechSearchResultsView):
+class MechRollTableView(CampaignViewMixin, MechSearchMixin, ListView):
     template_name = 'campaign/campaign_mechlist.html'
+    view_url_name = 'campaign_tools'
+    submenu_selected = 'Mechs'
 
     def get(self, request):
         return redirect('campaign_tools_genmechlist')
+
+    def post(self, request):
+        if request.POST:
+            self.filter_args = self.get_filter_args(request.POST)
+            return super(MechRollTableView, self).get(request)
+        else:
+            return redirect('campaign_tools_genmechlist')
 
     def get_context_data(self, **kwargs):
         page_context = super(MechRollTableView, self).get_context_data(**kwargs)
@@ -54,8 +63,6 @@ class MechRollTableView(MechSearchResultsView):
 
         page_context['pergroup'] = tableinfo['per-group']
         page_context['groups'] = groups
-
-        print groups
 
         return page_context;
 

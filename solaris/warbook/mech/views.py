@@ -35,7 +35,7 @@ class MechDetailViewBase(ReferenceMechMixin, TemplateView):
                                                 , **self.__class__.filters)    
         page_context['detail_class'] = 'mech-view'
         page_context['required_techs'] = page_context['mech'].required_techs.all()
-        if hasattr(self, 'stable'):
+        if hasattr(self, 'stable') and self.stable != None:
             page_context['stable_techs'] = self.stable.get_stableweek().supply_contracts.all()
         
         return page_context
@@ -62,10 +62,8 @@ class MechListView(ReferenceMechMixin, ListView):
         page_context['chassis'] = self.kwargs['name']
         return page_context
 
-class MechSearchResultsView(ReferenceMechMixin, ListView):
-    template_name = 'warbook/mechlist.tmpl'
+class MechSearchMixin(ReferenceMechMixin):
     model = MechDesign
-    submenu_selected = 'Mechs'
     
     translate_terms = {
         u'mech_name' : 'mech_name__iexact',
@@ -98,6 +96,13 @@ class MechSearchResultsView(ReferenceMechMixin, ListView):
   
         return filter_args
         
+    def get_queryset(self):
+        return self.allmechs.filter(**self.filter_args) 
+        
+class MechSearchResultsView(MechSearchMixin, ListView):
+    template_name = 'warbook/mechlist.tmpl'
+    submenu_selected = 'Mechs'
+
     def post(self, request):
             if request.POST:
                 self.filter_args = self.get_filter_args(request.POST)
@@ -111,9 +116,6 @@ class MechSearchResultsView(ReferenceMechMixin, ListView):
             return super(MechSearchResultsView, self).get(request)
         else:
             return redirect('/reference/mechs')
-        
-    def get_queryset(self):
-        return self.allmechs.filter(**self.filter_args) 
     
     def get_context_data(self):
         page_context = super(MechSearchResultsView, self).get_context_data()
