@@ -33,9 +33,14 @@ class MechRollTableView(CampaignViewMixin, MechSearchMixin, ListView):
     def post(self, request):
         if request.POST:
             self.filter_args = self.get_filter_args(request.POST)
+            self.filter_args['production_type'] = 'P'
             return super(MechRollTableView, self).get(request)
         else:
             return redirect('campaign_tools_genmechlist')
+
+    def get_queryset(self):
+        qs = super(MechRollTableView, self).get_queryset()
+        return qs.exclude(omni_loadout__iexact='Base', is_omni=True)
 
     def get_context_data(self, **kwargs):
         page_context = super(MechRollTableView, self).get_context_data(**kwargs)
@@ -50,7 +55,7 @@ class MechRollTableView(CampaignViewMixin, MechSearchMixin, ListView):
             raise Http404('No Mechs Found')
 
         fetch = range(mech_count) * (to_get / mech_count)
-        fetch += random_unique_set(to_get % mech_count, 0, mech_count)
+        fetch += random_unique_set(to_get % mech_count, 0, mech_count-1)
         shuffle(fetch)
 
         groups = []
