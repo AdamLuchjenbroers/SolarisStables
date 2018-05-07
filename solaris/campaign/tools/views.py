@@ -25,7 +25,7 @@ class CampaignToolsView(CampaignWeekMixin, TemplateView):
 class MechRollTableView(CampaignViewMixin, MechSearchMixin, ListView):
     template_name = 'campaign/campaign_mechlist.html'
     view_url_name = 'campaign_tools'
-    submenu_selected = 'Mechs'
+    submenu_selected = 'Tools'
 
     def get(self, request):
         return redirect('campaign_tools_genmechlist')
