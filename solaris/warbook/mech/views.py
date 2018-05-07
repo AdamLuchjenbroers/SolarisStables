@@ -79,7 +79,7 @@ class MechSearchMixin(ReferenceMechMixin):
     }
     
     def get_filter_args(self, requestdata):
-        filter_args = {'production_type' : 'P', 'omni_loadout__iexact' : 'Base'}
+        filter_args = {}
         
         for (term, query_term) in MechSearchResultsView.translate_terms.items() :
             if term in requestdata and requestdata[term] != '':
@@ -106,6 +106,8 @@ class MechSearchResultsView(MechSearchMixin, ListView):
     def post(self, request):
             if request.POST:
                 self.filter_args = self.get_filter_args(request.POST)
+                self.filter_args['production_type'] = 'P'
+                self.filter_args['omni_loadout__iexact'] = 'Base'
                 return super(MechSearchResultsView, self).get(request)
             else:
                 return redirect('/reference/mechs')
@@ -113,6 +115,8 @@ class MechSearchResultsView(MechSearchMixin, ListView):
     def get(self, request):
         if request.GET:
             self.filter_args = self.get_filter_args(request.GET)
+            self.filter_args['production_type'] = 'P'
+            self.filter_args['omni_loadout__iexact'] = 'Base'
             return super(MechSearchResultsView, self).get(request)
         else:
             return redirect('/reference/mechs')
