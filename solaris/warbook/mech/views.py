@@ -104,13 +104,13 @@ class MechSearchResultsView(MechSearchMixin, ListView):
     submenu_selected = 'Mechs'
 
     def post(self, request):
-            if request.POST:
-                self.filter_args = self.get_filter_args(request.POST)
-                self.filter_args['production_type'] = 'P'
-                self.filter_args['omni_loadout__iexact'] = 'Base'
-                return super(MechSearchResultsView, self).get(request)
-            else:
-                return redirect('/reference/mechs')
+        if request.POST:
+            self.filter_args = self.get_filter_args(request.POST)
+            self.filter_args['production_type'] = 'P'
+            self.filter_args['omni_loadout__iexact'] = 'Base'
+            return super(MechSearchResultsView, self).get(request)
+        else:
+            return redirect('/reference/mechs')
          
     def get(self, request):
         if request.GET:
