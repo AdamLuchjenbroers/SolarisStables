@@ -1,0 +1,27 @@
+<div id="fight-roster-list" source_url="{% url 'campaign_fights_listpart' week=week.week_number %}">
+{% for group in group_list %}
+  <h2>{{group.name}}</h2>
+    <table class="fight-list"> 
+      <tr class="fight-header">
+        <td colspan=2></td>
+        <td class="fight-name">Fight</td>
+        <td class="fight-class">Class</td>
+        <td class="fight-map">Map</td>
+        <td class="fight-conditions">Conditions</td>
+        <td class="fight-purse">Purse</td>
+      </tr>
+
+     {% for fight in group.fights %}
+     <tr class="fight-row {%cycle 'odd' 'even'%}">
+       <td></td><td></td>
+       <td class="fight-name">{{fight.fight_type.name}}</td>
+       <td class="fight-class">{{fight.fight_class}}</td>
+       <td class="fight-map">{{fight.fight_map}}</td>
+       <td class="fight-conditions">{{fight.list_conditions}}</td>
+       <td class="fight-purse">{{fight.purse}}</td>
+     </tr>
+     {% endfor %}
+
+   </table>
+{% endfor %}
+</div>

@@ -116,6 +116,70 @@ div.column_field_basic div, div.column_field_basic span, div.column_field_error 
 	float: none;
 }
 
+/*
+Flexbox based column layout
+*/
+
+.flexbox-form-box {
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+.flexbox-form {
+  flex-grow: 1;
+}
+
+.flexbox-form-divide {
+  flex-grow: 0;
+  width: 2px;
+  background: #000000;
+}
+
+.flexbox-form-item {
+  padding: 0.5em;
+
+  margin-bottom: 0.5em;
+}
+
+.flexbox-form-item.has-errors {
+  background: #FF8888;
+
+  border: 1px;
+  border-color: #000000;
+  border-radius: 5px;
+}
+
+.flexbox-form-label {
+  font-size: 80%;
+  font-weight: bold;
+  margin-bottom: 0.2em;
+}
+
+.flexbox-form-field,
+.flexbox-form-field-multi {
+  margin-left: 0.2em;
+}
+
+.flexbox-form-field-multi input {
+  width: 2em;
+}
+
+.flexbox-field-error {
+  margin: 0.2em;
+  font-size: 70%;
+}
+
+.flexbox-form-field input {
+  margin-left: 0px;
+}
+
+.flexbox-form-column .form-or {
+  text-align: center;
+  font-weight: bold;
+}
+
 /* Template Forms */
 div.template_form {
     display: none;

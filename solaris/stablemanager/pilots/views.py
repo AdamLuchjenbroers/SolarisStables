@@ -331,7 +331,7 @@ class AjaxGetPilotSecondarySkillsList(AjaxPilotMixin, View):
 
 class AjaxGetCurrentPilotTraits(AjaxPilotMixin, View):
     def get(self, request, week=None):
-        traits = self.pilotweek.traits.exclude(trait__discipline__discipline_type='T')
+        traits = self.pilotweek.traits.filter(trait__discipline__discipline_type='I')
         trait_list = [ { 'id' : t.trait.id, 'name' : t.trait.name } for t in traits ]
 
         return HttpResponse(json.dumps(trait_list))

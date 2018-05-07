@@ -1,0 +1,25 @@
+{% extends 'campaign/campaign_base.html' %}
+ 
+{% block pagebody %}
+<div class="body">
+  <h1>Generated Mechs Table - {{campaign.name}}</h1>
+
+  <table id="mechroll-list"><tbody>
+    {% for label, mechlist in groups %}
+      <tr class="mechroll-subtable {% cycle 'odd' 'even' as rowclass%}">
+      <td class="roll-table vertical" rowspan="{{pergroup}}">{{label}}</td>
+      {% for mech in mechlist %} 
+        {% if not forloop.first %}<tr class="{{rowclass}}"> {%endif%}
+        <td class="roll-table">{{forloop.counter}}</td>
+        <td>
+           <a href="{{mech.get_absolute_url}}">{{mech}}</a>
+           <div class="mech-description">{{mech.description}}</div>
+        </td>
+        </tr>
+      {%endfor%}    
+    {% endfor %}
+  </tbody></table>
+
+  <a class="word-button" href="{%url 'campaign_tools_genmechlist' %}">Change Parameters</a>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+"group","name","order","urlname","blurb","rules","is_simulation"
+"Championship","Championship",1,"champ","The big one, each stables best and brightest enters the ring in the hopes of winning the event of the Broadcast Week","Cannot be called until five fights have been completed, and participants must pilot a Signature Mech. Once completed, the current Broadcast week ends.",FALSE
+"Championship","Feast or Fired",2,"feast",,,FALSE
+"Championship","Challenge Ring",3,"clan-ring",,,FALSE
+"League","League",4,"league",,,FALSE
+"Network","White Tech",5,"white-tech",,,FALSE
+"Network","Weapons Testbed",6,"testbed",,,FALSE
+"Network","Exhibition Fight",7,"expo","Network fights frequently feature a diverse range of entertaining fights. Rules vary, keeping participants on their toes","Rules vary, see fight conditions.",FALSE
+"Minor League","Rising Star",8,"rising-star",,,FALSE
+"Minor League","Dark Ages",9,"dark-ages",,,FALSE
+"Minor League","Ladies Champ",10,"ladies",,,FALSE
+"Simulator","Design Challenge",11,"design",,"Stables each enter with their own custom designed mechs.  
+
+The winning stable may build their design at no cost.",TRUE
+"Simulator","Omnimechs",12,"omnimechs",,,TRUE
+"Simulator","Clannitude",13,"clannitude",,,TRUE
+"Underground","Exhibition Fight",14,"underground-expo",,,FALSE

@@ -700,23 +700,23 @@ function honoured_dead_setup() {
 }
 
 function reload_training_table() {
-  $('#pilot-training-list').load(window.location.href + '/training #pilot-training-list', training_table_setup); 
+  reload_part('#pilot-training-list', training_table_setup);
 }
 
 function reload_trait_table() {
-  $('#pilot-trait-list').load(window.location.href + '/trait #pilot-trait-list', trait_table_setup);
+  reload_part('#pilot-trait-list', trait_table_setup);
 }
 
 function reload_defer_table() {
-  $('#pilot-defer-list').load(window.location.href + '/defer #pilot-defer-list', defer_table_setup);
+  reload_part('#pilot-defer-list', defer_table_setup);
 }
 
 function reload_pilots() {
-  $('#stable-pilot-table').load(window.location.href + '/pilot-list #stable-pilot-table', pilot_list_setup);
+  reload_part('#stable-pilot-table', pilot_list_setup);
 }
 
 function reload_honoured_dead() {
-  $('#honoured-dead-region').load(window.location.href + '/honoured-dead #honoured-dead-region', honoured_dead_setup);
+  reload_part('#honoured-dead-list', honoured_dead_setup);
 }
 
 function validate_training_form() {

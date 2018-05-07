@@ -1,6 +1,7 @@
 *.pyc
 *~
 *.swp
+.~lock*
 manage.py
 
 #Django Settings

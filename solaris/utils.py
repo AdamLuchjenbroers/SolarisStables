@@ -1,4 +1,5 @@
 from copy import deepcopy
+from random import randint
 
 def get_arg(argument, kwargs, default=None):
     if argument in kwargs:
@@ -23,3 +24,17 @@ def determine_selected(request):
         return {'selected' : 'Wiki'}
     else:
         return {}
+
+
+def random_unique_set(count, low, high):
+    selected = [];
+
+    count = min(count, (high - low + 1))
+
+    while len(selected) < count:
+       val = randint(low, high)
+
+       if val not in selected:
+          selected.append(val)
+
+    return selected   
