@@ -2,10 +2,10 @@ from django.db import models
 
 from markitup.fields import MarkupField
 
-from solaris.campaign.models import BroadcastWeek
+from solaris.campaign.solaris7.models import BroadcastWeek
 
 class RosteredFightCondition(models.Model):
-    fight = models.ForeignKey('campaign.RosteredFight')
+    fight = models.ForeignKey('solaris7.RosteredFight')
     condition = models.ForeignKey('warbook.FightCondition')
     annotation = models.CharField(max_length=20, blank=True)
 
@@ -16,11 +16,11 @@ class RosteredFightCondition(models.Model):
             return self.condition.name
 
     class Meta:
-        db_table = 'campaign_fight_x_condition'
-        app_label = 'campaign'
+        db_table = 'solaris7_fight_x_condition'
+        app_label = 'campaign.solaris7'
 
 class RosteredFight(models.Model):
-    week = models.ForeignKey('campaign.BroadcastWeek', related_name='fights')
+    week = models.ForeignKey('campaign.solaris7.BroadcastWeek', related_name='fights')
     fight_type = models.ForeignKey('warbook.FightType')
     fight_map = models.ForeignKey('warbook.Map')
     purse = models.IntegerField(blank=True, null=True)
@@ -67,6 +67,6 @@ class RosteredFight(models.Model):
     class Meta:
         verbose_name_plural = 'Rostered Fights'
         verbose_name = 'Rostered Fight'
-        db_table = 'campaign_rosteredfight'
-        app_label = 'campaign'
+        db_table = 'solaris7_rosteredfight'
+        app_label = 'campaign.solaris7'
         ordering = ['fight_type__order', 'group_units', 'weightclass__lower', 'group_tonnage']

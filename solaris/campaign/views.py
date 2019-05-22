@@ -9,7 +9,8 @@ import json
 
 from solaris.views import SolarisViewMixin
 
-from .models import Campaign, BroadcastWeek
+from .models import Campaign
+from solaris.campaigin.solaris7.models import BroadcastWeek
 from solaris.stablemanager.models import Stable
 
 class CampaignViewMixin(SolarisViewMixin):

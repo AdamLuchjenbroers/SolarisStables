@@ -8,7 +8,7 @@ from urllib import unquote
 from . import models
 from solaris.stablemanager.pilots.models import Pilot
 from solaris.warbook.mech.models import MechDesign
-from solaris.campaign.models import BroadcastWeek
+from solaris.campaign.solaris7.models import BroadcastWeek
 from solaris.utilities.loader import SSWLoader
 
 from solaris.files.models import TempMechFile

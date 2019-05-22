@@ -13,7 +13,8 @@ from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
 from solaris.warbook.equipment.models import Equipment
 from solaris.warbook.pilotskill.models import PilotTraitGroup, PilotRank
-from solaris.campaign.models import BroadcastWeek, Campaign, createInitialPilots
+from solaris.campaign.models import Campaign
+from solaris.campaign.solaris7.models import BroadcastWeek, createInitialPilots
 
 def stable_icon_path(instance, filename):
     extension = filename.rsplit('.',1)[1]
@@ -72,7 +73,7 @@ class Stable(models.Model):
      
 class StableWeek(models.Model):
     stable = models.ForeignKey('Stable', related_name='ledger')
-    week = models.ForeignKey(BroadcastWeek)
+#    week = models.ForeignKey(BroadcastWeek)
     reputation = models.IntegerField(default=0)
     reputation_set = models.BooleanField(default=False)
     opening_balance = models.IntegerField()
@@ -320,7 +321,7 @@ class StableWeek(models.Model):
         db_table = 'stablemanager_stableweek'
         app_label = 'stablemanager'
         
-        unique_together = ('stable', 'week')
+ #       unique_together = ('stable', 'week')
     
 @receiver(m2m_changed, sender=StableWeek.supply_contracts.through)
 def refresh_supply_mechs(sender, instance=None, created=False, **kwargs):

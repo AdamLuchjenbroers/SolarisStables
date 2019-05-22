@@ -5,7 +5,8 @@ from solaris.warbook.models import House
 from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.pilotskill import models as pilotskill_models
 
-from solaris.campaign.models import BroadcastWeek, Zodiac, Campaign
+from solaris.campaign.models import Campaign
+from solaris.campaign.solaris7.models import BroadcastWeek, Zodiac, SolarisCampaign
 
 from solaris.stablemanager.models import Stable, StableWeek
 from solaris.stablemanager.mechs.models import StableMech, StableMechWeek
