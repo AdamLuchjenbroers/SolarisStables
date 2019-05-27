@@ -3,7 +3,7 @@ from django.db.models import Max
 
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.stablemanager.models import Stable
-from solaris.campaign.solaris7.models import BroadcastWeek
+from solaris.solaris7.models import BroadcastWeek
 from solaris.warbook.models import House, house_list_as_opttree
 
 class StableRegistrationForm(ModelForm):

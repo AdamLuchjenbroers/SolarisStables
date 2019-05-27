@@ -78,7 +78,7 @@ class StableMech(models.Model):
     objects = StableMechManager()
  
     def get_mechweek(self, week=None, loadout='Base'):
-        from solaris.campaign.solaris7.models import BroadcastWeek
+        from solaris.solaris7.models import BroadcastWeek
 
         if week == None or type(week) in (BroadcastWeek, int):
             stableweek = self.stable.get_stableweek(week=week)

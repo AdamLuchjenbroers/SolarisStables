@@ -65,6 +65,7 @@ MIGRATION_MODULES = {
 ,   'stablemanager' : 'solaris.stablemanager.migrations'
 ,   'cms'           : 'solaris.cms.migrations'
 ,   'campaign'      : 'solaris.campaign.migrations'
+,   'solaris7'      : 'solaris.solaris7.migrations'
 #,  'files' :solaris.files.migrations
 }
 
@@ -78,8 +79,8 @@ INSTALLED_APPS = (
     'solaris',
     'solaris.cms',
     'solaris.campaign',
-    'solaris.campaign.solaris7',
-    'solaris.campaign.solaris7.roster',
+    'solaris.solaris7',
+    'solaris.solaris7.roster',
     'solaris.warbook',
     'solaris.warbook.techtree',
     'solaris.warbook.fightinfo',

@@ -10,7 +10,7 @@ import json
 from solaris.views import SolarisViewMixin
 
 from .models import Campaign
-from solaris.campaigin.solaris7.models import BroadcastWeek
+from solaris.solaris7.models import BroadcastWeek
 from solaris.stablemanager.models import Stable
 
 class CampaignViewMixin(SolarisViewMixin):
@@ -60,6 +60,7 @@ class CampaignAdminMixin(CampaignViewMixin):
         return super(CampaignAdminMixin, self).dispatch(request, *args, **kwargs)
   
 class CampaignWeekMixin(CampaignViewMixin):
+    #FIXME: Move to Solaris7 folder.
     week_navigation = True
     can_advance_week = True
 
@@ -68,7 +69,9 @@ class CampaignWeekMixin(CampaignViewMixin):
 
         week = kwargs.pop('week', None)
         if week == None:
-            self.week = self.campaign.current_week()
+            #self.week = self.campaign.current_week()
+            #FIXME: Work-around
+            self.week = get_object_or_404(BroadcastWeek, next_week=None, campaign=self.campaign)
         else:
             self.week = get_object_or_404(BroadcastWeek, week_number=week, campaign=self.campaign)
 

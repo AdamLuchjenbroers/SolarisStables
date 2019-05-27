@@ -112,7 +112,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('warbook', '0020_season3_skills'),
-        ('stablemanager', '0028_asset_count_details'),
     ]
 
     operations = [

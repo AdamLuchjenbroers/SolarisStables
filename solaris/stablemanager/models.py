@@ -13,8 +13,7 @@ from solaris.warbook.models import House
 from solaris.warbook.techtree.models import Technology
 from solaris.warbook.equipment.models import Equipment
 from solaris.warbook.pilotskill.models import PilotTraitGroup, PilotRank
-from solaris.campaign.models import Campaign
-from solaris.campaign.solaris7.models import BroadcastWeek, createInitialPilots
+from solaris.solaris7.models import SolarisCampaign, BroadcastWeek, createInitialPilots
 
 def stable_icon_path(instance, filename):
     extension = filename.rsplit('.',1)[1]
@@ -30,7 +29,7 @@ class Stable(models.Model):
     owner = models.OneToOneField(User, null=True)
     house = models.ForeignKey(House, null=True)
     stable_disciplines = models.ManyToManyField(PilotTraitGroup)
-    campaign = models.ForeignKey(Campaign, null=True)    
+    campaign = models.ForeignKey(SolarisCampaign, null=True)    
     
     stable_icon = models.ImageField(upload_to=stable_icon_path, null=True, blank=True)
     stable_bg = models.ImageField(upload_to=stable_bg_path, null=True, blank=True)
@@ -73,7 +72,7 @@ class Stable(models.Model):
      
 class StableWeek(models.Model):
     stable = models.ForeignKey('Stable', related_name='ledger')
-#    week = models.ForeignKey(BroadcastWeek)
+    week = models.ForeignKey(BroadcastWeek)
     reputation = models.IntegerField(default=0)
     reputation_set = models.BooleanField(default=False)
     opening_balance = models.IntegerField()

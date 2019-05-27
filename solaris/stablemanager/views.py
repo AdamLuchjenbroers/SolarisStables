@@ -11,7 +11,7 @@ import json
 
 from solaris.views import SolarisViewMixin
 from solaris.campaign.models import Campaign
-from solaris.campaign.solaris7.models import BroadcastWeek
+from solaris.solaris7.models import BroadcastWeek
 from solaris.warbook.pilotskill.models import PilotTraitGroup
 from solaris.warbook.techtree.models import Technology
 

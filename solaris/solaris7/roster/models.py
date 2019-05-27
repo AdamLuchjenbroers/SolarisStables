@@ -2,7 +2,7 @@ from django.db import models
 
 from markitup.fields import MarkupField
 
-from solaris.campaign.solaris7.models import BroadcastWeek
+from solaris.solaris7.models import BroadcastWeek
 
 class RosteredFightCondition(models.Model):
     fight = models.ForeignKey('solaris7.RosteredFight')
@@ -17,10 +17,10 @@ class RosteredFightCondition(models.Model):
 
     class Meta:
         db_table = 'solaris7_fight_x_condition'
-        app_label = 'campaign.solaris7'
+        app_label = 'solaris7'
 
 class RosteredFight(models.Model):
-    week = models.ForeignKey('campaign.solaris7.BroadcastWeek', related_name='fights')
+    week = models.ForeignKey('solaris7.BroadcastWeek', related_name='fights')
     fight_type = models.ForeignKey('warbook.FightType')
     fight_map = models.ForeignKey('warbook.Map')
     purse = models.IntegerField(blank=True, null=True)
@@ -68,5 +68,5 @@ class RosteredFight(models.Model):
         verbose_name_plural = 'Rostered Fights'
         verbose_name = 'Rostered Fight'
         db_table = 'solaris7_rosteredfight'
-        app_label = 'campaign.solaris7'
+        app_label = 'solaris7'
         ordering = ['fight_type__order', 'group_units', 'weightclass__lower', 'group_tonnage']

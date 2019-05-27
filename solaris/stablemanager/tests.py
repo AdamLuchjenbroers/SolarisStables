@@ -6,7 +6,7 @@ from solaris.warbook.mech.models import MechDesign
 from solaris.warbook.pilotskill import models as pilotskill_models
 
 from solaris.campaign.models import Campaign
-from solaris.campaign.solaris7.models import BroadcastWeek, Zodiac, SolarisCampaign
+from solaris.solaris7.models import BroadcastWeek, Zodiac, SolarisCampaign
 
 from solaris.stablemanager.models import Stable, StableWeek
 from solaris.stablemanager.mechs.models import StableMech, StableMechWeek
@@ -24,12 +24,15 @@ class StableLoginTests(TestCase):
         self.client = Client()
         User.objects.create_user(username='no-stable', email='has-no-stable@nowhere.com', password='pass')
         User.objects.create_user(username='has-stable', email='lotsa_mechs@nowhere.com', password='pass')
+
+        campaign = Campaign.objects.get_current_campaign()
+        solaris7 = SolarisCampaign.objects.get(campaign=campaign)
  
         stable_user = User.objects.get(username='has-stable')
         Stable.objects.create(stable_name='Test Stable'
                              , owner=stable_user
                              , house = House.objects.get(house='House Marik')
-                             , campaign=Campaign.objects.get_current_campaign())
+                             , campaign=solaris7)
  
 
     def test_redirectNotLoggedIn(self):
@@ -63,7 +66,9 @@ class StableSetupTests(TestCase):
  
         stable_user = User.objects.get(username='has-stable')
         self.house = House.objects.get(house='House Marik')
-        self.campaign = Campaign.objects.get_current_campaign()
+
+        masterCampaign = Campaign.objects.get_current_campaign()
+        self.campaign = SolarisCampaign.objects.get(campaign=masterCampaign)
 
         self.stable = Stable.objects.create(stable_name='Test Stable'
                                            , owner = stable_user
@@ -92,11 +97,14 @@ class StableTestMixin(object):
     def createStable(self, userName='test-user', stableName='Test Stable'):
         User.objects.create_user(username=userName, email='lotsa_mechs@nowhere.com', password='pass')
  
+        campaign = Campaign.objects.get_current_campaign()
+        solaris7 = SolarisCampaign.objects.get(campaign=campaign)
+
         stable_user = User.objects.get(username=userName)
         stable = Stable.objects.create(stable_name=stableName
                              , owner=stable_user
                              , house = House.objects.get(house='House Marik')
-                             , campaign=Campaign.objects.get_current_campaign())
+                             , campaign=solaris7)
 
         return stable
 

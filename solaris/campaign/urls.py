@@ -8,7 +8,7 @@ urlpatterns = patterns('',
 
     url(r'^create/?$', views.AjaxCreateCampaignView.as_view()),
 
-    url(r'^actions/', include('solaris.campaign.show_actions.urls')),
-    url(r'^fights/', include('solaris.campaign.roster.urls')),
+    url(r'^actions/', include('solaris.solaris7.show_actions.urls')),
+    url(r'^fights/', include('solaris.solaris7.roster.urls')),
     url(r'^tools/', include('solaris.campaign.tools.urls')),
 )    

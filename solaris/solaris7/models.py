@@ -19,7 +19,7 @@ class SolarisCampaign(models.Model):
     class Meta:
         verbose_name = 'Solaris 7 Campaign'
         db_table = 'solaris7_campaign'
-        app_label = 'campaign.solaris7'
+        app_label = 'solaris7'
     
 
 class Zodiac(models.Model):
@@ -31,7 +31,7 @@ class Zodiac(models.Model):
     class Meta:
         verbose_name = 'Zodiac Sign'
         db_table = 'solaris7_zodiac'
-        app_label = 'campaign.solaris7'
+        app_label = 'solaris7'
     
     def __unicode__(self):
         return self.sign
@@ -63,7 +63,7 @@ class BroadcastWeek(models.Model):
     class Meta:
         verbose_name = 'Broadcast Week'
         db_table = 'solaris7_broadcastweek'
-        app_label = 'campaign.solaris7'
+        app_label = 'solaris7'
 
     def has_prev_stables(self):
         return (hasattr(self, 'prev_week') and self.prev_week.stableweek_set.count() > 0)
@@ -145,9 +145,8 @@ class StartingPilotTemplate(models.Model):
     piloting = models.IntegerField()
     gunnery = models.IntegerField()
     fame = models.IntegerField(default=0)
-
         
     class Meta:
         verbose_name = 'Starting Pilot Template'
         db_table = 'solaris7_pilottemplate'
-        app_label = 'campaign.solaris7'
+        app_label = 'solaris7'
