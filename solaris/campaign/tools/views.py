@@ -5,7 +5,7 @@ from django.http import Http404
 from random import shuffle
 
 from solaris.utils import random_unique_set
-from solaris.campaign.views import CampaignViewMixin, CampaignWeekMixin
+from solaris.campaign.views import CampaignViewMixin 
 from solaris.warbook.mech.views import MechSearchMixin
 
 from . import forms
@@ -17,7 +17,7 @@ tables = {
 , '1D20' : { 'items' : 20, 'grouping' : [''], 'per-group' : 20 }
 }
 
-class CampaignToolsView(CampaignWeekMixin, TemplateView):
+class CampaignToolsView(CampaignViewMixin, TemplateView):
     template_name = 'campaign/campaign_tools.html'
     view_url_name = 'campaign_tools'
     submenu_selected = 'Tools'
