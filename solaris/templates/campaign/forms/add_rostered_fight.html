@@ -5,7 +5,7 @@
      {%if forloop.last%}  </dl> {%endif%}
   {% endfor %}
 
-<form id="add-fight-form"  submit_url="{% url 'campaign_add_fights' week=week.week_number %}"> 
+<form id="add-fight-form"  submit_url="{% url 'campaign_add_fights' week=week.week_number campaign_url=campaign.urlname %}"> 
   <div class="flexbox-form-box">
     <div class="flexbox-form-column">
       <div class="flexbox-form-item {%if form.fight_type.errors%}has-errors {%endif%}{{form.fight_type.name}}">

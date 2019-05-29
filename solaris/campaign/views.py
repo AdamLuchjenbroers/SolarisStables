@@ -25,7 +25,7 @@ class CampaignViewMixin(SolarisViewMixin):
 
     def set_campaign(self, campaign_url):
         if not hasattr(self, 'campaign'):
-            self.campaign = Campaign.objects.get(urlname = campaign_url)
+            self.campaign = get_object_or_404(Campaign, urlname=campaign_url)
 
     def dispatch(self, request, week=None, campaign_url=None, *args, **kwargs):
         if not request.user.is_authenticated():
@@ -47,9 +47,9 @@ class CampaignViewMixin(SolarisViewMixin):
         page_context['submenu_selected'] = self.__class__.submenu_selected
 
         page_context['submenu'] = [
-          {'title' : 'Overview', 'url' : reverse('campaign_overview_now') }
-        , {'title' : 'Actions', 'url' : reverse('campaign_actions_now') }
-        , {'title' : 'Tools', 'url' : reverse('campaign_tools_now') }
+          {'title' : 'Overview', 'url' : reverse('campaign_overview_now', kwargs={'campaign_url' : self.campaign.urlname}) }
+        , {'title' : 'Actions', 'url' : reverse('campaign_actions_now', kwargs={'campaign_url' : self.campaign.urlname} ) }
+        , {'title' : 'Tools', 'url' : reverse('campaign_tools_now', kwargs={'campaign_url' : self.campaign.urlname}) }
         ]
 
         return page_context

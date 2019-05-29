@@ -1,12 +1,12 @@
 from django.views.generic import TemplateView, FormView, View
 from django.http import HttpResponse 
 
-from solaris.campaign.views import CampaignWeekMixin
+from solaris.solaris7.views import Solaris7WeekMixin
 from solaris.warbook.fightinfo.models import FightGroup
 
 from . import forms
 
-class FightRosterMixin(CampaignWeekMixin):
+class FightRosterMixin(Solaris7WeekMixin):
     def get_context_data(self, **kwargs):
         page_context = super(FightRosterMixin, self).get_context_data(**kwargs)
 
@@ -31,7 +31,7 @@ class FightRosterListPartView(FightRosterMixin, TemplateView):
     template_name = 'campaign/fragments/fights_list.html'
     view_url_name = 'campaign_fights'
 
-class AddFightFormView(CampaignWeekMixin, FormView):
+class AddFightFormView(Solaris7WeekMixin, FormView):
     template_name = 'campaign/forms/add_rostered_fight.html'
     form_class = forms.AddFightForm
     success_url = '#'

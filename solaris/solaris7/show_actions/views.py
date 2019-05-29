@@ -5,9 +5,9 @@ from django.core.urlresolvers import reverse
 import json
 
 from solaris.stablemanager.models import Stable, StableWeek
-from solaris.campaign.views import CampaignWeekMixin
+from solaris.solaris7.views import Solaris7WeekMixin
 
-class CampaignActionsView(CampaignWeekMixin, TemplateView):
+class CampaignActionsView(Solaris7WeekMixin, TemplateView):
     template_name = 'campaign/campaign_actions.html'
     view_url_name = 'campaign_actions'
     submenu_selected = 'Actions'
@@ -27,7 +27,7 @@ class CampaignActionsView(CampaignWeekMixin, TemplateView):
 class CampaignActionsListPart(CampaignActionsView):
     template_name = 'campaign/fragments/actions_list.html'
 
-class CampaignListStableActions(CampaignWeekMixin, DetailView):
+class CampaignListStableActions(Solaris7WeekMixin, DetailView):
     template_name = 'campaign/campaign_stableaction.html'
     view_url_name = 'campaign_actions_stable'
     submenu_selected = 'Actions'
@@ -89,7 +89,7 @@ class CampaignListStableActions(CampaignWeekMixin, DetailView):
 
         return super(CampaignListStableActions, self).get(request, *args, **kwargs)
 
-class AjaxSetWeekStarted(CampaignWeekMixin, View):
+class AjaxSetWeekStarted(Solaris7WeekMixin, View):
     def post(self, request, week=None):
         postdata = request.POST.get('start_week', 'TRUE')
         started = ( postdata.upper() == 'TRUE' )

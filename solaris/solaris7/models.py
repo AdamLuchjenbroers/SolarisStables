@@ -113,7 +113,7 @@ class BroadcastWeek(models.Model):
        return hasattr(self, 'prev_week')
             
     def get_absolute_url(self):
-        return reverse('campaign_overview', kwargs={'week': self.week_number})
+        return reverse('campaign_overview', kwargs={'week': self.week_number, 'campaign_url': self.campaign.urlname})
 
 def createInitialPilots(stable):
     from solaris.stablemanager.pilots.models import Pilot, PilotWeek

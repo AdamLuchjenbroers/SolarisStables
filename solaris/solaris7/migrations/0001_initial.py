@@ -6,7 +6,7 @@ import django.db.models.deletion
 
 def setup_campaign(apps, schema_editor):
     Campaign = apps.get_model('campaign', 'Campaign')
-    masterCampaign = Campaign.objects.create(name='Solaris7')
+    masterCampaign = Campaign.objects.create(name='Solaris7', urlname='s7test')
 
     SolarisCampaign = apps.get_model('solaris7', 'SolarisCampaign')
     solarisCampaign = SolarisCampaign.objects.create(campaign=masterCampaign, initial_balance=75000000)

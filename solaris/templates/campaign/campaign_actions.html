@@ -14,9 +14,9 @@
 
   {% if perms.is_admin or perms.campaign.change_campaign %}
     {% if week.week_started %}
-      <button id="campaign-action-start" class="word-button" type="button" value="submit" action_url="{% url 'campaign_actions_start' week=week.week_number %}" start_week="False">Reset Week</button>       
+      <button id="campaign-action-start" class="word-button" type="button" value="submit" action_url="{% url 'campaign_actions_start' week=week.week_number campaign_url=campaign.urlname %}" start_week="False">Reset Week</button>       
     {% else %}
-      <button id="campaign-action-start" class="word-button" type="button" value="submit" action_url="{% url 'campaign_actions_start' week=week.week_number %}" start_week="True">Start Week</button>       
+      <button id="campaign-action-start" class="word-button" type="button" value="submit" action_url="{% url 'campaign_actions_start' week=week.week_number campaign_url=campaign.urlname %}" start_week="True">Start Week</button>       
     {% endif %}
   {% endif %}
 

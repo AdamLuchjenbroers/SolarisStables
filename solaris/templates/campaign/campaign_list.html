@@ -1,0 +1,16 @@
+{% extends 'solaris_layout.tmpl' %}
+ 
+{% block pagebody %}
+<div class="body">
+  <h1>Campaigns</h1>
+  <dl class="discipline-list">
+  {% for campaign in object_list %}
+    <dt class="discipline">
+      <a href="{{ campaign.get_absolute_url }}">{{campaign.name}}</a>
+    </dt><dd>
+      <p>Blurb?</p> 
+    </dd>      
+  {% endfor %}
+  </dl>
+</div>
+{% endblock %}

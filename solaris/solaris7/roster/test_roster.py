@@ -19,7 +19,7 @@ class TestAddFightByWeightClass(StableTestMixin, TestCase):
         , 'week' : 1
 	}
 
-        self.submit_url = reverse('campaign_add_fights', kwargs={'week': 1}) 
+        self.submit_url = reverse('campaign_add_fights', kwargs={'week': 1, 'campaign_url': 's7test' }) 
 
         self.client = Client()
         self.client.login(username='test-user', password='pass')
