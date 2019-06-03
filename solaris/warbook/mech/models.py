@@ -27,7 +27,7 @@ class MechDesign(models.Model):
     ssw_description = models.CharField(max_length=256, blank=True, null=True) 
     production_year = models.IntegerField(blank=True, null=True)
 
-    required_techs = models.ManyToManyField('Technology', null=True, blank=True)
+    required_techs = models.ManyToManyField('Technology', blank=True)
     
     motive_options = (
         ('B', 'Biped')
