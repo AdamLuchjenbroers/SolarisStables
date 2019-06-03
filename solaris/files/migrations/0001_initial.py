@@ -8,7 +8,7 @@ import solaris.files.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('warbook', '0015_refresh_mechlists'),
+        ('warbook', '0002_load_data'),
     ]
 
     operations = [

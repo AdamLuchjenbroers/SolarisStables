@@ -1,77 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import json
 
 from django.db import models, migrations
 from decimal import Decimal
-from django.core.management import call_command
+import markitup.fields
 
-    
-def load_pilottraitgroup(apps, schema_editor):
-    PilotTraitGroup = apps.get_model('warbook','PilotTraitGroup')   
-   
-    with open('data/warbook.pilottraitgroup.json','r') as srcfile:
-        data = json.loads(srcfile.read())
-
-    for row in data:
-        PilotTraitGroup.objects.create(**row['fields'])
-  
-def load_houses(apps, schema_editor):
-    House = apps.get_model('warbook','House')   
-    PilotTraitGroup = apps.get_model('warbook','PilotTraitGroup')   
-
-    srcfile = open('data/warbook.house.json','r')
-    house_json = srcfile.read()
-    srcfile.close()
-
-    data = json.loads(house_json)
-    for row in data:
-        ids = row['fields']['house_disciplines']
-        del row['fields']['house_disciplines']
-
-        house = House.objects.create(**row['fields']) 
-
-        for discipline in PilotTraitGroup.objects.filter(id__in=ids):
-            house.house_disciplines.add(discipline)
- 
-  
-def load_mechlocations(apps, schema_editor):
-    from solaris.warbook.mech import refdata
-    MechLocation = apps.get_model('warbook','MechLocation')   
- 
-    locations = {}
-    for (code, name) in refdata.locations_all:
-        locations[code] = MechLocation.objects.create (
-                            location = code
-                          , criticals = refdata.criticals(code)
-                          )
-
-    for (torso, rear) in [(loc, 'R'+loc) for loc in ('CT','LT','RT')]:
-        locations[rear].rear_of = locations[torso]
-        locations[rear].save()
-         
-def load_pilotranks(apps, schema_editor):
-    PilotRank = apps.get_model('warbook', 'PilotRank')
-    ranks = [
-      { 'rank' : 'Champion', 'min_piloting' : 0, 'min_gunnery' : 0, 'skills_limit' : 0 }
-    , { 'rank' : 'Star', 'promotion': 'Champion', 'min_piloting' : 0, 'min_gunnery' : 0, 'skills_limit' : 0 }
-    , { 'rank' : 'Contender', 'min_gunnery' : 3, 'min_piloting': 4, 'skills_limit': 2, 'auto_train_cp': 1, 'promotion': 'Star' }
-    , { 'rank' : 'Rookie', 'min_gunnery' : 4, 'min_piloting': 5, 'skills_limit': 1, 'auto_train_cp': 2, 'promotion': 'Contender' }
-    ]
-
-    for rank in ranks:
-        if 'promotion' in rank:
-            rank['promotion'] = PilotRank.objects.get(rank=rank['promotion'])
-        PilotRank.objects.create(**rank)
-    
-def load_trainingcost(apps, schema_editor):
-    call_command('loaddata', 'data/warbook.trainingcost.json');
-
-    
-def noop(apps, schema_editor):
-    # Why bother to delete from tables that are being dropped in the
-    # same operation.
-    pass
 
 class Migration(migrations.Migration):
 
@@ -80,16 +13,51 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='ActionGroup',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('group', models.CharField(max_length=50)),
+                ('description', markitup.fields.MarkupField(no_rendered_field=True)),
+                ('start_only', models.BooleanField(default=True)),
+                ('_description_rendered', models.TextField(editable=False, blank=True)),
+            ],
+            options={
+                'db_table': 'warbook_actiongroup',
+                'verbose_name': 'Action Group',
+                'verbose_name_plural': 'Action Groups',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='ActionType',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('action', models.CharField(max_length=50)),
+                ('description', markitup.fields.MarkupField(no_rendered_field=True)),
+                ('base_cost', models.IntegerField(default=1)),
+                ('base_cost_max', models.IntegerField(default=None, null=True, blank=True)),
+                ('max_per_week', models.IntegerField(default=1, null=True, blank=True)),
+                ('_description_rendered', models.TextField(editable=False, blank=True)),
+                ('group', models.ForeignKey(related_name='actions', to='warbook.ActionGroup')),
+            ],
+            options={
+                'db_table': 'warbook_actiontype',
+                'verbose_name': 'Action Type',
+                'verbose_name_plural': 'Action Types',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Equipment',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(default=b'FIXME', max_length=100)),
                 ('ssw_name', models.CharField(unique=True, max_length=100)),
-                ('tonnage_func', models.CharField(max_length=40, null=True, choices=[(b'fixed', b'Fixed Tonnage'), (b'jumpjet', b'Jumpjet'), (b'masc', b'MASC'), (b'melee', b'Melee Weapon'), (b'armour', b'Armour'), (b'engine', b'Engine'), (b'gyro', b'Gyro'), (b'structure', b'Internal Structure'), (b'targetting_computer', b'Targetting Computer'), (b'supercharger', b'Supercharger'), (b'retractable', b'Retractable Blade')])),
+                ('tonnage_func', models.CharField(max_length=40, null=True, choices=[(b'fixed', b'Fixed Tonnage'), (b'jumpjet', b'Jumpjet'), (b'masc', b'MASC'), (b'melee', b'Melee Weapon'), (b'fraction', b'Fraction of Unit Tonnage'), (b'armour', b'Armour'), (b'engine', b'Engine'), (b'gyro', b'Gyro'), (b'structure', b'Internal Structure'), (b'targetting_computer', b'Targetting Computer'), (b'supercharger', b'Supercharger'), (b'retractable', b'Retractable Blade'), (b'turret', b'Mech Turret')])),
                 ('tonnage_factor', models.DecimalField(null=True, max_digits=5, decimal_places=2)),
-                ('critical_func', models.CharField(max_length=40, null=True, choices=[(b'fixed', b'Fixed Criticals'), (b'masc', b'MASC'), (b'melee', b'Melee Weapon'), (b'targetting_computer', b'Targetting Computer'), (b'retractable', b'Retractable Blade')])),
+                ('critical_func', models.CharField(max_length=40, null=True, choices=[(b'fixed', b'Fixed Criticals'), (b'masc', b'MASC'), (b'melee', b'Melee Weapon'), (b'targetting_computer', b'Targetting Computer'), (b'retractable', b'Retractable Blade'), (b'by_class', b'By Weight Class'), (b'per_leg', b'Per Leg')])),
                 ('critical_factor', models.DecimalField(null=True, max_digits=5, decimal_places=2)),
-                ('cost_func', models.CharField(max_length=40, null=True, choices=[(b'fixed', b'Fixed Cost'), (b'per_ton', b'Per Ton'), (b'engine', b'Engine'), (b'gyro', b'Gyro'), (b'mech', b'Mech Tonnage'), (b'jumpjet', b'Jumpjet'), (b'per_er', b'By Engine Rating')])),
+                ('cost_func', models.CharField(max_length=40, null=True, choices=[(b'fixed', b'Fixed Cost'), (b'per_ton', b'Per Ton'), (b'structure', b'Structure'), (b'engine', b'Engine'), (b'gyro', b'Gyro'), (b'mech', b'Mech Tonnage'), (b'jumpjet', b'Jumpjet'), (b'per_er', b'By Engine Rating'), (b'masc', b'MASC'), (b'retract', b'Retractable Blade'), (b'drone', b'Drone OS')])),
                 ('cost_factor', models.DecimalField(null=True, max_digits=16, decimal_places=4)),
                 ('splittable', models.BooleanField(default=False)),
                 ('crittable', models.BooleanField(default=True)),
@@ -98,6 +66,10 @@ class Migration(migrations.Migration):
                 ('ammo_size', models.IntegerField(null=True, blank=True)),
                 ('weapon_properties', models.CharField(max_length=20, null=True, blank=True)),
                 ('evaluate_last', models.BooleanField(default=False)),
+                ('fcs_artemis_iv', models.BooleanField(default=False)),
+                ('fcs_artemis_v', models.BooleanField(default=False)),
+                ('fcs_apollo', models.BooleanField(default=False)),
+                ('tier', models.IntegerField(default=0, choices=[(0, b'Base Technology'), (1, b'Star-League'), (2, b'Advanced'), (3, b'Experimental'), (4, b'Solaris Black-tech')])),
                 ('record_status', models.IntegerField(default=0, choices=[(0, b'Aggressive Load'), (1, b'Incomplete'), (2, b'Completed')])),
                 ('equipment_class', models.CharField(default=b'?', max_length=1, choices=[(b'E', b'Engine'), (b'G', b'Gyro'), (b'C', b'Cockpit & Systems'), (b'W', b'Weapon'), (b'H', b'Heatsink'), (b'J', b'Jumpjet'), (b'Q', b'Equipment'), (b'S', b'Armour / Structure'), (b'A', b'Ammunition'), (b'T', b'Actuator'), (b'M', b'Mission Items'), (b'?', b'Unclassified')])),
                 ('ammo_for', models.ForeignKey(blank=True, to='warbook.Equipment', null=True)),
@@ -111,16 +83,87 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='FightCondition',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=20)),
+                ('rules', markitup.fields.MarkupField(no_rendered_field=True)),
+                ('_rules_rendered', models.TextField(editable=False, blank=True)),
+            ],
+            options={
+                'ordering': ['name'],
+                'db_table': 'warbook_fightconditions',
+                'verbose_name': 'Fight Condition',
+                'verbose_name_plural': 'Fight Conditions',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='FightGroup',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=50)),
+                ('order', models.IntegerField()),
+            ],
+            options={
+                'ordering': ['order'],
+                'db_table': 'warbook_fightgroup',
+                'verbose_name': 'Fight Group',
+                'verbose_name_plural': 'Fight Groups',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='FightType',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=50)),
+                ('urlname', models.CharField(max_length=50)),
+                ('blurb', models.CharField(max_length=255, blank=True)),
+                ('rules', markitup.fields.MarkupField(no_rendered_field=True, blank=True)),
+                ('is_simulation', models.BooleanField(default=False)),
+                ('order', models.IntegerField()),
+                ('_rules_rendered', models.TextField(editable=False, blank=True)),
+                ('group', models.ForeignKey(related_name='fights', to='warbook.FightGroup')),
+            ],
+            options={
+                'ordering': ['order', 'name'],
+                'db_table': 'warbook_fighttype',
+                'verbose_name': 'Fight Type',
+                'verbose_name_plural': 'Fight Types',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='House',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('house', models.CharField(unique=True, max_length=20)),
+                ('house', models.CharField(unique=True, max_length=50)),
                 ('blurb', models.TextField()),
+                ('selectable_disciplines', models.IntegerField(default=2)),
+                ('house_group', models.CharField(default=b'I', max_length=1, choices=[(b'I', b'Inner Sphere'), (b'M', b'Mercenaries'), (b'P', b'Periphery'), (b'C', b'Clan')])),
+                ('stable_valid', models.BooleanField(default=True, verbose_name=b'Available for Stables')),
             ],
             options={
                 'db_table': 'warbook_house',
                 'verbose_name': 'House',
                 'verbose_name_plural': 'Houses',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Map',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=20)),
+                ('special_rules', markitup.fields.MarkupField(no_rendered_field=True, blank=True)),
+                ('_special_rules_rendered', models.TextField(editable=False, blank=True)),
+            ],
+            options={
+                'ordering': ['name'],
+                'db_table': 'warbook_map',
+                'verbose_name': 'Map',
+                'verbose_name_plural': 'Maps',
             },
             bases=(models.Model,),
         ),
@@ -138,9 +181,12 @@ class Migration(migrations.Migration):
                 ('engine_rating', models.IntegerField()),
                 ('is_omni', models.BooleanField(default=False)),
                 ('ssw_filename', models.CharField(max_length=1024, null=True, blank=True)),
+                ('ssw_description', models.CharField(max_length=256, null=True, blank=True)),
+                ('production_year', models.IntegerField(null=True, blank=True)),
                 ('motive_type', models.CharField(max_length=1, choices=[(b'B', b'Biped'), (b'Q', b'Quad')])),
                 ('tech_base', models.CharField(max_length=1, choices=[(b'I', b'Inner Sphere'), (b'C', b'Clan'), (b'M', b'Mixed')])),
                 ('production_type', models.CharField(default=b'P', max_length=1, choices=[(b'P', b'Standard Production Design'), (b'H', b'Historical Custom Design'), (b'C', b'Customized Stable Design')])),
+                ('tier', models.IntegerField(default=0, choices=[(0, b'Base Technology'), (1, b'Star-League'), (2, b'Advanced'), (3, b'Experimental'), (4, b'Solaris Black-tech')])),
                 ('omni_basechassis', models.ForeignKey(related_name='loadouts', blank=True, to='warbook.MechDesign', null=True)),
             ],
             options={
@@ -185,7 +231,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('location', models.CharField(unique=True, max_length=3, choices=[(b'HD', b'Head'), (b'LT', b'Left Torso'), (b'RT', b'Right Torso'), (b'CT', b'Center Torso'), (b'RLT', b'Left Torso (Rear)'), (b'RRT', b'Right Torso (Rear)'), (b'RCT', b'Center Torso (Rear)'), (b'--', b'No Location'), (b'RFL', b'Right Fore Leg'), (b'RRL', b'Right Rear Leg'), (b'LFL', b'Left Fore Leg'), (b'LRL', b'Left Rear Leg'), (b'RA', b'Right Arm'), (b'LA', b'Left Arm'), (b'RL', b'Right Leg'), (b'LL', b'Left Leg')])),
                 ('criticals', models.IntegerField()),
-                ('rear_of', models.ForeignKey(to='warbook.MechLocation', null=True)),
+                ('next_damage', models.ForeignKey(related_name='prev_damage', to='warbook.MechLocation', null=True)),
+                ('rear_of', models.ForeignKey(related_name='front_of', to='warbook.MechLocation', null=True)),
             ],
             options={
                 'db_table': 'warbook_mechlocation',
@@ -219,7 +266,12 @@ class Migration(migrations.Migration):
                 ('min_gunnery', models.IntegerField()),
                 ('min_piloting', models.IntegerField()),
                 ('skills_limit', models.IntegerField()),
+                ('secondary_skills_limit', models.IntegerField(default=0)),
+                ('restricted_skills', models.BooleanField(default=False)),
                 ('auto_train_cp', models.IntegerField(default=0)),
+                ('receive_tp', models.BooleanField(default=False)),
+                ('prominence_factor', models.IntegerField(default=0)),
+                ('receive_honours', models.BooleanField(default=False)),
                 ('promotion', models.ForeignKey(blank=True, to='warbook.PilotRank', null=True)),
             ],
             options={
@@ -234,8 +286,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=40)),
-                ('description', models.TextField()),
+                ('description', markitup.fields.MarkupField(no_rendered_field=True)),
                 ('bv_mod', models.DecimalField(max_digits=6, decimal_places=3, choices=[(Decimal('0.000'), b'No Modifier'), (Decimal('0.050'), b'Piloting Skill'), (Decimal('0.200'), b'Gunnery Skill')])),
+                ('table', models.CharField(default=b'-', max_length=6, null=True)),
+                ('item', models.CharField(default=b'-', max_length=6, null=True)),
+                ('_description_rendered', models.TextField(editable=False, blank=True)),
             ],
             options={
                 'db_table': 'warbook_pilottrait',
@@ -249,9 +304,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=40)),
-                ('blurb', models.TextField()),
+                ('blurb', markitup.fields.MarkupField(no_rendered_field=True)),
                 ('urlname', models.CharField(unique=True, max_length=20)),
-                ('discipline_type', models.CharField(default=b'I', max_length=1, choices=[(b'T', b'Training'), (b'I', b'Issues'), (b'O', b'Other')])),
+                ('discipline_type', models.CharField(default=b'I', max_length=1, choices=[(b'T', b'Training'), (b'S', b'Secondary Skills'), (b'I', b'Issues'), (b'O', b'Other')])),
+                ('rank_restricted', models.BooleanField(default=False)),
+                ('_blurb_rendered', models.TextField(editable=False, blank=True)),
             ],
             options={
                 'db_table': 'warbook_pilottraitgroup',
@@ -265,12 +322,13 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=40)),
-                ('category', models.CharField(max_length=8, choices=[(b'weap', b'Weaponry'), (b'equip', b'Equipment'), (b'cons', b'Construction'), (b'ammo', b'Ammunition'), (b'phys', b'Physical Weapons')])),
                 ('urlname', models.CharField(max_length=20)),
-                ('description', models.TextField()),
+                ('description', markitup.fields.MarkupField(no_rendered_field=True)),
                 ('base_difficulty', models.IntegerField()),
-                ('tier', models.IntegerField(choices=[(0, b'Base Technology'), (1, b'Star-League'), (2, b'Advanced'), (3, b'Experimental')])),
+                ('tier', models.IntegerField(default=3, choices=[(0, b'Base Technology'), (1, b'Star-League'), (2, b'Advanced'), (3, b'Experimental'), (4, b'Solaris Black-tech')])),
                 ('show', models.BooleanField(default=True)),
+                ('_description_rendered', models.TextField(editable=False, blank=True)),
+                ('access_to', models.ManyToManyField(related_name='supplied_by', db_table=b'warbook_tech_x_equipment', to='warbook.Equipment')),
             ],
             options={
                 'db_table': 'warbook_technology',
@@ -296,7 +354,7 @@ class Migration(migrations.Migration):
             name='TrainingCost',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('training', models.CharField(max_length=1, choices=[(b'P', b'Piloting'), (b'G', b'Gunnery'), (b'S', b'Skills')])),
+                ('training', models.CharField(max_length=1, choices=[(b'P', b'Piloting'), (b'G', b'Gunnery'), (b'S', b'Skills'), (b'2', b'Secondary Skills'), (b'T', b'Other Traits')])),
                 ('train_from', models.IntegerField()),
                 ('train_to', models.IntegerField()),
                 ('cost', models.IntegerField()),
@@ -305,6 +363,23 @@ class Migration(migrations.Migration):
                 'db_table': 'warbook_trainingcost',
                 'verbose_name': 'Training Cost',
                 'verbose_name_plural': 'Training Costs',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='WeightClass',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=50)),
+                ('lower', models.IntegerField()),
+                ('upper', models.IntegerField()),
+                ('in_use', models.BooleanField(default=True)),
+            ],
+            options={
+                'ordering': ['lower'],
+                'db_table': 'warbook_weightclass',
+                'verbose_name': 'Weight Class',
+                'verbose_name_plural': 'Weight Classes',
             },
             bases=(models.Model,),
         ),
@@ -334,6 +409,12 @@ class Migration(migrations.Migration):
             name='mechdesignlocation',
             unique_together=set([('mech', 'location')]),
         ),
+        migrations.AddField(
+            model_name='mechdesign',
+            name='required_techs',
+            field=models.ManyToManyField(to='warbook.Technology', blank=True),
+            preserve_default=True,
+        ),
         migrations.AlterUniqueTogether(
             name='mechdesign',
             unique_together=set([('ssw_filename', 'omni_loadout'), ('mech_name', 'mech_code', 'omni_loadout')]),
@@ -341,12 +422,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='house',
             name='house_disciplines',
-            field=models.ManyToManyField(to='warbook.PilotTraitGroup', db_table=b'warbook_house_x_discipline'),
+            field=models.ManyToManyField(to='warbook.PilotTraitGroup', db_table=b'warbook_house_x_discipline', blank=True),
             preserve_default=True,
         ),
-        migrations.RunPython(load_mechlocations, reverse_code=noop),
-        migrations.RunPython(load_pilotranks, reverse_code=noop),
-        migrations.RunPython(load_trainingcost, reverse_code=noop),
-        migrations.RunPython(load_pilottraitgroup, reverse_code=noop),
-        migrations.RunPython(load_houses, reverse_code=noop),
+        migrations.AddField(
+            model_name='house',
+            name='produced_designs',
+            field=models.ManyToManyField(to='warbook.MechDesign', db_table=b'warbook_house_x_mechdesign', blank=True),
+            preserve_default=True,
+        ),
     ]

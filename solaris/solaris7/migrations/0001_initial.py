@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('campaign', '0001_initial'),
-        ('warbook', '0024_fightinfo_data'),
+        ('warbook', '0002_load_data'),
     ]
 
     operations = [
