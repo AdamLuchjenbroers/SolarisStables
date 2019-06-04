@@ -16,8 +16,8 @@ class WeightClass(models.Model):
     class Meta:
         verbose_name_plural = 'Weight Classes'
         verbose_name = 'Weight Class'
-        db_table = 'warbook_weightclass'
-        app_label = 'warbook'
+        db_table = 'solaris7_weightclass'
+        app_label = 'solaris7'
         ordering = ['lower',]
 
 class FightGroup(models.Model):
@@ -30,12 +30,12 @@ class FightGroup(models.Model):
     class Meta:
         verbose_name_plural = 'Fight Groups'
         verbose_name = 'Fight Group'
-        db_table = 'warbook_fightgroup'
-        app_label = 'warbook'
+        db_table = 'solaris7_fightgroup'
+        app_label = 'solaris7'
         ordering = ['order',]
 
 class FightType(models.Model):
-    group = models.ForeignKey('warbook.FightGroup', related_name='fights')
+    group = models.ForeignKey('solaris7.FightGroup', related_name='fights')
     name = models.CharField(max_length=50)
     urlname = models.CharField(max_length=50)
     blurb = models.CharField(max_length=255, blank=True)
@@ -55,8 +55,8 @@ class FightType(models.Model):
     class Meta:
         verbose_name_plural = 'Fight Types'
         verbose_name = 'Fight Type'
-        db_table = 'warbook_fighttype'
-        app_label = 'warbook'
+        db_table = 'solaris7_fighttype'
+        app_label = 'solaris7'
         ordering = ['order', 'name']
     
     def get_absolute_url(self):
@@ -72,8 +72,8 @@ class Map(models.Model):
     class Meta:
         verbose_name_plural = 'Maps'
         verbose_name = 'Map'
-        db_table = 'warbook_map'
-        app_label = 'warbook'
+        db_table = 'solaris7_map'
+        app_label = 'solaris7'
         ordering = ['name',]
 
 class FightCondition(models.Model):
@@ -86,8 +86,8 @@ class FightCondition(models.Model):
     class Meta:
         verbose_name_plural = 'Fight Conditions'
         verbose_name = 'Fight Condition'
-        db_table = 'warbook_fightconditions'
-        app_label = 'warbook'
+        db_table = 'solaris7_fightconditions'
+        app_label = 'solaris7'
         ordering = ['name',]
 
 def fight_list_as_opttree():

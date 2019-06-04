@@ -1,6 +1,6 @@
 from django import forms
 
-from solaris.warbook.fightinfo.models import fight_list_as_opttree
+from solaris.solaris7.fightinfo.models import fight_list_as_opttree
 from solaris.warbook.mech.models import MechDesign
 
 from . import models

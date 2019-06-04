@@ -2,7 +2,7 @@ from django.views.generic import TemplateView, FormView, View
 from django.http import HttpResponse 
 
 from solaris.solaris7.views import Solaris7WeekMixin
-from solaris.warbook.fightinfo.models import FightGroup
+from solaris.solaris7.fightinfo.models import FightGroup
 
 from . import forms
 

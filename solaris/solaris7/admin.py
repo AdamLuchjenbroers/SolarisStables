@@ -2,6 +2,9 @@ from django.contrib import admin
 from django import forms
 from . import models
 
+import solaris.solaris7.fightinfo.models as fight_models
+import solaris.solaris7.fightinfo.admin as fight_admin
+
 class SolarisCampaignTechInline(admin.TabularInline):
     model = models.SolarisCampaign.initial_contracts.through
 
@@ -29,3 +32,9 @@ class SolarisCampaignAdmin(admin.ModelAdmin):
 admin.site.register(models.SolarisCampaign, SolarisCampaignAdmin)
 admin.site.register(models.Zodiac)
 admin.site.register(models.BroadcastWeek)
+
+# Import Fight Types
+admin.site.register(fight_models.FightGroup, fight_admin.FightGroupAdmin)
+admin.site.register(fight_models.FightCondition)
+
+admin.site.register(fight_models.Map)

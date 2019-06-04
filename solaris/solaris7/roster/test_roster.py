@@ -5,7 +5,7 @@ from solaris.stablemanager.tests import StableTestMixin
 
 from . import models
 
-from solaris.warbook.fightinfo.models import Map, FightType, WeightClass
+from solaris.solaris7.fightinfo.models import Map, FightType, WeightClass
 
 class TestAddFightByWeightClass(StableTestMixin, TestCase):
     def setUp(self):

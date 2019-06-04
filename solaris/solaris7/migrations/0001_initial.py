@@ -3,72 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import django.db.models.deletion
+import markitup.fields
 
-def setup_campaign(apps, schema_editor):
-    Campaign = apps.get_model('campaign', 'Campaign')
-    masterCampaign = Campaign.objects.create(name='Solaris7', urlname='s7test')
-
-    SolarisCampaign = apps.get_model('solaris7', 'SolarisCampaign')
-    solarisCampaign = SolarisCampaign.objects.create(campaign=masterCampaign, initial_balance=75000000)
-    
-    Technology = apps.get_model('warbook', 'Technology')
-    # Initial techtree is all Green + White techs
-    for tech in Technology.objects.filter(tier__lte=1):
-        solarisCampaign.initial_contracts.add(tech)
-
-    solarisCampaign.save()
-
-def load_zodiac(apps, schema_editor):
-    Zodiac = apps.get_model('solaris7','Zodiac')
-    signs = ['Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake', 'Horse', 'Sheep', 'Monkey', 'Rooster', 'Dog', 'Pig']
-    last = None
-
-    SolarisCampaign = apps.get_model('solaris7', 'SolarisCampaign')
-    sol = SolarisCampaign.objects.first()
-
-    signs.reverse()
-    for s in signs:
-        last = Zodiac.objects.create(sign=s, rules='TBA', next=last, campaign=sol)
-    
-    pig = Zodiac.objects.get(sign='Pig')
-    pig.next = Zodiac.objects.get(sign='Rat')
-    pig.save()
-
-def create_initial_week(apps, schema_editor):
-    BroadcastWeek = apps.get_model('solaris7','BroadcastWeek')
-    Zodiac = apps.get_model('solaris7','Zodiac')
-
-    SolarisCampaign = apps.get_model('solaris7', 'SolarisCampaign')
-    sol = SolarisCampaign.objects.first()
-
-    BroadcastWeek.objects.create(week_number=1, campaign=sol, sign=Zodiac.objects.get(sign="Rat"))
-
-def populate_templates(apps, schema_editor):
-    StartingPilotTemplate = apps.get_model('solaris7','StartingPilotTemplate')
-    SolarisCampaign = apps.get_model('solaris7', 'SolarisCampaign')
-    PilotRank = apps.get_model('warbook', 'PilotRank')
-
-    templates = [
-       ('Champion' , 1, 3, 4),
-       ('Star'     , 4, 4, 5),
-       ('Contender', 3, 5, 6),
-       ('Rookie'   , 3, 5, 6),
-    ]
-    
-    for c in SolarisCampaign.objects.all():
-        for (rank, count, gunnery, piloting) in templates:
-            spt = StartingPilotTemplate.objects.create(
-                campaign = c
-            ,   rank = PilotRank.objects.get(rank=rank)
-            ,   count = count
-            ,   gunnery = gunnery
-            ,   piloting = piloting
-            )
-    
-def noop(apps, schema_editor):
-    # Why bother to delete from tables that are being dropped in the
-    # same operation.
-    pass
 
 class Migration(migrations.Migration):
 
@@ -88,6 +24,74 @@ class Migration(migrations.Migration):
             options={
                 'db_table': 'solaris7_broadcastweek',
                 'verbose_name': 'Broadcast Week',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='FightCondition',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=20)),
+                ('rules', markitup.fields.MarkupField(no_rendered_field=True)),
+                ('_rules_rendered', models.TextField(editable=False, blank=True)),
+            ],
+            options={
+                'ordering': ['name'],
+                'db_table': 'solaris7_fightconditions',
+                'verbose_name': 'Fight Condition',
+                'verbose_name_plural': 'Fight Conditions',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='FightGroup',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=50)),
+                ('order', models.IntegerField()),
+            ],
+            options={
+                'ordering': ['order'],
+                'db_table': 'solaris7_fightgroup',
+                'verbose_name': 'Fight Group',
+                'verbose_name_plural': 'Fight Groups',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='FightType',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=50)),
+                ('urlname', models.CharField(max_length=50)),
+                ('blurb', models.CharField(max_length=255, blank=True)),
+                ('rules', markitup.fields.MarkupField(no_rendered_field=True, blank=True)),
+                ('is_simulation', models.BooleanField(default=False)),
+                ('order', models.IntegerField()),
+                ('_rules_rendered', models.TextField(editable=False, blank=True)),
+                ('group', models.ForeignKey(related_name='fights', to='solaris7.FightGroup')),
+            ],
+            options={
+                'ordering': ['order', 'name'],
+                'db_table': 'solaris7_fighttype',
+                'verbose_name': 'Fight Type',
+                'verbose_name_plural': 'Fight Types',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Map',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=20)),
+                ('special_rules', markitup.fields.MarkupField(no_rendered_field=True, blank=True)),
+                ('_special_rules_rendered', models.TextField(editable=False, blank=True)),
+            ],
+            options={
+                'ordering': ['name'],
+                'db_table': 'solaris7_map',
+                'verbose_name': 'Map',
+                'verbose_name_plural': 'Maps',
             },
             bases=(models.Model,),
         ),
@@ -115,7 +119,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('annotation', models.CharField(max_length=20, blank=True)),
-                ('condition', models.ForeignKey(to='warbook.FightCondition')),
+                ('condition', models.ForeignKey(to='solaris7.FightCondition')),
                 ('fight', models.ForeignKey(to='solaris7.RosteredFight')),
             ],
             options={
@@ -157,6 +161,23 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='WeightClass',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=50)),
+                ('lower', models.IntegerField()),
+                ('upper', models.IntegerField()),
+                ('in_use', models.BooleanField(default=True)),
+            ],
+            options={
+                'ordering': ['lower'],
+                'db_table': 'solaris7_weightclass',
+                'verbose_name': 'Weight Class',
+                'verbose_name_plural': 'Weight Classes',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Zodiac',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -174,19 +195,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='rosteredfight',
             name='conditions',
-            field=models.ManyToManyField(to='warbook.FightCondition', through='solaris7.RosteredFightCondition'),
+            field=models.ManyToManyField(to='solaris7.FightCondition', through='solaris7.RosteredFightCondition'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='rosteredfight',
             name='fight_map',
-            field=models.ForeignKey(to='warbook.Map'),
+            field=models.ForeignKey(to='solaris7.Map'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='rosteredfight',
             name='fight_type',
-            field=models.ForeignKey(to='warbook.FightType'),
+            field=models.ForeignKey(to='solaris7.FightType'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -198,7 +219,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='rosteredfight',
             name='weightclass',
-            field=models.ForeignKey(blank=True, to='warbook.WeightClass', null=True),
+            field=models.ForeignKey(blank=True, to='solaris7.WeightClass', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -219,8 +240,4 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(to='solaris7.Zodiac'),
             preserve_default=True,
         ),
-        migrations.RunPython(setup_campaign, reverse_code=noop),
-        migrations.RunPython(load_zodiac, reverse_code=noop),
-        migrations.RunPython(create_initial_week, reverse_code=noop),
-        migrations.RunPython(populate_templates, reverse_code=noop),
     ]

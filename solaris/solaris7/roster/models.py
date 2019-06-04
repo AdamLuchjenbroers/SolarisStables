@@ -6,7 +6,7 @@ from solaris.solaris7.models import BroadcastWeek
 
 class RosteredFightCondition(models.Model):
     fight = models.ForeignKey('solaris7.RosteredFight')
-    condition = models.ForeignKey('warbook.FightCondition')
+    condition = models.ForeignKey('solaris7.FightCondition')
     annotation = models.CharField(max_length=20, blank=True)
 
     def __unicode__(self):
@@ -21,19 +21,19 @@ class RosteredFightCondition(models.Model):
 
 class RosteredFight(models.Model):
     week = models.ForeignKey('solaris7.BroadcastWeek', related_name='fights')
-    fight_type = models.ForeignKey('warbook.FightType')
-    fight_map = models.ForeignKey('warbook.Map')
+    fight_type = models.ForeignKey('solaris7.FightType')
+    fight_map = models.ForeignKey('solaris7.Map')
     purse = models.IntegerField(blank=True, null=True)
     
     # For Omnimech fights and special challenges
-    weightclass = models.ForeignKey('warbook.WeightClass', null=True, blank=True)
+    weightclass = models.ForeignKey('solaris7.WeightClass', null=True, blank=True)
     chassis = models.ForeignKey('warbook.MechDesign', null=True, blank=True)
     group_tonnage = models.IntegerField(null=True, blank=True)
     group_units = models.IntegerField(default=1)
     fight_class = models.CharField(max_length=40, blank=True) 
 
     fought = models.BooleanField(default=False)
-    conditions = models.ManyToManyField('warbook.FightCondition', through=RosteredFightCondition)
+    conditions = models.ManyToManyField('solaris7.FightCondition', through=RosteredFightCondition)
 
     def list_conditions(self):
         return 'TODO: List conditions'
