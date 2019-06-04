@@ -21,6 +21,10 @@ solaris/static/admin
 #may be proprietary
 data/excluded
 
+#Old migrations, kept around only as a source to migrate 
+#data loading code from.
+solaris/warbook/old-migrations
+
 #Scrap utilities are generally not of releasable
 #quality and usually have machine specific paths
 #embedded in the logic (throwaway code)
