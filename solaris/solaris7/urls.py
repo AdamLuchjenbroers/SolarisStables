@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r'^(?P<campaign_url>[A-Za-z0-9]+)/actions/', include('solaris.solaris7.show_actions.urls')),
     url(r'^(?P<campaign_url>[A-Za-z0-9]+)/fights/', include('solaris.solaris7.roster.urls')),
     url(r'^(?P<campaign_url>[A-Za-z0-9]+)/tools/', include('solaris.campaign.tools.urls')),
-    url(r'^(?P<campaign_url>[A-Za-z0-9]+)/fights/', include('solaris.solaris7.fightinfo.urls')),
+
+    url(r'^fight-info/', include('solaris.solaris7.fightinfo.urls')),
 )    
