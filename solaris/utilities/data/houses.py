@@ -32,7 +32,7 @@ def load_house_csv(csvfile, csvfields=house_fields, House=House, PilotTraitGroup
             house_form.save()
 
             house = house_form.instance
-            house.house_disciplines.all().delete()
+            house.house_disciplines.clear()
             for discipline in discipline_list:
                 try:
                     ptg = PilotTraitGroup.objects.get(name=discipline)
