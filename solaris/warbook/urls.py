@@ -16,5 +16,4 @@ urlpatterns = patterns('',
     url(r'^mechs/', include('solaris.warbook.mech.urls')),
 
     url(r'^ajax/?', include('solaris.warbook.ajax_urls')),    
-    url(r'^actions/', include('solaris.warbook.actions.urls')),
 )
