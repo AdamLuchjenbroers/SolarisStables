@@ -37,30 +37,13 @@ def load_pilottrait(apps, schema_editor):
     PilotTrait = apps.get_model('warbook','PilotTrait')
 
     fields = ['discipline', 'table', 'item', 'bv_mod', 'name', 'description']
-
-    PilotTrait.objects.all().delete()
+    load_pilottrait_csv('%s/data/warbook.pilottrait.csv' % settings.BASE_DIR, csvfields=fields, PilotTrait=PilotTrait );
 
 def load_houses(apps, schema_editor):
-    #FIXME: House loader should be re-written to load all from one .csv
     House = apps.get_model('warbook','House')   
     PilotTraitGroup = apps.get_model('warbook','PilotTraitGroup')   
-
-    srcfile = open('data/warbook.house.json','r')
-    house_json = srcfile.read()
-    srcfile.close()
-
-    data = json.loads(house_json)
-    for row in data:
-        ids = row['fields']['house_disciplines']
-        del row['fields']['house_disciplines']
-
-        house = House.objects.create(**row['fields']) 
-
-        for discipline in PilotTraitGroup.objects.filter(id__in=ids):
-            house.house_disciplines.add(discipline)
-
+    
     fields = ['house', 'blurb', 'stable_valid', 'selectable_disciplines'] 
-    PilotTraitGroup = apps.get_model('warbook', 'PilotTraitGroup')
 
     load_house_csv('data/warbook.house.csv', csvfields=fields, House=House, PilotTraitGroup=PilotTraitGroup)
  
@@ -168,6 +151,6 @@ class Migration(migrations.Migration):
         migrations.RunPython(load_tech_x_equipment, reverse_code=noop),
         migrations.RunPython(derive_equipment_tiers, reverse_code=noop),
         migrations.RunPython(load_mechs, reverse_code=noop),
-        migrations.RunPython(load_productionlists, reverse_code=noop),
         migrations.RunPython(derive_mech_tiers, reverse_code=noop),
+        migrations.RunPython(load_productionlists, reverse_code=noop),
     ]
