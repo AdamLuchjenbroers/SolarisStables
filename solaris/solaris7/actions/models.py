@@ -18,8 +18,8 @@ class ActionGroup(models.Model):
     class Meta:
         verbose_name_plural = 'Action Groups'
         verbose_name = 'Action Group'
-        db_table = 'warbook_actiongroup'
-        app_label = 'warbook'
+        db_table = 'solaris7_actiongroup'
+        app_label = 'solaris7'
 
 class ActionType(models.Model):
     group = models.ForeignKey(ActionGroup, null=False, blank=False, related_name="actions")
@@ -40,6 +40,6 @@ class ActionType(models.Model):
     class Meta:
         verbose_name_plural = 'Action Types'
         verbose_name = 'Action Type'
-        db_table = 'warbook_actiontype'
-        app_label = 'warbook'
+        db_table = 'solaris7_actiontype'
+        app_label = 'solaris7'
 

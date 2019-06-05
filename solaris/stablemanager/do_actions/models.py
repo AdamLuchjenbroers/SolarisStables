@@ -20,7 +20,7 @@ class StableActionManager(models.Manager):
 
 class StableAction(models.Model):
     week   = models.ForeignKey('StableWeek', related_name='actions', null=False)
-    action = models.ForeignKey('warbook.ActionType', null=False)
+    action = models.ForeignKey('solaris7.ActionType', null=False)
     cost   = models.IntegerField(null=False)
     notes  = models.CharField(max_length=256, null=True, blank=True)
 

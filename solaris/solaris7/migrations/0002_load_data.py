@@ -5,6 +5,8 @@ from django.db import models, migrations
 from django.conf import settings
 from django.core.management import call_command
 
+from solaris.utilities.data.csvtools import csv_import_to_model, migration_map_fk
+
 def setup_campaign(apps, schema_editor):
     Campaign = apps.get_model('campaign', 'Campaign')
     masterCampaign = Campaign.objects.create(name='Solaris7', urlname='s7test')
@@ -65,6 +67,25 @@ def populate_templates(apps, schema_editor):
             ,   gunnery = gunnery
             ,   piloting = piloting
             )
+
+def load_action_groups(apps, schema_editor):
+    ActionGroup = apps.get_model('solaris7', 'ActionGroup')
+
+    csv_import_to_model('data/warbook.actiongroups.csv'
+                       , ActionGroup, ['group','start_only']
+                       , booleanFields=['start_only',]
+                       , keyFields=['group',]
+                       )
+
+def load_action_types(apps, schema_editor):
+    ActionType = apps.get_model('solaris7', 'ActionType')
+
+    csv_import_to_model('data/warbook.actiontypes.csv'
+                       , ActionType
+                       , ['group', 'action', 'base_cost', 'base_cost_max', 'description', 'max_per_week']
+                       , keyFields=['action','group']
+                       , mapFunctions={'group': migration_map_fk(apps, 'solaris7', 'ActionGroup', 'group')} 
+                       )
     
 def noop(apps, schema_editor):
     # Why bother to delete from tables that are being dropped in the
@@ -85,4 +106,6 @@ class Migration(migrations.Migration):
         migrations.RunPython(load_zodiac, reverse_code=noop),
         migrations.RunPython(create_initial_week, reverse_code=noop),
         migrations.RunPython(populate_templates, reverse_code=noop),
+        migrations.RunPython(load_action_groups, reverse_code=noop),
+        migrations.RunPython(load_action_types, reverse_code=noop),
     ]

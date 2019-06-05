@@ -1,4 +1,4 @@
-from solaris.warbook.fightinfo.models import WeightClass, FightGroup, FightType, Map, FightCondition
+from solaris.solaris7.fightinfo.models import WeightClass, FightGroup, FightType, Map, FightCondition
 
 from .csvtools import csv_import_to_model
 

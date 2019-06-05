@@ -9,11 +9,46 @@ import markitup.fields
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('warbook', '0001_initial'),
         ('campaign', '0001_initial'),
-        ('warbook', '0002_load_data'),
     ]
 
     operations = [
+        migrations.CreateModel(
+            name='ActionGroup',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('group', models.CharField(max_length=50)),
+                ('description', markitup.fields.MarkupField(no_rendered_field=True)),
+                ('start_only', models.BooleanField(default=True)),
+                ('_description_rendered', models.TextField(editable=False, blank=True)),
+            ],
+            options={
+                'db_table': 'solaris7_actiongroup',
+                'verbose_name': 'Action Group',
+                'verbose_name_plural': 'Action Groups',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='ActionType',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('action', models.CharField(max_length=50)),
+                ('description', markitup.fields.MarkupField(no_rendered_field=True)),
+                ('base_cost', models.IntegerField(default=1)),
+                ('base_cost_max', models.IntegerField(default=None, null=True, blank=True)),
+                ('max_per_week', models.IntegerField(default=1, null=True, blank=True)),
+                ('_description_rendered', models.TextField(editable=False, blank=True)),
+                ('group', models.ForeignKey(related_name='actions', to='solaris7.ActionGroup')),
+            ],
+            options={
+                'db_table': 'solaris7_actiontype',
+                'verbose_name': 'Action Type',
+                'verbose_name_plural': 'Action Types',
+            },
+            bases=(models.Model,),
+        ),
         migrations.CreateModel(
             name='BroadcastWeek',
             fields=[

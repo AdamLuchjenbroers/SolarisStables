@@ -145,25 +145,6 @@ def derive_mech_tiers(apps, schema_editor):
        mech.tier = mech_eq.aggregate(models.Max('tier'))['tier__max'] 
        mech.save() 
 
-def load_action_groups(apps, schema_editor):
-    ActionGroup = apps.get_model('warbook', 'ActionGroup')
-
-    csv_import_to_model('data/warbook.actiongroups.csv'
-                       , ActionGroup, ['group','start_only']
-                       , booleanFields=['start_only',]
-                       , keyFields=['group',]
-                       )
-
-def load_action_types(apps, schema_editor):
-    ActionType = apps.get_model('warbook', 'ActionType')
-
-    csv_import_to_model('data/warbook.actiontypes.csv'
-                       , ActionType
-                       , ['group', 'action', 'base_cost', 'base_cost_max', 'description', 'max_per_week']
-                       , keyFields=['action','group']
-                       , mapFunctions={'group': migration_map_fk(apps, 'warbook', 'ActionGroup', 'group')} 
-                       )
-
 def noop(apps, schema_editor):
     # Why bother to delete from tables that are being dropped in the
     # same operation.
@@ -189,6 +170,4 @@ class Migration(migrations.Migration):
         migrations.RunPython(load_mechs, reverse_code=noop),
         migrations.RunPython(load_productionlists, reverse_code=noop),
         migrations.RunPython(derive_mech_tiers, reverse_code=noop),
-        migrations.RunPython(load_action_groups, reverse_code=noop),
-        migrations.RunPython(load_action_types, reverse_code=noop),
     ]

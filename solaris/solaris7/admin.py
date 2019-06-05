@@ -5,6 +5,9 @@ from . import models
 import solaris.solaris7.fightinfo.models as fight_models
 import solaris.solaris7.fightinfo.admin as fight_admin
 
+import solaris.solaris7.actions.models as action_models
+import solaris.solaris7.actions.admin as action_admin
+
 class SolarisCampaignTechInline(admin.TabularInline):
     model = models.SolarisCampaign.initial_contracts.through
 
@@ -38,3 +41,7 @@ admin.site.register(fight_models.FightGroup, fight_admin.FightGroupAdmin)
 admin.site.register(fight_models.FightCondition)
 
 admin.site.register(fight_models.Map)
+
+# Import Actions
+admin.site.register(action_models.ActionGroup, action_admin.ActionGroupAdmin)
+admin.site.register(action_models.ActionType, action_admin.ActionTypeAdmin)

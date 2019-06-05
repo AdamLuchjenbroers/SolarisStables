@@ -1,7 +1,7 @@
 from django import forms
 
 from . import models
-from solaris.warbook.actions.models import ActionGroup
+from solaris.solaris7.actions.models import ActionGroup
 
 class StableActionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
