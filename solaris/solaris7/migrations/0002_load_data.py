@@ -6,6 +6,8 @@ from django.conf import settings
 from django.core.management import call_command
 
 from solaris.utilities.data.csvtools import csv_import_to_model, migration_map_fk
+from solaris.utilities.data.fightinfo import load_weightclass_csv, load_fightgroup_csv, load_fighttype_csv, load_fightcondition_csv, load_map_csv
+
 
 def setup_campaign(apps, schema_editor):
     Campaign = apps.get_model('campaign', 'Campaign')
@@ -86,6 +88,55 @@ def load_action_types(apps, schema_editor):
                        , keyFields=['action','group']
                        , mapFunctions={'group': migration_map_fk(apps, 'solaris7', 'ActionGroup', 'group')} 
                        )
+
+def load_weightclasses(apps, schema_editor):
+    fields = ['name', 'lower', 'upper']
+    WeightClass = apps.get_model('solaris7', 'WeightClass')
+
+    load_weightclass_csv('data/warbook.weightclass.csv', csvfields=fields, WeightClass=WeightClass)            
+
+def clear_weightclasses(apps, schema_editor):
+    WeightClass = apps.get_model('solaris7', 'WeightClass')
+    WeightClass.objects.all().delete()
+    
+def load_fightgroups(apps, schema_editor):
+    fields = ['name', 'order',]
+    FightGroup = apps.get_model('solaris7', 'FightGroup')
+    
+    load_fightgroup_csv('data/warbook.fightgroup.csv', csvfields=fields, FightGroup=FightGroup)            
+
+def clear_fightgroups(apps, schema_editor):
+    FightGroup = apps.get_model('solaris7', 'FightGroup')
+    FightGroup.objects.all().delete()
+    
+def load_fighttypes(apps, schema_editor):
+    fields = ['group', 'name', 'order', 'urlname', 'blurb', 'rules', 'is_simulation']
+    FightType = apps.get_model('solaris7', 'FightType')
+    
+    load_fighttype_csv('data/warbook.fighttype.csv', csvfields=fields, FightType=FightType)            
+
+def clear_fighttypes(apps, schema_editor):
+    FightType = apps.get_model('solaris7', 'FightType')
+    FightType.objects.all().delete()
+    
+def load_maps(apps, schema_editor):
+    fields = ['name', 'special_rules']
+    Map = apps.get_model('solaris7', 'Map')
+    
+    load_map_csv('data/warbook.map.csv', csvfields=fields, Map=Map)            
+
+def clear_maps(apps, schema_editor):
+    Map = apps.get_model('solaris7', 'Map')
+    Map.objects.all().delete()
+    
+def load_fightconditions(apps, schema_editor):
+    fields = ['name', 'rules']
+    FightCondition = apps.get_model('solaris7', 'FightCondition')
+    
+    load_fightcondition_csv('data/warbook.fightcondition.csv', csvfields=fields, FightCondition=FightCondition)            
+def clear_fightconditions(apps, schema_editor):
+    FightCondition = apps.get_model('solaris7', 'FightCondition')
+    FightCondition.objects.all().delete()
     
 def noop(apps, schema_editor):
     # Why bother to delete from tables that are being dropped in the
@@ -108,4 +159,9 @@ class Migration(migrations.Migration):
         migrations.RunPython(populate_templates, reverse_code=noop),
         migrations.RunPython(load_action_groups, reverse_code=noop),
         migrations.RunPython(load_action_types, reverse_code=noop),
+        migrations.RunPython(load_weightclasses, reverse_code=clear_weightclasses),
+        migrations.RunPython(load_fightgroups, reverse_code=clear_fightgroups),
+        migrations.RunPython(load_fighttypes, reverse_code=clear_fighttypes),
+        migrations.RunPython(load_maps, reverse_code=clear_maps),
+        migrations.RunPython(load_fightconditions, reverse_code=clear_fightconditions),
     ]
