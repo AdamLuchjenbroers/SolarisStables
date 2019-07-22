@@ -63,7 +63,7 @@ def populate_templates(apps, schema_editor):
     for c in SolarisCampaign.objects.all():
         for (rank, count, gunnery, piloting) in templates:
             spt = StartingPilotTemplate.objects.create(
-                campaign = c
+                campaign_id = c.pk
             ,   rank = PilotRank.objects.get(rank=rank)
             ,   count = count
             ,   gunnery = gunnery

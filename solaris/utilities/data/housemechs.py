@@ -41,7 +41,7 @@ def matchFromListFile(house_name, house_list, match_dict=None, live=False, House
         if match_name in match_dict:
             if live:
                 match_mech = match_dict[match_name]
-                house.produced_designs.add(match_mech)
+                house.produced_designs.through.objects.create(house_id=house.pk, mechdesign_id=match_mech.pk)
         elif not live:
             print "Failed to match %s" % match_name
 

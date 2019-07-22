@@ -28,7 +28,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Action Group',
                 'verbose_name_plural': 'Action Groups',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='ActionType',
@@ -47,7 +46,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Action Type',
                 'verbose_name_plural': 'Action Types',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='BroadcastWeek',
@@ -60,7 +58,6 @@ class Migration(migrations.Migration):
                 'db_table': 'solaris7_broadcastweek',
                 'verbose_name': 'Broadcast Week',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='FightCondition',
@@ -76,7 +73,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Fight Condition',
                 'verbose_name_plural': 'Fight Conditions',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='FightGroup',
@@ -91,7 +87,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Fight Group',
                 'verbose_name_plural': 'Fight Groups',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='FightType',
@@ -112,7 +107,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Fight Type',
                 'verbose_name_plural': 'Fight Types',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Map',
@@ -128,7 +122,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Map',
                 'verbose_name_plural': 'Maps',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='RosteredFight',
@@ -147,7 +140,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Rostered Fight',
                 'verbose_name_plural': 'Rostered Fights',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='RosteredFightCondition',
@@ -160,7 +152,6 @@ class Migration(migrations.Migration):
             options={
                 'db_table': 'solaris7_fight_x_condition',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='SolarisCampaign',
@@ -176,7 +167,6 @@ class Migration(migrations.Migration):
                 'db_table': 'solaris7_campaign',
                 'verbose_name': 'Solaris 7 Campaign',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='StartingPilotTemplate',
@@ -193,7 +183,6 @@ class Migration(migrations.Migration):
                 'db_table': 'solaris7_pilottemplate',
                 'verbose_name': 'Starting Pilot Template',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='WeightClass',
@@ -210,7 +199,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Weight Class',
                 'verbose_name_plural': 'Weight Classes',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Zodiac',
@@ -225,54 +213,45 @@ class Migration(migrations.Migration):
                 'db_table': 'solaris7_zodiac',
                 'verbose_name': 'Zodiac Sign',
             },
-            bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='rosteredfight',
             name='conditions',
             field=models.ManyToManyField(to='solaris7.FightCondition', through='solaris7.RosteredFightCondition'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='rosteredfight',
             name='fight_map',
             field=models.ForeignKey(to='solaris7.Map'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='rosteredfight',
             name='fight_type',
             field=models.ForeignKey(to='solaris7.FightType'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='rosteredfight',
             name='week',
             field=models.ForeignKey(related_name='fights', to='solaris7.BroadcastWeek'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='rosteredfight',
             name='weightclass',
             field=models.ForeignKey(blank=True, to='solaris7.WeightClass', null=True),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='broadcastweek',
             name='campaign',
             field=models.ForeignKey(related_name='weeks', to='solaris7.SolarisCampaign'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='broadcastweek',
             name='next_week',
             field=models.OneToOneField(related_name='prev_week', null=True, on_delete=django.db.models.deletion.SET_NULL, blank=True, to='solaris7.BroadcastWeek'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='broadcastweek',
             name='sign',
             field=models.ForeignKey(to='solaris7.Zodiac'),
-            preserve_default=True,
         ),
     ]

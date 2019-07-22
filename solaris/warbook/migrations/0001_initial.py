@@ -45,7 +45,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Equipment',
                 'verbose_name_plural': 'Equipment',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='House',
@@ -62,7 +61,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'House',
                 'verbose_name_plural': 'Houses',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='MechDesign',
@@ -92,7 +90,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Mech Design',
                 'verbose_name_plural': 'Mech Designs',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='MechDesignLocation',
@@ -106,7 +103,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Mech Design Location',
                 'verbose_name_plural': 'Mech Design Locations',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='MechEquipment',
@@ -120,7 +116,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Mech Equipment',
                 'verbose_name_plural': 'Mech Equipment',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='MechLocation',
@@ -136,7 +131,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Mech Location',
                 'verbose_name_plural': 'Mech Locations',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Mounting',
@@ -153,7 +147,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Mounting',
                 'verbose_name_plural': 'Mounting',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='PilotRank',
@@ -176,7 +169,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Pilot Rank',
                 'verbose_name_plural': 'Pilot Ranks',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='PilotTrait',
@@ -194,7 +186,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Pilot Trait',
                 'verbose_name_plural': 'Pilot Traits',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='PilotTraitGroup',
@@ -212,7 +203,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Pilot Trait Group',
                 'verbose_name_plural': 'Pilot Trait Groups',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Technology',
@@ -231,7 +221,6 @@ class Migration(migrations.Migration):
                 'db_table': 'warbook_technology',
                 'verbose_name_plural': 'Technologies',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='TechnologyRollModifier',
@@ -245,7 +234,6 @@ class Migration(migrations.Migration):
                 'db_table': 'warbook_technologyrollmodifier',
                 'verbose_name_plural': 'Technology Roll Modifiers',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='TrainingCost',
@@ -261,7 +249,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Training Cost',
                 'verbose_name_plural': 'Training Costs',
             },
-            bases=(models.Model,),
         ),
         migrations.AlterUniqueTogether(
             name='trainingcost',
@@ -271,44 +258,38 @@ class Migration(migrations.Migration):
             model_name='pilottrait',
             name='discipline',
             field=models.ForeignKey(related_name='traits', blank=True, to='warbook.PilotTraitGroup', null=True),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='mechdesignlocation',
             name='location',
             field=models.ForeignKey(to='warbook.MechLocation'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='mechdesignlocation',
             name='mech',
             field=models.ForeignKey(related_name='locations', to='warbook.MechDesign'),
-            preserve_default=True,
-        ),
-        migrations.AlterUniqueTogether(
-            name='mechdesignlocation',
-            unique_together=set([('mech', 'location')]),
         ),
         migrations.AddField(
             model_name='mechdesign',
             name='required_techs',
             field=models.ManyToManyField(to='warbook.Technology', blank=True),
-            preserve_default=True,
-        ),
-        migrations.AlterUniqueTogether(
-            name='mechdesign',
-            unique_together=set([('ssw_filename', 'omni_loadout'), ('mech_name', 'mech_code', 'omni_loadout')]),
         ),
         migrations.AddField(
             model_name='house',
             name='house_disciplines',
             field=models.ManyToManyField(to='warbook.PilotTraitGroup', db_table=b'warbook_house_x_discipline', blank=True),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='house',
             name='produced_designs',
             field=models.ManyToManyField(to='warbook.MechDesign', db_table=b'warbook_house_x_mechdesign', blank=True),
-            preserve_default=True,
+        ),
+        migrations.AlterUniqueTogether(
+            name='mechdesignlocation',
+            unique_together=set([('mech', 'location')]),
+        ),
+        migrations.AlterUniqueTogether(
+            name='mechdesign',
+            unique_together=set([('ssw_filename', 'omni_loadout'), ('mech_name', 'mech_code', 'omni_loadout')]),
         ),
     ]
