@@ -20,7 +20,7 @@ def csv_import_to_model(csvfile, modelClass, csvFields, keyFields=[], booleanFie
             
         instance = instance_for_row(row, modelClass, keyFields)
 
-        form = LoadingForm(row, instance=instance)
+        form = LoadingForm(data=row, instance=instance)
 
         if form.is_valid():
             loadcounts['insert' if instance == None else 'update'] += 1
