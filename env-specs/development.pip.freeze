@@ -1,4 +1,4 @@
-Django==1.11.25
+Django==2.2.6
 Markdown==2.6.11
 Pillow==6.0.0
 django-allauth==0.40.0
