@@ -1,4 +1,4 @@
-Django==2.2.6
+Django==2.1.13
 Markdown==2.6.11
 Pillow==6.0.0
 django-allauth==0.40.0
@@ -18,4 +18,4 @@ requests==2.8.1
 requests-oauthlib==1.2.0
 six==1.10.0
 sorl-thumbnail==12.3
-wiki==0.2
+wiki==0.4.2
