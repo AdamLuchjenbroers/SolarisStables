@@ -45,7 +45,7 @@ TEMPLATES = [
   {
     'BACKEND' : 'django.template.backends.django.DjangoTemplates' 
   , 'DIRS' : [ '%s/solaris/templates/' % BASE_DIR, ] 
-  , 'APPDIRS' : True
+  , 'APP_DIRS' : True
   , 'OPTIONS' : {
       'debug' : True
     , 'context_processors' : SOLARIS_TEMPLATE_PROCESSORS
