@@ -12,7 +12,7 @@ class TemplateFieldNode(template.Node):
     def render(self, context):
         field_object = self.field.resolve(context)
         
-        node_context = template.Context( {'field' : field_object, 'css_class' : self.css_class }) 
+        node_context = {'field' : field_object, 'css_class' : self.css_class }
         return mark_safe(self.template.render(node_context))
 
 @register.tag(name="basic_field")
