@@ -1,9 +1,9 @@
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
 from . import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^(?P<campaign_url>[A-Za-z0-9]+)/?$', views.Solaris7Overview.as_view(), name='campaign_overview_now'),
     url(r'^(?P<campaign_url>[A-Za-z0-9]+)/(?P<week>[0-9]+)/?$', views.Solaris7Overview.as_view(), name='campaign_overview'),
 
@@ -13,4 +13,4 @@ urlpatterns = patterns('',
 
     url(r'^fight-info/', include('solaris.solaris7.fightinfo.urls')),
     url(r'^actions/', include('solaris.solaris7.actions.urls')),
-)    
+]

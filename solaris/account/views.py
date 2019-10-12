@@ -14,6 +14,9 @@ class SolarisLoginView(SolarisViewMixin, authviews.LoginView):
 class SolarisRegistrationView(SolarisViewMixin, authviews.SignupView):   
     pass
 
+class SolarisLogoutView(SolarisViewMixin, authviews.LogoutView):
+    pass
+
 class SolarisRegistrationEmailSentView(SolarisViewMixin, authviews.EmailVerificationSentView):
     pass
 
@@ -58,7 +61,3 @@ class SolarisAcceptInvite(SolarisViewMixin, AcceptInvite):
         
         page_context['submit'] = 'Invite'
         return page_context
-            
-def logout_user(request):
-    logout(request)
-    return redirect('/')

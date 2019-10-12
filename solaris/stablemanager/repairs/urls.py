@@ -1,8 +1,8 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from solaris.stablemanager.repairs import views 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^(?P<bill>[0-9]+)/?$', views.RepairBillView.as_view(), name='repair_bill'),
     url(r'^new/(?P<stablemech>[0-9]+)/?$', views.CreateRepairBillView.as_view(), name='repair_bill_new'),
     url(r'^(?P<bill>[0-9]+)/itemised', views.RepairBillLineView.as_view()),
@@ -15,5 +15,4 @@ urlpatterns = patterns('',
     url(r'^(?P<bill>[0-9]+)/setfinal', views.AjaxSetFinalView.as_view()),
     url(r'^(?P<bill>[0-9]+)/delete', views.AjaxDeleteBillView.as_view()),
     url(r'^(?P<bill>[0-9]+)/set-config', views.RepairBillSetConfigView.as_view(), name='repair_set_config'),
-    
-)
+]

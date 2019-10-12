@@ -1,17 +1,17 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
 
 from . import views, pdf 
 from solaris.warbook.mech.views import CustomMechDetailView
 
-urlpatterns = patterns('',
-    url(r'^/?$', views.StableMechsView.as_view(), name='stable_mechs_now'),
+urlpatterns = [
+    url(r'^$', views.StableMechsView.as_view(), name='stable_mechs_now'),
     url(r'^(?P<week>[0-9]+)/?$', views.StableMechsView.as_view(), name='stable_mechs'),
 
     url(r'^(?P<week>[0-9]+)/list/?$', views.StableMechsListPart.as_view()),
-    url(r'^/?list/?$', views.StableMechsListPart.as_view()),
+    url(r'^list/?$', views.StableMechsListPart.as_view()),
 
     url(r'^(?P<week>[0-9]+)/purchase/?$', views.MechPurchaseFormView.as_view()),
-    url(r'^/?purchase/?$', views.MechPurchaseFormView.as_view()),
+    url(r'^purchase/?$', views.MechPurchaseFormView.as_view()),
 
     url(r'^refit/(?P<smw_id>[0-9]+)/?$', views.MechRefitFormView.as_view(), name='refit_mech'),
     url(r'^refit/(?P<smw_id>[0-9]+)/upload$', views.RefitUploadMechView.as_view(), name='upload_refit_mech'),
@@ -32,4 +32,4 @@ urlpatterns = patterns('',
 
     url(r'^designs/(?P<name>[^/]+)/(?P<code>[^/]+)/(?P<omni>[^/]+)/?$', CustomMechDetailView.as_view(), name='custom_mech_detail') ,
     url(r'^designs/(?P<name>[^/]+)/(?P<code>[^/]+)/?$', CustomMechDetailView.as_view(), name='custom_mech_detail_base') ,
-)
+]

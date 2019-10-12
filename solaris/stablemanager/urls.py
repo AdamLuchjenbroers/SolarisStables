@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
 from . import ajax, views, pdf
 
@@ -7,21 +7,21 @@ from solaris.stablemanager.do_actions.views import StableActionView
 from solaris.stablemanager.pilots.views import InitialPilotNamingView
 from solaris.stablemanager.mechs.views import InitialMechPurchaseView
 
-urlpatterns = patterns('',
-    url(r'^/?$', views.StableOverview.as_view(), name='stable_overview_now'),
+urlpatterns = [
+    url(r'^$', views.StableOverview.as_view(), name='stable_overview_now'),
     url(r'^(?P<week>[0-9]+)/?$', views.StableOverview.as_view(), name='stable_overview'),
     url(r'^create/?$', views.AjaxCreateStableWeekView.as_view(), name='stable_createweek'),
 
-    url(r'^/?add-tech/?$', views.AjaxAddStableTech.as_view()),
+    url(r'^add-tech/?$', views.AjaxAddStableTech.as_view()),
     url(r'^(?P<week>[0-9]+)/+add-tech/?$', views.AjaxAddStableTech.as_view(), name='stable_add_tech'),
 
-    url(r'^/?remove-tech/?$', views.AjaxRemoveStableTech.as_view()),
+    url(r'^remove-tech/?$', views.AjaxRemoveStableTech.as_view()),
     url(r'^(?P<week>[0-9]+)/+remove-tech/?$', views.AjaxRemoveStableTech.as_view(), name='stable_remove_tech'),
 
-    url(r'^/?alter-rep/?$', views.AjaxAlterReputationView.as_view()),
+    url(r'^alter-rep/?$', views.AjaxAlterReputationView.as_view()),
     url(r'^(?P<week>[0-9]+)/+alter-rep/?$', views.AjaxAlterReputationView.as_view(), name='stable_alter_rep'),
 
-    url(r'^/?tech-list/?', views.StableTechListPart.as_view()),
+    url(r'^tech-list/?', views.StableTechListPart.as_view()),
     url(r'^(?P<week>[0-9]+)/+tech-list/?', views.StableTechListPart.as_view()),
 
     url(r'^register/?$', views.StableRegistrationView.as_view(), name='stable_registration'),
@@ -43,13 +43,12 @@ urlpatterns = patterns('',
     url(r'^query/list-variants/?$', ajax.ListProductionVariants.as_view(), name = 'stable_query_mechvariant_now'), 
 #    url(r'^(?P<week>[0-9]+)/list-variants/?$', ajax.ListProductionVariants.as_view(), name = 'stable_query_mechvariant'),
  
-    url(r'^/?list-techs/?$', ajax.ListAvailableTechContracts.as_view(), name = 'stable_query_availtechs_now'), 
+    url(r'^list-techs/?$', ajax.ListAvailableTechContracts.as_view(), name = 'stable_query_availtechs_now'), 
     url(r'^(?P<week>[0-9]+)/+list-techs/?$', ajax.ListAvailableTechContracts.as_view(), name = 'stable_query_availtechs'), 
 
-    url(r'^/?overview/?$', ajax.StableOverviewInfo.as_view(), name = 'stable_query_overview_now'),
+    url(r'^overview/?$', ajax.StableOverviewInfo.as_view(), name = 'stable_query_overview_now'),
     url(r'^(?P<week>[0-9]+)/overview/?$', ajax.StableOverviewInfo.as_view(), name = 'stable_query_overview'),
 
-    url(r'^/?owner-report/?$', pdf.StablePDFReport.as_view()),
+    url(r'^owner-report/?$', pdf.StablePDFReport.as_view()),
     url(r'^(?P<week>[0-9]+)/owner-report/?$', pdf.StablePDFReport.as_view(), name = 'stable_owner_report'),
-
-)
+]

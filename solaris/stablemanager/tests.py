@@ -38,14 +38,14 @@ class StableLoginTests(TestCase):
     def test_redirectNotLoggedIn(self):
         response = self.client.get('/stable/')
         self.assertEqual(response.status_code, 302, 'Non-logged in users not redirected away from stable (HTTP %s)' % response.status_code)
-        self.assertEqual(response.get('Location'), 'http://testserver/login?next=/stable/', 'Redirected to incorrect page: %s ' % response.get('Location') )
+        self.assertEqual(response.get('Location'), '/login?next=/stable/', 'Redirected to incorrect page: %s ' % response.get('Location') )
     
     def test_redirectNoStable(self):
         self.client.login(username='no-stable', password='pass')
         response = self.client.get('/stable/')
         
         self.assertEqual(response.status_code, 302, 'Users without a stable not redirected to stable registration page (HTTP %s)' % response.status_code)
-        self.assertEqual(response.get('Location'), 'http://testserver/stable/register', 'Redirected to incorrect page: %s ' % response.get('Location') )
+        self.assertEqual(response.get('Location'), '/stable/register', 'Redirected to incorrect page: %s ' % response.get('Location') )
         
         self.client.logout()
         

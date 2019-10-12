@@ -1,11 +1,11 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from . import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^email-sent/$', views.SolarisRegistrationEmailSentView.as_view(),
         name='account_email_verification_sent'),
-    url(r"^confirm-email/(?P<key>\w+)/$", views.SolarisConfirmEmailView.as_view(),
+    url(r"^confirm-email/(?P<key>[^/]+)/$", views.SolarisConfirmEmailView.as_view(),
         name="account_confirm_email"),
 
     # Duplicated here as a secondary option                   
@@ -22,4 +22,4 @@ urlpatterns = patterns('',
         name="account_reset_password_from_key_done"),
 
     url(r'^register/?$', views.SolarisRegistrationView.as_view()), 
-)
+]

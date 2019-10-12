@@ -1,9 +1,9 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
 
 from . import views 
 
-urlpatterns = patterns('',
-    url(r'^/?$', views.StableActionView.as_view(), name='stable_actions_now'),
+urlpatterns = [
+    url(r'^$', views.StableActionView.as_view(), name='stable_actions_now'),
     url(r'^(?P<week>[0-9]+)/?$', views.StableActionView.as_view(), name='stable_actions'),
 
     url(r'^(?P<week>[0-9]+)/list$', views.StableActionListPart.as_view(), name='stable_actions_list'),
@@ -15,4 +15,4 @@ urlpatterns = patterns('',
     url(r'^(?P<week>[0-9]+)/(?P<pk>[0-9]+)/delete$', views.AjaxRemoveAction.as_view(), name='stable_delete_action'),
     url(r'^(?P<week>[0-9]+)/(?P<pk>[0-9]+)/set-notes$', views.AjaxSetActionNotes.as_view(), name='stable_action_set_notes'),
     url(r'^(?P<week>[0-9]+)/(?P<pk>[0-9]+)/set-cost$', views.AjaxSetActionCost.as_view(), name='stable_action_set_cost'),
-)
+]
