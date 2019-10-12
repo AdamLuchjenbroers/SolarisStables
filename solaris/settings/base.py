@@ -20,15 +20,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-   'django.template.loaders.filesystem.Loader',
-   'django.template.loaders.app_directories.Loader',
-#   'solaris.templates.load_from__app'   
-#     'django.template.loaders.eggs.load_template_source',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
+SOLARIS_TEMPLATE_PROCESSORS = [
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
@@ -37,11 +29,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    "sekizai.context_processors.sekizai",
+#    "sekizai.context_processors.sekizai",
     "solaris.utils.determine_selected",    
 #    "allauth.account.context_processors.account",
 #    "allauth.socialaccount.context_processors.socialaccount",
-)
+]
 
 
 MIDDLEWARE_CLASSES = (

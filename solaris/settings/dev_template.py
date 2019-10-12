@@ -3,9 +3,6 @@
 #
 from .base import *
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
@@ -44,15 +41,17 @@ ADMIN_MEDIA_PREFIX = '/media/admin/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'Dump a random, reasonably long string of junk here'
 
-
-TEMPLATE_DIRS = (
-      '%s/solaris/templates/' % BASE_DIR            
-#    '/usr/local/django/solaris/templates/'
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
-
+TEMPLATES = [
+  {
+    'BACKEND' : 'django.template.backends.django.DjangoTemplates' 
+  , 'DIRS' : [ '%s/solaris/templates/' % BASE_DIR, ] 
+  , 'APPDIRS' : True
+  , 'OPTIONS' : {
+      'debug' : True
+    , 'context_processors' : SOLARIS_TEMPLATE_PROCESSORS
+    }
+  } 
+]
 
 EMAIL_HOST = 'mail.example.com'
 EMAIL_PORT = 465
